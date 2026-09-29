@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Intermediate / WIP staging location (Inventory Loss type) -->
+    <record id="stock_location_inventory_loss" model="stock.location">
+        <field name="name">Repacking &amp; Screening</field>
+        <field name="usage">inventory</field>
+        <field name="company_id" eval="False"/>
+        <field name="location_id" ref="stock.stock_location_locations_virtual"/>
+    </record>
+
+    <!-- Dedicated manufacturing output location (internal). Also serves as
+         the Step 0 staging destination — product + packaging materials are
+         transferred in here first, then consumed by Step 1's MO. -->
+    <record id="stock_location_manufacturing" model="stock.location">
+        <field name="name">Repacking &amp; Screening - Manufacturing</field>
+        <field name="usage">internal</field>
+        <field name="company_id" eval="False"/>
+        <field name="location_id" ref="stock.stock_location_locations"/>
+    </record>
+</odoo>

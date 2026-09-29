@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_repacking_screening_root"
+              name="Repacking &amp; Screening"
+              sequence="50"
+              web_icon="repacking_screening,static/description/icon.png"/>
+
+    <menuitem id="menu_repacking_screening_dashboard"
+              name="Dashboard"
+              parent="menu_repacking_screening_root"
+              action="action_repacking_screening_dashboard"
+              sequence="1"/>
+
+    <menuitem id="menu_repacking_screening_all"
+              name="All Operations"
+              parent="menu_repacking_screening_root"
+              action="action_repacking_screening_operation"
+              sequence="5"/>
+
+    <menuitem id="menu_repacking_operations"
+              name="Repacking"
+              parent="menu_repacking_screening_root"
+              action="action_repacking_operation"
+              sequence="10"/>
+
+    <menuitem id="menu_screening_operations"
+              name="Screening"
+              parent="menu_repacking_screening_root"
+              action="action_screening_operation"
+              sequence="20"/>
+
+    <menuitem id="menu_repacking_screening_configuration"
+              name="Configuration"
+              parent="menu_repacking_screening_root"
+              groups="repacking_screening.group_repacking_screening_manager"
+              sequence="90"/>
+
+    <menuitem id="menu_repacking_screening_settings"
+              name="Settings"
+              parent="menu_repacking_screening_configuration"
+              action="action_repacking_screening_settings"
+              sequence="10"/>
+</odoo>

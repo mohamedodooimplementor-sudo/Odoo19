@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         LIST VIEW
+    ════════════════════════════════════════════════════════════════════════ -->
+    <record id="view_repacking_screening_operation_list" model="ir.ui.view">
+        <field name="name">repacking.screening.operation.list</field>
+        <field name="model">repacking.screening.operation</field>
+        <field name="arch" type="xml">
+            <list string="Repacking &amp; Screening Operations"
+                  decoration-success="state == 'done'"
+                  decoration-info="state in ('transferred','confirmed','manufacturing')"
+                  decoration-muted="state == 'cancelled'">
+                <field name="name"/>
+                <field name="operation_type"/>
+                <field name="product_id" string="Product"/>
+                <field name="source_location_id"/>
+                <field name="quantity" string="Input Qty"/>
+                <field name="output_quantity" string="Output Qty"/>
+                <field name="yield_percentage" string="Yield %"/>
+                <field name="loss_percentage" string="Loss %"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'done'"
+                       decoration-info="state in ('transferred','confirmed','manufacturing')"
+                       decoration-muted="state in ('draft','cancelled')"/>
+                <field name="scheduled_date"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         FORM VIEW
+    ════════════════════════════════════════════════════════════════════════ -->
+    <record id="view_repacking_screening_operation_form" model="ir.ui.view">
+        <field name="name">repacking.screening.operation.form</field>
+        <field name="model">repacking.screening.operation</field>
+        <field name="arch" type="xml">
+            <form string="Repacking &amp; Screening Operation">
+                <header>
+                    <!-- Step 0: Internal Transfer — Product (+ Packaging) → Manufacturing Location -->
+                    <button name="action_transfer_to_factory"
+                            string="Transfer to Manufacturing" type="object"
+                            class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <!-- Step 1: Manufacturing Order — Product (+ Packaging) → Intermediate -->
+                    <button name="action_confirm" string="Confirm" type="object"
+                            class="btn-primary"
+                            invisible="state != 'transferred'"/>
+                    <!-- Step 2: Manufacturing Order — Intermediate → Final Product -->
+                    <button name="action_validate" string="Validate" type="object"
+                            class="btn-success"
+                            invisible="state != 'confirmed'"/>
+                    <!-- Step 2 manual completion (only reached when Step 2
+                         auto-validation is disabled in Configuration > Settings) -->
+                    <button name="action_complete_manufacturing"
+                            string="Complete Manufacturing" type="object"
+                            class="btn-success"
+                            invisible="state != 'manufacturing'"/>
+                    <!-- Cancel / Reset -->
+                    <button name="action_cancel" string="Cancel" type="object"
+                            invisible="state in ('done','cancelled')"/>
+                    <button name="action_draft" string="Set to Draft" type="object"
+                            invisible="state != 'cancelled'"/>
+                    <button name="%(action_report_repacking_screening_operation)d"
+                            string="Print" type="action"
+                            class="btn-secondary" icon="fa-print"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,transferred,confirmed,manufacturing,done"/>
+                </header>
+
+                <sheet>
+                    <!-- Smart buttons -->
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_pickings" type="object"
+                                class="oe_stat_button" icon="fa-truck"
+                                invisible="picking_count == 0">
+                            <field name="picking_count" widget="statinfo"
+                                   string="Transfers"/>
+                        </button>
+                        <button name="action_view_mo" type="object"
+                                class="oe_stat_button" icon="fa-industry"
+                                invisible="not mfg_production_id and not intermediate_mo_id">
+                            <field name="mfg_count" widget="statinfo"
+                                   string="Manufacturing"/>
+                        </button>
+                    </div>
+
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+
+                    <notebook>
+
+                        <!-- ╔══════════════════════════════════════════════╗
+                             ║        Operation Information                  ║
+                             ╚══════════════════════════════════════════════╝ -->
+                        <page string="Operation Information" name="op_info">
+                            <group>
+                                <group string="Type &amp; Locations">
+                                    <field name="operation_type" widget="radio"
+                                           readonly="state != 'draft'"/>
+                                    <field name="source_location_id"
+                                           readonly="state != 'draft'"/>
+                                </group>
+                                <group string="Product &amp; Quantities">
+                                    <field name="product_id"
+                                           string="Product (Input = Output)"
+                                           readonly="state != 'draft'"/>
+                                    <field name="product_uom_id" invisible="1"/>
+                                    <field name="quantity" string="Input Quantity"
+                                           readonly="state != 'draft'"/>
+                                    <field name="output_quantity"
+                                           readonly="state != 'draft'"/>
+                                </group>
+                            </group>
+                            <group string="Intermediate (WIP)">
+                                <group>
+                                    <field name="intermediate_product_id"
+                                           readonly="state != 'draft'"/>
+                                    <field name="manufacturing_location_id"
+                                           readonly="state != 'draft'"/>
+                                </group>
+                                <group>
+                                    <field name="lot_id" readonly="1"
+                                           invisible="not lot_id"
+                                           string="Batch / Lot (auto)"/>
+                                </group>
+                            </group>
+                            <group string="Schedule &amp; Notes">
+                                <group>
+                                    <field name="scheduled_date"
+                                           readonly="state != 'draft'"/>
+                                    <field name="user_id"
+                                           readonly="state != 'draft'"/>
+                                </group>
+                                <group>
+                                    <field name="notes" nolabel="1"
+                                           placeholder="Notes..."
+                                           readonly="state != 'draft'"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- ╔══════════════════════════════════════════════╗
+                             ║   Packaging Materials  (Repacking only)      ║
+                             ╚══════════════════════════════════════════════╝ -->
+                        <page string="Packaging Materials" name="packaging_materials"
+                              invisible="operation_type != 'repacking'">
+                            <field name="packaging_line_ids"
+                                   readonly="state != 'draft'">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id"
+                                           context="{'default_type':'consu'}"
+                                           options="{'no_quick_create': False}"/>
+                                    <field name="uom_id"/>
+                                    <field name="quantity"/>
+                                    <field name="location_id"
+                                           string="Withdraw From"
+                                           placeholder="Source Location"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <!-- ╔══════════════════════════════════════════════╗
+                             ║   Secondary / Byproducts  (both types)       ║
+                             ╚══════════════════════════════════════════════╝ -->
+                        <page string="Secondary Products" name="secondary_products">
+                            <field name="secondary_product_ids"
+                                   readonly="state != 'draft'">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id"
+                                           options="{'no_quick_create': False}"/>
+                                    <field name="uom_id"/>
+                                    <field name="quantity"/>
+                                    <field name="cost_percentage" string="Cost %"/>
+                                    <field name="location_id"
+                                           string="Store In"
+                                           placeholder="Manufacturing Location"/>
+                                </list>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="secondary_cost_pct_total"
+                                       string="Total Secondary Cost %"
+                                       readonly="1"/>
+                            </group>
+                        </page>
+
+                        <!-- ╔══════════════════════════════════════════════╗
+                             ║              Cost Analysis                    ║
+                             ╚══════════════════════════════════════════════╝ -->
+                        <page string="Cost Analysis" name="cost_analysis">
+                            <field name="currency_id" invisible="1"/>
+                            <group string="Cost Breakdown">
+                                <group>
+                                    <field name="total_input_cost" readonly="1"/>
+                                    <field name="secondary_cost_pct_total"
+                                           string="Secondary Cost %" readonly="1"/>
+                                    <field name="main_product_cost" readonly="1"/>
+                                </group>
+                                <group string="Efficiency">
+                                    <field name="good_quantity" readonly="1"/>
+                                    <field name="waste_quantity" readonly="1"/>
+                                    <field name="yield_percentage"
+                                           string="Yield %" readonly="1"/>
+                                    <field name="loss_percentage"
+                                           string="Loss %" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- ╔══════════════════════════════════════════════╗
+                             ║              Recurrence                       ║
+                             ╚══════════════════════════════════════════════╝ -->
+                        <page string="Recurrence" name="recurrence">
+                            <group>
+                                <field name="is_recurring"
+                                       readonly="state != 'draft'"/>
+                                <group invisible="not is_recurring">
+                                    <field name="recurrence_interval"
+                                           readonly="state != 'draft'"/>
+                                    <field name="recurrence_unit"
+                                           readonly="state != 'draft'"/>
+                                    <field name="recurrence_end_date"
+                                           readonly="state != 'draft'"/>
+                                    <field name="next_recurrence_date" readonly="1"/>
+                                </group>
+                                <field name="recurring_parent_id" readonly="1"
+                                       invisible="not recurring_parent_id"/>
+                            </group>
+                        </page>
+
+                    </notebook>
+
+                    <!-- Generated Transfers summary -->
+                    <group string="Generated Documents"
+                           invisible="picking_count == 0 and not mfg_production_id and not intermediate_mo_id and not transfer_picking_id">
+                        <field name="transfer_picking_id" readonly="1"
+                               string="0. Internal Transfer → Manufacturing Location"
+                               invisible="not transfer_picking_id"/>
+                        <field name="intermediate_mo_id" readonly="1"
+                               string="1. Intermediate Manufacturing Order"
+                               invisible="not intermediate_mo_id"/>
+                        <field name="mfg_production_id" readonly="1"
+                               string="2. Final Manufacturing Order"
+                               invisible="not mfg_production_id"/>
+                        <field name="output_transfer_picking_ids" readonly="1"
+                               widget="many2many_tags"
+                               string="3. Manufacturing → Destination(s)"
+                               invisible="not output_transfer_picking_ids"/>
+                    </group>
+                </sheet>
+
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         KANBAN VIEW  — CRM style
+    ════════════════════════════════════════════════════════════════════════ -->
+    <record id="view_repacking_screening_operation_kanban" model="ir.ui.view">
+        <field name="name">repacking.screening.operation.kanban</field>
+        <field name="model">repacking.screening.operation</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" class="o_kanban_small_column"
+                    on_create="quick_create" quick_create_view="false"
+                    records_draggable="false">
+                <field name="name"/>
+                <field name="operation_type"/>
+                <field name="product_id"/>
+                <field name="source_location_id"/>
+                <field name="scheduled_date"/>
+                <field name="state" group_expand="_group_expand_states"/>
+                <field name="user_id"/>
+                <field name="loss_percentage"/>
+                <field name="yield_percentage"/>
+                <field name="output_quantity"/>
+                <field name="quantity"/>
+                <field name="total_input_cost"/>
+                <field name="currency_id"/>
+                <field name="lot_id"/>
+                <field name="mfg_production_id"/>
+                <field name="mfg_count"/>
+                <templates>
+                    <t t-name="card" t-attf-class="flex-column rp_stage_card rp_stage_#{record.state.raw_value}">
+                        <!-- Header row: reference + type badge -->
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <strong class="o_kanban_record_title fs-6">
+                                <field name="name"/>
+                            </strong>
+                            <span t-attf-class="badge rounded-pill #{record.operation_type.raw_value == 'repacking' ? 'text-bg-primary' : 'text-bg-warning'} fw-normal">
+                                <field name="operation_type"/>
+                            </span>
+                        </div>
+
+                        <!-- Product -->
+                        <div class="d-flex align-items-center gap-1 mb-1">
+                            <i class="fa fa-cube text-muted" style="width:14px"/>
+                            <span class="fw-semibold"><field name="product_id"/></span>
+                        </div>
+
+                        <!-- Location -->
+                        <div class="d-flex align-items-center gap-1 mb-1 text-muted small">
+                            <i class="fa fa-map-marker" style="width:14px"/>
+                            <field name="source_location_id"/>
+                        </div>
+
+                        <!-- Lot -->
+                        <div class="d-flex align-items-center gap-1 mb-2 text-muted small"
+                             t-if="record.lot_id.value">
+                            <i class="fa fa-barcode" style="width:14px"/>
+                            <field name="lot_id"/>
+                        </div>
+
+                        <!-- Qty row -->
+                        <div class="d-flex justify-content-between mb-2 small">
+                            <span>
+                                In: <b><field name="quantity"/></b>
+                            </span>
+                            <span>
+                                Out: <b><field name="output_quantity"/></b>
+                            </span>
+                            <span>
+                                Cost: <b><field name="total_input_cost" widget="monetary"/></b>
+                            </span>
+                        </div>
+
+                        <!-- Yield / Loss progress -->
+                        <div class="mb-2">
+                            <div class="d-flex justify-content-between small mb-1">
+                                <span class="text-success">
+                                    Yield <field name="yield_percentage"/>%
+                                </span>
+                                <span class="text-danger">
+                                    Loss <field name="loss_percentage"/>%
+                                </span>
+                            </div>
+                            <div class="progress" style="height:6px;">
+                                <div class="progress-bar bg-success"
+                                     t-attf-style="width:#{record.yield_percentage.value}%"/>
+                                <div class="progress-bar bg-danger"
+                                     t-attf-style="width:#{record.loss_percentage.value}%"/>
+                            </div>
+                        </div>
+
+                        <!-- Footer: date + avatar -->
+                        <div class="d-flex justify-content-between align-items-center mt-auto">
+                            <span class="text-muted small">
+                                <i class="fa fa-calendar me-1"/>
+                                <field name="scheduled_date" widget="date"/>
+                            </span>
+                            <field name="user_id" widget="many2one_avatar_user"
+                                   options="{'size': 'sm'}"/>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         PIVOT VIEW
+    ════════════════════════════════════════════════════════════════════════ -->
+    <record id="view_repacking_screening_operation_pivot" model="ir.ui.view">
+        <field name="name">repacking.screening.operation.pivot</field>
+        <field name="model">repacking.screening.operation</field>
+        <field name="arch" type="xml">
+            <pivot string="Analysis" disable_linking="False">
+                <field name="product_id" type="row"/>
+                <field name="operation_type" type="col"/>
+                <field name="quantity" type="measure"/>
+                <field name="output_quantity" type="measure"/>
+                <field name="good_quantity" type="measure"/>
+                <field name="waste_quantity" type="measure"/>
+                <field name="loss_percentage" type="measure"/>
+                <field name="yield_percentage" type="measure"/>
+                <field name="total_input_cost" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         GRAPH VIEW
+    ════════════════════════════════════════════════════════════════════════ -->
+    <record id="view_repacking_screening_operation_graph" model="ir.ui.view">
+        <field name="name">repacking.screening.operation.graph</field>
+        <field name="model">repacking.screening.operation</field>
+        <field name="arch" type="xml">
+            <graph string="Analysis" type="bar" stacked="True">
+                <field name="product_id" type="row"/>
+                <field name="good_quantity" type="measure"/>
+                <field name="waste_quantity" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         SEARCH VIEW
+    ════════════════════════════════════════════════════════════════════════ -->
+    <record id="view_repacking_screening_operation_search" model="ir.ui.view">
+        <field name="name">repacking.screening.operation.search</field>
+        <field name="model">repacking.screening.operation</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="product_id"/>
+                <field name="intermediate_product_id"/>
+                <field name="source_location_id"/>
+                <filter string="Repacking" name="filter_repacking"
+                        domain="[('operation_type','=','repacking')]"/>
+                <filter string="Screening" name="filter_screening"
+                        domain="[('operation_type','=','screening')]"/>
+                <separator/>
+                <filter string="Draft"     name="filter_draft"
+                        domain="[('state','=','draft')]"/>
+                <filter string="Transferred to Manufacturing" name="filter_transferred"
+                        domain="[('state','=','transferred')]"/>
+                <filter string="Confirmed" name="filter_confirmed"
+                        domain="[('state','=','confirmed')]"/>
+                <filter string="Manufacturing" name="filter_manufacturing"
+                        domain="[('state','=','manufacturing')]"/>
+                <filter string="Done"      name="filter_done"
+                        domain="[('state','=','done')]"/>
+                <separator/>
+                <filter string="Recurring" name="filter_recurring"
+                        domain="[('is_recurring','=',True)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Operation Type" name="groupby_type"
+                            context="{'group_by':'operation_type'}"/>
+                    <filter string="Status" name="groupby_state"
+                            context="{'group_by':'state'}"/>
+                    <filter string="Product" name="groupby_product"
+                            context="{'group_by':'product_id'}"/>
+                    <filter string="Responsible" name="groupby_user"
+                            context="{'group_by':'user_id'}"/>
+                    <filter string="Month" name="groupby_month"
+                            context="{'group_by':'scheduled_date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         ACTIONS
+    ════════════════════════════════════════════════════════════════════════ -->
+    <record id="action_repacking_screening_operation" model="ir.actions.act_window">
+        <field name="name">All Operations</field>
+        <field name="res_model">repacking.screening.operation</field>
+        <field name="view_mode">list,kanban,pivot,graph,form</field>
+        <field name="search_view_id" ref="view_repacking_screening_operation_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create a new operation</p>
+        </field>
+    </record>
+
+    <record id="action_repacking_operation" model="ir.actions.act_window">
+        <field name="name">Repacking Operations</field>
+        <field name="res_model">repacking.screening.operation</field>
+        <field name="view_mode">list,kanban,pivot,graph,form</field>
+        <field name="domain">[('operation_type','=','repacking')]</field>
+        <field name="context">
+            {'default_operation_type': 'repacking',
+             'search_default_filter_repacking': 1}
+        </field>
+        <field name="search_view_id" ref="view_repacking_screening_operation_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create a new Repacking operation</p>
+        </field>
+    </record>
+
+    <record id="action_screening_operation" model="ir.actions.act_window">
+        <field name="name">Screening Operations</field>
+        <field name="res_model">repacking.screening.operation</field>
+        <field name="view_mode">list,kanban,pivot,graph,form</field>
+        <field name="domain">[('operation_type','=','screening')]</field>
+        <field name="context">
+            {'default_operation_type': 'screening',
+             'search_default_filter_screening': 1}
+        </field>
+        <field name="search_view_id" ref="view_repacking_screening_operation_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create a new Screening operation</p>
+        </field>
+    </record>
+
+</odoo>

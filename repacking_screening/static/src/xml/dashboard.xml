@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="repacking_screening.Dashboard" owl="1">
+        <div class="o_repacking_dashboard" t-ref="dashboardRoot">
+
+            <!-- Header -->
+            <div class="rp_dash_header">
+                <div>
+                    <h2 class="mb-0">Repacking &amp; Screening</h2>
+                    <span class="text-muted">Live overview of all operations</span>
+                </div>
+                <button class="btn btn-primary rp_dash_cta" t-on-click="openAll">
+                    <i class="fa fa-list-ul me-1"/> View All Operations
+                </button>
+            </div>
+
+            <t t-if="state.loading">
+                <div class="rp_dash_loading">
+                    <i class="fa fa-circle-o-notch fa-spin fa-2x"/>
+                </div>
+            </t>
+
+            <t t-else="">
+                <!-- KPI Cards -->
+                <div class="rp_kpi_row">
+                    <div class="rp_kpi_card rp_kpi_purple" t-on-click="openAll">
+                        <div class="rp_kpi_icon"><i class="fa fa-cubes"/></div>
+                        <div class="rp_kpi_value"><t t-esc="state.kpi.total_ops"/></div>
+                        <div class="rp_kpi_label">Total Operations</div>
+                        <i class="fa fa-arrow-right rp_kpi_go"/>
+                    </div>
+                    <div class="rp_kpi_card rp_kpi_teal" t-on-click="openAll">
+                        <div class="rp_kpi_icon"><i class="fa fa-money"/></div>
+                        <div class="rp_kpi_value"><t t-esc="formatCost(state.kpi.total_cost)"/></div>
+                        <div class="rp_kpi_label">Total Input Cost</div>
+                        <i class="fa fa-arrow-right rp_kpi_go"/>
+                    </div>
+                    <div class="rp_kpi_card rp_kpi_green" t-on-click="openDone">
+                        <div class="rp_kpi_icon"><i class="fa fa-arrow-up"/></div>
+                        <div class="rp_kpi_value"><t t-esc="formatPct(state.kpi.avg_yield)"/></div>
+                        <div class="rp_kpi_label">Avg. Yield (Done)</div>
+                        <i class="fa fa-arrow-right rp_kpi_go"/>
+                    </div>
+                    <div class="rp_kpi_card rp_kpi_pink" t-on-click="openDone">
+                        <div class="rp_kpi_icon"><i class="fa fa-arrow-down"/></div>
+                        <div class="rp_kpi_value"><t t-esc="formatPct(state.kpi.avg_loss)"/></div>
+                        <div class="rp_kpi_label">Avg. Loss (Done)</div>
+                        <i class="fa fa-arrow-right rp_kpi_go"/>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="rp_chart_row">
+                    <div class="rp_chart_card">
+                        <div class="rp_chart_title">Operations by Type</div>
+                        <div class="rp_canvas_wrap">
+                            <canvas t-ref="donutCanvas" data-height="220"/>
+                        </div>
+                    </div>
+                    <div class="rp_chart_card rp_chart_card_wide">
+                        <div class="rp_chart_title">Operations by Stage</div>
+                        <div class="rp_canvas_wrap">
+                            <canvas t-ref="barCanvas" data-height="220"/>
+                        </div>
+                        <div class="rp_stage_pills">
+                            <t t-foreach="state.byState" t-as="s" t-key="s.key">
+                                <span class="rp_stage_pill"
+                                      t-attf-style="border-color:#{s.color};color:#{s.color}"
+                                      t-on-click="() => this.openFiltered(s.key)">
+                                    <t t-esc="s.label"/> · <t t-esc="s.count"/>
+                                </span>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent operations -->
+                <div class="rp_recent_card">
+                    <div class="rp_chart_title">Recent Operations</div>
+                    <table class="table table-sm rp_recent_table">
+                        <thead>
+                            <tr>
+                                <th>Reference</th>
+                                <th>Type</th>
+                                <th>Product</th>
+                                <th>Output</th>
+                                <th>Cost</th>
+                                <th>Yield</th>
+                                <th>Stage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-if="!state.recent.length">
+                                <tr>
+                                    <td colspan="7" class="text-center text-muted py-3">
+                                        No operations yet.
+                                    </td>
+                                </tr>
+                            </t>
+                            <t t-foreach="state.recent" t-as="r" t-key="r.id">
+                                <tr class="rp_recent_row" t-on-click="() => this.openRecord(r.id)">
+                                    <td><strong><t t-esc="r.name"/></strong></td>
+                                    <td>
+                                        <span t-attf-class="badge rounded-pill {{ r.operation_type === 'repacking' ? 'text-bg-primary' : 'text-bg-warning' }}">
+                                            <t t-esc="r.operation_type"/>
+                                        </span>
+                                    </td>
+                                    <td><t t-esc="r.product_id ? r.product_id[1] : ''"/></td>
+                                    <td><t t-esc="r.output_quantity"/></td>
+                                    <td><t t-esc="formatCost(r.total_input_cost)"/></td>
+                                    <td><t t-esc="formatPct(r.yield_percentage)"/></td>
+                                    <td>
+                                        <span t-attf-class="badge rp_state_badge rp_state_{{r.state}}">
+                                            <t t-esc="r.state"/>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </div>
+    </t>
+
+</templates>

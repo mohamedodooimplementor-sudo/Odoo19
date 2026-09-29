@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!--
+        Dedicated product category for WIP products.
+        FIFO costing = each lot/batch gets its OWN cost layer → no cross-contamination
+        between operations. Real-time valuation = journal entries on every move.
+    -->
+    <record id="product_category_wip" model="product.category">
+        <field name="name">Repacking &amp; Screening WIP</field>
+        <field name="property_cost_method">fifo</field>
+        <field name="property_valuation">real_time</field>
+    </record>
+
+    <!--
+        Default intermediate (WIP) product.
+        - is_storable      → Storable Product in Odoo 18
+        - tracking = lot   → Each batch gets a lot number
+        - categ_id = WIP   → FIFO costing: per-lot cost layer
+        - company_id False → Available to all companies
+    -->
+    <record id="product_intermediate_wip" model="product.product">
+        <field name="name">Repacking &amp; Screening - WIP</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="categ_id" ref="product_category_wip"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="sale_ok" eval="False"/>
+        <field name="company_id" eval="False"/>
+    </record>
+
+</odoo>
