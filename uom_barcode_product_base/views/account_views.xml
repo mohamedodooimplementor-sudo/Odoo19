@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Extend Invoice Line to show UoM Barcode -->
+    <record id="view_account_move_form_uom_barcode" model="ir.ui.view">
+        <field name="name">account.move.form.uom.barcode</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <field name="product_uom_id" position="after">
+                <field name="uom_barcode" string="Barcode (UoM)" optional="show"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

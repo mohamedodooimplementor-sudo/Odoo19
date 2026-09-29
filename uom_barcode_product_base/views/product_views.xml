@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Extend Product Template Form to add UoM Barcodes tab -->
+    <record id="view_product_template_form_uom_barcode" model="ir.ui.view">
+        <field name="name">product.template.form.uom.barcode</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <page name="general_information" position="after">
+                <page name="uom_barcodes" string="Units of Measure">
+                    <group string="Units of Measure">
+                        <field name="uom_barcode_ids" nolabel="1">
+                            <list editable="bottom">
+                                <field name="uom_id"/>
+                                <field name="uom_category_id"/>
+                                <field name="barcode"/>
+                            </list>
+                        </field>
+                    </group>
+                    <group>
+                        <button name="action_print_uom_barcodes"
+                                type="object"
+                                string="Print Barcodes"
+                                class="btn-primary"
+                                icon="fa-print"/>
+                    </group>
+                </page>
+            </page>
+        </field>
+    </record>
+
+</odoo>

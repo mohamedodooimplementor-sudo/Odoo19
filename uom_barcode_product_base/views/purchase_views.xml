@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_purchase_order_form_uom_barcode" model="ir.ui.view">
+        <field name="name">purchase.order.form.uom.barcode</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+
+            <!-- باركود على مستوى السطر قبل اسم المنتج -->
+            <xpath expr="//field[@name='order_line']/list//field[@name='product_id']" position="before">
+                <field name="uom_barcode" string="Barcode (UoM)" optional="show"/>
+            </xpath>
+
+            <!-- حقل Scan فوق جدول السطور -->
+            <xpath expr="//field[@name='order_line']" position="before">
+                <group>
+                    <field name="barcode_scan_input"
+                           string="Scan Barcode"
+                           placeholder="Scan or type barcode here..."
+                           widget="char"
+                           nolabel="0"
+                           invisible="state not in ('draft', 'sent')"
+                    />
+                </group>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>
