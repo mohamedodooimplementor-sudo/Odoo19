@@ -1,0 +1,673 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_stock_card_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="wizard">
+                <t t-set="show_costs" t-value="wizard.effective_show_costs()"/>
+                <t t-set="col_count" t-value="show_costs and 10 or 8"/>
+                <t t-set="group_lines" t-value="wizard.line_ids.filtered(lambda l: l.line_type in ('group_header', 'opening'))"/>
+                <t t-call="web.external_layout">
+                    <div class="page stock-card-page" t-attf-dir="#{(wizard.env.lang or '').startswith('ar') and 'rtl' or 'ltr'}">
+                        <style>
+                            .stock-card-page {
+                                font-family: Helvetica, Arial, sans-serif;
+                                color: #2b2b2b;
+                                line-height: 1.45;
+                            }
+
+                            /* ---------- Header band ---------- */
+                            .sc-title-band {
+                                border-bottom: 2px solid #1f3a5f;
+                                padding-bottom: 10px;
+                                margin-bottom: 14px;
+                            }
+                            .sc-title {
+                                font-size: 19px;
+                                font-weight: 700;
+                                color: #1f3a5f;
+                                letter-spacing: 0.3px;
+                                margin: 0;
+                            }
+                            .sc-subtitle {
+                                font-size: 10.5px;
+                                font-weight: 600;
+                                color: #8a8f98;
+                                text-transform: uppercase;
+                                letter-spacing: 1px;
+                                margin-top: 2px;
+                            }
+                            .sc-meta-table {
+                                width: 100%;
+                                table-layout: fixed;
+                                margin-bottom: 14px;
+                                border-collapse: collapse;
+                            }
+                            .sc-meta-table td {
+                                font-size: 10.5px;
+                                padding: 4px 16px 4px 0;
+                                vertical-align: top;
+                            }
+                            .sc-meta-label {
+                                color: #8a8f98;
+                                text-transform: uppercase;
+                                font-size: 8.5px;
+                                font-weight: 600;
+                                letter-spacing: 0.6px;
+                                display: block;
+                                margin-bottom: 1px;
+                            }
+                            .sc-meta-value {
+                                font-weight: 700;
+                                color: #1f3a5f;
+                                font-size: 11.5px;
+                            }
+
+                            /* ---------- Executive summary ---------- */
+                            .sc-summary-wrap {
+                                width: 100%;
+                                table-layout: fixed;
+                                border-collapse: collapse;
+                                margin-bottom: 14px;
+                            }
+                            .sc-kpi {
+                                background-color: #eef2f6;
+                                border-left: 3px solid #1f3a5f;
+                                padding: 8px 10px;
+                                width: 24%;
+                            }
+                            .sc-kpi-label {
+                                font-size: 8.5px;
+                                font-weight: 600;
+                                text-transform: uppercase;
+                                letter-spacing: 0.5px;
+                                color: #6b7280;
+                                display: block;
+                            }
+                            .sc-kpi-value {
+                                font-size: 14.5px;
+                                font-weight: 700;
+                                color: #1f3a5f;
+                            }
+                            .sc-kpi-value.positive { color: #2f6b4c; }
+                            .sc-kpi-value.negative { color: #b5452b; }
+
+                            .sc-section-title {
+                                font-size: 12.5px;
+                                font-weight: 700;
+                                color: #1f3a5f;
+                                text-transform: uppercase;
+                                letter-spacing: 0.5px;
+                                border-bottom: 1px solid #c9d3dd;
+                                padding-bottom: 3px;
+                                margin: 10px 0 6px 0;
+                            }
+
+                            .sc-top-table {
+                                width: 100%;
+                                table-layout: fixed;
+                                border-collapse: collapse;
+                                font-size: 9.5px;
+                                margin-bottom: 10px;
+                            }
+                            .sc-top-table th {
+                                background-color: #1f3a5f;
+                                color: #fff;
+                                padding: 7px 6px;
+                                text-align: left;
+                                font-size: 9.5px;
+                                font-weight: 700;
+                                text-transform: uppercase;
+                            }
+                            .sc-top-table td {
+                                padding: 6px 6px;
+                                font-weight: 500;
+                                border-bottom: 1px solid #e8e8e8;
+                            }
+                            .sc-rank {
+                                display: inline-block;
+                                background-color: #1f3a5f;
+                                color: #fff;
+                                width: 14px;
+                                height: 14px;
+                                border-radius: 7px;
+                                text-align: center;
+                                font-size: 7px;
+                                line-height: 14px;
+                            }
+
+                            /* ---------- Table of contents ---------- */
+                            .sc-toc {
+                                font-size: 9px;
+                                margin-bottom: 14px;
+                                columns: 2;
+                                -webkit-columns: 2;
+                            }
+                            .sc-toc a {
+                                color: #1f3a5f;
+                                text-decoration: none;
+                            }
+                            .sc-toc-item {
+                                padding: 2px 0;
+                                border-bottom: 1px dotted #d5dbe2;
+                            }
+
+                            /* ---------- Main table ---------- */
+                            .stock-card-table {
+                                width: 100%;
+                                table-layout: fixed;
+                                border-collapse: collapse;
+                                font-size: 12.5px;
+                                line-height: 1.5;
+                            }
+                            .stock-card-table thead th {
+                                background-color: #1f3a5f;
+                                color: #ffffff;
+                                padding: 9px 5px;
+                                text-align: center;
+                                font-size: 11px;
+                                text-transform: uppercase;
+                                letter-spacing: 0.2px;
+                                font-weight: 700;
+                                border: 1px solid #1f3a5f;
+                                word-wrap: break-word;
+                                overflow-wrap: break-word;
+                                word-break: break-word;
+                                hyphens: auto;
+                            }
+                            .stock-card-table td {
+                                padding: 8px 6px;
+                                border-bottom: 1px solid #e8e8e8;
+                                word-wrap: break-word;
+                                overflow-wrap: break-word;
+                                word-break: break-word;
+                                hyphens: auto;
+                                vertical-align: top;
+                                font-weight: 500;
+                            }
+                            /* Hard safety net for the narrow, non-colspan transaction-row
+                               columns (Reference/Partner/Source/Destination): forces the
+                               PDF engine to respect the fixed column width for wrapping,
+                               and clips as a last resort instead of bleeding into the next
+                               column if wrapping still fails on a very long unbroken value. */
+                            .stock-card-table td.sc-wrap-cell {
+                                max-width: 0;
+                                overflow: hidden;
+                            }
+                            .stock-card-table .text-right { text-align: right; }
+                            .stock-card-table .text-center { text-align: center; }
+                            .stock-card-table .sc-nowrap { white-space: nowrap; }
+
+                            .tx-row:nth-child(even) { background-color: #f7f9fb; }
+
+                            .group-header-row td {
+                                background-color: #1f3a5f;
+                                color: #ffffff;
+                                font-weight: 700;
+                                font-size: 11.5px;
+                                padding: 9px 7px;
+                                border: none;
+                                page-break-after: avoid;
+                            }
+
+                            .product-header-row td {
+                                background-color: #ffffff;
+                                border-top: 2px solid #1f3a5f;
+                                border-bottom: 1px solid #c9d3dd;
+                                padding: 8px 7px;
+                                page-break-after: avoid;
+                            }
+                            .product-name {
+                                font-weight: 700;
+                                font-size: 12.5px;
+                                color: #1f3a5f;
+                            }
+                            .product-meta {
+                                font-size: 9.5px;
+                                font-weight: 600;
+                                color: #6b7280;
+                                margin-top: 1px;
+                            }
+
+                            .opening-row td {
+                                background-color: #d5e8f5;
+                                border-left: 3px solid #14568f;
+                                font-style: italic;
+                                font-weight: 600;
+                                color: #0d3760;
+                            }
+                            .closing-row td {
+                                background-color: #eaf2fb;
+                                border-left: 3px solid #1f3a5f;
+                                border-top: 1px solid #c9d3dd;
+                                font-weight: 700;
+                                color: #1f3a5f;
+                            }
+                            .analytics-row td {
+                                background-color: #fbfbfc;
+                                border-bottom: 1.5px solid #c9d3dd;
+                                font-size: 10px;
+                                font-weight: 500;
+                                color: #6b7280;
+                                padding: 5px 7px 8px 7px;
+                            }
+                            .metric-label {
+                                color: #1f3a5f;
+                                font-weight: 700;
+                            }
+                            .chg-pos { color: #2f6b4c; font-weight: 700; }
+                            .chg-neg { color: #b5452b; font-weight: 700; }
+
+                            .grand-total-row td {
+                                background-color: #1f3a5f;
+                                color: #ffffff;
+                                font-weight: 700;
+                                font-size: 11.5px;
+                                padding: 9px 5px;
+                                border: none;
+                            }
+
+                            .badge-in, .badge-out {
+                                display: inline-block;
+                                min-width: 36px;
+                                padding: 2px 7px;
+                                border-radius: 3px;
+                                font-size: 11px;
+                                font-weight: 700;
+                            }
+                            .badge-in { background-color: #9fdcb5; color: #0a3319; }
+                            .badge-out { background-color: #f2a591; color: #6b1d0c; }
+                            .negative-balance { color: #b5452b; font-weight: 700; }
+
+                            .reconciliation-row td {
+                                font-size: 10px;
+                                font-weight: 500;
+                                padding: 5px 7px 8px 7px;
+                                border-bottom: 1.5px solid #c9d3dd;
+                            }
+                            .reconciliation-row.recon-ok td {
+                                background-color: #f2f9f4;
+                                color: #2f6b4c;
+                            }
+                            .reconciliation-row.recon-mismatch td {
+                                background-color: #fdf1ee;
+                                color: #b5452b;
+                            }
+                            .recon-warning { font-weight: 700; }
+                            .recon-ok-text { font-weight: 700; }
+
+                            /* ---------- Signatures ---------- */
+                            .sc-signatures {
+                                width: 100%;
+                                border-collapse: collapse;
+                                margin-top: 30px;
+                                page-break-inside: avoid;
+                            }
+                            .sc-signatures td {
+                                width: 33.33%;
+                                padding-top: 28px;
+                                font-size: 8.5px;
+                                text-align: center;
+                                vertical-align: top;
+                            }
+                            .sc-sign-line {
+                                border-top: 1px solid #2b2b2b;
+                                margin: 0 14px 4px 14px;
+                            }
+                            .sc-sign-role {
+                                font-weight: 700;
+                                color: #1f3a5f;
+                                text-transform: uppercase;
+                                letter-spacing: 0.4px;
+                            }
+                            .sc-sign-sub {
+                                color: #8a8f98;
+                                font-size: 8px;
+                            }
+                            .stock-card-page[dir="rtl"] {
+                                text-align: right;
+                            }
+                            .stock-card-page[dir="rtl"] .sc-kpi,
+                            .stock-card-page[dir="rtl"] .opening-row td,
+                            .stock-card-page[dir="rtl"] .closing-row td {
+                                border-left: none;
+                                border-right: 3px solid currentColor;
+                            }
+                            .stock-card-page[dir="rtl"] .text-right {
+                                text-align: left;
+                            }
+                        </style>
+
+                        <div class="sc-title-band">
+                            <p class="sc-title">Stock Card Report</p>
+                            <div class="sc-subtitle">Inventory Movement &amp; Valuation Statement</div>
+                        </div>
+
+                        <table class="sc-meta-table">
+                            <tr>
+                                <td style="width: 25%;">
+                                    <span class="sc-meta-label">Period</span>
+                                    <span class="sc-meta-value">
+                                        <t t-esc="wizard.date_from" t-options='{"widget": "date"}'/> — <t t-esc="wizard.date_to" t-options='{"widget": "date"}'/>
+                                    </span>
+                                </td>
+                                <td style="width: 30%;">
+                                    <span class="sc-meta-label">Location</span>
+                                    <span class="sc-meta-value">
+                                        <t t-if="len(wizard.company_ids) > 1">All Internal Locations (Consolidated)</t>
+                                        <t t-if="len(wizard.company_ids) &lt;= 1"><t t-esc="', '.join(wizard.location_ids.mapped('complete_name')) or 'All Locations'"/></t>
+                                    </span>
+                                </td>
+                                <td style="width: 25%;">
+                                    <span class="sc-meta-label">Company</span>
+                                    <span class="sc-meta-value">
+                                        <t t-if="len(wizard.company_ids) > 1"><t t-esc="', '.join(wizard.company_ids.mapped('name'))"/></t>
+                                        <t t-if="len(wizard.company_ids) &lt;= 1"><t t-esc="wizard.company_id.name"/></t>
+                                    </span>
+                                </td>
+                                <td style="width: 20%;">
+                                    <span class="sc-meta-label">Generated On</span>
+                                    <span class="sc-meta-value"><t t-esc="wizard.report_generated_at" t-options='{"widget": "datetime"}'/></span>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- ================= EXECUTIVE SUMMARY ================= -->
+                        <div class="sc-section-title">Executive Summary</div>
+                        <table class="sc-summary-wrap">
+                            <tr>
+                                <td class="sc-kpi">
+                                    <span class="sc-kpi-label">Products Reported</span>
+                                    <span class="sc-kpi-value"><t t-esc="wizard.product_count"/></span>
+                                </td>
+                                <t t-if="show_costs">
+                                    <td class="sc-kpi" style="border-left-color:#4caf7d;">
+                                        <span class="sc-kpi-label">Opening Value</span>
+                                        <span class="sc-kpi-value">
+                                            <t t-esc="wizard.total_opening_value" t-options='{"widget": "monetary", "display_currency": wizard.company_id.currency_id}'/>
+                                        </span>
+                                    </td>
+                                    <td class="sc-kpi">
+                                        <span class="sc-kpi-label">Closing Value</span>
+                                        <span class="sc-kpi-value">
+                                            <t t-esc="wizard.total_closing_value" t-options='{"widget": "monetary", "display_currency": wizard.company_id.currency_id}'/>
+                                        </span>
+                                    </td>
+                                    <td class="sc-kpi" t-attf-style="border-left-color:#{wizard.total_net_value >= 0 and '#2f6b4c' or '#b5452b'};">
+                                        <span class="sc-kpi-label">Net Change</span>
+                                        <span t-attf-class="sc-kpi-value #{wizard.total_net_value >= 0 and 'positive' or 'negative'}">
+                                            <t t-esc="'%+.1f%%' % (wizard.total_net_percent or 0.0)"/>
+                                        </span>
+                                    </td>
+                                </t>
+                                <t t-if="not show_costs">
+                                    <td class="sc-kpi" colspan="3" style="width: 76%;">
+                                        <span class="sc-kpi-label">Cost &amp; Valuation Data</span>
+                                        <span class="sc-kpi-value" style="font-size: 8.5px;">Restricted — contact a manager for financial figures</span>
+                                    </td>
+                                </t>
+                            </tr>
+                        </table>
+
+                        <t t-if="show_costs and wizard.get_top_products_summary()">
+                            <div class="sc-section-title">Top 5 Products by Closing Value</div>
+                            <table class="sc-top-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 6%;">#</th>
+                                        <th style="width: 40%;">Product</th>
+                                        <th style="width: 18%;">Balance Qty</th>
+                                        <th style="width: 18%;">Balance Value</th>
+                                        <th style="width: 18%;">Change vs Opening</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="wizard.get_top_products_summary()" t-as="tp">
+                                        <tr>
+                                            <td><span class="sc-rank"><t t-esc="tp_index + 1"/></span></td>
+                                            <td><t t-esc="tp['product'].display_name"/></td>
+                                            <td><t t-esc="'%.2f' % (tp['balance'] or 0.0)"/></td>
+                                            <td><t t-esc="tp['balance_value']" t-options='{"widget": "monetary", "display_currency": wizard.company_id.currency_id}'/></td>
+                                            <td t-attf-class="#{tp['change_percent'] >= 0 and 'chg-pos' or 'chg-neg'}">
+                                                <t t-esc="'%+.1f%%' % (tp['change_percent'] or 0.0)"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </t>
+
+                        <!-- ================= TABLE OF CONTENTS ================= -->
+                        <t t-if="len(group_lines) > 3">
+                            <div class="sc-section-title">Contents</div>
+                            <div class="sc-toc">
+                                <t t-foreach="group_lines" t-as="gl">
+                                    <div class="sc-toc-item">
+                                        <a t-attf-href="#anchor_#{gl.id}">
+                                            <t t-if="gl.line_type == 'group_header'" t-esc="gl.group_name"/>
+                                            <t t-if="gl.line_type == 'opening'" t-esc="gl.product_id.display_name"/>
+                                        </a>
+                                    </div>
+                                </t>
+                            </div>
+                        </t>
+
+                        <!-- ================= MAIN TABLE ================= -->
+                        <table class="stock-card-table">
+                            <colgroup>
+                                <col t-attf-style="width: {{show_costs and 7 or 9}}%;"/>
+                                <col t-attf-style="width: {{show_costs and 12 or 14}}%;"/>
+                                <col t-attf-style="width: {{show_costs and 14 or 16}}%;"/>
+                                <col t-attf-style="width: {{show_costs and 14 or 17}}%;"/>
+                                <col t-attf-style="width: {{show_costs and 14 or 17}}%;"/>
+                                <col t-attf-style="width: {{show_costs and 5 or 7}}%;"/>
+                                <col t-attf-style="width: {{show_costs and 5 or 7}}%;"/>
+                                <col t-attf-style="width: {{show_costs and 9 or 13}}%;"/>
+                                <t t-if="show_costs">
+                                    <col style="width: 9%;"/>
+                                    <col style="width: 11%;"/>
+                                </t>
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th t-attf-style="width: {{show_costs and 7 or 9}}%;" class="sc-nowrap">Date</th>
+                                    <th t-attf-style="width: {{show_costs and 12 or 14}}%;">Reference</th>
+                                    <th t-attf-style="width: {{show_costs and 14 or 16}}%;">Partner</th>
+                                    <th t-attf-style="width: {{show_costs and 14 or 17}}%;">Source Location</th>
+                                    <th t-attf-style="width: {{show_costs and 14 or 17}}%;">Destination Location</th>
+                                    <th t-attf-style="width: {{show_costs and 5 or 7}}%;">In</th>
+                                    <th t-attf-style="width: {{show_costs and 5 or 7}}%;">Out</th>
+                                    <th t-attf-style="width: {{show_costs and 9 or 13}}%;">Balance</th>
+                                    <t t-if="show_costs">
+                                        <th style="width: 9%;">Unit Cost</th>
+                                        <th style="width: 11%;">Balance Value</th>
+                                    </t>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="total_in" t-value="0"/>
+                                <t t-set="total_out" t-value="0"/>
+                                <t t-set="total_balance_value" t-value="0"/>
+                                <t t-set="total_balance_qty" t-value="0"/>
+
+                                <t t-foreach="wizard.line_ids" t-as="line">
+
+                                    <t t-if="line.line_type == 'group_header'">
+                                        <tr class="group-header-row">
+                                            <td t-attf-colspan="#{col_count}">
+                                                <a t-attf-name="anchor_#{line.id}"/>
+                                                <t t-esc="line.group_name"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+
+                                    <t t-if="line.line_type == 'opening'">
+                                        <tr class="product-header-row">
+                                            <td t-attf-colspan="#{col_count}">
+                                                <a t-attf-name="anchor_#{line.id}"/>
+                                                <div class="product-name">
+                                                    <t t-esc="line.product_id.display_name"/>
+                                                </div>
+                                                <div class="product-meta">
+                                                    <t t-if="line.categ_id">Category: <t t-esc="line.categ_id.complete_name"/></t>
+                                                    <t t-if="line.product_id.default_code"> · Reference: <t t-esc="line.product_id.default_code"/></t>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr class="opening-row">
+                                            <td class="sc-nowrap"><t t-esc="line.date" t-options='{"widget": "date"}'/></td>
+                                            <td colspan="4">Opening Balance</td>
+                                            <td class="text-right"></td>
+                                            <td class="text-right"></td>
+                                            <td class="text-right"><t t-esc="'%.2f' % (line.balance or 0.0)"/></td>
+                                            <t t-if="show_costs">
+                                                <td class="text-right">
+                                                    <t t-esc="line.product_id.standard_price" t-options='{"widget": "monetary", "display_currency": wizard.company_id.currency_id}'/>
+                                                </td>
+                                                <td class="text-right">
+                                                    <t t-esc="line.balance_value" t-options='{"widget": "monetary", "display_currency": wizard.company_id.currency_id}'/>
+                                                </td>
+                                            </t>
+                                        </tr>
+                                    </t>
+
+                                    <t t-if="line.line_type == 'transaction'">
+                                        <t t-set="total_in" t-value="total_in + line.qty_in"/>
+                                        <t t-set="total_out" t-value="total_out + line.qty_out"/>
+                                        <tr class="tx-row">
+                                            <td class="sc-nowrap"><t t-esc="line.date" t-options='{"widget": "date"}'/></td>
+                                            <td class="sc-wrap-cell">
+                                                <t t-esc="line.reference"/>
+                                                <t t-if="line.lot_id"> · Lot: <t t-esc="line.lot_id.name"/></t>
+                                            </td>
+                                            <td class="sc-wrap-cell"><t t-esc="line.partner_id.display_name or ''"/></td>
+                                            <td class="sc-wrap-cell"><t t-esc="line.location_id.complete_name or ''"/></td>
+                                            <td class="sc-wrap-cell"><t t-esc="line.location_dest_id.complete_name or ''"/></td>
+                                            <td class="text-right">
+                                                <t t-if="line.qty_in">
+                                                    <span class="badge-in"><t t-esc="'%.2f' % (line.qty_in or 0.0)"/></span>
+                                                </t>
+                                            </td>
+                                            <td class="text-right">
+                                                <t t-if="line.qty_out">
+                                                    <span class="badge-out"><t t-esc="'%.2f' % (line.qty_out or 0.0)"/></span>
+                                                </t>
+                                            </td>
+                                            <td t-attf-class="text-right #{line.is_negative and 'negative-balance' or ''}">
+                                                <t t-esc="'%.2f' % (line.balance or 0.0)"/>
+                                            </td>
+                                            <t t-if="show_costs">
+                                                <td class="text-right">
+                                                    <t t-esc="line.unit_cost" t-options='{"widget": "monetary", "display_currency": wizard.company_id.currency_id}'/>
+                                                </td>
+                                                <td class="text-right">
+                                                    <t t-esc="line.balance_value" t-options='{"widget": "monetary", "display_currency": wizard.company_id.currency_id}'/>
+                                                </td>
+                                            </t>
+                                        </tr>
+                                    </t>
+
+                                    <t t-if="line.line_type == 'closing'">
+                                        <t t-set="total_balance_value" t-value="total_balance_value + line.balance_value"/>
+                                        <t t-set="total_balance_qty" t-value="total_balance_qty + line.balance"/>
+                                        <tr class="closing-row">
+                                            <td class="sc-nowrap"><t t-esc="line.date" t-options='{"widget": "date"}'/></td>
+                                            <td colspan="4">Closing Balance</td>
+                                            <td class="text-right"></td>
+                                            <td class="text-right"></td>
+                                            <td t-attf-class="text-right #{line.is_negative and 'negative-balance' or ''}">
+                                                <t t-esc="'%.2f' % (line.balance or 0.0)"/>
+                                            </td>
+                                            <t t-if="show_costs">
+                                                <td class="text-right"></td>
+                                                <td class="text-right">
+                                                    <t t-esc="line.balance_value" t-options='{"widget": "monetary", "display_currency": wizard.company_id.currency_id}'/>
+                                                </td>
+                                            </t>
+                                        </tr>
+                                        <t t-if="show_costs">
+                                            <tr class="analytics-row">
+                                                <td t-attf-colspan="#{col_count}">
+                                                    <span class="metric-label">Avg. Incoming Cost:</span>
+                                                    <t t-esc="line.avg_cost_in" t-options='{"widget": "monetary", "display_currency": wizard.company_id.currency_id}'/>
+                                                    &#160;·&#160;
+                                                    <span class="metric-label">Turnover Ratio:</span>
+                                                    <t t-esc="'%.2f' % (line.turnover_ratio or 0.0)"/>
+                                                    &#160;·&#160;
+                                                    <span class="metric-label">Days of Stock:</span>
+                                                    <t t-esc="'%.1f' % (line.days_of_stock or 0.0)"/>
+                                                    &#160;·&#160;
+                                                    <span class="metric-label">Change vs Opening:</span>
+                                                    <span t-attf-class="#{line.change_percent >= 0 and 'chg-pos' or 'chg-neg'}">
+                                                        <t t-esc="'%+.1f%%' % (line.change_percent or 0.0)"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        <t t-if="line.is_reconciliation_checked">
+                                            <tr t-attf-class="reconciliation-row #{line.reconciliation_diff and 'recon-mismatch' or 'recon-ok'}">
+                                                <td t-attf-colspan="#{col_count}">
+                                                    <span class="metric-label">System On-Hand (live):</span>
+                                                    <t t-esc="'%.2f' % (line.system_qty or 0.0)"/>
+                                                    &#160;·&#160;
+                                                    <span class="metric-label">Report Balance:</span>
+                                                    <t t-esc="'%.2f' % (line.balance or 0.0)"/>
+                                                    &#160;·&#160;
+                                                    <t t-if="line.reconciliation_diff">
+                                                        <span class="recon-warning">⚠ Discrepancy: <t t-esc="'%.2f' % (line.reconciliation_diff or 0.0)"/></span>
+                                                    </t>
+                                                    <t t-if="not line.reconciliation_diff">
+                                                        <span class="recon-ok-text">✓ Reconciled with system on-hand</span>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </t>
+
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr class="grand-total-row">
+                                    <td colspan="5" class="text-right">GRAND TOTAL</td>
+                                    <td class="text-right"><t t-esc="'%.2f' % (total_in or 0.0)"/></td>
+                                    <td class="text-right"><t t-esc="'%.2f' % (total_out or 0.0)"/></td>
+                                    <td class="text-right"><t t-esc="'%.2f' % (total_balance_qty or 0.0)"/></td>
+                                    <t t-if="show_costs">
+                                        <td class="text-right"></td>
+                                        <td class="text-right">
+                                            <t t-esc="total_balance_value" t-options='{"widget": "monetary", "display_currency": wizard.company_id.currency_id}'/>
+                                        </td>
+                                    </t>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <p style="font-size: 7px; color: #8a8f98; font-style: italic; margin-top: 4px;">
+                            Note: the Balance total in GRAND TOTAL sums the closing quantity of every
+                            reported product — treat with care if products use different units of measure.
+                        </p>
+
+                        <!-- ================= SIGNATURES ================= -->
+                        <table class="sc-signatures">
+                            <tr>
+                                <td>
+                                    <div class="sc-sign-line"/>
+                                    <div class="sc-sign-role">Prepared By</div>
+                                    <div class="sc-sign-sub">Name, Signature &amp; Date</div>
+                                </td>
+                                <td>
+                                    <div class="sc-sign-line"/>
+                                    <div class="sc-sign-role">Reviewed By</div>
+                                    <div class="sc-sign-sub">Name, Signature &amp; Date</div>
+                                </td>
+                                <td>
+                                    <div class="sc-sign-line"/>
+                                    <div class="sc-sign-role">Approved By</div>
+                                    <div class="sc-sign-sub">Name, Signature &amp; Date</div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_stock_card_wizard_user,stock.card.wizard.user,model_stock_card_wizard,stock.group_stock_user,1,1,1,1
+access_stock_card_line_user,stock.card.line.user,model_stock_card_line,stock.group_stock_user,1,1,1,1
+access_stock_card_wizard_manager,stock.card.wizard.manager,model_stock_card_wizard,stock.group_stock_manager,1,1,1,1
+access_stock_card_line_manager,stock.card.line.manager,model_stock_card_line,stock.group_stock_manager,1,1,1,1
+access_stock_card_schedule_dedicated,stock.card.schedule.dedicated,model_stock_card_schedule,mo_stock_card.group_stock_card_schedule,1,1,1,1
+access_stock_card_preset_user,stock.card.preset.user,model_stock_card_preset,stock.group_stock_user,1,1,1,1
+access_stock_card_preset_manager,stock.card.preset.manager,model_stock_card_preset,stock.group_stock_manager,1,1,1,1

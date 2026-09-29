@@ -1,0 +1,85 @@
+// Stock Card Wizard - Dark mode overrides
+//
+// This file is loaded ONLY in the `web.assets_web_dark` bundle (see
+// __manifest__.py). Odoo does not toggle a ".o_dark_mode" class on the DOM;
+// instead the whole asset bundle is recompiled and swapped when the user
+// enables dark mode, and files matching *.dark.scss registered in that
+// bundle are the mechanism for shipping dark-only rules (same pattern
+// Odoo core itself uses, e.g. addons/mail/static/src/core/common/message.dark.scss).
+// So selectors here are written bare, WITHOUT any ".o_dark_mode" ancestor.
+
+.o_stock_card_wizard_form .o_sc_wizard_banner {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+}
+
+.o_stock_card_wizard_form .o_sc_group {
+    background: transparent;
+    border: none;
+    border-left: 4px solid #7ea6d6;
+}
+.o_stock_card_wizard_form .o_sc_group_general { border-left-color: #7ea6d6; }
+.o_stock_card_wizard_form .o_sc_group_location { border-left-color: #6bb3f0; }
+.o_stock_card_wizard_form .o_sc_group_product { border-left-color: #c98ee8; }
+.o_stock_card_wizard_form .o_sc_group_grouping { border-left-color: #6fcf8f; }
+
+.o_stock_card_wizard_form .o_sc_group .o_group_header,
+.o_stock_card_wizard_form .o_sc_group .o_horizontal_separator {
+    color: #7ea6d6;
+    border-bottom-color: #4a5568;
+}
+
+.o_stock_card_wizard_form .o_sc_tip_box {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: #4a5568;
+}
+.o_stock_card_wizard_form .o_sc_tip_box div {
+    color: #c9d3dd;
+}
+.o_stock_card_wizard_form .o_sc_tip_box strong {
+    color: #7ea6d6;
+}
+
+.o_stock_card_wizard_form .o_sc_wizard_footer,
+.o_stock_card_wizard_form footer {
+    border-top-color: #3a4250;
+}
+.o_sc_btn_cancel {
+    border-color: #6b7686 !important;
+    color: #e8ecf1 !important;
+    background-color: #3a4250 !important;
+}
+.o_sc_btn_cancel:hover {
+    background-color: #4a5568 !important;
+    color: #ffffff !important;
+}
+
+.o_stock_card_wizard_form .o_sc_preset_bar {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: #4a5568;
+}
+.o_stock_card_wizard_form .o_sc_preset_sep {
+    background: #4a5568;
+}
+
+.o_stock_card_wizard_form .o_sc_group .o_form_label {
+    color: #e4e9f0 !important;
+}
+.o_stock_card_wizard_form .o_sc_group .o_field_widget,
+.o_stock_card_wizard_form .o_sc_group .o_field_widget span,
+.o_stock_card_wizard_form .o_sc_group .o_field_widget label {
+    color: #e4e9f0 !important;
+}
+.o_stock_card_wizard_form .o_sc_group .text-muted {
+    color: #9aa5b1 !important;
+}
+.o_stock_card_wizard_form .o_sc_group .o_radio_input + label {
+    color: #c9d3dd !important;
+}
+.o_stock_card_wizard_form .o_sc_group .o_radio_input:checked + label {
+    color: #7ea6d6 !important;
+}
+
+// The white input/select/tag boxes (date pickers, text inputs, tags) are
+// pinned intentionally in BOTH themes — see the !important rule in
+// stock_card.css — so their own text stays dark-on-white and always
+// readable. No dark-mode override needed for them here.

@@ -1,0 +1,232 @@
+# Arabic translation for mo_stock_card
+# This is a starter file covering the module's main field labels and report
+# text. After installing/upgrading, please refine it via
+# Settings > Translations > Import/Export Translation Terms in Odoo,
+# which will extract the exact msgids from the running instance and let you
+# complete anything missing here.
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ar\n"
+"Plural-Forms: \n"
+
+#. module: mo_stock_card
+msgid "Stock Card Report"
+msgstr "بطاقة صنف المخزون"
+
+#. module: mo_stock_card
+msgid "Stock Card"
+msgstr "بطاقة الصنف"
+
+#. module: mo_stock_card
+msgid "Stock Card Schedules"
+msgstr "جدولة بطاقة الصنف"
+
+#. module: mo_stock_card
+msgid "Inventory Movement & Valuation Statement"
+msgstr "كشف حركة وتقييم المخزون"
+
+#. module: mo_stock_card
+msgid "Period"
+msgstr "الفترة"
+
+#. module: mo_stock_card
+msgid "Location"
+msgstr "الموقع"
+
+#. module: mo_stock_card
+msgid "Company"
+msgstr "الشركة"
+
+#. module: mo_stock_card
+msgid "Generated On"
+msgstr "تاريخ الإصدار"
+
+#. module: mo_stock_card
+msgid "Executive Summary"
+msgstr "الملخص التنفيذي"
+
+#. module: mo_stock_card
+msgid "Products Reported"
+msgstr "عدد الأصناف"
+
+#. module: mo_stock_card
+msgid "Total Opening Value"
+msgstr "إجمالي رصيد أول المدة"
+
+#. module: mo_stock_card
+msgid "Total Closing Value"
+msgstr "إجمالي رصيد آخر المدة"
+
+#. module: mo_stock_card
+msgid "Net Value Change"
+msgstr "صافي التغيّر في القيمة"
+
+#. module: mo_stock_card
+msgid "Net Value Change %"
+msgstr "نسبة صافي التغيّر"
+
+#. module: mo_stock_card
+msgid "Cost & Valuation Data"
+msgstr "بيانات التكلفة والتقييم"
+
+#. module: mo_stock_card
+msgid "Top 5 Products by Closing Value"
+msgstr "أعلى 5 أصناف من حيث قيمة رصيد آخر المدة"
+
+#. module: mo_stock_card
+msgid "Product"
+msgstr "الصنف"
+
+#. module: mo_stock_card
+msgid "Balance Qty"
+msgstr "كمية الرصيد"
+
+#. module: mo_stock_card
+msgid "Balance Value"
+msgstr "قيمة الرصيد"
+
+#. module: mo_stock_card
+msgid "Change vs Opening"
+msgstr "التغيّر عن رصيد أول المدة"
+
+#. module: mo_stock_card
+msgid "Contents"
+msgstr "المحتويات"
+
+#. module: mo_stock_card
+msgid "Date"
+msgstr "التاريخ"
+
+#. module: mo_stock_card
+msgid "Reference"
+msgstr "المرجع"
+
+#. module: mo_stock_card
+msgid "Partner"
+msgstr "الطرف التجاري"
+
+#. module: mo_stock_card
+msgid "Source Location"
+msgstr "موقع المصدر"
+
+#. module: mo_stock_card
+msgid "Destination Location"
+msgstr "موقع الوجهة"
+
+#. module: mo_stock_card
+msgid "In"
+msgstr "وارد"
+
+#. module: mo_stock_card
+msgid "Out"
+msgstr "منصرف"
+
+#. module: mo_stock_card
+msgid "Balance"
+msgstr "الرصيد"
+
+#. module: mo_stock_card
+msgid "Unit Cost"
+msgstr "تكلفة الوحدة"
+
+#. module: mo_stock_card
+msgid "Opening Balance"
+msgstr "رصيد أول المدة"
+
+#. module: mo_stock_card
+msgid "Closing Balance"
+msgstr "رصيد آخر المدة"
+
+#. module: mo_stock_card
+msgid "GRAND TOTAL"
+msgstr "الإجمالي العام"
+
+#. module: mo_stock_card
+msgid "Prepared By"
+msgstr "أعده"
+
+#. module: mo_stock_card
+msgid "Reviewed By"
+msgstr "راجعه"
+
+#. module: mo_stock_card
+msgid "Approved By"
+msgstr "اعتمده"
+
+#. module: mo_stock_card
+msgid "Name, Signature & Date"
+msgstr "الاسم والتوقيع والتاريخ"
+
+#. module: mo_stock_card
+msgid "Category"
+msgstr "التصنيف"
+
+#. module: mo_stock_card
+msgid "Warehouse"
+msgstr "المستودع"
+
+#. module: mo_stock_card
+msgid "Include Child Locations"
+msgstr "تضمين المواقع الفرعية"
+
+#. module: mo_stock_card
+msgid "Only Products With Movement"
+msgstr "الأصناف التي عليها حركة فقط"
+
+#. module: mo_stock_card
+msgid "Group By"
+msgstr "التجميع حسب"
+
+#. module: mo_stock_card
+msgid "Operation Types"
+msgstr "أنواع العمليات"
+
+#. module: mo_stock_card
+msgid "Compare With Live On-Hand Quantity"
+msgstr "المقارنة بالرصيد الفعلي الحالي"
+
+#. module: mo_stock_card
+msgid "Consolidate Companies"
+msgstr "دمج عدة شركات"
+
+#. module: mo_stock_card
+msgid "Filter By"
+msgstr "الفلترة حسب"
+
+#. module: mo_stock_card
+msgid "Product Categories"
+msgstr "تصنيفات الأصناف"
+
+#. module: mo_stock_card
+msgid "View Report"
+msgstr "عرض التقرير"
+
+#. module: mo_stock_card
+msgid "Generate PDF"
+msgstr "إنشاء PDF"
+
+#. module: mo_stock_card
+msgid "Generate Excel"
+msgstr "إنشاء Excel"
+
+#. module: mo_stock_card
+msgid "Cancel"
+msgstr "إلغاء"
+
+#. module: mo_stock_card
+msgid "Recipients"
+msgstr "المستلمون"
+
+#. module: mo_stock_card
+msgid "Frequency"
+msgstr "التكرار"
+
+#. module: mo_stock_card
+msgid "Format"
+msgstr "الصيغة"
+
+#. module: mo_stock_card
+msgid "Send Now"
+msgstr "إرسال الآن"

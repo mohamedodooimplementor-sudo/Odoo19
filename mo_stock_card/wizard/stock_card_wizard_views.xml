@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_stock_card_wizard_form" model="ir.ui.view">
+        <field name="name">stock.card.wizard.form</field>
+        <field name="model">stock.card.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Stock Card Report" class="o_stock_card_wizard_form">
+                <sheet>
+                    <div class="o_sc_wizard_banner">
+                        <div class="o_sc_wizard_icon">
+                            <i class="fa fa-area-chart" role="img" aria-label="Stock Card"/>
+                        </div>
+                        <div class="o_sc_wizard_banner_text">
+                            <h2>Stock Card Report</h2>
+                            <span class="text-muted">Opening balance, movements &amp; closing balance for the period and locations you choose below.</span>
+                        </div>
+                    </div>
+                    <div class="o_sc_preset_bar">
+                        <i class="fa fa-star o_sc_preset_star" role="img" aria-label="Saved Filters"/>
+                        <field name="preset_id" placeholder="Load a saved filter..." class="o_sc_preset_field"
+                               options="{'no_create': True}"
+                               domain="[('is_auto_last_used', '=', False)]"/>
+                        <button name="action_set_default_preset" type="object" string="Set Default" class="o_sc_btn_secondary_preset" icon="fa-thumb-tack" invisible="not preset_id"/>
+                        <button name="action_delete_preset" type="object" string="Delete" class="o_sc_btn_delete_preset" icon="fa-trash-o" invisible="not preset_id" confirm="Delete this saved filter? This cannot be undone."/>
+                        <button name="action_load_last_used" type="object" string="Load Last Used" class="o_sc_btn_secondary_preset" icon="fa-history"/>
+                        <span class="o_sc_preset_sep"/>
+                        <field name="new_preset_name" placeholder="Save current filters as..." class="o_sc_preset_field"/>
+                        <button name="action_save_preset" type="object" string="Save" class="o_sc_btn_save_preset" icon="fa-floppy-o"/>
+                    </div>
+                    <group class="o_sc_two_col">
+                        <group string="General Configuration" class="o_sc_group o_sc_group_general">
+                            <field name="date_from" required="1" widget="daterange" string="Period" class="oe_inline" options="{'end_date_field': 'date_to'}"/>
+                            <field name="date_to" required="1" invisible="1" />
+                            <field name="report_language" widget="radio" options="{'horizontal': true}"/>
+                            <field name="include_zero_movements"/>
+                            <field name="only_products_with_movement"/>
+                        </group>
+                        <group string="Location" class="o_sc_group o_sc_group_location">
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                            <field name="company_ids" widget="many2many_tags" options="{'no_create': True}"
+                                   groups="base.group_multi_company"
+                                   placeholder="Optional: select 2+ companies to consolidate"/>
+                            <field name="consolidation_currency_id" options="{'no_create': True}"
+                                   groups="base.group_multi_company"
+                                   invisible="not company_ids or len(company_ids) &lt; 2"/>
+                            <field name="location_ids" widget="many2many_tags" options="{'no_create': True}"
+                                   placeholder="Leave empty to include all internal locations of the company"
+                                   invisible="company_ids and len(company_ids) > 1"/>
+                            <field name="include_child_locations" invisible="company_ids and len(company_ids) > 1"/>
+                            <div class="o_sc_tip_box" colspan="2">
+                                <i class="fa fa-lightbulb-o" role="img" aria-label="Tip"/>
+                                <div>
+                                    <strong>Tip:</strong> leave "Locations" empty to include every warehouse
+                                    location automatically, and keep "Include Child Locations" checked so
+                                    sub-locations (bins, shelves...) are counted under their parent
+                                    warehouse instead of being missed.
+                                </div>
+                            </div>
+                        </group>
+                        <group string="Product Filter" class="o_sc_group o_sc_group_product">
+                            <field name="filter_by" widget="radio"/>
+                            <field name="product_ids"
+                                   widget="many2many_tags"
+                                   options="{'no_create': True}"
+                                   invisible="filter_by != 'product'"
+                                   placeholder="Leave empty to include all products"/>
+                            <field name="categ_ids"
+                                   widget="many2many_tags"
+                                   options="{'no_create': True}"
+                                   invisible="filter_by != 'category'"
+                                   placeholder="Leave empty to include all categories"/>
+                            <field name="picking_type_ids"
+                                   widget="many2many_tags"
+                                   options="{'no_create': True}"
+                                   placeholder="Leave empty to include all operation types"/>
+                        </group>
+                        <group string="Grouping" class="o_sc_group o_sc_group_grouping">
+                            <field name="group_by" widget="radio"/>
+                            <field name="show_reconciliation"/>
+                            <field name="print_with_costs"
+                                   groups="mo_stock_card.group_stock_card_costs"/>
+                        </group>
+                    </group>
+                    <div class="alert alert-warning o_sc_scope_warning" role="alert" invisible="not scope_warning">
+                        <i class="fa fa-exclamation-triangle" role="img" aria-label="Warning"/>
+                        <field name="scope_warning" readonly="1" nolabel="1" class="oe_inline"/>
+                    </div>
+                    <footer class="o_sc_wizard_footer">
+                        <button name="action_view_report" string="View Report" type="object" class="btn-primary o_sc_btn_view" icon="fa-eye"/>
+                        <button name="action_generate_pdf" string="Generate PDF" type="object" class="btn-primary o_sc_btn_pdf" icon="fa-file-pdf-o"/>
+                        <button name="action_generate_excel" string="Generate Excel" type="object" class="btn-primary o_sc_btn_excel" icon="fa-file-excel-o"/>
+                        <button string="Cancel" class="o_sc_btn_cancel" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_stock_card_wizard" model="ir.actions.act_window">
+        <field name="name">Stock Card Report</field>
+        <field name="res_model">stock.card.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_stock_card_wizard_form"/>
+        <field name="target">new</field>
+    </record>
+</odoo>

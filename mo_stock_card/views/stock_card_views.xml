@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_stock_card_line_list" model="ir.ui.view">
+        <field name="name">stock.card.line.list</field>
+        <field name="model">stock.card.line</field>
+        <field name="arch" type="xml">
+            <list string="Stock Card Report"
+                  class="o_stock_card_line_list"
+                  decoration-info="line_type == 'opening'" 
+                  decoration-success="line_type == 'closing'"
+                  decoration-bf="line_type in ('closing', 'group_header')"
+                  decoration-it="line_type == 'opening'"
+                  decoration-danger="is_negative"
+                  expand="1"
+                  default_order="product_id, sequence, date, id">
+                <field name="date"/>
+                <field name="product_id"/>
+                <field name="categ_id" optional="show"/>
+                <field name="reference" string="Reference"/>
+                <field name="picking_id" invisible="1"/>
+                <button name="action_open_source_document" type="object" icon="fa-external-link"
+                        string="" title="Open Transfer" invisible="not picking_id"/>
+                <field name="source_document" optional="hide"/>
+                <field name="partner_id"/>
+                <field name="lot_id" string="Lot/Serial" optional="hide"/>
+                <field name="picking_type_id" string="Operation Type" optional="hide"/>
+                <field name="location_id" string="Source Location" optional="show"/>
+                <field name="location_dest_id" string="Destination Location" optional="show"/>
+                <field name="initial_balance" optional="show"/>
+                <field name="qty_in" sum="Total In"/>
+                <field name="qty_out" sum="Total Out"/>
+                <field name="balance"/>
+                <field name="unit_cost" widget="monetary" options="{'currency_field': 'currency_id'}" optional="show" groups="mo_stock_card.group_stock_card_costs"/>
+                <field name="value_in" widget="monetary" options="{'currency_field': 'currency_id'}" sum="Total Value In" optional="show" groups="mo_stock_card.group_stock_card_costs"/>
+                <field name="value_out" widget="monetary" options="{'currency_field': 'currency_id'}" sum="Total Value Out" optional="show" groups="mo_stock_card.group_stock_card_costs"/>
+                <field name="balance_value" widget="monetary" options="{'currency_field': 'currency_id'}" string="Balance Value" optional="show" groups="mo_stock_card.group_stock_card_costs"/>
+                <field name="avg_cost_in" widget="monetary" options="{'currency_field': 'currency_id'}" string="Avg. Cost (In)" optional="hide" groups="mo_stock_card.group_stock_card_costs"/>
+                <field name="currency_id" optional="hide" groups="mo_stock_card.group_stock_card_costs"/>
+                <field name="turnover_ratio" optional="hide"/>
+                <field name="days_of_stock" optional="hide"/>
+                <field name="change_percent" string="Change %" optional="hide"/>
+                <field name="system_qty" string="System On-Hand" optional="hide"/>
+                <field name="reconciliation_diff" string="Reconciliation Diff" optional="hide"/>
+                <field name="is_negative" column_invisible="1"/>
+                <field name="line_type" column_invisible="1"/>
+                <field name="sequence" column_invisible="1"/>
+                <field name="wizard_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_stock_card_line_search" model="ir.ui.view">
+        <field name="name">stock.card.line.search</field>
+        <field name="model">stock.card.line</field>
+        <field name="arch" type="xml">
+            <search string="Stock Card Lines">
+                <field name="product_id"/>
+                <field name="categ_id"/>
+                <field name="reference"/>
+                <field name="source_document"/>
+                <field name="partner_id"/>
+                <field name="lot_id"/>
+                <field name="picking_type_id"/>
+                <separator/>
+                <filter name="filter_opening" string="Opening Balance" domain="[('line_type', '=', 'opening')]"/>
+                <filter name="filter_transactions" string="Transactions" domain="[('line_type', '=', 'transaction')]"/>
+                <filter name="filter_closing" string="Closing Balance" domain="[('line_type', '=', 'closing')]"/>
+                <separator/>
+                <filter name="filter_negative" string="Negative Balance" domain="[('is_negative', '=', True)]"/>
+                <filter name="filter_reconciliation_mismatch" string="Reconciliation Mismatch"
+                        domain="[('is_reconciliation_checked', '=', True), ('reconciliation_diff', '!=', 0)]"/>
+                <separator/>
+                <group>
+                    <filter name="group_by_product" string="Product" context="{'group_by': 'product_id'}"/>
+                    <filter name="group_by_category" string="Category" context="{'group_by': 'categ_id'}"/>
+                    <filter name="group_by_date" string="Date" context="{'group_by': 'date'}"/>
+                    <filter name="group_by_partner" string="Partner" context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_by_picking_type" string="Operation Type" context="{'group_by': 'picking_type_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_stock_card_line_pivot" model="ir.ui.view">
+        <field name="name">stock.card.line.pivot</field>
+        <field name="model">stock.card.line</field>
+        <field name="arch" type="xml">
+            <pivot string="Stock Card Analysis">
+                <field name="product_id" type="row"/>
+                <field name="qty_in" type="measure"/>
+                <field name="qty_out" type="measure"/>
+                <field name="value_in" type="measure" groups="mo_stock_card.group_stock_card_costs"/>
+                <field name="value_out" type="measure" groups="mo_stock_card.group_stock_card_costs"/>
+                <field name="balance" type="measure"/>
+                <field name="balance_value" type="measure" groups="mo_stock_card.group_stock_card_costs"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_stock_card_line" model="ir.actions.act_window">
+        <field name="name">Stock Card Report</field>
+        <field name="res_model">stock.card.line</field>
+        <field name="view_mode">list,pivot</field>
+        <field name="view_id" ref="view_stock_card_line_list"/>
+        <field name="search_view_id" ref="view_stock_card_line_search"/>
+    </record>
+</odoo>

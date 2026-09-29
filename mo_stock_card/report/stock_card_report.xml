@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="paperformat_stock_card" model="report.paperformat">
+        <field name="name">Stock Card Landscape</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">28</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">5</field>
+        <field name="dpi">96</field>
+    </record>
+
+    <record id="action_report_stock_card" model="ir.actions.report">
+        <field name="name">Stock Card Report</field>
+        <field name="model">stock.card.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mo_stock_card.report_stock_card_template</field>
+        <field name="report_file">mo_stock_card.report_stock_card_template</field>
+        <field name="print_report_name">'Stock_Card_Report_%s_%s' % (object.date_from, object.date_to)</field>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="paperformat_stock_card"/>
+    </record>
+</odoo>

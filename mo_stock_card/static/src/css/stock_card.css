@@ -1,0 +1,443 @@
+/* Stock Card Report Styles */
+
+/* NOTE: we intentionally use box-shadow (inset) instead of border-left below.
+   A real border adds to each cell's box width, which changes Odoo's computed
+   column width for the WHOLE column (not just these rows) and can squeeze/overlap
+   text in unrelated rows. box-shadow paints the same accent stripe without
+   affecting layout at all.
+
+   IMPORTANT: every selector below is scoped under .o_stock_card_line_list
+   (the class set on the Stock Card list view's <list> arch). Without this
+   scope these rules would match ".o_data_row" in every list view across the
+   whole system, recoloring unrelated screens. Never widen these back to a
+   bare ".o_list_view" selector. */
+
+.o_stock_card_line_list .o_data_row.text-info td {
+    background-color: #6fc98f !important;
+    box-shadow: inset 4px 0 0 #146b34 !important;
+    color: #0a3319 !important;
+    font-style: italic;
+    font-weight: 600;
+}
+
+.o_stock_card_line_list .o_data_row.text-success td {
+    background-color: #6fa8e8 !important;
+    box-shadow: inset 4px 0 0 #0d4d85 !important;
+    color: #072f52 !important;
+    font-weight: 600;
+}
+
+/* Opening Balance Row */
+.o_stock_card_line_list .o_data_row[data-line_type="opening"] td {
+    background-color: #6fc98f;
+    box-shadow: inset 4px 0 0 #146b34;
+    color: #0a3319;
+    font-style: italic;
+    font-weight: 600;
+}
+
+/* Closing Balance Row */
+.o_stock_card_line_list .o_data_row[data-line_type="closing"] td {
+    background-color: #6fa8e8;
+    box-shadow: inset 4px 0 0 #0d4d85;
+    color: #072f52;
+    font-weight: 700;
+}
+
+/* Group Header Row */
+.o_stock_card_line_list .o_data_row[data-line_type="group_header"] td {
+    background-color: #c86eea;
+    box-shadow: inset 4px 0 0 #6b1a91;
+    color: #33094a;
+    font-weight: 700;
+}
+
+/* Slightly roomier rows so wrapped text (long references, partner names) never
+   looks cramped, and text stays legible at normal zoom. */
+.o_stock_card_line_list .o_data_row td {
+    white-space: normal;
+    line-height: 1.4;
+    font-size: 14px;
+    font-weight: 500;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+/* Our custom !important row backgrounds above otherwise hide Odoo's normal
+   "selected row" highlight (the checkbox click) since they win on specificity.
+   This adds an always-visible selection outline that shows on top of any
+   row color, so picking a row for bulk actions is never invisible. */
+.o_stock_card_line_list .o_data_row.o_selected_row td {
+    outline: 2px solid #1f3a5f;
+    outline-offset: -2px;
+}
+
+/* ============================================================
+   Stock Card Wizard - Professional Redesign (navy brand theme,
+   matches the PDF/Excel report colors)
+   ============================================================ */
+
+/* ---------- Header banner ---------- */
+.o_stock_card_wizard_form .o_sc_wizard_banner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: linear-gradient(135deg, #1f3a5f 0%, #2c517f 100%);
+    color: #ffffff;
+    padding: 16px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 6px rgba(31, 58, 95, 0.25);
+}
+.o_stock_card_wizard_form .o_sc_wizard_icon {
+    font-size: 26px;
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.16);
+    border-radius: 50%;
+    color: #ffffff;
+}
+.o_stock_card_wizard_form .o_sc_wizard_banner_text h2 {
+    color: #ffffff;
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+}
+.o_stock_card_wizard_form .o_sc_wizard_banner_text .text-muted {
+    color: rgba(255, 255, 255, 0.85) !important;
+    font-size: 13px;
+    font-weight: 500;
+    display: block;
+    margin-top: 2px;
+}
+
+/* ---------- Section groups: plain white, no card box — only a left
+   accent stripe (colored per section) differentiates them ---------- */
+.o_stock_card_wizard_form .o_sc_group {
+    background: transparent;
+    border: none;
+    border-left: 4px solid #1f3a5f;
+    padding: 6px 4px 8px 14px;
+    margin-bottom: 6px !important;
+}
+.o_stock_card_wizard_form .o_sc_group_general { border-left-color: #1f3a5f; }
+.o_stock_card_wizard_form .o_sc_group_location { border-left-color: #14568f; }
+.o_stock_card_wizard_form .o_sc_group_product { border-left-color: #6b1a91; }
+.o_stock_card_wizard_form .o_sc_group_grouping { border-left-color: #1f6b3f; }
+.o_stock_card_wizard_form .o_sc_two_col {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    align-items: start !important;
+    margin: 0 !important;
+    margin-bottom: 10px !important;
+    column-gap: 28px !important;
+    row-gap: 0 !important;
+}
+/* On narrow screens (phones), fall back to a single column so fields don't
+   get squeezed unreadably thin. */
+@media (max-width: 767px) {
+    .o_stock_card_wizard_form .o_sc_two_col {
+        grid-template-columns: 1fr !important;
+    }
+}
+.o_stock_card_wizard_form .o_inner_group {
+    margin: 0 !important;
+    /* Force a sane [label][value] track split instead of whatever intrinsic
+       sizing the browser computes for the value column — on some renders
+       that computed width collapses to almost nothing, which then wraps
+       radio-button labels one or two letters per line (see o_radio_item
+       rules below for the other half of this fix). */
+    grid-template-columns: minmax(90px, max-content) minmax(160px, 1fr) !important;
+}
+/* Belt-and-braces fix for the radio widget specifically: whatever wrapper
+   Odoo renders around each option, make sure it always gets to use the
+   group's full available width and is never squeezed down to its
+   min-content, which is what causes the "P r o d u c t" one-letter-per-line
+   symptom. */
+.o_stock_card_wizard_form .o_field_radio,
+.o_stock_card_wizard_form div[name="filter_by"],
+.o_stock_card_wizard_form div[name="group_by"],
+.o_stock_card_wizard_form div[name="report_language"] {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+}
+/* The actual <input type="radio"> circle must stay its normal small size —
+   it must NEVER get width:100% (that's what stretched it into a big pill
+   shape in an earlier version of this fix). */
+.o_stock_card_wizard_form .o_radio_input {
+    width: 1em !important;
+    height: 1em !important;
+    max-width: 1em !important;
+    flex: 0 0 auto !important;
+}
+.o_stock_card_wizard_form .o_radio_item {
+    display: flex !important;
+    align-items: flex-start !important;
+    width: 100% !important;
+    max-width: none !important;
+    white-space: normal !important;
+}
+.o_stock_card_wizard_form .o_radio_item label,
+.o_stock_card_wizard_form .o_radio_item span,
+.o_stock_card_wizard_form .form-check-label {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    width: auto !important;
+    max-width: none !important;
+    white-space: normal !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+}
+.o_stock_card_wizard_form .o_sc_group .o_group_header,
+.o_stock_card_wizard_form .o_sc_group .o_horizontal_separator {
+    color: #1f3a5f;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 12.5px;
+    letter-spacing: 0.6px;
+    border: none;
+    border-bottom: 2px solid #1f3a5f;
+    padding-bottom: 7px;
+    margin-bottom: 12px;
+}
+.o_stock_card_wizard_form .o_sc_group .o_form_label {
+    font-weight: 600;
+    font-size: 13.5px;
+    color: #2b3444 !important;
+}
+.o_stock_card_wizard_form .o_sc_group .o_field_widget {
+    font-size: 13.5px;
+    font-weight: 500;
+}
+
+/* Force the card's own input/select/tag/radio widgets to stay legible
+   regardless of whether the surrounding Odoo theme is light or dark —
+   instead of trying to detect the dark-mode class name (which can vary
+   by Odoo build), we simply pin this card's fields to one consistent,
+   readable style in all cases. */
+.o_stock_card_wizard_form .o_sc_group input[type="text"],
+.o_stock_card_wizard_form .o_sc_group input[type="date"],
+.o_stock_card_wizard_form .o_sc_group input[type="search"],
+.o_stock_card_wizard_form .o_sc_group .o_input,
+.o_stock_card_wizard_form .o_sc_group select,
+.o_stock_card_wizard_form .o_sc_group .o_field_widget input:not([type="checkbox"]):not([type="radio"]),
+.o_stock_card_wizard_form .o_sc_group .o_field_widget textarea,
+.o_stock_card_wizard_form .o_sc_group .o_tag_input,
+.o_stock_card_wizard_form .o_sc_group .o_field_many2many_tags .o_input {
+    background-color: #ffffff !important;
+    color: #1f2937 !important;
+    border-color: #c9d3dd !important;
+}
+/* Checkboxes: leave the native checked fill/checkmark alone, just make sure
+   the checked color is our brand navy so the tick is always clearly visible
+   (the old blanket rule above was forcing checked boxes white-on-white,
+   which hid the checkmark entirely). */
+.o_stock_card_wizard_form .o_sc_group input[type="checkbox"] {
+    accent-color: #1f3a5f;
+}
+.o_stock_card_wizard_form .o_sc_group .o_field_widget,
+.o_stock_card_wizard_form .o_sc_group .o_field_widget span,
+.o_stock_card_wizard_form .o_sc_group .o_field_widget label,
+.o_stock_card_wizard_form .o_sc_group .o_form_label {
+    color: #1f2937 !important;
+}
+/* Radio options: keep them neutral by default, but make the picked one
+   unmistakable (bold + brand color + filled dot) instead of relying on
+   Odoo's default theme, which our overrides above were flattening. */
+.o_stock_card_wizard_form .o_sc_group .o_radio_input + label {
+    color: #3d4a5c !important;
+    font-weight: 400;
+}
+.o_stock_card_wizard_form .o_sc_group .o_radio_input:checked + label {
+    color: #1f3a5f !important;
+    font-weight: 700;
+}
+.o_stock_card_wizard_form .o_sc_group .o_radio_input:checked {
+    accent-color: #1f3a5f;
+}
+.o_stock_card_wizard_form .o_sc_group .o_tag {
+    background-color: #7fa8e8 !important;
+    color: #072f52 !important;
+    font-weight: 600;
+}
+.o_stock_card_wizard_form .o_sc_group .text-muted {
+    color: #6b7280 !important;
+}
+
+/* ---------- Helper tip box (fills leftover space in a card) ---------- */
+.o_stock_card_wizard_form .o_sc_tip_box {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px dashed #a9c3de;
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin-top: 10px;
+    margin-bottom: 6px;
+}
+.o_stock_card_wizard_form .o_sc_tip_box .fa-lightbulb-o {
+    color: #b8860b;
+    font-size: 16px;
+    margin-top: 1px;
+}
+.o_stock_card_wizard_form .o_sc_tip_box div {
+    font-size: 12px;
+    font-weight: 500;
+    color: #4a5568;
+    line-height: 1.5;
+}
+.o_stock_card_wizard_form .o_sc_tip_box strong {
+    color: #14568f;
+    font-weight: 700;
+}
+
+/* ---------- Footer / action buttons ---------- */
+.o_stock_card_wizard_form .o_sc_wizard_footer,
+.o_stock_card_wizard_form footer {
+    padding-top: 14px;
+    border-top: 1px solid #e5e9ee;
+    margin-top: 6px;
+    gap: 8px;
+}
+/* NOTE: no ".o_stock_card_wizard_form footer" ancestor here on purpose.
+   This wizard normally opens as a modal dialog, and Odoo's Dialog component
+   moves the arch's <footer> buttons into its own ".modal-footer" element,
+   which is a SIBLING of ".o_stock_card_wizard_form" in the DOM — not a
+   descendant of it. An ancestor-scoped selector would silently never match.
+   These class names (o_sc_btn_view/pdf/excel/...) are specific enough that
+   scoping isn't needed to avoid collisions elsewhere. */
+.o_sc_btn_view, .o_sc_btn_pdf, .o_sc_btn_excel {
+    border-radius: 6px !important;
+    font-weight: 700 !important;
+    font-size: 13.5px !important;
+    padding: 8px 20px !important;
+    letter-spacing: 0.2px;
+    transition: transform 0.05s ease-in-out;
+}
+/* Each action gets its own color so the three buttons are never confused
+   for one another at a glance: blue = view on screen, red = PDF (matches
+   the PDF icon convention), green = Excel (matches the Excel icon). */
+.o_sc_btn_view {
+    background-color: #14568f !important;
+    border-color: #14568f !important;
+    color: #ffffff !important;
+}
+.o_sc_btn_view:hover {
+    background-color: #0f4573 !important;
+    border-color: #0f4573 !important;
+    color: #ffffff !important;
+}
+.o_sc_btn_pdf {
+    background-color: #b3261e !important;
+    border-color: #b3261e !important;
+    color: #ffffff !important;
+}
+.o_sc_btn_pdf:hover {
+    background-color: #8f1e18 !important;
+    border-color: #8f1e18 !important;
+    color: #ffffff !important;
+}
+.o_sc_btn_excel {
+    background-color: #1a7f4b !important;
+    border-color: #1a7f4b !important;
+    color: #ffffff !important;
+}
+.o_sc_btn_excel:hover {
+    background-color: #145f38 !important;
+    border-color: #145f38 !important;
+    color: #ffffff !important;
+}
+.o_sc_btn_cancel {
+    border: 1.5px solid #6b7686 !important;
+    color: #2b3444 !important;
+    background-color: #e9edf2 !important;
+    font-weight: 700 !important;
+}
+.o_sc_btn_cancel:hover {
+    background-color: #d8dee6 !important;
+    border-color: #4d5867 !important;
+    color: #1a2028 !important;
+}
+
+/* ---------- Saved Filters bar ---------- */
+.o_stock_card_wizard_form .o_sc_preset_bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f3f6fa;
+    border: 1px solid #dbe3ec;
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+.o_stock_card_wizard_form .o_sc_preset_star {
+    color: #d4a017;
+    font-size: 15px;
+}
+.o_stock_card_wizard_form .o_sc_preset_field {
+    min-width: 200px;
+    flex: 1 1 200px;
+}
+.o_stock_card_wizard_form .o_sc_preset_field .o_input,
+.o_stock_card_wizard_form .o_sc_preset_field input {
+    background-color: #ffffff !important;
+    border-color: #c9d3dd !important;
+    border-radius: 5px;
+}
+.o_stock_card_wizard_form .o_sc_preset_sep {
+    width: 1px;
+    height: 22px;
+    background: #d5dbe2;
+    margin: 0 2px;
+}
+.o_stock_card_wizard_form .o_sc_btn_save_preset {
+    background-color: #1f3a5f !important;
+    border-color: #1f3a5f !important;
+    color: #ffffff !important;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 12.5px;
+    padding: 5px 14px;
+}
+.o_stock_card_wizard_form .o_sc_btn_save_preset:hover {
+    background-color: #16304d !important;
+}
+.o_stock_card_wizard_form .o_sc_btn_delete_preset {
+    background-color: transparent !important;
+    border: 1px solid #c9666080 !important;
+    color: #b3261e !important;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 12.5px;
+    padding: 5px 12px;
+}
+.o_stock_card_wizard_form .o_sc_btn_delete_preset:hover {
+    background-color: #fbeaea !important;
+}
+.o_stock_card_wizard_form .o_sc_btn_secondary_preset {
+    background-color: #ffffff !important;
+    border: 1px solid #c9d3dd !important;
+    color: #2b3444 !important;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 12.5px;
+    padding: 5px 12px;
+}
+.o_stock_card_wizard_form .o_sc_btn_secondary_preset:hover {
+    background-color: #eef2f7 !important;
+}
+
+/* Dark-mode overrides live in ../scss/stock_card.dark.scss, loaded only in
+   the web.assets_web_dark bundle (see __manifest__.py). Odoo does NOT add
+   an ".o_dark_mode" class to the DOM in v17/18/19 — dark mode is a fully
+   separate compiled asset bundle, so class-based overrides here would
+   never match anything. Keep light-only rules in this file. */
+

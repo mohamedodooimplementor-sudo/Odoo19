@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menu item under Inventory > Reporting -->
+    <menuitem id="menu_stock_card_report"
+              name="Stock Card"
+              parent="stock.menu_warehouse_report"
+              action="action_stock_card_wizard"
+              sequence="99"/>
+</odoo>

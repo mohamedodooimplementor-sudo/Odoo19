@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- No ir.module.category / res.groups.privilege here on purpose: those make
+         the groups show up a second time (as a radio-style selector) on the
+         standard "Access Rights" tab of the user form. These two groups are
+         managed exclusively from the custom "Stock Card Permissions" tab
+         (see views/res_users_views.xml) as plain, independent checkboxes. -->
+
+    <!-- Permission 1: who can see cost/valuation figures in the report -->
+    <record id="group_stock_card_costs" model="res.groups">
+        <field name="name">Stock Card: View Costs</field>
+        <field name="sequence">10</field>
+        <field name="comment">Grants visibility of Unit Cost, Value In, Value Out, Balance Value
+            and Average Cost in the Stock Card report (list view, PDF and Excel). Users without
+            this group still get the full report, but with quantities and movements only —
+            no financial figures.</field>
+    </record>
+
+    <!-- Permission 2: who can manage recurring scheduled deliveries of the report -->
+    <record id="group_stock_card_schedule" model="res.groups">
+        <field name="name">Stock Card: Manage Schedules</field>
+        <field name="sequence">20</field>
+        <field name="comment">Grants the ability to create, edit and delete Stock Card
+            scheduled report deliveries (recurring PDF/Excel emails).</field>
+    </record>
+
+    <!-- Saved filters are personal: everyone can create their own, nobody can see or
+         touch someone else's (managers included, to keep this simple and predictable). -->
+    <record id="rule_stock_card_preset_own_only" model="ir.rule">
+        <field name="name">Stock Card Preset: own records only</field>
+        <field name="model_id" ref="model_stock_card_preset"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+    </record>
+</odoo>
