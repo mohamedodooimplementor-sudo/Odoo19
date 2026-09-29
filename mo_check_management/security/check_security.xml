@@ -1,0 +1,46 @@
+<odoo>
+    <!-- Odoo 19: res.groups no longer has category_id; groups are attached to a privilege -->
+    <record id="res_groups_privilege_check_management" model="res.groups.privilege">
+        <field name="name">Check Management</field>
+        <field name="category_id" ref="base.module_category_accounting_accounting"/>
+        <field name="sequence">60</field>
+    </record>
+
+    <record id="check_management_group_user" model="res.groups">
+        <field name="name">User</field>
+        <field name="privilege_id" ref="res_groups_privilege_check_management"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+    <record id="check_management_group_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="privilege_id" ref="res_groups_privilege_check_management"/>
+        <field name="implied_ids" eval="[(4, ref('check_management_group_user'))]"/>
+        <field name="user_ids" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record>
+
+    <record id="check_management_rule_company" model="ir.rule">
+        <field name="name">Checks: multi-company</field>
+        <field name="model_id" ref="model_check_management"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="check_config_rule_company" model="ir.rule">
+        <field name="name">Check Settings: multi-company</field>
+        <field name="model_id" ref="model_check_config"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="check_print_template_rule_company" model="ir.rule">
+        <field name="name">Check Print Template: multi-company</field>
+        <field name="model_id" ref="model_check_print_template"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="check_bank_rule_company" model="ir.rule">
+        <field name="name">Check Banks: multi-company</field>
+        <field name="model_id" ref="model_check_bank"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="check_movement_rule_company" model="ir.rule">
+        <field name="name">Check Movements: multi-company</field>
+        <field name="model_id" ref="model_check_movement"/>
+        <field name="domain_force">[('check_id.company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>
