@@ -1,0 +1,213 @@
+<odoo>
+    <!-- ============ Checks Statement (any selection, grouped incoming / outgoing) ============ -->
+    <record id="action_report_check_statement" model="ir.actions.report">
+        <field name="name">Checks Statement</field>
+        <field name="model">check.management</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">check_management.report_check_statement</field>
+        <field name="report_file">check_management.report_check_statement</field>
+        <field name="print_report_name">'Checks Statement'</field>
+        <field name="binding_model_id" ref="model_check_management"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_check_statement">
+        <t t-call="web.html_container">
+            <t t-set="company" t-value="docs[:1].company_id or env.company"/>
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2>Checks Statement</h2>
+                    <t t-foreach="[('incoming', 'Checks Received (Incoming)'), ('outgoing', 'Checks Sent (Outgoing)')]" t-as="section">
+                        <t t-set="rows" t-value="docs.filtered(lambda c: c.check_type == section[0]).sorted('due_date')"/>
+                        <t t-if="rows">
+                            <h4 class="mt-4"><t t-esc="section[1]"/></h4>
+                            <t t-set="banks" t-value="rows.mapped('bank_id')"/>
+                            <t t-foreach="banks or [False]" t-as="bank">
+                                <t t-set="bank_rows" t-value="rows.filtered(lambda c: c.bank_id == bank) if bank else rows.filtered(lambda c: not c.bank_id)"/>
+                                <t t-if="bank_rows">
+                                    <h6 class="mt-3 text-muted" t-if="banks">
+                                        <i class="fa fa-university me-1"/><t t-esc="bank.display_name if bank else 'No Bank'"/>
+                                    </h6>
+                                    <table class="table table-sm o_main_table">
+                                        <thead>
+                                            <tr>
+                                                <th>Reference</th>
+                                                <th>Check No.</th>
+                                                <th>Partner</th>
+                                                <th>Due Date</th>
+                                                <th>Status</th>
+                                                <th class="text-end">Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="bank_rows" t-as="check">
+                                                <tr>
+                                                    <td><span t-field="check.name"/></td>
+                                                    <td><span t-field="check.check_number"/></td>
+                                                    <td><span t-field="check.partner_id"/></td>
+                                                    <td>
+                                                        <span t-field="check.due_date"/>
+                                                        <span t-if="check.is_overdue" class="badge text-bg-danger ms-1">Overdue</span>
+                                                    </td>
+                                                    <td><span t-field="check.state"/></td>
+                                                    <td class="text-end"><span t-field="check.amount" t-options="{'widget': 'monetary', 'display_currency': check.currency_id}"/></td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="5" class="text-end"><strong>Subtotal (<t t-esc="len(bank_rows)"/>)</strong></td>
+                                                <td class="text-end"><strong t-esc="sum(bank_rows.mapped('amount'))" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </t>
+                            </t>
+                            <div class="text-end">
+                                <strong>Total <t t-esc="section[1]"/> (<t t-esc="len(rows)"/>): </strong>
+                                <span t-esc="sum(rows.mapped('amount'))" t-options="{'widget': 'float', 'precision': 2}"/>
+                            </div>
+                        </t>
+                    </t>
+                    <t t-set="net" t-value="sum(docs.filtered(lambda c: c.check_type == 'incoming').mapped('amount')) - sum(docs.filtered(lambda c: c.check_type == 'outgoing').mapped('amount'))"/>
+                    <div class="mt-4 pt-2 border-top text-end">
+                        <h5>Net (Incoming − Outgoing): <span t-esc="net" t-options="{'widget': 'float', 'precision': 2}"/></h5>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- ============ Maturity / Aging Report (any selection, bucketed by due date) ============ -->
+    <record id="action_report_check_maturity_print" model="ir.actions.report">
+        <field name="name">Maturity / Aging Report</field>
+        <field name="model">check.management</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">check_management.report_check_maturity</field>
+        <field name="report_file">check_management.report_check_maturity</field>
+        <field name="print_report_name">'Maturity Report'</field>
+        <field name="binding_model_id" ref="model_check_management"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_check_maturity">
+        <t t-call="web.html_container">
+            <t t-set="company" t-value="docs[:1].company_id or env.company"/>
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2>Maturity / Aging Report</h2>
+                    <t t-set="today" t-value="context_timestamp(datetime.datetime.now()).date()"/>
+                    <p class="text-muted">As of <span t-esc="today"/></p>
+                    <t t-set="buckets" t-value="[
+                        ('overdue', 'Overdue', lambda c: c.due_date and c.due_date &lt; today),
+                        ('b1', '0 - 30 Days', lambda c: c.due_date and today &lt;= c.due_date &lt;= today + relativedelta(days=30)),
+                        ('b2', '31 - 60 Days', lambda c: c.due_date and today + relativedelta(days=31) &lt;= c.due_date &lt;= today + relativedelta(days=60)),
+                        ('b3', '61 - 90 Days', lambda c: c.due_date and today + relativedelta(days=61) &lt;= c.due_date &lt;= today + relativedelta(days=90)),
+                        ('b4', 'Over 90 Days', lambda c: c.due_date and c.due_date &gt; today + relativedelta(days=90)),
+                    ]"/>
+                    <t t-foreach="buckets" t-as="bucket">
+                        <t t-set="rows" t-value="docs.filtered(bucket[2]).sorted('due_date')"/>
+                        <t t-if="rows">
+                            <h4 t-attf-class="mt-4 #{'text-danger' if bucket[0] == 'overdue' else ''}"><t t-esc="bucket[1]"/></h4>
+                            <table class="table table-sm o_main_table">
+                                <thead>
+                                    <tr>
+                                        <th>Reference</th>
+                                        <th>Check No.</th>
+                                        <th>Type</th>
+                                        <th>Partner</th>
+                                        <th>Due Date</th>
+                                        <th class="text-end">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="rows" t-as="check">
+                                        <tr>
+                                            <td><span t-field="check.name"/></td>
+                                            <td><span t-field="check.check_number"/></td>
+                                            <td><span t-esc="'Incoming' if check.check_type == 'incoming' else 'Outgoing'"/></td>
+                                            <td><span t-field="check.partner_id"/></td>
+                                            <td><span t-field="check.due_date"/></td>
+                                            <td class="text-end"><span t-field="check.amount" t-options="{'widget': 'monetary', 'display_currency': check.currency_id}"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5" class="text-end"><strong>Subtotal (<t t-esc="len(rows)"/>)</strong></td>
+                                        <td class="text-end"><strong t-esc="sum(rows.mapped('amount'))" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </t>
+                    </t>
+                    <div class="mt-4 pt-2 border-top text-end">
+                        <h5>Grand Total (<t t-esc="len(docs)"/>): <span t-esc="sum(docs.mapped('amount'))" t-options="{'widget': 'float', 'precision': 2}"/></h5>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- ============ Bounced Checks Report (any selection, only bounced kept) ============ -->
+    <record id="action_report_check_bounced_print" model="ir.actions.report">
+        <field name="name">Bounced Checks Report</field>
+        <field name="model">check.management</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">check_management.report_check_bounced</field>
+        <field name="report_file">check_management.report_check_bounced</field>
+        <field name="print_report_name">'Bounced Checks Report'</field>
+        <field name="binding_model_id" ref="model_check_management"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_check_bounced">
+        <t t-call="web.html_container">
+            <t t-set="company" t-value="docs[:1].company_id or env.company"/>
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2>Bounced Checks Report</h2>
+                    <t t-set="rows" t-value="docs.filtered(lambda c: c.state == 'bounced').sorted('due_date')"/>
+                    <p class="text-muted" t-if="not rows">None of the selected checks is bounced.</p>
+                    <t t-if="rows">
+                        <table class="table table-sm o_main_table">
+                            <thead>
+                                <tr>
+                                    <th>Reference</th>
+                                    <th>Check No.</th>
+                                    <th>Type</th>
+                                    <th>Partner</th>
+                                    <th>Bank</th>
+                                    <th>Due Date</th>
+                                    <th class="text-end">Amount</th>
+                                    <th class="text-end">Bank Charges</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="rows" t-as="check">
+                                    <tr>
+                                        <td><span t-field="check.name"/></td>
+                                        <td><span t-field="check.check_number"/></td>
+                                        <td><span t-esc="'Incoming' if check.check_type == 'incoming' else 'Outgoing'"/></td>
+                                        <td><span t-field="check.partner_id"/></td>
+                                        <td><span t-field="check.bank_id"/></td>
+                                        <td><span t-field="check.due_date"/></td>
+                                        <td class="text-end"><span t-field="check.amount" t-options="{'widget': 'monetary', 'display_currency': check.currency_id}"/></td>
+                                        <td class="text-end"><span t-field="check.bounce_fee" t-options="{'widget': 'monetary', 'display_currency': check.currency_id}"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="6" class="text-end"><strong>Total (<t t-esc="len(rows)"/>)</strong></td>
+                                    <td class="text-end"><strong t-esc="sum(rows.mapped('amount'))" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                    <td class="text-end"><strong t-esc="sum(rows.mapped('bounce_fee'))" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

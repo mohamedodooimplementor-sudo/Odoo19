@@ -1,0 +1,340 @@
+<odoo>
+    <!-- ================= LIST ================= -->
+    <record id="view_check_management_list" model="ir.ui.view">
+        <field name="name">check.management.list</field>
+        <field name="model">check.management</field>
+        <field name="arch" type="xml">
+            <list string="Checks" decoration-danger="is_overdue" decoration-success="state in ('collected','cleared')" decoration-muted="state == 'cancelled'">
+                <field name="name"/>
+                <field name="check_number"/>
+                <field name="check_type"/>
+                <field name="partner_id"/>
+                <field name="bank_id"/>
+                <field name="issue_date"/>
+                <field name="due_date"/>
+                <field name="amount" sum="Total"/>
+                <field name="currency_id"/>
+                <field name="state" widget="badge" decoration-success="state in ('collected','cleared')" decoration-danger="state in ('bounced','cancelled')" decoration-info="state in ('received','deposited','handed_over')" decoration-warning="state == 'under_collection'"/>
+                <field name="is_overdue" column_invisible="1"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ================= SEARCH ================= -->
+    <record id="view_check_management_search" model="ir.ui.view">
+        <field name="name">check.management.search</field>
+        <field name="model">check.management</field>
+        <field name="arch" type="xml">
+            <search string="Search Checks">
+                <field name="name"/>
+                <field name="check_number"/>
+                <field name="partner_id"/>
+                <field name="bank_id"/>
+                <field name="journal_id"/>
+                <field name="bank_account"/>
+                <field name="state"/>
+                <field name="check_type"/>
+                <filter name="incoming" string="Incoming" domain="[('check_type','=','incoming')]"/>
+                <filter name="outgoing" string="Outgoing" domain="[('check_type','=','outgoing')]"/>
+                <separator/>
+                <filter name="overdue" string="Overdue" domain="[('is_overdue','=',True)]"/>
+                <filter name="due_today" string="Due Today" domain="[('is_due_today','=',True)]"/>
+                <filter name="due_week" string="Due in 7 Days"
+                        domain="[('state','in',('draft','received','deposited','under_collection','handed_over')), ('due_date','&gt;=',context_today().strftime('%Y-%m-%d')), ('due_date','&lt;=',(context_today() + relativedelta(days=7)).strftime('%Y-%m-%d'))]"/>
+                <filter name="open" string="Open" domain="[('state','in',('draft','received','deposited','under_collection','handed_over'))]"/>
+                <filter name="bounced" string="Bounced" domain="[('state','=','bounced')]"/>
+                <separator/>
+                <filter name="filter_due_date" string="Due Date" date="due_date"/>
+                <filter name="filter_issue_date" string="Issue Date" date="issue_date"/>
+                <separator/>
+                <filter name="group_state" string="Status" context="{'group_by':'state'}"/>
+                <filter name="group_partner" string="Partner" context="{'group_by':'partner_id'}"/>
+                <filter name="group_bank" string="Bank" context="{'group_by':'bank_id'}"/>
+                <filter name="group_type" string="Type" context="{'group_by':'check_type'}"/>
+                <filter name="group_due" string="Due Date" context="{'group_by':'due_date:month'}"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- ================= KANBAN ================= -->
+    <record id="view_check_management_kanban" model="ir.ui.view">
+        <field name="name">check.management.kanban</field>
+        <field name="model">check.management</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" records_draggable="0" group_create="0" group_edit="0" group_delete="0" quick_create="0" sample="1">
+                <field name="state"/>
+                <field name="is_overdue"/>
+                <field name="check_type"/>
+                <field name="currency_id"/>
+                <field name="bank_id"/>
+                <field name="journal_id"/>
+                <field name="activity_state"/>
+                <progressbar field="activity_state" colors='{"planned": "success", "today": "warning", "overdue": "danger"}' sum_field="amount"/>
+                <templates>
+                    <t t-name="card">
+                        <div t-attf-class="o_check_kc o_check_kc_{{record.state.raw_value}}">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="name" class="fw-bold fs-5"/>
+                                <field name="amount" widget="monetary" class="fw-bold fs-5 text-end"/>
+                            </div>
+                            <div class="text-muted">
+                                <field name="partner_id"/>
+                            </div>
+                            <div class="d-flex flex-wrap gap-2 align-items-center mt-1">
+                                <span class="badge rounded-pill border bg-body-secondary text-body">#<field name="check_number"/></span>
+                                <field name="check_type" widget="badge" decoration-success="check_type == 'incoming'" decoration-warning="check_type == 'outgoing'"/>
+                                <span t-attf-class="o_check_kc_state o_check_kc_state_{{record.state.raw_value}}"><field name="state"/></span>
+                            </div>
+                            <div class="text-muted small mt-1" t-if="record.bank_id.raw_value">
+                                <i class="fa fa-university me-1" role="img" aria-label="Bank" title="Bank"/>
+                                <field name="bank_id"/>
+                                <t t-if="record.journal_id.raw_value"> · <field name="journal_id"/></t>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between mt-2">
+                                <span t-att-class="record.is_overdue.raw_value ? 'text-danger fw-bold' : 'text-muted'">
+                                    <i class="fa fa-calendar me-1" role="img" aria-label="Due date" title="Due date"/>
+                                    <field name="due_date"/>
+                                </span>
+                                <field name="due_date" widget="remaining_days" invisible="state in ('collected','cleared','bounced','cancelled')"/>
+                            </div>
+                            <footer class="pt-1">
+                                <field name="activity_ids" widget="kanban_activity"/>
+                                <span t-if="record.is_overdue.raw_value" class="badge text-bg-danger ms-auto">Overdue</span>
+                            </footer>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ================= PIVOT / GRAPH ================= -->
+    <record id="view_check_management_pivot" model="ir.ui.view">
+        <field name="name">check.management.pivot</field>
+        <field name="model">check.management</field>
+        <field name="arch" type="xml">
+            <pivot string="Checks Analysis" sample="1">
+                <field name="due_date" interval="month" type="row"/>
+                <field name="state" type="col"/>
+                <field name="amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_check_management_pivot_maturity" model="ir.ui.view">
+        <field name="name">check.management.pivot.maturity</field>
+        <field name="model">check.management</field>
+        <field name="arch" type="xml">
+            <pivot string="Maturity Analysis" sample="1">
+                <field name="due_date" interval="week" type="row"/>
+                <field name="check_type" type="col"/>
+                <field name="amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_check_management_graph" model="ir.ui.view">
+        <field name="name">check.management.graph</field>
+        <field name="model">check.management</field>
+        <field name="arch" type="xml">
+            <graph string="Checks Analysis" type="bar" stacked="1" sample="1">
+                <field name="due_date" interval="month"/>
+                <field name="state"/>
+                <field name="amount" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- ================= FORM ================= -->
+    <record id="view_check_management_form" model="ir.ui.view">
+        <field name="name">check.management.form</field>
+        <field name="model">check.management</field>
+        <field name="arch" type="xml">
+            <form string="Check">
+                <header>
+                    <!-- incoming -->
+                    <button name="action_receive" type="object" groups="check_management.check_management_group_user" string="Receive" class="btn-primary" invisible="check_type != 'incoming' or state != 'draft'"/>
+                    <button name="action_deposit" type="object" groups="check_management.check_management_group_user" string="Deposit" class="btn-primary" invisible="check_type != 'incoming' or state != 'received'"/>
+                    <button name="action_under_collection" type="object" groups="check_management.check_management_group_user" string="Under Collection" invisible="check_type != 'incoming' or state != 'deposited'"/>
+                    <button name="action_collect" type="object" groups="check_management.check_management_group_user" string="Collect" class="btn-success" invisible="check_type != 'incoming' or state not in ('deposited','under_collection')"/>
+                    <!-- outgoing -->
+                    <button name="action_handover" type="object" groups="check_management.check_management_group_user" string="Hand Over" class="btn-primary" invisible="check_type != 'outgoing' or state != 'draft'"/>
+                    <button name="action_clear" type="object" groups="check_management.check_management_group_user" string="Mark as Cleared" class="btn-success" invisible="check_type != 'outgoing' or state != 'handed_over'"/>
+                    <!-- both -->
+                    <button name="action_bounce" type="object" groups="check_management.check_management_group_manager" string="Bounce" class="btn-danger"
+                            invisible="not ((check_type == 'incoming' and state in ('received','deposited','under_collection')) or (check_type == 'outgoing' and state == 'handed_over'))"
+                            confirm="Mark this check as bounced? The accounting entries will be adjusted and the invoices re-opened."/>
+                    <button name="action_cancel" type="object" groups="check_management.check_management_group_manager" string="Cancel" class="btn-secondary"
+                            invisible="state not in ('draft','received','deposited','under_collection','handed_over')"
+                            confirm="Cancel this check? Its accounting entries will be reversed."/>
+                    <button name="action_print_check" type="object" groups="check_management.check_management_group_user" string="Print Check" icon="fa-print"
+                            invisible="state in ('draft', 'cancelled')"/>
+                    <button name="%(check_management.action_report_check_details)d" type="action" groups="check_management.check_management_group_user" string="Print Details" icon="fa-file-text-o"/>
+                    <button name="action_reset_draft" type="object" groups="check_management.check_management_group_manager" string="Reset to Draft" invisible="state not in ('cancelled','bounced')"/>
+                    <!-- read-only: the status only changes through the buttons, which post the accounting entries -->
+                    <field name="state" widget="statusbar" statusbar_visible="draft,received,deposited,under_collection,collected" invisible="check_type != 'incoming'" readonly="1"/>
+                    <field name="state_outgoing" widget="statusbar" statusbar_visible="draft,handed_over,cleared" invisible="check_type != 'outgoing'" readonly="1"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_journal_entries" type="object" class="oe_stat_button" icon="fa-book" invisible="move_count == 0" groups="account.group_account_invoice,account.group_account_readonly">
+                            <field name="move_count" widget="statinfo" string="Journal Entries"/>
+                        </button>
+                        <button name="action_open_invoices" type="object" class="oe_stat_button" icon="fa-file-text-o" invisible="invoice_count == 0" groups="account.group_account_invoice,account.group_account_readonly">
+                            <field name="invoice_count" widget="statinfo" string="Invoices"/>
+                        </button>
+                        <button name="action_open_movements" type="object" class="oe_stat_button" icon="fa-history">
+                            <field name="movement_count" widget="statinfo" string="Movements"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Overdue" bg_color="text-bg-danger" invisible="not is_overdue"/>
+                    <!-- One ribbon per stage (like the "Paid" ribbon on invoices), each with its own color.
+                         Hidden while Overdue is shown so only one ribbon is ever visible at a time. -->
+                    <widget name="web_ribbon" title="Draft" bg_color="text-bg-secondary" invisible="is_overdue or state != 'draft'"/>
+                    <widget name="web_ribbon" title="Received" bg_color="text-bg-primary" invisible="is_overdue or state != 'received'"/>
+                    <widget name="web_ribbon" title="Deposited" bg_color="text-bg-info" invisible="is_overdue or state != 'deposited'"/>
+                    <widget name="web_ribbon" title="Under Collection" bg_color="text-bg-warning" invisible="is_overdue or state != 'under_collection'"/>
+                    <widget name="web_ribbon" title="Collected" bg_color="text-bg-success" invisible="is_overdue or state != 'collected'"/>
+                    <widget name="web_ribbon" title="Handed Over" bg_color="text-bg-info" invisible="is_overdue or state != 'handed_over'"/>
+                    <widget name="web_ribbon" title="Cleared" bg_color="text-bg-success" invisible="is_overdue or state != 'cleared'"/>
+                    <widget name="web_ribbon" title="Bounced" bg_color="text-bg-danger" invisible="is_overdue or state != 'bounced'"/>
+                    <widget name="web_ribbon" title="Cancelled" bg_color="text-bg-dark" invisible="is_overdue or state != 'cancelled'"/>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Check Information">
+                            <field name="check_number" readonly="state != 'draft'"/>
+                            <field name="check_type" readonly="state != 'draft'"/>
+                            <field name="partner_id" readonly="state != 'draft'"/>
+                            <field name="bank_id" options="{'no_create': True, 'no_open': True}" readonly="state in ('collected','cleared','bounced','cancelled')"/>
+                            <field name="journal_id" options="{'no_create': True}" readonly="state in ('collected','cleared','bounced','cancelled')"/>
+                            <field name="bank_account" readonly="state in ('collected','cleared','bounced','cancelled')"/>
+                        </group>
+                        <group string="Dates &amp; Amount">
+                            <field name="issue_date" readonly="state in ('collected','cleared','bounced','cancelled')"/>
+                            <field name="due_date" readonly="state in ('collected','cleared','bounced','cancelled')"/>
+                            <field name="amount" readonly="state != 'draft'"/>
+                            <field name="currency_id" readonly="state != 'draft'"/>
+                            <field name="company_id" groups="base.group_multi_company" readonly="state != 'draft'"/>
+                            <field name="is_overdue" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="Accounting" groups="account.group_account_invoice">
+                        <group>
+                            <field name="bounce_fee" invisible="check_type != 'incoming'" readonly="state in ('bounced','cancelled','collected')"/>
+                        </group>
+                        <group>
+                            <field name="invoice_ids" widget="many2many_tags" readonly="state != 'draft'"
+                                   domain="[('company_id', '=', company_id), ('state', '=', 'posted'), ('move_type', '=', 'out_invoice' if check_type == 'incoming' else 'in_invoice'), ('commercial_partner_id', '=', partner_id), ('payment_state', 'in', ('not_paid', 'partial')), ('currency_id', '=', currency_id)]"
+                                   options="{'no_create': True}"/>
+                        </group>
+                    </group>
+                    <group string="Printing">
+                        <group>
+                            <field name="payee_name"/>
+                            <field name="print_template_id" options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="print_count"/>
+                            <field name="last_print_date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Notes" name="notes"><field name="notes"/></page>
+                        <page string="Movements" name="movements">
+                            <field name="movement_ids">
+                                <list create="0" delete="0">
+                                    <field name="date"/>
+                                    <field name="state_at_movement" widget="badge"/>
+                                    <field name="user_id"/>
+                                    <field name="note"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- ================= BANKS ================= -->
+    <record id="view_check_bank_list" model="ir.ui.view">
+        <field name="name">check.bank.list</field>
+        <field name="model">check.bank</field>
+        <field name="arch" type="xml">
+            <list string="Check Banks">
+                <field name="name"/><field name="journal_id"/><field name="account_number"/><field name="code"/><field name="bic"/><field name="company_id" groups="base.group_multi_company"/><field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_check_bank_form" model="ir.ui.view">
+        <field name="name">check.bank.form</field>
+        <field name="model">check.bank</field>
+        <field name="arch" type="xml">
+            <form string="Check Bank">
+                <sheet>
+                    <group>
+                        <group string="Bank">
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="bic"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group string="Accounting (filled on the checks)">
+                            <field name="journal_id" options="{'no_create': True}"/>
+                            <field name="account_number"/>
+                        </group>
+                    </group>
+                    <field name="notes" placeholder="Notes..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ================= ACTIONS ================= -->
+    <record id="action_check_management" model="ir.actions.act_window">
+        <field name="name">All Checks</field>
+        <field name="res_model">check.management</field>
+        <field name="view_mode">list,kanban,form,pivot,graph</field>
+        <field name="search_view_id" ref="view_check_management_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Register your first check</p>
+        </field>
+    </record>
+
+    <record id="action_check_incoming" model="ir.actions.act_window">
+        <field name="name">Incoming Checks</field>
+        <field name="res_model">check.management</field>
+        <field name="view_mode">kanban,list,form,pivot,graph</field>
+        <field name="domain">[('check_type', '=', 'incoming')]</field>
+        <field name="context">{'default_check_type': 'incoming'}</field>
+        <field name="search_view_id" ref="view_check_management_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Register an incoming check</p>
+            <p>Checks received from customers, from reception to collection at the bank.</p>
+        </field>
+    </record>
+
+    <record id="action_check_outgoing" model="ir.actions.act_window">
+        <field name="name">Outgoing Checks</field>
+        <field name="res_model">check.management</field>
+        <field name="view_mode">kanban,list,form,pivot,graph</field>
+        <field name="domain">[('check_type', '=', 'outgoing')]</field>
+        <field name="context">{'default_check_type': 'outgoing'}</field>
+        <field name="search_view_id" ref="view_check_management_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Register an outgoing check</p>
+            <p>Checks issued to suppliers, from hand over to clearing at the bank.</p>
+        </field>
+    </record>
+
+    <record id="action_check_banks" model="ir.actions.act_window">
+        <field name="name">Check Banks</field>
+        <field name="res_model">check.bank</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>
