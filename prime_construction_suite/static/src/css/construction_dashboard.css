@@ -1,0 +1,35 @@
+/* Prime Construction Suite — Executive Dashboard theme
+ * Light (professional, default) + Dark (only under Odoo's own Dark Mode, html.o_dark_mode)
+ */
+
+.o_construction_dashboard {
+    --pcs-bg: #f4f6f9;
+    --pcs-card-bg: #ffffff;
+    --pcs-border: rgba(15, 23, 42, .09);
+    --pcs-text-heading: #0f172a;
+    --pcs-text-body: #334155;
+    --pcs-text-secondary: #475569;
+    --pcs-text-muted: #64748b;
+    --pcs-btn-secondary-bg: #eef2f7;
+    --pcs-input-bg: #ffffff;
+    --pcs-color-scheme: light;
+    --pcs-shadow: 0 1px 2px rgba(15, 23, 42, .06), 0 6px 16px rgba(15, 23, 42, .05);
+    --pcs-chip-primary-text: #4338ca;
+    --pcs-chip-muted-text: #475569;
+}
+
+html.o_dark_mode .o_construction_dashboard {
+    --pcs-bg: linear-gradient(180deg, #0a0f1e, #0f172a 40%, #0f172a);
+    --pcs-card-bg: #141b2e;
+    --pcs-border: rgba(255, 255, 255, .07);
+    --pcs-text-heading: #f1f5f9;
+    --pcs-text-body: #e2e8f0;
+    --pcs-text-secondary: #cbd5e1;
+    --pcs-text-muted: #8b96ac;
+    --pcs-btn-secondary-bg: #151e33;
+    --pcs-input-bg: #0f172a;
+    --pcs-color-scheme: dark;
+    --pcs-shadow: 0 8px 20px rgba(0, 0, 0, .25);
+    --pcs-chip-primary-text: #a5b4fc;
+    --pcs-chip-muted-text: #94a3b8;
+}

@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ═══════════════════════════════════════════════════════════
+         Construction Management Suite — Menu Structure
+         Ordered to follow the natural project lifecycle:
+         Dashboard → Pre-Construction → Projects & Contracts → BOQ →
+         Drawings → Change Orders → Measurement Sheets → Schedule →
+         Site Operations & Safety → Equipment → Daily Labor →
+         Resource Planning → Billing → Subcontractors → Cost Tracking →
+         Compliance → Documents → Configuration
+         ═══════════════════════════════════════════════════════════ -->
+
+    <menuitem id="menu_construction_root" name="Construction Suite"
+              web_icon="prime_construction_suite,static/description/icon.png"
+              sequence="90"
+              groups="prime_construction_suite.group_construction_user"/>
+
+    <!-- 1. Dashboard -->
+    <menuitem id="menu_construction_dashboard" name="Dashboard"
+              parent="menu_construction_root"
+              action="action_construction_dashboard"
+              sequence="10"/>
+
+    <!-- 2. Pre-Construction -->
+    <menuitem id="menu_construction_preconstruction_root" name="Pre-Construction"
+              parent="menu_construction_root" sequence="20"/>
+    <menuitem id="menu_construction_estimate" name="Estimates / Takeoff"
+              parent="menu_construction_preconstruction_root"
+              action="action_construction_estimate" sequence="10"/>
+    <menuitem id="menu_construction_tender" name="Tenders / Bid Packages"
+              parent="menu_construction_preconstruction_root"
+              action="action_construction_tender" sequence="20"/>
+    <menuitem id="menu_construction_prequalification" name="Subcontractor Prequalification"
+              parent="menu_construction_preconstruction_root"
+              action="action_construction_prequalification" sequence="30"/>
+
+    <!-- 3. Projects & Contracts (incl. Programs, the grouping layer above Projects) -->
+    <menuitem id="menu_construction_projects" name="Projects &amp; Contracts"
+              parent="menu_construction_root" sequence="30"/>
+    <menuitem id="menu_construction_programs_root" name="Programs"
+              parent="menu_construction_projects"
+              action="action_construction_program" sequence="10"/>
+    <menuitem id="menu_construction_project_list" name="Projects"
+              parent="menu_construction_projects"
+              action="action_construction_project" sequence="20"/>
+    <menuitem id="menu_construction_contract_list" name="Contracts"
+              parent="menu_construction_projects"
+              action="action_construction_contract" sequence="30"/>
+
+    <!-- 4. Bill of Quantities -->
+    <menuitem id="menu_construction_boq_root" name="Bill of Quantities"
+              parent="menu_construction_root" sequence="40"/>
+    <menuitem id="menu_construction_boq_lines" name="BOQ Items"
+              parent="menu_construction_boq_root"
+              action="action_construction_boq_line" sequence="10"/>
+
+    <!-- 5. Drawings -->
+    <menuitem id="menu_construction_drawings_root" name="Drawings"
+              parent="menu_construction_root"
+              action="action_construction_drawing" sequence="50"/>
+
+    <!-- 6. Change Orders -->
+    <menuitem id="menu_construction_changes_root" name="Change Orders"
+              parent="menu_construction_root" sequence="60"/>
+    <menuitem id="menu_construction_change_orders" name="Change Orders"
+              parent="menu_construction_changes_root"
+              action="action_construction_change_order" sequence="10"/>
+
+    <!-- 7. Measurement Sheets (daily executed quantities, feed Progress Invoices) -->
+    <menuitem id="menu_construction_measurement_root" name="Measurement Sheets"
+              parent="menu_construction_root"
+              action="action_construction_measurement_sheet" sequence="65"/>
+
+    <!-- 8. Schedule -->
+    <menuitem id="menu_construction_schedule_root" name="Schedule"
+              parent="menu_construction_root" sequence="70"/>
+    <menuitem id="menu_construction_gantt" name="Gantt Chart"
+              parent="menu_construction_schedule_root"
+              action="action_construction_gantt" sequence="10"/>
+    <menuitem id="menu_construction_activity" name="Activities"
+              parent="menu_construction_schedule_root"
+              action="action_construction_activity" sequence="20"/>
+
+    <!-- 9. Site Operations &amp; Safety (daily execution-phase tracking, grouped together) -->
+    <menuitem id="menu_construction_site_ops_root" name="Site Operations &amp; Safety"
+              parent="menu_construction_root" sequence="80"/>
+    <menuitem id="menu_construction_site_diary_root" name="Site Diary"
+              parent="menu_construction_site_ops_root"
+              action="action_construction_site_diary" sequence="10"/>
+    <menuitem id="menu_construction_risk_root" name="Risk Register"
+              parent="menu_construction_site_ops_root"
+              action="action_construction_risk" sequence="20"/>
+    <menuitem id="menu_construction_risk_heatmap" name="Risk Heat Map"
+              parent="menu_construction_site_ops_root"
+              action="action_construction_risk_heatmap" sequence="21"/>
+    <menuitem id="menu_construction_hse_incident" name="Site Incidents"
+              parent="menu_construction_site_ops_root"
+              action="action_construction_hse_incident" sequence="30"/>
+    <menuitem id="menu_construction_hse_permit" name="Work Permits"
+              parent="menu_construction_site_ops_root"
+              action="action_construction_hse_permit" sequence="40"/>
+    <menuitem id="menu_construction_hse_inspection" name="Safety Inspections"
+              parent="menu_construction_site_ops_root"
+              action="action_construction_hse_inspection" sequence="50"/>
+    <menuitem id="menu_construction_hse_ppe" name="PPE Issuance"
+              parent="menu_construction_site_ops_root"
+              action="action_construction_hse_ppe" sequence="60"/>
+    <menuitem id="menu_construction_hse_training" name="HSE Training"
+              parent="menu_construction_site_ops_root"
+              action="action_construction_hse_training" sequence="70"/>
+
+    <!-- 9a. Quality -->
+    <menuitem id="menu_construction_quality_root" name="Quality"
+              parent="menu_construction_root" sequence="82"/>
+    <menuitem id="menu_construction_quality_inspection" name="Inspections (IR/MIR/WIR)"
+              parent="menu_construction_quality_root"
+              action="action_construction_quality_inspection" sequence="10"/>
+    <menuitem id="menu_construction_quality_ncr" name="NCRs"
+              parent="menu_construction_quality_root"
+              action="action_construction_quality_ncr" sequence="20"/>
+    <menuitem id="menu_construction_quality_capa" name="CAPAs"
+              parent="menu_construction_quality_root"
+              action="action_construction_quality_capa" sequence="30"/>
+    <menuitem id="menu_construction_quality_test_result" name="Test Results"
+              parent="menu_construction_quality_root"
+              action="action_construction_quality_test_result" sequence="40"/>
+
+    <!-- 9b. Procurement -->
+    <menuitem id="menu_construction_procurement_root" name="Procurement"
+              parent="menu_construction_root" sequence="85"/>
+    <menuitem id="menu_construction_material_request" name="Material Requests"
+              parent="menu_construction_procurement_root"
+              action="action_construction_material_request" sequence="10"/>
+    <menuitem id="menu_construction_rfq" name="RFQs"
+              parent="menu_construction_procurement_root"
+              action="action_construction_rfq" sequence="20"/>
+    <menuitem id="menu_construction_site_issue" name="Site Material Issues"
+              parent="menu_construction_procurement_root"
+              action="action_construction_site_issue" sequence="30"/>
+    <menuitem id="menu_construction_material_return" name="Material Returns"
+              parent="menu_construction_procurement_root"
+              action="action_construction_material_return" sequence="40"/>
+
+    <!-- 10. Equipment -->
+    <menuitem id="menu_construction_equipment_root" name="Equipment"
+              parent="menu_construction_root" sequence="90"/>
+    <menuitem id="menu_construction_equipment_list" name="Equipment"
+              parent="menu_construction_equipment_root"
+              action="action_construction_equipment" sequence="10"/>
+    <menuitem id="menu_construction_equipment_usage" name="Usage Log"
+              parent="menu_construction_equipment_root"
+              action="action_construction_equipment_usage" sequence="20"/>
+
+    <!-- 11. Daily Labor -->
+    <menuitem id="menu_construction_labor_root" name="Daily Labor"
+              parent="menu_construction_root" sequence="100"/>
+    <menuitem id="menu_construction_laborer" name="Laborers"
+              parent="menu_construction_labor_root"
+              action="action_construction_laborer" sequence="10"/>
+    <menuitem id="menu_construction_labor_attendance" name="Attendance"
+              parent="menu_construction_labor_root"
+              action="action_construction_labor_attendance" sequence="20"/>
+
+    <!-- 12. Resource Planning -->
+    <menuitem id="menu_construction_resource_root" name="Resource Planning"
+              parent="menu_construction_root" sequence="110"/>
+    <menuitem id="menu_construction_resource_assignments" name="Resource Assignments"
+              parent="menu_construction_resource_root"
+              action="action_construction_resource_assignment" sequence="10"/>
+    <menuitem id="menu_construction_resource_leveling" name="Resource Leveling Assistant"
+              parent="menu_construction_resource_root"
+              action="action_construction_resource_leveling_wizard" sequence="20"/>
+
+    <!-- 13. Billing &amp; Finance -->
+    <menuitem id="menu_construction_billing" name="Billing &amp; Finance"
+              parent="menu_construction_root" sequence="120"
+              groups="prime_construction_suite.group_construction_manager"/>
+    <menuitem id="menu_construction_progress_invoices" name="Progress Invoices"
+              parent="menu_construction_billing"
+              action="action_construction_progress_invoice" sequence="10"/>
+    <menuitem id="menu_construction_final_account" name="Final Accounts"
+              parent="menu_construction_billing"
+              action="action_construction_final_account" sequence="20"/>
+
+    <!-- 14. Subcontractors -->
+    <menuitem id="menu_construction_sub_root" name="Subcontractors"
+              parent="menu_construction_root" sequence="130"/>
+    <menuitem id="menu_construction_sub_list" name="Subcontractors"
+              parent="menu_construction_sub_root"
+              action="action_construction_subcontractor" sequence="10"/>
+    <menuitem id="menu_construction_ap_aging" name="AP Aging"
+              parent="menu_construction_sub_root"
+              action="action_construction_ap_aging" sequence="20"/>
+
+    <!-- 15. Cost Tracking -->
+    <menuitem id="menu_construction_costs_root" name="Cost Tracking"
+              parent="menu_construction_root" sequence="140"
+              groups="prime_construction_suite.group_construction_manager"/>
+    <menuitem id="menu_construction_costs" name="Actual Costs"
+              parent="menu_construction_costs_root"
+              action="action_construction_actual_cost" sequence="10"/>
+    <menuitem id="menu_construction_overhead" name="Overhead Allocation"
+              parent="menu_construction_costs_root"
+              action="action_construction_overhead" sequence="20"/>
+
+    <!-- 16. Guarantees, Insurance &amp; DLP -->
+    <menuitem id="menu_construction_compliance_root" name="Guarantees, Insurance &amp; DLP"
+              parent="menu_construction_root" sequence="150"/>
+    <menuitem id="menu_construction_guarantees" name="Bank Guarantees"
+              parent="menu_construction_compliance_root"
+              action="action_construction_guarantee" sequence="10"/>
+    <menuitem id="menu_construction_insurance" name="Insurance Policies"
+              parent="menu_construction_compliance_root"
+              action="action_construction_insurance" sequence="20"/>
+    <menuitem id="menu_construction_snags" name="Snagging List"
+              parent="menu_construction_compliance_root"
+              action="action_construction_snag" sequence="30"/>
+
+    <!-- 17. Documents -->
+    <menuitem id="menu_construction_documents_root" name="Documents"
+              parent="menu_construction_root" sequence="160"/>
+    <menuitem id="menu_construction_documents_list" name="Documents"
+              parent="menu_construction_documents_root"
+              action="action_construction_document" sequence="10"/>
+    <menuitem id="menu_construction_rfi" name="RFIs (Request for Information)"
+              parent="menu_construction_documents_root"
+              action="action_construction_rfi" sequence="20"/>
+    <menuitem id="menu_construction_transmittal" name="Transmittals"
+              parent="menu_construction_documents_root"
+              action="action_construction_transmittal" sequence="30"/>
+
+    <!-- 18. Configuration -->
+    <menuitem id="menu_construction_config" name="Configuration"
+              parent="menu_construction_root" sequence="170"
+              groups="prime_construction_suite.group_construction_financial"/>
+    <menuitem id="menu_construction_cost_codes" name="Cost Codes (WBS)"
+              parent="menu_construction_config"
+              action="action_construction_cost_code" sequence="10"/>
+    <menuitem id="menu_construction_boq_templates" name="BOQ Templates"
+              parent="menu_construction_config"
+              action="action_construction_boq_template" sequence="20"/>
+    <menuitem id="menu_construction_approval_rule" name="Approval Matrix"
+              parent="menu_construction_config"
+              action="action_construction_approval_rule" sequence="30"/>
+
+    <!-- 19. KPI Engine -->
+    <menuitem id="menu_construction_kpi_root" name="KPI Engine"
+              parent="menu_construction_root" sequence="180"/>
+    <menuitem id="menu_construction_kpi_dashboard" name="KPI Dashboard"
+              parent="menu_construction_kpi_root"
+              action="action_construction_kpi_value" sequence="10"/>
+    <menuitem id="menu_construction_kpi_definitions" name="KPI Definitions"
+              parent="menu_construction_kpi_root"
+              action="action_construction_kpi_definition" sequence="20"
+              groups="prime_construction_suite.group_construction_manager"/>
+</odoo>

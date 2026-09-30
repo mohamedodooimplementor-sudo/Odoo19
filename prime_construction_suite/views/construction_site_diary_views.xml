@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_construction_site_diary_list" model="ir.ui.view">
+        <field name="name">construction.site.diary.list</field>
+        <field name="model">construction.site.diary</field>
+        <field name="arch" type="xml">
+            <list string="Site Diary">
+                <field name="date"/>
+                <field name="project_id"/>
+                <field name="weather"/>
+                <field name="workforce_count"/>
+                <field name="reported_by"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_site_diary_form" model="ir.ui.view">
+        <field name="name">construction.site.diary.form</field>
+        <field name="model">construction.site.diary</field>
+        <field name="arch" type="xml">
+            <form string="Site Diary">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="display_name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="date"/>
+                            <field name="reported_by"/>
+                        </group>
+                        <group>
+                            <field name="weather"/>
+                            <field name="temperature_c"/>
+                            <field name="workforce_count"/>
+                        </group>
+                    </group>
+                    <group string="Equipment on Site">
+                        <field name="equipment_present_ids" widget="many2many_tags" nolabel="1"/>
+                    </group>
+                    <group string="Work Performed Today">
+                        <field name="activities_summary" nolabel="1"/>
+                    </group>
+                    <group string="Issues / Delays / Remarks">
+                        <field name="issues" nolabel="1"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_construction_site_diary_search" model="ir.ui.view">
+        <field name="name">construction.site.diary.search</field>
+        <field name="model">construction.site.diary</field>
+        <field name="arch" type="xml">
+            <search string="Site Diary">
+                <field name="project_id"/>
+                <field name="date"/>
+                <filter name="group_project" string="Project" context="{'group_by':'project_id'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_construction_site_diary" model="ir.actions.act_window">
+        <field name="name">Site Diary</field>
+        <field name="res_model">construction.site.diary</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Log today's site diary entry. Photos can be attached via the chatter's paperclip icon.</p></field>
+    </record>
+
+</odoo>

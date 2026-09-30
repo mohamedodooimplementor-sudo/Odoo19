@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_construction_overhead_list" model="ir.ui.view">
+        <field name="name">construction.overhead.allocation.list</field>
+        <field name="model">construction.overhead.allocation</field>
+        <field name="arch" type="xml">
+            <list string="Overhead Allocations">
+                <field name="name"/>
+                <field name="period_from"/>
+                <field name="period_to"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="total_amount" sum="Total"/>
+                <field name="basis"/>
+                <field name="state" widget="badge" decoration-success="state == 'allocated'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_overhead_form" model="ir.ui.view">
+        <field name="name">construction.overhead.allocation.form</field>
+        <field name="model">construction.overhead.allocation</field>
+        <field name="arch" type="xml">
+            <form string="Overhead Allocation">
+                <header>
+                    <button name="action_compute_lines" string="Compute Allocation" type="object" class="btn-secondary" invisible="state != 'draft'"/>
+                    <button name="action_confirm" string="Confirm &amp; Post Costs" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_reset_draft" string="Reset to Draft" type="object" invisible="state != 'allocated'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,allocated"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="period_from"/>
+                            <field name="period_to"/>
+                        </group>
+                        <group>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="total_amount"/>
+                            <field name="basis"/>
+                        </group>
+                    </group>
+                    <field name="line_ids" readonly="state == 'allocated'">
+                        <list editable="bottom">
+                            <field name="project_id"/>
+                            <field name="share_percent" readonly="1"/>
+                            <field name="currency_id" column_invisible="1"/>
+                            <field name="allocated_amount" sum="Total" readonly="1"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_construction_overhead" model="ir.actions.act_window">
+        <field name="name">Overhead Allocation</field>
+        <field name="res_model">construction.overhead.allocation</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Allocate an overhead cost pool across your running projects</p></field>
+    </record>
+
+</odoo>

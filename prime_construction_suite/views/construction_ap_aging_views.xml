@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_construction_subcontractor_payment_aging_list" model="ir.ui.view">
+        <field name="name">construction.subcontractor.payment.aging.list</field>
+        <field name="model">construction.subcontractor.payment</field>
+        <field name="arch" type="xml">
+            <list string="AP Aging" decoration-danger="aging_bucket in ('b61_90','b90_plus')" decoration-warning="aging_bucket == 'b31_60'">
+                <field name="subcontractor_id"/>
+                <field name="name"/>
+                <field name="date"/>
+                <field name="due_date"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="net_amount" sum="Total Payable"/>
+                <field name="aging_days"/>
+                <field name="aging_bucket" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_subcontractor_payment_aging_pivot" model="ir.ui.view">
+        <field name="name">construction.subcontractor.payment.aging.pivot</field>
+        <field name="model">construction.subcontractor.payment</field>
+        <field name="arch" type="xml">
+            <pivot string="AP Aging">
+                <field name="subcontractor_id" type="row"/>
+                <field name="aging_bucket" type="col"/>
+                <field name="net_amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_construction_subcontractor_payment_aging_search" model="ir.ui.view">
+        <field name="name">construction.subcontractor.payment.aging.search</field>
+        <field name="model">construction.subcontractor.payment</field>
+        <field name="arch" type="xml">
+            <search string="AP Aging">
+                <field name="subcontractor_id"/>
+                <filter name="unpaid" string="Unpaid" domain="[('state','=','draft')]"/>
+                <separator/>
+                <filter name="current"   string="Not Due Yet"  domain="[('aging_bucket','=','current')]"/>
+                <filter name="b1_30"     string="1-30 Days"    domain="[('aging_bucket','=','b1_30')]"/>
+                <filter name="b31_60"    string="31-60 Days"   domain="[('aging_bucket','=','b31_60')]"/>
+                <filter name="b61_90"    string="61-90 Days"   domain="[('aging_bucket','=','b61_90')]"/>
+                <filter name="b90_plus"  string="Over 90 Days" domain="[('aging_bucket','=','b90_plus')]"/>
+                <separator/>
+                <filter name="group_subcontractor" string="Subcontractor" context="{'group_by':'subcontractor_id'}"/>
+                <filter name="group_bucket"        string="Aging Bucket"  context="{'group_by':'aging_bucket'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_construction_ap_aging" model="ir.actions.act_window">
+        <field name="name">AP Aging</field>
+        <field name="res_model">construction.subcontractor.payment</field>
+        <field name="view_mode">pivot,list</field>
+        <field name="domain">[('state','=','draft')]</field>
+        <field name="context">{'search_default_unpaid': 1, 'search_default_group_bucket': 1}</field>
+        <field name="help" type="html"><p class="o_view_nocontent_smiling_face">No outstanding subcontractor payables 🎉</p></field>
+    </record>
+
+</odoo>

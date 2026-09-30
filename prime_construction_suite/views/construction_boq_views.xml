@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_construction_boq_section_form" model="ir.ui.view">
+        <field name="name">construction.boq.section.form</field>
+        <field name="model">construction.boq.section</field>
+        <field name="arch" type="xml">
+            <form string="BOQ Section">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="sequence"/>
+                            <field name="code"/>
+                            <field name="name"/>
+                            <field name="contract_id"/>
+                        </group>
+                        <group>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="line_count"    readonly="1"/>
+                            <field name="total_section" readonly="1"/>
+                        </group>
+                    </group>
+                    <field name="line_ids" widget="one2many">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="item_code"/>
+                            <field name="description"/>
+                            <field name="line_type"/>
+                            <field name="uom_id"/>
+                            <field name="qty_contract" sum="Total Qty"/>
+                            <field name="unit_price" groups="prime_construction_suite.group_construction_manager"/>
+                            <field name="currency_id" column_invisible="1"/>
+                            <field name="total_price" readonly="1" sum="Total" groups="prime_construction_suite.group_construction_manager"/>
+                            <field name="completion_percent" widget="progressbar"/>
+                            <field name="state" widget="badge"
+                                   decoration-success="state == 'completed'"
+                                   decoration-info="state == 'in_progress'"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_construction_boq_line_form" model="ir.ui.view">
+        <field name="name">construction.boq.line.form</field>
+        <field name="model">construction.boq.line</field>
+        <field name="arch" type="xml">
+            <form string="BOQ Line">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_purchases" type="object" class="oe_stat_button" icon="fa-truck"
+                                invisible="purchase_count == 0">
+                            <field name="purchase_count" widget="statinfo" string="Purchases"/>
+                        </button>
+                        <button name="action_create_purchase_order" type="object" class="oe_stat_button" icon="fa-plus-circle">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Create PO</span>
+                            </div>
+                        </button>
+                        <button name="action_view_measurements" type="object" class="oe_stat_button" icon="fa-tasks"
+                                invisible="measurement_count == 0">
+                            <field name="measurement_count" widget="statinfo" string="Measured"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group string="Item Details">
+                            <field name="contract_id"/>
+                            <field name="section_id"/>
+                            <field name="item_code"/>
+                            <field name="line_type"/>
+                            <field name="state"/>
+                        </group>
+                        <group string="Quantities &amp; Pricing">
+                            <field name="uom_id"/>
+                            <field name="qty_contract"/>
+                            <field name="unit_price" groups="prime_construction_suite.group_construction_manager"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="total_price" readonly="1" groups="prime_construction_suite.group_construction_manager"/>
+                        </group>
+                    </group>
+                    <group string="Purchasing &amp; Inventory">
+                        <group>
+                            <field name="product_id"/>
+                        </group>
+                        <group>
+                            <field name="qty_purchased" readonly="1"/>
+                            <field name="qty_received"  readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Site Measurement (from Measurement Sheets)">
+                        <group>
+                            <field name="qty_measured" readonly="1"/>
+                            <field name="qty_measured_remaining" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="physical_completion_percent" widget="progressbar" readonly="1"/>
+                            <field name="qty_measured_uninvoiced" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Execution Progress">
+                        <group>
+                            <field name="qty_executed"  readonly="1"/>
+                            <field name="qty_remaining" readonly="1"/>
+                            <field name="executed_value" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="completion_percent" widget="progressbar"/>
+                            <field name="qty_variation" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Budget vs. Actual Cost">
+                        <group>
+                            <field name="actual_cost_amount" readonly="1" groups="prime_construction_suite.group_construction_manager"/>
+                        </group>
+                        <group>
+                            <field name="cost_variance" readonly="1" groups="prime_construction_suite.group_construction_manager"/>
+                            <field name="cost_variance_percent" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Description">
+                        <field name="description" nolabel="1"/>
+                    </group>
+                    <group string="Technical Notes">
+                        <field name="notes" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_construction_boq_line_list" model="ir.ui.view">
+        <field name="name">construction.boq.line.list</field>
+        <field name="model">construction.boq.line</field>
+        <field name="arch" type="xml">
+            <list string="BOQ Lines" decoration-success="state == 'completed'" decoration-info="state == 'in_progress'" decoration-muted="state == 'on_hold'">
+                <field name="sequence" widget="handle"/>
+                <field name="item_code"/>
+                <field name="section_name"/>
+                <field name="description"/>
+                <field name="line_type"/>
+                <field name="uom_id"/>
+                <field name="qty_contract"  sum="Contract Qty"/>
+                <field name="qty_executed"  sum="Executed Qty"/>
+                <field name="unit_price" groups="prime_construction_suite.group_construction_manager"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="total_price"    sum="Total Value" groups="prime_construction_suite.group_construction_manager"/>
+                <field name="executed_value" sum="Executed Value"/>
+                <field name="actual_cost_amount" sum="Actual Cost" optional="show" groups="prime_construction_suite.group_construction_manager"/>
+                <field name="cost_variance"      sum="Variance"    optional="show" groups="prime_construction_suite.group_construction_manager"/>
+                <field name="product_id"      optional="hide"/>
+                <field name="qty_purchased"   sum="Qty Ordered"  optional="hide"/>
+                <field name="qty_received"    sum="Qty Received" optional="hide"/>
+                <field name="qty_measured"    sum="Qty Measured" optional="hide"/>
+                <field name="physical_completion_percent" widget="progressbar" string="Physical %" optional="hide"/>
+                <field name="completion_percent" widget="progressbar"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'completed'"
+                       decoration-info="state == 'in_progress'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_boq_line_search" model="ir.ui.view">
+        <field name="name">construction.boq.line.search</field>
+        <field name="model">construction.boq.line</field>
+        <field name="arch" type="xml">
+            <search string="Search BOQ">
+                <field name="description"/>
+                <field name="item_code"/>
+                <field name="contract_id"/>
+                <field name="section_id"/>
+                <separator/>
+                <filter name="pending"     string="Pending"     domain="[('state','=','pending')]"/>
+                <filter name="in_progress" string="In Progress" domain="[('state','=','in_progress')]"/>
+                <filter name="completed"   string="Completed"   domain="[('state','=','completed')]"/>
+                <separator/>
+                <filter name="group_section"  string="Section"       context="{'group_by':'section_id'}"/>
+                <filter name="group_contract" string="Contract"      context="{'group_by':'contract_id'}"/>
+                <filter name="group_type"     string="Item Type"     context="{'group_by':'line_type'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_construction_boq_line" model="ir.actions.act_window">
+        <field name="name">Bill of Quantities</field>
+        <field name="res_model">construction.boq.line</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_construction_boq_line_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Add your first BOQ item!</p>
+        </field>
+    </record>
+
+</odoo>

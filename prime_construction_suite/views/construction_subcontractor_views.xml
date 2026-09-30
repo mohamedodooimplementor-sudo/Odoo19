@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_construction_subcontractor_form" model="ir.ui.view">
+        <field name="name">construction.subcontractor.form</field>
+        <field name="model">construction.subcontractor</field>
+        <field name="arch" type="xml">
+            <form string="Subcontractor">
+                <header>
+                    <button name="action_activate"              string="Activate"            type="object" class="btn-primary"  invisible="state != 'draft'"/>
+                    <button name="action_create_purchase_order" string="Create Purchase Order" type="object" class="btn-secondary" invisible="state != 'active'"/>
+                    <button name="action_complete"              string="Complete"             type="object" class="btn-success"  invisible="state != 'active'"/>
+                    <button name="action_terminate"             string="Terminate Early"      type="object" class="btn-danger"   invisible="state not in ('draft','active')"/>
+                    <button name="action_print_vendor_statement_pdf" string="Print Vendor Statement (PDF)" type="object" class="btn-secondary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,active,completed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_purchases" type="object" class="oe_stat_button" icon="fa-shopping-cart">
+                            <field name="purchase_count" widget="statinfo" string="PO"/>
+                        </button>
+                        <button name="action_view_purchases" type="object" class="oe_stat_button" icon="fa-money">
+                            <field name="payment_count" widget="statinfo" string="Payments"/>
+                        </button>
+                        <button name="action_view_evaluations" type="object" class="oe_stat_button" icon="fa-star"
+                                invisible="evaluation_count == 0">
+                            <field name="evaluation_count" widget="statinfo" string="Evaluations"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Subcontract Details">
+                            <field name="project_id"/>
+                            <field name="contract_id"/>
+                            <field name="partner_id"/>
+                            <field name="specialization"/>
+                        </group>
+                        <group string="Financial &amp; Dates">
+                            <field name="currency_id" invisible="1"/>
+                            <field name="contract_value" groups="prime_construction_suite.group_construction_manager"/>
+                            <field name="retention_percent"/>
+                            <field name="paid_amount"      readonly="1" groups="prime_construction_suite.group_construction_manager"/>
+                            <field name="remaining_amount" readonly="1"/>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                        </group>
+                    </group>
+                    <group string="Scope of Work">
+                        <field name="scope_of_work" nolabel="1" placeholder="Describe the scope of work assigned to this subcontractor..."/>
+                    </group>
+                    <group string="Retention">
+                        <group>
+                            <field name="retention_held" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="retention_released_amt" readonly="1"/>
+                            <field name="retention_outstanding"  readonly="1" class="fw-bold"/>
+                        </group>
+                    </group>
+                    <group string="Performance">
+                        <group>
+                            <field name="completion_percent" widget="progressbar"/>
+                            <field name="average_evaluation_score" readonly="1"/>
+                            <field name="performance_score" readonly="1" class="fw-bold"/>
+                        </group>
+                        <group>
+                            <field name="daily_penalty_rate" groups="prime_construction_suite.group_construction_manager"/>
+                            <field name="delay_days" readonly="1"/>
+                            <field name="total_penalties" readonly="1" groups="prime_construction_suite.group_construction_manager"/>
+                            <button name="action_new_evaluation" string="New Evaluation" type="object" class="btn-secondary"/>
+                        </group>
+                    </group>
+                    <group string="Overall Rating" invisible="state not in ('completed','terminated')">
+                        <group>
+                            <field name="performance_rating"/>
+                        </group>
+                        <group>
+                            <field name="rating_notes" nolabel="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Payments">
+                            <field name="payment_ids" widget="one2many">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="date"/>
+                                    <field name="due_date"/>
+                                    <field name="payment_method"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                    <field name="amount" sum="Gross Total" groups="prime_construction_suite.group_construction_manager"/>
+                                    <field name="wht_percent" optional="show"/>
+                                    <field name="wht_amount"  optional="show" sum="Total WHT"/>
+                                    <field name="retention_percent" optional="show"/>
+                                    <field name="retention_amount"  optional="show" sum="Total Retention"/>
+                                    <field name="net_amount"  sum="Total Net"/>
+                                    <field name="retention_released" optional="hide"/>
+                                    <field name="notes"/>
+                                    <field name="state" widget="badge" decoration-success="state == 'paid'"/>
+                                    <button name="action_mark_paid" string="Mark Paid" type="object" icon="fa-check" invisible="state == 'paid'"/>
+                                    <button name="action_release_retention" string="Release Retention" type="object" icon="fa-unlock"
+                                            invisible="state != 'paid' or retention_released or not retention_amount"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Assigned BOQ Items">
+                            <field name="boq_line_ids" widget="many2many">
+                                <list>
+                                    <field name="item_code"/>
+                                    <field name="description"/>
+                                    <field name="uom_id"/>
+                                    <field name="qty_contract"/>
+                                    <field name="unit_price"/>
+                                    <field name="total_price"/>
+                                    <field name="physical_completion_percent" widget="progressbar" string="Physical %"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Penalties (Liquidated Damages)">
+                            <field name="penalty_ids" widget="one2many">
+                                <list editable="bottom" decoration-muted="state == 'waived'">
+                                    <field name="date"/>
+                                    <field name="reason"/>
+                                    <field name="delay_days"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                    <field name="amount" sum="Total Penalties" groups="prime_construction_suite.group_construction_manager"/>
+                                    <field name="notes"/>
+                                    <field name="state" widget="badge" decoration-success="state == 'applied'" decoration-muted="state == 'waived'"/>
+                                    <button name="action_apply" string="Apply" type="object" icon="fa-check" invisible="state != 'draft'"/>
+                                    <button name="action_waive" string="Waive" type="object" icon="fa-ban" invisible="state != 'draft'"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_construction_subcontractor_list" model="ir.ui.view">
+        <field name="name">construction.subcontractor.list</field>
+        <field name="model">construction.subcontractor</field>
+        <field name="arch" type="xml">
+            <list string="Subcontractors" decoration-success="state == 'completed'" decoration-info="state == 'active'" decoration-muted="state == 'terminated'">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="partner_id"/>
+                <field name="specialization"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="contract_value"   sum="Total Subcontracts" groups="prime_construction_suite.group_construction_manager"/>
+                <field name="paid_amount"      sum="Total Paid" groups="prime_construction_suite.group_construction_manager"/>
+                <field name="remaining_amount" sum="Balance"/>
+                <field name="performance_rating" optional="show"/>
+                <field name="performance_score" optional="show"/>
+                <field name="completion_percent" widget="progressbar" optional="show"/>
+                <field name="state" widget="badge" decoration-success="state == 'completed'" decoration-info="state == 'active'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_subcontractor_evaluation_list" model="ir.ui.view">
+        <field name="name">construction.subcontractor.evaluation.list</field>
+        <field name="model">construction.subcontractor.evaluation</field>
+        <field name="arch" type="xml">
+            <list string="Evaluations">
+                <field name="subcontractor_id"/>
+                <field name="project_id"/>
+                <field name="date"/>
+                <field name="evaluator_id"/>
+                <field name="overall_score"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_subcontractor_evaluation_form" model="ir.ui.view">
+        <field name="name">construction.subcontractor.evaluation.form</field>
+        <field name="model">construction.subcontractor.evaluation</field>
+        <field name="arch" type="xml">
+            <form string="Subcontractor Evaluation">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="subcontractor_id"/>
+                            <field name="project_id" readonly="1"/>
+                            <field name="date"/>
+                            <field name="evaluator_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="quality_score"/>
+                            <field name="schedule_score"/>
+                            <field name="safety_score"/>
+                            <field name="cooperation_score"/>
+                            <field name="documentation_score"/>
+                            <field name="overall_score" readonly="1" class="fw-bold"/>
+                        </group>
+                    </group>
+                    <group string="Notes">
+                        <field name="notes" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_construction_subcontractor_search" model="ir.ui.view">
+        <field name="name">construction.subcontractor.search</field>
+        <field name="model">construction.subcontractor</field>
+        <field name="arch" type="xml">
+            <search string="Search Subcontractors">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="project_id"/>
+                <separator/>
+                <filter name="active"    string="Active"    domain="[('state','=','active')]"/>
+                <filter name="completed" string="Completed" domain="[('state','=','completed')]"/>
+                <separator/>
+                <filter name="group_project" string="Project"        context="{'group_by':'project_id'}"/>
+                <filter name="group_spec"    string="Specialization" context="{'group_by':'specialization'}"/>
+                <filter name="group_partner" string="Subcontractor"  context="{'group_by':'partner_id'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_construction_subcontractor" model="ir.actions.act_window">
+        <field name="name">Subcontractors</field>
+        <field name="res_model">construction.subcontractor</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_construction_subcontractor_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Add your first subcontractor!</p>
+        </field>
+    </record>
+
+</odoo>

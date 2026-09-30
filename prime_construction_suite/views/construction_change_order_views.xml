@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_construction_change_order_form" model="ir.ui.view">
+        <field name="name">construction.change.order.form</field>
+        <field name="model">construction.change.order</field>
+        <field name="arch" type="xml">
+            <form string="Change Order">
+                <header>
+                    <button name="action_submit"      string="Submit for Approval" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_review"      string="Under Review"        type="object" invisible="state != 'submitted'" groups="prime_construction_suite.group_construction_manager"/>
+                    <button name="action_approve"     string="Approve"             type="object" class="btn-success" invisible="state not in ('submitted','reviewed')" groups="prime_construction_suite.group_construction_manager"/>
+                    <button name="action_reject"      string="Reject"              type="object" class="btn-danger"  invisible="state not in ('submitted','reviewed')" groups="prime_construction_suite.group_construction_manager"/>
+                    <button name="action_cancel"      string="Cancel"              type="object" invisible="state in ('approved','rejected','cancelled')"/>
+                    <button name="action_reset_draft" string="Reset to Draft"      type="object" invisible="state not in ('cancelled','submitted')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,reviewed,approved"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Request Details">
+                            <field name="contract_id"/>
+                            <field name="project_id" readonly="1"/>
+                            <field name="change_type"/>
+                            <field name="date"/>
+                            <field name="requested_by" readonly="1"/>
+                            <field name="time_extension_days"/>
+                        </group>
+                        <group string="Approval">
+                            <field name="date_approved"   readonly="1"/>
+                            <field name="approved_by"     readonly="1"/>
+                            <field name="currency_id"     invisible="1"/>
+                            <field name="requested_amount" readonly="1"/>
+                            <field name="approved_amount"  invisible="state not in ('approved','reviewed')"/>
+                            <field name="amount_difference" readonly="1" invisible="state != 'approved'"/>
+                        </group>
+                    </group>
+                    <group invisible="state != 'rejected'">
+                        <field name="rejection_reason" readonly="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Change Lines">
+                            <field name="line_ids" widget="one2many">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="change_type"/>
+                                    <field name="boq_line_id" domain="[('contract_id','=',parent.contract_id)]"/>
+                                    <field name="description"/>
+                                    <field name="uom_id"/>
+                                    <field name="qty_original" readonly="1"/>
+                                    <field name="qty_change"/>
+                                    <field name="qty_new" readonly="1"/>
+                                    <field name="unit_price"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                    <field name="total_amount" readonly="1" sum="Total Change"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Details &amp; Impact">
+                            <group>
+                                <field name="reason" placeholder="Describe the reason for this change..."/>
+                                <field name="impact" placeholder="What is the impact on the project?"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_construction_change_order_list" model="ir.ui.view">
+        <field name="name">construction.change.order.list</field>
+        <field name="model">construction.change.order</field>
+        <field name="arch" type="xml">
+            <list string="Change Orders" decoration-success="state == 'approved'" decoration-danger="state == 'rejected'" decoration-info="state in ('submitted','reviewed')" decoration-muted="state == 'cancelled'">
+                <field name="name"/>
+                <field name="contract_id"/>
+                <field name="project_id"/>
+                <field name="change_type"/>
+                <field name="date"/>
+                <field name="requested_by"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="requested_amount" sum="Requested Total"/>
+                <field name="approved_amount"  sum="Approved Total"/>
+                <field name="approved_by"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'approved'" decoration-danger="state == 'rejected'"
+                       decoration-info="state in ('submitted','reviewed')" decoration-warning="state == 'draft'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_change_order_search" model="ir.ui.view">
+        <field name="name">construction.change.order.search</field>
+        <field name="model">construction.change.order</field>
+        <field name="arch" type="xml">
+            <search string="Search Change Orders">
+                <field name="name"/>
+                <field name="contract_id"/>
+                <field name="project_id"/>
+                <separator/>
+                <filter name="draft"       string="Draft"       domain="[('state','=','draft')]"/>
+                <filter name="submitted"   string="Submitted"   domain="[('state','=','submitted')]"/>
+                <filter name="approved"    string="Approved"    domain="[('state','=','approved')]"/>
+                <filter name="rejected"    string="Rejected"    domain="[('state','=','rejected')]"/>
+                <filter name="my_requests" string="My Requests" domain="[('requested_by','=',uid)]"/>
+                <separator/>
+                <filter name="group_contract"    string="Contract"     context="{'group_by':'contract_id'}"/>
+                <filter name="group_change_type" string="Change Type"  context="{'group_by':'change_type'}"/>
+                <filter name="group_state"       string="Status"       context="{'group_by':'state'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_construction_change_order" model="ir.actions.act_window">
+        <field name="name">Change Orders</field>
+        <field name="res_model">construction.change.order</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_construction_change_order_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No change orders yet.</p>
+        </field>
+    </record>
+
+    <record id="view_change_order_reject_wizard" model="ir.ui.view">
+        <field name="name">construction.change.order.reject.wizard.form</field>
+        <field name="model">construction.change.order.reject.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Reject Change Order">
+                <group>
+                    <field name="change_order_id" readonly="1"/>
+                    <field name="rejection_reason" required="1" placeholder="State the reason for rejection..."/>
+                </group>
+                <footer>
+                    <button name="action_confirm_reject" string="Confirm Rejection" type="object" class="btn-danger"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

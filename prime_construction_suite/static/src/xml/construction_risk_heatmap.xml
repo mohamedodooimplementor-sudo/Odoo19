@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+<t t-name="prime_construction_suite.RiskHeatmap">
+<div class="o_construction_dashboard" style="background:var(--pcs-bg);height:100%;max-height:100%;overflow-y:auto;box-sizing:border-box;padding:24px;font-family:'Segoe UI',sans-serif;">
+
+    <div style="margin-bottom:20px;">
+        <h2 style="color:var(--pcs-text-heading);font-size:22px;font-weight:800;margin:0;">Risk Heat Map</h2>
+        <p style="color:var(--pcs-text-muted);font-size:13px;margin:2px 0 0;">Open risks, plotted by Probability × Impact</p>
+    </div>
+
+    <t t-if="state.loading">
+        <div style="text-align:center;padding:80px 0;">
+            <i class="fa fa-spinner fa-spin fa-2x" style="color:#818cf8;"/>
+        </div>
+    </t>
+
+    <t t-if="!state.loading">
+    <div style="display:grid;grid-template-columns:100px repeat(3,1fr);gap:8px;max-width:820px;">
+
+        <div/>
+        <t t-foreach="probOrder" t-as="p" t-key="p">
+            <div style="text-align:center;color:var(--pcs-text-secondary);font-weight:700;font-size:12px;padding:6px;">
+                <t t-esc="probLabel(p)"/> Probability
+            </div>
+        </t>
+
+        <t t-foreach="impactOrder" t-as="i" t-key="i">
+            <div style="display:flex;align-items:center;justify-content:center;color:var(--pcs-text-secondary);font-weight:700;font-size:12px;writing-mode:vertical-rl;text-orientation:mixed;">
+                <t t-esc="impactLabel(i)"/> Impact
+            </div>
+            <t t-foreach="probOrder" t-as="p" t-key="p">
+                <div t-on-click="() => this.openCell(p, i)"
+                     t-attf-style="background:#{this.cellColor(p,i)};border-radius:10px;min-height:110px;padding:10px;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 4px 12px rgba(0,0,0,.25);">
+                    <div style="color:#fff;font-size:26px;font-weight:800;">
+                        <t t-esc="cellRisks(p,i).length"/>
+                    </div>
+                    <div style="color:rgba(255,255,255,.85);font-size:10px;font-weight:600;">
+                        <t t-foreach="cellRisks(p,i).slice(0,3)" t-as="r" t-key="r.id">
+                            <div t-on-click.stop="() => this.openRisk(r.id)" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;text-decoration:underline;">
+                                <t t-esc="r.name"/>
+                            </div>
+                        </t>
+                        <t t-if="cellRisks(p,i).length > 3">
+                            +<t t-esc="cellRisks(p,i).length - 3"/> more
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </div>
+
+    <div style="margin-top:24px;display:flex;gap:16px;">
+        <span style="display:flex;align-items:center;gap:6px;color:var(--pcs-text-secondary);font-size:12px;">
+            <span style="width:12px;height:12px;background:#22c55e;border-radius:3px;display:inline-block;"/>Low
+        </span>
+        <span style="display:flex;align-items:center;gap:6px;color:var(--pcs-text-secondary);font-size:12px;">
+            <span style="width:12px;height:12px;background:#f59e0b;border-radius:3px;display:inline-block;"/>Medium
+        </span>
+        <span style="display:flex;align-items:center;gap:6px;color:var(--pcs-text-secondary);font-size:12px;">
+            <span style="width:12px;height:12px;background:#dc2626;border-radius:3px;display:inline-block;"/>High
+        </span>
+    </div>
+    </t>
+</div>
+</t>
+</templates>

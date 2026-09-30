@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_construction_progress_invoice_form" model="ir.ui.view">
+        <field name="name">construction.progress.invoice.form</field>
+        <field name="model">construction.progress.invoice</field>
+        <field name="arch" type="xml">
+            <form string="Progress Invoice">
+                <header>
+                    <button name="action_load_boq_lines"  string="Load BOQ Lines"      type="object" class="btn-secondary" invisible="state != 'draft'"/>
+                    <button name="action_submit"           string="Submit for Approval" type="object" class="btn-primary"   invisible="state != 'draft'"/>
+                    <button name="action_approve"          string="Approve"             type="object" class="btn-success"   invisible="state != 'submitted'" groups="prime_construction_suite.group_construction_manager"/>
+                    <button name="action_create_invoice"   string="Create Invoice"      type="object" class="btn-primary"   invisible="state != 'approved'"/>
+                    <button name="action_view_invoice"     string="View Invoice"        type="object" invisible="not invoice_id"/>
+                    <button name="action_cancel"           string="Cancel"              type="object" invisible="state in ('invoiced','paid','cancelled')"/>
+                    <button name="action_reset_draft"      string="Reset to Draft"      type="object" invisible="state not in ('submitted','cancelled')"/>
+                    <button name="action_print_progress_invoice_pdf" string="Print (PDF)" type="object" class="btn-secondary"/>
+                    <button name="action_release_retention" string="Release Retention" type="object" class="btn-secondary"
+                            invisible="state not in ('invoiced','paid') or retention_released or not retention_amount"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved,invoiced,paid"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_invoice" type="object" class="oe_stat_button" icon="fa-file-text-o" invisible="not invoice_id">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Invoice</span>
+                                <span class="o_stat_value"><field name="invoice_state"/></span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" readonly="1"/> <span class="text-muted fs-5">— Invoice #<field name="sequence" readonly="1"/></span></h1>
+                    </div>
+                    <group>
+                        <group string="Invoice Information">
+                            <field name="contract_id"/>
+                            <field name="project_id"   readonly="1"/>
+                            <field name="client_id"    readonly="1"/>
+                            <field name="submitted_by" readonly="1"/>
+                            <field name="date"/>
+                        </group>
+                        <group string="Period &amp; Approval">
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="date_approved" readonly="1"/>
+                            <field name="approved_by"   readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Work Items">
+                            <field name="line_ids" widget="one2many">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="section_name" readonly="1" optional="show"/>
+                                    <field name="boq_line_id" domain="[('contract_id','=',parent.contract_id)]"/>
+                                    <field name="description"/>
+                                    <field name="uom_id"/>
+                                    <field name="qty_contract"      readonly="1"/>
+                                    <field name="qty_previous"      readonly="1"/>
+                                    <field name="qty_this_invoice"/>
+                                    <field name="qty_cumulative"    readonly="1"/>
+                                    <field name="unit_price" groups="prime_construction_suite.group_construction_manager"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                    <field name="line_amount"       readonly="1" sum="Total"/>
+                                    <field name="cumulative_percent" widget="progressbar"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Financial Summary">
+                            <group>
+                                <group string="This Invoice">
+                                    <field name="currency_id" invisible="1"/>
+                                    <field name="gross_amount"              readonly="1" groups="prime_construction_suite.group_construction_manager"/>
+                                    <field name="retention_percent"/>
+                                    <field name="retention_amount"          readonly="1" groups="prime_construction_suite.group_construction_manager"/>
+                                    <field name="advance_deduction_percent"/>
+                                    <field name="advance_deduction"         readonly="1"/>
+                                    <field name="net_amount"                readonly="1" class="fw-bold" groups="prime_construction_suite.group_construction_manager"/>
+                                </group>
+                                <group string="Withholding Tax (Client)">
+                                    <field name="wht_percent"/>
+                                    <field name="wht_amount"    readonly="1"/>
+                                    <field name="net_after_wht" readonly="1" class="fw-bold"/>
+                                </group>
+                                <group string="Other Statutory Deductions">
+                                    <field name="insurance_percent"/>
+                                    <field name="insurance_amount" readonly="1"/>
+                                    <field name="penalty_deduction"/>
+                                    <field name="final_expected_receipt" readonly="1" class="fw-bold"/>
+                                </group>
+                                <group string="Cumulative">
+                                    <field name="cumulative_gross"   readonly="1"/>
+                                    <field name="cumulative_net"     readonly="1"/>
+                                    <field name="remaining_contract" readonly="1"/>
+                                </group>
+                            </group>
+                            <group string="Retention Release">
+                                <group>
+                                    <field name="retention_released" readonly="1"/>
+                                    <field name="retention_release_date" readonly="1" invisible="not retention_released"/>
+                                    <field name="retention_released_by" readonly="1" invisible="not retention_released"/>
+                                </group>
+                                <group>
+                                    <field name="invoice_due_date" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes" placeholder="Any notes on this invoice..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_construction_progress_invoice_list" model="ir.ui.view">
+        <field name="name">construction.progress.invoice.list</field>
+        <field name="model">construction.progress.invoice</field>
+        <field name="arch" type="xml">
+            <list string="Progress Invoices" decoration-success="state in ('invoiced','paid')" decoration-info="state == 'approved'" decoration-warning="state == 'submitted'" decoration-muted="state == 'cancelled'">
+                <field name="name"/>
+                <field name="sequence" string="#"/>
+                <field name="contract_id"/>
+                <field name="project_id"/>
+                <field name="client_id"/>
+                <field name="date"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="gross_amount" sum="Gross Total" groups="prime_construction_suite.group_construction_manager"/>
+                <field name="net_amount"   sum="Net Total" groups="prime_construction_suite.group_construction_manager"/>
+                <field name="approved_by"/>
+                <field name="invoice_id"/>
+                <field name="state" widget="badge"
+                       decoration-success="state in ('invoiced','paid')" decoration-info="state == 'approved'"
+                       decoration-warning="state == 'submitted'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_progress_invoice_search" model="ir.ui.view">
+        <field name="name">construction.progress.invoice.search</field>
+        <field name="model">construction.progress.invoice</field>
+        <field name="arch" type="xml">
+            <search string="Search Progress Invoices">
+                <field name="name"/>
+                <field name="contract_id"/>
+                <field name="project_id"/>
+                <field name="client_id"/>
+                <separator/>
+                <filter name="draft"     string="Draft"     domain="[('state','=','draft')]"/>
+                <filter name="submitted" string="Submitted" domain="[('state','=','submitted')]"/>
+                <filter name="approved"  string="Approved"  domain="[('state','=','approved')]"/>
+                <filter name="invoiced"  string="Invoiced"  domain="[('state','=','invoiced')]"/>
+                <filter name="paid"      string="Paid"      domain="[('state','=','paid')]"/>
+                <separator/>
+                <filter name="retention_pending"  string="Retention Pending Release"
+                        domain="[('state','in',('invoiced','paid')),('retention_released','=',False),('retention_amount','&gt;',0)]"/>
+                <filter name="overdue" string="Overdue" domain="[('invoice_due_date','&lt;',context_today().strftime('%Y-%m-%d')),('invoice_state','not in',('paid','reversed'))]"/>
+                <separator/>
+                <filter name="group_project"  string="Project"  context="{'group_by':'project_id'}"/>
+                <filter name="group_contract" string="Contract" context="{'group_by':'contract_id'}"/>
+                <filter name="group_state"    string="Status"   context="{'group_by':'state'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_construction_progress_invoice_pivot" model="ir.ui.view">
+        <field name="name">construction.progress.invoice.pivot</field>
+        <field name="model">construction.progress.invoice</field>
+        <field name="arch" type="xml">
+            <pivot string="Progress Invoice Analysis" disable_linking="True">
+                <field name="project_id" type="row"/>
+                <field name="date" interval="month" type="col"/>
+                <field name="gross_amount" type="measure"/>
+                <field name="retention_amount" type="measure"/>
+                <field name="net_amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_construction_progress_invoice_graph" model="ir.ui.view">
+        <field name="name">construction.progress.invoice.graph</field>
+        <field name="model">construction.progress.invoice</field>
+        <field name="arch" type="xml">
+            <graph string="Progress Invoice Chart" type="bar">
+                <field name="date" interval="month"/>
+                <field name="net_amount" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_construction_progress_invoice" model="ir.actions.act_window">
+        <field name="name">Progress Invoices</field>
+        <field name="res_model">construction.progress.invoice</field>
+        <field name="view_mode">list,pivot,graph,form</field>
+        <field name="search_view_id" ref="view_construction_progress_invoice_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first progress invoice!</p>
+            <p>Use the "Load BOQ Lines" button to automatically import work items from the contract.</p>
+        </field>
+    </record>
+
+</odoo>

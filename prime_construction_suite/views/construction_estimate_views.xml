@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_construction_estimate_list" model="ir.ui.view">
+        <field name="name">construction.estimate.list</field>
+        <field name="model">construction.estimate</field>
+        <field name="arch" type="xml">
+            <list string="Estimates" decoration-success="state == 'won'" decoration-muted="state == 'lost'">
+                <field name="name"/>
+                <field name="project_name"/>
+                <field name="client_id"/>
+                <field name="date"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="total_with_margin"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_estimate_form" model="ir.ui.view">
+        <field name="name">construction.estimate.form</field>
+        <field name="model">construction.estimate</field>
+        <field name="arch" type="xml">
+            <form string="Estimate">
+                <header>
+                    <button name="action_submit" string="Submit to Client" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_convert_to_project" string="Win &amp; Create Project" type="object" class="btn-primary"
+                            invisible="state != 'submitted' or converted_project_id"/>
+                    <button name="action_mark_lost" string="Mark Lost" type="object" invisible="state != 'submitted'"/>
+                    <button name="action_reset_draft" string="Reset to Draft" type="object" invisible="state not in ('lost',)"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,won"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="project_name" placeholder="Prospective project name..."/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="client_id"/>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="total_amount" readonly="1"/>
+                            <field name="margin_percent"/>
+                            <field name="total_with_margin" readonly="1" class="fw-bold"/>
+                            <field name="converted_project_id" readonly="1" invisible="not converted_project_id"/>
+                        </group>
+                    </group>
+                    <field name="line_ids">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="description"/>
+                            <field name="cost_code_id"/>
+                            <field name="uom_id"/>
+                            <field name="quantity"/>
+                            <field name="unit_price"/>
+                            <field name="currency_id" column_invisible="1"/>
+                            <field name="total_price" readonly="1" sum="Total"/>
+                        </list>
+                    </field>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_construction_estimate_search" model="ir.ui.view">
+        <field name="name">construction.estimate.search</field>
+        <field name="model">construction.estimate</field>
+        <field name="arch" type="xml">
+            <search string="Estimates">
+                <field name="name"/>
+                <field name="project_name"/>
+                <field name="client_id"/>
+                <filter name="draft"     string="Draft"     domain="[('state','=','draft')]"/>
+                <filter name="submitted" string="Submitted" domain="[('state','=','submitted')]"/>
+                <separator/>
+                <filter name="group_state" string="Status" context="{'group_by':'state'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_construction_estimate" model="ir.actions.act_window">
+        <field name="name">Estimates / Takeoff</field>
+        <field name="res_model">construction.estimate</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Create a pre-construction estimate</p></field>
+    </record>
+
+</odoo>

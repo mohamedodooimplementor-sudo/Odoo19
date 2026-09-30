@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_construction_tender_list" model="ir.ui.view">
+        <field name="name">construction.tender.list</field>
+        <field name="model">construction.tender</field>
+        <field name="arch" type="xml">
+            <list string="Tenders" decoration-info="state == 'open'" decoration-success="state == 'awarded'" decoration-muted="state == 'cancelled'">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="trade"/>
+                <field name="submission_deadline"/>
+                <field name="bid_count"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="lowest_bid"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_tender_form" model="ir.ui.view">
+        <field name="name">construction.tender.form</field>
+        <field name="model">construction.tender</field>
+        <field name="arch" type="xml">
+            <form string="Tender">
+                <header>
+                    <button name="action_open_for_bids"  string="Open for Bids"   type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_close_bidding"   string="Close Bidding"  type="object" invisible="state != 'open'"/>
+                    <button name="action_cancel"          string="Cancel"         type="object" invisible="state in ('awarded','cancelled')"/>
+                    <button name="action_reset_draft"     string="Reset to Draft" type="object" invisible="state not in ('cancelled',)"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,open,closed,awarded"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="trade"/>
+                            <field name="submission_deadline"/>
+                        </group>
+                        <group>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="bid_count" readonly="1"/>
+                            <field name="lowest_bid" readonly="1"/>
+                            <field name="awarded_bid_id" readonly="1" invisible="not awarded_bid_id"/>
+                        </group>
+                    </group>
+                    <group string="Scope">
+                        <field name="description" nolabel="1"/>
+                        <field name="boq_line_ids" widget="many2many_tags"/>
+                    </group>
+                    <notebook>
+                        <page string="Bids">
+                            <field name="bid_ids">
+                                <list editable="bottom" decoration-success="state == 'awarded'" decoration-muted="state in ('rejected','withdrawn')">
+                                    <field name="partner_id"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                    <field name="bid_amount"/>
+                                    <field name="proposed_duration_days"/>
+                                    <field name="submission_date"/>
+                                    <field name="state" widget="badge"/>
+                                    <button name="action_shortlist" string="Shortlist" type="object" icon="fa-star" invisible="state != 'submitted'"/>
+                                    <button name="action_reject"    string="Reject"    type="object" icon="fa-times" invisible="state in ('rejected','awarded','withdrawn')"/>
+                                    <button name="action_award"     string="Award"     type="object" icon="fa-trophy" invisible="state == 'awarded'"/>
+                                    <button name="action_create_subcontractor" string="Create Subcontractor" type="object" icon="fa-arrow-right" invisible="state != 'awarded'"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_construction_tender_search" model="ir.ui.view">
+        <field name="name">construction.tender.search</field>
+        <field name="model">construction.tender</field>
+        <field name="arch" type="xml">
+            <search string="Tenders">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="trade"/>
+                <filter name="open" string="Open for Bids" domain="[('state','=','open')]"/>
+                <separator/>
+                <filter name="group_project" string="Project" context="{'group_by':'project_id'}"/>
+                <filter name="group_state"   string="Status"  context="{'group_by':'state'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_construction_tender" model="ir.actions.act_window">
+        <field name="name">Tenders / Bid Packages</field>
+        <field name="res_model">construction.tender</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Create a tender to invite subcontractor bids</p></field>
+    </record>
+
+</odoo>

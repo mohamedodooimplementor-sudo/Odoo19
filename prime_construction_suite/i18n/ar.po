@@ -1,0 +1,3230 @@
+# Translation of prime_construction_suite
+# Arabic translation
+msgid ""
+msgstr ""
+"Project-Id-Version: prime_construction_suite\n"
+"Report-Msgid-Bugs-To: \n"
+"Language-Team: Arabic\n"
+"Last-Translator: Eng. M.Aboelmagde\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#. module: prime_construction_suite
+msgid "#"
+msgstr "م"
+
+#. module: prime_construction_suite
+msgid "% of contracts"
+msgstr "% من العقود"
+
+#. module: prime_construction_suite
+msgid "1-30 Days"
+msgstr "1-30 يوم"
+
+#. module: prime_construction_suite
+msgid "31-60 Days"
+msgstr "31-60 يوم"
+
+#. module: prime_construction_suite
+msgid "61-90 Days"
+msgstr "61-90 يوم"
+
+#. module: prime_construction_suite
+msgid "AP Aging"
+msgstr "أعمار الديون المستحقة"
+
+#. module: prime_construction_suite
+msgid "Absent"
+msgstr "غائب"
+
+#. module: prime_construction_suite
+msgid "Activate"
+msgstr "تفعيل"
+
+#. module: prime_construction_suite
+msgid "Activate Contract"
+msgstr "تفعيل العقد"
+
+#. module: prime_construction_suite
+msgid "Active"
+msgstr "نشط"
+
+#. module: prime_construction_suite
+msgid "Activities"
+msgstr "الأنشطة"
+
+#. module: prime_construction_suite
+msgid "Activity"
+msgstr "النشاط"
+
+#. module: prime_construction_suite
+msgid "Actual Cost"
+msgstr "التكلفة الفعلية"
+
+#. module: prime_construction_suite
+msgid "Actual Cost (AC)"
+msgstr "التكلفة الفعلية (AC)"
+
+#. module: prime_construction_suite
+msgid "Actual Costs"
+msgstr "التكاليف الفعلية"
+
+#. module: prime_construction_suite
+msgid "Actual End"
+msgstr "النهاية الفعلية"
+
+#. module: prime_construction_suite
+msgid "Actual End Date"
+msgstr "تاريخ النهاية الفعلي"
+
+#. module: prime_construction_suite
+msgid "Actual Project Cost"
+msgstr "التكلفة الفعلية للمشروع"
+
+#. module: prime_construction_suite
+msgid "Actual Start"
+msgstr "البداية الفعلية"
+
+#. module: prime_construction_suite
+msgid "Additional Notes"
+msgstr "ملاحظات إضافية"
+
+#. module: prime_construction_suite
+msgid "Advance Deduction"
+msgstr "خصم الدفعة المقدمة"
+
+#. module: prime_construction_suite
+msgid "Advance Deduction %"
+msgstr "نسبة خصم الدفعة المقدمة"
+
+#. module: prime_construction_suite
+msgid "Advance Given"
+msgstr "سلفة ممنوحة"
+
+#. module: prime_construction_suite
+msgid "Advance Payment %"
+msgstr "نسبة الدفعة المقدمة"
+
+#. module: prime_construction_suite
+msgid "Advance Payment Amount"
+msgstr "مبلغ الدفعة المقدمة"
+
+#. module: prime_construction_suite
+msgid "Advance Payment Guarantee"
+msgstr "ضمان الدفعة المقدمة"
+
+#. module: prime_construction_suite
+msgid "Affected Item"
+msgstr "البند المتأثر"
+
+#. module: prime_construction_suite
+msgid "Aging Bucket"
+msgstr "فئة التقادم"
+
+#. module: prime_construction_suite
+msgid "Alerts & Risks"
+msgstr "التنبيهات والمخاطر"
+
+#. module: prime_construction_suite
+msgid "Alerts &amp; Risks"
+msgstr "التنبيهات والمخاطر"
+
+#. module: prime_construction_suite
+msgid "Allocated"
+msgstr "موزَّع"
+
+#. module: prime_construction_suite
+msgid "Allocated Amount"
+msgstr "المبلغ الموزَّع"
+
+#. module: prime_construction_suite
+msgid "Allocation %"
+msgstr "نسبة التخصيص %"
+
+#. module: prime_construction_suite
+msgid "Allocation Basis"
+msgstr "أساس التوزيع"
+
+#. module: prime_construction_suite
+msgid "Allocation Lines"
+msgstr "بنود التوزيع"
+
+#. module: prime_construction_suite
+msgid "Allowance"
+msgstr "بدل"
+
+#. module: prime_construction_suite
+msgid "Amount"
+msgstr "المبلغ"
+
+#. module: prime_construction_suite
+msgid "Amount & Validity"
+msgstr "المبلغ ومدة الصلاحية"
+
+#. module: prime_construction_suite
+msgid "Amount &amp; Validity"
+msgstr "المبلغ ومدة الصلاحية"
+
+#. module: prime_construction_suite
+msgid "Amount Paid"
+msgstr "المبلغ المدفوع"
+
+#. module: prime_construction_suite
+msgid "Analytic Account"
+msgstr "الحساب التحليلي"
+
+#. module: prime_construction_suite
+msgid "Analytic Line"
+msgstr "بند تحليلي"
+
+#. module: prime_construction_suite
+msgid "Apply"
+msgstr "تطبيق"
+
+#. module: prime_construction_suite
+msgid "Apply BOQ Template to Contract"
+msgstr "تطبيق قالب مستخلص الكميات على العقد"
+
+#. module: prime_construction_suite
+msgid "Approval"
+msgstr "اعتماد"
+
+#. module: prime_construction_suite
+msgid "Approval Date"
+msgstr "تاريخ الاعتماد"
+
+#. module: prime_construction_suite
+msgid "Approval Valid Until"
+msgstr "الاعتماد ساري حتى"
+
+#. module: prime_construction_suite
+msgid "Approve"
+msgstr "اعتماد"
+
+#. module: prime_construction_suite
+msgid "Approved"
+msgstr "معتمد"
+
+#. module: prime_construction_suite
+msgid "Approved Amount"
+msgstr "المبلغ المعتمد"
+
+#. module: prime_construction_suite
+msgid "Approved By"
+msgstr "اعتمد بواسطة"
+
+#. module: prime_construction_suite
+msgid "Approved as Noted"
+msgstr "معتمد مع ملاحظات"
+
+#. module: prime_construction_suite
+msgid "Architectural"
+msgstr "معماري"
+
+#. module: prime_construction_suite
+msgid "Asset Code"
+msgstr "كود الأصل"
+
+#. module: prime_construction_suite
+msgid "Assigned BOQ Items"
+msgstr "بنود مستخلص الكميات المخصصة"
+
+#. module: prime_construction_suite
+msgid "At Loss"
+msgstr "خسارة"
+
+#. module: prime_construction_suite
+msgid "Attendance"
+msgstr "الحضور"
+
+#. module: prime_construction_suite
+msgid "Attendance Records"
+msgstr "سجلات الحضور"
+
+#. module: prime_construction_suite
+msgid "Author"
+msgstr "المؤلف"
+
+#. module: prime_construction_suite
+msgid "Auto-Approval Limit (Site User)"
+msgstr "حد الاعتماد التلقائي (مستخدم الموقع)"
+
+#. module: prime_construction_suite
+msgid "Available"
+msgstr "متاحة"
+
+#. module: prime_construction_suite
+msgid "Average"
+msgstr "متوسط"
+
+#. module: prime_construction_suite
+msgid "Awaiting review since"
+msgstr "قيد المراجعة منذ"
+
+#. module: prime_construction_suite
+msgid "Award"
+msgstr "منح العطاء"
+
+#. module: prime_construction_suite
+msgid "Awarded"
+msgstr "تم المنح"
+
+#. module: prime_construction_suite
+msgid "Awarded Bid"
+msgstr "العرض الفائز"
+
+#. module: prime_construction_suite
+msgid "BOQ Item"
+msgstr "بند مستخلص الكميات"
+
+#. module: prime_construction_suite
+msgid "BOQ Items"
+msgstr "بنود مستخلص الكميات"
+
+#. module: prime_construction_suite
+msgid "BOQ Line"
+msgstr "بند BOQ"
+
+#. module: prime_construction_suite
+msgid "BOQ Lines"
+msgstr "بنود BOQ"
+
+#. module: prime_construction_suite
+msgid "BOQ Section"
+msgstr "قسم BOQ"
+
+#. module: prime_construction_suite
+msgid "BOQ Template"
+msgstr "قالب مستخلص كميات"
+
+#. module: prime_construction_suite
+msgid "BOQ Template Line"
+msgstr "بند قالب مستخلص الكميات"
+
+#. module: prime_construction_suite
+msgid "BOQ Templates"
+msgstr "قوالب مستخلص الكميات"
+
+#. module: prime_construction_suite
+msgid "Ball in Court"
+msgstr "الكرة في ملعب"
+
+#. module: prime_construction_suite
+msgid "Bank Guarantee"
+msgstr "خطاب ضمان بنكي"
+
+#. module: prime_construction_suite
+msgid "Bank Guarantees"
+msgstr "خطابات الضمان البنكية"
+
+#. module: prime_construction_suite
+msgid "Bank Reference No."
+msgstr "الرقم المرجعي للبنك"
+
+#. module: prime_construction_suite
+msgid "Bank Transfer"
+msgstr "تحويل بنكي"
+
+#. module: prime_construction_suite
+msgid "Below Average"
+msgstr "أقل من المتوسط"
+
+#. module: prime_construction_suite
+msgid "Bid Amount"
+msgstr "قيمة العرض"
+
+#. module: prime_construction_suite
+msgid "Bidder"
+msgstr "مقدّم العرض"
+
+#. module: prime_construction_suite
+msgid "Bidding Closed"
+msgstr "أُغلق تقديم العروض"
+
+#. module: prime_construction_suite
+msgid "Bids"
+msgstr "العروض"
+
+#. module: prime_construction_suite
+msgid "Bill of Quantities"
+msgstr "مستخلص الكميات"
+
+#. module: prime_construction_suite
+msgid "Bill of Quantities (BOQ)"
+msgstr "جدول الكميات (BOQ)"
+
+#. module: prime_construction_suite
+msgid "Billing & Finance"
+msgstr "الفواتير والمالية"
+
+#. module: prime_construction_suite
+msgid "Billing &amp; Finance"
+msgstr "الفواتير والمالية"
+
+#. module: prime_construction_suite
+msgid "Breakdown"
+msgstr "عطل"
+
+#. module: prime_construction_suite
+msgid "Breakdowns"
+msgstr "الأعطال"
+
+#. module: prime_construction_suite
+msgid "Breakdowns / Faults"
+msgstr "الأعطال"
+
+#. module: prime_construction_suite
+msgid "Budget Variance"
+msgstr "انحراف الميزانية"
+
+#. module: prime_construction_suite
+msgid "Budget at Completion (BAC)"
+msgstr "الموازنة عند الإنجاز (BAC)"
+
+#. module: prime_construction_suite
+msgid "Budget vs. Actual Cost"
+msgstr "الميزانية مقابل التكلفة الفعلية"
+
+#. module: prime_construction_suite
+msgid "CPI"
+msgstr "مؤشر أداء التكلفة (CPI)"
+
+#. module: prime_construction_suite
+msgid "Cancel"
+msgstr "إلغاء"
+
+#. module: prime_construction_suite
+msgid "Cancelled"
+msgstr "ملغي"
+
+#. module: prime_construction_suite
+msgid "Carpenter"
+msgstr "نجار"
+
+#. module: prime_construction_suite
+msgid "Cash"
+msgstr "نقدًا"
+
+#. module: prime_construction_suite
+msgid "Cash-flow Forecast"
+msgstr "توقعات التدفق النقدي"
+
+#. module: prime_construction_suite
+msgid "Category"
+msgstr "الفئة"
+
+#. module: prime_construction_suite
+msgid "Certificate"
+msgstr "شهادة"
+
+#. module: prime_construction_suite
+msgid "Change Lines"
+msgstr "بنود التغيير"
+
+#. module: prime_construction_suite
+msgid "Change Order"
+msgstr "أمر تغيير"
+
+#. module: prime_construction_suite
+msgid "Change Order Line"
+msgstr "بند أمر التغيير"
+
+#. module: prime_construction_suite
+msgid "Change Order No."
+msgstr "رقم أمر التغيير"
+
+#. module: prime_construction_suite
+msgid "Change Orders"
+msgstr "أوامر التغيير"
+
+#. module: prime_construction_suite
+msgid "Change Orders Total"
+msgstr "إجمالي أوامر التغيير"
+
+#. module: prime_construction_suite
+msgid "Change Type"
+msgstr "نوع التغيير"
+
+#. module: prime_construction_suite
+msgid "Change Value"
+msgstr "قيمة التغيير"
+
+#. module: prime_construction_suite
+msgid "Check"
+msgstr "شيك"
+
+#. module: prime_construction_suite
+msgid "Civil"
+msgstr "أعمال مدنية"
+
+#. module: prime_construction_suite
+msgid "Civil Works"
+msgstr "أعمال مدنية"
+
+#. module: prime_construction_suite
+msgid "Claimed"
+msgstr "مُصادَر"
+
+#. module: prime_construction_suite
+msgid "Clear"
+msgstr "مسح"
+
+#. module: prime_construction_suite
+msgid "Click anywhere on the drawing to pin a new comment."
+msgstr "اضغط في أي مكان على الرسم لتثبيت تعليق جديد."
+
+#. module: prime_construction_suite
+msgid "Client"
+msgstr "العميل"
+
+#. module: prime_construction_suite
+msgid "Close"
+msgstr "إغلاق"
+
+#. module: prime_construction_suite
+msgid "Close Bidding"
+msgstr "إغلاق تقديم العروض"
+
+#. module: prime_construction_suite
+msgid "Closed"
+msgstr "مغلق"
+
+#. module: prime_construction_suite
+msgid "Closed / No Longer Relevant"
+msgstr "مغلق / لم يعد له صلة"
+
+#. module: prime_construction_suite
+msgid "Closed By"
+msgstr "أُغلق بواسطة"
+
+#. module: prime_construction_suite
+msgid "Cloudy"
+msgstr "غائم"
+
+#. module: prime_construction_suite
+msgid "Code"
+msgstr "الكود"
+
+#. module: prime_construction_suite
+msgid "Color"
+msgstr "اللون"
+
+#. module: prime_construction_suite
+msgid "Comment"
+msgstr "تعليق"
+
+#. module: prime_construction_suite
+msgid "Comments ("
+msgstr "التعليقات ("
+
+#. module: prime_construction_suite
+msgid "Compactor"
+msgstr "دكاكة"
+
+#. module: prime_construction_suite
+msgid "Company"
+msgstr "الشركة"
+
+#. module: prime_construction_suite
+msgid "Complete"
+msgstr "إكمال"
+
+#. module: prime_construction_suite
+msgid "Completed"
+msgstr "مكتمل"
+
+#. module: prime_construction_suite
+msgid "Completion %"
+msgstr "نسبة الإنجاز %"
+
+#. module: prime_construction_suite
+msgid "Compute Allocation"
+msgstr "احتساب التوزيع"
+
+#. module: prime_construction_suite
+msgid "Concrete Mixer"
+msgstr "خلاطة خرسانة"
+
+#. module: prime_construction_suite
+msgid "Configuration"
+msgstr "الإعدادات"
+
+#. module: prime_construction_suite
+msgid "Confined Space"
+msgstr "حيز مغلق"
+
+#. module: prime_construction_suite
+msgid "Confirm"
+msgstr "تأكيد"
+
+#. module: prime_construction_suite
+msgid "Confirm & Post Costs"
+msgstr "تأكيد وترحيل التكاليف"
+
+#. module: prime_construction_suite
+msgid "Confirm &amp; Post Costs"
+msgstr "تأكيد وترحيل التكاليف"
+
+#. module: prime_construction_suite
+msgid "Confirm Rejection"
+msgstr "تأكيد الرفض"
+
+#. module: prime_construction_suite
+msgid "Confirmed"
+msgstr "مؤكد"
+
+#. module: prime_construction_suite
+msgid "Construction Contract"
+msgstr "عقد إنشائي"
+
+#. module: prime_construction_suite
+msgid "Construction Contracts"
+msgstr "العقود الإنشائية"
+
+#. module: prime_construction_suite
+msgid "Construction Dashboard Snapshot Report"
+msgstr "تقرير لقطة لوحة معلومات الإنشاءات"
+
+#. module: prime_construction_suite
+msgid "Construction Equipment"
+msgstr "معدات إنشائية"
+
+#. module: prime_construction_suite
+msgid "Construction Management Suite"
+msgstr "منظومة إدارة المقاولات"
+
+#. module: prime_construction_suite
+msgid "Construction Project"
+msgstr "مشروع إنشائي"
+
+#. module: prime_construction_suite
+msgid "Construction Projects"
+msgstr "المشاريع الإنشائية"
+
+#. module: prime_construction_suite
+msgid "Construction Suite"
+msgstr "منظومة إدارة المقاولات"
+
+#. module: prime_construction_suite
+msgid "Consultant"
+msgstr "الاستشاري"
+
+#. module: prime_construction_suite
+msgid "Contract"
+msgstr "العقد"
+
+#. module: prime_construction_suite
+msgid "Contract Balance"
+msgstr "رصيد العقد"
+
+#. module: prime_construction_suite
+msgid "Contract Details"
+msgstr "بيانات العقد"
+
+#. module: prime_construction_suite
+msgid "Contract No."
+msgstr "رقم العقد"
+
+#. module: prime_construction_suite
+msgid "Contract Number"
+msgstr "رقم العقد"
+
+#. module: prime_construction_suite
+msgid "Contract Qty"
+msgstr "الكمية التعاقدية"
+
+#. module: prime_construction_suite
+msgid "Contract Type"
+msgstr "نوع العقد"
+
+#. module: prime_construction_suite
+msgid "Contract Value"
+msgstr "قيمة العقد"
+
+#. module: prime_construction_suite
+msgid "Contract vs. Executed Value"
+msgstr "قيمة العقد مقابل القيمة المنفذة"
+
+#. module: prime_construction_suite
+msgid "Contractor"
+msgstr "المقاول"
+
+#. module: prime_construction_suite
+msgid "Contracts"
+msgstr "العقود"
+
+#. module: prime_construction_suite
+msgid "Contracts — Retention Outstanding"
+msgstr "العقود — الاحتجاز المستحق"
+
+#. module: prime_construction_suite
+msgid "Converted Project"
+msgstr "المشروع المُحوَّل"
+
+#. module: prime_construction_suite
+msgid "Corrective / Preventive Action"
+msgstr "الإجراء التصحيحي / الوقائي"
+
+#. module: prime_construction_suite
+msgid "Correspondence"
+msgstr "مراسلات"
+
+#. module: prime_construction_suite
+msgid "Cost"
+msgstr "التكلفة"
+
+#. module: prime_construction_suite
+msgid "Cost & Assignment"
+msgstr "التكلفة والتخصيص"
+
+#. module: prime_construction_suite
+msgid "Cost &amp; Assignment"
+msgstr "التكلفة والتخصيص"
+
+#. module: prime_construction_suite
+msgid "Cost Analysis"
+msgstr "تحليل التكلفة"
+
+#. module: prime_construction_suite
+msgid "Cost Chart"
+msgstr "رسم بياني للتكلفة"
+
+#. module: prime_construction_suite
+msgid "Cost Code"
+msgstr "كود التكلفة"
+
+#. module: prime_construction_suite
+msgid "Cost Code (WBS)"
+msgstr "كود التكلفة (WBS)"
+
+#. module: prime_construction_suite
+msgid "Cost Codes"
+msgstr "أكواد التكلفة"
+
+#. module: prime_construction_suite
+msgid "Cost Codes (WBS)"
+msgstr "أكواد التكلفة (WBS)"
+
+#. module: prime_construction_suite
+msgid "Cost Details"
+msgstr "تفاصيل التكلفة"
+
+#. module: prime_construction_suite
+msgid "Cost Plus"
+msgstr "التكلفة زائد نسبة"
+
+#. module: prime_construction_suite
+msgid "Cost Tracking"
+msgstr "متابعة التكاليف"
+
+#. module: prime_construction_suite
+msgid "Cost Type"
+msgstr "نوع التكلفة"
+
+#. module: prime_construction_suite
+msgid "Cost per Hour"
+msgstr "التكلفة بالساعة"
+
+#. module: prime_construction_suite
+msgid "Coverage & Validity"
+msgstr "التغطية ومدة الصلاحية"
+
+#. module: prime_construction_suite
+msgid "Coverage &amp; Validity"
+msgstr "التغطية ومدة الصلاحية"
+
+#. module: prime_construction_suite
+msgid "Coverage Amount"
+msgstr "مبلغ التغطية"
+
+#. module: prime_construction_suite
+msgid "Crane / Hoist"
+msgstr "ونش / رافعة"
+
+#. module: prime_construction_suite
+msgid "Create Invoice"
+msgstr "إنشاء فاتورة"
+
+#. module: prime_construction_suite
+msgid "Create Purchase Order"
+msgstr "إنشاء أمر شراء"
+
+#. module: prime_construction_suite
+msgid "Create Subcontractor"
+msgstr "إنشاء مقاول باطن"
+
+#. module: prime_construction_suite
+msgid "Cumulative"
+msgstr "تراكمي"
+
+#. module: prime_construction_suite
+msgid "Cumulative Gross"
+msgstr "الإجمالي التراكمي"
+
+#. module: prime_construction_suite
+msgid "Cumulative Net"
+msgstr "الصافي التراكمي"
+
+#. module: prime_construction_suite
+msgid "Cumulative Qty"
+msgstr "الكمية التراكمية"
+
+#. module: prime_construction_suite
+msgid "Current Revision"
+msgstr "المراجعة الحالية"
+
+#. module: prime_construction_suite
+msgid "Currently Assigned To"
+msgstr "مخصصة حاليًا لـ"
+
+#. module: prime_construction_suite
+msgid "DLP End Date"
+msgstr "تاريخ انتهاء فترة الصيانة"
+
+#. module: prime_construction_suite
+msgid "DLP Status"
+msgstr "حالة فترة الصيانة"
+
+#. module: prime_construction_suite
+msgid "Daily Labor"
+msgstr "العمالة اليومية"
+
+#. module: prime_construction_suite
+msgid "Daily Labor Attendance"
+msgstr "حضور العمالة اليومية"
+
+#. module: prime_construction_suite
+msgid "Daily Laborer"
+msgstr "عامل يومية"
+
+#. module: prime_construction_suite
+msgid "Daily Rate Applied"
+msgstr "الأجر اليومي المطبق"
+
+#. module: prime_construction_suite
+msgid "Dashboard"
+msgstr "لوحة المعلومات"
+
+#. module: prime_construction_suite
+msgid "Date"
+msgstr "التاريخ"
+
+#. module: prime_construction_suite
+msgid "Date Closed"
+msgstr "تاريخ الإغلاق"
+
+#. module: prime_construction_suite
+msgid "Date Identified"
+msgstr "تاريخ الرصد"
+
+#. module: prime_construction_suite
+msgid "Date Issued"
+msgstr "تاريخ الإصدار"
+
+#. module: prime_construction_suite
+msgid "Date Range"
+msgstr "نطاق التاريخ"
+
+#. module: prime_construction_suite
+msgid "Date Reported"
+msgstr "تاريخ الإبلاغ"
+
+#. module: prime_construction_suite
+msgid "Date Resolved"
+msgstr "تاريخ الحل"
+
+#. module: prime_construction_suite
+msgid "Dates & Location"
+msgstr "التواريخ والموقع"
+
+#. module: prime_construction_suite
+msgid "Dates &amp; Location"
+msgstr "التواريخ والموقع"
+
+#. module: prime_construction_suite
+msgid "Days Overdue"
+msgstr "أيام التأخير"
+
+#. module: prime_construction_suite
+msgid "Days to Expiry"
+msgstr "الأيام المتبقية للانتهاء"
+
+#. module: prime_construction_suite
+msgid "Default Qty"
+msgstr "الكمية الافتراضية"
+
+#. module: prime_construction_suite
+msgid "Default Unit Price"
+msgstr "سعر الوحدة الافتراضي"
+
+#. module: prime_construction_suite
+msgid "Defects Liability Period"
+msgstr "فترة الصيانة (ضمان العيوب)"
+
+#. module: prime_construction_suite
+msgid "Defects Liability Period (Months)"
+msgstr "فترة الصيانة (أشهر)"
+
+#. module: prime_construction_suite
+msgid "Delay (Days)"
+msgstr "التأخير (أيام)"
+
+#. module: prime_construction_suite
+msgid "Delay Analysis"
+msgstr "تحليل التأخير"
+
+#. module: prime_construction_suite
+msgid "Delay Notes"
+msgstr "ملاحظات التأخير"
+
+#. module: prime_construction_suite
+msgid "Delay Penalty"
+msgstr "غرامة التأخير"
+
+#. module: prime_construction_suite
+msgid "Delay Penalty % per Day"
+msgstr "نسبة غرامة التأخير باليوم"
+
+#. module: prime_construction_suite
+msgid "Delay Penalty Amount"
+msgstr "مبلغ غرامة التأخير"
+
+#. module: prime_construction_suite
+msgid "Delay Penalty Deduction"
+msgstr "خصم غرامة التأخير"
+
+#. module: prime_construction_suite
+msgid "Delay Responsibility"
+msgstr "مسؤولية التأخير"
+
+#. module: prime_construction_suite
+msgid "Delayed Activities"
+msgstr "الأنشطة المتأخرة"
+
+#. module: prime_construction_suite
+msgid "Delete Item"
+msgstr "حذف البند"
+
+#. module: prime_construction_suite
+msgid "Description"
+msgstr "الوصف"
+
+#. module: prime_construction_suite
+msgid "Details & Impact"
+msgstr "التفاصيل والتأثير"
+
+#. module: prime_construction_suite
+msgid "Details &amp; Impact"
+msgstr "التفاصيل والتأثير"
+
+#. module: prime_construction_suite
+msgid "Difference"
+msgstr "الفرق"
+
+#. module: prime_construction_suite
+msgid "Discipline"
+msgstr "التخصص"
+
+#. module: prime_construction_suite
+msgid "Document"
+msgstr "مستند"
+
+#. module: prime_construction_suite
+msgid "Document Name"
+msgstr "اسم المستند"
+
+#. module: prime_construction_suite
+msgid "Documents"
+msgstr "المستندات"
+
+#. module: prime_construction_suite
+msgid "Done"
+msgstr "منجز"
+
+#. module: prime_construction_suite
+msgid "Downtime (Hours)"
+msgstr "ساعات التوقف"
+
+#. module: prime_construction_suite
+msgid "Draft"
+msgstr "مسودة"
+
+#. module: prime_construction_suite
+msgid "Drawing"
+msgstr "رسم هندسي"
+
+#. module: prime_construction_suite
+msgid "Drawing / Shop Drawing Register"
+msgstr "سجل الرسومات التنفيذية"
+
+#. module: prime_construction_suite
+msgid "Drawing Markup"
+msgstr "تعليقات الرسم"
+
+#. module: prime_construction_suite
+msgid "Drawing Markup Comment (pinned to a point on the drawing image)"
+msgstr "تعليق مثبّت على نقطة في الرسم"
+
+#. module: prime_construction_suite
+msgid "Drawing No."
+msgstr "رقم الرسم"
+
+#. module: prime_construction_suite
+msgid "Drawing Revision"
+msgstr "مراجعة الرسم"
+
+#. module: prime_construction_suite
+msgid "Drawings"
+msgstr "الرسومات"
+
+#. module: prime_construction_suite
+msgid "Due Date"
+msgstr "تاريخ الاستحقاق"
+
+#. module: prime_construction_suite
+msgid "Duration"
+msgstr "المدة"
+
+#. module: prime_construction_suite
+msgid "Duration (Days)"
+msgstr "المدة (أيام)"
+
+#. module: prime_construction_suite
+msgid "During DLP"
+msgstr "أثناء فترة الصيانة"
+
+#. module: prime_construction_suite
+msgid "Earned Value (EV)"
+msgstr "القيمة المكتسبة (EV)"
+
+#. module: prime_construction_suite
+msgid "Earned Value Management (EVM)"
+msgstr "إدارة القيمة المكتسبة (EVM)"
+
+#. module: prime_construction_suite
+msgid "Edit Activities"
+msgstr "تعديل الأنشطة"
+
+#. module: prime_construction_suite
+msgid "Electrical"
+msgstr "كهرباء"
+
+#. module: prime_construction_suite
+msgid "Electrician"
+msgstr "كهربائي"
+
+#. module: prime_construction_suite
+msgid "Employee"
+msgstr "الموظف"
+
+#. module: prime_construction_suite
+msgid "End Date"
+msgstr "تاريخ النهاية"
+
+#. module: prime_construction_suite
+msgid "Environmental"
+msgstr "بيئي"
+
+#. module: prime_construction_suite
+msgid "Equal Split"
+msgstr "توزيع بالتساوي"
+
+#. module: prime_construction_suite
+msgid "Equipment"
+msgstr "المعدات"
+
+#. module: prime_construction_suite
+msgid "Equipment Breakdown / Fault Log"
+msgstr "سجل أعطال المعدات"
+
+#. module: prime_construction_suite
+msgid "Equipment Breakdowns"
+msgstr "أعطال المعدات"
+
+#. module: prime_construction_suite
+msgid "Equipment Cost (Hourly)"
+msgstr "تكلفة المعدة (بالساعة)"
+
+#. module: prime_construction_suite
+msgid "Equipment Faults"
+msgstr "أعطال المعدات"
+
+#. module: prime_construction_suite
+msgid "Equipment Inspected"
+msgstr "المعدة التي تم فحصها"
+
+#. module: prime_construction_suite
+msgid "Equipment Insurance"
+msgstr "تأمين المعدات"
+
+#. module: prime_construction_suite
+msgid "Equipment Maintenance Record"
+msgstr "سجل صيانة المعدة"
+
+#. module: prime_construction_suite
+msgid "Equipment Name"
+msgstr "اسم المعدة"
+
+#. module: prime_construction_suite
+msgid "Equipment Operator"
+msgstr "مشغل المعدة"
+
+#. module: prime_construction_suite
+msgid "Equipment Usage"
+msgstr "استخدام المعدة"
+
+#. module: prime_construction_suite
+msgid "Equipment Usage Log"
+msgstr "سجل استخدام المعدة"
+
+#. module: prime_construction_suite
+msgid "Equipment on Site"
+msgstr "المعدات في الموقع"
+
+#. module: prime_construction_suite
+msgid "Estimate"
+msgstr "التقدير"
+
+#. module: prime_construction_suite
+msgid "Estimate Date"
+msgstr "تاريخ التقدير"
+
+#. module: prime_construction_suite
+msgid "Estimate Line (Takeoff Item)"
+msgstr "بند التقدير (حصر كميات)"
+
+#. module: prime_construction_suite
+msgid "Estimate Lines"
+msgstr "بنود التقدير"
+
+#. module: prime_construction_suite
+msgid "Estimated Total"
+msgstr "الإجمالي التقديري"
+
+#. module: prime_construction_suite
+msgid "Estimates"
+msgstr "التقديرات"
+
+#. module: prime_construction_suite
+msgid "Estimates / Takeoff"
+msgstr "التقديرات / حصر الكميات"
+
+#. module: prime_construction_suite
+msgid "Excavation"
+msgstr "حفر"
+
+#. module: prime_construction_suite
+msgid "Excavator"
+msgstr "حفارة"
+
+#. module: prime_construction_suite
+msgid "Excellent"
+msgstr "ممتاز"
+
+#. module: prime_construction_suite
+msgid "Executed"
+msgstr "المنفذ"
+
+#. module: prime_construction_suite
+msgid "Executed Qty"
+msgstr "الكمية المنفذة"
+
+#. module: prime_construction_suite
+msgid "Executed Value"
+msgstr "القيمة المنفذة"
+
+#. module: prime_construction_suite
+msgid "Execution Progress"
+msgstr "نسبة التنفيذ"
+
+#. module: prime_construction_suite
+msgid "Expected Cash Receipt (after WHT)"
+msgstr "المبلغ النقدي المتوقع (بعد ضريبة الخصم)"
+
+#. module: prime_construction_suite
+msgid "Expired"
+msgstr "منتهي الصلاحية"
+
+#. module: prime_construction_suite
+msgid "Expiring Soon (30 days)"
+msgstr "ينتهي قريبًا (30 يومًا)"
+
+#. module: prime_construction_suite
+msgid "Expiry Date"
+msgstr "تاريخ الانتهاء"
+
+#. module: prime_construction_suite
+msgid "Export Snapshot"
+msgstr "تصدير لقطة"
+
+#. module: prime_construction_suite
+msgid "External (Weather, Regulatory, Market)"
+msgstr "خارجي (طقس، تنظيمي، سوق)"
+
+#. module: prime_construction_suite
+msgid "Fail"
+msgstr "راسب"
+
+#. module: prime_construction_suite
+msgid "Fatal"
+msgstr "قاتلة"
+
+#. module: prime_construction_suite
+msgid "Fault Description"
+msgstr "وصف العطل"
+
+#. module: prime_construction_suite
+msgid "File"
+msgstr "ملف"
+
+#. module: prime_construction_suite
+msgid "File Name"
+msgstr "اسم الملف"
+
+#. module: prime_construction_suite
+msgid "Filters apply to Invoiced vs. Cost Trend and Profitability data"
+msgstr "الفلاتر تنطبق على بيانات اتجاه الفواتير مقابل التكلفة والربحية"
+
+#. module: prime_construction_suite
+msgid "Final Expected Receipt"
+msgstr "صافي المبلغ المتوقع تحصيله"
+
+#. module: prime_construction_suite
+msgid "Financial"
+msgstr "البيانات المالية"
+
+#. module: prime_construction_suite
+msgid "Financial & Dates"
+msgstr "البيانات المالية والتواريخ"
+
+#. module: prime_construction_suite
+msgid "Financial &amp; Dates"
+msgstr "البيانات المالية والتواريخ"
+
+#. module: prime_construction_suite
+msgid "Financial Capacity"
+msgstr "القدرة المالية"
+
+#. module: prime_construction_suite
+msgid "Financial Capacity / Bank Reference"
+msgstr "القدرة المالية / المرجع البنكي"
+
+#. module: prime_construction_suite
+msgid "Financial Summary"
+msgstr "الملخص المالي"
+
+#. module: prime_construction_suite
+msgid "Finishing"
+msgstr "تشطيبات"
+
+#. module: prime_construction_suite
+msgid "Fire"
+msgstr "حريق"
+
+#. module: prime_construction_suite
+msgid "For Review"
+msgstr "للمراجعة"
+
+#. module: prime_construction_suite
+msgid "Force Majeure / External"
+msgstr "قوة قاهرة / خارجي"
+
+#. module: prime_construction_suite
+msgid "From"
+msgstr "من"
+
+#. module: prime_construction_suite
+msgid "Fuel Consumed (L)"
+msgstr "الوقود المستهلك (لتر)"
+
+#. module: prime_construction_suite
+msgid "Fuel Cost"
+msgstr "تكلفة الوقود"
+
+#. module: prime_construction_suite
+msgid "Fuel Price per Liter"
+msgstr "سعر الوقود لكل لتر"
+
+#. module: prime_construction_suite
+msgid "Full Name"
+msgstr "الاسم الكامل"
+
+#. module: prime_construction_suite
+msgid "Gantt Chart"
+msgstr "مخطط جانت"
+
+#. module: prime_construction_suite
+msgid "Generator"
+msgstr "مولد كهرباء"
+
+#. module: prime_construction_suite
+msgid "Good"
+msgstr "جيد"
+
+#. module: prime_construction_suite
+msgid "Gross Amount"
+msgstr "المبلغ الإجمالي"
+
+#. module: prime_construction_suite
+msgid "Gross Cost"
+msgstr "التكلفة الإجمالية"
+
+#. module: prime_construction_suite
+msgid "Guarantee Details"
+msgstr "تفاصيل خطاب الضمان"
+
+#. module: prime_construction_suite
+msgid "Guarantee Document"
+msgstr "مستند خطاب الضمان"
+
+#. module: prime_construction_suite
+msgid "Guarantee No."
+msgstr "رقم خطاب الضمان"
+
+#. module: prime_construction_suite
+msgid "Guarantees"
+msgstr "خطابات الضمان"
+
+#. module: prime_construction_suite
+msgid "Guarantees Expiring Soon"
+msgstr "ضمانات قريبة الانتهاء"
+
+#. module: prime_construction_suite
+msgid "Guarantees, Insurance & DLP"
+msgstr "الضمانات والتأمين وفترة الصيانة"
+
+#. module: prime_construction_suite
+msgid "Guarantees, Insurance &amp; DLP"
+msgstr "الضمانات والتأمين وفترة الصيانة"
+
+#. module: prime_construction_suite
+msgid "Guarantees/Insurance Expiring"
+msgstr "ضمانات/تأمينات قريبة الانتهاء"
+
+#. module: prime_construction_suite
+msgid "HVAC"
+msgstr "تكييف وتهوية"
+
+#. module: prime_construction_suite
+msgid "Half Day"
+msgstr "نصف يوم"
+
+#. module: prime_construction_suite
+msgid "Helper / General Labor"
+msgstr "عامل مساعد"
+
+#. module: prime_construction_suite
+msgid "High"
+msgstr "مرتفع"
+
+#. module: prime_construction_suite
+msgid "High Risk"
+msgstr "خطر مرتفع"
+
+#. module: prime_construction_suite
+msgid "High Risks"
+msgstr "المخاطر المرتفعة"
+
+#. module: prime_construction_suite
+msgid "High Risks Open"
+msgstr "مخاطر مرتفعة مفتوحة"
+
+#. module: prime_construction_suite
+msgid "Hot Work"
+msgstr "أعمال ساخنة"
+
+#. module: prime_construction_suite
+msgid "Hours"
+msgstr "الساعات"
+
+#. module: prime_construction_suite
+msgid "Hours Operated"
+msgstr "ساعات التشغيل"
+
+#. module: prime_construction_suite
+msgid "Hours Worked"
+msgstr "ساعات العمل"
+
+#. module: prime_construction_suite
+msgid "IT & Telecom"
+msgstr "تقنية المعلومات والاتصالات"
+
+#. module: prime_construction_suite
+msgid "IT &amp; Telecom"
+msgstr "تقنية المعلومات والاتصالات"
+
+#. module: prime_construction_suite
+msgid "Identification"
+msgstr "بيانات التعريف"
+
+#. module: prime_construction_suite
+msgid "Immediate Action Taken"
+msgstr "الإجراء الفوري المتخذ"
+
+#. module: prime_construction_suite
+msgid "Impact"
+msgstr "التأثير"
+
+#. module: prime_construction_suite
+msgid "Impact on Project"
+msgstr "التأثير على المشروع"
+
+#. module: prime_construction_suite
+msgid "In Progress"
+msgstr "قيد التنفيذ"
+
+#. module: prime_construction_suite
+msgid "In Repair"
+msgstr "قيد الإصلاح"
+
+#. module: prime_construction_suite
+msgid "In Use"
+msgstr "قيد الاستخدام"
+
+#. module: prime_construction_suite
+msgid "Incident Type"
+msgstr "نوع الحادث"
+
+#. module: prime_construction_suite
+msgid "Initial (Bid) Guarantee"
+msgstr "ضمان ابتدائي (دخول العطاء)"
+
+#. module: prime_construction_suite
+msgid "Injured Person (if any)"
+msgstr "المصاب (إن وُجد)"
+
+#. module: prime_construction_suite
+msgid "Injury"
+msgstr "إصابة"
+
+#. module: prime_construction_suite
+msgid "Inspection"
+msgstr "فحص"
+
+#. module: prime_construction_suite
+msgid "Inspection Date"
+msgstr "تاريخ الفحص"
+
+#. module: prime_construction_suite
+msgid "Inspector"
+msgstr "المفتش"
+
+#. module: prime_construction_suite
+msgid "Insurance"
+msgstr "التأمين"
+
+#. module: prime_construction_suite
+msgid "Insurance Company"
+msgstr "شركة التأمين"
+
+#. module: prime_construction_suite
+msgid "Insurance Deduction Amount"
+msgstr "مبلغ خصم التأمينات"
+
+#. module: prime_construction_suite
+msgid "Insurance Document"
+msgstr "مستند التأمين"
+
+#. module: prime_construction_suite
+msgid "Insurance Expiry Date"
+msgstr "تاريخ انتهاء التأمين"
+
+#. module: prime_construction_suite
+msgid "Insurance Policies"
+msgstr "وثائق التأمين"
+
+#. module: prime_construction_suite
+msgid "Insurance Policy"
+msgstr "وثيقة تأمين"
+
+#. module: prime_construction_suite
+msgid "Invoice #"
+msgstr "رقم الفاتورة"
+
+#. module: prime_construction_suite
+msgid "Invoice Date"
+msgstr "تاريخ الفاتورة"
+
+#. module: prime_construction_suite
+msgid "Invoice Information"
+msgstr "بيانات الفاتورة"
+
+#. module: prime_construction_suite
+msgid "Invoice Lines"
+msgstr "بنود الفاتورة"
+
+#. module: prime_construction_suite
+msgid "Invoice No."
+msgstr "رقم الفاتورة"
+
+#. module: prime_construction_suite
+msgid "Invoiced"
+msgstr "المفوتر"
+
+#. module: prime_construction_suite
+msgid "Invoiced Amount"
+msgstr "المبلغ المفوتر"
+
+#. module: prime_construction_suite
+msgid "Invoiced vs. Cost Trend"
+msgstr "اتجاه الفواتير مقابل التكلفة"
+
+#. module: prime_construction_suite
+msgid "Invoiced vs. actual cost, per project"
+msgstr "الفواتير مقابل التكلفة الفعلية لكل مشروع"
+
+#. module: prime_construction_suite
+msgid "Invoices"
+msgstr "الفواتير"
+
+#. module: prime_construction_suite
+msgid "Issue Date"
+msgstr "تاريخ الإصدار"
+
+#. module: prime_construction_suite
+msgid "Issued To (Contractor/Worker)"
+msgstr "صادر إلى (مقاول/عامل)"
+
+#. module: prime_construction_suite
+msgid "Issues / Delays / Remarks"
+msgstr "المشاكل / التأخيرات / الملاحظات"
+
+#. module: prime_construction_suite
+msgid "Issuing Bank"
+msgstr "البنك المُصدر"
+
+#. module: prime_construction_suite
+msgid "Item Code"
+msgstr "كود البند"
+
+#. module: prime_construction_suite
+msgid "Item Description (if not equipment)"
+msgstr "وصف الصنف (إذا لم تكن معدة)"
+
+#. module: prime_construction_suite
+msgid "Item Details"
+msgstr "تفاصيل البند"
+
+#. module: prime_construction_suite
+msgid "Item Type"
+msgstr "نوع البند"
+
+#. module: prime_construction_suite
+msgid "Labor"
+msgstr "عمالة"
+
+#. module: prime_construction_suite
+msgid "Labor Attendance"
+msgstr "حضور العمالة"
+
+#. module: prime_construction_suite
+msgid "Laborer"
+msgstr "عامل"
+
+#. module: prime_construction_suite
+msgid "Laborers"
+msgstr "العمال"
+
+#. module: prime_construction_suite
+msgid "Landscape"
+msgstr "تنسيق مواقع"
+
+#. module: prime_construction_suite
+msgid "Last 6 months"
+msgstr "آخر 6 أشهر"
+
+#. module: prime_construction_suite
+msgid "License / Permit"
+msgstr "ترخيص / تصريح"
+
+#. module: prime_construction_suite
+msgid "Lifting Operation"
+msgstr "عملية رفع"
+
+#. module: prime_construction_suite
+msgid "Lines"
+msgstr "البنود"
+
+#. module: prime_construction_suite
+msgid "Load BOQ Lines"
+msgstr "تحميل بنود مستخلص الكميات"
+
+#. module: prime_construction_suite
+msgid "Load BOQ from Template"
+msgstr "تحميل جدول الكميات من قالب"
+
+#. module: prime_construction_suite
+msgid "Load Lines"
+msgstr "تحميل البنود"
+
+#. module: prime_construction_suite
+msgid "Load from Template"
+msgstr "تحميل من قالب"
+
+#. module: prime_construction_suite
+msgid "Loader"
+msgstr "لودر"
+
+#. module: prime_construction_suite
+msgid "Loading dashboard..."
+msgstr "جارٍ تحميل لوحة المعلومات..."
+
+#. module: prime_construction_suite
+msgid "Loading…"
+msgstr "جارٍ التحميل…"
+
+#. module: prime_construction_suite
+msgid "Location / Area"
+msgstr "الموقع / المنطقة"
+
+#. module: prime_construction_suite
+msgid "Location on Site"
+msgstr "الموقع في الموقع"
+
+#. module: prime_construction_suite
+msgid "Lost"
+msgstr "خسر"
+
+#. module: prime_construction_suite
+msgid "Low"
+msgstr "منخفض"
+
+#. module: prime_construction_suite
+msgid "Lowest Bid"
+msgstr "أقل عرض"
+
+#. module: prime_construction_suite
+msgid "Lump Sum"
+msgstr "مبلغ إجمالي"
+
+#. module: prime_construction_suite
+msgid "MARGIN"
+msgstr "الهامش"
+
+#. module: prime_construction_suite
+msgid "MEP"
+msgstr "كهروميكانيكا"
+
+#. module: prime_construction_suite
+msgid "Main Contract"
+msgstr "العقد الرئيسي"
+
+#. module: prime_construction_suite
+msgid "Maintenance"
+msgstr "الصيانة"
+
+#. module: prime_construction_suite
+msgid "Maintenance Records"
+msgstr "سجلات الصيانة"
+
+#. module: prime_construction_suite
+msgid "Mark Claimed"
+msgstr "تحديد كمُصادَر"
+
+#. module: prime_construction_suite
+msgid "Mark Complete"
+msgstr "تحديد كمكتمل"
+
+#. module: prime_construction_suite
+msgid "Mark Lost"
+msgstr "تحديد كخاسر"
+
+#. module: prime_construction_suite
+msgid "Mark Mitigated"
+msgstr "تحديد كمُعالَج"
+
+#. module: prime_construction_suite
+msgid "Mark Paid"
+msgstr "تحديد كمدفوع"
+
+#. module: prime_construction_suite
+msgid "Markup Comments"
+msgstr "تعليقات التوضيح"
+
+#. module: prime_construction_suite
+msgid "Mason"
+msgstr "بنّاء"
+
+#. module: prime_construction_suite
+msgid "Materials"
+msgstr "مواد"
+
+#. module: prime_construction_suite
+msgid "Mechanical"
+msgstr "ميكانيكا"
+
+#. module: prime_construction_suite
+msgid "Medium"
+msgstr "متوسط"
+
+#. module: prime_construction_suite
+msgid "Milestone"
+msgstr "معلم رئيسي"
+
+#. module: prime_construction_suite
+msgid "Minor"
+msgstr "بسيطة"
+
+#. module: prime_construction_suite
+msgid "Mitigated"
+msgstr "تمت معالجته"
+
+#. module: prime_construction_suite
+msgid "Mitigation Plan"
+msgstr "خطة المعالجة"
+
+#. module: prime_construction_suite
+msgid "Moderate"
+msgstr "متوسطة"
+
+#. module: prime_construction_suite
+msgid "Modify Existing Price"
+msgstr "تعديل سعر موجود"
+
+#. module: prime_construction_suite
+msgid "Modify Existing Qty"
+msgstr "تعديل كمية موجودة"
+
+#. module: prime_construction_suite
+msgid "Month"
+msgstr "الشهر"
+
+#. module: prime_construction_suite
+msgid "My Projects"
+msgstr "مشاريعي"
+
+#. module: prime_construction_suite
+msgid "My Requests"
+msgstr "طلباتي"
+
+#. module: prime_construction_suite
+msgid "Name"
+msgstr "الاسم"
+
+#. module: prime_construction_suite
+msgid "National ID"
+msgstr "الرقم القومي"
+
+#. module: prime_construction_suite
+msgid "Near Miss"
+msgstr "حادث وشيك"
+
+#. module: prime_construction_suite
+msgid "Net Amount Due"
+msgstr "صافي المبلغ المستحق"
+
+#. module: prime_construction_suite
+msgid "Net Cost (after advances/deductions)"
+msgstr "صافي التكلفة (بعد السلف والاستقطاعات)"
+
+#. module: prime_construction_suite
+msgid "Net Payable"
+msgstr "صافي المستحق"
+
+#. module: prime_construction_suite
+msgid "Net Profit"
+msgstr "صافي الربح"
+
+#. module: prime_construction_suite
+msgid "New"
+msgstr "جديد"
+
+#. module: prime_construction_suite
+msgid "New Comment"
+msgstr "تعليق جديد"
+
+#. module: prime_construction_suite
+msgid "New Item"
+msgstr "بند جديد"
+
+#. module: prime_construction_suite
+msgid "New Qty"
+msgstr "كمية جديدة"
+
+#. module: prime_construction_suite
+msgid "New Revision"
+msgstr "مراجعة جديدة"
+
+#. module: prime_construction_suite
+msgid "New Unit Price"
+msgstr "سعر وحدة جديد"
+
+#. module: prime_construction_suite
+msgid "Next Due Date"
+msgstr "تاريخ الاستحقاق التالي"
+
+#. module: prime_construction_suite
+msgid "Next Inspection Due"
+msgstr "موعد الفحص القادم"
+
+#. module: prime_construction_suite
+msgid "No Data Yet"
+msgstr "لا توجد بيانات بعد"
+
+#. module: prime_construction_suite
+msgid "No active alerts — everything looks on track"
+msgstr "لا توجد تنبيهات نشطة — كل شيء يسير كما هو مخطط"
+
+#. module: prime_construction_suite
+msgid "No financial data yet"
+msgstr "لا توجد بيانات مالية بعد"
+
+#. module: prime_construction_suite
+msgid "No image file on this revision (or the file is not an image format that can be previewed here)."
+msgstr "لا يوجد ملف صورة في هذه المراجعة (أو أن الملف ليس بصيغة صورة يمكن معاينتها هنا)."
+
+#. module: prime_construction_suite
+msgid "No projects yet"
+msgstr "لا توجد مشاريع بعد"
+
+#. module: prime_construction_suite
+msgid "No schedule activities yet for this project"
+msgstr "لا توجد أنشطة جدول زمني بعد لهذا المشروع"
+
+#. module: prime_construction_suite
+msgid "Normal"
+msgstr "عادي"
+
+#. module: prime_construction_suite
+msgid "Not Applicable"
+msgstr "غير منطبق"
+
+#. module: prime_construction_suite
+msgid "Not Due Yet"
+msgstr "لم يحن أجله بعد"
+
+#. module: prime_construction_suite
+msgid "Not Started"
+msgstr "لم يبدأ"
+
+#. module: prime_construction_suite
+msgid "Notes"
+msgstr "ملاحظات"
+
+#. module: prime_construction_suite
+msgid "Odoo Invoice"
+msgstr "فاتورة أودو"
+
+#. module: prime_construction_suite
+msgid "On Hold"
+msgstr "معلّق مؤقتًا"
+
+#. module: prime_construction_suite
+msgid "Open"
+msgstr "مفتوح"
+
+#. module: prime_construction_suite
+msgid "Open Faults"
+msgstr "الأعطال المفتوحة"
+
+#. module: prime_construction_suite
+msgid "Open Incidents"
+msgstr "الحوادث المفتوحة"
+
+#. module: prime_construction_suite
+msgid "Open Site Incidents"
+msgstr "حوادث الموقع المفتوحة"
+
+#. module: prime_construction_suite
+msgid "Open Snags"
+msgstr "الملاحظات المفتوحة"
+
+#. module: prime_construction_suite
+msgid "Open for Bids"
+msgstr "مفتوح لتقديم العروض"
+
+#. module: prime_construction_suite
+msgid "Operator"
+msgstr "مشغل"
+
+#. module: prime_construction_suite
+msgid "Original Contract Value"
+msgstr "قيمة العقد الأصلية"
+
+#. module: prime_construction_suite
+msgid "Original Price"
+msgstr "السعر الأصلي"
+
+#. module: prime_construction_suite
+msgid "Original Qty"
+msgstr "الكمية الأصلية"
+
+#. module: prime_construction_suite
+msgid "Other"
+msgstr "أخرى"
+
+#. module: prime_construction_suite
+msgid "Other Deductions"
+msgstr "استقطاعات أخرى"
+
+#. module: prime_construction_suite
+msgid "Other Statutory Deductions"
+msgstr "استقطاعات قانونية أخرى"
+
+#. module: prime_construction_suite
+msgid "Over 90 Days"
+msgstr "أكثر من 90 يوم"
+
+#. module: prime_construction_suite
+msgid "Overdue"
+msgstr "متأخر السداد"
+
+#. module: prime_construction_suite
+msgid "Overdue since"
+msgstr "متأخر منذ"
+
+#. module: prime_construction_suite
+msgid "Overdue — planned end was"
+msgstr "متأخر — كان التاريخ المخطط للانتهاء"
+
+#. module: prime_construction_suite
+msgid "Overhead"
+msgstr "مصاريف عمومية"
+
+#. module: prime_construction_suite
+msgid "Overhead Allocation"
+msgstr "توزيع المصاريف العمومية"
+
+#. module: prime_construction_suite
+msgid "Overhead Allocation Line"
+msgstr "بند توزيع المصاريف العمومية"
+
+#. module: prime_construction_suite
+msgid "Overhead Allocations"
+msgstr "توزيعات المصاريف العمومية"
+
+#. module: prime_construction_suite
+msgid "Overhead Cost Allocation"
+msgstr "توزيع تكلفة المصاريف العمومية"
+
+#. module: prime_construction_suite
+msgid "Overtime Hours"
+msgstr "ساعات إضافية"
+
+#. module: prime_construction_suite
+msgid "Overtime Multiplier"
+msgstr "معامل الساعات الإضافية"
+
+#. module: prime_construction_suite
+msgid "Owned"
+msgstr "مملوكة"
+
+#. module: prime_construction_suite
+msgid "PENDING APPROVAL"
+msgstr "بانتظار الاعتماد"
+
+#. module: prime_construction_suite
+msgid "PO"
+msgstr "أمر شراء"
+
+#. module: prime_construction_suite
+msgid "PROJECTS"
+msgstr "مشاريع"
+
+#. module: prime_construction_suite
+msgid "Paid"
+msgstr "مدفوع"
+
+#. module: prime_construction_suite
+msgid "Painter"
+msgstr "نقّاش"
+
+#. module: prime_construction_suite
+msgid "Parent Code"
+msgstr "الكود الأب"
+
+#. module: prime_construction_suite
+msgid "Pass"
+msgstr "ناجح"
+
+#. module: prime_construction_suite
+msgid "Payment Method"
+msgstr "طريقة الدفع"
+
+#. module: prime_construction_suite
+msgid "Payment Status"
+msgstr "حالة الدفع"
+
+#. module: prime_construction_suite
+msgid "Payment Terms"
+msgstr "شروط الدفع"
+
+#. module: prime_construction_suite
+msgid "Payments"
+msgstr "الدفعات"
+
+#. module: prime_construction_suite
+msgid "Penalty Cap %"
+msgstr "الحد الأقصى للغرامة %"
+
+#. module: prime_construction_suite
+msgid "Pending"
+msgstr "معلق"
+
+#. module: prime_construction_suite
+msgid "Pending Review"
+msgstr "قيد المراجعة"
+
+#. module: prime_construction_suite
+msgid "Per-project comparison"
+msgstr "مقارنة لكل مشروع"
+
+#. module: prime_construction_suite
+msgid "Performance Evaluation"
+msgstr "تقييم الأداء"
+
+#. module: prime_construction_suite
+msgid "Performance Guarantee"
+msgstr "ضمان حسن التنفيذ"
+
+#. module: prime_construction_suite
+msgid "Performance Rating"
+msgstr "تقييم الأداء"
+
+#. module: prime_construction_suite
+msgid "Performed By"
+msgstr "تم بواسطة"
+
+#. module: prime_construction_suite
+msgid "Period & Approval"
+msgstr "الفترة والاعتماد"
+
+#. module: prime_construction_suite
+msgid "Period &amp; Approval"
+msgstr "الفترة والاعتماد"
+
+#. module: prime_construction_suite
+msgid "Period From"
+msgstr "من تاريخ"
+
+#. module: prime_construction_suite
+msgid "Period To"
+msgstr "إلى تاريخ"
+
+#. module: prime_construction_suite
+msgid "Permit No."
+msgstr "رقم التصريح"
+
+#. module: prime_construction_suite
+msgid "Permit Type"
+msgstr "نوع التصريح"
+
+#. module: prime_construction_suite
+msgid "Phone"
+msgstr "الهاتف"
+
+#. module: prime_construction_suite
+msgid "Planned End"
+msgstr "النهاية المخططة"
+
+#. module: prime_construction_suite
+msgid "Planned End Date"
+msgstr "تاريخ النهاية المخطط"
+
+#. module: prime_construction_suite
+msgid "Planned Start"
+msgstr "البداية المخططة"
+
+#. module: prime_construction_suite
+msgid "Planned Value (PV)"
+msgstr "القيمة المخططة (PV)"
+
+#. module: prime_construction_suite
+msgid "Plate / Serial No."
+msgstr "رقم اللوحة / التسلسلي"
+
+#. module: prime_construction_suite
+msgid "Plumber"
+msgstr "سبّاك"
+
+#. module: prime_construction_suite
+msgid "Plumbing"
+msgstr "سباكة"
+
+#. module: prime_construction_suite
+msgid "Policy Details"
+msgstr "تفاصيل الوثيقة"
+
+#. module: prime_construction_suite
+msgid "Policy No."
+msgstr "رقم الوثيقة"
+
+#. module: prime_construction_suite
+msgid "Policy Reference No."
+msgstr "الرقم المرجعي للوثيقة"
+
+#. module: prime_construction_suite
+msgid "Poor"
+msgstr "ضعيف"
+
+#. module: prime_construction_suite
+msgid "Portfolio breakdown"
+msgstr "توزيع المحفظة"
+
+#. module: prime_construction_suite
+msgid "Post"
+msgstr "ترحيل"
+
+#. module: prime_construction_suite
+msgid "Post to Cost"
+msgstr "ترحيل إلى التكلفة"
+
+#. module: prime_construction_suite
+msgid "Posted to Actual Cost"
+msgstr "تم الترحيل إلى التكلفة الفعلية"
+
+#. module: prime_construction_suite
+msgid "Pre-Construction"
+msgstr "ما قبل التنفيذ"
+
+#. module: prime_construction_suite
+msgid "Pre-Construction Estimate / Takeoff"
+msgstr "تقدير ما قبل التنفيذ / حصر الكميات"
+
+#. module: prime_construction_suite
+msgid "Pre-Handover"
+msgstr "قبل التسليم"
+
+#. module: prime_construction_suite
+msgid "Predecessors"
+msgstr "الأنشطة السابقة"
+
+#. module: prime_construction_suite
+msgid "Premium Paid"
+msgstr "القسط المدفوع"
+
+#. module: prime_construction_suite
+msgid "Prequalification"
+msgstr "التأهيل المسبق"
+
+#. module: prime_construction_suite
+msgid "Prequalification Score (0-100)"
+msgstr "درجة التأهيل المسبق (0-100)"
+
+#. module: prime_construction_suite
+msgid "Present"
+msgstr "حاضر"
+
+#. module: prime_construction_suite
+msgid "Previous Qty"
+msgstr "الكمية السابقة"
+
+#. module: prime_construction_suite
+msgid "Price Change"
+msgstr "تغيير في السعر"
+
+#. module: prime_construction_suite
+msgid "Priority"
+msgstr "الأولوية"
+
+#. module: prime_construction_suite
+msgid "Probability"
+msgstr "الاحتمالية"
+
+#. module: prime_construction_suite
+msgid "Profitable"
+msgstr "رابح"
+
+#. module: prime_construction_suite
+msgid "Program"
+msgstr "البرنامج"
+
+#. module: prime_construction_suite
+msgid "Program / Portfolio"
+msgstr "البرنامج / المحفظة"
+
+#. module: prime_construction_suite
+msgid "Program / Portfolio Group"
+msgstr "مجموعة البرنامج / المحفظة"
+
+#. module: prime_construction_suite
+msgid "Program Manager"
+msgstr "مدير البرنامج"
+
+#. module: prime_construction_suite
+msgid "Program Name"
+msgstr "اسم البرنامج"
+
+#. module: prime_construction_suite
+msgid "Programs"
+msgstr "البرامج"
+
+#. module: prime_construction_suite
+msgid "Progress %"
+msgstr "نسبة الإنجاز %"
+
+#. module: prime_construction_suite
+msgid "Progress Invoice"
+msgstr "مستخلص"
+
+#. module: prime_construction_suite
+msgid "Progress Invoice Line"
+msgstr "بند المستخلص"
+
+#. module: prime_construction_suite
+msgid "Progress Invoices"
+msgstr "المستخلصات"
+
+#. module: prime_construction_suite
+msgid "Project"
+msgstr "المشروع"
+
+#. module: prime_construction_suite
+msgid "Project (at time of fault)"
+msgstr "المشروع (وقت العطل)"
+
+#. module: prime_construction_suite
+msgid "Project Code"
+msgstr "كود المشروع"
+
+#. module: prime_construction_suite
+msgid "Project Dashboard KPIs"
+msgstr "مؤشرات أداء لوحة معلومات المشروع"
+
+#. module: prime_construction_suite
+msgid "Project Document"
+msgstr "مستند المشروع"
+
+#. module: prime_construction_suite
+msgid "Project Information"
+msgstr "بيانات المشروع"
+
+#. module: prime_construction_suite
+msgid "Project Manager"
+msgstr "مدير المشروع"
+
+#. module: prime_construction_suite
+msgid "Project Manager Approval Limit"
+msgstr "حد اعتماد مدير المشروع"
+
+#. module: prime_construction_suite
+msgid "Project Manager Limit"
+msgstr "حد مدير المشروع"
+
+#. module: prime_construction_suite
+msgid "Project Name"
+msgstr "اسم المشروع"
+
+#. module: prime_construction_suite
+msgid "Project Profitability"
+msgstr "ربحية المشاريع"
+
+#. module: prime_construction_suite
+msgid "Project Risk"
+msgstr "خطر المشروع"
+
+#. module: prime_construction_suite
+msgid "Project Schedule"
+msgstr "الجدول الزمني للمشروع"
+
+#. module: prime_construction_suite
+msgid "Project Schedule Activity"
+msgstr "نشاط الجدول الزمني للمشروع"
+
+#. module: prime_construction_suite
+msgid "Project Status"
+msgstr "حالة المشروع"
+
+#. module: prime_construction_suite
+msgid "Projected collections, next 6 months (amortized remaining balances)"
+msgstr "التحصيلات المتوقعة، آخر 6 أشهر (توزيع الأرصدة المتبقية)"
+
+#. module: prime_construction_suite
+msgid "Projects"
+msgstr "المشاريع"
+
+#. module: prime_construction_suite
+msgid "Projects & Contracts"
+msgstr "المشاريع والعقود"
+
+#. module: prime_construction_suite
+msgid "Projects &amp; Contracts"
+msgstr "المشاريع والعقود"
+
+#. module: prime_construction_suite
+msgid "Property Damage"
+msgstr "أضرار بالممتلكات"
+
+#. module: prime_construction_suite
+msgid "Proposed Duration (Days)"
+msgstr "المدة المقترحة (أيام)"
+
+#. module: prime_construction_suite
+msgid "Prospective Client"
+msgstr "عميل محتمل"
+
+#. module: prime_construction_suite
+msgid "Pump"
+msgstr "مضخة"
+
+#. module: prime_construction_suite
+msgid "Purchase Order"
+msgstr "أمر شراء"
+
+#. module: prime_construction_suite
+msgid "Purchase Orders"
+msgstr "أوامر الشراء"
+
+#. module: prime_construction_suite
+msgid "Qty Change"
+msgstr "تغيير الكمية"
+
+#. module: prime_construction_suite
+msgid "Quality"
+msgstr "الجودة"
+
+#. module: prime_construction_suite
+msgid "Quantities & Pricing"
+msgstr "الكميات والأسعار"
+
+#. module: prime_construction_suite
+msgid "Quantities &amp; Pricing"
+msgstr "الكميات والأسعار"
+
+#. module: prime_construction_suite
+msgid "Quantity"
+msgstr "الكمية"
+
+#. module: prime_construction_suite
+msgid "Quantity (Takeoff)"
+msgstr "الكمية (حصر)"
+
+#. module: prime_construction_suite
+msgid "Quantity Change"
+msgstr "تغيير في الكمية"
+
+#. module: prime_construction_suite
+msgid "Rainy"
+msgstr "ممطر"
+
+#. module: prime_construction_suite
+msgid "Rating Notes"
+msgstr "ملاحظات التقييم"
+
+#. module: prime_construction_suite
+msgid "Reactivate"
+msgstr "إعادة تفعيل"
+
+#. module: prime_construction_suite
+msgid "Real-time project performance overview"
+msgstr "نظرة عامة فورية على أداء المشاريع"
+
+#. module: prime_construction_suite
+msgid "Reason / Description"
+msgstr "السبب / الوصف"
+
+#. module: prime_construction_suite
+msgid "Recent Projects"
+msgstr "أحدث المشاريع"
+
+#. module: prime_construction_suite
+msgid "Reference"
+msgstr "المرجع"
+
+#. module: prime_construction_suite
+msgid "Reference Projects"
+msgstr "مشاريع مرجعية"
+
+#. module: prime_construction_suite
+msgid "Refresh"
+msgstr "تحديث"
+
+#. module: prime_construction_suite
+msgid "Reject"
+msgstr "رفض"
+
+#. module: prime_construction_suite
+msgid "Reject Change Order"
+msgstr "رفض أمر التغيير"
+
+#. module: prime_construction_suite
+msgid "Reject Change Order Wizard"
+msgstr "معالج رفض أمر التغيير"
+
+#. module: prime_construction_suite
+msgid "Rejected"
+msgstr "مرفوض"
+
+#. module: prime_construction_suite
+msgid "Rejected / Revise & Resubmit"
+msgstr "مرفوض / تعديل وإعادة تقديم"
+
+#. module: prime_construction_suite
+msgid "Rejected / Revise &amp; Resubmit"
+msgstr "مرفوض / تعديل وإعادة تقديم"
+
+#. module: prime_construction_suite
+msgid "Rejection Reason"
+msgstr "سبب الرفض"
+
+#. module: prime_construction_suite
+msgid "Related BOQ Item"
+msgstr "بند مستخلص الكميات المرتبط"
+
+#. module: prime_construction_suite
+msgid "Related BOQ Items"
+msgstr "بنود مستخلص الكميات المرتبطة"
+
+#. module: prime_construction_suite
+msgid "Release"
+msgstr "إفراج"
+
+#. module: prime_construction_suite
+msgid "Release Date"
+msgstr "تاريخ الإفراج"
+
+#. module: prime_construction_suite
+msgid "Release Retention"
+msgstr "الإفراج عن الاحتجاز"
+
+#. module: prime_construction_suite
+msgid "Released"
+msgstr "تم الإفراج"
+
+#. module: prime_construction_suite
+msgid "Released By"
+msgstr "أُفرج عنه بواسطة"
+
+#. module: prime_construction_suite
+msgid "Remaining"
+msgstr "المتبقي"
+
+#. module: prime_construction_suite
+msgid "Remaining Amount"
+msgstr "المبلغ المتبقي"
+
+#. module: prime_construction_suite
+msgid "Remaining Balance"
+msgstr "الرصيد المتبقي"
+
+#. module: prime_construction_suite
+msgid "Remaining Qty"
+msgstr "الكمية المتبقية"
+
+#. module: prime_construction_suite
+msgid "Remeasurement"
+msgstr "إعادة القياس"
+
+#. module: prime_construction_suite
+msgid "Rental Supplier"
+msgstr "مورد الإيجار"
+
+#. module: prime_construction_suite
+msgid "Rented"
+msgstr "مستأجرة"
+
+#. module: prime_construction_suite
+msgid "Reopen"
+msgstr "إعادة فتح"
+
+#. module: prime_construction_suite
+msgid "Repair"
+msgstr "إصلاح"
+
+#. module: prime_construction_suite
+msgid "Reported By"
+msgstr "أُبلغ بواسطة"
+
+#. module: prime_construction_suite
+msgid "Request Date"
+msgstr "تاريخ الطلب"
+
+#. module: prime_construction_suite
+msgid "Request Details"
+msgstr "تفاصيل الطلب"
+
+#. module: prime_construction_suite
+msgid "Requested Amount"
+msgstr "المبلغ المطلوب"
+
+#. module: prime_construction_suite
+msgid "Requested By"
+msgstr "طلب بواسطة"
+
+#. module: prime_construction_suite
+msgid "Reset to Draft"
+msgstr "إعادة إلى مسودة"
+
+#. module: prime_construction_suite
+msgid "Reset to Pending"
+msgstr "إعادة إلى قيد المراجعة"
+
+#. module: prime_construction_suite
+msgid "Resolve"
+msgstr "حل العطل"
+
+#. module: prime_construction_suite
+msgid "Resolved"
+msgstr "تم الحل"
+
+#. module: prime_construction_suite
+msgid "Resource"
+msgstr "المورد"
+
+#. module: prime_construction_suite
+msgid "Resource Assignment (Capacity Planning)"
+msgstr "تخصيص الموارد (تخطيط الطاقة الاستيعابية)"
+
+#. module: prime_construction_suite
+msgid "Resource Assignments"
+msgstr "تخصيصات الموارد"
+
+#. module: prime_construction_suite
+msgid "Resource Planning"
+msgstr "تخطيط الموارد"
+
+#. module: prime_construction_suite
+msgid "Resource Type"
+msgstr "نوع المورد"
+
+#. module: prime_construction_suite
+msgid "Responsible"
+msgstr "المسؤول"
+
+#. module: prime_construction_suite
+msgid "Result"
+msgstr "النتيجة"
+
+#. module: prime_construction_suite
+msgid "Retention"
+msgstr "الاحتجاز"
+
+#. module: prime_construction_suite
+msgid "Retention %"
+msgstr "نسبة الاحتجاز %"
+
+#. module: prime_construction_suite
+msgid "Retention Amount"
+msgstr "مبلغ الاحتجاز"
+
+#. module: prime_construction_suite
+msgid "Retention Guarantee"
+msgstr "ضمان الاحتجاز (الصيانة)"
+
+#. module: prime_construction_suite
+msgid "Retention Held"
+msgstr "الاحتجاز المحتفظ به"
+
+#. module: prime_construction_suite
+msgid "Retention Outstanding"
+msgstr "الاحتجاز المستحق"
+
+#. module: prime_construction_suite
+msgid "Retention Pending Release"
+msgstr "احتجاز في انتظار الإفراج"
+
+#. module: prime_construction_suite
+msgid "Retention Release"
+msgstr "الإفراج عن الاحتجاز"
+
+#. module: prime_construction_suite
+msgid "Retention Release Date"
+msgstr "تاريخ الإفراج عن الاحتجاز"
+
+#. module: prime_construction_suite
+msgid "Retention Released"
+msgstr "تم الإفراج عن الاحتجاز"
+
+#. module: prime_construction_suite
+msgid "Retention Withheld"
+msgstr "الاحتجاز المستقطع"
+
+#. module: prime_construction_suite
+msgid "Review Date"
+msgstr "تاريخ المراجعة"
+
+#. module: prime_construction_suite
+msgid "Reviewed By"
+msgstr "روجع بواسطة"
+
+#. module: prime_construction_suite
+msgid "Revised Contract Value"
+msgstr "قيمة العقد المعدّلة"
+
+#. module: prime_construction_suite
+msgid "Revision #"
+msgstr "رقم المراجعة"
+
+#. module: prime_construction_suite
+msgid "Revision Code"
+msgstr "كود المراجعة"
+
+#. module: prime_construction_suite
+msgid "Revision Notes"
+msgstr "ملاحظات المراجعة"
+
+#. module: prime_construction_suite
+msgid "Revisions"
+msgstr "المراجعات"
+
+#. module: prime_construction_suite
+msgid "Risk"
+msgstr "الخطر"
+
+#. module: prime_construction_suite
+msgid "Risk Description"
+msgstr "وصف الخطر"
+
+#. module: prime_construction_suite
+msgid "Risk Level"
+msgstr "مستوى الخطورة"
+
+#. module: prime_construction_suite
+msgid "Risk Owner"
+msgstr "مسؤول الخطر"
+
+#. module: prime_construction_suite
+msgid "Risk Register"
+msgstr "سجل المخاطر"
+
+#. module: prime_construction_suite
+msgid "Risk Score"
+msgstr "درجة الخطورة"
+
+#. module: prime_construction_suite
+msgid "Risks"
+msgstr "المخاطر"
+
+#. module: prime_construction_suite
+msgid "Routine Service"
+msgstr "صيانة دورية"
+
+#. module: prime_construction_suite
+msgid "SPI"
+msgstr "مؤشر أداء الجدول الزمني (SPI)"
+
+#. module: prime_construction_suite
+msgid "SUBCONTRACTORS"
+msgstr "مقاولو الباطن"
+
+#. module: prime_construction_suite
+msgid "Safety"
+msgstr "السلامة"
+
+#. module: prime_construction_suite
+msgid "Safety (HSE)"
+msgstr "السلامة والصحة المهنية"
+
+#. module: prime_construction_suite
+msgid "Safety Equipment Inspection"
+msgstr "فحص معدات السلامة"
+
+#. module: prime_construction_suite
+msgid "Safety Inspection"
+msgstr "فحص السلامة"
+
+#. module: prime_construction_suite
+msgid "Safety Inspections"
+msgstr "فحوصات السلامة"
+
+#. module: prime_construction_suite
+msgid "Safety Record / HSE History"
+msgstr "السجل الأمني / تاريخ السلامة المهنية"
+
+#. module: prime_construction_suite
+msgid "Sandstorm / Dust"
+msgstr "عاصفة رملية / أتربة"
+
+#. module: prime_construction_suite
+msgid "Save Pin"
+msgstr "حفظ الدبوس"
+
+#. module: prime_construction_suite
+msgid "Schedule"
+msgstr "الجدول الزمني"
+
+#. module: prime_construction_suite
+msgid "Schedule Activities"
+msgstr "أنشطة الجدول الزمني"
+
+#. module: prime_construction_suite
+msgid "Schedule Activity"
+msgstr "نشاط الجدول الزمني"
+
+#. module: prime_construction_suite
+msgid "Scheduled"
+msgstr "مجدولة"
+
+#. module: prime_construction_suite
+msgid "Scope"
+msgstr "النطاق"
+
+#. module: prime_construction_suite
+msgid "Scope / Trade"
+msgstr "النطاق / التخصص"
+
+#. module: prime_construction_suite
+msgid "Scope Change"
+msgstr "تغيير في النطاق"
+
+#. module: prime_construction_suite
+msgid "Scope Description"
+msgstr "وصف النطاق"
+
+#. module: prime_construction_suite
+msgid "Scope of Work"
+msgstr "نطاق العمل"
+
+#. module: prime_construction_suite
+msgid "Search BOQ"
+msgstr "بحث في مستخلص الكميات"
+
+#. module: prime_construction_suite
+msgid "Search Change Orders"
+msgstr "بحث في أوامر التغيير"
+
+#. module: prime_construction_suite
+msgid "Search Contracts"
+msgstr "بحث في العقود"
+
+#. module: prime_construction_suite
+msgid "Search Costs"
+msgstr "بحث في التكاليف"
+
+#. module: prime_construction_suite
+msgid "Search Progress Invoices"
+msgstr "بحث في المستخلصات"
+
+#. module: prime_construction_suite
+msgid "Search Projects"
+msgstr "بحث في المشاريع"
+
+#. module: prime_construction_suite
+msgid "Search Subcontractors"
+msgstr "بحث في مقاولي الباطن"
+
+#. module: prime_construction_suite
+msgid "Section"
+msgstr "القسم"
+
+#. module: prime_construction_suite
+msgid "Section Name"
+msgstr "اسم القسم"
+
+#. module: prime_construction_suite
+msgid "Section Total"
+msgstr "إجمالي القسم"
+
+#. module: prime_construction_suite
+msgid "Sequence"
+msgstr "التسلسل"
+
+#. module: prime_construction_suite
+msgid "Severe"
+msgstr "شديدة"
+
+#. module: prime_construction_suite
+msgid "Severity"
+msgstr "الخطورة"
+
+#. module: prime_construction_suite
+msgid "Share %"
+msgstr "النسبة %"
+
+#. module: prime_construction_suite
+msgid "Shortlist"
+msgstr "ترشيح أولي"
+
+#. module: prime_construction_suite
+msgid "Shortlisted"
+msgstr "مرشّح"
+
+#. module: prime_construction_suite
+msgid "Signing Date"
+msgstr "تاريخ التوقيع"
+
+#. module: prime_construction_suite
+msgid "Site Address"
+msgstr "عنوان الموقع"
+
+#. module: prime_construction_suite
+msgid "Site Diary"
+msgstr "يومية الموقع"
+
+#. module: prime_construction_suite
+msgid "Site Diary (Daily Site Report)"
+msgstr "يومية الموقع (تقرير يومي)"
+
+#. module: prime_construction_suite
+msgid "Site Diary Entries"
+msgstr "قيود يومية الموقع"
+
+#. module: prime_construction_suite
+msgid "Site Engineer"
+msgstr "مهندس موقع"
+
+#. module: prime_construction_suite
+msgid "Site Incident"
+msgstr "حادث موقع"
+
+#. module: prime_construction_suite
+msgid "Site Incident / Injury Report"
+msgstr "بلاغ حادث / إصابة بالموقع"
+
+#. module: prime_construction_suite
+msgid "Site Incidents"
+msgstr "حوادث الموقع"
+
+#. module: prime_construction_suite
+msgid "Site Photo"
+msgstr "صورة الموقع"
+
+#. module: prime_construction_suite
+msgid "Site User Approval Limit"
+msgstr "حد اعتماد مستخدم الموقع"
+
+#. module: prime_construction_suite
+msgid "Snagging Item"
+msgstr "بند ملاحظات التسليم"
+
+#. module: prime_construction_suite
+msgid "Snagging Item (Defects List)"
+msgstr "بند ملاحظات التسليم (قائمة العيوب)"
+
+#. module: prime_construction_suite
+msgid "Snagging Items"
+msgstr "بنود ملاحظات التسليم"
+
+#. module: prime_construction_suite
+msgid "Snagging List"
+msgstr "قائمة ملاحظات التسليم"
+
+#. module: prime_construction_suite
+msgid "Social Insurance Deduction %"
+msgstr "نسبة خصم التأمينات الاجتماعية"
+
+#. module: prime_construction_suite
+msgid "Specialization"
+msgstr "التخصص"
+
+#. module: prime_construction_suite
+msgid "Stage"
+msgstr "المرحلة"
+
+#. module: prime_construction_suite
+msgid "Standard Daily Rate"
+msgstr "الأجر اليومي المعتاد"
+
+#. module: prime_construction_suite
+msgid "Start Date"
+msgstr "تاريخ البداية"
+
+#. module: prime_construction_suite
+msgid "Start Execution"
+msgstr "بدء التنفيذ"
+
+#. module: prime_construction_suite
+msgid "Start Progress"
+msgstr "بدء التنفيذ"
+
+#. module: prime_construction_suite
+msgid "Status"
+msgstr "الحالة"
+
+#. module: prime_construction_suite
+msgid "Steel Fixer"
+msgstr "حداد تسليح"
+
+#. module: prime_construction_suite
+msgid "Structural"
+msgstr "إنشائي"
+
+#. module: prime_construction_suite
+msgid "Sub Codes"
+msgstr "الأكواد الفرعية"
+
+#. module: prime_construction_suite
+msgid "Subcontract Cost"
+msgstr "تكلفة الباطن"
+
+#. module: prime_construction_suite
+msgid "Subcontract Details"
+msgstr "تفاصيل عقد الباطن"
+
+#. module: prime_construction_suite
+msgid "Subcontract No."
+msgstr "رقم عقد الباطن"
+
+#. module: prime_construction_suite
+msgid "Subcontract Value"
+msgstr "قيمة عقد الباطن"
+
+#. module: prime_construction_suite
+msgid "Subcontractor"
+msgstr "مقاول الباطن"
+
+#. module: prime_construction_suite
+msgid "Subcontractor Bid"
+msgstr "عرض مقاول الباطن"
+
+#. module: prime_construction_suite
+msgid "Subcontractor Payment"
+msgstr "دفعة مقاول الباطن"
+
+#. module: prime_construction_suite
+msgid "Subcontractor Prequalification"
+msgstr "تأهيل مقاولي الباطن المسبق"
+
+#. module: prime_construction_suite
+msgid "Subcontractor Tender / Bid Package"
+msgstr "مناقصة / حزمة عطاء مقاول باطن"
+
+#. module: prime_construction_suite
+msgid "Subcontractors"
+msgstr "مقاولو الباطن"
+
+#. module: prime_construction_suite
+msgid "Submission Date"
+msgstr "تاريخ التقديم"
+
+#. module: prime_construction_suite
+msgid "Submission Deadline"
+msgstr "الموعد النهائي لتقديم العروض"
+
+#. module: prime_construction_suite
+msgid "Submit for Approval"
+msgstr "إرسال للاعتماد"
+
+#. module: prime_construction_suite
+msgid "Submit to Client"
+msgstr "إرسال للعميل"
+
+#. module: prime_construction_suite
+msgid "Submitted"
+msgstr "تم الإرسال"
+
+#. module: prime_construction_suite
+msgid "Submitted By"
+msgstr "أُرسل بواسطة"
+
+#. module: prime_construction_suite
+msgid "Submitted to Client"
+msgstr "تم الإرسال للعميل"
+
+#. module: prime_construction_suite
+msgid "Sunny"
+msgstr "مشمس"
+
+#. module: prime_construction_suite
+msgid "Supply"
+msgstr "توريد"
+
+#. module: prime_construction_suite
+msgid "Target Margin %"
+msgstr "هامش الربح المستهدف %"
+
+#. module: prime_construction_suite
+msgid "Technical"
+msgstr "فني"
+
+#. module: prime_construction_suite
+msgid "Technical Notes"
+msgstr "ملاحظات فنية"
+
+#. module: prime_construction_suite
+msgid "Temperature (°C)"
+msgstr "درجة الحرارة (°م)"
+
+#. module: prime_construction_suite
+msgid "Template Lines"
+msgstr "بنود القالب"
+
+#. module: prime_construction_suite
+msgid "Template Name"
+msgstr "اسم القالب"
+
+#. module: prime_construction_suite
+msgid "Tender"
+msgstr "المناقصة"
+
+#. module: prime_construction_suite
+msgid "Tenders"
+msgstr "المناقصات"
+
+#. module: prime_construction_suite
+msgid "Tenders / Bid Packages"
+msgstr "المناقصات / حزم العطاءات"
+
+#. module: prime_construction_suite
+msgid "Terminate Early"
+msgstr "إنهاء مبكر"
+
+#. module: prime_construction_suite
+msgid "Terminated"
+msgstr "منتهي"
+
+#. module: prime_construction_suite
+msgid "Terms & Notes"
+msgstr "الشروط والملاحظات"
+
+#. module: prime_construction_suite
+msgid "Terms &amp; Notes"
+msgstr "الشروط والملاحظات"
+
+#. module: prime_construction_suite
+msgid "Things that need attention"
+msgstr "أمور تحتاج انتباه"
+
+#. module: prime_construction_suite
+msgid "Third Party Liability"
+msgstr "المسؤولية تجاه الغير"
+
+#. module: prime_construction_suite
+msgid "This Invoice"
+msgstr "هذا المستخلص"
+
+#. module: prime_construction_suite
+msgid "This Invoice Qty"
+msgstr "كمية هذا المستخلص"
+
+#. module: prime_construction_suite
+msgid "Time Extension"
+msgstr "تمديد زمني"
+
+#. module: prime_construction_suite
+msgid "Time Extension (Days)"
+msgstr "تمديد زمني (أيام)"
+
+#. module: prime_construction_suite
+msgid "Title"
+msgstr "العنوان"
+
+#. module: prime_construction_suite
+msgid "To"
+msgstr "إلى"
+
+#. module: prime_construction_suite
+msgid "Total"
+msgstr "الإجمالي"
+
+#. module: prime_construction_suite
+msgid "Total Contract Value"
+msgstr "إجمالي قيمة العقود"
+
+#. module: prime_construction_suite
+msgid "Total Cost"
+msgstr "إجمالي التكلفة"
+
+#. module: prime_construction_suite
+msgid "Total Fuel Cost"
+msgstr "إجمالي تكلفة الوقود"
+
+#. module: prime_construction_suite
+msgid "Total Hours Operated"
+msgstr "إجمالي ساعات التشغيل"
+
+#. module: prime_construction_suite
+msgid "Total Invoiced"
+msgstr "إجمالي المفوتر"
+
+#. module: prime_construction_suite
+msgid "Total Maintenance Cost"
+msgstr "إجمالي تكلفة الصيانة"
+
+#. module: prime_construction_suite
+msgid "Total Overhead Amount"
+msgstr "إجمالي مبلغ المصاريف العمومية"
+
+#. module: prime_construction_suite
+msgid "Total Price"
+msgstr "السعر الإجمالي"
+
+#. module: prime_construction_suite
+msgid "Total Projects"
+msgstr "إجمالي المشاريع"
+
+#. module: prime_construction_suite
+msgid "Total incl. Margin"
+msgstr "الإجمالي شامل الهامش"
+
+#. module: prime_construction_suite
+msgid "Totals"
+msgstr "الإجماليات"
+
+#. module: prime_construction_suite
+msgid "Trade"
+msgstr "المهنة"
+
+#. module: prime_construction_suite
+msgid "Trades / Specialization"
+msgstr "المهن / التخصص"
+
+#. module: prime_construction_suite
+msgid "Truck"
+msgstr "شاحنة"
+
+#. module: prime_construction_suite
+msgid "Type"
+msgstr "النوع"
+
+#. module: prime_construction_suite
+msgid "Under Maintenance"
+msgstr "تحت الصيانة"
+
+#. module: prime_construction_suite
+msgid "Under Review"
+msgstr "قيد المراجعة"
+
+#. module: prime_construction_suite
+msgid "Unit Price"
+msgstr "سعر الوحدة"
+
+#. module: prime_construction_suite
+msgid "Unpaid"
+msgstr "غير مدفوع"
+
+#. module: prime_construction_suite
+msgid "UoM"
+msgstr "وحدة القياس"
+
+#. module: prime_construction_suite
+msgid "Uploaded By"
+msgstr "رفعه"
+
+#. module: prime_construction_suite
+msgid "Urgent"
+msgstr "عاجل"
+
+#. module: prime_construction_suite
+msgid "Usage Log"
+msgstr "سجل الاستخدام"
+
+#. module: prime_construction_suite
+msgid "Usage Logs"
+msgstr "سجلات الاستخدام"
+
+#. module: prime_construction_suite
+msgid "Valid Insurance on File"
+msgstr "تأمين ساري موثّق"
+
+#. module: prime_construction_suite
+msgid "Valid Until"
+msgstr "صالح حتى"
+
+#. module: prime_construction_suite
+msgid "Variance %"
+msgstr "نسبة الانحراف %"
+
+#. module: prime_construction_suite
+msgid "Variation Qty"
+msgstr "كمية التغيير"
+
+#. module: prime_construction_suite
+msgid "View &amp; Markup"
+msgstr "عرض وتعليق"
+
+#. module: prime_construction_suite
+msgid "View &amp;amp; Markup"
+msgstr "عرض وتعليق"
+
+#. module: prime_construction_suite
+msgid "View All"
+msgstr "عرض الكل"
+
+#. module: prime_construction_suite
+msgid "View Invoice"
+msgstr "عرض الفاتورة"
+
+#. module: prime_construction_suite
+msgid "Visual timeline of planned activities"
+msgstr "جدول زمني مرئي للأنشطة المخططة"
+
+#. module: prime_construction_suite
+msgid "WHT %"
+msgstr "نسبة ضريبة الخصم %"
+
+#. module: prime_construction_suite
+msgid "WHT Amount"
+msgstr "مبلغ ضريبة الخصم"
+
+#. module: prime_construction_suite
+msgid "Weather"
+msgstr "الطقس"
+
+#. module: prime_construction_suite
+msgid "Win &amp; Create Project"
+msgstr "الفوز وإنشاء مشروع"
+
+#. module: prime_construction_suite
+msgid "Win &amp;amp; Create Project"
+msgstr "الفوز وإنشاء مشروع"
+
+#. module: prime_construction_suite
+msgid "Withdrawn"
+msgstr "منسحب"
+
+#. module: prime_construction_suite
+msgid "Withholding Tax (Client)"
+msgstr "ضريبة الخصم (العميل)"
+
+#. module: prime_construction_suite
+msgid "Won"
+msgstr "تم الفوز"
+
+#. module: prime_construction_suite
+msgid "Work Item"
+msgstr "بند عمل"
+
+#. module: prime_construction_suite
+msgid "Work Items"
+msgstr "بنود العمل"
+
+#. module: prime_construction_suite
+msgid "Work Performed Today"
+msgstr "الأعمال المنفذة اليوم"
+
+#. module: prime_construction_suite
+msgid "Work Permit"
+msgstr "تصريح عمل"
+
+#. module: prime_construction_suite
+msgid "Work Permits"
+msgstr "تصاريح العمل"
+
+#. module: prime_construction_suite
+msgid "Workers on Site"
+msgstr "عدد العمال في الموقع"
+
+#. module: prime_construction_suite
+msgid "Working at Height"
+msgstr "العمل بالارتفاعات"
+
+#. module: prime_construction_suite
+msgid "X Position (%)"
+msgstr "الموضع الأفقي (%)"
+
+#. module: prime_construction_suite
+msgid "Y Position (%)"
+msgstr "الموضع الرأسي (%)"
+
+#. module: prime_construction_suite
+msgid "Years of Experience"
+msgstr "سنوات الخبرة"
+
+#. module: prime_construction_suite
+msgid "in progress"
+msgstr "قيد التنفيذ"
+
+#. module: prime_construction_suite
+msgid "margin"
+msgstr "هامش"
+
+#. module: prime_construction_suite
+msgid "paid"
+msgstr "مدفوع"
+
+#. module: prime_construction_suite
+msgid "to"
+msgstr "إلى"
+
+#. module: prime_construction_suite
+msgid "total value"
+msgstr "القيمة الإجمالية"
+
+#. module: prime_construction_suite
+msgid "· Cost"
+msgstr "· التكلفة"
+

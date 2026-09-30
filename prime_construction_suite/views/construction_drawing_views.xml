@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_drawing_markup_viewer" model="ir.actions.client">
+        <field name="name">Drawing Markup Viewer</field>
+        <field name="tag">prime_construction_suite.drawing_markup_viewer</field>
+    </record>
+
+    <record id="view_construction_drawing_list" model="ir.ui.view">
+        <field name="name">construction.drawing.list</field>
+        <field name="model">construction.drawing</field>
+        <field name="arch" type="xml">
+            <list string="Drawings" decoration-danger="status == 'rejected'" decoration-success="status == 'approved'">
+                <field name="drawing_number"/>
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="discipline"/>
+                <field name="current_revision_id"/>
+                <field name="revision_count"/>
+                <field name="ball_in_court" widget="badge"/>
+                <field name="status" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_drawing_form" model="ir.ui.view">
+        <field name="name">construction.drawing.form</field>
+        <field name="model">construction.drawing</field>
+        <field name="arch" type="xml">
+            <form string="Drawing">
+                <header>
+                    <button name="action_new_revision" string="New Revision" type="object" class="btn-primary"/>
+                    <field name="status" widget="statusbar" statusbar_visible="for_review,approved"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object" name="action_new_revision" class="oe_stat_button" icon="fa-history">
+                            <field name="revision_count" widget="statinfo" string="Revisions"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="drawing_number" placeholder="Drawing No..."/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="project_id"/>
+                            <field name="discipline"/>
+                        </group>
+                        <group>
+                            <field name="ball_in_court"/>
+                            <field name="current_revision_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Revisions">
+                            <field name="revision_ids">
+                                <list editable="bottom" decoration-success="state in ('approved','approved_as_noted')" decoration-danger="state == 'rejected'" decoration-warning="state == 'submitted'">
+                                    <field name="sequence"/>
+                                    <field name="revision_code"/>
+                                    <field name="date"/>
+                                    <field name="file" widget="binary" filename="file_name"/>
+                                    <field name="file_name" column_invisible="1"/>
+                                    <field name="uploaded_by"/>
+                                    <field name="state" widget="badge"/>
+                                    <field name="markup_count"/>
+                                    <button name="%(action_drawing_markup_viewer)d" string="View &amp; Markup" type="action" icon="fa-eye"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_construction_drawing_search" model="ir.ui.view">
+        <field name="name">construction.drawing.search</field>
+        <field name="model">construction.drawing</field>
+        <field name="arch" type="xml">
+            <search string="Drawings">
+                <field name="drawing_number"/>
+                <field name="name"/>
+                <field name="project_id"/>
+                <separator/>
+                <filter name="group_project"    string="Project"      context="{'group_by':'project_id'}"/>
+                <filter name="group_discipline" string="Discipline"   context="{'group_by':'discipline'}"/>
+                <filter name="group_court"      string="Ball in Court" context="{'group_by':'ball_in_court'}"/>
+                <filter name="group_status"     string="Status"       context="{'group_by':'status'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_construction_drawing" model="ir.actions.act_window">
+        <field name="name">Drawings</field>
+        <field name="res_model">construction.drawing</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Register a drawing</p></field>
+    </record>
+
+    <record id="view_construction_drawing_revision_form" model="ir.ui.view">
+        <field name="name">construction.drawing.revision.form</field>
+        <field name="model">construction.drawing.revision</field>
+        <field name="arch" type="xml">
+            <form string="Drawing Revision">
+                <header>
+                    <button name="action_submit_for_review" string="Submit for Review" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_approve" string="Approve" type="object" class="btn-success" invisible="state != 'submitted'"/>
+                    <button name="action_approve_as_noted" string="Approve as Noted" type="object" invisible="state != 'submitted'"/>
+                    <button name="action_reject" string="Reject" type="object" invisible="state != 'submitted'"/>
+                    <button name="action_reset_draft" string="Reset to Draft" type="object" invisible="state == 'draft'"/>
+                    <button name="%(action_drawing_markup_viewer)d" string="View &amp; Markup" type="action"
+                            context="{'default_revision_id': id}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="drawing_id"/>
+                            <field name="sequence"/>
+                            <field name="revision_code"/>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <field name="file" filename="file_name"/>
+                            <field name="file_name" invisible="1"/>
+                            <field name="uploaded_by"/>
+                        </group>
+                    </group>
+                    <group string="Review">
+                        <group>
+                            <field name="submitted_by" readonly="1"/>
+                            <field name="date_submitted" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="reviewed_by" readonly="1"/>
+                            <field name="date_reviewed" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Review Comments">
+                        <field name="review_comments" nolabel="1"/>
+                    </group>
+                    <group string="Notes">
+                        <field name="notes" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

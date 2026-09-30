@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_construction_quality_inspection_list" model="ir.ui.view">
+        <field name="name">construction.quality.inspection.list</field>
+        <field name="model">construction.quality.inspection</field>
+        <field name="arch" type="xml">
+            <list string="Quality Inspections" decoration-danger="result == 'failed'" decoration-success="result == 'passed'" decoration-warning="result == 'passed_with_comments'">
+                <field name="name"/>
+                <field name="inspection_type" widget="badge"/>
+                <field name="project_id"/>
+                <field name="location" optional="show"/>
+                <field name="date_requested"/>
+                <field name="date_required" optional="show"/>
+                <field name="inspector_id" optional="show"/>
+                <field name="result" widget="badge" decoration-danger="result == 'failed'" decoration-success="result == 'passed'"/>
+                <field name="ncr_count" string="NCRs"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_quality_inspection_form" model="ir.ui.view">
+        <field name="name">construction.quality.inspection.form</field>
+        <field name="model">construction.quality.inspection</field>
+        <field name="arch" type="xml">
+            <form string="Quality Inspection">
+                <header>
+                    <button name="action_submit" string="Submit" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_record_result" string="Record Result" type="object" class="btn-primary" invisible="state != 'submitted'"/>
+                    <button name="action_raise_ncr" string="Raise NCR" type="object" class="btn-secondary" invisible="result != 'failed'"/>
+                    <button name="action_close" string="Close" type="object" invisible="state != 'inspected'"/>
+                    <button name="action_reset_draft" string="Reset to Draft" type="object" invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,inspected,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_ncrs" type="object" class="oe_stat_button" icon="fa-exclamation-triangle" invisible="ncr_count == 0">
+                            <field name="ncr_count" widget="statinfo" string="NCRs"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="inspection_type"/>
+                            <field name="project_id"/>
+                            <field name="contract_id"/>
+                            <field name="boq_line_id"/>
+                            <field name="location"/>
+                        </group>
+                        <group>
+                            <field name="requested_by" readonly="1"/>
+                            <field name="date_requested"/>
+                            <field name="date_required"/>
+                            <field name="inspector_id"/>
+                        </group>
+                    </group>
+                    <group string="Description">
+                        <field name="description" nolabel="1"/>
+                    </group>
+                    <group string="Result">
+                        <group>
+                            <field name="result"/>
+                            <field name="date_inspected" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="result_notes" nolabel="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_construction_quality_inspection_search" model="ir.ui.view">
+        <field name="name">construction.quality.inspection.search</field>
+        <field name="model">construction.quality.inspection</field>
+        <field name="arch" type="xml">
+            <search string="Search Inspections">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="inspector_id"/>
+                <separator/>
+                <filter name="ir_type"  string="IR"  domain="[('inspection_type','=','ir')]"/>
+                <filter name="mir_type" string="MIR" domain="[('inspection_type','=','mir')]"/>
+                <filter name="wir_type" string="WIR" domain="[('inspection_type','=','wir')]"/>
+                <separator/>
+                <filter name="failed" string="Failed" domain="[('result','=','failed')]"/>
+                <separator/>
+                <filter name="group_project" string="Project" context="{'group_by':'project_id'}"/>
+                <filter name="group_type"    string="Type"    context="{'group_by':'inspection_type'}"/>
+                <filter name="group_result"  string="Result"  context="{'group_by':'result'}"/>
+                <filter name="group_state"   string="Status"  context="{'group_by':'state'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_construction_quality_inspection_calendar" model="ir.ui.view">
+        <field name="name">construction.quality.inspection.calendar</field>
+        <field name="model">construction.quality.inspection</field>
+        <field name="arch" type="xml">
+            <calendar string="Inspections" date_start="date_required" color="inspection_type" mode="month">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="inspection_type"/>
+                <field name="result"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="action_construction_quality_inspection" model="ir.actions.act_window">
+        <field name="name">Inspections (IR / MIR / WIR)</field>
+        <field name="res_model">construction.quality.inspection</field>
+        <field name="view_mode">list,calendar,form</field>
+        <field name="search_view_id" ref="view_construction_quality_inspection_search"/>
+        <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Log a new inspection request</p></field>
+    </record>
+
+</odoo>

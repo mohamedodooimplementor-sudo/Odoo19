@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_construction_project_form" model="ir.ui.view">
+        <field name="name">construction.project.form</field>
+        <field name="model">construction.project</field>
+        <field name="arch" type="xml">
+            <form string="Construction Project">
+                <header>
+                    <button name="action_confirm" string="Confirm" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_start"   string="Start Execution" type="object" class="btn-primary" invisible="state != 'confirmed'"/>
+                    <button name="action_done"    string="Mark Complete" type="object" class="btn-success" invisible="state != 'running'"/>
+                    <button name="action_cancel"  string="Cancel" type="object" class="btn-danger" invisible="state in ('done','cancelled')"/>
+                    <button name="action_reset_draft" string="Reset to Draft" type="object" invisible="state not in ('cancelled','confirmed')"/>
+                    <button name="action_set_baseline" string="Set Baseline" type="object" class="btn-secondary"
+                            invisible="state not in ('confirmed','running')"
+                            confirm="This will snapshot the current Planned Start/End of every schedule activity that doesn't already have a baseline. Continue?"/>
+                    <button name="action_compute_cpm" string="Compute Critical Path" type="object" class="btn-secondary"
+                            invisible="state not in ('confirmed','running')"/>
+                    <button name="action_print_project_summary_pdf" string="Print Project Summary (PDF)" type="object" class="btn-secondary"/>
+                    <button name="action_print_cost_analysis_pdf" string="Print Cost Analysis (PDF)" type="object" class="btn-secondary"/>
+                    <button name="action_print_procurement_report_pdf" string="Print Procurement Report (PDF)" type="object" class="btn-secondary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,running,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_contract" type="object" class="oe_stat_button" icon="fa-file-text-o" invisible="contract_count == 0">
+                            <field name="contract_count" widget="statinfo" string="Contract"/>
+                        </button>
+                        <button name="action_view_guarantees" type="object" class="oe_stat_button" icon="fa-university">
+                            <field name="guarantee_count" widget="statinfo" string="Guarantees"/>
+                        </button>
+                        <button name="action_view_insurance" type="object" class="oe_stat_button" icon="fa-shield">
+                            <field name="insurance_count" widget="statinfo" string="Insurance"/>
+                        </button>
+                        <button name="action_view_snags" type="object" class="oe_stat_button" icon="fa-wrench">
+                            <field name="snag_open_count" widget="statinfo" string="Open Snags"/>
+                        </button>
+                        <button name="action_view_risks" type="object" class="oe_stat_button" icon="fa-bullseye" invisible="high_risk_count == 0">
+                            <field name="high_risk_count" widget="statinfo" string="High Risks"/>
+                        </button>
+                        <button name="action_view_incidents" type="object" class="oe_stat_button" icon="fa-medkit" invisible="open_incident_count == 0">
+                            <field name="open_incident_count" widget="statinfo" string="Open Incidents"/>
+                        </button>
+                        <button name="action_view_drawings" type="object" class="oe_stat_button" icon="fa-file-image-o">
+                            <field name="drawing_ids" invisible="1"/>
+                            <span class="o_stat_text">Drawings</span>
+                        </button>
+                        <button name="action_view_tenders" type="object" class="oe_stat_button" icon="fa-gavel">
+                            <field name="tender_ids" invisible="1"/>
+                            <span class="o_stat_text">Tenders</span>
+                        </button>
+                        <button name="action_view_material_requests" type="object" class="oe_stat_button" icon="fa-shopping-cart" invisible="material_request_count == 0">
+                            <field name="material_request_count" widget="statinfo" string="Material Req."/>
+                        </button>
+                        <button name="action_view_rfqs" type="object" class="oe_stat_button" icon="fa-file-text-o" invisible="rfq_count == 0">
+                            <field name="rfq_count" widget="statinfo" string="RFQs"/>
+                        </button>
+                        <button name="action_view_ncrs" type="object" class="oe_stat_button" icon="fa-exclamation-triangle" invisible="ncr_open_count == 0">
+                            <field name="ncr_open_count" widget="statinfo" string="Open NCRs"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="Project Name..."/></h1>
+                        <h4 class="text-muted"><field name="code" readonly="1"/></h4>
+                    </div>
+                    <field name="progress_percent" widget="progressbar"/>
+                    <group>
+                        <group string="Project Information">
+                            <field name="client_id"/>
+                            <field name="project_manager_id"/>
+                            <field name="program_id"/>
+                            <field name="site_engineer_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group string="Dates &amp; Location">
+                            <field name="site_address"/>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="duration_days" readonly="1"/>
+                            <field name="date_actual_end" invisible="state != 'done'"/>
+                        </group>
+                    </group>
+                    <group string="Financial">
+                        <group>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="contract_value"/>
+                            <field name="analytic_account_id"/>
+                        </group>
+                    </group>
+                    <group string="Earned Value Management (EVM)">
+                        <group>
+                            <field name="budget_at_completion" readonly="1"/>
+                            <field name="planned_value"        readonly="1"/>
+                            <field name="earned_value"          readonly="1"/>
+                            <field name="actual_cost_total"     readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="cost_performance_index"     readonly="1"/>
+                            <field name="schedule_performance_index" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="EVM (Earned Value)">
+                            <group>
+                                <group string="Values">
+                                    <field name="evm_bac" readonly="1"/>
+                                    <field name="evm_pv" readonly="1"/>
+                                    <field name="evm_ev" readonly="1"/>
+                                    <field name="evm_ac" readonly="1"/>
+                                </group>
+                                <group string="Performance Indices">
+                                    <field name="evm_cpi" readonly="1"/>
+                                    <field name="evm_spi" readonly="1"/>
+                                    <field name="evm_cv" readonly="1"/>
+                                    <field name="evm_sv" readonly="1"/>
+                                </group>
+                            </group>
+                            <group string="Forecast">
+                                <group>
+                                    <field name="evm_eac" readonly="1"/>
+                                    <field name="evm_etc" readonly="1"/>
+                                    <field name="evm_vac" readonly="1"/>
+                                </group>
+                                <group>
+                                    <div class="text-muted" style="max-width:420px;">
+                                        <p><strong>CPI</strong> &gt; 1.0 = under budget. <strong>SPI</strong> &gt; 1.0 = ahead of schedule.</p>
+                                        <p>EAC assumes the current cost performance trend (CPI) continues to project completion.</p>
+                                    </div>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Description">
+                            <field name="description" placeholder="Project description..."/>
+                        </page>
+                        <page string="Schedule">
+                            <field name="schedule_activity_ids" context="{'default_project_id': id}">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="date_start"/>
+                                    <field name="date_end"/>
+                                    <field name="duration_days" readonly="1"/>
+                                    <field name="progress" widget="progressbar"/>
+                                    <field name="responsible_id" optional="show"/>
+                                    <field name="predecessor_ids" widget="many2many_tags" optional="hide"/>
+                                    <field name="is_milestone" optional="hide"/>
+                                    <field name="actual_date_end" optional="hide"/>
+                                    <field name="delay_days" optional="show"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Documents">
+                            <field name="document_ids" context="{'default_project_id': id}">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="category"/>
+                                    <field name="date"/>
+                                    <field name="file" widget="binary" filename="file_name"/>
+                                    <field name="file_name" column_invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Risk Register">
+                            <field name="risk_ids" context="{'default_project_id': id}">
+                                <list editable="bottom" decoration-danger="risk_level == 'high' and status == 'open'">
+                                    <field name="name"/>
+                                    <field name="category"/>
+                                    <field name="probability"/>
+                                    <field name="impact"/>
+                                    <field name="risk_score" readonly="1"/>
+                                    <field name="risk_level" readonly="1" widget="badge"/>
+                                    <field name="owner_id"/>
+                                    <field name="status" widget="badge"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Site Diary">
+                            <field name="site_diary_ids" context="{'default_project_id': id}">
+                                <list editable="bottom">
+                                    <field name="date"/>
+                                    <field name="weather"/>
+                                    <field name="workforce_count"/>
+                                    <field name="reported_by"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Labor Attendance">
+                            <field name="labor_attendance_ids" context="{'default_project_id': id}">
+                                <list editable="bottom" decoration-muted="status == 'absent'">
+                                    <field name="date"/>
+                                    <field name="laborer_id"/>
+                                    <field name="status"/>
+                                    <field name="hours_worked"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                    <field name="gross_cost" readonly="1" sum="Total"/>
+                                    <field name="posted" widget="boolean_toggle"/>
+                                    <button name="action_post_to_actual_cost" string="Post" type="object" icon="fa-arrow-right" invisible="posted"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Defects Liability Period">
+                            <group>
+                                <group>
+                                    <field name="dlp_months"/>
+                                    <field name="dlp_end_date" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="dlp_state" widget="badge"
+                                           decoration-success="dlp_state == 'active'"
+                                           decoration-muted="dlp_state == 'not_started'"
+                                           decoration-danger="dlp_state == 'expired'"/>
+                                </group>
+                            </group>
+                            <field name="snag_ids" context="{'default_project_id': id}">
+                                <list editable="bottom" decoration-muted="status == 'closed'">
+                                    <field name="date_reported"/>
+                                    <field name="description"/>
+                                    <field name="location"/>
+                                    <field name="category"/>
+                                    <field name="priority" widget="badge"/>
+                                    <field name="stage"/>
+                                    <field name="status" widget="badge" decoration-success="status == 'closed'" decoration-warning="status == 'open'"/>
+                                    <button name="action_close" string="Close" type="object" icon="fa-check" invisible="status == 'closed'"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_construction_project_kanban" model="ir.ui.view">
+        <field name="name">construction.project.kanban</field>
+        <field name="model">construction.project</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" records_draggable="false">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="client_id"/>
+                <field name="state"/>
+                <field name="progress_percent"/>
+                <field name="date_end"/>
+                <field name="contract_value"/>
+                <field name="currency_id"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click p-3">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <strong t-out="record.name.value"/>
+                                <span t-attf-class="badge rounded-pill #{record.state.raw_value === 'done' ? 'text-bg-success' : record.state.raw_value === 'running' ? 'text-bg-info' : record.state.raw_value === 'cancelled' ? 'text-bg-secondary' : 'text-bg-warning'}">
+                                    <t t-out="record.state.value"/>
+                                </span>
+                            </div>
+                            <div class="text-muted small mt-1">
+                                <t t-out="record.code.value"/> · <t t-out="record.client_id.value"/>
+                            </div>
+                            <div class="mt-2">
+                                <field name="progress_percent" widget="progressbar"/>
+                            </div>
+                            <div class="d-flex justify-content-between mt-2 small text-muted">
+                                <span>Due <t t-out="record.date_end.value"/></span>
+                                <span class="fw-bold text-dark">
+                                    <field name="contract_value" widget="monetary"/>
+                                </span>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_construction_project_list" model="ir.ui.view">
+        <field name="name">construction.project.list</field>
+        <field name="model">construction.project</field>
+        <field name="arch" type="xml">
+            <list string="Construction Projects" decoration-success="state == 'done'" decoration-info="state == 'running'" decoration-muted="state == 'cancelled'">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="client_id"/>
+                <field name="project_manager_id"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="contract_value" sum="Total Contracts"/>
+                <field name="progress_percent" widget="progressbar"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'done'" decoration-info="state == 'running'"
+                       decoration-warning="state == 'confirmed'" decoration-muted="state == 'cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_project_search" model="ir.ui.view">
+        <field name="name">construction.project.search</field>
+        <field name="model">construction.project</field>
+        <field name="arch" type="xml">
+            <search string="Search Projects">
+                <field name="name" string="Project Name"/>
+                <field name="code" string="Code"/>
+                <field name="client_id" string="Client"/>
+                <field name="project_manager_id" string="Project Manager"/>
+                <separator/>
+                <filter name="draft"   string="Draft"       domain="[('state','=','draft')]"/>
+                <filter name="running" string="In Progress" domain="[('state','=','running')]"/>
+                <filter name="done"    string="Completed"   domain="[('state','=','done')]"/>
+                <filter name="my_projects" string="My Projects" domain="[('project_manager_id','=',uid)]"/>
+                <separator/>
+                <filter name="group_client"  string="Client"          context="{'group_by':'client_id'}"/>
+                <filter name="group_state"   string="Status"          context="{'group_by':'state'}"/>
+                <filter name="group_manager" string="Project Manager" context="{'group_by':'project_manager_id'}"/>
+                <filter name="group_program" string="Program"         context="{'group_by':'program_id'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_construction_project" model="ir.actions.act_window">
+        <field name="name">Projects</field>
+        <field name="res_model">construction.project</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="view_construction_project_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first construction project!</p>
+        </field>
+    </record>
+
+</odoo>

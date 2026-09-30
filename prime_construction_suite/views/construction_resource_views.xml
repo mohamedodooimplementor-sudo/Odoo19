@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_construction_resource_assignment_list" model="ir.ui.view">
+        <field name="name">construction.resource.assignment.list</field>
+        <field name="model">construction.resource.assignment</field>
+        <field name="arch" type="xml">
+            <list string="Resource Assignments" editable="bottom">
+                <field name="resource_type"/>
+                <field name="employee_id" invisible="resource_type != 'employee'"/>
+                <field name="equipment_id" invisible="resource_type != 'equipment'"/>
+                <field name="project_id"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="allocation_percent"/>
+                <field name="notes"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_resource_assignment_search" model="ir.ui.view">
+        <field name="name">construction.resource.assignment.search</field>
+        <field name="model">construction.resource.assignment</field>
+        <field name="arch" type="xml">
+            <search string="Resource Assignments">
+                <field name="employee_id"/>
+                <field name="equipment_id"/>
+                <field name="project_id"/>
+                <filter name="group_project"  string="Project"       context="{'group_by':'project_id'}"/>
+                <filter name="group_resource" string="Resource Type" context="{'group_by':'resource_type'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_construction_resource_assignment" model="ir.actions.act_window">
+        <field name="name">Resource Capacity Planning</field>
+        <field name="res_model">construction.resource.assignment</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Assign an employee or equipment to a project for a date range</p></field>
+    </record>
+
+</odoo>

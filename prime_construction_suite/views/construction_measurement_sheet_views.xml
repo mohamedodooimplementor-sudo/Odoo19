@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_construction_measurement_sheet_form" model="ir.ui.view">
+        <field name="name">construction.measurement.sheet.form</field>
+        <field name="model">construction.measurement.sheet</field>
+        <field name="arch" type="xml">
+            <form string="Measurement Sheet">
+                <header>
+                    <button name="action_load_boq_lines" string="Load BOQ Lines"      type="object" class="btn-secondary" invisible="state != 'draft'"/>
+                    <button name="action_submit"          string="Submit for Approval" type="object" class="btn-primary"   invisible="state != 'draft'"/>
+                    <button name="action_approve"         string="Approve"             type="object" class="btn-success"   invisible="state != 'submitted'" groups="prime_construction_suite.group_construction_manager"/>
+                    <button name="action_reject"          string="Reject"              type="object" invisible="state != 'submitted'" groups="prime_construction_suite.group_construction_manager"/>
+                    <button name="action_reset_draft"     string="Reset to Draft"      type="object" invisible="state not in ('submitted','rejected')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Measurement Information">
+                            <field name="contract_id"/>
+                            <field name="project_id" readonly="1"/>
+                            <field name="date"/>
+                            <field name="measured_by" readonly="1"/>
+                            <field name="location"/>
+                            <field name="weather"/>
+                        </group>
+                        <group string="Approval">
+                            <field name="date_approved" readonly="1"/>
+                            <field name="approved_by"   readonly="1"/>
+                            <field name="line_count"    readonly="1"/>
+                            <field name="currency_id"   invisible="1"/>
+                            <field name="total_amount"  readonly="1" class="fw-bold"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Measured Items">
+                            <field name="line_ids" widget="one2many">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="section_name" readonly="1" optional="show"/>
+                                    <field name="boq_line_id" domain="[('contract_id','=',parent.contract_id)]"/>
+                                    <field name="description"/>
+                                    <field name="uom_id"/>
+                                    <field name="qty_contract"      readonly="1"/>
+                                    <field name="qty_previous"      readonly="1"/>
+                                    <field name="qty_today"/>
+                                    <field name="qty_cumulative"    readonly="1"/>
+                                    <field name="unit_price"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                    <field name="amount"            readonly="1" sum="Total"/>
+                                    <field name="cumulative_percent" widget="progressbar"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes" placeholder="Site notes, remarks, deviations from drawings..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_construction_measurement_sheet_list" model="ir.ui.view">
+        <field name="name">construction.measurement.sheet.list</field>
+        <field name="model">construction.measurement.sheet</field>
+        <field name="arch" type="xml">
+            <list string="Measurement Sheets" decoration-success="state == 'approved'" decoration-warning="state == 'submitted'" decoration-muted="state == 'rejected'">
+                <field name="name"/>
+                <field name="contract_id"/>
+                <field name="project_id"/>
+                <field name="date"/>
+                <field name="measured_by"/>
+                <field name="location" optional="show"/>
+                <field name="line_count" string="Items"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="total_amount" sum="Total"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'approved'" decoration-warning="state == 'submitted'"
+                       decoration-muted="state == 'rejected'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_measurement_sheet_search" model="ir.ui.view">
+        <field name="name">construction.measurement.sheet.search</field>
+        <field name="model">construction.measurement.sheet</field>
+        <field name="arch" type="xml">
+            <search string="Search Measurement Sheets">
+                <field name="name"/>
+                <field name="contract_id"/>
+                <field name="project_id"/>
+                <field name="measured_by"/>
+                <separator/>
+                <filter name="draft"     string="Draft"     domain="[('state','=','draft')]"/>
+                <filter name="submitted" string="Submitted" domain="[('state','=','submitted')]"/>
+                <filter name="approved"  string="Approved"  domain="[('state','=','approved')]"/>
+                <filter name="rejected"  string="Rejected"  domain="[('state','=','rejected')]"/>
+                <separator/>
+                <filter name="today" string="Today" domain="[('date','=',context_today().strftime('%Y-%m-%d'))]"/>
+                <separator/>
+                <filter name="group_project"  string="Project"  context="{'group_by':'project_id'}"/>
+                <filter name="group_contract" string="Contract" context="{'group_by':'contract_id'}"/>
+                <filter name="group_date"     string="Date"     context="{'group_by':'date'}"/>
+                <filter name="group_state"    string="Status"   context="{'group_by':'state'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_construction_measurement_sheet" model="ir.actions.act_window">
+        <field name="name">Measurement Sheets</field>
+        <field name="res_model">construction.measurement.sheet</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_construction_measurement_sheet_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Record today's executed quantities!</p>
+            <p>Measurement Sheets capture the quantities physically executed on site each day. Once
+               approved, they automatically feed the quantities suggested on new Progress Invoices —
+               no need to re-enter what was already measured.</p>
+        </field>
+    </record>
+
+</odoo>

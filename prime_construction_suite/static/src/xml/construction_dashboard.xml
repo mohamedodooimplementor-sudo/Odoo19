@@ -1,0 +1,685 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+<t t-name="prime_construction_suite.Dashboard">
+<div class="o_construction_dashboard" style="background:var(--pcs-bg);height:100%;max-height:100%;overflow-y:auto;box-sizing:border-box;padding:24px;font-family:'Segoe UI',sans-serif;color-scheme:var(--pcs-color-scheme);">
+
+    <!-- ── Header ── -->
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;">
+        <div style="display:flex; align-items:center; gap:14px;">
+            <div style="width:48px;height:48px;background:linear-gradient(135deg,#6366f1,#a855f7);border-radius:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(99,102,241,.45);">
+                <i class="fa fa-building" style="color:#fff;font-size:20px;"/>
+            </div>
+            <div>
+                <h2 style="margin:0;color:var(--pcs-text-heading);font-size:24px;font-weight:800;">Construction Management Suite</h2>
+                <p style="margin:0;color:var(--pcs-text-muted);font-size:13px;">Real-time project performance overview</p>
+            </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+            <button t-on-click="exportSnapshot"
+                    style="background:linear-gradient(135deg,#4f46e5,#7c3aed);border:none;color:#fff;padding:10px 18px;border-radius:10px;cursor:pointer;font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px;box-shadow:0 4px 14px rgba(79,70,229,.4);">
+                <i class="fa fa-file-pdf-o"/> Export Snapshot
+            </button>
+            <button t-on-click="() => this._loadData()"
+                    style="background:var(--pcs-btn-secondary-bg);border:1px solid var(--pcs-border);color:var(--pcs-text-secondary);padding:10px 18px;border-radius:10px;cursor:pointer;font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px;">
+                <i class="fa fa-refresh"/> Refresh
+            </button>
+        </div>
+    </div>
+
+    <!-- ── Date Range Filter ── -->
+    <div style="background:var(--pcs-card-bg);border-radius:14px;border:1px solid var(--pcs-border);padding:14px 18px;margin-bottom:18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+        <span style="color:var(--pcs-text-muted);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;">
+            <i class="fa fa-filter" style="margin-right:6px;"/>Date Range
+        </span>
+        <input type="date" t-on-change="setDateFrom" t-att-value="state.filters.dateFrom"
+               style="border:1px solid var(--pcs-border);border-radius:8px;padding:7px 10px;font-size:13px;color:var(--pcs-text-body);background:var(--pcs-input-bg);color-scheme:var(--pcs-color-scheme);"/>
+        <span style="color:#64748b;">to</span>
+        <input type="date" t-on-change="setDateTo" t-att-value="state.filters.dateTo"
+               style="border:1px solid var(--pcs-border);border-radius:8px;padding:7px 10px;font-size:13px;color:var(--pcs-text-body);background:var(--pcs-input-bg);color-scheme:var(--pcs-color-scheme);"/>
+        <button t-on-click="applyFilters"
+                style="background:rgba(99,102,241,.18);border:none;color:var(--pcs-chip-primary-text);font-size:12px;font-weight:700;cursor:pointer;padding:8px 16px;border-radius:8px;">Apply</button>
+        <button t-on-click="clearFilters"
+                style="background:rgba(148,163,184,.12);border:none;color:var(--pcs-chip-muted-text);font-size:12px;font-weight:700;cursor:pointer;padding:8px 16px;border-radius:8px;">Clear</button>
+        <span style="color:#64748b;font-size:11px;margin-left:auto;">Filters apply to Invoiced vs. Cost Trend and Profitability data</span>
+    </div>
+
+    <t t-if="state.loading">
+        <div style="text-align:center;padding:100px 0;">
+            <i class="fa fa-spinner fa-spin fa-3x" style="color:#818cf8;"/>
+            <p style="color:var(--pcs-text-muted);margin-top:16px;font-weight:500;">Loading dashboard...</p>
+        </div>
+    </t>
+
+    <t t-if="!state.loading">
+    <div style="display:flex;gap:18px;align-items:flex-start;">
+
+    <!-- ═══════════ LEFT: MAIN CONTENT ═══════════ -->
+    <div style="flex:1;min-width:0;">
+
+        <!-- ── KPI Row 1: 4 vivid gradient cards ── -->
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:18px;">
+
+            <!-- Projects -->
+            <div t-on-click="openProjects"
+                 style="background:linear-gradient(135deg,#4f46e5,#7c3aed);border-radius:18px;padding:22px;cursor:pointer;box-shadow:0 8px 24px rgba(79,70,229,.35);position:relative;overflow:hidden;">
+                <div style="position:absolute;top:-20px;right:-20px;width:90px;height:90px;background:var(--pcs-border);border-radius:50%;"/>
+                <div style="position:relative;">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+                        <div style="width:42px;height:42px;background:rgba(255,255,255,.2);border-radius:11px;display:flex;align-items:center;justify-content:center;">
+                            <i class="fa fa-building" style="color:#fff;font-size:18px;"/>
+                        </div>
+                    </div>
+                    <p style="color:rgba(255,255,255,.85);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin:16px 0 4px;">Total Projects</p>
+                    <div style="color:#fff;font-size:34px;font-weight:800;line-height:1;"><t t-esc="state.kpis.total_projects"/></div>
+                    <p style="color:#c7d2fe;font-size:12px;margin:8px 0 0;font-weight:600;">
+                        <i class="fa fa-circle" style="font-size:7px;margin-right:4px;color:#86efac;"/><t t-esc="state.kpis.running_projects"/> in progress
+                    </p>
+                </div>
+            </div>
+
+            <!-- Contract Value -->
+            <div t-on-click="openContracts"
+                 style="background:linear-gradient(135deg,#0891b2,#06b6d4);border-radius:18px;padding:22px;cursor:pointer;box-shadow:0 8px 24px rgba(8,145,178,.35);position:relative;overflow:hidden;">
+                <div style="position:absolute;top:-20px;right:-20px;width:90px;height:90px;background:var(--pcs-border);border-radius:50%;"/>
+                <div style="position:relative;">
+                    <div style="width:42px;height:42px;background:rgba(255,255,255,.2);border-radius:11px;display:flex;align-items:center;justify-content:center;">
+                        <i class="fa fa-file-text" style="color:#fff;font-size:18px;"/>
+                    </div>
+                    <p style="color:rgba(255,255,255,.85);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin:16px 0 4px;">Contract Value</p>
+                    <div style="color:#fff;font-size:30px;font-weight:800;line-height:1;"><t t-esc="this._fmt(state.kpis.total_contract)"/></div>
+                    <p style="color:#cffafe;font-size:12px;margin:8px 0 0;font-weight:600;"><t t-esc="state.currency_symbol"/> total value</p>
+                </div>
+            </div>
+
+            <!-- Invoiced -->
+            <div t-on-click="openInvoices"
+                 style="background:linear-gradient(135deg,#059669,#10b981);border-radius:18px;padding:22px;cursor:pointer;box-shadow:0 8px 24px rgba(5,150,105,.35);position:relative;overflow:hidden;">
+                <div style="position:absolute;top:-20px;right:-20px;width:90px;height:90px;background:var(--pcs-border);border-radius:50%;"/>
+                <div style="position:relative;">
+                    <div style="width:42px;height:42px;background:rgba(255,255,255,.2);border-radius:11px;display:flex;align-items:center;justify-content:center;">
+                        <i class="fa fa-money" style="color:#fff;font-size:18px;"/>
+                    </div>
+                    <p style="color:rgba(255,255,255,.85);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin:16px 0 4px;">Total Invoiced</p>
+                    <div style="color:#fff;font-size:30px;font-weight:800;line-height:1;"><t t-esc="this._fmt(state.kpis.total_invoiced)"/></div>
+                    <p style="color:#a7f3d0;font-size:12px;margin:8px 0 0;font-weight:600;"><t t-esc="state.kpis.collection_rate"/>% of contracts</p>
+                </div>
+            </div>
+
+            <!-- Actual Costs -->
+            <div t-on-click="openCosts"
+                 style="background:linear-gradient(135deg,#ea580c,#f59e0b);border-radius:18px;padding:22px;cursor:pointer;box-shadow:0 8px 24px rgba(234,88,12,.35);position:relative;overflow:hidden;">
+                <div style="position:absolute;top:-20px;right:-20px;width:90px;height:90px;background:var(--pcs-border);border-radius:50%;"/>
+                <div style="position:relative;">
+                    <div style="width:42px;height:42px;background:rgba(255,255,255,.2);border-radius:11px;display:flex;align-items:center;justify-content:center;">
+                        <i class="fa fa-line-chart" style="color:#fff;font-size:18px;"/>
+                    </div>
+                    <p style="color:rgba(255,255,255,.85);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin:16px 0 4px;">Actual Costs</p>
+                    <div style="color:#fff;font-size:30px;font-weight:800;line-height:1;"><t t-esc="this._fmt(state.kpis.total_cost)"/></div>
+                    <p style="color:#fed7aa;font-size:12px;margin:8px 0 0;font-weight:600;">margin <t t-esc="state.kpis.profit_margin"/>%</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── KPI Row 2 ── -->
+        <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:18px;margin-bottom:18px;">
+
+            <!-- Net Profit - hero card -->
+            <div style="background:linear-gradient(135deg,#16a34a,#22c55e);border-radius:18px;padding:24px;box-shadow:0 8px 24px rgba(22,163,74,.35);position:relative;overflow:hidden;">
+                <div style="position:absolute;bottom:-30px;right:20px;width:120px;height:120px;background:var(--pcs-border);border-radius:50%;"/>
+                <div style="position:relative;display:flex;align-items:center;gap:18px;">
+                    <div style="width:56px;height:56px;background:rgba(255,255,255,.22);border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <i class="fa fa-trophy" style="color:#fff;font-size:24px;"/>
+                    </div>
+                    <div style="flex:1;">
+                        <p style="color:#dcfce7;font-size:12px;font-weight:600;margin:0;text-transform:uppercase;letter-spacing:.5px;">Net Profit</p>
+                        <div style="color:#fff;font-size:28px;font-weight:800;">
+                            <t t-esc="this._fmt(state.kpis.total_invoiced - state.kpis.total_cost)"/>
+                            <span style="font-size:14px;font-weight:500;margin-left:4px;"><t t-esc="state.currency_symbol"/></span>
+                        </div>
+                    </div>
+                    <div style="text-align:center;background:rgba(255,255,255,.18);border-radius:12px;padding:10px 16px;">
+                        <div style="color:#fff;font-size:24px;font-weight:800;"><t t-esc="state.kpis.profit_margin"/>%</div>
+                        <div style="color:#dcfce7;font-size:10px;font-weight:600;">MARGIN</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pending Change Orders -->
+            <div t-on-click="openChangeOrders"
+                 style="background:linear-gradient(135deg,#dc2626,#ef4444);border-radius:18px;padding:20px;cursor:pointer;box-shadow:0 8px 24px rgba(220,38,38,.35);">
+                <div style="display:flex;align-items:center;gap:14px;">
+                    <div style="width:48px;height:48px;background:rgba(255,255,255,.2);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <i class="fa fa-exchange" style="color:#fff;font-size:20px;"/>
+                    </div>
+                    <div>
+                        <p style="color:#fecaca;font-size:11px;margin:0;font-weight:600;">PENDING APPROVAL</p>
+                        <div style="color:#fff;font-size:26px;font-weight:800;"><t t-esc="state.kpis.pending_co"/></div>
+                        <p style="color:#fecaca;font-size:11px;margin:0;">Change Orders</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subcontractors -->
+            <div t-on-click="openSubcontractors"
+                 style="background:linear-gradient(135deg,#7c3aed,#a855f7);border-radius:18px;padding:20px;cursor:pointer;box-shadow:0 8px 24px rgba(124,58,237,.35);">
+                <div style="display:flex;align-items:center;gap:14px;">
+                    <div style="width:48px;height:48px;background:rgba(255,255,255,.2);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <i class="fa fa-users" style="color:#fff;font-size:20px;"/>
+                    </div>
+                    <div>
+                        <p style="color:#ede9fe;font-size:11px;margin:0;font-weight:600;">SUBCONTRACTORS</p>
+                        <div style="color:#fff;font-size:22px;font-weight:800;"><t t-esc="this._fmt(state.kpis.total_subcontract)"/></div>
+                        <p style="color:#ede9fe;font-size:11px;margin:0;"><t t-esc="state.currency_symbol"/> paid</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Portfolio Health ── -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-bottom:18px;">
+
+            <div style="background:linear-gradient(135deg,#0d9488,#14b8a6);border-radius:16px;padding:20px;box-shadow:0 8px 22px rgba(13,148,136,.32);position:relative;overflow:hidden;">
+                <div style="position:absolute;top:-18px;right:-18px;width:80px;height:80px;background:var(--pcs-border);border-radius:50%;"/>
+                <div style="position:relative;display:flex;align-items:center;gap:14px;">
+                    <div style="width:46px;height:46px;background:rgba(255,255,255,.2);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <i class="fa fa-hard-hat" style="color:#fff;font-size:19px;"/>
+                    </div>
+                    <div>
+                        <p style="color:#ccfbf1;font-size:11px;margin:0;font-weight:600;text-transform:uppercase;">Actual Physical Completion</p>
+                        <div style="color:#fff;font-size:26px;font-weight:800;"><t t-esc="Math.round(state.extra_kpis.overall_physical_completion)"/>%</div>
+                        <p style="color:#ccfbf1;font-size:11px;margin:0;">Weighted by BOQ value, from Measurement Sheets</p>
+                    </div>
+                </div>
+            </div>
+
+            <div t-on-click="openDelayedProjects"
+                 style="background:linear-gradient(135deg,#b91c1c,#dc2626);border-radius:16px;padding:20px;cursor:pointer;box-shadow:0 8px 22px rgba(185,28,28,.32);position:relative;overflow:hidden;">
+                <div style="position:absolute;top:-18px;right:-18px;width:80px;height:80px;background:var(--pcs-border);border-radius:50%;"/>
+                <div style="position:relative;display:flex;align-items:center;gap:14px;">
+                    <div style="width:46px;height:46px;background:rgba(255,255,255,.2);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <i class="fa fa-hourglass-end" style="color:#fff;font-size:19px;"/>
+                    </div>
+                    <div>
+                        <p style="color:#fecaca;font-size:11px;margin:0;font-weight:600;text-transform:uppercase;">Delayed Projects</p>
+                        <div style="color:#fff;font-size:26px;font-weight:800;"><t t-esc="state.extra_kpis.delayed_projects"/></div>
+                        <p style="color:#fecaca;font-size:11px;margin:0;">Past planned end date, still running</p>
+                    </div>
+                </div>
+            </div>
+
+            <div t-on-click="openNearCompletionContracts"
+                 style="background:linear-gradient(135deg,#a16207,#d97706);border-radius:16px;padding:20px;cursor:pointer;box-shadow:0 8px 22px rgba(161,98,7,.32);position:relative;overflow:hidden;">
+                <div style="position:absolute;top:-18px;right:-18px;width:80px;height:80px;background:var(--pcs-border);border-radius:50%;"/>
+                <div style="position:relative;display:flex;align-items:center;gap:14px;">
+                    <div style="width:46px;height:46px;background:rgba(255,255,255,.2);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <i class="fa fa-flag-checkered" style="color:#fff;font-size:19px;"/>
+                    </div>
+                    <div>
+                        <p style="color:#fef3c7;font-size:11px;margin:0;font-weight:600;text-transform:uppercase;">Contracts Nearing Completion</p>
+                        <div style="color:#fff;font-size:26px;font-weight:800;"><t t-esc="state.extra_kpis.near_completion_contracts"/></div>
+                        <p style="color:#fef3c7;font-size:11px;margin:0;">Ending within 30 days</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ── Row 2.5: Field Operations & Compliance ── -->
+        <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:14px;margin-bottom:18px;">
+            <div t-on-click="openEquipmentBreakdowns"
+                 style="background:var(--pcs-card-bg);border-radius:14px;border:1px solid var(--pcs-border);padding:16px 18px;cursor:pointer;display:flex;align-items:center;gap:12px;">
+                <div style="width:38px;height:38px;border-radius:10px;background:rgba(239,68,68,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <i class="fa fa-wrench" style="color:#f87171;font-size:15px;"/>
+                </div>
+                <div>
+                    <div style="color:var(--pcs-text-heading);font-size:20px;font-weight:800;line-height:1;"><t t-esc="state.extra_kpis.equipment_breakdowns"/></div>
+                    <div style="color:var(--pcs-text-muted);font-size:11px;margin-top:3px;">Equipment Faults</div>
+                </div>
+            </div>
+            <div t-on-click="openIncidents"
+                 style="background:var(--pcs-card-bg);border-radius:14px;border:1px solid var(--pcs-border);padding:16px 18px;cursor:pointer;display:flex;align-items:center;gap:12px;">
+                <div style="width:38px;height:38px;border-radius:10px;background:rgba(234,88,12,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <i class="fa fa-medkit" style="color:#fb923c;font-size:15px;"/>
+                </div>
+                <div>
+                    <div style="color:var(--pcs-text-heading);font-size:20px;font-weight:800;line-height:1;"><t t-esc="state.extra_kpis.open_incidents"/></div>
+                    <div style="color:var(--pcs-text-muted);font-size:11px;margin-top:3px;">Open Site Incidents</div>
+                </div>
+            </div>
+            <div t-on-click="openHighRisks"
+                 style="background:var(--pcs-card-bg);border-radius:14px;border:1px solid var(--pcs-border);padding:16px 18px;cursor:pointer;display:flex;align-items:center;gap:12px;">
+                <div style="width:38px;height:38px;border-radius:10px;background:rgba(99,102,241,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <i class="fa fa-bullseye" style="color:#818cf8;font-size:15px;"/>
+                </div>
+                <div>
+                    <div style="color:var(--pcs-text-heading);font-size:20px;font-weight:800;line-height:1;"><t t-esc="state.extra_kpis.high_risks"/></div>
+                    <div style="color:var(--pcs-text-muted);font-size:11px;margin-top:3px;">High Risks Open</div>
+                </div>
+            </div>
+            <div t-on-click="openDelayedActivities"
+                 style="background:var(--pcs-card-bg);border-radius:14px;border:1px solid var(--pcs-border);padding:16px 18px;cursor:pointer;display:flex;align-items:center;gap:12px;">
+                <div style="width:38px;height:38px;border-radius:10px;background:rgba(202,138,4,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <i class="fa fa-hourglass-half" style="color:#facc15;font-size:15px;"/>
+                </div>
+                <div>
+                    <div style="color:var(--pcs-text-heading);font-size:20px;font-weight:800;line-height:1;"><t t-esc="state.extra_kpis.delayed_activities"/></div>
+                    <div style="color:var(--pcs-text-muted);font-size:11px;margin-top:3px;">Delayed Activities</div>
+                </div>
+            </div>
+            <div t-on-click="openRetentionOutstanding"
+                 style="background:var(--pcs-card-bg);border-radius:14px;border:1px solid var(--pcs-border);padding:16px 18px;cursor:pointer;display:flex;align-items:center;gap:12px;">
+                <div style="width:38px;height:38px;border-radius:10px;background:rgba(13,148,136,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <i class="fa fa-lock" style="color:#2dd4bf;font-size:15px;"/>
+                </div>
+                <div>
+                    <div style="color:var(--pcs-text-heading);font-size:18px;font-weight:800;line-height:1;"><t t-esc="this._fmt(state.extra_kpis.retention_outstanding)"/></div>
+                    <div style="color:var(--pcs-text-muted);font-size:11px;margin-top:3px;">Retention Outstanding</div>
+                </div>
+            </div>
+            <div t-on-click="openComplianceExpiring"
+                 style="background:var(--pcs-card-bg);border-radius:14px;border:1px solid var(--pcs-border);padding:16px 18px;cursor:pointer;display:flex;align-items:center;gap:12px;">
+                <div style="width:38px;height:38px;border-radius:10px;background:rgba(219,39,119,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <i class="fa fa-shield" style="color:#f472b6;font-size:15px;"/>
+                </div>
+                <div>
+                    <div style="color:var(--pcs-text-heading);font-size:20px;font-weight:800;line-height:1;"><t t-esc="state.extra_kpis.compliance_expiring"/></div>
+                    <div style="color:var(--pcs-text-muted);font-size:11px;margin-top:3px;">Guarantees/Insurance Expiring</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Chart + Projects Table ── -->
+        <div style="display:grid;grid-template-columns:3fr 2fr;gap:18px;">
+
+            <!-- Bar Chart -->
+            <div style="background:var(--pcs-card-bg);border-radius:18px;border:1px solid var(--pcs-border);overflow:hidden;box-shadow:var(--pcs-shadow);">
+                <div style="padding:20px 22px 0;display:flex;justify-content:space-between;align-items:center;">
+                    <div>
+                        <h6 style="color:var(--pcs-text-heading);font-weight:700;margin:0;font-size:15px;">Contract vs. Executed Value</h6>
+                        <p style="color:var(--pcs-text-muted);font-size:12px;margin:2px 0 0;">Per-project comparison</p>
+                    </div>
+                    <div style="display:flex;gap:16px;">
+                        <span style="display:flex;align-items:center;gap:6px;color:var(--pcs-text-secondary);font-size:12px;font-weight:600;">
+                            <span style="width:11px;height:11px;background:linear-gradient(135deg,#6366f1,#818cf8);border-radius:3px;display:inline-block;"/>Contract
+                        </span>
+                        <span style="display:flex;align-items:center;gap:6px;color:var(--pcs-text-secondary);font-size:12px;font-weight:600;">
+                            <span style="width:11px;height:11px;background:linear-gradient(135deg,#059669,#10b981);border-radius:3px;display:inline-block;"/>Executed
+                        </span>
+                    </div>
+                </div>
+                <div style="padding:14px 18px 18px;">
+                    <canvas t-ref="chartCanvas" style="width:100%;height:230px;display:block;border-radius:10px;"/>
+                </div>
+            </div>
+
+            <!-- Projects List -->
+            <div style="background:var(--pcs-card-bg);border-radius:18px;border:1px solid var(--pcs-border);overflow:hidden;box-shadow:var(--pcs-shadow);">
+                <div style="padding:20px 22px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--pcs-border);">
+                    <h6 style="color:var(--pcs-text-heading);font-weight:700;margin:0;font-size:15px;">Recent Projects</h6>
+                    <button t-on-click="openProjects"
+                            style="background:rgba(99,102,241,.15);border:none;color:var(--pcs-chip-primary-text);font-size:12px;font-weight:600;cursor:pointer;padding:5px 12px;border-radius:8px;">View All</button>
+                </div>
+                <div style="overflow-y:auto;max-height:270px;">
+                    <t t-if="state.projects.length === 0">
+                        <div style="text-align:center;padding:50px;color:#64748b;">No projects yet</div>
+                    </t>
+                    <t t-foreach="state.projects" t-as="proj" t-key="proj.id">
+                        <div style="padding:13px 22px;border-bottom:1px solid var(--pcs-border);display:flex;align-items:center;gap:12px;">
+                            <div t-attf-style="width:38px;height:38px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#{this._stateBg(proj.state)};">
+                                <i class="fa fa-building" t-attf-style="color:#{this._stateColor(proj.state)};font-size:14px;"/>
+                            </div>
+                            <div style="flex:1;min-width:0;">
+                                <div style="color:var(--pcs-text-body);font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                                    <t t-esc="proj.name"/>
+                                </div>
+                                <div style="color:var(--pcs-text-muted);font-size:11px;margin-top:2px;">
+                                    <t t-esc="proj.client_id ? proj.client_id[1] : ''"/>
+                                </div>
+                            </div>
+                            <div style="text-align:right;flex-shrink:0;">
+                                <div style="color:var(--pcs-text-secondary);font-size:12px;font-weight:700;"><t t-esc="Math.round(proj.progress_percent)"/>%</div>
+                                <div style="width:60px;height:6px;background:var(--pcs-border);border-radius:3px;margin-top:5px;overflow:hidden;">
+                                    <div t-attf-style="width:#{Math.min(proj.progress_percent,100)}%;height:6px;background:linear-gradient(90deg,#10b981,#34d399);border-radius:3px;"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ── Row 3: Status Donut + Cost Breakdown + Monthly Trend ── -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1.6fr;gap:18px;margin-top:18px;">
+
+            <!-- Status Donut -->
+            <div style="background:var(--pcs-card-bg);border-radius:18px;border:1px solid var(--pcs-border);overflow:hidden;box-shadow:var(--pcs-shadow);">
+                <div style="padding:20px 22px 0;">
+                    <h6 style="color:var(--pcs-text-heading);font-weight:700;margin:0;font-size:15px;">Project Status</h6>
+                    <p style="color:var(--pcs-text-muted);font-size:12px;margin:2px 0 0;">Portfolio breakdown</p>
+                </div>
+                <div style="padding:8px 14px 14px;">
+                    <canvas t-ref="donutCanvas" style="width:100%;height:220px;display:block;"/>
+                </div>
+            </div>
+
+            <!-- Cost Breakdown by Type -->
+            <div style="background:var(--pcs-card-bg);border-radius:18px;border:1px solid var(--pcs-border);overflow:hidden;box-shadow:var(--pcs-shadow);">
+                <div style="padding:20px 22px 0;">
+                    <h6 style="color:var(--pcs-text-heading);font-weight:700;margin:0;font-size:15px;">Cost Breakdown</h6>
+                    <p style="color:var(--pcs-text-muted);font-size:12px;margin:2px 0 0;">Approved costs, by type</p>
+                </div>
+                <div style="padding:8px 14px 14px;">
+                    <canvas t-ref="costTypeCanvas" style="width:100%;height:220px;display:block;"/>
+                </div>
+            </div>
+
+            <!-- Monthly Trend -->
+            <div style="background:var(--pcs-card-bg);border-radius:18px;border:1px solid var(--pcs-border);overflow:hidden;box-shadow:var(--pcs-shadow);">
+                <div style="padding:20px 22px 0;display:flex;justify-content:space-between;align-items:center;">
+                    <div>
+                        <h6 style="color:var(--pcs-text-heading);font-weight:700;margin:0;font-size:15px;">Invoiced vs. Cost Trend</h6>
+                        <p style="color:var(--pcs-text-muted);font-size:12px;margin:2px 0 0;">Last 6 months</p>
+                    </div>
+                    <div style="display:flex;gap:16px;">
+                        <span style="display:flex;align-items:center;gap:6px;color:var(--pcs-text-secondary);font-size:12px;font-weight:600;">
+                            <span style="width:11px;height:11px;background:linear-gradient(135deg,#fbbf24,#ea580c);border-radius:3px;display:inline-block;"/>Cost
+                        </span>
+                        <span style="display:flex;align-items:center;gap:6px;color:var(--pcs-text-secondary);font-size:12px;font-weight:600;">
+                            <span style="width:11px;height:11px;background:linear-gradient(135deg,#34d399,#059669);border-radius:3px;display:inline-block;"/>Invoiced
+                        </span>
+                    </div>
+                </div>
+                <div style="padding:14px 18px 18px;">
+                    <canvas t-ref="trendCanvas" style="width:100%;height:220px;display:block;"/>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ── Procurement &amp; Accounting Integration ── -->
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px;">
+            <div t-on-click="openLinkedPurchaseOrders"
+                 style="background:linear-gradient(135deg,#0369a1,#0891b2);border-radius:16px;padding:18px 20px;cursor:pointer;display:flex;align-items:center;gap:14px;box-shadow:0 8px 20px rgba(3,105,161,.3);">
+                <div style="width:44px;height:44px;background:rgba(255,255,255,.2);border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <i class="fa fa-shopping-cart" style="color:#fff;font-size:18px;"/>
+                </div>
+                <div>
+                    <p style="color:#cffafe;font-size:11px;margin:0;font-weight:600;text-transform:uppercase;">Linked Purchase Orders</p>
+                    <div style="color:#fff;font-size:22px;font-weight:800;"><t t-esc="this._fmt(state.extra_kpis.linked_po_value)"/></div>
+                    <p style="color:#cffafe;font-size:11px;margin:0;"><t t-esc="state.extra_kpis.linked_po_count"/> confirmed orders from BOQ</p>
+                </div>
+            </div>
+
+            <div style="background:var(--pcs-card-bg);border-radius:16px;border:1px solid var(--pcs-border);padding:18px 20px;display:flex;align-items:center;gap:14px;">
+                <div style="width:44px;height:44px;background:rgba(52,211,153,.15);border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <i class="fa fa-truck" style="color:#34d399;font-size:18px;"/>
+                </div>
+                <div>
+                    <p style="color:var(--pcs-text-muted);font-size:11px;margin:0;font-weight:600;text-transform:uppercase;">Auto-Costed Receipts</p>
+                    <div style="color:var(--pcs-text-heading);font-size:22px;font-weight:800;"><t t-esc="state.extra_kpis.costs_posted_accounting"/> / <t t-esc="state.extra_kpis.costs_approved_total"/></div>
+                    <p style="color:var(--pcs-text-muted);font-size:11px;margin:0;">Approved costs posted to Accounting</p>
+                </div>
+            </div>
+
+            <div style="background:var(--pcs-card-bg);border-radius:16px;border:1px solid var(--pcs-border);padding:18px 20px;display:flex;align-items:center;gap:14px;">
+                <div style="width:44px;height:44px;background:rgba(129,140,248,.15);border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <i class="fa fa-link" style="color:#818cf8;font-size:18px;"/>
+                </div>
+                <div>
+                    <p style="color:var(--pcs-text-muted);font-size:11px;margin:0;font-weight:600;text-transform:uppercase;">Integration Status</p>
+                    <div style="color:var(--pcs-text-heading);font-size:14px;font-weight:700;">BOQ → Purchase → Stock → Accounting</div>
+                    <p style="color:var(--pcs-text-muted);font-size:11px;margin:0;">End-to-end, no manual re-entry</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Cash-flow Forecast ── -->
+        <div style="background:var(--pcs-card-bg);border-radius:18px;border:1px solid var(--pcs-border);overflow:hidden;box-shadow:var(--pcs-shadow);margin-top:18px;">
+            <div style="padding:20px 22px 0;">
+                <h6 style="color:var(--pcs-text-heading);font-weight:700;margin:0;font-size:15px;">Cash-flow Forecast</h6>
+                <p style="color:var(--pcs-text-muted);font-size:12px;margin:2px 0 0;">Projected collections, next 6 months (amortized remaining balances)</p>
+            </div>
+            <div style="padding:14px 18px 18px;">
+                <canvas t-ref="forecastCanvas" style="width:100%;height:200px;display:block;"/>
+            </div>
+        </div>
+
+        <!-- ── Project Profitability ── -->
+        <div style="background:var(--pcs-card-bg);border-radius:18px;border:1px solid var(--pcs-border);overflow:hidden;box-shadow:var(--pcs-shadow);margin-top:18px;">
+            <div style="padding:20px 22px 14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;border-bottom:1px solid var(--pcs-border);">
+                <div>
+                    <h6 style="color:var(--pcs-text-heading);font-weight:700;margin:0;font-size:15px;">Project Profitability</h6>
+                    <p style="color:var(--pcs-text-muted);font-size:12px;margin:2px 0 0;">Invoiced vs. actual cost, per project</p>
+                </div>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                    <span style="display:flex;align-items:center;gap:6px;background:rgba(16,185,129,.15);color:#34d399;font-size:12px;font-weight:700;padding:6px 12px;border-radius:20px;">
+                        <i class="fa fa-arrow-up"/> <t t-esc="state.profit_summary.profit"/> Profitable
+                    </span>
+                    <span style="display:flex;align-items:center;gap:6px;background:rgba(239,68,68,.15);color:#f87171;font-size:12px;font-weight:700;padding:6px 12px;border-radius:20px;">
+                        <i class="fa fa-arrow-down"/> <t t-esc="state.profit_summary.loss"/> At Loss
+                    </span>
+                    <span style="display:flex;align-items:center;gap:6px;background:rgba(148,163,184,.15);color:var(--pcs-chip-muted-text);font-size:12px;font-weight:700;padding:6px 12px;border-radius:20px;">
+                        <i class="fa fa-minus"/> <t t-esc="state.profit_summary.neutral"/> No Data Yet
+                    </span>
+                </div>
+            </div>
+
+            <t t-if="state.profitability.length === 0">
+                <div style="text-align:center;padding:50px;color:#64748b;">No financial data yet</div>
+            </t>
+
+            <t t-else="">
+                <div style="padding:16px 22px 4px;">
+                    <canvas t-ref="profitChartCanvas" style="width:100%;display:block;"/>
+                </div>
+            </t>
+
+            <div style="max-height:340px;overflow-y:auto;">
+                <t t-foreach="state.profitability" t-as="p" t-key="p.id">
+                    <div t-on-click="() => this.openProjectForm(p.id)"
+                         style="padding:14px 22px;border-bottom:1px solid var(--pcs-border);display:flex;align-items:center;gap:14px;cursor:pointer;">
+                        <div t-attf-style="width:40px;height:40px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#{this._profitBg(p.status)};">
+                            <i t-attf-class="fa #{this._profitIcon(p.status)}" t-attf-style="color:#{this._profitColor(p.status)};font-size:15px;"/>
+                        </div>
+                        <div style="flex:1;min-width:0;">
+                            <div style="color:var(--pcs-text-body);font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                                <t t-esc="p.name"/>
+                            </div>
+                            <div style="color:var(--pcs-text-muted);font-size:11px;margin-top:2px;">
+                                Invoiced <t t-esc="this._fmt(p.invoiced)"/> · Cost <t t-esc="this._fmt(p.cost)"/>
+                            </div>
+                        </div>
+                        <div style="text-align:right;flex-shrink:0;">
+                            <div t-attf-style="font-size:14px;font-weight:800;color:#{this._profitColor(p.status)};">
+                                <t t-if="p.profit >= 0">+</t><t t-esc="this._fmt(p.profit)"/> <t t-esc="state.currency_symbol"/>
+                            </div>
+                            <div t-attf-style="display:inline-block;margin-top:4px;font-size:10px;font-weight:700;padding:2px 9px;border-radius:10px;background:#{this._profitBg(p.status)};color:#{this._profitColor(p.status)};">
+                                <t t-esc="this._profitLabel(p.status)"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ═══════════ RIGHT: TODAY AT A GLANCE SIDEBAR ═══════════ -->
+    <div style="width:300px;flex-shrink:0;position:sticky;top:0;">
+
+        <div style="background:var(--pcs-card-bg);border-radius:18px;border:1px solid var(--pcs-border);overflow:hidden;box-shadow:var(--pcs-shadow);margin-bottom:18px;">
+            <div style="padding:18px 20px 12px;border-bottom:1px solid var(--pcs-border);">
+                <h6 style="color:var(--pcs-text-heading);font-weight:700;margin:0;font-size:15px;">
+                    <i class="fa fa-bolt" style="color:#facc15;margin-right:6px;"/>Today at a Glance
+                </h6>
+                <p style="color:var(--pcs-text-muted);font-size:11px;margin:3px 0 0;"><t t-esc="new Date().toLocaleDateString('en-GB', {weekday:'long', year:'numeric', month:'long', day:'numeric'})"/></p>
+            </div>
+            <div style="padding:6px 20px;">
+
+                <div t-on-click="openChangeOrders"
+                     style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--pcs-border);cursor:pointer;">
+                    <div style="width:34px;height:34px;border-radius:9px;background:rgba(239,68,68,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <i class="fa fa-exchange" style="color:#f87171;font-size:14px;"/>
+                    </div>
+                    <div style="flex:1;min-width:0;">
+                        <div style="color:var(--pcs-text-body);font-size:12.5px;font-weight:600;">Change Orders</div>
+                        <div style="color:#64748b;font-size:10.5px;">Pending approval</div>
+                    </div>
+                    <div style="color:#f87171;font-size:17px;font-weight:800;"><t t-esc="state.kpis.pending_co"/></div>
+                </div>
+
+                <div t-on-click="openComplianceExpiring"
+                     style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--pcs-border);cursor:pointer;">
+                    <div style="width:34px;height:34px;border-radius:9px;background:rgba(219,39,119,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <i class="fa fa-shield" style="color:#f472b6;font-size:14px;"/>
+                    </div>
+                    <div style="flex:1;min-width:0;">
+                        <div style="color:var(--pcs-text-body);font-size:12.5px;font-weight:600;">Compliance</div>
+                        <div style="color:#64748b;font-size:10.5px;">Guarantees/Insurance expiring</div>
+                    </div>
+                    <div style="color:#f472b6;font-size:17px;font-weight:800;"><t t-esc="state.extra_kpis.compliance_expiring"/></div>
+                </div>
+
+                <div t-on-click="openHighRisks"
+                     style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--pcs-border);cursor:pointer;">
+                    <div style="width:34px;height:34px;border-radius:9px;background:rgba(99,102,241,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <i class="fa fa-bullseye" style="color:#818cf8;font-size:14px;"/>
+                    </div>
+                    <div style="flex:1;min-width:0;">
+                        <div style="color:var(--pcs-text-body);font-size:12.5px;font-weight:600;">High Risks</div>
+                        <div style="color:#64748b;font-size:10.5px;">Open in risk register</div>
+                    </div>
+                    <div style="color:#818cf8;font-size:17px;font-weight:800;"><t t-esc="state.extra_kpis.high_risks"/></div>
+                </div>
+
+                <div t-on-click="openIncidents"
+                     style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--pcs-border);cursor:pointer;">
+                    <div style="width:34px;height:34px;border-radius:9px;background:rgba(234,88,12,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <i class="fa fa-medkit" style="color:#fb923c;font-size:14px;"/>
+                    </div>
+                    <div style="flex:1;min-width:0;">
+                        <div style="color:var(--pcs-text-body);font-size:12.5px;font-weight:600;">Site Incidents</div>
+                        <div style="color:#64748b;font-size:10.5px;">Currently open</div>
+                    </div>
+                    <div style="color:#fb923c;font-size:17px;font-weight:800;"><t t-esc="state.extra_kpis.open_incidents"/></div>
+                </div>
+
+                <div t-on-click="openEquipmentBreakdowns"
+                     style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--pcs-border);cursor:pointer;">
+                    <div style="width:34px;height:34px;border-radius:9px;background:rgba(239,68,68,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <i class="fa fa-wrench" style="color:#f87171;font-size:14px;"/>
+                    </div>
+                    <div style="flex:1;min-width:0;">
+                        <div style="color:var(--pcs-text-body);font-size:12.5px;font-weight:600;">Equipment Faults</div>
+                        <div style="color:#64748b;font-size:10.5px;">Unresolved breakdowns</div>
+                    </div>
+                    <div style="color:#f87171;font-size:17px;font-weight:800;"><t t-esc="state.extra_kpis.equipment_breakdowns"/></div>
+                </div>
+
+                <div t-on-click="openDelayedActivities"
+                     style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--pcs-border);cursor:pointer;">
+                    <div style="width:34px;height:34px;border-radius:9px;background:rgba(202,138,4,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <i class="fa fa-hourglass-half" style="color:#facc15;font-size:14px;"/>
+                    </div>
+                    <div style="flex:1;min-width:0;">
+                        <div style="color:var(--pcs-text-body);font-size:12.5px;font-weight:600;">Delayed Activities</div>
+                        <div style="color:#64748b;font-size:10.5px;">Behind schedule</div>
+                    </div>
+                    <div style="color:#facc15;font-size:17px;font-weight:800;"><t t-esc="state.extra_kpis.delayed_activities"/></div>
+                </div>
+
+                <div t-on-click="openRetentionOutstanding"
+                     style="display:flex;align-items:center;gap:12px;padding:11px 0;cursor:pointer;">
+                    <div style="width:34px;height:34px;border-radius:9px;background:rgba(13,148,136,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <i class="fa fa-lock" style="color:#2dd4bf;font-size:14px;"/>
+                    </div>
+                    <div style="flex:1;min-width:0;">
+                        <div style="color:var(--pcs-text-body);font-size:12.5px;font-weight:600;">Retention Outstanding</div>
+                        <div style="color:#64748b;font-size:10.5px;">Across active contracts</div>
+                    </div>
+                    <div style="color:#2dd4bf;font-size:14px;font-weight:800;"><t t-esc="this._fmt(state.extra_kpis.retention_outstanding)"/></div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ── Needs Attention ── -->
+        <div style="background:var(--pcs-card-bg);border-radius:18px;border:1px solid var(--pcs-border);overflow:hidden;box-shadow:var(--pcs-shadow);">
+            <div style="padding:18px 20px 12px;border-bottom:1px solid var(--pcs-border);">
+                <h6 style="color:var(--pcs-text-heading);font-weight:700;margin:0;font-size:15px;">
+                    <i class="fa fa-exclamation-triangle" style="color:#facc15;margin-right:6px;"/>Needs Attention
+                </h6>
+                <p style="color:var(--pcs-text-muted);font-size:11px;margin:3px 0 0;">Things that need action</p>
+            </div>
+            <div style="max-height:420px;overflow-y:auto;">
+
+                <t t-if="state.alerts.overdueProjects.length === 0 and state.alerts.overdueInvoices.length === 0 and state.alerts.staleChangeOrders.length === 0 and state.alerts.nearCompletionContracts.length === 0">
+                    <div style="text-align:center;padding:36px 20px;color:#64748b;">
+                        <i class="fa fa-check-circle" style="font-size:26px;color:#34d399;"/>
+                        <p style="margin-top:10px;font-size:12.5px;">No active alerts — everything looks on track</p>
+                    </div>
+                </t>
+
+                <t t-foreach="state.alerts.overdueProjects" t-as="op" t-key="'op'+op.id">
+                    <div t-on-click="() => this.openProjectForm(op.id)"
+                         style="padding:12px 20px;border-bottom:1px solid var(--pcs-border);display:flex;align-items:center;gap:10px;cursor:pointer;">
+                        <div style="width:32px;height:32px;border-radius:9px;background:rgba(239,68,68,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <i class="fa fa-clock-o" style="color:#f87171;font-size:13px;"/>
+                        </div>
+                        <div style="flex:1;min-width:0;">
+                            <div style="color:var(--pcs-text-body);font-size:12.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><t t-esc="op.name"/></div>
+                            <div style="color:#64748b;font-size:10.5px;">Overdue — planned end <t t-esc="op.date_end"/></div>
+                        </div>
+                    </div>
+                </t>
+
+                <t t-foreach="state.alerts.overdueInvoices" t-as="oi" t-key="'oi'+oi.id">
+                    <div t-on-click="openInvoices"
+                         style="padding:12px 20px;border-bottom:1px solid var(--pcs-border);display:flex;align-items:center;gap:10px;cursor:pointer;">
+                        <div style="width:32px;height:32px;border-radius:9px;background:rgba(234,88,12,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <i class="fa fa-file-text-o" style="color:#fb923c;font-size:13px;"/>
+                        </div>
+                        <div style="flex:1;min-width:0;">
+                            <div style="color:var(--pcs-text-body);font-size:12.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><t t-esc="oi.name"/> <span style="color:#64748b;font-weight:400;">— <t t-esc="oi.project"/></span></div>
+                            <div style="color:#64748b;font-size:10.5px;">Overdue since <t t-esc="oi.due_date"/> · <t t-esc="this._fmt(oi.amount)"/></div>
+                        </div>
+                    </div>
+                </t>
+
+                <t t-foreach="state.alerts.staleChangeOrders" t-as="co" t-key="'co'+co.id">
+                    <div t-on-click="openChangeOrders"
+                         style="padding:12px 20px;border-bottom:1px solid var(--pcs-border);display:flex;align-items:center;gap:10px;cursor:pointer;">
+                        <div style="width:32px;height:32px;border-radius:9px;background:rgba(99,102,241,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <i class="fa fa-exchange" style="color:#818cf8;font-size:13px;"/>
+                        </div>
+                        <div style="flex:1;min-width:0;">
+                            <div style="color:var(--pcs-text-body);font-size:12.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><t t-esc="co.name"/> <span style="color:#64748b;font-weight:400;">— <t t-esc="co.project"/></span></div>
+                            <div style="color:#64748b;font-size:10.5px;">Awaiting review since <t t-esc="co.date"/></div>
+                        </div>
+                    </div>
+                </t>
+
+                <t t-foreach="state.alerts.nearCompletionContracts" t-as="nc" t-key="'nc'+nc.id">
+                    <div t-on-click="() => this.openProjectForm(nc.id)"
+                         style="padding:12px 20px;border-bottom:1px solid var(--pcs-border);display:flex;align-items:center;gap:10px;cursor:pointer;">
+                        <div style="width:32px;height:32px;border-radius:9px;background:rgba(217,119,6,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <i class="fa fa-flag-checkered" style="color:#fbbf24;font-size:13px;"/>
+                        </div>
+                        <div style="flex:1;min-width:0;">
+                            <div style="color:var(--pcs-text-body);font-size:12.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><t t-esc="nc.name"/></div>
+                            <div style="color:#64748b;font-size:10.5px;">Ends <t t-esc="nc.date_end"/> · Remaining <t t-esc="this._fmt(nc.remaining_amount)"/></div>
+                        </div>
+                    </div>
+                </t>
+
+            </div>
+        </div>
+
+    </div>
+
+    </div>
+    </t>
+</div>
+</t>
+</templates>

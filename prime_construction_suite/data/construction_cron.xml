@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="ir_cron_remind_pending_invoices" model="ir.cron">
+            <field name="name">Construction Suite: Remind Pending Progress Invoices</field>
+            <field name="model_id" ref="model_construction_progress_invoice"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_remind_pending_invoices()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="ir_cron_remind_pending_change_orders" model="ir.cron">
+            <field name="name">Construction Suite: Remind Pending Change Orders</field>
+            <field name="model_id" ref="model_construction_change_order"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_remind_pending_change_orders()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="ir_cron_check_guarantee_expiry" model="ir.cron">
+            <field name="name">Construction Suite: Check Bank Guarantee Expiry</field>
+            <field name="model_id" ref="model_construction_guarantee"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_check_expiry()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="ir_cron_check_insurance_expiry" model="ir.cron">
+            <field name="name">Construction Suite: Check Insurance Policy Expiry</field>
+            <field name="model_id" ref="model_construction_insurance"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_check_expiry()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="ir_cron_check_dlp_expiry" model="ir.cron">
+            <field name="name">Construction Suite: Check DLP Expiry</field>
+            <field name="model_id" ref="model_construction_project"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_check_dlp_expiry()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="ir_cron_equipment_maintenance_due" model="ir.cron">
+            <field name="name">Construction Suite: Equipment Maintenance Due</field>
+            <field name="model_id" ref="model_construction_equipment_maintenance"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_remind_maintenance_due()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="ir_cron_expire_hse_permits" model="ir.cron">
+            <field name="name">Construction Suite: Expire Work Permits</field>
+            <field name="model_id" ref="model_construction_hse_permit"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_expire_permits()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="ir_cron_expire_prequalifications" model="ir.cron">
+            <field name="name">Construction Suite: Expire Subcontractor Prequalifications</field>
+            <field name="model_id" ref="model_construction_subcontractor_prequalification"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_expire_prequalifications()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="ir_cron_remind_pending_measurement_sheets" model="ir.cron">
+            <field name="name">Construction Suite: Remind Pending Measurement Sheets</field>
+            <field name="model_id" ref="model_construction_measurement_sheet"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_remind_pending_sheets()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="ir_cron_remind_overdue_rfis" model="ir.cron">
+            <field name="name">Construction Suite: Remind Overdue RFIs</field>
+            <field name="model_id" ref="model_construction_rfi"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_remind_overdue_rfis()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="ir_cron_snapshot_kpis" model="ir.cron">
+            <field name="name">Construction Suite: Daily KPI Snapshot</field>
+            <field name="model_id" ref="model_construction_kpi_definition"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_snapshot_all_kpis()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="ir_cron_remind_overdue_capas" model="ir.cron">
+            <field name="name">Construction Suite: Remind Overdue CAPAs</field>
+            <field name="model_id" ref="model_construction_quality_capa"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_remind_overdue_capas()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="ir_cron_expire_ppe" model="ir.cron">
+            <field name="name">Construction Suite: Expire PPE Items</field>
+            <field name="model_id" ref="model_construction_hse_ppe"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_expire_ppe()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="ir_cron_remind_overdue_risk_reviews" model="ir.cron">
+            <field name="name">Construction Suite: Remind Overdue Risk Reviews</field>
+            <field name="model_id" ref="model_construction_risk"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_remind_overdue_reviews()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+        </record>
+
+    </data>
+</odoo>

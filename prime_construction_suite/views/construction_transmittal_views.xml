@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_construction_transmittal_list" model="ir.ui.view">
+        <field name="name">construction.transmittal.list</field>
+        <field name="model">construction.transmittal</field>
+        <field name="arch" type="xml">
+            <list string="Transmittals" decoration-success="state == 'acknowledged'" decoration-muted="state == 'draft'">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="date"/>
+                <field name="partner_id"/>
+                <field name="purpose" widget="badge"/>
+                <field name="method" optional="show"/>
+                <field name="line_count" string="Documents"/>
+                <field name="state" widget="badge" decoration-success="state == 'acknowledged'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_transmittal_form" model="ir.ui.view">
+        <field name="name">construction.transmittal.form</field>
+        <field name="model">construction.transmittal</field>
+        <field name="arch" type="xml">
+            <form string="Transmittal">
+                <header>
+                    <button name="action_send" string="Send" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_acknowledge" string="Mark Acknowledged" type="object" class="btn-success" invisible="state != 'sent'"/>
+                    <button name="action_reset_draft" string="Reset to Draft" type="object" invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,sent,acknowledged"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="date"/>
+                            <field name="sent_by" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="purpose"/>
+                            <field name="method"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Documents">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="drawing_id"/>
+                                    <field name="revision_id"/>
+                                    <field name="document_id"/>
+                                    <field name="description"/>
+                                    <field name="copies"/>
+                                    <field name="remarks"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_construction_transmittal_search" model="ir.ui.view">
+        <field name="name">construction.transmittal.search</field>
+        <field name="model">construction.transmittal</field>
+        <field name="arch" type="xml">
+            <search string="Search Transmittals">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="partner_id"/>
+                <separator/>
+                <filter name="draft"        string="Draft"        domain="[('state','=','draft')]"/>
+                <filter name="sent"         string="Sent"         domain="[('state','=','sent')]"/>
+                <filter name="acknowledged" string="Acknowledged" domain="[('state','=','acknowledged')]"/>
+                <separator/>
+                <filter name="group_project" string="Project" context="{'group_by':'project_id'}"/>
+                <filter name="group_partner" string="Recipient" context="{'group_by':'partner_id'}"/>
+                <filter name="group_purpose" string="Purpose" context="{'group_by':'purpose'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_construction_transmittal" model="ir.actions.act_window">
+        <field name="name">Transmittals</field>
+        <field name="res_model">construction.transmittal</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_construction_transmittal_search"/>
+        <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Log a new transmittal</p></field>
+    </record>
+
+</odoo>

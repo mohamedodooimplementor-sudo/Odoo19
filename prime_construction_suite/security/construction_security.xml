@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- These 3 groups are intentionally NOT linked to any ir.module.category /
+             res.groups.privilege, so they do NOT show up under the standard
+             "Access Rights" tab on the user form. Instead, they're managed from a
+             single dedicated "Prime Construction Suite" tab (see
+             res_users_views.xml) — one place only, nothing split between two
+             screens. -->
+        <record id="group_construction_user" model="res.groups">
+            <field name="name">Prime Construction Suite / Site User</field>
+            <field name="sequence">10</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">Can view and create construction projects, contracts and BOQs, without financial or invoicing access.</field>
+        </record>
+        <record id="group_construction_manager" model="res.groups">
+            <field name="name">Prime Construction Suite / Project Manager</field>
+            <field name="sequence">20</field>
+            <field name="implied_ids" eval="[(4, ref('group_construction_user'))]"/>
+            <field name="comment">Full project, contract, BOQ, change order, subcontractor and cost management access.</field>
+        </record>
+        <record id="group_construction_financial" model="res.groups">
+            <field name="name">Prime Construction Suite / Financial Manager</field>
+            <field name="sequence">30</field>
+            <field name="implied_ids" eval="[(4, ref('group_construction_manager'))]"/>
+            <field name="comment">Full access including progress invoicing, billing configuration and financial reports.</field>
+        </record>
+
+        <!-- ═══════════════════════════════════════════════════════════
+             Cost & financial figures (unit prices, amounts, margins,
+             subcontractor payments) are only visible to Project Manager
+             and Financial Manager — Site Users never see them. This is
+             enforced at the VIEW level (the fields simply don't render),
+             using the SAME single role above — there is no separate
+             privilege or extra tab to manage.
+             ═══════════════════════════════════════════════════════════ -->
+
+        <!-- ═══════════════════════════════════════════════════════════
+             Multi-Company Record Rules — a user only sees records
+             belonging to a company they have access to (standard Odoo
+             multi-company pattern). Global rules (no groups=) apply to
+             every user regardless of their Construction Suite role.
+             ═══════════════════════════════════════════════════════════ -->
+        <record id="rule_construction_project_company" model="ir.rule">
+            <field name="name">Construction Project: multi-company</field>
+            <field name="model_id" ref="model_construction_project"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_construction_contract_company" model="ir.rule">
+            <field name="name">Construction Contract: multi-company</field>
+            <field name="model_id" ref="model_construction_contract"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_construction_boq_line_company" model="ir.rule">
+            <field name="name">Construction BOQ Line: multi-company</field>
+            <field name="model_id" ref="model_construction_boq_line"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_construction_actual_cost_company" model="ir.rule">
+            <field name="name">Construction Actual Cost: multi-company</field>
+            <field name="model_id" ref="model_construction_actual_cost"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_construction_subcontractor_company" model="ir.rule">
+            <field name="name">Construction Subcontractor: multi-company</field>
+            <field name="model_id" ref="model_construction_subcontractor"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_construction_equipment_company" model="ir.rule">
+            <field name="name">Construction Equipment: multi-company</field>
+            <field name="model_id" ref="model_construction_equipment"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_construction_document_company" model="ir.rule">
+            <field name="name">Construction Document: multi-company</field>
+            <field name="model_id" ref="model_construction_document"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_construction_drawing_company" model="ir.rule">
+            <field name="name">Construction Drawing: multi-company</field>
+            <field name="model_id" ref="model_construction_drawing"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_construction_rfi_company" model="ir.rule">
+            <field name="name">Construction RFI: multi-company</field>
+            <field name="model_id" ref="model_construction_rfi"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_construction_transmittal_company" model="ir.rule">
+            <field name="name">Construction Transmittal: multi-company</field>
+            <field name="model_id" ref="model_construction_transmittal"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_construction_resource_assignment_company" model="ir.rule">
+            <field name="name">Construction Resource Assignment: multi-company</field>
+            <field name="model_id" ref="model_construction_resource_assignment"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_construction_measurement_sheet_company" model="ir.rule">
+            <field name="name">Construction Measurement Sheet: multi-company</field>
+            <field name="model_id" ref="model_construction_measurement_sheet"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+    </data>
+</odoo>

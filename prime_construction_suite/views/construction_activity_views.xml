@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_construction_activity_list" model="ir.ui.view">
+        <field name="name">construction.activity.list</field>
+        <field name="model">construction.activity</field>
+        <field name="arch" type="xml">
+            <list string="Schedule Activities" editable="bottom" decoration-danger="is_critical">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="project_id" column_invisible="1"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="duration_days" readonly="1"/>
+                <field name="progress" widget="progressbar"/>
+                <field name="responsible_id" optional="show"/>
+                <field name="predecessor_ids" widget="many2many_tags" optional="show"/>
+                <field name="is_milestone" optional="show"/>
+                <field name="actual_date_start" optional="hide"/>
+                <field name="actual_date_end" optional="hide"/>
+                <field name="delay_days" optional="show"/>
+                <field name="delay_responsibility" optional="hide"/>
+                <field name="baseline_start" optional="hide" readonly="1"/>
+                <field name="baseline_end" optional="hide" readonly="1"/>
+                <field name="baseline_variance_days" optional="hide" readonly="1"/>
+                <field name="total_float" optional="show" readonly="1"/>
+                <field name="is_critical" optional="show" readonly="1" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_activity_form" model="ir.ui.view">
+        <field name="name">construction.activity.form</field>
+        <field name="model">construction.activity</field>
+        <field name="arch" type="xml">
+            <form string="Schedule Activity">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Activity name..."/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="duration_days" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="progress" widget="progressbar"/>
+                            <field name="responsible_id"/>
+                            <field name="is_milestone"/>
+                            <field name="predecessor_ids" widget="many2many_tags"
+                                   domain="[('project_id','=',project_id)]"/>
+                        </group>
+                    </group>
+                    <group string="Delay Analysis">
+                        <group>
+                            <field name="actual_date_start"/>
+                            <field name="actual_date_end"/>
+                            <field name="delay_days" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="delay_responsibility" invisible="delay_days &lt;= 0"/>
+                            <field name="delay_notes" invisible="delay_days &lt;= 0"/>
+                        </group>
+                    </group>
+                    <group string="Baseline Schedule">
+                        <group>
+                            <field name="baseline_start" readonly="1"/>
+                            <field name="baseline_end" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="baseline_variance_days" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Critical Path (CPM)" invisible="not calc_early_start">
+                        <group>
+                            <field name="calc_early_start" readonly="1"/>
+                            <field name="calc_early_finish" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="calc_late_start" readonly="1"/>
+                            <field name="calc_late_finish" readonly="1"/>
+                            <field name="total_float" readonly="1"/>
+                            <field name="is_critical" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_construction_activity_calendar" model="ir.ui.view">
+        <field name="name">construction.activity.calendar</field>
+        <field name="model">construction.activity</field>
+        <field name="arch" type="xml">
+            <calendar string="Schedule Activities" date_start="date_start" date_stop="date_end"
+                      color="project_id" event_limit="5" mode="month">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="responsible_id"/>
+                <field name="is_critical"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="action_construction_activity" model="ir.actions.act_window">
+        <field name="name">Schedule Activities</field>
+        <field name="res_model">construction.activity</field>
+        <field name="view_mode">list,calendar,form</field>
+    </record>
+
+    <record id="action_construction_gantt" model="ir.actions.client">
+        <field name="name">Project Schedule (Gantt)</field>
+        <field name="tag">prime_construction_suite.gantt</field>
+    </record>
+
+</odoo>

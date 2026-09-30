@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- A single, standalone tab on the user form for the Prime Construction Suite role —
+         deliberately separate from the "Access Rights" tab, so there's exactly one place to
+         manage it instead of it being split across two screens. -->
+    <record id="view_users_form_construction_suite" model="ir.ui.view">
+        <field name="name">res.users.form.prime.construction.suite</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Prime Construction Suite" name="prime_construction_suite">
+                    <group>
+                        <field name="construction_suite_role" widget="radio"/>
+                    </group>
+                    <div class="text-muted" style="max-width:520px;">
+                        <p><strong>Site User</strong> — view/create projects, contracts and BOQs. No cost or invoicing access.</p>
+                        <p><strong>Project Manager</strong> — full project, contract, BOQ, change order, subcontractor and cost management, including seeing prices and costs.</p>
+                        <p><strong>Financial Manager</strong> — everything above, plus progress invoicing, billing configuration and financial reports.</p>
+                    </div>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

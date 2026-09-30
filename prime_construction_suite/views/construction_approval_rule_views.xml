@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_construction_approval_rule_list" model="ir.ui.view">
+        <field name="name">construction.approval.rule.list</field>
+        <field name="model">construction.approval.rule</field>
+        <field name="arch" type="xml">
+            <list string="Approval Matrix" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="document_type"/>
+                <field name="min_amount"/>
+                <field name="max_amount"/>
+                <field name="required_role"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_approval_rule_search" model="ir.ui.view">
+        <field name="name">construction.approval.rule.search</field>
+        <field name="model">construction.approval.rule</field>
+        <field name="arch" type="xml">
+            <search string="Search Approval Rules">
+                <field name="document_type"/>
+                <filter name="group_type" string="Document Type" context="{'group_by':'document_type'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_construction_approval_rule" model="ir.actions.act_window">
+        <field name="name">Approval Matrix</field>
+        <field name="res_model">construction.approval.rule</field>
+        <field name="view_mode">list</field>
+        <field name="search_view_id" ref="view_construction_approval_rule_search"/>
+        <field name="context">{'search_default_group_type': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Define an approval rule</p>
+            <p>For each document type, set amount ranges and the role required to approve them.
+               If no rule is set up for a document type, the simple two-threshold settings under
+               Configuration &gt; Settings still apply — this is purely additive.</p>
+        </field>
+    </record>
+
+</odoo>

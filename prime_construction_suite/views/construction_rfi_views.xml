@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_construction_rfi_list" model="ir.ui.view">
+        <field name="name">construction.rfi.list</field>
+        <field name="model">construction.rfi</field>
+        <field name="arch" type="xml">
+            <list string="RFIs" decoration-danger="is_overdue" decoration-success="state == 'answered'" decoration-muted="state == 'closed'">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="subject"/>
+                <field name="discipline" optional="show"/>
+                <field name="priority" widget="badge" decoration-danger="priority == 'critical'" decoration-warning="priority == 'high'"/>
+                <field name="date_submitted"/>
+                <field name="date_required" optional="show"/>
+                <field name="days_open"/>
+                <field name="assigned_to" optional="show"/>
+                <field name="cost_impact" optional="hide"/>
+                <field name="schedule_impact" optional="hide"/>
+                <field name="state" widget="badge" decoration-success="state == 'answered'" decoration-muted="state == 'closed'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_rfi_form" model="ir.ui.view">
+        <field name="name">construction.rfi.form</field>
+        <field name="model">construction.rfi</field>
+        <field name="arch" type="xml">
+            <form string="RFI">
+                <header>
+                    <button name="action_submit" string="Submit" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_answer" string="Mark Answered" type="object" class="btn-success" invisible="state != 'submitted'"/>
+                    <button name="action_close" string="Close" type="object" invisible="state != 'answered'"/>
+                    <button name="action_reset_draft" string="Reset to Draft" type="object" invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,answered,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="contract_id"/>
+                            <field name="drawing_id"/>
+                            <field name="discipline"/>
+                            <field name="priority"/>
+                        </group>
+                        <group>
+                            <field name="submitted_by" readonly="1"/>
+                            <field name="date_submitted"/>
+                            <field name="assigned_to"/>
+                            <field name="date_required"/>
+                            <field name="is_overdue" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Question">
+                        <field name="subject"/>
+                        <field name="question" nolabel="1"/>
+                    </group>
+                    <group string="Impact">
+                        <group>
+                            <field name="cost_impact"/>
+                        </group>
+                        <group>
+                            <field name="schedule_impact"/>
+                            <field name="schedule_impact_days" invisible="not schedule_impact"/>
+                        </group>
+                    </group>
+                    <group string="Answer">
+                        <field name="answer" nolabel="1"/>
+                        <field name="answered_by" readonly="1"/>
+                        <field name="date_answered" readonly="1"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_construction_rfi_search" model="ir.ui.view">
+        <field name="name">construction.rfi.search</field>
+        <field name="model">construction.rfi</field>
+        <field name="arch" type="xml">
+            <search string="Search RFIs">
+                <field name="name"/>
+                <field name="subject"/>
+                <field name="project_id"/>
+                <field name="assigned_to"/>
+                <separator/>
+                <filter name="draft"     string="Draft"     domain="[('state','=','draft')]"/>
+                <filter name="submitted" string="Submitted" domain="[('state','=','submitted')]"/>
+                <filter name="answered"  string="Answered"  domain="[('state','=','answered')]"/>
+                <filter name="closed"    string="Closed"    domain="[('state','=','closed')]"/>
+                <separator/>
+                <filter name="overdue" string="Overdue" domain="[('is_overdue','=',True)]"/>
+                <filter name="cost_impact" string="Cost Impact" domain="[('cost_impact','=',True)]"/>
+                <filter name="schedule_impact" string="Schedule Impact" domain="[('schedule_impact','=',True)]"/>
+                <separator/>
+                <filter name="group_project"    string="Project"    context="{'group_by':'project_id'}"/>
+                <filter name="group_priority"   string="Priority"   context="{'group_by':'priority'}"/>
+                <filter name="group_discipline" string="Discipline" context="{'group_by':'discipline'}"/>
+                <filter name="group_state"      string="Status"     context="{'group_by':'state'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_construction_rfi" model="ir.actions.act_window">
+        <field name="name">RFIs (Request for Information)</field>
+        <field name="res_model">construction.rfi</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_construction_rfi_search"/>
+        <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Log a new RFI</p></field>
+    </record>
+
+</odoo>

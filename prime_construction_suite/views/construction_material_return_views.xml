@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_construction_material_return_list" model="ir.ui.view">
+        <field name="name">construction.material.return.list</field>
+        <field name="model">construction.material.return</field>
+        <field name="arch" type="xml">
+            <list string="Material Returns" decoration-success="state == 'returned'">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="date"/>
+                <field name="return_type"/>
+                <field name="partner_id" optional="show"/>
+                <field name="line_count" string="Items"/>
+                <field name="state" widget="badge" decoration-success="state == 'returned'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_material_return_form" model="ir.ui.view">
+        <field name="name">construction.material.return.form</field>
+        <field name="model">construction.material.return</field>
+        <field name="arch" type="xml">
+            <form string="Material Return">
+                <header>
+                    <button name="action_return" string="Process Return" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_reset_draft" string="Reset to Draft" type="object" invisible="state != 'returned'" groups="prime_construction_suite.group_construction_manager"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,returned"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_picking" type="object" class="oe_stat_button" icon="fa-truck" invisible="not picking_id">
+                            <div class="o_stat_info"><span class="o_stat_text">Stock Transfer</span></div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="site_issue_id"/>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <field name="return_type"/>
+                            <field name="partner_id" invisible="return_type != 'to_vendor'"/>
+                            <field name="reason"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Items">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id"/>
+                                    <field name="qty_returned"/>
+                                    <field name="uom_id"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_construction_material_return_search" model="ir.ui.view">
+        <field name="name">construction.material.return.search</field>
+        <field name="model">construction.material.return</field>
+        <field name="arch" type="xml">
+            <search string="Search Material Returns">
+                <field name="name"/>
+                <field name="project_id"/>
+                <separator/>
+                <filter name="draft"    string="Draft"    domain="[('state','=','draft')]"/>
+                <filter name="returned" string="Returned" domain="[('state','=','returned')]"/>
+                <separator/>
+                <filter name="group_project" string="Project" context="{'group_by':'project_id'}"/>
+                <filter name="group_type"    string="Return Type" context="{'group_by':'return_type'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_construction_material_return" model="ir.actions.act_window">
+        <field name="name">Material Returns</field>
+        <field name="res_model">construction.material.return</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_construction_material_return_search"/>
+        <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Log a new material return</p></field>
+    </record>
+
+</odoo>

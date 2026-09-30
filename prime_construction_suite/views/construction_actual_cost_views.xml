@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_construction_dashboard" model="ir.actions.client">
+        <field name="name">Construction Management Suite</field>
+        <field name="tag">prime_construction_suite.dashboard</field>
+    </record>
+
+    <record id="view_construction_actual_cost_form" model="ir.ui.view">
+        <field name="name">construction.actual.cost.form</field>
+        <field name="model">construction.actual.cost</field>
+        <field name="arch" type="xml">
+            <form string="Actual Cost">
+                <header>
+                    <button name="action_approve" string="Approve" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_reset_draft" string="Reset to Draft" type="object" invisible="state != 'approved'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,approved"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_journal_entry" type="object" class="oe_stat_button" icon="fa-book"
+                                invisible="not move_id">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Journal Entry</span>
+                            </div>
+                        </button>
+                    </div>
+                    <group>
+                        <group string="Cost Details">
+                            <field name="project_id" readonly="state == 'approved'"/>
+                            <field name="contract_id" domain="[('project_id','=',project_id)]" readonly="state == 'approved'"/>
+                            <field name="cost_type" readonly="state == 'approved'"/>
+                            <field name="date" readonly="state == 'approved'"/>
+                            <field name="boq_line_id" domain="[('contract_id','=',contract_id)]" readonly="state == 'approved'"/>
+                            <field name="cost_code_id" readonly="state == 'approved'"/>
+                        </group>
+                        <group string="Amount">
+                            <field name="description" readonly="state == 'approved'"/>
+                            <field name="quantity" readonly="state == 'approved'"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="unit_price" readonly="state == 'approved'" groups="prime_construction_suite.group_construction_manager"/>
+                            <field name="amount" readonly="1" class="fw-bold" groups="prime_construction_suite.group_construction_manager"/>
+                            <field name="purchase_order_id" readonly="state == 'approved'"/>
+                            <field name="stock_move_id" readonly="1" invisible="not stock_move_id"/>
+                        </group>
+                    </group>
+                    <group string="Approval" invisible="state != 'approved'">
+                        <field name="approved_by" readonly="1"/>
+                        <field name="date_approved" readonly="1"/>
+                    </group>
+                    <group string="Notes">
+                        <field name="notes" nolabel="1"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_construction_actual_cost_list" model="ir.ui.view">
+        <field name="name">construction.actual.cost.list</field>
+        <field name="model">construction.actual.cost</field>
+        <field name="arch" type="xml">
+            <list string="Actual Costs" decoration-muted="state == 'draft'">
+                <field name="date"/>
+                <field name="project_id"/>
+                <field name="cost_type"/>
+                <field name="description"/>
+                <field name="quantity"/>
+                <field name="unit_price" groups="prime_construction_suite.group_construction_manager"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="amount" sum="Total" groups="prime_construction_suite.group_construction_manager"/>
+                <field name="state" widget="badge" decoration-success="state == 'approved'" decoration-warning="state == 'draft'"/>
+                <field name="boq_line_id"       optional="hide"/>
+                <field name="cost_code_id"      optional="hide"/>
+                <field name="purchase_order_id" optional="hide"/>
+                <field name="move_id"           optional="hide" string="Journal Entry"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_actual_cost_pivot" model="ir.ui.view">
+        <field name="name">construction.actual.cost.pivot</field>
+        <field name="model">construction.actual.cost</field>
+        <field name="arch" type="xml">
+            <pivot string="Cost Analysis" disable_linking="True">
+                <field name="project_id" type="row"/>
+                <field name="cost_type"  type="col"/>
+                <field name="amount"     type="measure" groups="prime_construction_suite.group_construction_manager"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_construction_actual_cost_graph" model="ir.ui.view">
+        <field name="name">construction.actual.cost.graph</field>
+        <field name="model">construction.actual.cost</field>
+        <field name="arch" type="xml">
+            <graph string="Cost Chart" type="bar">
+                <field name="project_id"/>
+                <field name="amount" type="measure" groups="prime_construction_suite.group_construction_manager"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_construction_actual_cost_search" model="ir.ui.view">
+        <field name="name">construction.actual.cost.search</field>
+        <field name="model">construction.actual.cost</field>
+        <field name="arch" type="xml">
+            <search string="Search Costs">
+                <field name="project_id"/>
+                <field name="description"/>
+                <separator/>
+                <filter name="material"    string="Materials"      domain="[('cost_type','=','material')]"/>
+                <filter name="labor"       string="Labor"          domain="[('cost_type','=','labor')]"/>
+                <filter name="equipment"   string="Equipment"      domain="[('cost_type','=','equipment')]"/>
+                <filter name="subcontract" string="Subcontractors" domain="[('cost_type','=','subcontract')]"/>
+                <separator/>
+                <filter name="my_draft"    string="Draft"    domain="[('state','=','draft')]"/>
+                <filter name="my_approved" string="Approved" domain="[('state','=','approved')]"/>
+                <separator/>
+                <filter name="posted_accounting" string="Posted to Accounting" domain="[('move_id','!=',False)]"/>
+                <separator/>
+                <filter name="group_project"   string="Project"   context="{'group_by':'project_id'}"/>
+                <filter name="group_cost_type" string="Cost Type"  context="{'group_by':'cost_type'}"/>
+                <filter name="group_date"      string="Month"      context="{'group_by':'date:month'}"/>
+                <filter name="group_state"     string="Status"     context="{'group_by':'state'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_construction_actual_cost" model="ir.actions.act_window">
+        <field name="name">Actual Costs</field>
+        <field name="res_model">construction.actual.cost</field>
+        <field name="view_mode">list,pivot,graph,form</field>
+        <field name="search_view_id" ref="view_construction_actual_cost_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Record your first actual cost!</p>
+        </field>
+    </record>
+
+</odoo>

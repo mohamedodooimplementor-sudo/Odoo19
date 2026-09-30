@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_construction_quality_ncr_list" model="ir.ui.view">
+        <field name="name">construction.quality.ncr.list</field>
+        <field name="model">construction.quality.ncr</field>
+        <field name="arch" type="xml">
+            <list string="NCRs" decoration-danger="severity == 'critical'" decoration-warning="severity == 'major'" decoration-success="state == 'closed'">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="date_raised"/>
+                <field name="severity" widget="badge" decoration-danger="severity == 'critical'" decoration-warning="severity == 'major'"/>
+                <field name="responsible_party_id" optional="show"/>
+                <field name="capa_count" string="CAPAs"/>
+                <field name="state" widget="badge" decoration-success="state == 'closed'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_quality_ncr_form" model="ir.ui.view">
+        <field name="name">construction.quality.ncr.form</field>
+        <field name="model">construction.quality.ncr</field>
+        <field name="arch" type="xml">
+            <form string="Non-Conformance Report">
+                <header>
+                    <button name="action_open" string="Open" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_create_capa" string="Create CAPA" type="object" class="btn-primary" invisible="state not in ('open','capa_assigned')"/>
+                    <button name="action_close" string="Close" type="object" invisible="state != 'capa_assigned'"/>
+                    <button name="action_reset_draft" string="Reset to Draft" type="object" invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,open,capa_assigned,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_capas" type="object" class="oe_stat_button" icon="fa-wrench" invisible="capa_count == 0">
+                            <field name="capa_count" widget="statinfo" string="CAPAs"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="contract_id"/>
+                            <field name="inspection_id"/>
+                            <field name="boq_line_id"/>
+                        </group>
+                        <group>
+                            <field name="date_raised"/>
+                            <field name="raised_by" readonly="1"/>
+                            <field name="severity"/>
+                            <field name="responsible_party_id"/>
+                            <field name="date_closed" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Description">
+                        <field name="description" nolabel="1"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_construction_quality_ncr_search" model="ir.ui.view">
+        <field name="name">construction.quality.ncr.search</field>
+        <field name="model">construction.quality.ncr</field>
+        <field name="arch" type="xml">
+            <search string="Search NCRs">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="responsible_party_id"/>
+                <separator/>
+                <filter name="open"    string="Open"    domain="[('state','in',('open','capa_assigned'))]"/>
+                <filter name="closed"  string="Closed"   domain="[('state','=','closed')]"/>
+                <separator/>
+                <filter name="critical" string="Critical" domain="[('severity','=','critical')]"/>
+                <filter name="major"    string="Major"    domain="[('severity','=','major')]"/>
+                <separator/>
+                <filter name="group_project"  string="Project"  context="{'group_by':'project_id'}"/>
+                <filter name="group_severity" string="Severity" context="{'group_by':'severity'}"/>
+                <filter name="group_state"    string="Status"   context="{'group_by':'state'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_construction_quality_ncr_kanban" model="ir.ui.view">
+        <field name="name">construction.quality.ncr.kanban</field>
+        <field name="model">construction.quality.ncr</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" class="o_kanban_small_column">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="severity"/>
+                <field name="responsible_party_id"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click p-2">
+                            <strong><field name="name"/></strong>
+                            <div class="text-muted"><field name="project_id"/></div>
+                            <div>
+                                <span t-attf-class="badge #{record.severity.raw_value == 'critical' ? 'text-bg-danger' : record.severity.raw_value == 'major' ? 'text-bg-warning' : 'text-bg-secondary'}">
+                                    <field name="severity"/>
+                                </span>
+                            </div>
+                            <div t-if="record.responsible_party_id.raw_value" class="text-muted small">
+                                <field name="responsible_party_id"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="action_construction_quality_ncr" model="ir.actions.act_window">
+        <field name="name">Non-Conformance Reports (NCR)</field>
+        <field name="res_model">construction.quality.ncr</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="view_construction_quality_ncr_search"/>
+        <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Log a new NCR</p></field>
+    </record>
+
+</odoo>

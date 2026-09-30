@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+
+<t t-name="prime_construction_suite.GanttChart" owl="1">
+    <div style="background:#f5f6fa;min-height:100%;padding:24px;font-family:'Segoe UI',Arial,sans-serif;">
+
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:12px;">
+            <div>
+                <h2 style="margin:0;color:#1e293b;font-size:22px;font-weight:800;">Project Schedule</h2>
+                <p style="margin:0;color:#64748b;font-size:13px;">Visual timeline of planned activities</p>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+                <select t-on-change="onProjectChange"
+                        style="border:1px solid #e2e8f0;border-radius:10px;padding:9px 14px;font-size:13px;color:#334155;background:#fff;min-width:220px;">
+                    <t t-foreach="state.projects" t-as="p" t-key="p.id">
+                        <option t-att-value="p.id" t-att-selected="p.id === state.projectId"><t t-esc="p.name"/></option>
+                    </t>
+                </select>
+                <button t-on-click="openScheduleList"
+                        style="background:linear-gradient(135deg,#4f46e5,#7c3aed);border:none;color:#fff;padding:9px 16px;border-radius:10px;cursor:pointer;font-size:13px;font-weight:600;">
+                    <i class="fa fa-list"/> Edit Activities
+                </button>
+            </div>
+        </div>
+
+        <div style="background:#fff;border-radius:16px;border:1px solid #e2e8f0;box-shadow:0 1px 3px rgba(0,0,0,.04);padding:18px;">
+            <t t-if="state.loading">
+                <div style="text-align:center;padding:60px;color:#94a3b8;">Loading…</div>
+            </t>
+            <t t-else="">
+                <canvas t-ref="ganttCanvas" style="width:100%;display:block;"/>
+            </t>
+        </div>
+
+    </div>
+</t>
+
+</templates>

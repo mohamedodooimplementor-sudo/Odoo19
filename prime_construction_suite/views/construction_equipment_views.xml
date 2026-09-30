@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_construction_equipment_list" model="ir.ui.view">
+        <field name="name">construction.equipment.list</field>
+        <field name="model">construction.equipment</field>
+        <field name="arch" type="xml">
+            <list string="Equipment" decoration-danger="status == 'breakdown'" decoration-warning="status == 'maintenance'" decoration-success="status == 'available'">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="equipment_type"/>
+                <field name="ownership_type"/>
+                <field name="current_project_id"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="hourly_rate"/>
+                <field name="total_hours_operated" sum="Total Hours"/>
+                <field name="status" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_equipment_usage_list" model="ir.ui.view">
+        <field name="name">construction.equipment.usage.list</field>
+        <field name="model">construction.equipment.usage</field>
+        <field name="arch" type="xml">
+            <list string="Equipment Usage">
+                <field name="date"/>
+                <field name="equipment_id"/>
+                <field name="project_id"/>
+                <field name="hours_operated" sum="Total Hours"/>
+                <field name="fuel_liters" sum="Total Fuel"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="total_cost" sum="Total Cost"/>
+                <field name="posted"/>
+                <button name="action_post_to_actual_cost" string="Post to Cost" type="object" icon="fa-arrow-right" invisible="posted"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_equipment_usage_search" model="ir.ui.view">
+        <field name="name">construction.equipment.usage.search</field>
+        <field name="model">construction.equipment.usage</field>
+        <field name="arch" type="xml">
+            <search string="Equipment Usage">
+                <field name="equipment_id"/>
+                <field name="project_id"/>
+                <filter name="group_project"   string="Project"   context="{'group_by':'project_id'}"/>
+                <filter name="group_equipment" string="Equipment" context="{'group_by':'equipment_id'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_construction_equipment_usage" model="ir.actions.act_window">
+        <field name="name">Equipment Usage Log</field>
+        <field name="res_model">construction.equipment.usage</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_construction_equipment_form" model="ir.ui.view">
+        <field name="name">construction.equipment.form</field>
+        <field name="model">construction.equipment</field>
+        <field name="arch" type="xml">
+            <form string="Equipment">
+                <header>
+                    <field name="status" widget="statusbar" statusbar_visible="available,in_use,maintenance,breakdown"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(action_construction_equipment_usage)d" type="action" class="oe_stat_button" icon="fa-clock-o"
+                                context="{'search_default_equipment_id': id}">
+                            <field name="total_hours_operated" widget="statinfo" string="Hours"/>
+                        </button>
+                        <button type="object" name="action_view_breakdowns" class="oe_stat_button" icon="fa-exclamation-triangle" invisible="open_breakdown_count == 0">
+                            <field name="open_breakdown_count" widget="statinfo" string="Open Faults"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="e.g. CAT 320 Excavator"/></h1>
+                    </div>
+                    <group>
+                        <group string="Identification">
+                            <field name="code"/>
+                            <field name="equipment_type"/>
+                            <field name="plate_number"/>
+                            <field name="ownership_type"/>
+                            <field name="supplier_id" invisible="ownership_type != 'rented'"/>
+                        </group>
+                        <group string="Cost &amp; Assignment">
+                            <field name="currency_id" invisible="1"/>
+                            <field name="hourly_rate"/>
+                            <field name="fuel_price"/>
+                            <field name="current_project_id"/>
+                        </group>
+                    </group>
+                    <group string="Totals">
+                        <group>
+                            <field name="total_hours_operated" readonly="1"/>
+                            <field name="total_fuel_cost" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="total_maintenance_cost" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Usage Log">
+                            <field name="usage_ids">
+                                <list editable="bottom">
+                                    <field name="date"/>
+                                    <field name="project_id"/>
+                                    <field name="hours_operated"/>
+                                    <field name="fuel_liters"/>
+                                    <field name="operator_name"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                    <field name="fuel_cost" readonly="1" sum="Fuel Cost"/>
+                                    <field name="equipment_cost" readonly="1" sum="Equipment Cost"/>
+                                    <field name="total_cost" readonly="1" sum="Total"/>
+                                    <field name="posted" widget="boolean_toggle"/>
+                                    <button name="action_post_to_actual_cost" string="Post to Cost" type="object" icon="fa-arrow-right" invisible="posted"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Maintenance">
+                            <field name="maintenance_ids">
+                                <list editable="bottom">
+                                    <field name="date"/>
+                                    <field name="maintenance_type"/>
+                                    <field name="description"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                    <field name="cost" sum="Total"/>
+                                    <field name="performed_by"/>
+                                    <field name="next_due_date"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Breakdowns / Faults">
+                            <field name="breakdown_ids">
+                                <list editable="bottom" decoration-danger="status == 'open'">
+                                    <field name="date_reported"/>
+                                    <field name="project_id"/>
+                                    <field name="description"/>
+                                    <field name="downtime_hours"/>
+                                    <field name="date_resolved"/>
+                                    <field name="status" widget="badge"/>
+                                    <button name="action_resolve" string="Resolve" type="object" icon="fa-check" invisible="status == 'resolved'"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_construction_equipment_search" model="ir.ui.view">
+        <field name="name">construction.equipment.search</field>
+        <field name="model">construction.equipment</field>
+        <field name="arch" type="xml">
+            <search string="Equipment">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="current_project_id"/>
+                <filter name="available"   string="Available"   domain="[('status','=','available')]"/>
+                <filter name="breakdown"   string="Breakdown"   domain="[('status','=','breakdown')]"/>
+                <separator/>
+                <filter name="group_type"    string="Type"    context="{'group_by':'equipment_type'}"/>
+                <filter name="group_project" string="Project" context="{'group_by':'current_project_id'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_construction_equipment" model="ir.actions.act_window">
+        <field name="name">Equipment</field>
+        <field name="res_model">construction.equipment</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Register your first equipment / machine</p></field>
+    </record>
+
+    <record id="action_server_equipment_utilization_pdf" model="ir.actions.server">
+        <field name="name">Print Equipment Utilization Report (PDF)</field>
+        <field name="model_id" ref="model_construction_equipment"/>
+        <field name="binding_model_id" ref="model_construction_equipment"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">action = model.action_print_equipment_utilization_pdf(records.ids if records else False)</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_construction_config_settings" model="ir.ui.view">
+        <field name="name">construction.config.settings</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app string="Construction Suite" name="prime_construction_suite">
+                    <block title="Cost Approval Thresholds">
+                        <setting string="Auto-Approval Limit (Site User)"
+                                 help="Actual costs at or below this amount can be approved by any Construction Suite user.">
+                            <field name="construction_approval_threshold_1"/>
+                        </setting>
+                        <setting string="Project Manager Limit"
+                                 help="Costs above the first limit and up to this amount require a Project Manager. Above this amount requires a Financial Manager.">
+                            <field name="construction_approval_threshold_2"/>
+                        </setting>
+                    </block>
+                    <block title="Accounting Integration"
+                           help="When configured, approving an Actual Cost automatically posts a journal entry to Accounting, tagged with the project's analytic account. Leave the journal empty to keep costs tracked only within the Construction Suite.">
+                        <setting string="Cost Journal">
+                            <field name="construction_cost_journal_id"/>
+                        </setting>
+                        <setting string="Accrued Project Costs (Credit)">
+                            <field name="construction_accrual_account_id"/>
+                        </setting>
+                        <setting string="Materials Account (Debit)">
+                            <field name="construction_material_account_id"/>
+                        </setting>
+                        <setting string="Labor Account (Debit)">
+                            <field name="construction_labor_account_id"/>
+                        </setting>
+                        <setting string="Equipment Account (Debit)">
+                            <field name="construction_equipment_account_id"/>
+                        </setting>
+                        <setting string="Subcontract Account (Debit)">
+                            <field name="construction_subcontract_account_id"/>
+                        </setting>
+                        <setting string="Overhead Account (Debit)">
+                            <field name="construction_overhead_account_id"/>
+                        </setting>
+                        <setting string="Other Costs Account (Debit)">
+                            <field name="construction_other_account_id"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+
+
+</odoo>

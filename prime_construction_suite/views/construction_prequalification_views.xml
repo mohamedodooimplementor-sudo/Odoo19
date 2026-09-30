@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_construction_prequalification_list" model="ir.ui.view">
+        <field name="name">construction.subcontractor.prequalification.list</field>
+        <field name="model">construction.subcontractor.prequalification</field>
+        <field name="arch" type="xml">
+            <list string="Subcontractor Prequalification" decoration-success="status == 'approved'" decoration-danger="status in ('rejected','expired')">
+                <field name="partner_id"/>
+                <field name="trades"/>
+                <field name="years_experience"/>
+                <field name="score"/>
+                <field name="valid_until"/>
+                <field name="status" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_prequalification_form" model="ir.ui.view">
+        <field name="name">construction.subcontractor.prequalification.form</field>
+        <field name="model">construction.subcontractor.prequalification</field>
+        <field name="arch" type="xml">
+            <form string="Subcontractor Prequalification">
+                <header>
+                    <button name="action_approve" string="Approve" type="object" class="btn-primary" invisible="status != 'pending'"/>
+                    <button name="action_reject"   string="Reject"  type="object" invisible="status != 'pending'"/>
+                    <button name="action_reset_pending" string="Reset to Pending" type="object" invisible="status == 'pending'"/>
+                    <field name="status" widget="statusbar" statusbar_visible="pending,approved"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="partner_id"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="trades"/>
+                            <field name="years_experience"/>
+                            <field name="score"/>
+                            <field name="valid_until"/>
+                        </group>
+                        <group>
+                            <field name="insurance_valid"/>
+                            <field name="insurance_expiry_date" invisible="not insurance_valid"/>
+                            <field name="reviewed_by" readonly="1"/>
+                            <field name="review_date" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Safety Record / HSE History">
+                        <field name="safety_record_notes" nolabel="1"/>
+                    </group>
+                    <group string="Financial Capacity">
+                        <field name="financial_reference" nolabel="1"/>
+                    </group>
+                    <group string="Reference Projects">
+                        <field name="reference_projects" nolabel="1"/>
+                    </group>
+                    <group string="Notes">
+                        <field name="notes" nolabel="1"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_construction_prequalification_search" model="ir.ui.view">
+        <field name="name">construction.subcontractor.prequalification.search</field>
+        <field name="model">construction.subcontractor.prequalification</field>
+        <field name="arch" type="xml">
+            <search string="Prequalification">
+                <field name="partner_id"/>
+                <field name="trades"/>
+                <filter name="pending"  string="Pending"  domain="[('status','=','pending')]"/>
+                <filter name="approved" string="Approved" domain="[('status','=','approved')]"/>
+                <separator/>
+                <filter name="group_status" string="Status" context="{'group_by':'status'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_construction_prequalification" model="ir.actions.act_window">
+        <field name="name">Subcontractor Prequalification</field>
+        <field name="res_model">construction.subcontractor.prequalification</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_pending': 1}</field>
+        <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Start a subcontractor prequalification</p></field>
+    </record>
+
+</odoo>

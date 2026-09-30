@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_construction_quality_capa_list" model="ir.ui.view">
+        <field name="name">construction.quality.capa.list</field>
+        <field name="model">construction.quality.capa</field>
+        <field name="arch" type="xml">
+            <list string="CAPAs" decoration-danger="is_overdue" decoration-success="state == 'verified'">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="ncr_id"/>
+                <field name="action_type" widget="badge"/>
+                <field name="assigned_to"/>
+                <field name="due_date"/>
+                <field name="is_overdue" invisible="1"/>
+                <field name="state" widget="badge" decoration-success="state == 'verified'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_quality_capa_form" model="ir.ui.view">
+        <field name="name">construction.quality.capa.form</field>
+        <field name="model">construction.quality.capa</field>
+        <field name="arch" type="xml">
+            <form string="CAPA">
+                <header>
+                    <button name="action_start"    string="Start"    type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_complete" string="Complete" type="object" class="btn-primary" invisible="state != 'in_progress'"/>
+                    <button name="action_verify"   string="Verify"   type="object" class="btn-success" invisible="state != 'completed'" groups="prime_construction_suite.group_construction_manager"/>
+                    <button name="action_reset_draft" string="Reset to Draft" type="object" invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,completed,verified"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="ncr_id"/>
+                            <field name="action_type"/>
+                        </group>
+                        <group>
+                            <field name="assigned_to"/>
+                            <field name="due_date"/>
+                            <field name="is_overdue" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Action Description">
+                        <field name="description" nolabel="1"/>
+                    </group>
+                    <group string="Verification" invisible="state not in ('completed','verified')">
+                        <group>
+                            <field name="date_completed" readonly="1"/>
+                            <field name="verified_by" readonly="1"/>
+                            <field name="date_verified" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="verification_notes" nolabel="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_construction_quality_capa_search" model="ir.ui.view">
+        <field name="name">construction.quality.capa.search</field>
+        <field name="model">construction.quality.capa</field>
+        <field name="arch" type="xml">
+            <search string="Search CAPAs">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="assigned_to"/>
+                <separator/>
+                <filter name="overdue" string="Overdue" domain="[('is_overdue','=',True)]"/>
+                <separator/>
+                <filter name="group_project" string="Project" context="{'group_by':'project_id'}"/>
+                <filter name="group_assignee" string="Assigned To" context="{'group_by':'assigned_to'}"/>
+                <filter name="group_state" string="Status" context="{'group_by':'state'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_construction_quality_capa_kanban" model="ir.ui.view">
+        <field name="name">construction.quality.capa.kanban</field>
+        <field name="model">construction.quality.capa</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" class="o_kanban_small_column">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="assigned_to"/>
+                <field name="due_date"/>
+                <field name="is_overdue"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click p-2" t-attf-class="#{record.is_overdue.raw_value ? 'border-start border-danger border-3' : ''}">
+                            <strong><field name="name"/></strong>
+                            <div class="text-muted"><field name="project_id"/></div>
+                            <div class="text-muted small"><field name="assigned_to"/></div>
+                            <div t-if="record.due_date.raw_value" class="small" t-attf-class="#{record.is_overdue.raw_value ? 'text-danger fw-bold' : 'text-muted'}">
+                                Due: <field name="due_date"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="action_construction_quality_capa" model="ir.actions.act_window">
+        <field name="name">CAPAs</field>
+        <field name="res_model">construction.quality.capa</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="view_construction_quality_capa_search"/>
+        <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Create a new corrective/preventive action</p></field>
+    </record>
+
+</odoo>

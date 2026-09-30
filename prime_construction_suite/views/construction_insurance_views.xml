@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_construction_insurance_list" model="ir.ui.view">
+        <field name="name">construction.insurance.list</field>
+        <field name="model">construction.insurance</field>
+        <field name="arch" type="xml">
+            <list string="Insurance Policies" decoration-danger="state == 'expired'" decoration-warning="days_to_expiry &lt;= 30 and state == 'active'">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="insurance_type"/>
+                <field name="insurer"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="coverage_amount" sum="Total Coverage"/>
+                <field name="start_date"/>
+                <field name="expiry_date"/>
+                <field name="days_to_expiry"/>
+                <field name="state" widget="badge" decoration-success="state == 'active'" decoration-danger="state == 'expired'" decoration-muted="state == 'cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_insurance_form" model="ir.ui.view">
+        <field name="name">construction.insurance.form</field>
+        <field name="model">construction.insurance</field>
+        <field name="arch" type="xml">
+            <form string="Insurance Policy">
+                <header>
+                    <button name="action_cancel"     string="Cancel"     type="object" invisible="state != 'active'"/>
+                    <button name="action_reactivate"  string="Reactivate" type="object" invisible="state == 'active'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="active"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Policy Details">
+                            <field name="project_id"/>
+                            <field name="insurance_type"/>
+                            <field name="insurer"/>
+                            <field name="policy_number"/>
+                        </group>
+                        <group string="Coverage &amp; Validity">
+                            <field name="currency_id" invisible="1"/>
+                            <field name="coverage_amount"/>
+                            <field name="premium_amount"/>
+                            <field name="start_date"/>
+                            <field name="expiry_date"/>
+                            <field name="days_to_expiry" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Notes">
+                        <field name="notes" nolabel="1"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_construction_insurance_search" model="ir.ui.view">
+        <field name="name">construction.insurance.search</field>
+        <field name="model">construction.insurance</field>
+        <field name="arch" type="xml">
+            <search string="Insurance Policies">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="insurer"/>
+                <filter name="active" string="Active" domain="[('state','=','active')]"/>
+                <filter name="expiring_soon" string="Expiring Soon (30 days)" domain="[('state','=','active'),('days_to_expiry','&lt;=',30)]"/>
+                <separator/>
+                <filter name="group_project" string="Project" context="{'group_by':'project_id'}"/>
+                <filter name="group_type"    string="Type"    context="{'group_by':'insurance_type'}"/>
+                <filter name="group_state"   string="Status"  context="{'group_by':'state'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_construction_insurance" model="ir.actions.act_window">
+        <field name="name">Insurance Policies</field>
+        <field name="res_model">construction.insurance</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Record an insurance policy</p></field>
+    </record>
+
+</odoo>

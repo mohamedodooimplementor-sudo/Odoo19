@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_construction_final_account_list" model="ir.ui.view">
+        <field name="name">construction.final.account.list</field>
+        <field name="model">construction.final.account</field>
+        <field name="arch" type="xml">
+            <list string="Final Accounts" decoration-success="state == 'closed'">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="date"/>
+                <field name="final_contract_value" sum="Total"/>
+                <field name="total_invoiced" sum="Total"/>
+                <field name="final_profit" sum="Total"/>
+                <field name="balance_due" sum="Total"/>
+                <field name="state" widget="badge" decoration-success="state == 'closed'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_final_account_form" model="ir.ui.view">
+        <field name="name">construction.final.account.form</field>
+        <field name="model">construction.final.account</field>
+        <field name="arch" type="xml">
+            <form string="Final Account">
+                <header>
+                    <button name="action_pull_figures" string="Pull Figures from Contract" type="object" class="btn-secondary" invisible="state != 'draft'"/>
+                    <button name="action_submit" string="Submit" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_agree" string="Mark Agreed by Client" type="object" class="btn-success" invisible="state != 'submitted'"/>
+                    <button name="action_close" string="Close" type="object" invisible="state != 'agreed'"/>
+                    <button name="action_reset_draft" string="Reset to Draft" type="object" invisible="state == 'draft'" groups="prime_construction_suite.group_construction_manager"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,agreed,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="contract_id"/>
+                            <field name="date"/>
+                            <field name="prepared_by" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="defects_liability_end_date"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="Contract Value">
+                        <group>
+                            <field name="original_contract_value"/>
+                            <field name="total_variations"/>
+                            <field name="final_contract_value" readonly="1" class="fw-bold"/>
+                        </group>
+                        <group>
+                            <field name="total_invoiced"/>
+                            <field name="total_actual_cost"/>
+                            <field name="final_profit" readonly="1" class="fw-bold"/>
+                        </group>
+                    </group>
+                    <group string="Retention">
+                        <group>
+                            <field name="total_retention_held"/>
+                            <field name="retention_release_1"/>
+                            <field name="retention_release_2"/>
+                        </group>
+                        <group>
+                            <field name="retention_remaining" readonly="1"/>
+                            <field name="balance_due" readonly="1" class="fw-bold"/>
+                        </group>
+                    </group>
+                    <group string="Notes">
+                        <field name="notes" nolabel="1"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_construction_final_account_search" model="ir.ui.view">
+        <field name="name">construction.final.account.search</field>
+        <field name="model">construction.final.account</field>
+        <field name="arch" type="xml">
+            <search string="Search Final Accounts">
+                <field name="name"/>
+                <field name="project_id"/>
+                <separator/>
+                <filter name="draft"  string="Draft"  domain="[('state','=','draft')]"/>
+                <filter name="agreed" string="Agreed" domain="[('state','=','agreed')]"/>
+                <filter name="closed" string="Closed" domain="[('state','=','closed')]"/>
+                <separator/>
+                <filter name="group_project" string="Project" context="{'group_by':'project_id'}"/>
+                <filter name="group_state"   string="Status"  context="{'group_by':'state'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_construction_final_account" model="ir.actions.act_window">
+        <field name="name">Final Accounts</field>
+        <field name="res_model">construction.final.account</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_construction_final_account_search"/>
+        <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Create a project close-out statement</p></field>
+    </record>
+
+</odoo>

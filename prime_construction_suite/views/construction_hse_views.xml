@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Incidents -->
+    <record id="view_construction_hse_incident_list" model="ir.ui.view">
+        <field name="name">construction.hse.incident.list</field>
+        <field name="model">construction.hse.incident</field>
+        <field name="arch" type="xml">
+            <list string="Site Incidents" decoration-danger="severity in ('severe','fatal')" decoration-warning="severity == 'moderate'">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="date"/>
+                <field name="incident_type"/>
+                <field name="severity" widget="badge"/>
+                <field name="status" widget="badge" decoration-success="status == 'closed'" decoration-warning="status == 'open'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_hse_incident_form" model="ir.ui.view">
+        <field name="name">construction.hse.incident.form</field>
+        <field name="model">construction.hse.incident</field>
+        <field name="arch" type="xml">
+            <form string="Site Incident">
+                <header>
+                    <button name="action_close"  string="Close"  type="object" class="btn-primary" invisible="status == 'closed'"/>
+                    <button name="action_reopen" string="Reopen" type="object" invisible="status == 'open'"/>
+                    <field name="status" widget="statusbar" statusbar_visible="open,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="date"/>
+                            <field name="incident_type"/>
+                            <field name="severity"/>
+                        </group>
+                        <group>
+                            <field name="location"/>
+                            <field name="injured_person" invisible="incident_type != 'injury'"/>
+                            <field name="reported_by"/>
+                        </group>
+                    </group>
+                    <group string="Description">
+                        <field name="description" nolabel="1"/>
+                    </group>
+                    <group string="Immediate Action Taken">
+                        <field name="action_taken" nolabel="1"/>
+                    </group>
+                    <group string="Corrective / Preventive Action">
+                        <field name="corrective_action" nolabel="1"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_construction_hse_incident_search" model="ir.ui.view">
+        <field name="name">construction.hse.incident.search</field>
+        <field name="model">construction.hse.incident</field>
+        <field name="arch" type="xml">
+            <search string="Search Incidents">
+                <field name="name"/>
+                <field name="project_id"/>
+                <separator/>
+                <filter name="near_miss" string="Near Miss" domain="[('incident_type','=','near_miss')]"/>
+                <filter name="injury"    string="Injury"     domain="[('incident_type','=','injury')]"/>
+                <separator/>
+                <filter name="open"   string="Open"   domain="[('status','=','open')]"/>
+                <filter name="closed" string="Closed" domain="[('status','=','closed')]"/>
+                <separator/>
+                <filter name="group_project"  string="Project"  context="{'group_by':'project_id'}"/>
+                <filter name="group_type"     string="Type"     context="{'group_by':'incident_type'}"/>
+                <filter name="group_severity" string="Severity" context="{'group_by':'severity'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_construction_hse_incident" model="ir.actions.act_window">
+        <field name="name">Site Incidents</field>
+        <field name="res_model">construction.hse.incident</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_construction_hse_incident_search"/>
+        <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Log a site incident or injury</p></field>
+    </record>
+
+    <!-- Permits -->
+    <record id="view_construction_hse_permit_list" model="ir.ui.view">
+        <field name="name">construction.hse.permit.list</field>
+        <field name="model">construction.hse.permit</field>
+        <field name="arch" type="xml">
+            <list string="Work Permits" decoration-danger="status == 'expired'" decoration-success="status == 'active'">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="permit_type"/>
+                <field name="issued_to"/>
+                <field name="date_issued"/>
+                <field name="valid_until"/>
+                <field name="status" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_hse_permit_form" model="ir.ui.view">
+        <field name="name">construction.hse.permit.form</field>
+        <field name="model">construction.hse.permit</field>
+        <field name="arch" type="xml">
+            <form string="Work Permit">
+                <header>
+                    <button name="action_close" string="Close" type="object" invisible="status != 'active'"/>
+                    <field name="status" widget="statusbar" statusbar_visible="active,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="permit_type"/>
+                            <field name="issued_to"/>
+                        </group>
+                        <group>
+                            <field name="date_issued"/>
+                            <field name="valid_until"/>
+                            <field name="approved_by"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_construction_hse_permit" model="ir.actions.act_window">
+        <field name="name">Work Permits</field>
+        <field name="res_model">construction.hse.permit</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Issue a work permit</p></field>
+    </record>
+
+    <!-- Inspections -->
+    <record id="view_construction_hse_inspection_list" model="ir.ui.view">
+        <field name="name">construction.hse.inspection.list</field>
+        <field name="model">construction.hse.inspection</field>
+        <field name="arch" type="xml">
+            <list string="Safety Inspections" decoration-danger="result == 'fail'">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="equipment_id"/>
+                <field name="item_description"/>
+                <field name="date"/>
+                <field name="inspector_id"/>
+                <field name="result" widget="badge"/>
+                <field name="next_inspection_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_hse_inspection_form" model="ir.ui.view">
+        <field name="name">construction.hse.inspection.form</field>
+        <field name="model">construction.hse.inspection</field>
+        <field name="arch" type="xml">
+            <form string="Safety Inspection">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="equipment_id"/>
+                            <field name="item_description"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="inspector_id"/>
+                            <field name="result"/>
+                            <field name="next_inspection_date"/>
+                        </group>
+                    </group>
+                    <group string="Notes">
+                        <field name="notes" nolabel="1"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_construction_hse_inspection" model="ir.actions.act_window">
+        <field name="name">Safety Inspections</field>
+        <field name="res_model">construction.hse.inspection</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Log a safety equipment inspection</p></field>
+    </record>
+
+    <!-- ═══════════════════ PPE ═══════════════════ -->
+    <record id="view_construction_hse_ppe_list" model="ir.ui.view">
+        <field name="name">construction.hse.ppe.list</field>
+        <field name="model">construction.hse.ppe</field>
+        <field name="arch" type="xml">
+            <list string="PPE Issuance" decoration-danger="condition == 'damaged'" decoration-warning="condition == 'needs_replacement'" decoration-muted="state == 'expired'">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="employee_id"/>
+                <field name="worker_name" optional="show"/>
+                <field name="subcontractor_id" optional="show"/>
+                <field name="ppe_type" widget="badge"/>
+                <field name="quantity"/>
+                <field name="date_issued"/>
+                <field name="expiry_date"/>
+                <field name="condition" widget="badge" decoration-danger="condition == 'damaged'" decoration-warning="condition == 'needs_replacement'"/>
+                <field name="state" widget="badge" decoration-muted="state == 'expired'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_hse_ppe_form" model="ir.ui.view">
+        <field name="name">construction.hse.ppe.form</field>
+        <field name="model">construction.hse.ppe</field>
+        <field name="arch" type="xml">
+            <form string="PPE Issuance">
+                <header>
+                    <button name="action_issue" string="Issue" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_reset_draft" string="Reset to Draft" type="object" invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,issued"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="employee_id"/>
+                            <field name="worker_name"/>
+                            <field name="subcontractor_id"/>
+                        </group>
+                        <group>
+                            <field name="ppe_type"/>
+                            <field name="quantity"/>
+                            <field name="date_issued"/>
+                            <field name="expiry_date"/>
+                        </group>
+                    </group>
+                    <group string="Condition">
+                        <group>
+                            <field name="condition"/>
+                            <field name="issued_by" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="notes"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_construction_hse_ppe_search" model="ir.ui.view">
+        <field name="name">construction.hse.ppe.search</field>
+        <field name="model">construction.hse.ppe</field>
+        <field name="arch" type="xml">
+            <search string="Search PPE">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="employee_id"/>
+                <separator/>
+                <filter name="needs_replacement" string="Needs Replacement" domain="[('condition','=','needs_replacement')]"/>
+                <filter name="expired" string="Expired" domain="[('state','=','expired')]"/>
+                <separator/>
+                <filter name="group_project" string="Project" context="{'group_by':'project_id'}"/>
+                <filter name="group_type"    string="PPE Type" context="{'group_by':'ppe_type'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_construction_hse_ppe" model="ir.actions.act_window">
+        <field name="name">PPE Issuance</field>
+        <field name="res_model">construction.hse.ppe</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_construction_hse_ppe_search"/>
+        <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Log PPE issued to a worker</p></field>
+    </record>
+
+    <!-- ═══════════════════ Training ═══════════════════ -->
+    <record id="view_construction_hse_training_list" model="ir.ui.view">
+        <field name="name">construction.hse.training.list</field>
+        <field name="model">construction.hse.training</field>
+        <field name="arch" type="xml">
+            <list string="HSE Training" decoration-success="state == 'completed'">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="training_type" widget="badge"/>
+                <field name="topic"/>
+                <field name="date"/>
+                <field name="trainer_id"/>
+                <field name="attendee_count" string="Attendees"/>
+                <field name="state" widget="badge" decoration-success="state == 'completed'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_hse_training_form" model="ir.ui.view">
+        <field name="name">construction.hse.training.form</field>
+        <field name="model">construction.hse.training</field>
+        <field name="arch" type="xml">
+            <form string="HSE Training">
+                <header>
+                    <button name="action_complete" string="Mark Completed" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_reset_draft" string="Reset to Draft" type="object" invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,completed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="training_type"/>
+                            <field name="topic"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="duration_hours"/>
+                            <field name="trainer_id"/>
+                        </group>
+                    </group>
+                    <group string="Materials">
+                        <field name="materials" filename="materials_filename"/>
+                        <field name="materials_filename" invisible="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Attendees">
+                            <field name="attendee_ids">
+                                <list editable="bottom">
+                                    <field name="employee_id"/>
+                                    <field name="worker_name"/>
+                                    <field name="company_name"/>
+                                    <field name="attended"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_construction_hse_training_search" model="ir.ui.view">
+        <field name="name">construction.hse.training.search</field>
+        <field name="model">construction.hse.training</field>
+        <field name="arch" type="xml">
+            <search string="Search Training">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="topic"/>
+                <separator/>
+                <filter name="group_project" string="Project" context="{'group_by':'project_id'}"/>
+                <filter name="group_type"    string="Type"    context="{'group_by':'training_type'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_construction_hse_training_calendar" model="ir.ui.view">
+        <field name="name">construction.hse.training.calendar</field>
+        <field name="model">construction.hse.training</field>
+        <field name="arch" type="xml">
+            <calendar string="HSE Training" date_start="date" color="project_id" mode="month">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="training_type"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="action_construction_hse_training" model="ir.actions.act_window">
+        <field name="name">HSE Training</field>
+        <field name="res_model">construction.hse.training</field>
+        <field name="view_mode">list,calendar,form</field>
+        <field name="search_view_id" ref="view_construction_hse_training_search"/>
+        <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Log a new training session or toolbox talk</p></field>
+    </record>
+
+</odoo>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_construction_site_issue_list" model="ir.ui.view">
+        <field name="name">construction.site.issue.list</field>
+        <field name="model">construction.site.issue</field>
+        <field name="arch" type="xml">
+            <list string="Site Issues" decoration-success="state == 'issued'">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="date"/>
+                <field name="issued_to"/>
+                <field name="location"/>
+                <field name="line_count" string="Items"/>
+                <field name="state" widget="badge" decoration-success="state == 'issued'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_site_issue_form" model="ir.ui.view">
+        <field name="name">construction.site.issue.form</field>
+        <field name="model">construction.site.issue</field>
+        <field name="arch" type="xml">
+            <form string="Site Material Issue">
+                <header>
+                    <button name="action_issue" string="Issue" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_reset_draft" string="Reset to Draft" type="object" invisible="state != 'issued'" groups="prime_construction_suite.group_construction_manager"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,issued"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_picking" type="object" class="oe_stat_button" icon="fa-truck" invisible="not picking_id">
+                            <div class="o_stat_info"><span class="o_stat_text">Stock Transfer</span></div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="boq_line_id"/>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <field name="issued_by" readonly="1"/>
+                            <field name="issued_to"/>
+                            <field name="location"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Items">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id"/>
+                                    <field name="qty_issued"/>
+                                    <field name="uom_id"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_construction_site_issue_search" model="ir.ui.view">
+        <field name="name">construction.site.issue.search</field>
+        <field name="model">construction.site.issue</field>
+        <field name="arch" type="xml">
+            <search string="Search Site Issues">
+                <field name="name"/>
+                <field name="project_id"/>
+                <separator/>
+                <filter name="draft"  string="Draft"  domain="[('state','=','draft')]"/>
+                <filter name="issued" string="Issued" domain="[('state','=','issued')]"/>
+                <separator/>
+                <filter name="group_project" string="Project" context="{'group_by':'project_id'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_construction_site_issue" model="ir.actions.act_window">
+        <field name="name">Site Material Issues</field>
+        <field name="res_model">construction.site.issue</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_construction_site_issue_search"/>
+        <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Log a new material issue to site</p></field>
+    </record>
+
+</odoo>

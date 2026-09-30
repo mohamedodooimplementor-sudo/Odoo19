@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_construction_risk_list" model="ir.ui.view">
+        <field name="name">construction.risk.list</field>
+        <field name="model">construction.risk</field>
+        <field name="arch" type="xml">
+            <list string="Risk Register" decoration-danger="risk_level == 'high' and status == 'open'" decoration-muted="status != 'open'">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="category"/>
+                <field name="probability"/>
+                <field name="impact"/>
+                <field name="risk_score"/>
+                <field name="risk_level" widget="badge"/>
+                <field name="owner_id"/>
+                <field name="status" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_risk_form" model="ir.ui.view">
+        <field name="name">construction.risk.form</field>
+        <field name="model">construction.risk</field>
+        <field name="arch" type="xml">
+            <form string="Risk">
+                <header>
+                    <button name="action_mitigate" string="Mark Mitigated" type="object" class="btn-primary" invisible="status != 'open'"/>
+                    <button name="action_close"    string="Close"          type="object" invisible="status == 'closed'"/>
+                    <button name="action_reopen"   string="Reopen"         type="object" invisible="status == 'open'"/>
+                    <button name="action_new_review" string="New Review"   type="object" class="btn-secondary" invisible="status != 'open'"/>
+                    <field name="status" widget="statusbar" statusbar_visible="open,mitigated,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_reviews" type="object" class="oe_stat_button" icon="fa-history" invisible="review_count == 0">
+                            <field name="review_count" widget="statinfo" string="Reviews"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Describe the risk..."/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="category"/>
+                            <field name="date_identified"/>
+                            <field name="owner_id"/>
+                        </group>
+                        <group>
+                            <field name="probability"/>
+                            <field name="impact"/>
+                            <field name="risk_score" readonly="1"/>
+                            <field name="risk_level" readonly="1" widget="badge"/>
+                        </group>
+                    </group>
+                    <group string="Periodic Review">
+                        <group>
+                            <field name="last_reviewed_date" readonly="1"/>
+                            <field name="next_review_date"/>
+                        </group>
+                        <group>
+                            <field name="is_review_overdue" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Mitigation Plan">
+                        <field name="mitigation_plan" nolabel="1"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_construction_risk_review_list" model="ir.ui.view">
+        <field name="name">construction.risk.review.list</field>
+        <field name="model">construction.risk.review</field>
+        <field name="arch" type="xml">
+            <list string="Risk Reviews">
+                <field name="risk_id"/>
+                <field name="project_id"/>
+                <field name="date"/>
+                <field name="reviewer_id"/>
+                <field name="probability"/>
+                <field name="impact"/>
+                <field name="next_review_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_construction_risk_review_form" model="ir.ui.view">
+        <field name="name">construction.risk.review.form</field>
+        <field name="model">construction.risk.review</field>
+        <field name="arch" type="xml">
+            <form string="Risk Review">
+                <group>
+                    <group>
+                        <field name="risk_id"/>
+                        <field name="date"/>
+                        <field name="reviewer_id" readonly="1"/>
+                    </group>
+                    <group>
+                        <field name="probability"/>
+                        <field name="impact"/>
+                        <field name="next_review_date"/>
+                    </group>
+                </group>
+                <group string="Notes">
+                    <field name="notes" nolabel="1"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_construction_risk_search" model="ir.ui.view">
+        <field name="name">construction.risk.search</field>
+        <field name="model">construction.risk</field>
+        <field name="arch" type="xml">
+            <search string="Risk Register">
+                <field name="name"/>
+                <field name="project_id"/>
+                <filter name="open" string="Open" domain="[('status','=','open')]"/>
+                <filter name="high" string="High Risk" domain="[('risk_level','=','high')]"/>
+                <filter name="review_overdue" string="Review Overdue" domain="[('is_review_overdue','=',True)]"/>
+                <separator/>
+                <filter name="group_project"  string="Project"  context="{'group_by':'project_id'}"/>
+                <filter name="group_category" string="Category" context="{'group_by':'category'}"/>
+                <filter name="group_level"    string="Risk Level" context="{'group_by':'risk_level'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_construction_risk" model="ir.actions.act_window">
+        <field name="name">Risk Register</field>
+        <field name="res_model">construction.risk</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_open': 1}</field>
+        <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Log a project risk</p></field>
+    </record>
+
+    <record id="action_construction_risk_heatmap" model="ir.actions.client">
+        <field name="name">Risk Heat Map</field>
+        <field name="tag">prime_construction_suite.risk_heatmap</field>
+    </record>
+
+</odoo>

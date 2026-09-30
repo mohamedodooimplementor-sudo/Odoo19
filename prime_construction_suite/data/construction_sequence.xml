@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_construction_project" model="ir.sequence">
+            <field name="name">Construction Project</field>
+            <field name="code">construction.project</field>
+            <field name="prefix">PROJ/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_construction_contract" model="ir.sequence">
+            <field name="name">Construction Contract</field>
+            <field name="code">construction.contract</field>
+            <field name="prefix">CONT/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_construction_progress_invoice" model="ir.sequence">
+            <field name="name">Progress Invoice</field>
+            <field name="code">construction.progress.invoice</field>
+            <field name="prefix">PINV/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_construction_change_order" model="ir.sequence">
+            <field name="name">Change Order</field>
+            <field name="code">construction.change.order</field>
+            <field name="prefix">CO/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_construction_subcontractor" model="ir.sequence">
+            <field name="name">Subcontractor</field>
+            <field name="code">construction.subcontractor</field>
+            <field name="prefix">SUB/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_construction_guarantee" model="ir.sequence">
+            <field name="name">Bank Guarantee</field>
+            <field name="code">construction.guarantee</field>
+            <field name="prefix">BG/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_construction_insurance" model="ir.sequence">
+            <field name="name">Insurance Policy</field>
+            <field name="code">construction.insurance</field>
+            <field name="prefix">INS/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_construction_snag" model="ir.sequence">
+            <field name="name">Snagging Item</field>
+            <field name="code">construction.snag</field>
+            <field name="prefix">SNAG/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_construction_overhead" model="ir.sequence">
+            <field name="name">Overhead Allocation</field>
+            <field name="code">construction.overhead.allocation</field>
+            <field name="prefix">OH/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_construction_hse_incident" model="ir.sequence">
+            <field name="name">Site Incident</field>
+            <field name="code">construction.hse.incident</field>
+            <field name="prefix">INC/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_construction_hse_permit" model="ir.sequence">
+            <field name="name">Work Permit</field>
+            <field name="code">construction.hse.permit</field>
+            <field name="prefix">WP/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_construction_hse_inspection" model="ir.sequence">
+            <field name="name">Safety Inspection</field>
+            <field name="code">construction.hse.inspection</field>
+            <field name="prefix">INSP/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_construction_tender" model="ir.sequence">
+            <field name="name">Tender</field>
+            <field name="code">construction.tender</field>
+            <field name="prefix">TND/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_construction_estimate" model="ir.sequence">
+            <field name="name">Estimate</field>
+            <field name="code">construction.estimate</field>
+            <field name="prefix">EST/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_construction_measurement_sheet" model="ir.sequence">
+            <field name="name">Measurement Sheet</field>
+            <field name="code">construction.measurement.sheet</field>
+            <field name="prefix">MS/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_construction_rfi" model="ir.sequence">
+            <field name="name">RFI</field>
+            <field name="code">construction.rfi</field>
+            <field name="prefix">RFI/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_construction_transmittal" model="ir.sequence">
+            <field name="name">Transmittal</field>
+            <field name="code">construction.transmittal</field>
+            <field name="prefix">TR/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_construction_material_request" model="ir.sequence">
+            <field name="name">Material Request</field>
+            <field name="code">construction.material.request</field>
+            <field name="prefix">MR/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_construction_rfq" model="ir.sequence">
+            <field name="name">RFQ</field>
+            <field name="code">construction.rfq</field>
+            <field name="prefix">RFQ/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_construction_site_issue" model="ir.sequence">
+            <field name="name">Site Issue</field>
+            <field name="code">construction.site.issue</field>
+            <field name="prefix">SI/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_construction_material_return" model="ir.sequence">
+            <field name="name">Material Return</field>
+            <field name="code">construction.material.return</field>
+            <field name="prefix">RET/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_construction_quality_inspection_ir" model="ir.sequence">
+            <field name="name">Inspection Request (IR)</field>
+            <field name="code">construction.quality.inspection.ir</field>
+            <field name="prefix">IR/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_construction_quality_inspection_mir" model="ir.sequence">
+            <field name="name">Material Inspection Request (MIR)</field>
+            <field name="code">construction.quality.inspection.mir</field>
+            <field name="prefix">MIR/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_construction_quality_inspection_wir" model="ir.sequence">
+            <field name="name">Work Inspection Request (WIR)</field>
+            <field name="code">construction.quality.inspection.wir</field>
+            <field name="prefix">WIR/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_construction_quality_ncr" model="ir.sequence">
+            <field name="name">NCR</field>
+            <field name="code">construction.quality.ncr</field>
+            <field name="prefix">NCR/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_construction_quality_capa" model="ir.sequence">
+            <field name="name">CAPA</field>
+            <field name="code">construction.quality.capa</field>
+            <field name="prefix">CAPA/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_construction_quality_test_result" model="ir.sequence">
+            <field name="name">Test Result</field>
+            <field name="code">construction.quality.test.result</field>
+            <field name="prefix">TEST/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_construction_hse_ppe" model="ir.sequence">
+            <field name="name">PPE Issuance</field>
+            <field name="code">construction.hse.ppe</field>
+            <field name="prefix">PPE/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_construction_hse_training" model="ir.sequence">
+            <field name="name">HSE Training</field>
+            <field name="code">construction.hse.training</field>
+            <field name="prefix">TRN/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_construction_final_account" model="ir.sequence">
+            <field name="name">Final Account</field>
+            <field name="code">construction.final.account</field>
+            <field name="prefix">FA/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>
