@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_tree_ref_first" model="ir.ui.view">
+        <field name="name">res.partner.list.ref.first</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <!-- 'ref' is not shown by default in the Contacts list view.
+                 Add it as the very first column. -->
+            <xpath expr="//list/field[1]" position="before">
+                <field name="ref" string="Reference" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="res_partner_kanban_view_ref" model="ir.ui.view">
+        <field name="name">res.partner.kanban.ref</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban/field[@name='active']" position="after">
+                <field name="ref"/>
+            </xpath>
+            <xpath expr="//div[field[@name='display_name']]" position="after">
+                <div t-if="record.ref.raw_value" class="text-truncate">
+                    <i class="fa fa-fw me-1 fa-hashtag text-primary" title="Reference"/>
+                    <field name="ref"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
