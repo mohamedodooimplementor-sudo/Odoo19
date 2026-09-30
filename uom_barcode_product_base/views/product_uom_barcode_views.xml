@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree View -->
+    <record id="view_product_uom_barcode_tree" model="ir.ui.view">
+        <field name="name">product.uom.barcode.tree</field>
+        <field name="model">product.uom.barcode</field>
+        <field name="arch" type="xml">
+            <list string="UoM Barcodes">
+                <field name="product_tmpl_id"/>
+                <field name="uom_id"/>
+                <field name="uom_category_id"/>
+                <field name="barcode" widget="barcode_handler"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_product_uom_barcode_form" model="ir.ui.view">
+        <field name="name">product.uom.barcode.form</field>
+        <field name="model">product.uom.barcode</field>
+        <field name="arch" type="xml">
+            <form string="UoM Barcode">
+                <sheet>
+                    <group>
+                        <field name="product_tmpl_id"/>
+                        <field name="uom_id"/>
+                        <field name="uom_category_id"/>
+                        <field name="barcode"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_product_uom_barcode_search" model="ir.ui.view">
+        <field name="name">product.uom.barcode.search</field>
+        <field name="model">product.uom.barcode</field>
+        <field name="arch" type="xml">
+            <search string="Search UoM Barcodes">
+                <field name="product_tmpl_id"/>
+                <field name="uom_id"/>
+                <field name="barcode"/>
+                <group expand="0" string="Group By">
+                    <filter string="Product" name="group_product" context="{'group_by': 'product_tmpl_id'}"/>
+                    <filter string="UoM Category" name="group_category" context="{'group_by': 'uom_category_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_product_uom_barcode" model="ir.actions.act_window">
+        <field name="name">UoM Barcodes</field>
+        <field name="res_model">product.uom.barcode</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_product_uom_barcode_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No UoM barcodes found!
+            </p>
+            <p>
+                Create barcodes for each unit of measure of your products.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem
+        id="menu_product_uom_barcode_root"
+        name="UoM Barcodes"
+        parent="stock.menu_stock_config_settings"
+        action="action_product_uom_barcode"
+        sequence="100"/>
+
+</odoo>

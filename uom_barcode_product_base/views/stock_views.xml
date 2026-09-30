@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- باركود قبل اسم المنتج في Operations tab داخل stock.picking -->
+    <record id="view_stock_picking_form_uom_barcode" model="ir.ui.view">
+        <field name="name">stock.picking.form.uom.barcode</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+
+            <!-- حقل Scan فوق جدول السطور -->
+            <xpath expr="//field[@name='move_ids_without_package']" position="before">
+                <group>
+                    <field name="barcode_scan_input"
+                           string="Scan Barcode"
+                           placeholder="Scan or type barcode here..."
+                           invisible="state in ('done', 'cancel')"
+                    />
+                </group>
+            </xpath>
+
+            <!-- باركود قبل اسم المنتج داخل move_ids_without_package -->
+            <xpath expr="//field[@name='move_ids_without_package']//field[@name='product_id']" position="before">
+                <field name="uom_barcode" string="Barcode (UoM)"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- باركود قبل اسم المنتج في Detailed Operations (move line) -->
+    <record id="view_stock_move_line_list_uom_barcode" model="ir.ui.view">
+        <field name="name">stock.move.line.list.uom.barcode</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_move_line_tree"/>
+        <field name="arch" type="xml">
+            <field name="product_id" position="before">
+                <field name="uom_barcode" string="Barcode (UoM)"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
