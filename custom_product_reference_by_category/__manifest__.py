@@ -3,7 +3,7 @@
     'version': '1.0',
     'summary': 'Automatically assign product reference based on category sequence',
     'category': 'Inventory/Products',
-    'author': 'ChatGPT (generated)',
+    'author': "Eng. M.Aboelmagde",
     'license': 'LGPL-3',
     'depends': ['product'],
     'data': [
