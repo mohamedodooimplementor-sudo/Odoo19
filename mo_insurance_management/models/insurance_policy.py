@@ -37,8 +37,8 @@ class InsurancePolicy(models.Model):
 
     # Personal data: only Insurance users may read it. Sales / Billing users can
     # still pick a policy (policy number, company, plan) but never see these.
-    member_id = fields.Char(string="Member ID", groups="insurance_management.group_insurance_user")
-    card_number = fields.Char(string="Card Number", groups="insurance_management.group_insurance_user")
+    member_id = fields.Char(string="Member ID", groups="mo_insurance_management.group_insurance_user")
+    card_number = fields.Char(string="Card Number", groups="mo_insurance_management.group_insurance_user")
     policy_number = fields.Char(string="Policy Number", required=True, copy=False)
 
     date_start = fields.Date(string="Start Date", default=fields.Date.context_today)
@@ -79,7 +79,7 @@ class InsurancePolicy(models.Model):
         "policies.",
     )
 
-    notes = fields.Text(groups="insurance_management.group_insurance_user")
+    notes = fields.Text(groups="mo_insurance_management.group_insurance_user")
 
     days_to_expiry = fields.Integer(compute="_compute_expiry_info", string="Days to Expiry")
     expiry_state = fields.Selection(
@@ -215,7 +215,7 @@ class InsurancePolicy(models.Model):
         self.ensure_one()
         return {
             "type": "ir.actions.act_url",
-            "url": f"/insurance_management/print/{self._name}/{self.id}",
+            "url": f"/mo_insurance_management/print/{self._name}/{self.id}",
             "target": "self",
         }
 

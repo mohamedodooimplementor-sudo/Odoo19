@@ -421,7 +421,7 @@ class InsuranceClaim(models.Model):
         self.ensure_one()
         return {
             "type": "ir.actions.act_url",
-            "url": f"/insurance_management/claim_statement/{self.id}",
+            "url": f"/mo_insurance_management/claim_statement/{self.id}",
             "target": "self",
         }
 

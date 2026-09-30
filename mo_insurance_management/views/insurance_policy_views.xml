@@ -39,7 +39,7 @@
                             invisible="state == 'cancelled'"
                             confirm="Cancel this policy? It will no longer be applied to new orders."/>
                     <button name="action_reset_coverage_used" type="object" string="Reset Used Coverage"
-                            groups="insurance_management.group_insurance_manager"
+                            groups="mo_insurance_management.group_insurance_manager"
                             confirm="This will set Used Coverage back to 0 for this policy. Are you sure?"/>
                     <field name="state" widget="statusbar" statusbar_visible="active,suspended,expired,cancelled"/>
                 </header>

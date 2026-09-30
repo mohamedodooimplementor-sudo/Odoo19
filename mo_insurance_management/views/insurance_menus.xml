@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <menuitem id="menu_insurance_root" name="Insurance" sequence="55" groups="group_insurance_user"
-              web_icon="insurance_management,static/description/icon.png"/>
+              web_icon="mo_insurance_management,static/description/icon.png"/>
 
     <!-- Dashboard -->
     <menuitem id="menu_insurance_dashboard" name="Dashboard" parent="menu_insurance_root" sequence="10"/>

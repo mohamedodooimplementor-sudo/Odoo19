@@ -10,8 +10,8 @@ with insured orders/invoices, but cannot see or open the Insurance app).
 from odoo import Command, fields
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 from odoo.addons.mail.tests.common import mail_new_test_user
-from odoo.addons.insurance_management.report.claim_statement import ClaimStatement
-from odoo.addons.insurance_management.report.document_builder import build_document_pdf
+from odoo.addons.mo_insurance_management.report.claim_statement import ClaimStatement
+from odoo.addons.mo_insurance_management.report.document_builder import build_document_pdf
 from odoo.exceptions import AccessError, UserError
 from odoo.tests import tagged
 
@@ -159,7 +159,7 @@ class TestInsuranceFlow(InsuranceCommon):
             }
         )
         self.assertTrue(build_document_pdf(authorization._pdf_document_data()).startswith(b"%PDF"))
-        self.assertIn("/insurance_management/print/insurance.policy/", self.policy.action_print()["url"])
+        self.assertIn("/mo_insurance_management/print/insurance.policy/", self.policy.action_print()["url"])
 
     def test_credit_note_after_submission_is_picked_up_by_refresh(self):
         invoice = self._insurance_invoice()
@@ -195,9 +195,9 @@ class TestInsuranceFlow(InsuranceCommon):
         """Odoo's own reports (invoices, orders...) must stay untouched: this
         module neither extends ir.actions.report nor defines report actions."""
         modules = {cls.__module__ for cls in type(self.env["ir.actions.report"]).__mro__}
-        self.assertFalse([m for m in modules if m.startswith("odoo.addons.insurance_management")])
+        self.assertFalse([m for m in modules if m.startswith("odoo.addons.mo_insurance_management")])
         self.assertFalse(
-            self.env["ir.actions.report"].search([("report_name", "like", "insurance_management.")])
+            self.env["ir.actions.report"].search([("report_name", "like", "mo_insurance_management.")])
         )
 
     def test_claim_statement_is_a_reportlab_pdf(self):
@@ -205,7 +205,7 @@ class TestInsuranceFlow(InsuranceCommon):
         claim = self._submitted_claim()
         pdf = ClaimStatement(self.env).render(claim)
         self.assertTrue(pdf.startswith(b"%PDF"))
-        self.assertEqual(claim.action_print_statement()["url"], f"/insurance_management/claim_statement/{claim.id}")
+        self.assertEqual(claim.action_print_statement()["url"], f"/mo_insurance_management/claim_statement/{claim.id}")
 
     def test_dashboard_data_has_all_widgets(self):
         self._insurance_invoice(days_ago=45)
@@ -246,7 +246,7 @@ class TestInsuranceFlow(InsuranceCommon):
             name="Plain Salesman",
             groups="base.group_user,sales_team.group_sale_salesman",
         )
-        self.assertFalse(user.has_group("insurance_management.group_insurance_user"))
+        self.assertFalse(user.has_group("mo_insurance_management.group_insurance_user"))
 
         order = self._insured_order(env=self.env(user=user))
         self.assertEqual(order.order_line.insurance_amount, 80.0)
@@ -258,7 +258,7 @@ class TestInsuranceFlow(InsuranceCommon):
         # ... but the insurance management side stays closed to them
         with self.assertRaises(AccessError):
             self.env["insurance.claim"].with_user(user).search([])
-        root_menu = self.env.ref("insurance_management.menu_insurance_root")
+        root_menu = self.env.ref("mo_insurance_management.menu_insurance_root")
         self.assertFalse(self.env["ir.ui.menu"].with_user(user).search([("id", "=", root_menu.id)]))
 
     def test_accountant_without_insurance_group_can_open_insured_invoices(self):

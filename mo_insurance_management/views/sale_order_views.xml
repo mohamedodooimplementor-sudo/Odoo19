@@ -34,7 +34,7 @@
                             <field name="insurance_company_id" readonly="1" invisible="not insurance_enabled"/>
                             <field name="insurance_plan_id" readonly="1" invisible="not insurance_enabled"/>
                             <field name="insurance_member_id" readonly="1" invisible="not insurance_enabled"
-                                   groups="insurance_management.group_insurance_user"/>
+                                   groups="mo_insurance_management.group_insurance_user"/>
                             <field name="insurance_policy_number" readonly="1" invisible="not insurance_enabled"/>
                             <field name="insurance_policy_state" readonly="1" invisible="not insurance_enabled"/>
                         </group>

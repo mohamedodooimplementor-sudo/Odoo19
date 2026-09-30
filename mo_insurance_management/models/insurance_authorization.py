@@ -114,7 +114,7 @@ class InsuranceAuthorization(models.Model):
         self.ensure_one()
         return {
             "type": "ir.actions.act_url",
-            "url": f"/insurance_management/print/{self._name}/{self.id}",
+            "url": f"/mo_insurance_management/print/{self._name}/{self.id}",
             "target": "self",
         }
 

@@ -5,7 +5,7 @@ applied to their invoices as part of the amount that was claimed (the
 "snapshot"), so only credit notes issued from now on show up as pending."""
 from odoo import SUPERUSER_ID, api
 
-from odoo.addons.insurance_management.models.insurance_claim import credited_amount
+from odoo.addons.mo_insurance_management.models.insurance_claim import credited_amount
 
 
 def migrate(cr, version):

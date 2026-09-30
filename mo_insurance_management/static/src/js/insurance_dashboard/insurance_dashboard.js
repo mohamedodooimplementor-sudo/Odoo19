@@ -37,8 +37,8 @@ const THEME_STORAGE_KEY = "insurance_dashboard_theme";
 // coming back from a drill-down) does not reset them.
 const FILTERS_STORAGE_KEY = "insurance_dashboard_filters";
 const DASHBOARD_ACTIONS = {
-    cards: "insurance_management.action_insurance_dashboard_cards",
-    charts: "insurance_management.action_insurance_dashboard_charts",
+    cards: "mo_insurance_management.action_insurance_dashboard_cards",
+    charts: "mo_insurance_management.action_insurance_dashboard_charts",
 };
 // Small pause between pressing a card and navigating, so the press/ripple
 // feedback is actually seen before the view changes.
@@ -91,7 +91,7 @@ function endOfMonthIso(firstOfMonthIso) {
 const OPEN_CLAIM_DOMAIN = [["state", "not in", ["paid", "cancelled", "rejected"]]];
 
 export class InsuranceDashboard extends Component {
-    static template = "insurance_management.InsuranceDashboard";
+    static template = "mo_insurance_management.InsuranceDashboard";
 
     setup() {
         this.orm = useService("orm");

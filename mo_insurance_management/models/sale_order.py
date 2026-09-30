@@ -26,7 +26,7 @@ class SaleOrder(models.Model):
     )
     insurance_member_id = fields.Char(
         related="insurance_policy_id.member_id", readonly=True,
-        groups="insurance_management.group_insurance_user",
+        groups="mo_insurance_management.group_insurance_user",
     )
     insurance_policy_number = fields.Char(
         related="insurance_policy_id.policy_number", readonly=True

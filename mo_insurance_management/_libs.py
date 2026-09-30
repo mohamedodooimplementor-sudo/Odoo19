@@ -74,7 +74,7 @@ def private_bundled_libs():
         if not bundled_libs_intact():
             raise ImportError(
                 f"{', '.join(missing)} is not installed in Odoo's Python and the bundled copy in "
-                "insurance_management/libs failed its integrity check. Install the missing "
+                "mo_insurance_management/libs failed its integrity check. Install the missing "
                 "package(s) with pip in Odoo's Python environment."
             )
         already_loaded = set(sys.modules)

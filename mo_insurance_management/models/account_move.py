@@ -304,7 +304,7 @@ class AccountPayment(models.Model):
         copy=False,
         # Only Insurance users may link a payment to a claim: the link makes
         # the payment count towards the claim's Total Paid.
-        groups="insurance_management.group_insurance_user",
+        groups="mo_insurance_management.group_insurance_user",
         help="Set when this payment was registered from an Insurance "
         "Claim's Register Payment wizard - a Claim can have several of "
         "these over time (partial payments).",

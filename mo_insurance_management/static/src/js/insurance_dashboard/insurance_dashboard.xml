@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
 
-    <t t-name="insurance_management.InsuranceDashboard">
+    <t t-name="mo_insurance_management.InsuranceDashboard">
         <div class="o_insurance_dashboard" t-att-class="{ o_dark_mode: state.darkMode }" t-on-pointerdown="onPointerDown">
 
             <div class="o_id_tooltip" t-ref="tooltip" t-att-class="{ o_id_tooltip_on: state.tooltip.visible }">

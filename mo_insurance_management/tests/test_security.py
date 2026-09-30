@@ -5,7 +5,7 @@ import zipfile
 from io import BytesIO
 
 from odoo import Command, fields
-from odoo.addons.insurance_management.report.report_builders import build_xlsx
+from odoo.addons.mo_insurance_management.report.report_builders import build_xlsx
 from odoo.addons.mail.tests.common import mail_new_test_user
 from odoo.exceptions import AccessError, UserError, ValidationError
 from odoo.tests import tagged
@@ -89,7 +89,7 @@ class TestInsuranceSecurity(InsuranceCommon):
         claim = self._submitted_claim()
         clerk = mail_new_test_user(
             self.env, login="claims_clerk", name="Claims Clerk",
-            groups="base.group_user,insurance_management.group_insurance_officer",
+            groups="base.group_user,mo_insurance_management.group_insurance_officer",
         )
         self.assertFalse(clerk.has_group("account.group_account_invoice"))
         with self.assertRaises(AccessError):
@@ -126,11 +126,11 @@ class TestInsuranceSecurity(InsuranceCommon):
     def test_counter_role_cannot_create_policies_but_officer_can(self):
         counter = mail_new_test_user(
             self.env, login="counter_user", name="Counter",
-            groups="base.group_user,insurance_management.group_insurance_user",
+            groups="base.group_user,mo_insurance_management.group_insurance_user",
         )
         officer = mail_new_test_user(
             self.env, login="officer_user", name="Officer",
-            groups="base.group_user,insurance_management.group_insurance_officer",
+            groups="base.group_user,mo_insurance_management.group_insurance_officer",
         )
         with self.assertRaises(AccessError):
             self.env["insurance.policy"].with_user(counter).create(self._policy_vals("POL-COUNTER"))
@@ -156,7 +156,7 @@ class TestInsuranceSecurity(InsuranceCommon):
             order.with_user(sales).read(["insurance_member_id"])
         counter = mail_new_test_user(
             self.env, login="pii_counter", name="c",
-            groups="base.group_user,insurance_management.group_insurance_user",
+            groups="base.group_user,mo_insurance_management.group_insurance_user",
         )
         self.assertEqual(self.policy.with_user(counter).read(["member_id"])[0]["member_id"], "M-123")
 
@@ -188,8 +188,8 @@ class TestInsuranceSecurity(InsuranceCommon):
     def test_module_has_no_wkhtmltopdf_or_report_engine_hook(self):
         self.assertNotIn("insurance.system.setup", self.env.registry)
         modules = {cls.__module__ for cls in type(self.env["ir.actions.report"]).__mro__}
-        self.assertFalse([m for m in modules if m.startswith("odoo.addons.insurance_management")])
+        self.assertFalse([m for m in modules if m.startswith("odoo.addons.mo_insurance_management")])
         self.assertFalse(
-            self.env["ir.actions.report"].search([("report_name", "like", "insurance_management.")])
+            self.env["ir.actions.report"].search([("report_name", "like", "mo_insurance_management.")])
         )
 

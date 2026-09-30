@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     "name": "Insurance Management",
-    "version": "19.0.1.0.11",
+    "version": "19.0.1.0.12",
     "category": "Accounting/Accounting",
     "summary": "Insurance co-pay billing for Odoo: split every sale between the customer and the insurance company, invoice both, collect claims and follow it all on a live dashboard",
     "description": """
@@ -59,12 +59,12 @@ Main features
     "depends": ["sale_management", "account", "contacts"],
     "assets": {
         "web.assets_backend": [
-            "insurance_management/static/src/scss/insurance_dashboard.scss",
-            "insurance_management/static/src/scss/insurance_claim_kanban.scss",
-            "insurance_management/static/src/js/color_scheme.js",
-            "insurance_management/static/src/js/insurance_dashboard/dashboard_charts.js",
-            "insurance_management/static/src/js/insurance_dashboard/insurance_dashboard.js",
-            "insurance_management/static/src/js/insurance_dashboard/insurance_dashboard.xml",
+            "mo_insurance_management/static/src/scss/insurance_dashboard.scss",
+            "mo_insurance_management/static/src/scss/insurance_claim_kanban.scss",
+            "mo_insurance_management/static/src/js/color_scheme.js",
+            "mo_insurance_management/static/src/js/insurance_dashboard/dashboard_charts.js",
+            "mo_insurance_management/static/src/js/insurance_dashboard/insurance_dashboard.js",
+            "mo_insurance_management/static/src/js/insurance_dashboard/insurance_dashboard.xml",
         ],
     },
     "data": [

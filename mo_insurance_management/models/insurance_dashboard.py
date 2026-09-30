@@ -18,7 +18,7 @@ class InsuranceDashboard(models.AbstractModel):
         RPC by ANY logged-in user (portal users included), and part of the
         data is read with sudo(). Do not rely on model access rights alone:
         only Insurance users may use the dashboard."""
-        if not self.env.user.has_group("insurance_management.group_insurance_user"):
+        if not self.env.user.has_group("mo_insurance_management.group_insurance_user"):
             raise AccessError("The Insurance Dashboard is only available to Insurance users.")
 
     @api.model

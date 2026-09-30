@@ -4,7 +4,7 @@
 This is plain Python - it does NOT inherit or override any Odoo model
 (in particular not ``ir.actions.report``), so it cannot interfere with
 Odoo's own QWeb/wkhtmltopdf reports. It is served by the
-``/insurance_management/claim_statement/<id>`` download route
+``/mo_insurance_management/claim_statement/<id>`` download route
 (controllers/main.py, reached from the claim's *Print Statement* button).
 
 Text is drawn with the bundled DejaVu Sans font and run through

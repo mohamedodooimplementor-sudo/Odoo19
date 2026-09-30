@@ -6,10 +6,10 @@ from odoo.http import content_disposition, request
 from ..report.claim_statement import ClaimStatement
 from ..report.document_builder import build_document_pdf
 
-# Records that can be printed with /insurance_management/print/<model>/<id>;
+# Records that can be printed with /mo_insurance_management/print/<model>/<id>;
 # each of these models implements `_pdf_document_data()`.
 PRINTABLE_MODELS = ("insurance.policy", "insurance.authorization")
-PRINT_GROUP = "insurance_management.group_insurance_user"
+PRINT_GROUP = "mo_insurance_management.group_insurance_user"
 
 # These PDFs contain personal / insurance data: never cache them in shared
 # proxies or browsers, and never let a browser "sniff" them as another type.
@@ -21,7 +21,7 @@ _PDF_SECURITY_HEADERS = (
 
 
 class InsuranceClaimStatementController(http.Controller):
-    @http.route("/insurance_management/claim_statement/<int:claim_id>", type="http", auth="user")
+    @http.route("/mo_insurance_management/claim_statement/<int:claim_id>", type="http", auth="user")
     def claim_statement(self, claim_id, **kwargs):
         """Claim collection statement, rendered straight with ReportLab and
         sent as a download. It is not an Odoo report action, so it does not
@@ -42,7 +42,7 @@ class InsuranceClaimStatementController(http.Controller):
             ],
         )
 
-    @http.route("/insurance_management/print/<string:model>/<int:record_id>", type="http", auth="user")
+    @http.route("/mo_insurance_management/print/<string:model>/<int:record_id>", type="http", auth="user")
     def print_document(self, model, record_id, **kwargs):
         """Policy card / authorization form as a ReportLab PDF download."""
         if model not in PRINTABLE_MODELS:

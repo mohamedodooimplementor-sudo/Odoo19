@@ -10,7 +10,7 @@ invoices directly - no manual reconciliation required.
 
 ## Install
 
-1. Copy the `insurance_management` folder into your Odoo `addons` path.
+1. Copy the `mo_insurance_management` folder into your Odoo `addons` path.
 2. Update Apps list, install **Insurance Management**.
 3. Dependencies: `sale_management`, `account`, `contacts` (installed
    automatically).
@@ -148,7 +148,7 @@ removed - the same analysis is in Insurance > Reporting.
 ## Claim statement
 
 Claim > *Print Statement* downloads the ReportLab PDF directly
-(`/insurance_management/claim_statement/<id>`); see *Independence from Odoo's
+(`/mo_insurance_management/claim_statement/<id>`); see *Independence from Odoo's
 own reports* below.
 
 ## Independence from Odoo's own reports

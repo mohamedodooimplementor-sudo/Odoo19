@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr="//notebook" position="inside">
                 <page string="Insurance" name="insurance" invisible="is_company"
-                      groups="insurance_management.group_insurance_user">
+                      groups="mo_insurance_management.group_insurance_user">
                     <group>
                         <field name="insurance_enabled"/>
                         <field name="primary_insurance_policy_id" readonly="1"/>
@@ -30,7 +30,7 @@
             <xpath expr="//div[@name='button_box']" position="inside">
                 <button name="action_view_insurance_policies" type="object" class="oe_stat_button"
                         icon="fa-id-card-o" invisible="is_company"
-                        groups="insurance_management.group_insurance_user">
+                        groups="mo_insurance_management.group_insurance_user">
                     <field name="insurance_policy_count" widget="statinfo" string="Policies"/>
                 </button>
             </xpath>

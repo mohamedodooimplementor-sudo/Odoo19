@@ -8,7 +8,7 @@
             <xpath expr="//div[@name='button_box']" position="inside">
                 <button name="action_view_insurance_claim" type="object" class="oe_stat_button"
                         icon="fa-file-text-o" invisible="not insurance_claim_count"
-                        groups="insurance_management.group_insurance_user">
+                        groups="mo_insurance_management.group_insurance_user">
                     <field name="insurance_claim_count" widget="statinfo" string="Insurance Claim"/>
                 </button>
                 <button name="action_view_insurance_sale_order" type="object" class="oe_stat_button"
@@ -42,7 +42,7 @@
             <xpath expr="//sheet/notebook" position="inside">
                 <page name="insurance_customer_products" string="Customer Products"
                       invisible="insurance_invoice_role != 'insurance' or not insurance_sale_order_id"
-                      groups="insurance_management.group_insurance_user">
+                      groups="mo_insurance_management.group_insurance_user">
                     <field name="insurance_customer_product_line_ids" readonly="1" nolabel="1">
                         <list create="0" edit="0" delete="0" decoration-muted="not insurance_amount">
                             <field name="product_id"/>
