@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_education_attendance_list" model="ir.ui.view">
+        <field name="name">education.attendance.list</field>
+        <field name="model">education.attendance</field>
+        <field name="arch" type="xml">
+            <list string="Attendance" editable="bottom">
+                <field name="session_date"/>
+                <field name="subject_id"/>
+                <field name="group_id"/>
+                <field name="student_id"/>
+                <field name="status" widget="badge"
+                       decoration-success="status == 'present'"
+                       decoration-danger="status == 'absent'"
+                       decoration-warning="status == 'late'"
+                       decoration-info="status == 'excused'"/>
+                <field name="check_in"/>
+                <field name="check_out"/>
+                <field name="marked_by"/>
+                <field name="change_reason" optional="hide"/>
+                <field name="previous_status" optional="hide" readonly="1"/>
+                <field name="changed_by" optional="hide" readonly="1"/>
+                <field name="changed_at" optional="hide" readonly="1"/>
+                <field name="note"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_education_attendance_search" model="ir.ui.view">
+        <field name="name">education.attendance.search</field>
+        <field name="model">education.attendance</field>
+        <field name="arch" type="xml">
+            <search string="Attendance">
+                <field name="student_id"/>
+                <field name="group_id"/>
+                <field name="subject_id"/>
+                <field name="session_date"/>
+                <filter string="Present" name="present" domain="[('status', '=', 'present')]"/>
+                <filter string="Absent" name="absent" domain="[('status', '=', 'absent')]"/>
+                <filter string="Late" name="late" domain="[('status', '=', 'late')]"/>
+                <filter string="Excused" name="excused" domain="[('status', '=', 'excused')]"/>
+                <separator/>
+                <filter string="This Week" name="this_week"
+                        domain="[('session_date', '&gt;=', (context_today() - datetime.timedelta(days=context_today().weekday())).strftime('%Y-%m-%d'))]"/>
+                <filter string="This Month" name="this_month"
+                        domain="[('session_date', '&gt;=', context_today().replace(day=1).strftime('%Y-%m-%d'))]"/>
+                <group name="group_by">
+                    <filter string="Group" name="group_by_group" context="{'group_by': 'group_id'}"/>
+                    <filter string="Subject" name="group_by_subject" context="{'group_by': 'subject_id'}"/>
+                    <filter string="Student" name="group_by_student" context="{'group_by': 'student_id'}"/>
+                    <filter string="Status" name="group_by_status" context="{'group_by': 'status'}"/>
+                    <filter string="Registration Method" name="group_by_method" context="{'group_by': 'registration_method'}"/>
+                    <filter string="Session Date" name="group_by_date" context="{'group_by': 'session_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_education_attendance_graph" model="ir.ui.view">
+        <field name="name">education.attendance.graph</field>
+        <field name="model">education.attendance</field>
+        <field name="arch" type="xml">
+            <graph string="Attendance Analysis" type="bar" stacked="True">
+                <field name="session_date" interval="week"/>
+                <field name="status"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_education_attendance_pivot" model="ir.ui.view">
+        <field name="name">education.attendance.pivot</field>
+        <field name="model">education.attendance</field>
+        <field name="arch" type="xml">
+            <pivot string="Attendance Analysis">
+                <field name="group_id" type="row"/>
+                <field name="status" type="col"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_education_attendance" model="ir.actions.act_window">
+        <field name="name">Attendance</field>
+        <field name="res_model">education.attendance</field>
+        <field name="view_mode">list,graph,pivot</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Attendance is recorded per session -- open a Session and click "Take Attendance"</p>
+        </field>
+    </record>
+</odoo>

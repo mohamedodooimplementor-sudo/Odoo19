@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <t t-name="prime_educational_hub.EducationDashboard" owl="1">
+        <div class="o_education_dashboard" t-ref="root">
+            <div t-attf-class="o_education_sidebar {{ state.sidebarExpanded ? 'o_education_sidebar_expanded' : '' }}">
+                <div class="o_education_sidebar_toggle o_education_clickable" title="Collapse / expand" t-on-click="() => this.toggleSidebar()">
+                    <i class="fa fa-bars"/>
+                </div>
+                <div class="o_education_sidebar_icons">
+                    <t t-if="state.data">
+                        <t t-foreach="state.data.sidebar_items" t-as="item" t-key="item.id">
+                            <a t-attf-class="o_education_sidebar_icon {{ item.is_dashboard_home ? 'o_education_sidebar_icon_active' : '' }}"
+                               t-att-title="item.name" t-on-click="() => this.openSidebarItem(item)">
+                                <i t-attf-class="fa {{ item.icon }}"/>
+                                <span class="o_education_sidebar_icon_text" t-esc="item.name"/>
+                            </a>
+                        </t>
+                    </t>
+                </div>
+                <a t-if="state.data and state.data.is_admin" class="o_education_sidebar_icon o_education_sidebar_icon_apps"
+                   title="Open Odoo Apps" t-on-click="() => this.openOdooApps()">
+                    <i class="fa fa-th"/>
+                    <span class="o_education_sidebar_icon_text">Odoo Apps</span>
+                </a>
+            </div>
+            <div class="o_education_main">
+            <div class="o_education_dashboard_header">
+                <img class="o_education_dashboard_logo" src="/prime_educational_hub/static/src/img/dashboard_logo.png" alt="Prime Educational Hub"/>
+                <div class="o_education_dashboard_title">
+                    <h3>Prime Educational Hub</h3>
+                    <span>Education Center Overview</span>
+                    <div class="o_education_dashboard_tagline">Learn • Manage • Grow</div>
+                </div>
+            </div>
+            <t t-if="state.loading">
+                <div class="o_education_dashboard_loading">Loading dashboard…</div>
+            </t>
+            <t t-else="">
+                <div class="o_education_headline_grid">
+                    <t t-foreach="state.data.stat_cards" t-as="card" t-key="card.id">
+                        <div class="o_education_headline_card o_education_clickable" t-on-click="() => this.openStatCard(card)">
+                            <div class="o_education_headline_icon" t-attf-style="background: {{ card.color }}22; box-shadow: 0 0 14px {{ card.color }}55;">
+                                <i t-attf-class="fa {{ card.icon }}" t-attf-style="color: {{ card.color }};"/>
+                            </div>
+                            <div class="o_education_headline_value">
+                                <t t-esc="card.value"/><t t-esc="card.suffix"/>
+                            </div>
+                            <div class="o_education_headline_label" t-esc="card.title"/>
+                        </div>
+                    </t>
+                </div>
+
+                <div class="o_education_planner">
+                    <h4>This Week</h4>
+                    <div class="o_education_planner_grid">
+                        <t t-foreach="state.data.planner_days" t-as="day" t-key="day.date">
+                            <div t-attf-class="o_education_planner_day {{ day.is_today ? 'o_education_planner_today' : '' }}">
+                                <div class="o_education_planner_day_header">
+                                    <span class="o_education_planner_day_label" t-esc="day.day_label"/>
+                                    <span class="o_education_planner_day_number" t-esc="day.day_number"/>
+                                </div>
+                                <div class="o_education_planner_items">
+                                    <t t-foreach="day.items" t-as="item" t-key="item_index">
+                                        <div t-attf-class="o_education_planner_item o_education_planner_item_{{ item.type.toLowerCase() }} o_education_clickable"
+                                             t-on-click="() => this.openPlannerItem(item)">
+                                            <span t-if="item.time" class="o_education_planner_time" t-esc="item.time"/>
+                                            <span class="o_education_planner_name" t-esc="item.name"/>
+                                        </div>
+                                    </t>
+                                    <t t-if="!day.items.length">
+                                        <div class="o_education_planner_empty">—</div>
+                                    </t>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+
+                <div class="o_education_kpi_grid">
+                    <div class="o_education_kpi_card o_education_clickable" t-on-click="() => this.openStudents()">
+                        <div class="o_education_kpi_icon"><i class="fa fa-graduation-cap"/></div>
+                        <div class="o_education_kpi_value" t-esc="state.data.kpis.total_active_students"/>
+                        <div class="o_education_kpi_label">Active Students</div>
+                    </div>
+                    <div class="o_education_kpi_card o_education_clickable" t-on-click="() => this.openGroups()">
+                        <div class="o_education_kpi_icon"><i class="fa fa-book"/></div>
+                        <div class="o_education_kpi_value" t-esc="state.data.kpis.active_groups"/>
+                        <div class="o_education_kpi_label">Active Groups</div>
+                    </div>
+                    <div class="o_education_kpi_card o_education_clickable" t-on-click="() => this.openTodaysSessions()">
+                        <div class="o_education_kpi_icon"><i class="fa fa-calendar"/></div>
+                        <div class="o_education_kpi_value" t-esc="state.data.kpis.todays_sessions"/>
+                        <div class="o_education_kpi_label">Today's Sessions</div>
+                    </div>
+                    <div class="o_education_kpi_card o_education_clickable" t-on-click="() => this.openTodaysAttendance()">
+                        <div class="o_education_kpi_icon"><i class="fa fa-check-circle-o"/></div>
+                        <div class="o_education_kpi_value">
+                            <t t-esc="state.data.kpis.todays_attendance_percentage"/>%
+                        </div>
+                        <div class="o_education_kpi_label">Today's Attendance</div>
+                    </div>
+                    <div class="o_education_kpi_card o_education_clickable" t-on-click="() => this.openUpcomingExams()">
+                        <div class="o_education_kpi_icon"><i class="fa fa-pencil-square-o"/></div>
+                        <div class="o_education_kpi_value" t-esc="state.data.kpis.upcoming_exams"/>
+                        <div class="o_education_kpi_label">Upcoming Exams</div>
+                    </div>
+                    <div class="o_education_kpi_card o_education_kpi_accent o_education_clickable"
+                         t-on-click="() => this.openMonthlyCollections()">
+                        <div class="o_education_kpi_icon"><i class="fa fa-money"/></div>
+                        <div class="o_education_kpi_value">
+                            <t t-esc="state.data.currency_symbol"/><t t-esc="state.data.kpis.monthly_collections"/>
+                        </div>
+                        <div class="o_education_kpi_label">Monthly Collections</div>
+                    </div>
+                    <div class="o_education_kpi_card o_education_kpi_warning o_education_clickable"
+                         t-on-click="() => this.openOutstandingFees()">
+                        <div class="o_education_kpi_icon"><i class="fa fa-exclamation-triangle"/></div>
+                        <div class="o_education_kpi_value">
+                            <t t-esc="state.data.currency_symbol"/><t t-esc="state.data.kpis.outstanding_fees"/>
+                        </div>
+                        <div class="o_education_kpi_label">Outstanding Fees</div>
+                    </div>
+                    <div class="o_education_kpi_card o_education_clickable" t-on-click="() => this.openCertificates()">
+                        <div class="o_education_kpi_icon"><i class="fa fa-certificate"/></div>
+                        <div class="o_education_kpi_value" t-esc="state.data.kpis.certificates_issued"/>
+                        <div class="o_education_kpi_label">Certificates Issued</div>
+                    </div>
+                    <div class="o_education_kpi_card o_education_clickable" t-on-click="() => this.openTeachers()">
+                        <div class="o_education_kpi_icon"><i class="fa fa-id-badge"/></div>
+                        <div class="o_education_kpi_value" t-esc="state.data.kpis.total_teachers"/>
+                        <div class="o_education_kpi_label">Total Teachers</div>
+                    </div>
+                    <div class="o_education_kpi_card o_education_kpi_warning o_education_clickable"
+                         t-on-click="() => this.openPendingPayouts()">
+                        <div class="o_education_kpi_icon"><i class="fa fa-university"/></div>
+                        <div class="o_education_kpi_value">
+                            <t t-esc="state.data.currency_symbol"/><t t-esc="state.data.kpis.pending_payouts"/>
+                        </div>
+                        <div class="o_education_kpi_label">Pending Teacher Payouts</div>
+                    </div>
+                </div>
+
+                <div class="o_education_chart_grid">
+                    <div class="o_education_chart_card">
+                        <h4>Students by Group</h4>
+                        <div class="o_education_canvas_wrap"><canvas t-ref="studentsChart" class="o_education_canvas"/></div>
+                    </div>
+                    <div class="o_education_chart_card">
+                        <h4>Attendance Trend (14 days)</h4>
+                        <div class="o_education_canvas_wrap"><canvas t-ref="attendanceChart" class="o_education_canvas"/></div>
+                    </div>
+                    <div class="o_education_chart_card">
+                        <h4>Collections by Month</h4>
+                        <div class="o_education_canvas_wrap"><canvas t-ref="collectionsChart" class="o_education_canvas"/></div>
+                    </div>
+                    <div class="o_education_chart_card">
+                        <h4>Outstanding Fees by Group</h4>
+                        <div class="o_education_canvas_wrap"><canvas t-ref="outstandingChart" class="o_education_canvas"/></div>
+                    </div>
+                    <div class="o_education_chart_card">
+                        <h4>Exam Performance by Group</h4>
+                        <div class="o_education_canvas_wrap"><canvas t-ref="examPerfChart" class="o_education_canvas"/></div>
+                    </div>
+                    <div class="o_education_chart_card">
+                        <h4>Pass / Fail Rate</h4>
+                        <div class="o_education_canvas_wrap"><canvas t-ref="passRateChart" class="o_education_canvas"/></div>
+                    </div>
+                    <div class="o_education_chart_card">
+                        <h4>Certificate Status</h4>
+                        <div class="o_education_canvas_wrap"><canvas t-ref="certDistChart" class="o_education_canvas"/></div>
+                    </div>
+                </div>
+
+                <div class="o_education_list_grid">
+                    <div class="o_education_list_card">
+                        <h4>Exam Performance by Group</h4>
+                        <table class="o_education_list_table">
+                            <t t-foreach="state.data.exam_performance_by_group" t-as="row" t-key="row_index">
+                                <tr class="o_education_row_clickable" t-on-click="() => this.openRecord(row.res_model, row.res_id)">
+                                    <td t-esc="row.label"/>
+                                    <td class="text-end"><t t-esc="row.value"/>%</td>
+                                </tr>
+                            </t>
+                            <t t-if="!state.data.exam_performance_by_group.length">
+                                <tr><td class="text-muted">No exam results yet</td></tr>
+                            </t>
+                        </table>
+                    </div>
+
+                    <div class="o_education_list_card">
+                        <h4>Top Performers</h4>
+                        <table class="o_education_list_table">
+                            <t t-foreach="state.data.top_performers" t-as="row" t-key="row_index">
+                                <tr class="o_education_row_clickable" t-on-click="() => this.openRecord(row.res_model, row.res_id)">
+                                    <td t-esc="row.name"/>
+                                    <td class="text-end o_education_good"><t t-esc="row.value"/>%</td>
+                                </tr>
+                            </t>
+                        </table>
+                    </div>
+
+                    <div class="o_education_list_card">
+                        <h4>Needs Attention</h4>
+                        <table class="o_education_list_table">
+                            <t t-foreach="state.data.low_performers" t-as="row" t-key="row_index">
+                                <tr class="o_education_row_clickable" t-on-click="() => this.openRecord(row.res_model, row.res_id)">
+                                    <td t-esc="row.name"/>
+                                    <td class="text-end o_education_bad"><t t-esc="row.value"/>%</td>
+                                </tr>
+                            </t>
+                        </table>
+                    </div>
+
+                    <div class="o_education_list_card">
+                        <h4>Most Active Teachers (This Month)</h4>
+                        <table class="o_education_list_table">
+                            <t t-foreach="state.data.teacher_activity" t-as="row" t-key="row_index">
+                                <tr class="o_education_row_clickable" t-on-click="() => this.openRecord(row.res_model, row.res_id)">
+                                    <td t-esc="row.label"/>
+                                    <td class="text-end"><t t-esc="row.value"/> sessions</td>
+                                </tr>
+                            </t>
+                            <t t-if="!state.data.teacher_activity.length">
+                                <tr><td class="text-muted">No sessions yet this month</td></tr>
+                            </t>
+                        </table>
+                    </div>
+
+                    <div class="o_education_list_card">
+                        <h4>Lowest Attendance (This Week)</h4>
+                        <table class="o_education_list_table">
+                            <t t-foreach="state.data.low_attendance_groups" t-as="row" t-key="row_index">
+                                <tr class="o_education_row_clickable" t-on-click="() => this.openRecord(row.res_model, row.res_id)">
+                                    <td t-esc="row.label"/>
+                                    <td class="text-end o_education_bad"><t t-esc="row.value"/>%</td>
+                                </tr>
+                            </t>
+                            <t t-if="!state.data.low_attendance_groups.length">
+                                <tr><td class="text-muted">No attendance recorded yet this week</td></tr>
+                            </t>
+                        </table>
+                    </div>
+                </div>
+            </t>
+            </div>
+        </div>
+    </t>
+</templates>

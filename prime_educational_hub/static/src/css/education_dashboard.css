@@ -1,0 +1,596 @@
+/* ==========================================================================
+   Prime Education Dashboard - "Prime Purple" brand theme
+   This dashboard is the app's own branded home screen (left icon rail +
+   hero + KPI cards), styled to match the Prime Educational Hub artwork.
+   It intentionally always renders in this dark purple/neon look - it does
+   NOT follow Odoo's light/dark toggle, since it is brand chrome, not a
+   regular content screen. (Sizing rules for canvases/grids are reused
+   as-is from the previous layout.)
+   ========================================================================== */
+.o_education_dashboard {
+    --edu-bg: radial-gradient(1100px 520px at 82% -6%, rgba(168, 85, 247, 0.30), transparent 60%),
+              radial-gradient(900px 480px at 8% 105%, rgba(147, 51, 234, 0.28), transparent 55%),
+              linear-gradient(160deg, #0c0618 0%, #170a2e 45%, #0e0720 100%);
+    --edu-card-bg: rgba(168, 116, 255, 0.11);
+    --edu-card-border: rgba(196, 141, 255, 0.32);
+    --edu-text: #f7f2ff;
+    --edu-text-muted: #c3aee6;
+    --edu-text-soft: #d9c7ff;
+    --edu-divider: rgba(196, 141, 255, 0.16);
+    --edu-shadow: rgba(88, 28, 135, 0.35);
+    --edu-shadow-strong: rgba(168, 85, 247, 0.30);
+    --edu-planner-day-bg: rgba(168, 116, 255, 0.06);
+    --edu-planner-day-border: rgba(196, 141, 255, 0.20);
+    --edu-planner-today-border: #c084fc;
+    --edu-empty: #6d5a94;
+    --edu-accent: #a855f7;
+    --edu-accent-soft: #c084fc;
+    --edu-glow: 0 0 0 1px rgba(196, 141, 255, 0.18), 0 10px 30px rgba(88, 28, 135, 0.35);
+
+    background: var(--edu-bg);
+    color: var(--edu-text);
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+    font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+    display: flex;
+    align-items: stretch;
+}
+
+.o_education_dashboard * {
+    color: inherit;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Left icon sidebar (Home / Students / Teachers / Courses / Calendar /   */
+/* Attendance / Settings) - the app's own quick-nav rail                  */
+/* ---------------------------------------------------------------------- */
+.o_education_sidebar {
+    flex: 0 0 64px;
+    width: 64px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 14px 0 18px;
+    background: rgba(10, 4, 22, 0.55);
+    border-right: 1px solid rgba(196, 141, 255, 0.16);
+    backdrop-filter: blur(6px);
+    transition: flex-basis 0.18s ease, width 0.18s ease;
+    overflow: hidden;
+}
+
+.o_education_sidebar.o_education_sidebar_expanded {
+    flex-basis: 176px;
+    width: 176px;
+    align-items: stretch;
+}
+
+.o_education_sidebar_toggle {
+    width: 38px;
+    height: 38px;
+    min-height: 38px;
+    margin: 0 0 14px 13px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--edu-text-soft);
+    background: rgba(168, 116, 255, 0.10);
+    border: 1px solid rgba(196, 141, 255, 0.20);
+}
+
+.o_education_sidebar_toggle:hover {
+    background: rgba(168, 116, 255, 0.20);
+    color: #ffffff;
+}
+
+.o_education_sidebar_icons {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+    align-items: center;
+}
+
+.o_education_sidebar.o_education_sidebar_expanded .o_education_sidebar_icons {
+    align-items: stretch;
+}
+
+.o_education_sidebar_icon {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 38px;
+    height: 38px;
+    margin: 0 auto;
+    border-radius: 11px;
+    color: var(--edu-text-muted);
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 15px;
+    justify-content: center;
+    transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+    white-space: nowrap;
+}
+
+.o_education_sidebar.o_education_sidebar_expanded .o_education_sidebar_icon {
+    width: calc(100% - 26px);
+    margin: 0 13px;
+    justify-content: flex-start;
+    padding: 0 10px;
+}
+
+.o_education_sidebar_icon:hover {
+    background: rgba(168, 116, 255, 0.16);
+    color: #ffffff;
+}
+
+.o_education_sidebar_icon_active,
+.o_education_sidebar_icon_active:hover {
+    background: linear-gradient(135deg, #a855f7, #7c3aed);
+    color: #ffffff;
+    box-shadow: 0 4px 16px rgba(168, 85, 247, 0.55);
+}
+
+.o_education_sidebar_icon_apps {
+    margin-top: auto;
+}
+
+.o_education_sidebar_icon_text {
+    display: none;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: inherit;
+}
+
+.o_education_sidebar.o_education_sidebar_expanded .o_education_sidebar_icon_text {
+    display: inline;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Main content panel (everything to the right of the sidebar)            */
+/* ---------------------------------------------------------------------- */
+.o_education_main {
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 100%;
+    overflow-y: auto;
+    padding: 20px 22px 28px;
+    box-sizing: border-box;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Headline statistics row (Students / Teachers / Courses / Lessons /     */
+/* Attendance / Performance) - configurable via                          */
+/* education.dashboard.stat.card, values always read live from the DB     */
+/* ---------------------------------------------------------------------- */
+.o_education_headline_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+.o_education_headline_card {
+    background: var(--edu-card-bg);
+    border: 1px solid var(--edu-card-border);
+    border-radius: 14px;
+    padding: 16px;
+    text-align: center;
+    box-shadow: var(--edu-glow);
+    backdrop-filter: blur(4px);
+}
+
+.o_education_headline_icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+    font-size: 17px;
+}
+
+.o_education_headline_value {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--edu-text);
+}
+
+.o_education_headline_label {
+    margin-top: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--edu-text-muted);
+}
+
+
+.o_education_dashboard_header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 22px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--edu-divider);
+}
+
+.o_education_dashboard_logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+    box-shadow: var(--edu-glow);
+    border: 1px solid rgba(196, 141, 255, 0.35);
+}
+
+.o_education_dashboard_title h3 {
+    margin: 0;
+    font-size: 21px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    background: linear-gradient(135deg, #e9d5ff, #a855f7 55%, #7c3aed);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.o_education_dashboard_title span {
+    font-size: 12.5px;
+    color: var(--edu-text-muted);
+    font-weight: 500;
+}
+
+.o_education_dashboard_tagline {
+    margin-top: 4px;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--edu-accent-soft);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Weekly planner                                                          */
+/* ---------------------------------------------------------------------- */
+.o_education_planner {
+    background: var(--edu-card-bg);
+    border: 1px solid var(--edu-card-border);
+    border-radius: 14px;
+    box-shadow: var(--edu-glow);
+    padding: 18px 20px;
+    margin-bottom: 22px;
+    backdrop-filter: blur(4px);
+}
+
+.o_education_planner h4 {
+    margin: 0 0 14px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--edu-text-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.o_education_planner_grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.o_education_planner_day {
+    background: var(--edu-planner-day-bg);
+    border-radius: 11px;
+    padding: 9px;
+    min-height: 120px;
+    border: 1px solid var(--edu-planner-day-border);
+    transition: border-color 0.15s ease;
+}
+
+.o_education_planner_today {
+    background: linear-gradient(180deg, rgba(99, 102, 241, 0.14), rgba(99, 102, 241, 0.02));
+    border-color: var(--edu-planner-today-border);
+}
+
+.o_education_planner_day_header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 7px;
+    padding-bottom: 7px;
+    border-bottom: 1px solid var(--edu-divider);
+}
+
+.o_education_planner_day_label {
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--edu-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.o_education_planner_day_number {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--edu-text);
+}
+
+.o_education_planner_items {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.o_education_planner_item {
+    font-size: 11px;
+    line-height: 1.3;
+    padding: 4px 6px;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+}
+
+.o_education_planner_item_session { background: rgba(168, 85, 247, 0.22); color: #d8b4fe; }
+.o_education_planner_item_exam { background: rgba(236, 72, 153, 0.20); color: #f9a8d4; }
+
+.o_education_planner_time { font-weight: 700; font-size: 10px; }
+.o_education_planner_name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.o_education_planner_empty {
+    font-size: 11px;
+    color: var(--edu-empty);
+    text-align: center;
+    padding-top: 8px;
+}
+
+@media (max-width: 992px) {
+    .o_education_planner_grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Clickable affordance                                                    */
+/* ---------------------------------------------------------------------- */
+.o_education_clickable {
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+}
+
+.o_education_clickable:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px var(--edu-shadow-strong);
+}
+
+.o_education_planner_item.o_education_clickable:hover {
+    filter: brightness(1.15);
+    transform: none;
+    box-shadow: none;
+}
+
+.o_education_dashboard_loading {
+    text-align: center;
+    padding: 60px;
+    color: var(--edu-text-muted);
+}
+
+/* ---------------------------------------------------------------------- */
+/* KPI cards                                                               */
+/* ---------------------------------------------------------------------- */
+.o_education_kpi_grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+@media (max-width: 992px) {
+    .o_education_kpi_grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.o_education_kpi_card {
+    background: var(--edu-card-bg);
+    border-radius: 14px;
+    padding: 16px 18px;
+    border: 1px solid var(--edu-card-border);
+    box-shadow: var(--edu-glow);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(4px);
+}
+
+.o_education_kpi_card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, rgba(168, 85, 247, 0.12), transparent 55%);
+    pointer-events: none;
+}
+
+.o_education_kpi_card.o_education_clickable:hover {
+    border-color: rgba(196, 141, 255, 0.55);
+    box-shadow: 0 0 0 1px rgba(196, 141, 255, 0.30), 0 12px 28px rgba(168, 85, 247, 0.35);
+}
+
+.o_education_kpi_icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    font-size: 15px;
+    color: #f4edff;
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.55), rgba(124, 58, 237, 0.55));
+    box-shadow: 0 0 14px rgba(168, 85, 247, 0.45);
+    position: relative;
+}
+
+/* KPI cards flagged as "needs attention" (outstanding fees, pending payouts)
+   get an amber icon instead of purple, so they still stand out as a signal
+   inside the otherwise uniform purple grid. */
+.o_education_kpi_warning .o_education_kpi_icon {
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.55), rgba(217, 119, 6, 0.55));
+    box-shadow: 0 0 14px rgba(251, 191, 36, 0.40);
+}
+
+.o_education_kpi_accent .o_education_kpi_icon {
+    background: linear-gradient(135deg, rgba(52, 211, 153, 0.55), rgba(5, 150, 105, 0.55));
+    box-shadow: 0 0 14px rgba(52, 211, 153, 0.40);
+}
+
+.o_education_kpi_value {
+    font-size: 25px;
+    font-weight: 800;
+    color: var(--edu-text);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    position: relative;
+}
+
+.o_education_kpi_label {
+    font-size: 11.5px;
+    color: var(--edu-text-muted);
+    margin-top: 5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    position: relative;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Chart / list cards                                                      */
+/* ---------------------------------------------------------------------- */
+.o_education_chart_grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+@media (max-width: 992px) {
+    .o_education_chart_grid { grid-template-columns: 1fr; }
+}
+
+.o_education_chart_card {
+    background: var(--edu-card-bg);
+    border-radius: 13px;
+    padding: 16px 18px;
+    border: 1px solid var(--edu-card-border);
+    box-shadow: var(--edu-glow);
+    backdrop-filter: blur(4px);
+}
+
+.o_education_chart_card h4 {
+    color: var(--edu-text-soft);
+    font-size: 12.5px;
+    font-weight: 700;
+    margin: 0 0 12px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.o_education_canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* This wrapper is the real fix for Chart.js's classic "canvas keeps
+   growing" bug: Chart.js's responsive resize logic measures the canvas's
+   DIRECT parent, so that parent must itself have a fixed, positioned size
+   -- without this, a chart with a lot of x-axis labels (e.g. "Students by
+   Group" with many groups) can inflate the canvas taller/wider than
+   intended on every redraw instead of staying capped at 180px. */
+.o_education_canvas_wrap {
+    position: relative;
+    width: 100%;
+    height: 180px;
+}
+
+.o_education_list_grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+}
+
+@media (max-width: 992px) {
+    .o_education_list_grid { grid-template-columns: 1fr; }
+}
+
+.o_education_list_card {
+    background: var(--edu-card-bg);
+    border-radius: 13px;
+    padding: 16px 18px;
+    border: 1px solid var(--edu-card-border);
+    box-shadow: var(--edu-glow);
+    backdrop-filter: blur(4px);
+}
+
+.o_education_list_card h4 {
+    color: var(--edu-text-soft);
+    font-size: 12.5px;
+    font-weight: 700;
+    margin: 0 0 12px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.o_education_list_table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.o_education_list_table td {
+    padding: 8px 4px;
+    border-bottom: 1px solid var(--edu-divider);
+    color: var(--edu-text);
+}
+
+.o_education_list_table .text-muted { color: var(--edu-text-muted) !important; }
+.o_education_list_table .text-end { text-align: right; }
+.o_education_good { color: #00c853; font-weight: 700; }
+.o_education_bad { color: #f87171; font-weight: 700; }
+
+.o_education_row_clickable {
+    cursor: pointer;
+    transition: background-color 0.12s ease;
+}
+
+.o_education_row_clickable:hover {
+    background-color: rgba(196, 141, 255, 0.10);
+}
+
+.o_education_row_clickable:hover td {
+    color: #ffffff;
+}
+
+.o_education_headline_card.o_education_clickable {
+    cursor: pointer;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+}
+
+.o_education_headline_card.o_education_clickable:hover {
+    border-color: rgba(196, 141, 255, 0.55);
+    box-shadow: 0 0 0 1px rgba(196, 141, 255, 0.30), 0 12px 28px rgba(168, 85, 247, 0.35);
+    transform: translateY(-1px);
+}
+
+.o_education_pill {
+    display: inline-block;
+    padding: 2px 9px;
+    border-radius: 10px;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.o_education_pill_session { background: #4361ee; color: #fff; }
+.o_education_pill_exam { background: #ff2d95; color: #fff; }

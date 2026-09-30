@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_education_exam_list" model="ir.ui.view">
+        <field name="name">education.exam.list</field>
+        <field name="model">education.exam</field>
+        <field name="arch" type="xml">
+            <list string="Exams" decoration-muted="state == 'closed'">
+                <field name="name"/>
+                <field name="subject_id"/>
+                <field name="group_id"/>
+                <field name="exam_date"/>
+                <field name="exam_type"/>
+                <field name="max_mark"/>
+                <field name="pass_rate" widget="percentage"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-success="state == 'published'"
+                       decoration-muted="state == 'closed'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_education_exam_form" model="ir.ui.view">
+        <field name="name">education.exam.form</field>
+        <field name="model">education.exam</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Exam">
+                <header>
+                    <button name="action_print_group_result" type="object" string="Print Result Report" class="btn-info" invisible="not id"/>
+                    <button name="action_publish" type="object" string="Publish"
+                            invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_close" type="object" string="Close"
+                            invisible="state != 'published'" class="btn-secondary"/>
+                    <button name="action_reset_to_draft" type="object" string="Reset to Draft"
+                            invisible="state == 'draft'" class="btn-secondary"/>
+                    <button name="action_generate_results_for_group" type="object" string="Generate Result Lines"
+                            invisible="state == 'closed'" class="btn-success"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,published,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_questions" type="object" class="oe_stat_button" icon="fa-question-circle text-info">
+                            <field name="question_count" widget="statinfo" string="Questions"/>
+                        </button>
+                        <button name="action_view_results" type="object" class="oe_stat_button" icon="fa-bar-chart text-success">
+                            <field name="result_count" widget="statinfo" string="Results"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="e.g. Midterm Exam - Math"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="subject_id"/>
+                            <field name="group_id"/>
+                            <field name="exam_type"/>
+                        </group>
+                        <group>
+                            <field name="academic_year_id"/>
+                            <field name="term_id"/>
+                            <field name="exam_date"/>
+                            <field name="duration_minutes"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="max_mark"/>
+                            <field name="pass_mark"/>
+                        </group>
+                        <group>
+                            <field name="tie_break_mode"/>
+                            <field name="average_percentage" readonly="1" invisible="result_count == 0"/>
+                            <field name="pass_rate" widget="percentage" readonly="1" invisible="result_count == 0"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Questions">
+                            <div class="alert alert-info" role="alert"
+                                 invisible="question_count == 0 or question_marks_total == max_mark">
+                                Questions total marks (<field name="question_marks_total" readonly="1"/>)
+                                does not match Exam Max Mark (<field name="max_mark" readonly="1"/>).
+                                This must be resolved before publishing.
+                            </div>
+                            <field name="question_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="question_bank_id"/>
+                                    <field name="question_type"/>
+                                    <field name="question_text"/>
+                                    <field name="max_mark"/>
+                                    <field name="weight"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_education_exam_search" model="ir.ui.view">
+        <field name="name">education.exam.search</field>
+        <field name="model">education.exam</field>
+        <field name="arch" type="xml">
+            <search string="Exams">
+                <field name="name"/>
+                <field name="subject_id"/>
+                <field name="group_id"/>
+                <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Published" name="published" domain="[('state', '=', 'published')]"/>
+                <group name="group_by">
+                    <filter string="Subject" name="group_subject" context="{'group_by': 'subject_id'}"/>
+                    <filter string="Group" name="group_group" context="{'group_by': 'group_id'}"/>
+                    <filter string="Exam Type" name="group_type" context="{'group_by': 'exam_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_education_exam" model="ir.actions.act_window">
+        <field name="name">Exams</field>
+        <field name="res_model">education.exam</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first exam</p>
+        </field>
+    </record>
+</odoo>

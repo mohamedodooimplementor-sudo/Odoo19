@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- =================================================================
+             PART 1 — MULTI-COMPANY ISOLATION (P0)
+             Global rules (no groups=) apply to every user regardless of role;
+             these are ANDed with any role-specific rules below.
+             ================================================================= -->
+        <record id="rule_company_academic_year" model="ir.rule">
+            <field name="name">Education Academic Year: multi-company</field>
+            <field name="model_id" ref="model_education_academic_year"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_company_term" model="ir.rule">
+            <field name="name">Education Term: multi-company</field>
+            <field name="model_id" ref="model_education_term"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_company_subject" model="ir.rule">
+            <field name="name">Education Subject: multi-company</field>
+            <field name="model_id" ref="model_education_subject"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_company_level" model="ir.rule">
+            <field name="name">Education Level: multi-company</field>
+            <field name="model_id" ref="model_education_level"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_company_guardian" model="ir.rule">
+            <field name="name">Education Guardian: multi-company</field>
+            <field name="model_id" ref="model_education_guardian"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_company_student" model="ir.rule">
+            <field name="name">Education Student: multi-company</field>
+            <field name="model_id" ref="model_education_student"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_company_group" model="ir.rule">
+            <field name="name">Education Group: multi-company</field>
+            <field name="model_id" ref="model_education_group"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_company_teacher" model="ir.rule">
+            <field name="name">Education Teacher: multi-company</field>
+            <field name="model_id" ref="model_education_teacher"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_company_teacher_payout" model="ir.rule">
+            <field name="name">Education Teacher Payout: multi-company</field>
+            <field name="model_id" ref="model_education_teacher_payout"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_company_group_schedule" model="ir.rule">
+            <field name="name">Education Group Schedule: multi-company</field>
+            <field name="model_id" ref="model_education_group_schedule"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_company_group_waitlist" model="ir.rule">
+            <field name="name">Education Group Waitlist: multi-company</field>
+            <field name="model_id" ref="model_education_group_waitlist"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_company_enrollment" model="ir.rule">
+            <field name="name">Education Enrollment: multi-company</field>
+            <field name="model_id" ref="model_education_enrollment"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_company_session" model="ir.rule">
+            <field name="name">Education Session: multi-company</field>
+            <field name="model_id" ref="model_education_session"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_company_attendance" model="ir.rule">
+            <field name="name">Education Attendance: multi-company</field>
+            <field name="model_id" ref="model_education_attendance"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_company_exam" model="ir.rule">
+            <field name="name">Education Exam: multi-company</field>
+            <field name="model_id" ref="model_education_exam"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_company_exam_question" model="ir.rule">
+            <field name="name">Education Exam Question: multi-company</field>
+            <field name="model_id" ref="model_education_exam_question"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_company_exam_result" model="ir.rule">
+            <field name="name">Education Exam Result: multi-company</field>
+            <field name="model_id" ref="model_education_exam_result"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_company_assignment" model="ir.rule">
+            <field name="name">Education Assignment: multi-company</field>
+            <field name="model_id" ref="model_education_assignment"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_company_assignment_submission" model="ir.rule">
+            <field name="name">Education Assignment Submission: multi-company</field>
+            <field name="model_id" ref="model_education_assignment_submission"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_company_fee_plan" model="ir.rule">
+            <field name="name">Education Fee Plan: multi-company</field>
+            <field name="model_id" ref="model_education_fee_plan"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_company_fee" model="ir.rule">
+            <field name="name">Education Fee: multi-company</field>
+            <field name="model_id" ref="model_education_fee"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_company_installment" model="ir.rule">
+            <field name="name">Education Installment: multi-company</field>
+            <field name="model_id" ref="model_education_installment"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_company_payment" model="ir.rule">
+            <field name="name">Education Payment: multi-company</field>
+            <field name="model_id" ref="model_education_payment"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_company_payment_method" model="ir.rule">
+            <field name="name">Education Payment Method: multi-company</field>
+            <field name="model_id" ref="model_education_payment_method"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_company_payment_allocation" model="ir.rule">
+            <field name="name">Education Payment Allocation: multi-company</field>
+            <field name="model_id" ref="model_education_payment_allocation"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_company_refund" model="ir.rule">
+            <field name="name">Education Refund: multi-company</field>
+            <field name="model_id" ref="model_education_refund"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_company_room" model="ir.rule">
+            <field name="name">Education Room: multi-company</field>
+            <field name="model_id" ref="model_education_room"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_company_expense_category" model="ir.rule">
+            <field name="name">Education Expense Category: multi-company</field>
+            <field name="model_id" ref="model_education_expense_category"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_company_cash_account" model="ir.rule">
+            <field name="name">Education Cash Account: multi-company</field>
+            <field name="model_id" ref="model_education_cash_account"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_company_cash_transfer" model="ir.rule">
+            <field name="name">Education Cash Transfer: multi-company</field>
+            <field name="model_id" ref="model_education_cash_transfer"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_company_cashier_shift" model="ir.rule">
+            <field name="name">Education Cashier Shift: multi-company</field>
+            <field name="model_id" ref="model_education_cashier_shift"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_company_expense" model="ir.rule">
+            <field name="name">Education Expense: multi-company</field>
+            <field name="model_id" ref="model_education_expense"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_company_certificate" model="ir.rule">
+            <field name="name">Education Certificate: multi-company</field>
+            <field name="model_id" ref="model_education_certificate"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_company_holiday" model="ir.rule">
+            <field name="name">Education Holiday: multi-company</field>
+            <field name="model_id" ref="model_education_holiday"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <!-- =================================================================
+             PART 2 — TEACHER SCOPING (P0)
+             Teachers are restricted to records tied to groups they teach.
+             Because Supervisor/Admin groups imply the Teacher group (they
+             inherit its menus/access), each restricted model also gets an
+             unrestricted rule for Supervisor and Admin so the OR-combination
+             of a user's applicable rules gives them full visibility again.
+             ================================================================= -->
+
+        <!-- Groups -->
+        <record id="rule_teacher_group" model="ir.rule">
+            <field name="name">Education Group: teacher sees only assigned groups</field>
+            <field name="model_id" ref="model_education_group"/>
+            <field name="domain_force">[('teacher_id.user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_education_teacher'))]"/>
+        </record>
+        <record id="rule_supervisor_group_all" model="ir.rule">
+            <field name="name">Education Group: supervisor sees all</field>
+            <field name="model_id" ref="model_education_group"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_education_supervisor'))]"/>
+        </record>
+        <record id="rule_admin_group_all" model="ir.rule">
+            <field name="name">Education Group: admin sees all</field>
+            <field name="model_id" ref="model_education_group"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_education_admin'))]"/>
+        </record>
+
+        <!-- Teachers: a teacher with a System User account only sees their own
+             master-data record; Supervisor/Admin manage the full roster
+             (including teachers who have no System User at all). -->
+        <record id="rule_teacher_teacher_self" model="ir.rule">
+            <field name="name">Education Teacher: teacher sees only their own record</field>
+            <field name="model_id" ref="model_education_teacher"/>
+            <field name="domain_force">[('user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_education_teacher'))]"/>
+        </record>
+        <record id="rule_supervisor_teacher_all" model="ir.rule">
+            <field name="name">Education Teacher: supervisor sees all</field>
+            <field name="model_id" ref="model_education_teacher"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_education_supervisor'))]"/>
+        </record>
+        <record id="rule_admin_teacher_all" model="ir.rule">
+            <field name="name">Education Teacher: admin sees all</field>
+            <field name="model_id" ref="model_education_teacher"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_education_admin'))]"/>
+        </record>
+
+        <!-- Group Schedule -->
+        <record id="rule_teacher_group_schedule" model="ir.rule">
+            <field name="name">Education Group Schedule: teacher sees only assigned groups</field>
+            <field name="model_id" ref="model_education_group_schedule"/>
+            <field name="domain_force">[('group_id.teacher_id.user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_education_teacher'))]"/>
+        </record>
+        <record id="rule_supervisor_group_schedule_all" model="ir.rule">
+            <field name="name">Education Group Schedule: supervisor sees all</field>
+            <field name="model_id" ref="model_education_group_schedule"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_education_supervisor'))]"/>
+        </record>
+        <record id="rule_admin_group_schedule_all" model="ir.rule">
+            <field name="name">Education Group Schedule: admin sees all</field>
+            <field name="model_id" ref="model_education_group_schedule"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_education_admin'))]"/>
+        </record>
+
+        <!-- Enrollment -->
+        <record id="rule_teacher_enrollment" model="ir.rule">
+            <field name="name">Education Enrollment: teacher sees only assigned groups</field>
+            <field name="model_id" ref="model_education_enrollment"/>
+            <field name="domain_force">[('group_id.teacher_id.user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_education_teacher'))]"/>
+        </record>
+        <record id="rule_supervisor_enrollment_all" model="ir.rule">
+            <field name="name">Education Enrollment: supervisor sees all</field>
+            <field name="model_id" ref="model_education_enrollment"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_education_supervisor'))]"/>
+        </record>
+        <record id="rule_admin_enrollment_all" model="ir.rule">
+            <field name="name">Education Enrollment: admin sees all</field>
+            <field name="model_id" ref="model_education_enrollment"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_education_admin'))]"/>
+        </record>
+        <!-- Cashier/Reception need full enrollment visibility for registration/collection -->
+        <record id="rule_cashier_enrollment_all" model="ir.rule">
+            <field name="name">Education Enrollment: cashier sees all</field>
+            <field name="model_id" ref="model_education_enrollment"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_education_cashier'))]"/>
+        </record>
+        <record id="rule_reception_enrollment_all" model="ir.rule">
+            <field name="name">Education Enrollment: reception sees all</field>
+            <field name="model_id" ref="model_education_enrollment"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_education_reception'))]"/>
+        </record>
+
+        <!-- Sessions -->
+        <record id="rule_teacher_session" model="ir.rule">
+            <field name="name">Education Session: teacher sees only assigned groups</field>
+            <field name="model_id" ref="model_education_session"/>
+            <field name="domain_force">[('group_id.teacher_id.user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_education_teacher'))]"/>
+        </record>
+        <record id="rule_supervisor_session_all" model="ir.rule">
+            <field name="name">Education Session: supervisor sees all</field>
+            <field name="model_id" ref="model_education_session"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_education_supervisor'))]"/>
+        </record>
+        <record id="rule_admin_session_all" model="ir.rule">
+            <field name="name">Education Session: admin sees all</field>
+            <field name="model_id" ref="model_education_session"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_education_admin'))]"/>
+        </record>
+
+        <!-- Attendance -->
+        <record id="rule_teacher_attendance" model="ir.rule">
+            <field name="name">Education Attendance: teacher sees only assigned groups</field>
+            <field name="model_id" ref="model_education_attendance"/>
+            <field name="domain_force">[('group_id.teacher_id.user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_education_teacher'))]"/>
+        </record>
+        <record id="rule_supervisor_attendance_all" model="ir.rule">
+            <field name="name">Education Attendance: supervisor sees all</field>
+            <field name="model_id" ref="model_education_attendance"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_education_supervisor'))]"/>
+        </record>
+        <record id="rule_admin_attendance_all" model="ir.rule">
+            <field name="name">Education Attendance: admin sees all</field>
+            <field name="model_id" ref="model_education_attendance"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_education_admin'))]"/>
+        </record>
+
+        <!-- Exams -->
+        <record id="rule_teacher_exam" model="ir.rule">
+            <field name="name">Education Exam: teacher sees only assigned groups</field>
+            <field name="model_id" ref="model_education_exam"/>
+            <field name="domain_force">[('group_id.teacher_id.user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_education_teacher'))]"/>
+        </record>
+        <record id="rule_supervisor_exam_all" model="ir.rule">
+            <field name="name">Education Exam: supervisor sees all</field>
+            <field name="model_id" ref="model_education_exam"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_education_supervisor'))]"/>
+        </record>
+        <record id="rule_admin_exam_all" model="ir.rule">
+            <field name="name">Education Exam: admin sees all</field>
+            <field name="model_id" ref="model_education_exam"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_education_admin'))]"/>
+        </record>
+
+        <!-- Exam Questions -->
+        <record id="rule_teacher_exam_question" model="ir.rule">
+            <field name="name">Education Exam Question: teacher sees only assigned groups</field>
+            <field name="model_id" ref="model_education_exam_question"/>
+            <field name="domain_force">[('exam_id.group_id.teacher_id.user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_education_teacher'))]"/>
+        </record>
+        <record id="rule_supervisor_exam_question_all" model="ir.rule">
+            <field name="name">Education Exam Question: supervisor sees all</field>
+            <field name="model_id" ref="model_education_exam_question"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_education_supervisor'))]"/>
+        </record>
+        <record id="rule_admin_exam_question_all" model="ir.rule">
+            <field name="name">Education Exam Question: admin sees all</field>
+            <field name="model_id" ref="model_education_exam_question"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_education_admin'))]"/>
+        </record>
+
+        <!-- Exam Results -->
+        <record id="rule_teacher_exam_result" model="ir.rule">
+            <field name="name">Education Exam Result: teacher sees only assigned groups</field>
+            <field name="model_id" ref="model_education_exam_result"/>
+            <field name="domain_force">[('group_id.teacher_id.user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_education_teacher'))]"/>
+        </record>
+        <record id="rule_supervisor_exam_result_all" model="ir.rule">
+            <field name="name">Education Exam Result: supervisor sees all</field>
+            <field name="model_id" ref="model_education_exam_result"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_education_supervisor'))]"/>
+        </record>
+        <record id="rule_admin_exam_result_all" model="ir.rule">
+            <field name="name">Education Exam Result: admin sees all</field>
+            <field name="model_id" ref="model_education_exam_result"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_education_admin'))]"/>
+        </record>
+
+        <!-- Assignments -->
+        <record id="rule_teacher_assignment" model="ir.rule">
+            <field name="name">Education Assignment: teacher sees only assigned groups</field>
+            <field name="model_id" ref="model_education_assignment"/>
+            <field name="domain_force">[('group_id.teacher_id.user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_education_teacher'))]"/>
+        </record>
+        <record id="rule_supervisor_assignment_all" model="ir.rule">
+            <field name="name">Education Assignment: supervisor sees all</field>
+            <field name="model_id" ref="model_education_assignment"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_education_supervisor'))]"/>
+        </record>
+        <record id="rule_admin_assignment_all" model="ir.rule">
+            <field name="name">Education Assignment: admin sees all</field>
+            <field name="model_id" ref="model_education_assignment"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_education_admin'))]"/>
+        </record>
+
+        <!-- Assignment Submissions -->
+        <record id="rule_teacher_assignment_submission" model="ir.rule">
+            <field name="name">Education Assignment Submission: teacher sees only assigned groups</field>
+            <field name="model_id" ref="model_education_assignment_submission"/>
+            <field name="domain_force">[('assignment_id.group_id.teacher_id.user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_education_teacher'))]"/>
+        </record>
+        <record id="rule_supervisor_assignment_submission_all" model="ir.rule">
+            <field name="name">Education Assignment Submission: supervisor sees all</field>
+            <field name="model_id" ref="model_education_assignment_submission"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_education_supervisor'))]"/>
+        </record>
+        <record id="rule_admin_assignment_submission_all" model="ir.rule">
+            <field name="name">Education Assignment Submission: admin sees all</field>
+            <field name="model_id" ref="model_education_assignment_submission"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_education_admin'))]"/>
+        </record>
+
+        <!-- Students: teacher sees only students actively enrolled in a group they teach -->
+        <record id="rule_teacher_student" model="ir.rule">
+            <field name="name">Education Student: teacher sees only their students</field>
+            <field name="model_id" ref="model_education_student"/>
+            <field name="domain_force">[('enrollment_ids.group_id.teacher_id.user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_education_teacher'))]"/>
+        </record>
+        <record id="rule_supervisor_student_all" model="ir.rule">
+            <field name="name">Education Student: supervisor sees all</field>
+            <field name="model_id" ref="model_education_student"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_education_supervisor'))]"/>
+        </record>
+        <record id="rule_admin_student_all" model="ir.rule">
+            <field name="name">Education Student: admin sees all</field>
+            <field name="model_id" ref="model_education_student"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_education_admin'))]"/>
+        </record>
+        <record id="rule_cashier_student_all" model="ir.rule">
+            <field name="name">Education Student: cashier sees all</field>
+            <field name="model_id" ref="model_education_student"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_education_cashier'))]"/>
+        </record>
+        <record id="rule_reception_student_all" model="ir.rule">
+            <field name="name">Education Student: reception sees all</field>
+            <field name="model_id" ref="model_education_student"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_education_reception'))]"/>
+        </record>
+
+        <!-- Teacher Payouts: a teacher with a System User only sees their own
+             payout records (read-only, per access rights); Supervisor/Admin
+             manage all payouts. -->
+        <record id="rule_teacher_payout_self" model="ir.rule">
+            <field name="name">Education Teacher Payout: teacher sees only their own</field>
+            <field name="model_id" ref="model_education_teacher_payout"/>
+            <field name="domain_force">[('teacher_id.user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_education_teacher'))]"/>
+        </record>
+        <record id="rule_supervisor_payout_all" model="ir.rule">
+            <field name="name">Education Teacher Payout: supervisor sees all</field>
+            <field name="model_id" ref="model_education_teacher_payout"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_education_supervisor'))]"/>
+        </record>
+        <record id="rule_admin_payout_all" model="ir.rule">
+            <field name="name">Education Teacher Payout: admin sees all</field>
+            <field name="model_id" ref="model_education_teacher_payout"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_education_admin'))]"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_education_certificate_revoke_wizard_form" model="ir.ui.view">
+        <field name="name">education.certificate.revoke.wizard.form</field>
+        <field name="model">education.certificate.revoke.wizard</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Revoke Certificate">
+                <group>
+                    <field name="certificate_id" readonly="1"/>
+                    <field name="reason" placeholder="Explain why this certificate is being revoked..."/>
+                </group>
+                <footer>
+                    <button name="action_confirm" type="object" string="Revoke" class="btn-danger"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

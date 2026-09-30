@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_education_fee_list" model="ir.ui.view">
+        <field name="name">education.fee.list</field>
+        <field name="model">education.fee</field>
+        <field name="arch" type="xml">
+            <list string="Fees" decoration-muted="state == 'cancelled'">
+                <field name="student_id"/>
+                <field name="group_id"/>
+                <field name="date"/>
+                <field name="gross_amount"/>
+                <field name="discount_amount"/>
+                <field name="net_amount"/>
+                <field name="paid_amount"/>
+                <field name="outstanding_amount"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-success="state == 'confirmed'"
+                       decoration-muted="state == 'cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_education_fee_form" model="ir.ui.view">
+        <field name="name">education.fee.form</field>
+        <field name="model">education.fee</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Fee">
+                <header>
+                    <button name="action_confirm" type="object" string="Confirm"
+                            invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_approve_discount" type="object" string="Approve Discount"
+                            invisible="not discount_needs_approval"
+                            groups="prime_educational_hub.group_education_admin,prime_educational_hub.group_education_supervisor"
+                            class="btn-warning"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            invisible="state != 'draft' and state != 'confirmed'" class="btn-secondary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
+                </header>
+                <sheet>
+                    <div class="alert alert-warning" role="alert" invisible="not discount_needs_approval">
+                        This fee's discount (<field name="discount_percent" widget="float" readonly="1" class="oe_inline"/>%)
+                        needs Supervisor/Admin approval before it can be confirmed.
+                    </div>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_installments" type="object" class="oe_stat_button" icon="fa-list-ol text-primary">
+                            <field name="installment_count" widget="statinfo" string="Installments"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="student_id"/>
+                            <field name="enrollment_id"/>
+                            <field name="group_id"/>
+                            <field name="fee_plan_id"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="currency_id" groups="base.group_multi_currency"/>
+                        </group>
+                    </group>
+                    <group string="Amounts">
+                        <group>
+                            <field name="gross_amount"/>
+                            <field name="discount_type"/>
+                            <field name="discount_value" invisible="not discount_type"/>
+                            <field name="discount_amount" readonly="1"/>
+                            <field name="discount_approved_by" readonly="1" invisible="not discount_approved_by"/>
+                        </group>
+                        <group>
+                            <field name="net_amount" readonly="1"/>
+                            <field name="paid_amount" readonly="1"/>
+                            <field name="outstanding_amount" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Installments">
+                            <field name="installment_ids">
+                                <list editable="bottom" decoration-danger="state == 'overdue'"
+                                      decoration-success="state == 'paid'" decoration-warning="state == 'partial'">
+                                    <field name="sequence"/>
+                                    <field name="due_date"/>
+                                    <field name="amount"/>
+                                    <field name="penalty_amount" readonly="1" optional="hide"/>
+                                    <field name="early_discount_amount" readonly="1" optional="hide"/>
+                                    <field name="paid_amount" readonly="1"/>
+                                    <field name="remaining_amount" readonly="1"/>
+                                    <field name="state" readonly="1"/>
+                                    <button name="action_apply_early_discount" type="object" string="Early Discount"
+                                            invisible="paid_amount or early_discount_amount" class="btn-link"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_education_fee_search" model="ir.ui.view">
+        <field name="name">education.fee.search</field>
+        <field name="model">education.fee</field>
+        <field name="arch" type="xml">
+            <search string="Fees">
+                <field name="student_id"/>
+                <field name="group_id"/>
+                <filter string="Confirmed" name="confirmed" domain="[('state', '=', 'confirmed')]"/>
+                <filter string="With Outstanding" name="outstanding" domain="[('outstanding_amount', '&gt;', 0)]"/>
+                <group name="group_by">
+                    <filter string="Group" name="group_by_group" context="{'group_by': 'group_id'}"/>
+                    <filter string="Status" name="group_by_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_education_fee" model="ir.actions.act_window">
+        <field name="name">Fees / Charges</field>
+        <field name="res_model">education.fee</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Fees are usually created automatically when an enrollment is activated</p>
+        </field>
+    </record>
+
+    <record id="view_education_installment_list" model="ir.ui.view">
+        <field name="name">education.installment.list</field>
+        <field name="model">education.installment</field>
+        <field name="arch" type="xml">
+            <list string="Installments" decoration-danger="state == 'overdue'"
+                  decoration-success="state == 'paid'" decoration-warning="state == 'partial'">
+                <field name="student_id"/>
+                <field name="fee_id"/>
+                <field name="sequence"/>
+                <field name="due_date"/>
+                <field name="amount"/>
+                <field name="penalty_amount" optional="hide"/>
+                <field name="early_discount_amount" optional="hide"/>
+                <field name="paid_amount"/>
+                <field name="remaining_amount"/>
+                <field name="state"/>
+                <button name="action_apply_early_discount" type="object" string="Early Discount" class="btn-link"
+                        invisible="paid_amount or early_discount_amount"/>
+                <button name="action_send_whatsapp_reminder" type="object" string="Remind" class="btn-link"
+                        invisible="state not in ('unpaid', 'partial', 'overdue')"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_education_installment_search" model="ir.ui.view">
+        <field name="name">education.installment.search</field>
+        <field name="model">education.installment</field>
+        <field name="arch" type="xml">
+            <search string="Installments">
+                <field name="student_id"/>
+                <field name="fee_id"/>
+                <filter string="Overdue" name="overdue" domain="[('state', '=', 'overdue')]"/>
+                <filter string="Unpaid" name="unpaid" domain="[('state', '=', 'unpaid')]"/>
+                <filter string="Partial" name="partial" domain="[('state', '=', 'partial')]"/>
+                <filter string="Paid" name="paid" domain="[('state', '=', 'paid')]"/>
+                <group name="group_by">
+                    <filter string="Status" name="group_by_state" context="{'group_by': 'state'}"/>
+                    <filter string="Due Date" name="group_by_due" context="{'group_by': 'due_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_education_installment" model="ir.actions.act_window">
+        <field name="name">Installments</field>
+        <field name="res_model">education.installment</field>
+        <field name="view_mode">list</field>
+        <field name="context">{'search_default_overdue': 1}</field>
+    </record>
+</odoo>

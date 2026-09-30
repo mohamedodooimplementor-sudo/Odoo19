@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_education_student_promotion_wizard_form" model="ir.ui.view">
+        <field name="name">education.student.promotion.wizard.form</field>
+        <field name="model">education.student.promotion.wizard</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Promote / Transfer Students">
+                <group>
+                    <field name="student_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                </group>
+                <group>
+                    <group>
+                        <field name="target_academic_year_id"/>
+                        <field name="target_group_id"
+                               domain="[('academic_year_id', '=', target_academic_year_id)]"/>
+                        <field name="target_grade_level_id"/>
+                    </group>
+                    <group>
+                        <field name="close_current_enrollments"/>
+                    </group>
+                </group>
+                <field name="reason" placeholder="Reason for this promotion/transfer..."/>
+                <footer>
+                    <button name="action_confirm" type="object" string="Confirm" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_education_student_promotion_wizard" model="ir.actions.act_window">
+        <field name="name">Promote / Transfer Students</field>
+        <field name="res_model">education.student.promotion.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_education_student"/>
+        <field name="binding_view_types">list</field>
+    </record>
+</odoo>

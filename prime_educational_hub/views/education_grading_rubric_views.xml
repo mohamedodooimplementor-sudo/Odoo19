@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_education_grading_rubric_list" model="ir.ui.view">
+        <field name="name">education.grading.rubric.list</field>
+        <field name="model">education.grading.rubric</field>
+        <field name="arch" type="xml">
+            <list string="Grading Rubrics">
+                <field name="name"/>
+                <field name="subject_id"/>
+                <field name="total_max_mark"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_education_grading_rubric_form" model="ir.ui.view">
+        <field name="name">education.grading.rubric.form</field>
+        <field name="model">education.grading.rubric</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Grading Rubric">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <field name="subject_id"/>
+                        <field name="total_max_mark" readonly="1"/>
+                    </group>
+                    <field name="criteria_ids">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="max_mark"/>
+                        </list>
+                    </field>
+                </sheet>
+            <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_education_grading_rubric" model="ir.actions.act_window">
+        <field name="name">Grading Rubrics</field>
+        <field name="res_model">education.grading.rubric</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create a reusable grading rubric</p>
+        </field>
+    </record>
+</odoo>

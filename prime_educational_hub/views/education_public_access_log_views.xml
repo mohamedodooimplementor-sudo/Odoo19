@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_education_public_access_log_list" model="ir.ui.view">
+        <field name="name">education.public.access.log.list</field>
+        <field name="model">education.public.access.log</field>
+        <field name="arch" type="xml">
+            <list string="Public Access Log" create="false" edit="false" delete="false"
+                  decoration-danger="not found">
+                <field name="create_date"/>
+                <field name="endpoint"/>
+                <field name="ip_address"/>
+                <field name="token"/>
+                <field name="found"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_education_public_access_log" model="ir.actions.act_window">
+        <field name="name">Public Access Log</field>
+        <field name="res_model">education.public.access.log</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>

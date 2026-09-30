@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_education_student" model="ir.sequence">
+            <field name="name">Education Student Code</field>
+            <field name="code">education.student</field>
+            <field name="prefix">STD</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_education_teacher" model="ir.sequence">
+            <field name="name">Education Teacher Code</field>
+            <field name="code">education.teacher</field>
+            <field name="prefix">TCH</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_education_group" model="ir.sequence">
+            <field name="name">Education Group Code</field>
+            <field name="code">education.group</field>
+            <field name="prefix">GRP</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_education_expense" model="ir.sequence">
+            <field name="name">Education Expense</field>
+            <field name="code">education.expense</field>
+            <field name="prefix">EXP</field>
+            <field name="padding">6</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_education_cash_transfer" model="ir.sequence">
+            <field name="name">Education Cash Transfer</field>
+            <field name="code">education.cash.transfer</field>
+            <field name="prefix">XFER</field>
+            <field name="padding">6</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_education_cashier_shift" model="ir.sequence">
+            <field name="name">Education Cashier Shift</field>
+            <field name="code">education.cashier.shift</field>
+            <field name="prefix">SHIFT</field>
+            <field name="padding">6</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_education_payment" model="ir.sequence">
+            <field name="name">Education Payment Receipt</field>
+            <field name="code">education.payment</field>
+            <field name="prefix">RCPT</field>
+            <field name="padding">6</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_education_refund" model="ir.sequence">
+            <field name="name">Education Refund Number</field>
+            <field name="code">education.refund</field>
+            <field name="prefix">REF</field>
+            <field name="padding">6</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_education_certificate" model="ir.sequence">
+            <field name="name">Education Certificate Number</field>
+            <field name="code">education.certificate</field>
+            <field name="prefix">CERT</field>
+            <field name="padding">6</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_education_reconciliation_log" model="ir.sequence">
+            <field name="name">Education Reconciliation Log</field>
+            <field name="code">education.reconciliation.log</field>
+            <field name="prefix">RECON</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

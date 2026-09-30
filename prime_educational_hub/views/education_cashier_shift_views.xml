@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_education_cashier_shift_list" model="ir.ui.view">
+        <field name="name">education.cashier.shift.list</field>
+        <field name="model">education.cashier.shift</field>
+        <field name="arch" type="xml">
+            <list string="Cashier Shifts" decoration-danger="state == 'pending_approval'"
+                  decoration-success="state == 'closed'" decoration-info="state == 'open'">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="cash_account_id"/>
+                <field name="cashier_id"/>
+                <field name="opening_balance"/>
+                <field name="expected_closing_balance"/>
+                <field name="counted_closing_balance"/>
+                <field name="difference"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="state" widget="badge"
+                       decoration-info="state in ('draft', 'open')"
+                       decoration-danger="state == 'pending_approval'"
+                       decoration-success="state == 'closed'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_education_cashier_shift_form" model="ir.ui.view">
+        <field name="name">education.cashier.shift.form</field>
+        <field name="model">education.cashier.shift</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Cashier Shift">
+                <header>
+                    <button name="action_open" type="object" string="Open Shift" class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_close" type="object" string="Close Shift" class="btn-primary"
+                            invisible="state != 'open'"/>
+                    <button name="action_approve" type="object" string="Approve Over/Short" class="btn-warning"
+                            invisible="state != 'pending_approval'"
+                            groups="prime_educational_hub.group_education_admin,prime_educational_hub.group_education_supervisor"/>
+                    <button name="action_reopen_for_recount" type="object" string="Reopen for Recount"
+                            class="btn-secondary" invisible="state not in ('pending_approval', 'closed')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,open,pending_approval,closed"/>
+                </header>
+                <sheet>
+                    <div class="alert alert-danger mb-3" role="alert" invisible="state != 'pending_approval'">
+                        <strong>⚠ Over/Short:</strong> the counted closing balance doesn't match what the
+                        books expect. A supervisor or admin needs to approve this before the shift can close.
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="cash_account_id" readonly="state != 'draft'"/>
+                            <field name="cashier_id" readonly="state != 'draft'"/>
+                            <field name="date" readonly="state != 'draft'"/>
+                            <field name="handed_over_to_id"/>
+                        </group>
+                        <group>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="opening_balance" readonly="state != 'draft'"/>
+                            <field name="counted_closing_balance" readonly="state not in ('open', 'pending_approval')"/>
+                            <field name="expected_closing_balance" readonly="1"/>
+                            <field name="difference" readonly="1"
+                                   decoration-danger="difference != 0" decoration-success="difference == 0"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="opening_datetime" readonly="1"/>
+                        <field name="closing_datetime" readonly="1"/>
+                        <field name="approved_by" readonly="1"/>
+                    </group>
+                    <group string="Notes">
+                        <field name="notes" nolabel="1"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_education_cashier_shift_search" model="ir.ui.view">
+        <field name="name">education.cashier.shift.search</field>
+        <field name="model">education.cashier.shift</field>
+        <field name="arch" type="xml">
+            <search string="Cashier Shifts">
+                <field name="name"/>
+                <field name="cash_account_id"/>
+                <field name="cashier_id"/>
+                <filter string="Open" name="open" domain="[('state', '=', 'open')]"/>
+                <filter string="Pending Approval" name="pending_approval" domain="[('state', '=', 'pending_approval')]"/>
+                <filter string="Closed" name="closed" domain="[('state', '=', 'closed')]"/>
+                <group name="group_by">
+                    <filter string="Account" name="group_by_account" context="{'group_by': 'cash_account_id'}"/>
+                    <filter string="Cashier" name="group_by_cashier" context="{'group_by': 'cashier_id'}"/>
+                    <filter string="Date" name="group_by_date" context="{'group_by': 'date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_education_cashier_shift" model="ir.actions.act_window">
+        <field name="name">Cashier Shifts</field>
+        <field name="res_model">education.cashier.shift</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_open': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Open a shift to start a cashier's day on an account</p>
+        </field>
+    </record>
+</odoo>

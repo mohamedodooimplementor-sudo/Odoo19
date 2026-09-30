@@ -1,0 +1,362 @@
+/* ==========================================================================
+   Prime Educational Hub - public booking website
+   Frontend (website) styling only - the backend dashboard's own CSS
+   (education_dashboard.css) is a separate, unrelated bundle.
+   ========================================================================== */
+.o_peh_website {
+    --peh-primary: #a855f7;
+    --peh-primary-dark: #7c3aed;
+    --peh-accent: #c084fc;
+    --peh-text-soft: #6b5b8a;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Page shell: nav + footer (this module builds its own, standalone from  */
+/* the Website app's navbar/footer)                                       */
+/* ---------------------------------------------------------------------- */
+.o_peh_body {
+    margin: 0;
+}
+
+.o_peh_nav {
+    background: #ffffff;
+    border-bottom: 1px solid #f0e5ff;
+    box-shadow: 0 1px 6px rgba(124, 58, 237, 0.05);
+}
+
+.o_peh_nav_brand {
+    font-weight: 800;
+    font-size: 1.15rem;
+    color: #2a1a45;
+    text-decoration: none;
+}
+
+.o_peh_nav_brand:hover {
+    color: #2a1a45;
+    text-decoration: none;
+}
+
+.o_peh_nav_brand_prime {
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.o_peh_nav_link {
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: #7c3aed;
+    text-decoration: none;
+}
+
+.o_peh_nav_link:hover {
+    color: #6d28d9;
+    text-decoration: underline;
+}
+
+.o_peh_footer {
+    background: #faf5ff;
+    border-top: 1px solid #f0e5ff;
+    color: #7c6a99;
+    margin-top: 40px;
+}
+
+.o_peh_hero {
+    background: radial-gradient(900px 420px at 50% -10%, rgba(168, 85, 247, 0.18), transparent 60%),
+                linear-gradient(180deg, #faf5ff 0%, #ffffff 100%);
+}
+
+.o_peh_hero_title {
+    font-weight: 800;
+    font-size: 2.6rem;
+    background: linear-gradient(135deg, var(--peh-primary-dark), var(--peh-primary) 60%, var(--peh-accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 4px;
+}
+
+.o_peh_hero_tagline {
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    color: var(--peh-primary);
+    margin-bottom: 14px;
+}
+
+.o_peh_hero_subtitle {
+    color: var(--peh-text-soft);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Subject filter chips                                                   */
+/* ---------------------------------------------------------------------- */
+.o_peh_filter_bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+}
+
+.o_peh_filter_chip {
+    display: inline-block;
+    padding: 7px 16px;
+    border-radius: 999px;
+    border: 1px solid #e4d4ff;
+    color: var(--peh-primary-dark);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.o_peh_filter_chip:hover {
+    background: #f5ebff;
+    text-decoration: none;
+    color: var(--peh-primary-dark);
+}
+
+.o_peh_filter_chip.active {
+    background: linear-gradient(135deg, var(--peh-primary), var(--peh-primary-dark));
+    border-color: transparent;
+    color: #fff;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Course cards                                                           */
+/* ---------------------------------------------------------------------- */
+.o_peh_course_card {
+    border-radius: 16px;
+    border: 1px solid #eee0ff;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(124, 58, 237, 0.06);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.o_peh_course_card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 28px rgba(124, 58, 237, 0.18);
+    border-color: #dcbdff;
+}
+
+.o_peh_course_card_image {
+    height: 160px;
+    background-size: cover;
+    background-position: center;
+    background-color: #f5ebff;
+}
+
+.o_peh_course_card_body {
+    padding: 16px 18px 18px;
+}
+
+.o_peh_course_card_subject {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--peh-primary);
+    background: #f5ebff;
+    border-radius: 6px;
+    padding: 2px 8px;
+    margin-bottom: 8px;
+}
+
+.o_peh_course_card_title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #2a1a45;
+    margin-bottom: 8px;
+}
+
+.o_peh_course_card_meta {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    font-size: 0.8rem;
+    color: var(--peh-text-soft);
+    margin-bottom: 12px;
+}
+
+.o_peh_course_card_footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 10px;
+    border-top: 1px solid #f0e5ff;
+}
+
+.o_peh_course_card_price {
+    font-weight: 800;
+    color: var(--peh-primary-dark);
+}
+
+.o_peh_course_card_seats {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #16a34a;
+}
+
+.o_peh_course_card_seats.o_peh_full {
+    color: #dc2626;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Course detail page                                                     */
+/* ---------------------------------------------------------------------- */
+.o_peh_back_link {
+    color: var(--peh-primary-dark);
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+}
+
+.o_peh_back_link:hover {
+    text-decoration: underline;
+    color: var(--peh-primary-dark);
+}
+
+.o_peh_detail_header {
+    background: linear-gradient(180deg, #faf5ff 0%, #ffffff 100%);
+}
+
+.o_peh_detail_image {
+    height: 280px;
+    border-radius: 16px;
+    background-size: cover;
+    background-position: center;
+    background-color: #f5ebff;
+}
+
+.o_peh_detail_title {
+    font-weight: 800;
+    font-size: 2rem;
+    color: #2a1a45;
+    margin: 6px 0 10px;
+}
+
+.o_peh_detail_meta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    color: var(--peh-text-soft);
+    font-size: 0.9rem;
+}
+
+.o_peh_detail_price {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--peh-primary-dark);
+}
+
+.o_peh_detail_price_label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--peh-text-soft);
+}
+
+.o_peh_section_title {
+    font-weight: 700;
+    color: #2a1a45;
+    margin-bottom: 14px;
+}
+
+.o_peh_schedule_card {
+    background: #faf5ff;
+    border: 1px solid #eee0ff;
+    border-radius: 14px;
+    padding: 18px 20px;
+}
+
+.o_peh_schedule_card h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #2a1a45;
+    margin-bottom: 12px;
+}
+
+.o_peh_schedule_row {
+    display: flex;
+    justify-content: space-between;
+    padding: 7px 0;
+    border-bottom: 1px solid #f0e5ff;
+    font-size: 0.88rem;
+    color: #4b3a6b;
+}
+
+.o_peh_schedule_row:last-child {
+    border-bottom: none;
+}
+
+/* ---------------------------------------------------------------------- */
+/* CTA button (shared)                                                    */
+/* ---------------------------------------------------------------------- */
+.o_peh_cta_btn {
+    display: inline-block;
+    padding: 13px 28px;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(135deg, var(--peh-primary), var(--peh-primary-dark));
+    color: #fff !important;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 8px 20px rgba(124, 58, 237, 0.30);
+    transition: filter 0.15s ease, transform 0.1s ease;
+    text-align: center;
+}
+
+.o_peh_cta_btn:hover {
+    filter: brightness(1.07);
+    transform: translateY(-1px);
+    color: #fff;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Booking form                                                           */
+/* ---------------------------------------------------------------------- */
+.o_peh_booking_form .form-label {
+    font-weight: 600;
+    color: #2a1a45;
+    font-size: 0.88rem;
+}
+
+.o_peh_booking_form .form-control {
+    border-radius: 10px;
+    border-color: #e4d4ff;
+    padding: 10px 12px;
+}
+
+.o_peh_booking_form .form-control:focus {
+    border-color: var(--peh-primary);
+    box-shadow: 0 0 0 0.2rem rgba(168, 85, 247, 0.15);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Booking confirmation / payment                                         */
+/* ---------------------------------------------------------------------- */
+.o_peh_confirm_icon {
+    font-size: 3rem;
+    color: var(--peh-primary);
+    margin-bottom: 12px;
+}
+
+.o_peh_confirm_icon_success {
+    color: #16a34a;
+}
+
+.o_peh_pay_box {
+    background: #faf5ff;
+    border: 1px solid #eee0ff;
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.o_peh_pay_amount {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--peh-primary-dark);
+}

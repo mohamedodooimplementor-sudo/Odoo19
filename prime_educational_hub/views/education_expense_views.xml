@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Expense Category -->
+    <record id="view_education_expense_category_list" model="ir.ui.view">
+        <field name="name">education.expense.category.list</field>
+        <field name="model">education.expense.category</field>
+        <field name="arch" type="xml">
+            <list string="Expense Categories" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_education_expense_category_form" model="ir.ui.view">
+        <field name="name">education.expense.category.form</field>
+        <field name="model">education.expense.category</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Expense Category">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_expenses" type="object"
+                                class="oe_stat_button" icon="fa-money text-danger">
+                            <field name="expense_count" widget="statinfo" string="Expenses"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <field name="code"/>
+                        <field name="active"/>
+                    </group>
+                    <group string="Notes">
+                        <field name="notes" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_education_expense_category" model="ir.actions.act_window">
+        <field name="name">Expense Categories</field>
+        <field name="res_model">education.expense.category</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Define categories like Rent, Salaries, Utilities...</p>
+        </field>
+    </record>
+
+    <!-- Cash / Bank Account -->
+    <record id="view_education_cash_account_list" model="ir.ui.view">
+        <field name="name">education.cash.account.list</field>
+        <field name="model">education.cash.account</field>
+        <field name="arch" type="xml">
+            <list string="Cash / Bank Accounts">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="account_type"/>
+                <field name="opening_balance"/>
+                <field name="total_in"/>
+                <field name="total_out"/>
+                <field name="current_balance" decoration-danger="current_balance &lt; 0"
+                       decoration-success="current_balance &gt;= 0"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_education_cash_account_form" model="ir.ui.view">
+        <field name="name">education.cash.account.form</field>
+        <field name="model">education.cash.account</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Cash / Bank Account">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_payment_methods" type="object" class="oe_stat_button" icon="fa-credit-card text-primary">
+                            <field name="payment_method_count" widget="statinfo" string="Payment Methods"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="account_type"/>
+                            <field name="bank_name" invisible="account_type != 'bank'"/>
+                            <field name="account_number" invisible="account_type != 'bank'"/>
+                            <field name="currency_id" groups="base.group_multi_currency"/>
+                        </group>
+                        <group>
+                            <field name="opening_balance"/>
+                            <field name="total_in" readonly="1"/>
+                            <field name="total_out" readonly="1"/>
+                            <field name="current_balance" readonly="1"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group string="Notes">
+                        <field name="notes" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_education_cash_account" model="ir.actions.act_window">
+        <field name="name">Cash / Bank Accounts</field>
+        <field name="res_model">education.cash.account</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Add your cash drawer(s) and bank account(s) here</p>
+        </field>
+    </record>
+
+    <!-- Expense -->
+    <record id="view_education_expense_list" model="ir.ui.view">
+        <field name="name">education.expense.list</field>
+        <field name="model">education.expense</field>
+        <field name="arch" type="xml">
+            <list string="Expenses" decoration-muted="state in ('rejected', 'cancelled')">
+                <field name="name"/>
+                <field name="expense_date"/>
+                <field name="category_id"/>
+                <field name="description"/>
+                <field name="payee"/>
+                <field name="amount"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="cash_account_id"/>
+                <field name="state" widget="badge"
+                       decoration-info="state in ('draft', 'submitted')"
+                       decoration-warning="state == 'approved'"
+                       decoration-success="state == 'paid'"
+                       decoration-danger="state == 'rejected'"
+                       decoration-muted="state == 'cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_education_expense_form" model="ir.ui.view">
+        <field name="name">education.expense.form</field>
+        <field name="model">education.expense</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Expense">
+                <header>
+                    <button name="action_submit" type="object" string="Submit"
+                            invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_approve" type="object" string="Approve"
+                            invisible="state != 'submitted'" class="btn-primary"
+                            groups="prime_educational_hub.group_education_admin,prime_educational_hub.group_education_supervisor"/>
+                    <button name="action_mark_paid" type="object" string="Mark Paid"
+                            invisible="state != 'approved'" class="btn-primary"/>
+                    <button name="action_reject" type="object" string="Reject"
+                            invisible="state not in ('submitted', 'approved')" class="btn-danger"
+                            groups="prime_educational_hub.group_education_admin,prime_educational_hub.group_education_supervisor"/>
+                    <button name="action_reset_to_draft" type="object" string="Reset to Draft"
+                            invisible="state not in ('rejected', 'cancelled')" class="btn-secondary"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            invisible="state in ('paid', 'cancelled')" class="btn-secondary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved,paid"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="expense_date"/>
+                            <field name="category_id"/>
+                            <field name="description"/>
+                            <field name="payee"/>
+                            <field name="reference"/>
+                        </group>
+                        <group>
+                            <field name="amount"/>
+                            <field name="currency_id" groups="base.group_multi_currency"/>
+                            <field name="cash_account_id"/>
+                            <field name="requested_by" readonly="1"/>
+                            <field name="approved_by" readonly="1"/>
+                            <field name="paid_by" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Attachments">
+                        <field name="attachment_ids" nolabel="1"/>
+                    </group>
+                    <group string="Notes">
+                        <field name="notes" nolabel="1"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_education_expense" model="ir.actions.act_window">
+        <field name="name">Expenses</field>
+        <field name="res_model">education.expense</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Record your first center expense</p>
+        </field>
+    </record>
+</odoo>

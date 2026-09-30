@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_education_student_list" model="ir.ui.view">
+        <field name="name">education.student.list</field>
+        <field name="model">education.student</field>
+        <field name="arch" type="xml">
+            <list string="Students" decoration-muted="state in ('inactive','graduated')" decoration-danger="state == 'suspended'">
+                <field name="student_code"/>
+                <field name="name"/>
+                <field name="grade_level_id"/>
+                <field name="mobile"/>
+                <field name="registration_date"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'active'"
+                       decoration-info="state == 'graduated'"
+                       decoration-danger="state == 'suspended'"
+                       decoration-muted="state == 'inactive'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_education_student_kanban" model="ir.ui.view">
+        <field name="name">education.student.kanban</field>
+        <field name="model">education.student</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="name"/>
+                <field name="student_code"/>
+                <field name="state"/>
+                <field name="grade_level_id"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click p-2">
+                            <div class="d-flex align-items-center">
+                                <field name="photo" widget="image" class="o_kanban_image rounded-circle me-2" options="{'size': [40,40]}"/>
+                                <div>
+                                    <strong><field name="name"/></strong>
+                                    <div class="text-muted small"><field name="student_code"/> — <field name="grade_level_id"/></div>
+                                </div>
+                            </div>
+                            <div class="mt-1">
+                                <field name="state" widget="label_selection"
+                                       options="{'classes': {'active': 'success', 'suspended': 'danger', 'inactive': 'default', 'graduated': 'info'}}"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_education_student_form" model="ir.ui.view">
+        <field name="name">education.student.form</field>
+        <field name="model">education.student</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Student">
+                <header>
+                    <button name="action_quick_payment" type="object" string="Record Payment" class="btn-primary" invisible="not id"/>
+                    <button name="action_print_profile_report" type="object" string="Print Profile" class="btn-info" invisible="not id"/>
+                    <button name="action_print_id_card" type="object" string="Print ID Card" class="btn-info" invisible="not id"/>
+                    <button name="action_print_academic_report" type="object" string="Print Academic Report" class="btn-info" invisible="not id"/>
+                    <button name="action_print_exam_result_report" type="object" string="Print Exam Results" class="btn-info" invisible="not id"/>
+                    <button name="action_print_attendance_report" type="object" string="Print Attendance Report" class="btn-info" invisible="not id"/>
+                    <button name="action_print_financial_statement" type="object" string="Print Financial Statement" class="btn-info" invisible="not id"/>
+                    <button name="action_generate_portal_link" type="object" string="Generate/Open Portal Link" class="btn-edu-teal" invisible="not id"/>
+                    <button name="action_send_whatsapp_fee_reminder" type="object" string="Send Fee Reminder (WhatsApp)"
+                            invisible="not id or total_outstanding &lt;= 0" class="btn-success"/>
+                    <button name="action_generate_attendance_pin" type="object" string="Generate/Reset Attendance PIN"
+                            class="btn-edu-purple" invisible="not id"
+                            groups="prime_educational_hub.group_education_admin,prime_educational_hub.group_education_supervisor,prime_educational_hub.group_education_teacher,prime_educational_hub.group_education_reception"/>
+                    <button name="action_revoke_attendance_pin" type="object" string="Revoke Attendance PIN"
+                            invisible="not id or not attendance_pin_set" class="btn-danger"
+                            groups="prime_educational_hub.group_education_admin,prime_educational_hub.group_education_supervisor"/>
+                    <button name="action_unlock_attendance_pin" type="object" string="Unlock PIN Now"
+                            invisible="not id or not attendance_pin_locked_until" class="btn-warning"
+                            groups="prime_educational_hub.group_education_admin,prime_educational_hub.group_education_supervisor"/>
+                    <field name="state" widget="statusbar" statusbar_visible="active,inactive,graduated,suspended"/>
+                </header>
+                <sheet>
+                    <field name="photo" widget="image" class="oe_avatar"/>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_guardians" type="object" class="oe_stat_button" icon="fa-user-circle-o text-info">
+                            <field name="guardian_count" widget="statinfo" string="Guardians"/>
+                        </button>
+                        <button name="action_view_groups" type="object" class="oe_stat_button" icon="fa-users text-primary">
+                            <field name="active_group_count" widget="statinfo" string="Active Groups"/>
+                        </button>
+                        <button name="action_view_enrollments" type="object" class="oe_stat_button" icon="fa-list-alt text-primary">
+                            <field name="enrollment_count" widget="statinfo" string="Enrollments"/>
+                        </button>
+                        <button name="action_view_attendance" type="object" class="oe_stat_button" icon="fa-check-square-o text-success">
+                            <field name="attendance_percentage" widget="statinfo" string="Attendance %"/>
+                        </button>
+                        <button name="action_view_exam_results" type="object" class="oe_stat_button" icon="fa-graduation-cap text-warning">
+                            <field name="exam_average_percentage" widget="statinfo" string="Exam Average %"/>
+                        </button>
+                        <button name="action_view_submissions" type="object" class="oe_stat_button" icon="fa-book text-info">
+                            <field name="submission_completion_percentage" widget="statinfo" string="Assignments %"/>
+                        </button>
+                        <button name="action_view_payments" type="object" class="oe_stat_button" icon="fa-money text-danger">
+                            <field name="total_outstanding" widget="statinfo" string="Outstanding"/>
+                        </button>
+                        <button name="action_view_installments" type="object" class="oe_stat_button" icon="fa-calendar text-danger">
+                            <field name="overdue_installment_count" widget="statinfo" string="Overdue Installments"/>
+                        </button>
+                        <button name="action_view_certificates" type="object" class="oe_stat_button" icon="fa-certificate text-warning">
+                            <field name="certificate_count" widget="statinfo" string="Certificates"/>
+                        </button>
+                        <button name="action_view_refunds" type="object" class="oe_stat_button" icon="fa-undo text-secondary"
+                                invisible="refund_count == 0">
+                            <field name="refund_count" widget="statinfo" string="Refunds"/>
+                        </button>
+                        <!-- Notes smart button will be added with the Reports/Notes phase. -->
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="student_code" readonly="1" class="text-muted"/>
+                        </h1>
+                        <h2><field name="name" placeholder="Student full name"/></h2>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="gender"/>
+                            <field name="date_of_birth"/>
+                            <field name="age"/>
+                            <field name="grade_level_id"/>
+                        </group>
+                        <group>
+                            <field name="phone"/>
+                            <field name="mobile"/>
+                            <field name="whatsapp"/>
+                            <field name="email"/>
+                            <field name="registration_date"/>
+                            <field name="show_branch_field" invisible="1"/>
+                            <field name="branch_id" invisible="not show_branch_field" required="show_branch_field"/>
+                        </group>
+                    </group>
+                    <group invisible="not portal_token">
+                        <field name="portal_url" readonly="1"/>
+                        <button name="action_revoke_portal_link" type="object" string="Revoke Portal Link"
+                                class="btn-link"/>
+                        <button name="action_rotate_portal_link" type="object" string="Rotate Link"
+                                class="btn-link" confirm="This invalidates the current link. Continue?"/>
+                    </group>
+                    <group>
+                        <field name="attendance_pin_set" invisible="1"/>
+                        <field name="attendance_pin_display" widget="CopyClipboardChar"/>
+                        <field name="attendance_pin_failed_attempts" string="PIN Failed Attempts"
+                               groups="prime_educational_hub.group_education_admin,prime_educational_hub.group_education_supervisor"/>
+                        <field name="attendance_pin_locked_until" string="PIN Locked Until"
+                               groups="prime_educational_hub.group_education_admin,prime_educational_hub.group_education_supervisor"/>
+                    </group>
+                    <notebook>
+                        <page string="Groups">
+                            <field name="enrollment_ids" context="{'default_student_id': id}">
+                                <list editable="bottom">
+                                    <field name="group_id"/>
+                                    <field name="enrollment_date"/>
+                                    <field name="state" widget="badge" readonly="1"
+                                           decoration-success="state == 'active'"
+                                           decoration-muted="state in ('draft', 'completed', 'cancelled')"/>
+                                    <button name="action_set_active" type="object" string="Activate"
+                                            invisible="state != 'draft'" class="btn-link"/>
+                                    <field name="fee_plan_id"/>
+                                    <field name="net_fee"/>
+                                    <field name="outstanding_amount"/>
+                                    <field name="attendance_percentage" widget="percentage"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Guardians">
+                            <field name="guardian_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="relationship"/>
+                                    <field name="mobile"/>
+                                    <field name="whatsapp"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Address &amp; School">
+                            <field name="school"/>
+                            <field name="address"/>
+                        </page>
+                        <page string="Financial Summary">
+                            <group>
+                                <group>
+                                    <field name="total_net_fee"/>
+                                    <field name="total_paid"/>
+                                </group>
+                                <group>
+                                    <field name="total_refunded"/>
+                                    <field name="total_outstanding"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_education_student_search" model="ir.ui.view">
+        <field name="name">education.student.search</field>
+        <field name="model">education.student</field>
+        <field name="arch" type="xml">
+            <search string="Students">
+                <field name="name"/>
+                <field name="student_code"/>
+                <field name="mobile"/>
+                <field name="phone"/>
+                <field name="whatsapp"/>
+                <field name="grade_level_id"/>
+                <field name="quick_lookup" string="Phone / Code (any)"
+                       filter_domain="['|', '|', '|', ('student_code', 'ilike', self), ('phone', 'ilike', self),
+                                       ('mobile', 'ilike', self), ('whatsapp', 'ilike', self)]"/>
+                <filter string="Active" name="active_state" domain="[('state', '=', 'active')]"/>
+                <filter string="Suspended" name="suspended_state" domain="[('state', '=', 'suspended')]"/>
+                <filter string="Graduated" name="graduated_state" domain="[('state', '=', 'graduated')]"/>
+                <filter string="Archived" name="archived" domain="[('active', '=', False)]"/>
+                <group name="group_by">
+                    <filter string="Grade Level" name="group_level" context="{'group_by': 'grade_level_id'}"/>
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_education_student_graph" model="ir.ui.view">
+        <field name="name">education.student.graph</field>
+        <field name="model">education.student</field>
+        <field name="arch" type="xml">
+            <graph string="Students Analysis" type="bar">
+                <field name="grade_level_id"/>
+                <field name="attendance_percentage" type="measure"/>
+                <field name="exam_average_percentage" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_education_student_pivot" model="ir.ui.view">
+        <field name="name">education.student.pivot</field>
+        <field name="model">education.student</field>
+        <field name="arch" type="xml">
+            <pivot string="Students Analysis">
+                <field name="grade_level_id" type="row"/>
+                <field name="state" type="col"/>
+                <field name="attendance_percentage" type="measure"/>
+                <field name="exam_average_percentage" type="measure"/>
+                <field name="total_outstanding" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_education_student" model="ir.actions.act_window">
+        <field name="name">Students</field>
+        <field name="res_model">education.student</field>
+        <field name="view_mode">list,kanban,form,graph,pivot</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Register your first student</p>
+        </field>
+    </record>
+</odoo>

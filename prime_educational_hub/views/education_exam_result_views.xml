@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_education_exam_result_list" model="ir.ui.view">
+        <field name="name">education.exam.result.list</field>
+        <field name="model">education.exam.result</field>
+        <field name="arch" type="xml">
+            <list string="Exam Results" editable="bottom" decoration-danger="not passed" decoration-success="passed">
+                <field name="exam_id"/>
+                <field name="student_id"/>
+                <field name="mark"/>
+                <field name="max_mark"/>
+                <field name="percentage" widget="percentage"/>
+                <field name="grade"/>
+                <field name="passed"/>
+                <field name="rank"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_education_exam_result_form" model="ir.ui.view">
+        <field name="name">education.exam.result.form</field>
+        <field name="model">education.exam.result</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Exam Result">
+                <header>
+                    <button name="action_confirm" type="object" string="Confirm"
+                            invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_reset_to_draft" type="object" string="Reset to Draft"
+                            invisible="state != 'confirmed'" class="btn-secondary"/>
+                    <button name="action_generate_question_lines" type="object" string="Generate Question Lines"
+                            invisible="state != 'draft'" class="btn-success"/>
+                    <button name="action_sync_mark_from_questions" type="object" string="Sync Mark from Questions"
+                            invisible="state != 'draft'" class="btn-edu-teal"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="exam_id"/>
+                            <field name="student_id"/>
+                            <field name="group_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="mark"/>
+                            <field name="max_mark" readonly="1"/>
+                            <field name="percentage" readonly="1" widget="percentage"/>
+                            <field name="grade" readonly="1"/>
+                            <field name="passed" readonly="1"/>
+                            <field name="rank" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Question-Level Marks" invisible="not line_ids">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="question_text"/>
+                                    <field name="mark_obtained"/>
+                                    <field name="max_mark" readonly="1"/>
+                                    <field name="is_correct" readonly="1"/>
+                                    <field name="student_answer"/>
+                                </list>
+                            </field>
+                            <group>
+                                <field name="line_marks_total" readonly="1"/>
+                            </group>
+                        </page>
+                        <page string="Teacher Comment">
+                            <field name="teacher_comment" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_education_exam_result_search" model="ir.ui.view">
+        <field name="name">education.exam.result.search</field>
+        <field name="model">education.exam.result</field>
+        <field name="arch" type="xml">
+            <search string="Exam Results">
+                <field name="exam_id"/>
+                <field name="student_id"/>
+                <field name="group_id"/>
+                <filter string="Passed" name="passed" domain="[('passed', '=', True)]"/>
+                <filter string="Failed" name="failed" domain="[('passed', '=', False)]"/>
+                <group name="group_by">
+                    <filter string="Exam" name="group_exam" context="{'group_by': 'exam_id'}"/>
+                    <filter string="Group" name="group_group" context="{'group_by': 'group_id'}"/>
+                    <filter string="Grade" name="group_grade" context="{'group_by': 'grade'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_education_exam_result_graph" model="ir.ui.view">
+        <field name="name">education.exam.result.graph</field>
+        <field name="model">education.exam.result</field>
+        <field name="arch" type="xml">
+            <graph string="Exam Results Analysis" type="bar">
+                <field name="group_id"/>
+                <field name="percentage" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_education_exam_result_pivot" model="ir.ui.view">
+        <field name="name">education.exam.result.pivot</field>
+        <field name="model">education.exam.result</field>
+        <field name="arch" type="xml">
+            <pivot string="Exam Results Analysis">
+                <field name="group_id" type="row"/>
+                <field name="exam_id" type="col"/>
+                <field name="percentage" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_education_exam_result" model="ir.actions.act_window">
+        <field name="name">Results</field>
+        <field name="res_model">education.exam.result</field>
+        <field name="view_mode">list,form,graph,pivot</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No results yet -- open an exam and click "Generate Result Lines"</p>
+        </field>
+    </record>
+</odoo>

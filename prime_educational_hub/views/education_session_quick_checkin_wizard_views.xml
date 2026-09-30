@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_education_session_quick_checkin_wizard_form" model="ir.ui.view">
+        <field name="name">education.session.quick_checkin.wizard.form</field>
+        <field name="model">education.session.quick_checkin.wizard</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Quick Check-in">
+                <field name="session_id" invisible="1"/>
+                <div class="alert alert-success mb-3" role="alert" invisible="not last_checked_in_name">
+                    <field name="last_checked_in_name" readonly="1" nolabel="1" class="fw-bold"/>
+                </div>
+                <group>
+                    <field name="student_code" placeholder="Scan or type student code..."
+                           options="{'autofocus': True}"/>
+                </group>
+                <p class="text-muted small">
+                    No PIN needed here — you're already signed in. Press Enter or click Check In
+                    after each code; this window stays open for the next student.
+                </p>
+                <footer>
+                    <button name="action_check_in" type="object" string="Check In" class="btn-primary"/>
+                    <button string="Done" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

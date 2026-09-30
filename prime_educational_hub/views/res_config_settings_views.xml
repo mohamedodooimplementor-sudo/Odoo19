@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_res_config_settings_education" model="ir.ui.view">
+        <field name="name">res.config.settings.education</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Education" string="Education" name="prime_educational_hub"
+                     groups="prime_educational_hub.group_education_admin">
+
+                    <block title="Academic">
+                        <setting id="academic_year_setting" string="Default Academic Year"
+                                 help="Used when creating new records without an explicit academic year.">
+                            <field name="education_default_academic_year_id" class="oe_inline"/>
+                        </setting>
+                    </block>
+
+                    <block title="Attendance">
+                        <setting id="attendance_status_setting" string="Default Attendance Status"
+                                 help="Pre-selected status when marking attendance for a new session.">
+                            <field name="education_default_attendance_status" class="oe_inline"/>
+                        </setting>
+                        <setting id="attendance_excused_setting"
+                                 string="Exclude Excused Absences From Attendance %"
+                                 help="If enabled, excused absences are removed from the denominator when computing attendance percentages, instead of counting against the student like a normal absence.">
+                            <field name="education_attendance_excused_excluded"/>
+                        </setting>
+                    </block>
+
+                    <block title="Exams">
+                        <setting id="exam_tie_break_setting" string="Default Exam Tie-Break Rule"
+                                 help="How tied scores are ranked on exam results by default.">
+                            <field name="education_exam_tie_break_mode" class="oe_inline"/>
+                        </setting>
+                    </block>
+
+                    <block title="Fees &amp; Payments">
+                        <setting id="default_payment_method_setting" string="Default Payment Method"
+                                 help="Pre-selected method when recording a new payment.">
+                            <field name="education_default_payment_method_id" class="oe_inline"/>
+                        </setting>
+                        <setting id="default_cash_account_setting" string="Default Cash/Bank Account"
+                                 help="Pre-selected 'Paid From' account on new expenses, refunds, and teacher payouts.">
+                            <field name="education_default_cash_account_id" class="oe_inline"/>
+                        </setting>
+                        <setting id="auto_session_horizon_setting" string="Auto-Generate Sessions"
+                                 help="How many days ahead to automatically create sessions from each group's weekly schedule.">
+                            <field name="education_auto_session_horizon_days" class="oe_inline"/> days ahead
+                        </setting>
+                        <setting id="school_timezone_setting" string="School's Timezone"
+                                 help="Group schedule times are interpreted in this timezone when sessions are generated.">
+                            <field name="education_school_timezone" class="oe_inline"/>
+                        </setting>
+                        <setting id="require_pin_setting" string="Require PIN for Self Check-in"
+                                 help="Turn off to let students check in on the public QR page with just their code, no PIN.">
+                            <field name="education_require_pin_for_checkin" class="oe_inline"/>
+                        </setting>
+                        <setting id="default_currency_setting" string="Default Fee Currency"
+                                 help="Used as the default currency on new fees, payments, and fee plans. Falls back to the company currency if left empty.">
+                            <field name="education_default_currency_id" class="oe_inline"/>
+                        </setting>
+                        <setting id="default_discount_policy_setting" string="Default Discount Policy"
+                                 help="Pre-selected discount type when creating a new fee.">
+                            <field name="education_default_discount_policy" class="oe_inline"/>
+                            <field name="education_default_discount_value" class="oe_inline ms-2"
+                                   invisible="education_default_discount_policy == 'none'"/>
+                        </setting>
+                        <setting id="discount_approval_threshold_setting" string="Discount Approval Threshold"
+                                 help="Fees discounted at or above this percentage need explicit Supervisor/Admin approval before they can be confirmed.">
+                            <field name="education_discount_approval_threshold" class="oe_inline"/> %
+                        </setting>
+                        <setting id="late_penalty_setting" string="Late Payment Penalty"
+                                 help="Automatically locks in a late fee on installments overdue past the grace period (requires the 'Education: Apply Late Penalties' cron to be activated).">
+                            <field name="education_late_penalty_type" class="oe_inline"/>
+                            <field name="education_late_penalty_value" class="oe_inline ms-2"
+                                   invisible="education_late_penalty_type == 'none'"/>
+                            <div invisible="education_late_penalty_type == 'none'">
+                                <label for="education_late_penalty_grace_days" string="Grace period (days)"/>
+                                <field name="education_late_penalty_grace_days" class="oe_inline"/>
+                            </div>
+                        </setting>
+                        <setting id="early_discount_setting" string="Early Settlement Discount"
+                                 help="Discount a cashier can grant when an installment is settled well ahead of its due date.">
+                            <field name="education_early_discount_type" class="oe_inline"/>
+                            <field name="education_early_discount_value" class="oe_inline ms-2"
+                                   invisible="education_early_discount_type == 'none'"/>
+                            <div invisible="education_early_discount_type == 'none'">
+                                <label for="education_early_discount_days_before" string="Days before due date"/>
+                                <field name="education_early_discount_days_before" class="oe_inline"/>
+                            </div>
+                        </setting>
+                    </block>
+
+                    <block title="Reports &amp; Certificates">
+                        <setting id="report_language_setting" string="Report Language"
+                                 help="Default language used when generating PDF reports.">
+                            <field name="education_report_language" class="oe_inline"/>
+                        </setting>
+                        <setting id="report_company_name_setting" string="Report Header Name"
+                                 help="Shown in the header band of every generated PDF report. Falls back to the company name if left empty.">
+                            <field name="education_report_company_name" class="oe_inline"
+                                   placeholder="Company name shown on reports"/>
+                        </setting>
+                        <setting id="report_footer_text_setting" string="Report Footer Text">
+                            <field name="education_report_footer_text" class="oe_inline"
+                                   placeholder="e.g. contact info"/>
+                        </setting>
+                        <setting id="certificate_verification_setting"
+                                 string="Enable Public Certificate Verification"
+                                 help="If disabled, the public /education/certificate/verify/&lt;token&gt; page will not confirm or deny any certificate, regardless of the token supplied.">
+                            <field name="education_certificate_verification_enabled"/>
+                        </setting>
+                        <setting id="student_portal_setting" string="Enable Public Student Portal Links"
+                                 help='If disabled, generated student portal links stop working (the page will show "not available") without deleting the underlying tokens.'>
+                            <field name="education_student_portal_enabled"/>
+                        </setting>
+                    </block>
+
+                    <block title="System">
+                        <setting id="dependencies_setting" string="Required Libraries"
+                                 help="reportlab and XlsxWriter (PDF/Excel reports) and qrcode (QR self-attendance) are installed automatically when this module is installed. Use this button if a check is needed later — e.g. after restoring internet access on the server.">
+                            <field name="education_dependencies_status" class="oe_inline text-muted" readonly="1"/>
+                            <button name="action_check_install_dependencies" type="object"
+                                    string="Check / Install Libraries" class="btn-secondary mt-2"/>
+                        </setting>
+                    </block>
+
+                    <block title="Dashboard">
+                        <setting id="dashboard_home_page_setting"
+                                 string="Dashboard as Home Page"
+                                 help="When on, Prime Educational Hub users land on the Dashboard right after login instead of the Odoo Apps switcher. Uses each user's native 'Home Action' field (Settings &gt; Users) - nothing in Odoo core is changed, and it stays fully reversible.">
+                            <field name="education_dashboard_as_home_page" class="oe_inline"/>
+                            <div class="mt-2">
+                                <button name="action_apply_dashboard_as_home_page" type="object"
+                                        string="Apply Now to All Users" class="btn-secondary"/>
+                                <button name="action_reset_dashboard_home_page" type="object"
+                                        string="Reset to Odoo Apps" class="btn-link"/>
+                            </div>
+                        </setting>
+                    </block>
+
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_education_config_settings" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="context">{'module': 'prime_educational_hub'}</field>
+    </record>
+</odoo>

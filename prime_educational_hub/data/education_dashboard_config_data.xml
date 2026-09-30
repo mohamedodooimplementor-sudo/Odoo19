@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- ==================================================================
+         Sidebar / navigation items
+         Every entry is a real Odoo action - clicking it in the dashboard
+         opens the normal Odoo view (list/form/wizard), not a static image.
+         Admins can add/remove/reorder items from Configuration without
+         touching any code (Configuration > Dashboard Navigation Items).
+
+         Note: the reference design also showed a "Library" icon, but this
+         module has no library/book-lending feature, so no item is seeded
+         for it - a menu item pointing at a non-existent action would
+         itself be a "static, non-functional button", which is exactly
+         what this configuration model is meant to avoid. Add one later
+         from Configuration once (if) a Library model/action exists.
+         ================================================================== -->
+    <record id="dashboard_menu_item_dashboard" model="education.dashboard.menu.item">
+        <field name="name">Dashboard</field>
+        <field name="icon">fa-home</field>
+        <field name="sequence">10</field>
+        <field name="color">#a855f7</field>
+        <field name="action_id" ref="action_education_dashboard"/>
+        <field name="is_dashboard_home" eval="True"/>
+    </record>
+
+    <record id="dashboard_menu_item_students" model="education.dashboard.menu.item">
+        <field name="name">Students</field>
+        <field name="icon">fa-graduation-cap</field>
+        <field name="sequence">20</field>
+        <field name="color">#a855f7</field>
+        <field name="action_id" ref="action_education_student"/>
+    </record>
+
+    <record id="dashboard_menu_item_teachers" model="education.dashboard.menu.item">
+        <field name="name">Teachers</field>
+        <field name="icon">fa-users</field>
+        <field name="sequence">30</field>
+        <field name="color">#a855f7</field>
+        <field name="action_id" ref="action_education_teacher"/>
+    </record>
+
+    <record id="dashboard_menu_item_courses" model="education.dashboard.menu.item">
+        <field name="name">Courses</field>
+        <field name="icon">fa-book</field>
+        <field name="sequence">40</field>
+        <field name="color">#a855f7</field>
+        <field name="action_id" ref="action_education_group"/>
+    </record>
+
+    <record id="dashboard_menu_item_lessons" model="education.dashboard.menu.item">
+        <field name="name">Lessons</field>
+        <field name="icon">fa-list-alt</field>
+        <field name="sequence">50</field>
+        <field name="color">#a855f7</field>
+        <field name="action_id" ref="action_education_session"/>
+    </record>
+
+    <record id="dashboard_menu_item_exams" model="education.dashboard.menu.item">
+        <field name="name">Exams</field>
+        <field name="icon">fa-pencil-square-o</field>
+        <field name="sequence">60</field>
+        <field name="color">#a855f7</field>
+        <field name="action_id" ref="action_education_exam"/>
+    </record>
+
+    <record id="dashboard_menu_item_attendance" model="education.dashboard.menu.item">
+        <field name="name">Attendance</field>
+        <field name="icon">fa-clipboard</field>
+        <field name="sequence">70</field>
+        <field name="color">#a855f7</field>
+        <field name="action_id" ref="action_education_attendance"/>
+    </record>
+
+    <record id="dashboard_menu_item_finance" model="education.dashboard.menu.item">
+        <field name="name">Finance</field>
+        <field name="icon">fa-money</field>
+        <field name="sequence">80</field>
+        <field name="color">#a855f7</field>
+        <field name="action_id" ref="action_education_fee"/>
+        <field name="group_id" ref="group_education_cashier"/>
+    </record>
+
+    <record id="dashboard_menu_item_reports" model="education.dashboard.menu.item">
+        <field name="name">Reports</field>
+        <field name="icon">fa-bar-chart</field>
+        <field name="sequence">90</field>
+        <field name="color">#a855f7</field>
+        <field name="action_id" ref="action_education_collection_report_wizard"/>
+        <field name="group_id" ref="group_education_supervisor"/>
+    </record>
+
+    <record id="dashboard_menu_item_settings" model="education.dashboard.menu.item">
+        <field name="name">Settings</field>
+        <field name="icon">fa-cog</field>
+        <field name="sequence">100</field>
+        <field name="color">#a855f7</field>
+        <field name="action_id" ref="action_education_config_settings"/>
+        <field name="group_id" ref="group_education_admin"/>
+    </record>
+
+    <!-- ==================================================================
+         Headline statistics cards
+         Every value is read live from the database each time the
+         dashboard loads (see education.dashboard.stat.card._compute_value)
+         - never hardcoded. Admins can add/remove cards from Configuration
+         (Configuration > Dashboard Statistics Cards) without touching code.
+         ================================================================== -->
+    <record id="dashboard_stat_card_students" model="education.dashboard.stat.card">
+        <field name="name">Students</field>
+        <field name="icon">fa-graduation-cap</field>
+        <field name="sequence">10</field>
+        <field name="color">#a855f7</field>
+        <field name="res_model">education.student</field>
+        <field name="domain">[("state", "=", "active")]</field>
+        <field name="measure">count</field>
+    </record>
+
+    <record id="dashboard_stat_card_teachers" model="education.dashboard.stat.card">
+        <field name="name">Teachers</field>
+        <field name="icon">fa-users</field>
+        <field name="sequence">20</field>
+        <field name="color">#c084fc</field>
+        <field name="res_model">education.teacher</field>
+        <field name="domain">[]</field>
+        <field name="measure">count</field>
+    </record>
+
+    <record id="dashboard_stat_card_courses" model="education.dashboard.stat.card">
+        <field name="name">Courses</field>
+        <field name="icon">fa-book</field>
+        <field name="sequence">30</field>
+        <field name="color">#a855f7</field>
+        <field name="res_model">education.group</field>
+        <field name="domain">[("state", "=", "active")]</field>
+        <field name="measure">count</field>
+    </record>
+
+    <record id="dashboard_stat_card_lessons" model="education.dashboard.stat.card">
+        <field name="name">Lessons</field>
+        <field name="icon">fa-list-alt</field>
+        <field name="sequence">40</field>
+        <field name="color">#c084fc</field>
+        <field name="res_model">education.session</field>
+        <field name="domain">[]</field>
+        <field name="measure">count</field>
+    </record>
+
+    <record id="dashboard_stat_card_attendance" model="education.dashboard.stat.card">
+        <field name="name">Attendance</field>
+        <field name="icon">fa-check-circle-o</field>
+        <field name="sequence">50</field>
+        <field name="color">#a855f7</field>
+        <field name="res_model">education.attendance</field>
+        <field name="domain">[]</field>
+        <field name="date_today_field">session_date</field>
+        <field name="measure">ratio_percentage</field>
+        <field name="domain_numerator">[("status", "in", ["present", "late"])]</field>
+        <field name="suffix">%</field>
+    </record>
+
+    <record id="dashboard_stat_card_performance" model="education.dashboard.stat.card">
+        <field name="name">Performance</field>
+        <field name="icon">fa-line-chart</field>
+        <field name="sequence">60</field>
+        <field name="color">#c084fc</field>
+        <field name="res_model">education.exam.result</field>
+        <field name="domain">[]</field>
+        <field name="measure">avg_percentage</field>
+        <field name="measure_field">percentage</field>
+        <field name="suffix">%</field>
+    </record>
+</odoo>

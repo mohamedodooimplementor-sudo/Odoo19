@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_education_payment_list" model="ir.ui.view">
+        <field name="name">education.payment.list</field>
+        <field name="model">education.payment</field>
+        <field name="arch" type="xml">
+            <list string="Payments" decoration-muted="state == 'cancelled'">
+                <field name="receipt_number"/>
+                <field name="student_id"/>
+                <field name="enrollment_id"/>
+                <field name="payment_date"/>
+                <field name="amount"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="payment_method_id"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-success="state == 'confirmed'"
+                       decoration-muted="state == 'cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_education_payment_form" model="ir.ui.view">
+        <field name="name">education.payment.form</field>
+        <field name="model">education.payment</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Payment">
+                <header>
+                    <button name="action_print_receipt" type="object" string="Print Receipt" class="btn-info" invisible="not id"/>
+                    <button name="action_confirm" type="object" string="Confirm Payment"
+                            invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_confirm" type="object" string="Confirm (Allow Overpayment)"
+                            invisible="state != 'draft'" context="{'allow_overpayment': True}" class="btn-warning"
+                            groups="prime_educational_hub.group_education_admin"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            invisible="state != 'confirmed'" class="btn-secondary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="receipt_number" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="student_id"/>
+                            <field name="enrollment_id"/>
+                            <field name="group_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="payment_date"/>
+                            <field name="amount"/>
+                            <field name="currency_id" groups="base.group_multi_currency"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="payment_method_id"/>
+                            <field name="reference"/>
+                        </group>
+                        <group>
+                            <field name="received_by"/>
+                            <field name="refunded_amount" readonly="1" invisible="refunded_amount == 0"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Allocations" invisible="not allocation_ids">
+                            <field name="allocation_ids" readonly="1">
+                                <list>
+                                    <field name="installment_id"/>
+                                    <field name="amount"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_education_payment_search" model="ir.ui.view">
+        <field name="name">education.payment.search</field>
+        <field name="model">education.payment</field>
+        <field name="arch" type="xml">
+            <search string="Payments">
+                <field name="receipt_number"/>
+                <field name="student_id"/>
+                <field name="reference"/>
+                <field name="group_id"/>
+                <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Confirmed" name="confirmed" domain="[('state', '=', 'confirmed')]"/>
+                <filter string="Cancelled" name="cancelled" domain="[('state', '=', 'cancelled')]"/>
+                <separator/>
+                <filter string="Today" name="today" domain="[('payment_date', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter string="This Week" name="this_week"
+                        domain="[('payment_date', '&gt;=', (context_today() - datetime.timedelta(days=context_today().weekday())).strftime('%Y-%m-%d'))]"/>
+                <filter string="This Month" name="this_month"
+                        domain="[('payment_date', '&gt;=', context_today().replace(day=1).strftime('%Y-%m-%d'))]"/>
+                <group name="group_by">
+                    <filter string="Student" name="group_student" context="{'group_by': 'student_id'}"/>
+                    <filter string="Group" name="group_group" context="{'group_by': 'group_id'}"/>
+                    <filter string="Payment Method" name="group_method" context="{'group_by': 'payment_method_id'}"/>
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Payment Date" name="group_date" context="{'group_by': 'payment_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_education_payment_graph" model="ir.ui.view">
+        <field name="name">education.payment.graph</field>
+        <field name="model">education.payment</field>
+        <field name="arch" type="xml">
+            <graph string="Payments Analysis" type="bar">
+                <field name="payment_date" interval="month"/>
+                <field name="amount" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_education_payment_pivot" model="ir.ui.view">
+        <field name="name">education.payment.pivot</field>
+        <field name="model">education.payment</field>
+        <field name="arch" type="xml">
+            <pivot string="Payments Analysis">
+                <field name="payment_date" interval="month" type="row"/>
+                <field name="payment_method_id" type="col"/>
+                <field name="amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_education_payment" model="ir.actions.act_window">
+        <field name="name">Payments</field>
+        <field name="res_model">education.payment</field>
+        <field name="view_mode">list,form,graph,pivot</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Record your first payment</p>
+        </field>
+    </record>
+</odoo>

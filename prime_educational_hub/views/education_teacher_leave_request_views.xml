@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_education_teacher_leave_request_list" model="ir.ui.view">
+        <field name="name">education.teacher.leave.request.list</field>
+        <field name="model">education.teacher.leave.request</field>
+        <field name="arch" type="xml">
+            <list string="Teacher Leave Requests" decoration-success="state == 'approved'"
+                  decoration-danger="state == 'rejected'" decoration-muted="state == 'draft'">
+                <field name="teacher_id"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="reason"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_education_teacher_leave_request_form" model="ir.ui.view">
+        <field name="name">education.teacher.leave.request.form</field>
+        <field name="model">education.teacher.leave.request</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Teacher Leave Request">
+                <header>
+                    <button name="action_approve" type="object" string="Approve" class="btn-primary"
+                            invisible="state != 'draft'"
+                            groups="prime_educational_hub.group_education_admin,prime_educational_hub.group_education_supervisor"/>
+                    <button name="action_reject" type="object" string="Reject" class="btn-danger"
+                            invisible="state != 'draft'"
+                            groups="prime_educational_hub.group_education_admin,prime_educational_hub.group_education_supervisor"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,approved"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="teacher_id"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
+                        <group>
+                            <field name="decided_by" readonly="1" invisible="not decided_by"/>
+                            <field name="decision_note"/>
+                        </group>
+                    </group>
+                    <field name="reason"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_education_teacher_leave_request" model="ir.actions.act_window">
+        <field name="name">Teacher Leave Requests</field>
+        <field name="res_model">education.teacher.leave.request</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

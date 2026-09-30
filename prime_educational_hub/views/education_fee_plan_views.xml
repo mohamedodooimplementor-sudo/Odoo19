@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Fee Plan -->
+    <record id="view_education_fee_plan_list" model="ir.ui.view">
+        <field name="name">education.fee.plan.list</field>
+        <field name="model">education.fee.plan</field>
+        <field name="arch" type="xml">
+            <list string="Fee Plans">
+                <field name="name"/>
+                <field name="subject_id"/>
+                <field name="billing_type"/>
+                <field name="amount"/>
+                <field name="installment_count"/>
+                <field name="frequency"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_education_fee_plan_form" model="ir.ui.view">
+        <field name="name">education.fee.plan.form</field>
+        <field name="model">education.fee.plan</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Fee Plan">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="subject_id"/>
+                            <field name="group_id"/>
+                            <field name="billing_type"/>
+                            <field name="session_count" invisible="billing_type != 'per_session'"/>
+                            <field name="price_per_session" invisible="billing_type != 'per_session'"/>
+                            <field name="amount" readonly="billing_type == 'per_session'"/>
+                            <field name="currency_id" groups="base.group_multi_currency"/>
+                        </group>
+                        <group>
+                            <field name="discount_policy"/>
+                            <field name="discount_value" invisible="discount_policy == 'none'"/>
+                            <field name="installment_count" invisible="billing_type == 'per_session'"/>
+                            <field name="frequency" invisible="billing_type == 'per_session'"/>
+                        </group>
+                    </group>
+                    <group string="Notes">
+                        <field name="notes" nolabel="1"/>
+                    </group>
+                </sheet>
+            <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_education_fee_plan" model="ir.actions.act_window">
+        <field name="name">Fee Plans</field>
+        <field name="res_model">education.fee.plan</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first fee plan</p>
+        </field>
+    </record>
+
+    <!-- Payment Method -->
+    <record id="view_education_payment_method_list" model="ir.ui.view">
+        <field name="name">education.payment.method.list</field>
+        <field name="model">education.payment.method</field>
+        <field name="arch" type="xml">
+            <list string="Payment Methods" editable="bottom">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="requires_reference"/>
+                <field name="cash_account_id"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_education_payment_method" model="ir.actions.act_window">
+        <field name="name">Payment Methods</field>
+        <field name="res_model">education.payment.method</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>

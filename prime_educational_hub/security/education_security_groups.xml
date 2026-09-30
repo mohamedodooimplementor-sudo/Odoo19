@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Odoo 19: res.groups no longer links to ir.module.category via
+             category_id. It now links to res.groups.privilege via
+             privilege_id (category_id/ir.module.category still exists for
+             reporting/grouping in Settings > Users, but is no longer the
+             field used on res.groups itself). -->
+        <record id="module_category_education" model="ir.module.category">
+            <field name="name">Prime Educational Hub</field>
+            <field name="sequence">25</field>
+        </record>
+
+        <record id="privilege_education" model="res.groups.privilege">
+            <field name="name">Prime Educational Hub</field>
+            <field name="category_id" ref="module_category_education"/>
+            <field name="sequence">25</field>
+        </record>
+
+        <record id="group_education_read_only" model="res.groups">
+            <field name="name">Read Only</field>
+            <field name="privilege_id" ref="privilege_education"/>
+        </record>
+
+        <record id="group_education_reception" model="res.groups">
+            <field name="name">Reception</field>
+            <field name="privilege_id" ref="privilege_education"/>
+            <field name="implied_ids" eval="[(4, ref('group_education_read_only'))]"/>
+        </record>
+
+        <record id="group_education_cashier" model="res.groups">
+            <field name="name">Cashier</field>
+            <field name="privilege_id" ref="privilege_education"/>
+            <field name="implied_ids" eval="[(4, ref('group_education_read_only'))]"/>
+        </record>
+
+        <record id="group_education_teacher" model="res.groups">
+            <field name="name">Teacher</field>
+            <field name="privilege_id" ref="privilege_education"/>
+            <field name="implied_ids" eval="[(4, ref('group_education_read_only'))]"/>
+        </record>
+
+        <record id="group_education_supervisor" model="res.groups">
+            <field name="name">Academic Supervisor</field>
+            <field name="privilege_id" ref="privilege_education"/>
+            <field name="implied_ids" eval="[(4, ref('group_education_teacher'))]"/>
+        </record>
+
+        <record id="group_education_admin" model="res.groups">
+            <field name="name">Education Administrator</field>
+            <field name="privilege_id" ref="privilege_education"/>
+            <field name="implied_ids" eval="[(4, ref('group_education_supervisor')), (4, ref('group_education_cashier'))]"/>
+        </record>
+    </data>
+</odoo>

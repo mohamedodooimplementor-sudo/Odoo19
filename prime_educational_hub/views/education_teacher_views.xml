@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_education_teacher_list" model="ir.ui.view">
+        <field name="name">education.teacher.list</field>
+        <field name="model">education.teacher</field>
+        <field name="arch" type="xml">
+            <list string="Teachers" decoration-muted="not active">
+                <field name="teacher_code"/>
+                <field name="name"/>
+                <field name="subject_ids" widget="many2many_tags"/>
+                <field name="mobile"/>
+                <field name="whatsapp"/>
+                <field name="has_system_access" widget="boolean_toggle" optional="hide"/>
+                <field name="group_count"/>
+                <field name="session_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_education_teacher_kanban" model="ir.ui.view">
+        <field name="name">education.teacher.kanban</field>
+        <field name="model">education.teacher</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="name"/>
+                <field name="teacher_code"/>
+                <field name="mobile"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click p-2">
+                            <div class="d-flex align-items-center">
+                                <field name="photo" widget="image" class="o_kanban_image rounded-circle me-2" options="{'size': [40,40]}"/>
+                                <div>
+                                    <strong><field name="name"/></strong>
+                                    <div class="text-muted small"><field name="teacher_code"/> -- <field name="mobile"/></div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_education_teacher_form" model="ir.ui.view">
+        <field name="name">education.teacher.form</field>
+        <field name="model">education.teacher</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Teacher">
+                <header>
+                    <button name="action_print_performance_report" type="object" string="Print Performance Report" class="btn-info" invisible="not id"/>
+                    <button name="action_print_id_card" type="object" string="Print ID Card" class="btn-info" invisible="not id"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_groups" type="object" class="oe_stat_button" icon="fa-users text-primary">
+                            <field name="group_count" widget="statinfo" string="Groups"/>
+                        </button>
+                        <button name="action_view_sessions" type="object" class="oe_stat_button" icon="fa-calendar-check-o text-success">
+                            <field name="session_count" widget="statinfo" string="Sessions"/>
+                        </button>
+                        <button name="action_view_payouts" type="object" class="oe_stat_button" icon="fa-money text-warning">
+                            <field name="payout_count" widget="statinfo" string="Payouts"/>
+                        </button>
+                        <button name="action_view_leave_requests" type="object" class="oe_stat_button" icon="fa-plane text-info">
+                            <field name="leave_request_count" widget="statinfo" string="Leave Requests"/>
+                        </button>
+                    </div>
+                    <field name="photo" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Teacher Full Name"/></h1>
+                        <field name="teacher_code" readonly="1"/>
+                    </div>
+                    <group>
+                        <group string="Contact">
+                            <field name="phone"/>
+                            <field name="mobile"/>
+                            <field name="whatsapp"/>
+                            <field name="email"/>
+                        </group>
+                        <group string="Teaching">
+                            <field name="subject_ids" widget="many2many_tags"/>
+                            <field name="show_branch_field" invisible="1"/>
+                            <field name="branch_id" invisible="not show_branch_field" required="show_branch_field"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group string="Compensation">
+                        <group>
+                            <field name="compensation_type"/>
+                            <field name="rate_per_session" invisible="compensation_type != 'per_session'"/>
+                            <field name="commission_percentage" invisible="compensation_type != 'percentage'"/>
+                            <field name="fixed_salary" invisible="compensation_type != 'fixed'"/>
+                        </group>
+                    </group>
+                    <group string="System Access">
+                        <field name="user_id"
+                               help="Optional. Only set this if the teacher needs to log in themselves (e.g. to take their own attendance via the app). Most teachers can be left without a System User."/>
+                        <field name="has_system_access" invisible="1"/>
+                    </group>
+                    <group string="Notes">
+                        <field name="notes" nolabel="1"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_education_teacher_search" model="ir.ui.view">
+        <field name="name">education.teacher.search</field>
+        <field name="model">education.teacher</field>
+        <field name="arch" type="xml">
+            <search string="Teachers">
+                <field name="name"/>
+                <field name="teacher_code"/>
+                <field name="mobile"/>
+                <field name="subject_ids"/>
+                <filter string="Has System Access" name="has_system_access" domain="[('user_id', '!=', False)]"/>
+                <filter string="No System Access" name="no_system_access" domain="[('user_id', '=', False)]"/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <group name="group_by">
+                    <filter string="Subject" name="group_by_subject" context="{'group_by': 'subject_ids'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_education_teacher_graph" model="ir.ui.view">
+        <field name="name">education.teacher.graph</field>
+        <field name="model">education.teacher</field>
+        <field name="arch" type="xml">
+            <graph string="Teachers Analysis" type="bar">
+                <field name="name"/>
+                <field name="session_count" type="measure"/>
+                <field name="group_count" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_education_teacher_pivot" model="ir.ui.view">
+        <field name="name">education.teacher.pivot</field>
+        <field name="model">education.teacher</field>
+        <field name="arch" type="xml">
+            <pivot string="Teachers Analysis">
+                <field name="name" type="row"/>
+                <field name="session_count" type="measure"/>
+                <field name="session_completed_count" type="measure"/>
+                <field name="group_count" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_education_teacher" model="ir.actions.act_window">
+        <field name="name">Teachers</field>
+        <field name="res_model">education.teacher</field>
+        <field name="view_mode">list,kanban,form,graph,pivot</field>
+        <field name="search_view_id" ref="view_education_teacher_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Add your first teacher</p>
+            <p>A teacher record is master data only -- no Odoo login is required unless the
+               teacher needs to use the system themselves.</p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_education_guardian_list" model="ir.ui.view">
+        <field name="name">education.guardian.list</field>
+        <field name="model">education.guardian</field>
+        <field name="arch" type="xml">
+            <list string="Guardians">
+                <field name="name"/>
+                <field name="relationship"/>
+                <field name="mobile"/>
+                <field name="whatsapp"/>
+                <field name="email"/>
+                <field name="student_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_education_guardian_form" model="ir.ui.view">
+        <field name="name">education.guardian.form</field>
+        <field name="model">education.guardian</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Guardian">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_students" type="object" class="oe_stat_button" icon="fa-users text-primary">
+                            <field name="student_count" widget="statinfo" string="Students"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="relationship"/>
+                            <field name="occupation"/>
+                        </group>
+                        <group>
+                            <field name="phone"/>
+                            <field name="mobile"/>
+                            <field name="whatsapp"/>
+                            <field name="email"/>
+                        </group>
+                    </group>
+                    <group string="Portal Account">
+                        <field name="user_id" readonly="1"/>
+                        <button name="action_create_portal_account" type="object" string="Create Portal Account"
+                                invisible="user_id" class="btn-edu-teal"/>
+                        <button name="action_revoke_portal_account" type="object" string="Revoke Portal Account"
+                                invisible="not user_id" class="btn-link"
+                                confirm="This deactivates the guardian's login. Continue?"/>
+                    </group>
+                    <notebook>
+                        <page string="Address">
+                            <field name="address"/>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_education_guardian_search" model="ir.ui.view">
+        <field name="name">education.guardian.search</field>
+        <field name="model">education.guardian</field>
+        <field name="arch" type="xml">
+            <search string="Guardians">
+                <field name="name"/>
+                <field name="mobile"/>
+                <field name="whatsapp"/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <group name="group_by">
+                    <filter string="Relationship" name="group_relationship" context="{'group_by': 'relationship'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_education_guardian" model="ir.actions.act_window">
+        <field name="name">Guardians</field>
+        <field name="res_model">education.guardian</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first guardian</p>
+        </field>
+    </record>
+</odoo>

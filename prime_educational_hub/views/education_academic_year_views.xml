@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_education_academic_year_list" model="ir.ui.view">
+        <field name="name">education.academic.year.list</field>
+        <field name="model">education.academic.year</field>
+        <field name="arch" type="xml">
+            <list string="Academic Years" decoration-muted="state == 'closed'" decoration-success="state == 'active'">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'active'"
+                       decoration-info="state == 'draft'"
+                       decoration-muted="state == 'closed'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_education_academic_year_form" model="ir.ui.view">
+        <field name="name">education.academic.year.form</field>
+        <field name="model">education.academic.year</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Academic Year">
+                <header>
+                    <button name="action_set_active" type="object" string="Set Active"
+                            invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_set_closed" type="object" string="Close Year"
+                            invisible="state != 'active'" class="btn-secondary"/>
+                    <button name="action_set_draft" type="object" string="Reset to Draft"
+                            invisible="state == 'draft'" class="btn-secondary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,active,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_terms" type="object" class="oe_stat_button" icon="fa-calendar text-primary">
+                            <field name="term_count" widget="statinfo" string="Terms"/>
+                        </button>
+                        <button name="action_view_groups" type="object" class="oe_stat_button" icon="fa-users text-primary">
+                            <field name="group_count" widget="statinfo" string="Groups"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="e.g. 2026 - 2027"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_education_academic_year" model="ir.actions.act_window">
+        <field name="name">Academic Years</field>
+        <field name="res_model">education.academic.year</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first academic year</p>
+        </field>
+    </record>
+</odoo>

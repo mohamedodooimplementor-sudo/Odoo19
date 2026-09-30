@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="certificate_verification_page" name="Certificate Verification">
+        <html>
+            <head>
+                <meta charset="utf-8"/>
+                <title>Certificate Verification</title>
+                <style>
+                    body { font-family: -apple-system, Arial, sans-serif; background: #f4f6f8; margin: 0; padding: 40px 16px; }
+                    .brand { text-align: center; margin-bottom: 18px; }
+                    .brand img { width: 56px; height: 56px; border-radius: 14px; box-shadow: 0 4px 14px rgba(0,0,0,0.12); }
+                    .brand h3 { margin: 8px 0 0; font-size: 15px; color: #2c3e50; font-weight: 700; }
+                    .card { max-width: 480px; margin: 0 auto; background: #fff; border-radius: 12px;
+                            box-shadow: 0 2px 12px rgba(0,0,0,0.08); padding: 32px; }
+                    .status { font-size: 20px; font-weight: 600; margin-bottom: 16px; }
+                    .valid { color: #1a7f37; }
+                    .invalid { color: #c0392b; }
+                    .row { display: flex; justify-content: space-between; padding: 8px 0;
+                           border-bottom: 1px solid #eee; font-size: 14px; }
+                    .row span:first-child { color: #666; }
+                    .row span:last-child { font-weight: 500; }
+                </style>
+            </head>
+            <body>
+                <div class="brand">
+                    <img src="/prime_educational_hub/static/description/icon.png" alt="Prime Educational Hub"/>
+                    <h3>Prime Educational Hub · Certificate Verification</h3>
+                </div>
+                <div class="card">
+                    <t t-if="not data.get('found')">
+                        <div class="status invalid">✕ Certificate Not Found</div>
+                        <p>No certificate matches this verification link. It may be invalid or mistyped.</p>
+                    </t>
+                    <t t-else="">
+                        <t t-if="data.get('valid')">
+                            <div class="status valid">✓ Valid Certificate</div>
+                        </t>
+                        <t t-else="">
+                            <div class="status invalid">
+                                ✕ <t t-if="data.get('state') == 'revoked'">This Certificate Has Been Revoked</t>
+                                <t t-else="">This Certificate Is Not Yet Issued</t>
+                            </div>
+                        </t>
+                        <div class="row"><span>Certificate Number</span><span t-esc="data.get('certificate_number')"/></div>
+                        <div class="row"><span>Student Name</span><span t-esc="data.get('student_name')"/></div>
+                        <div class="row" t-if="data.get('subject')"><span>Subject</span><span t-esc="data.get('subject')"/></div>
+                        <div class="row" t-if="data.get('group')"><span>Group</span><span t-esc="data.get('group')"/></div>
+                        <div class="row" t-if="data.get('academic_year')"><span>Academic Year</span><span t-esc="data.get('academic_year')"/></div>
+                        <div class="row"><span>Type</span><span t-esc="data.get('certificate_type')"/></div>
+                        <div class="row" t-if="data.get('result')"><span>Result</span><span t-esc="data.get('result')"/></div>
+                        <div class="row"><span>Issue Date</span><span t-esc="data.get('issue_date')"/></div>
+                    </t>
+                </div>
+            </body>
+        </html>
+    </template>
+</odoo>

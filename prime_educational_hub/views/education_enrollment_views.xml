@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_education_enrollment_list" model="ir.ui.view">
+        <field name="name">education.enrollment.list</field>
+        <field name="model">education.enrollment</field>
+        <field name="arch" type="xml">
+            <list string="Enrollments" decoration-muted="state in ('completed','cancelled')">
+                <field name="student_id"/>
+                <field name="group_id"/>
+                <field name="enrollment_date"/>
+                <field name="net_fee"/>
+                <field name="paid_amount"/>
+                <field name="outstanding_amount"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'active'"
+                       decoration-info="state == 'draft'"
+                       decoration-muted="state == 'completed'"
+                       decoration-danger="state == 'cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_education_enrollment_form" model="ir.ui.view">
+        <field name="name">education.enrollment.form</field>
+        <field name="model">education.enrollment</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Enrollment">
+                <header>
+                    <button name="action_set_active" type="object" string="Activate"
+                            invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_regenerate_fee" type="object" string="Regenerate Fee" class="btn-secondary"
+                            invisible="state != 'active' or fee_ids"
+                            confirm="This will create the Fee/Installments from the current Gross Fee. Continue?"/>
+                    <button name="action_set_completed" type="object" string="Mark Completed" class="btn-primary"
+                            invisible="state != 'active'"/>
+                    <button name="action_set_cancelled" type="object" string="Cancel" class="btn-secondary"
+                            invisible="state in ('completed', 'cancelled')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,active,completed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_fee" type="object" class="oe_stat_button" icon="fa-money text-success"
+                                invisible="fee_count == 0">
+                            <field name="fee_count" widget="statinfo" string="Fee"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="student_id"/>
+                            <field name="group_id"/>
+                            <field name="enrollment_date"/>
+                        </group>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                            <field name="currency_id" groups="base.group_multi_currency"/>
+                        </group>
+                    </group>
+                    <group string="Fees">
+                        <group>
+                            <field name="fee_plan_id"/>
+                            <field name="billing_type"/>
+                            <field name="session_count" invisible="billing_type != 'per_session'"/>
+                            <field name="price_per_session" invisible="billing_type != 'per_session'"/>
+                            <field name="gross_fee"/>
+                            <field name="discount_type"/>
+                            <field name="discount_value" invisible="not discount_type"/>
+                            <field name="discount_amount" readonly="1"/>
+                            <field name="net_fee" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="paid_amount" readonly="1"/>
+                            <field name="refunded_amount" readonly="1"/>
+                            <field name="outstanding_amount" readonly="1"/>
+                            <field name="sessions_consumed" readonly="1" invisible="billing_type != 'per_session'"/>
+                            <field name="sessions_remaining" readonly="1" invisible="billing_type != 'per_session'"/>
+                            <field name="amount_consumed" readonly="1" invisible="billing_type != 'per_session'"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Notes">
+                            <field name="end_reason" placeholder="Reason for completion/cancellation/transfer..."
+                                   invisible="state not in ('completed', 'cancelled')"/>
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_education_enrollment_search" model="ir.ui.view">
+        <field name="name">education.enrollment.search</field>
+        <field name="model">education.enrollment</field>
+        <field name="arch" type="xml">
+            <search string="Enrollments">
+                <field name="student_id"/>
+                <field name="group_id"/>
+                <filter string="Active" name="active_state" domain="[('state', '=', 'active')]"/>
+                <filter string="With Outstanding Balance" name="has_outstanding" domain="[('outstanding_amount', '&gt;', 0)]"/>
+                <group name="group_by">
+                    <filter string="Group" name="group_by_group" context="{'group_by': 'group_id'}"/>
+                    <filter string="Status" name="group_by_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_education_enrollment" model="ir.actions.act_window">
+        <field name="name">Enrollments</field>
+        <field name="res_model">education.enrollment</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Enroll your first student into a group</p>
+        </field>
+    </record>
+
+    <record id="action_server_enrollment_set_active" model="ir.actions.server">
+        <field name="name">Set Active</field>
+        <field name="model_id" ref="model_education_enrollment"/>
+        <field name="binding_model_id" ref="model_education_enrollment"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">records.action_set_active()</field>
+    </record>
+</odoo>

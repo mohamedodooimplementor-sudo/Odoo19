@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_education_assignment_submission_list" model="ir.ui.view">
+        <field name="name">education.assignment.submission.list</field>
+        <field name="model">education.assignment.submission</field>
+        <field name="arch" type="xml">
+            <list string="Submissions" editable="bottom" decoration-danger="status == 'not_submitted'"
+                  decoration-warning="status == 'late'" decoration-success="status == 'submitted'">
+                <field name="assignment_id"/>
+                <field name="student_id"/>
+                <field name="due_date"/>
+                <field name="submission_date"/>
+                <field name="status"/>
+                <field name="mark"/>
+                <field name="max_mark"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_education_assignment_submission_search" model="ir.ui.view">
+        <field name="name">education.assignment.submission.search</field>
+        <field name="model">education.assignment.submission</field>
+        <field name="arch" type="xml">
+            <search string="Submissions">
+                <field name="student_id"/>
+                <field name="assignment_id"/>
+                <field name="group_id"/>
+                <filter string="Pending" name="pending" domain="[('status', '=', 'pending')]"/>
+                <filter string="Submitted" name="submitted" domain="[('status', '=', 'submitted')]"/>
+                <filter string="Late" name="late" domain="[('status', '=', 'late')]"/>
+                <filter string="Not Submitted" name="not_submitted" domain="[('status', '=', 'not_submitted')]"/>
+                <group name="group_by">
+                    <filter string="Assignment" name="group_assignment" context="{'group_by': 'assignment_id'}"/>
+                    <filter string="Status" name="group_status" context="{'group_by': 'status'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_education_assignment_submission" model="ir.actions.act_window">
+        <field name="name">Submissions</field>
+        <field name="res_model">education.assignment.submission</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>

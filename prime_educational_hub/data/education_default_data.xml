@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="cash_account_main_cash" model="education.cash.account">
+            <field name="name">Main Cash Drawer</field>
+            <field name="account_type">cash</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="cash_account_main_bank" model="education.cash.account">
+            <field name="name">Main Bank Account</field>
+            <field name="account_type">bank</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <record id="payment_method_cash" model="education.payment.method">
+            <field name="name">Cash</field>
+            <field name="code">cash</field>
+            <field name="requires_reference">False</field>
+            <field name="cash_account_id" ref="cash_account_main_cash"/>
+        </record>
+        <record id="payment_method_bank_transfer" model="education.payment.method">
+            <field name="name">Bank Transfer</field>
+            <field name="code">bank_transfer</field>
+            <field name="requires_reference">True</field>
+            <field name="cash_account_id" ref="cash_account_main_bank"/>
+        </record>
+        <record id="payment_method_card" model="education.payment.method">
+            <field name="name">Card</field>
+            <field name="code">card</field>
+            <field name="requires_reference">False</field>
+            <field name="cash_account_id" ref="cash_account_main_bank"/>
+        </record>
+        <record id="payment_method_wallet" model="education.payment.method">
+            <field name="name">Wallet</field>
+            <field name="code">wallet</field>
+            <field name="requires_reference">True</field>
+            <field name="cash_account_id" ref="cash_account_main_cash"/>
+        </record>
+        <record id="payment_method_other" model="education.payment.method">
+            <field name="name">Other</field>
+            <field name="code">other</field>
+            <field name="requires_reference">False</field>
+            <field name="cash_account_id" ref="cash_account_main_cash"/>
+        </record>
+    </data>
+</odoo>

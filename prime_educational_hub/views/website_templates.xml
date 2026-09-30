@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ==================================================================
+         Self-contained page shell for the public booking site. Deliberately
+         NOT built on website.layout - this module does not depend on or
+         hook into Odoo's Website app at all. It only pulls in the generic
+         frontend asset bundle (Bootstrap + icon font), which is a core 'web'
+         asset used by every frontend-facing Odoo page (portal, payment...)
+         regardless of whether the Website app is installed.
+         ================================================================== -->
+    <template id="peh_layout" name="Prime Educational Hub - Layout">
+        <html>
+            <head>
+                <meta charset="utf-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <title><t t-esc="title or 'Prime Educational Hub'"/></title>
+                <t t-call-assets="web.assets_frontend" t-js="false"/>
+            </head>
+            <body class="o_peh_body">
+                <nav class="o_peh_nav">
+                    <div class="container d-flex align-items-center justify-content-between py-3">
+                        <a href="/courses" class="o_peh_nav_brand">
+                            <span class="o_peh_nav_brand_prime">Prime</span> Educational Hub
+                        </a>
+                        <a href="/courses" class="o_peh_nav_link">Courses</a>
+                    </div>
+                </nav>
+                <main>
+                    <t t-out="0"/>
+                </main>
+                <footer class="o_peh_footer">
+                    <div class="container py-4 text-center">
+                        <small>Prime Educational Hub &#8226; Learn &#8226; Manage &#8226; Grow</small>
+                    </div>
+                </footer>
+                <t t-call-assets="web.assets_frontend" t-css="false"/>
+            </body>
+        </html>
+    </template>
+
+    <!-- ==================================================================
+         Courses listing - /courses
+         ================================================================== -->
+    <template id="website_courses_list" name="Courses">
+        <t t-call="prime_educational_hub.peh_layout">
+            <div class="o_peh_website">
+                <section class="o_peh_hero">
+                    <div class="container py-5 text-center">
+                        <h1 class="o_peh_hero_title">Prime Educational Hub</h1>
+                        <p class="o_peh_hero_tagline">LEARN &#8226; MANAGE &#8226; GROW</p>
+                        <p class="o_peh_hero_subtitle lead">
+                            Browse our current groups and reserve a seat online in minutes.
+                        </p>
+                    </div>
+                </section>
+
+                <section class="container py-5">
+                    <div t-if="subjects" class="o_peh_filter_bar mb-4 text-center">
+                        <a href="/courses" t-attf-class="o_peh_filter_chip #{not selected_subject_id and 'active' or ''}">All Subjects</a>
+                        <t t-foreach="subjects" t-as="subject" t-key="subject.id">
+                            <a t-attf-href="/courses?subject_id=#{subject.id}"
+                               t-attf-class="o_peh_filter_chip #{selected_subject_id == subject.id and 'active' or ''}"
+                               t-esc="subject.name"/>
+                        </t>
+                    </div>
+
+                    <div t-if="not groups" class="text-center text-muted py-5">
+                        <i class="fa fa-graduation-cap fa-2x mb-3"/>
+                        <p>No open groups right now - please check back soon.</p>
+                    </div>
+
+                    <div class="row g-4">
+                        <t t-foreach="groups" t-as="group" t-key="group.id">
+                            <div class="col-12 col-md-6 col-lg-4">
+                                <a t-attf-href="/courses/#{group.id}" class="o_peh_course_card text-decoration-none d-block h-100">
+                                    <div class="o_peh_course_card_image"
+                                         t-attf-style="background-image: url('/web/image/education.group/#{group.id}/image_1024/');"/>
+                                    <div class="o_peh_course_card_body">
+                                        <span class="o_peh_course_card_subject" t-esc="group.subject_id.name"/>
+                                        <h3 class="o_peh_course_card_title" t-esc="group.name"/>
+                                        <div class="o_peh_course_card_meta">
+                                            <span t-if="group.teacher_id"><i class="fa fa-user"/> <t t-esc="group.teacher_id.name"/></span>
+                                            <span t-if="group.level_id"><i class="fa fa-signal"/> <t t-esc="group.level_id.name"/></span>
+                                        </div>
+                                        <div class="o_peh_course_card_footer">
+                                            <span class="o_peh_course_card_price" t-if="group.fee_plan_id">
+                                                <t t-field="group.fee_plan_id.amount" t-options="{'widget': 'monetary', 'display_currency': group.currency_id}"/>
+                                            </span>
+                                            <span class="o_peh_course_card_seats"
+                                                  t-attf-class="o_peh_course_card_seats #{group.seats_available &lt;= 0 and 'o_peh_full' or ''}">
+                                                <t t-if="group.seats_available > 0">
+                                                    <t t-esc="group.seats_available"/> seats left
+                                                </t>
+                                                <t t-else="">Waitlist only</t>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </t>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <!-- ==================================================================
+         Course detail - /courses/<id>
+         ================================================================== -->
+    <template id="website_course_detail" name="Course Detail">
+        <t t-call="prime_educational_hub.peh_layout">
+            <div class="o_peh_website">
+                <section class="o_peh_detail_header">
+                    <div class="container py-5">
+                        <a href="/courses" class="o_peh_back_link"><i class="fa fa-arrow-left"/> Back to Courses</a>
+                        <div class="row align-items-center g-4 mt-2">
+                            <div class="col-12 col-md-5">
+                                <div class="o_peh_detail_image"
+                                     t-attf-style="background-image: url('/web/image/education.group/#{group.id}/image_1024/');"/>
+                            </div>
+                            <div class="col-12 col-md-7">
+                                <span class="o_peh_course_card_subject" t-esc="group.subject_id.name"/>
+                                <h1 class="o_peh_detail_title" t-esc="group.name"/>
+                                <div class="o_peh_detail_meta mb-3">
+                                    <span t-if="group.teacher_id"><i class="fa fa-user"/> <t t-esc="group.teacher_id.name"/></span>
+                                    <span t-if="group.level_id"><i class="fa fa-signal"/> <t t-esc="group.level_id.name"/></span>
+                                    <span t-if="group.room_id"><i class="fa fa-map-marker"/> <t t-esc="group.room_id.name"/></span>
+                                </div>
+                                <div class="o_peh_detail_price mb-3" t-if="group.fee_plan_id">
+                                    <t t-field="group.fee_plan_id.amount" t-options="{'widget': 'monetary', 'display_currency': group.currency_id}"/>
+                                    <span class="o_peh_detail_price_label">/ course</span>
+                                </div>
+                                <a t-attf-href="/courses/#{group.id}/book" class="o_peh_cta_btn">
+                                    <t t-if="group.seats_available > 0">Book a Seat</t>
+                                    <t t-else="">Join the Waitlist</t>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="container py-5">
+                    <div class="row g-5">
+                        <div class="col-12 col-lg-8">
+                            <h3 class="o_peh_section_title">About this Group</h3>
+                            <div t-if="group.website_description" t-out="group.website_description"/>
+                            <p t-else="" class="text-muted">More details coming soon.</p>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <div class="o_peh_schedule_card">
+                                <h4>Weekly Schedule</h4>
+                                <t t-if="schedules">
+                                    <t t-foreach="schedules" t-as="sched" t-key="sched_index">
+                                        <div class="o_peh_schedule_row">
+                                            <span t-esc="sched['weekday']"/>
+                                            <span t-esc="sched['time_range']"/>
+                                        </div>
+                                    </t>
+                                </t>
+                                <p t-else="" class="text-muted mb-0">Schedule to be announced.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <!-- ==================================================================
+         Booking form - /courses/<id>/book
+         ================================================================== -->
+    <template id="website_course_book_form" name="Book a Group">
+        <t t-call="prime_educational_hub.peh_layout">
+            <div class="o_peh_website">
+                <section class="container py-5" style="max-width: 640px;">
+                    <a t-attf-href="/courses/#{group.id}" class="o_peh_back_link"><i class="fa fa-arrow-left"/> Back to <t t-esc="group.name"/></a>
+                    <h1 class="o_peh_detail_title mt-3">Book Your Seat</h1>
+                    <p class="text-muted mb-4">
+                        <t t-esc="group.name"/> - fill in your details and our team will confirm your enrollment.
+                    </p>
+
+                    <div t-if="error" class="alert alert-danger" role="alert" t-esc="error"/>
+
+                    <form t-attf-action="/courses/#{group.id}/book/submit" method="post" class="o_peh_booking_form">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+                        <div class="mb-3">
+                            <label class="form-label">Full Name *</label>
+                            <input type="text" name="name" class="form-control" required="required"
+                                   t-att-value="form_data.get('name')"/>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label class="form-label">Phone</label>
+                                <input type="tel" name="phone" class="form-control"
+                                       t-att-value="form_data.get('phone')"/>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" name="email" class="form-control"
+                                       t-att-value="form_data.get('email')"/>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Notes (optional)</label>
+                            <textarea name="notes" class="form-control" rows="3" t-esc="form_data.get('notes')"/>
+                        </div>
+                        <button type="submit" class="o_peh_cta_btn w-100">Submit Booking Request</button>
+                    </form>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <!-- ==================================================================
+         Booking confirmation + optional online reservation payment
+         - /courses/booking/<lead_id>?token=...
+         ================================================================== -->
+    <template id="website_booking_confirmation" name="Booking Confirmation">
+        <t t-call="prime_educational_hub.peh_layout">
+            <div class="o_peh_website">
+                <section class="container py-5 text-center" style="max-width: 640px;">
+                    <t t-if="lead.reservation_paid">
+                        <i class="fa fa-check-circle o_peh_confirm_icon o_peh_confirm_icon_success"/>
+                        <h1 class="o_peh_detail_title">You're all set!</h1>
+                        <p class="text-muted">
+                            Your reservation for <strong t-esc="lead.website_group_id.name or lead.subject_id.name"/>
+                            is confirmed and paid. We'll be in touch shortly with the next steps.
+                        </p>
+                    </t>
+                    <t t-else="">
+                        <i class="fa fa-check-circle o_peh_confirm_icon"/>
+                        <h1 class="o_peh_detail_title">Thanks, <t t-esc="lead.name"/>!</h1>
+                        <p class="text-muted">
+                            We've received your booking request for
+                            <strong t-esc="lead.website_group_id.name or lead.subject_id.name"/>.
+                            Our team will contact you shortly to confirm.
+                        </p>
+
+                        <div t-if="lead.reservation_amount > 0" class="o_peh_pay_box mt-4">
+                            <p class="mb-2">
+                                To secure your seat now, you can pay the reservation deposit online:
+                            </p>
+                            <div class="o_peh_pay_amount">
+                                <t t-field="lead.reservation_amount" t-options="{'widget': 'monetary', 'display_currency': lead.currency_id}"/>
+                            </div>
+                            <a t-if="payment_link" t-att-href="payment_link" class="o_peh_cta_btn mt-3 d-inline-block">
+                                <i class="fa fa-lock"/> Pay Reservation Online
+                            </a>
+                            <p t-if="payment_error" class="text-muted small mt-2">
+                                Online payment isn't available right now - no worries, our team will
+                                arrange payment with you directly.
+                            </p>
+                            <p class="text-muted small mt-3 mb-0">
+                                You can bookmark this page to check your payment status any time.
+                            </p>
+                        </div>
+                    </t>
+
+                    <a href="/courses" class="o_peh_back_link d-inline-block mt-4">
+                        <i class="fa fa-arrow-left"/> Back to Courses
+                    </a>
+                </section>
+            </div>
+        </t>
+    </template>
+
+</odoo>
+

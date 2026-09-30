@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_education_session_cancel_wizard_form" model="ir.ui.view">
+        <field name="name">education.session.cancel.wizard.form</field>
+        <field name="model">education.session.cancel.wizard</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Cancel Session">
+                <field name="session_id" invisible="1"/>
+                <group>
+                    <field name="reason" placeholder="e.g. Teacher sick, room double-booked, group merged..."/>
+                </group>
+                <footer>
+                    <button name="action_confirm" type="object" string="Confirm Cancellation" class="btn-danger"/>
+                    <button string="Discard" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_education_teacher_payout_list" model="ir.ui.view">
+        <field name="name">education.teacher.payout.list</field>
+        <field name="model">education.teacher.payout</field>
+        <field name="arch" type="xml">
+            <list string="Teacher Payouts" decoration-success="state == 'paid'" decoration-info="state == 'confirmed'">
+                <field name="teacher_id"/>
+                <field name="period_start"/>
+                <field name="period_end"/>
+                <field name="compensation_type"/>
+                <field name="session_count"/>
+                <field name="fees_collected"/>
+                <field name="amount" sum="Total"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'paid'"
+                       decoration-info="state == 'confirmed'"
+                       decoration-muted="state == 'draft'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_education_teacher_payout_form" model="ir.ui.view">
+        <field name="name">education.teacher.payout.form</field>
+        <field name="model">education.teacher.payout</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Teacher Payout">
+                <header>
+                    <button name="action_confirm" type="object" string="Confirm" class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_mark_paid" type="object" string="Mark Paid" class="btn-primary"
+                            invisible="state != 'confirmed'"/>
+                    <button name="action_reset_draft" type="object" string="Reset to Draft" class="btn-secondary"
+                            invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,paid"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="teacher_id"/>
+                            <field name="period_start"/>
+                            <field name="period_end"/>
+                            <field name="compensation_type" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="session_count" readonly="1"/>
+                            <field name="fees_collected" readonly="1" invisible="compensation_type != 'percentage'"/>
+                            <field name="rate_used" readonly="1" invisible="compensation_type != 'per_session'"/>
+                            <field name="commission_percentage_used" readonly="1" invisible="compensation_type != 'percentage'"/>
+                            <field name="amount" readonly="1" class="fw-bold fs-5"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="payment_date" invisible="state != 'paid'"/>
+                            <field name="cash_account_id"/>
+                        </group>
+                    </group>
+                    <group string="Notes">
+                        <field name="notes" nolabel="1"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_education_teacher_payout_search" model="ir.ui.view">
+        <field name="name">education.teacher.payout.search</field>
+        <field name="model">education.teacher.payout</field>
+        <field name="arch" type="xml">
+            <search string="Teacher Payouts">
+                <field name="teacher_id"/>
+                <field name="period_start"/>
+                <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Confirmed" name="confirmed" domain="[('state', '=', 'confirmed')]"/>
+                <filter string="Paid" name="paid" domain="[('state', '=', 'paid')]"/>
+                <group name="group_by">
+                    <filter string="Teacher" name="group_by_teacher" context="{'group_by': 'teacher_id'}"/>
+                    <filter string="Period Start" name="group_by_period" context="{'group_by': 'period_start'}"/>
+                    <filter string="Status" name="group_by_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_education_teacher_payout" model="ir.actions.act_window">
+        <field name="name">Teacher Payouts</field>
+        <field name="res_model">education.teacher.payout</field>
+        <field name="view_mode">list,form,graph,pivot</field>
+        <field name="search_view_id" ref="view_education_teacher_payout_search"/>
+    </record>
+
+    <record id="view_education_teacher_payout_graph" model="ir.ui.view">
+        <field name="name">education.teacher.payout.graph</field>
+        <field name="model">education.teacher.payout</field>
+        <field name="arch" type="xml">
+            <graph string="Teacher Payouts Analysis" type="bar">
+                <field name="period_start" interval="month"/>
+                <field name="amount" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_education_teacher_payout_pivot" model="ir.ui.view">
+        <field name="name">education.teacher.payout.pivot</field>
+        <field name="model">education.teacher.payout</field>
+        <field name="arch" type="xml">
+            <pivot string="Teacher Payouts Analysis">
+                <field name="teacher_id" type="row"/>
+                <field name="period_start" interval="month" type="col"/>
+                <field name="amount" type="measure"/>
+                <field name="session_count" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_education_teacher_payout_generate_wizard_form" model="ir.ui.view">
+        <field name="name">education.teacher.payout.generate.wizard.form</field>
+        <field name="model">education.teacher.payout.generate.wizard</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Generate Teacher Payouts">
+                <group>
+                    <field name="period_start"/>
+                    <field name="period_end"/>
+                    <field name="teacher_ids" widget="many2many_tags"/>
+                </group>
+                <footer>
+                    <button name="action_generate" type="object" string="Generate" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_education_teacher_payout_generate_wizard" model="ir.actions.act_window">
+        <field name="name">Generate Teacher Payouts</field>
+        <field name="res_model">education.teacher.payout.generate.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

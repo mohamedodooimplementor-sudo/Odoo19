@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_education_group_list" model="ir.ui.view">
+        <field name="name">education.group.list</field>
+        <field name="model">education.group</field>
+        <field name="arch" type="xml">
+            <list string="Groups" decoration-muted="state in ('closed','cancelled')">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="subject_id"/>
+                <field name="level_id"/>
+                <field name="academic_year_id"/>
+                <field name="teacher_id"/>
+                <field name="current_student_count"/>
+                <field name="capacity"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'active'"
+                       decoration-info="state == 'draft'"
+                       decoration-muted="state == 'closed'"
+                       decoration-danger="state == 'cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_education_group_form" model="ir.ui.view">
+        <field name="name">education.group.form</field>
+        <field name="model">education.group</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Group">
+                <header>
+                    <button name="action_print_student_list" type="object" string="Print Student List" class="btn-info" invisible="not id"/>
+                    <button name="action_print_financial_summary" type="object" string="Print Financial Summary" class="btn-info" invisible="not id"/>
+                    <button name="action_open_attendance_sheet_wizard" type="object" string="Print Attendance Sheet" class="btn-info" invisible="not id"/>
+                    <button name="action_set_active" type="object" string="Activate"
+                            invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_set_closed" type="object" string="Close"
+                            invisible="state != 'active'" class="btn-secondary"/>
+                    <button name="action_set_cancelled" type="object" string="Cancel"
+                            invisible="state in ('closed', 'cancelled')" class="btn-secondary"/>
+                    <button name="action_set_active" type="object" string="Reactivate"
+                            invisible="state != 'cancelled'" class="btn-primary"/>
+                    <button name="action_generate_sessions" type="object" string="Generate Sessions"
+                            invisible="state != 'active'" class="btn-success"/>
+                    <button name="%(action_education_quick_enroll_wizard)d" type="action" string="Quick Enroll Student"
+                            invisible="state != 'active'" class="btn-success"
+                            context="{'default_group_id': id}"/>
+                    <button name="action_enroll_next_waitlist_candidate" type="object" string="Enroll Next Candidate"
+                            invisible="waitlist_count == 0 or seats_available &lt;= 0" class="btn-success"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,active,closed"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Published" bg_color="text-bg-success" invisible="not is_published"/>
+                    <widget name="web_ribbon" title="Unpublished" bg_color="text-bg-danger" invisible="is_published"/>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_enrollments" type="object" class="oe_stat_button" icon="fa-users text-primary">
+                            <field name="current_student_count" widget="statinfo" string="Students"/>
+                        </button>
+                        <button name="action_view_schedules" type="object" class="oe_stat_button" icon="fa-clock-o text-primary">
+                            <field name="schedule_count" widget="statinfo" string="Schedules"/>
+                        </button>
+                        <button name="action_view_sessions" type="object" class="oe_stat_button" icon="fa-calendar-check-o text-success">
+                            <field name="session_count" widget="statinfo" string="Sessions"/>
+                        </button>
+                        <button name="action_view_teacher_sessions" type="object" class="oe_stat_button"
+                                icon="fa-user-o text-info" invisible="not teacher_id">
+                            <field name="teacher_total_session_count" widget="statinfo" string="Teacher's Total Sessions"/>
+                        </button>
+                        <button name="action_view_exams" type="object" class="oe_stat_button" icon="fa-graduation-cap text-warning">
+                            <field name="exam_count" widget="statinfo" string="Exams"/>
+                        </button>
+                        <button name="action_view_assignments" type="object" class="oe_stat_button" icon="fa-book text-info">
+                            <field name="assignment_count" widget="statinfo" string="Assignments"/>
+                        </button>
+                        <button name="action_view_waitlist" type="object" class="oe_stat_button" icon="fa-hourglass-half text-danger"
+                                invisible="waitlist_count == 0">
+                            <field name="waitlist_count" widget="statinfo" string="Waiting"/>
+                        </button>
+                    </div>
+                    <field name="image_1920" widget="image" class="oe_avatar" options="{'preview_image': 'image_128'}"/>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="e.g. Math - Grade 10 - Group A"/></h1>
+                    </div>
+                    <div class="alert alert-warning" role="alert"
+                         invisible="seats_available &gt; 0 or state != 'active'">
+                        This group is at full capacity. New enrollments require an Education Administrator override,
+                        or add students to the Waiting List.
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="show_branch_field" invisible="1"/>
+                            <field name="branch_id" invisible="not show_branch_field" required="show_branch_field"/>
+                            <field name="subject_id"/>
+                            <field name="level_id"/>
+                            <field name="academic_year_id"/>
+                            <field name="term_id"/>
+                            <field name="teacher_id"/>
+                            <field name="fee_plan_id"/>
+                        </group>
+                        <group>
+                            <field name="room_id"/>
+                            <field name="capacity"/>
+                            <field name="seats_available"/>
+                            <field name="auto_promote_waitlist"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                            <field name="average_attendance_percentage" widget="percentage"/>
+                            <field name="syllabus_coverage_percent" widget="percentage"
+                                   string="Syllabus Coverage"/>
+                            <field name="total_collected"/>
+                            <field name="total_outstanding"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Schedule">
+                            <field name="schedule_ids">
+                                <list editable="bottom">
+                                    <field name="weekday"/>
+                                    <field name="start_time" widget="float_time"/>
+                                    <field name="end_time" widget="float_time"/>
+                                    <field name="time_range_label" readonly="1" string="12h"/>
+                                    <field name="room_id"/>
+                                    <field name="effective_from"/>
+                                    <field name="effective_to"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes"/>
+                        </page>
+                        <page string="Booking Site">
+                            <group>
+                                <field name="is_published"/>
+                            </group>
+                            <label for="website_description" string="Public Description"/>
+                            <field name="website_description" placeholder="Shown to visitors on the public Courses page..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_education_group_search" model="ir.ui.view">
+        <field name="name">education.group.search</field>
+        <field name="model">education.group</field>
+        <field name="arch" type="xml">
+            <search string="Groups">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="subject_id"/>
+                <field name="teacher_id"/>
+                <field name="level_id"/>
+                <field name="academic_year_id"/>
+                <filter string="Active" name="active_state" domain="[('state', '=', 'active')]"/>
+                <filter string="Draft" name="draft_state" domain="[('state', '=', 'draft')]"/>
+                <filter string="Closed" name="closed_state" domain="[('state', '=', 'closed')]"/>
+                <separator/>
+                <filter string="Has Waiting List" name="has_waitlist" domain="[('waitlist_count', '&gt;', 0)]"/>
+                <filter string="Full Capacity" name="at_capacity" domain="[('seats_available', '&lt;=', 0)]"/>
+                <filter string="No Teacher Assigned" name="no_teacher" domain="[('teacher_id', '=', False)]"/>
+                <filter string="Has Outstanding Fees" name="has_outstanding" domain="[('total_outstanding', '&gt;', 0)]"/>
+                <separator/>
+                <filter string="Low Attendance (&lt; 75%)" name="low_attendance"
+                        domain="[('average_attendance_percentage', '&lt;', 75)]"/>
+                <group name="group_by">
+                    <filter string="Subject" name="group_subject" context="{'group_by': 'subject_id'}"/>
+                    <filter string="Level" name="group_level" context="{'group_by': 'level_id'}"/>
+                    <filter string="Academic Year" name="group_year" context="{'group_by': 'academic_year_id'}"/>
+                    <filter string="Teacher" name="group_teacher" context="{'group_by': 'teacher_id'}"/>
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_education_group_kanban" model="ir.ui.view">
+        <field name="name">education.group.kanban</field>
+        <field name="model">education.group</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_small_column">
+                <field name="name"/>
+                <field name="subject_id"/>
+                <field name="teacher_id"/>
+                <field name="current_student_count"/>
+                <field name="capacity"/>
+                <field name="average_attendance_percentage"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click p-2">
+                            <strong><field name="name"/></strong>
+                            <div class="text-muted small">
+                                <field name="subject_id"/> -- <field name="teacher_id"/>
+                            </div>
+                            <div class="d-flex justify-content-between mt-2">
+                                <span class="badge rounded-pill text-bg-light">
+                                    <field name="current_student_count"/> / <field name="capacity"/>
+                                </span>
+                                <span t-if="record.average_attendance_percentage.raw_value &gt;= 75" class="badge rounded-pill text-bg-success">
+                                    <field name="average_attendance_percentage" widget="percentage"/>
+                                </span>
+                                <span t-else="" class="badge rounded-pill text-bg-danger">
+                                    <field name="average_attendance_percentage" widget="percentage"/>
+                                </span>
+                            </div>
+                            <div class="mt-1">
+                                <field name="state" widget="badge"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_education_group_graph" model="ir.ui.view">
+        <field name="name">education.group.graph</field>
+        <field name="model">education.group</field>
+        <field name="arch" type="xml">
+            <graph string="Groups Analysis" type="bar">
+                <field name="subject_id"/>
+                <field name="current_student_count" type="measure"/>
+                <field name="average_attendance_percentage" type="measure"/>
+                <field name="total_collected" type="measure"/>
+                <field name="total_outstanding" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_education_group_pivot" model="ir.ui.view">
+        <field name="name">education.group.pivot</field>
+        <field name="model">education.group</field>
+        <field name="arch" type="xml">
+            <pivot string="Groups Analysis">
+                <field name="subject_id" type="row"/>
+                <field name="teacher_id" type="row"/>
+                <field name="current_student_count" type="measure"/>
+                <field name="capacity" type="measure"/>
+                <field name="average_attendance_percentage" type="measure"/>
+                <field name="total_collected" type="measure"/>
+                <field name="total_outstanding" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_education_group" model="ir.actions.act_window">
+        <field name="name">Groups</field>
+        <field name="res_model">education.group</field>
+        <field name="view_mode">list,kanban,form,graph,pivot</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first teaching group</p>
+        </field>
+    </record>
+
+    <record id="view_education_group_schedule_list" model="ir.ui.view">
+        <field name="name">education.group.schedule.list</field>
+        <field name="model">education.group.schedule</field>
+        <field name="arch" type="xml">
+            <list string="Schedules">
+                <field name="group_id"/>
+                <field name="weekday"/>
+                <field name="start_time" widget="float_time"/>
+                <field name="end_time" widget="float_time"/>
+                <field name="time_range_label" readonly="1" string="12h"/>
+                <field name="room_id"/>
+                <field name="effective_from"/>
+                <field name="effective_to"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_education_group_schedule_form" model="ir.ui.view">
+        <field name="name">education.group.schedule.form</field>
+        <field name="model">education.group.schedule</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Schedule">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="group_id"/>
+                            <field name="weekday"/>
+                            <field name="room_id"/>
+                        </group>
+                        <group>
+                            <field name="start_time" widget="float_time"/>
+                            <field name="end_time" widget="float_time"/>
+                            <field name="time_range_label" readonly="1" string="12h"/>
+                            <field name="effective_from"/>
+                            <field name="effective_to"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_education_group_schedule" model="ir.actions.act_window">
+        <field name="name">Schedules</field>
+        <field name="res_model">education.group.schedule</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

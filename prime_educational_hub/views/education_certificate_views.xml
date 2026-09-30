@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_education_certificate_list" model="ir.ui.view">
+        <field name="name">education.certificate.list</field>
+        <field name="model">education.certificate</field>
+        <field name="arch" type="xml">
+            <list string="Certificates" decoration-muted="state == 'revoked'" decoration-success="state == 'issued'">
+                <field name="certificate_number"/>
+                <field name="student_id"/>
+                <field name="subject_id"/>
+                <field name="group_id"/>
+                <field name="certificate_type"/>
+                <field name="issue_date"/>
+                <field name="final_grade"/>
+                <field name="result"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-success="state == 'issued'"
+                       decoration-danger="state == 'revoked'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_education_certificate_form" model="ir.ui.view">
+        <field name="name">education.certificate.form</field>
+        <field name="model">education.certificate</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Certificate">
+                <header>
+                    <button name="action_print_certificate" type="object" string="Print Certificate" class="btn-info" invisible="not id"/>
+                    <button name="action_issue" type="object" string="Issue"
+                            invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_open_revoke_wizard" type="object" string="Revoke"
+                            invisible="state != 'issued'" class="btn-danger"
+                            groups="prime_educational_hub.group_education_admin,prime_educational_hub.group_education_supervisor"/>
+                    <button name="action_rotate_token" type="object" string="Rotate Verification Link"
+                            invisible="state != 'issued'" class="btn-edu-teal"
+                            groups="prime_educational_hub.group_education_admin,prime_educational_hub.group_education_supervisor"
+                            confirm="This invalidates the current QR/verification link. Continue?"/>
+                    <button name="action_reset_to_draft" type="object" string="Reset to Draft"
+                            invisible="state != 'revoked'" class="btn-secondary"
+                            groups="prime_educational_hub.group_education_admin"/>
+                    <button name="action_compute_from_exam_results" type="object" string="Compute From Exam Results"
+                            invisible="state != 'draft'" class="btn-edu-purple"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,issued"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="certificate_number" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="student_id"/>
+                            <field name="subject_id"/>
+                            <field name="group_id"/>
+                            <field name="academic_year_id"/>
+                        </group>
+                        <group>
+                            <field name="certificate_type"/>
+                            <field name="template_id"/>
+                            <field name="issue_date"/>
+                            <field name="final_percentage"/>
+                            <field name="final_grade"/>
+                            <field name="result"/>
+                        </group>
+                    </group>
+                    <group invisible="not qr_token">
+                        <field name="verification_url" widget="qr_code"/>
+                    </group>
+                    <group string="Revoke Reason" invisible="state != 'revoked'">
+                        <field name="revoke_reason" nolabel="1"/>
+                    </group>
+                    <group string="Notes">
+                        <field name="notes" nolabel="1"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_education_certificate_search" model="ir.ui.view">
+        <field name="name">education.certificate.search</field>
+        <field name="model">education.certificate</field>
+        <field name="arch" type="xml">
+            <search string="Certificates">
+                <field name="certificate_number"/>
+                <field name="student_id"/>
+                <field name="group_id"/>
+                <filter string="Issued" name="issued" domain="[('state', '=', 'issued')]"/>
+                <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Revoked" name="revoked" domain="[('state', '=', 'revoked')]"/>
+                <group name="group_by">
+                    <filter string="Subject" name="group_subject" context="{'group_by': 'subject_id'}"/>
+                    <filter string="Group" name="group_group" context="{'group_by': 'group_id'}"/>
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_education_certificate" model="ir.actions.act_window">
+        <field name="name">Certificates</field>
+        <field name="res_model">education.certificate</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Issue your first certificate</p>
+        </field>
+    </record>
+</odoo>

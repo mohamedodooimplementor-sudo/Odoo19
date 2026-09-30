@@ -1,0 +1,164 @@
+/* ==========================================================================
+   Prime Educational Hub - solid, distinct button colors, scoped ONLY to
+   this module's own action buttons.
+
+   IMPORTANT SCOPING NOTE: earlier versions of this file used broad
+   selectors like ".o_form_view .btn-primary", which also matched Odoo's
+   generic statusbar "state" pill widget (Active > Inactive > Graduated...)
+   since it happens to reuse the same Bootstrap classes internally. That
+   made the current state unreadable. Every selector below is deliberately
+   scoped to only the containers actual action buttons live in --
+   .o_statusbar_buttons (header buttons), .o_form_sheet (body/smart
+   buttons), and .modal-footer / .o_dialog (wizard popups) -- which never
+   overlaps with .o_statusbar_status (the state widget itself, a sibling
+   of .o_statusbar_buttons, not a descendant of it). This file only ever
+   affects Prime Educational Hub's own screens, never Odoo's shared widgets.
+   ========================================================================== */
+
+.o_form_view.o_peh_view .o_statusbar_buttons .btn-primary,
+.o_form_view.o_peh_view .o_form_sheet .btn-primary,
+.o_dialog .o_peh_view .modal-footer .btn-primary,
+.o_dialog .modal-footer.o_peh_view .btn-primary {
+    background-color: #4361ee !important;
+    border-color: #4361ee !important;
+    color: #ffffff !important;
+}
+
+.o_form_view.o_peh_view .o_statusbar_buttons .btn-info,
+.o_form_view.o_peh_view .o_form_sheet .btn-info,
+.o_dialog .o_peh_view .modal-footer .btn-info,
+.o_dialog .modal-footer.o_peh_view .btn-info {
+    background-color: #00b8d9 !important;
+    border-color: #00b8d9 !important;
+    color: #ffffff !important;
+}
+
+.o_form_view.o_peh_view .o_statusbar_buttons .btn-success,
+.o_form_view.o_peh_view .o_form_sheet .btn-success,
+.o_dialog .o_peh_view .modal-footer .btn-success,
+.o_dialog .modal-footer.o_peh_view .btn-success {
+    background-color: #00c853 !important;
+    border-color: #00c853 !important;
+    color: #ffffff !important;
+}
+
+.o_form_view.o_peh_view .o_statusbar_buttons .btn-danger,
+.o_form_view.o_peh_view .o_form_sheet .btn-danger,
+.o_dialog .o_peh_view .modal-footer .btn-danger,
+.o_dialog .modal-footer.o_peh_view .btn-danger {
+    background-color: #ff1744 !important;
+    border-color: #ff1744 !important;
+    color: #ffffff !important;
+}
+
+.o_form_view.o_peh_view .o_statusbar_buttons .btn-warning,
+.o_form_view.o_peh_view .o_form_sheet .btn-warning,
+.o_dialog .o_peh_view .modal-footer .btn-warning,
+.o_dialog .modal-footer.o_peh_view .btn-warning {
+    background-color: #ffab00 !important;
+    border-color: #ffab00 !important;
+    color: #ffffff !important;
+}
+
+.o_form_view.o_peh_view .o_statusbar_buttons .btn-secondary,
+.o_form_view.o_peh_view .o_form_sheet .btn-secondary,
+.o_dialog .o_peh_view .modal-footer .btn-secondary,
+.o_dialog .modal-footer.o_peh_view .btn-secondary {
+    background-color: #64748b !important;
+    border-color: #64748b !important;
+    color: #ffffff !important;
+}
+
+/* Extra colors beyond Bootstrap's default set, for when six colors aren't
+   enough to keep every button on a busy header visually distinct. */
+.o_form_view.o_peh_view .o_statusbar_buttons .btn-edu-purple,
+.o_form_view.o_peh_view .o_form_sheet .btn-edu-purple,
+.o_dialog .o_peh_view .modal-footer .btn-edu-purple,
+.o_dialog .modal-footer.o_peh_view .btn-edu-purple {
+    background-color: #b026ff !important;
+    border-color: #b026ff !important;
+    color: #ffffff !important;
+}
+
+.o_form_view.o_peh_view .o_statusbar_buttons .btn-edu-teal,
+.o_form_view.o_peh_view .o_form_sheet .btn-edu-teal,
+.o_dialog .o_peh_view .modal-footer .btn-edu-teal,
+.o_dialog .modal-footer.o_peh_view .btn-edu-teal {
+    background-color: #00d9b5 !important;
+    border-color: #00d9b5 !important;
+    color: #ffffff !important;
+}
+
+.o_form_view.o_peh_view .o_statusbar_buttons .btn-edu-pink,
+.o_form_view.o_peh_view .o_form_sheet .btn-edu-pink,
+.o_dialog .o_peh_view .modal-footer .btn-edu-pink,
+.o_dialog .modal-footer.o_peh_view .btn-edu-pink {
+    background-color: #ff2d95 !important;
+    border-color: #ff2d95 !important;
+    color: #ffffff !important;
+}
+
+/* Hover/focus stay legible instead of Bootstrap's default "darken" filter
+   washing out on top of an already-solid custom color. */
+.o_form_view.o_peh_view .o_statusbar_buttons .btn-primary:hover, .o_form_view.o_peh_view .o_statusbar_buttons .btn-primary:focus,
+.o_form_view.o_peh_view .o_form_sheet .btn-primary:hover, .o_form_view.o_peh_view .o_form_sheet .btn-primary:focus,
+.o_dialog .o_peh_view .modal-footer .btn-primary:hover,
+.o_dialog .modal-footer.o_peh_view .btn-primary:hover, .o_dialog .o_peh_view .modal-footer .btn-primary:focus,
+.o_dialog .modal-footer.o_peh_view .btn-primary:focus
+{ background-color: #3a4de0 !important; border-color: #3a4de0 !important; }
+
+.o_form_view.o_peh_view .o_statusbar_buttons .btn-info:hover, .o_form_view.o_peh_view .o_statusbar_buttons .btn-info:focus,
+.o_form_view.o_peh_view .o_form_sheet .btn-info:hover, .o_form_view.o_peh_view .o_form_sheet .btn-info:focus,
+.o_dialog .o_peh_view .modal-footer .btn-info:hover,
+.o_dialog .modal-footer.o_peh_view .btn-info:hover, .o_dialog .o_peh_view .modal-footer .btn-info:focus,
+.o_dialog .modal-footer.o_peh_view .btn-info:focus
+{ background-color: #0090ab !important; border-color: #0090ab !important; }
+
+.o_form_view.o_peh_view .o_statusbar_buttons .btn-success:hover, .o_form_view.o_peh_view .o_statusbar_buttons .btn-success:focus,
+.o_form_view.o_peh_view .o_form_sheet .btn-success:hover, .o_form_view.o_peh_view .o_form_sheet .btn-success:focus,
+.o_dialog .o_peh_view .modal-footer .btn-success:hover,
+.o_dialog .modal-footer.o_peh_view .btn-success:hover, .o_dialog .o_peh_view .modal-footer .btn-success:focus,
+.o_dialog .modal-footer.o_peh_view .btn-success:focus
+{ background-color: #00a844 !important; border-color: #00a844 !important; }
+
+.o_form_view.o_peh_view .o_statusbar_buttons .btn-danger:hover, .o_form_view.o_peh_view .o_statusbar_buttons .btn-danger:focus,
+.o_form_view.o_peh_view .o_form_sheet .btn-danger:hover, .o_form_view.o_peh_view .o_form_sheet .btn-danger:focus,
+.o_dialog .o_peh_view .modal-footer .btn-danger:hover,
+.o_dialog .modal-footer.o_peh_view .btn-danger:hover, .o_dialog .o_peh_view .modal-footer .btn-danger:focus,
+.o_dialog .modal-footer.o_peh_view .btn-danger:focus
+{ background-color: #e6002e !important; border-color: #e6002e !important; }
+
+.o_form_view.o_peh_view .o_statusbar_buttons .btn-warning:hover, .o_form_view.o_peh_view .o_statusbar_buttons .btn-warning:focus,
+.o_form_view.o_peh_view .o_form_sheet .btn-warning:hover, .o_form_view.o_peh_view .o_form_sheet .btn-warning:focus,
+.o_dialog .o_peh_view .modal-footer .btn-warning:hover,
+.o_dialog .modal-footer.o_peh_view .btn-warning:hover, .o_dialog .o_peh_view .modal-footer .btn-warning:focus,
+.o_dialog .modal-footer.o_peh_view .btn-warning:focus
+{ background-color: #e69500 !important; border-color: #e69500 !important; }
+
+.o_form_view.o_peh_view .o_statusbar_buttons .btn-secondary:hover, .o_form_view.o_peh_view .o_statusbar_buttons .btn-secondary:focus,
+.o_form_view.o_peh_view .o_form_sheet .btn-secondary:hover, .o_form_view.o_peh_view .o_form_sheet .btn-secondary:focus,
+.o_dialog .o_peh_view .modal-footer .btn-secondary:hover,
+.o_dialog .modal-footer.o_peh_view .btn-secondary:hover, .o_dialog .o_peh_view .modal-footer .btn-secondary:focus,
+.o_dialog .modal-footer.o_peh_view .btn-secondary:focus
+{ background-color: #475569 !important; border-color: #475569 !important; }
+
+.o_form_view.o_peh_view .o_statusbar_buttons .btn-edu-purple:hover, .o_form_view.o_peh_view .o_statusbar_buttons .btn-edu-purple:focus,
+.o_form_view.o_peh_view .o_form_sheet .btn-edu-purple:hover, .o_form_view.o_peh_view .o_form_sheet .btn-edu-purple:focus,
+.o_dialog .o_peh_view .modal-footer .btn-edu-purple:hover,
+.o_dialog .modal-footer.o_peh_view .btn-edu-purple:hover, .o_dialog .o_peh_view .modal-footer .btn-edu-purple:focus,
+.o_dialog .modal-footer.o_peh_view .btn-edu-purple:focus
+{ background-color: #9d1fe0 !important; border-color: #9d1fe0 !important; }
+
+.o_form_view.o_peh_view .o_statusbar_buttons .btn-edu-teal:hover, .o_form_view.o_peh_view .o_statusbar_buttons .btn-edu-teal:focus,
+.o_form_view.o_peh_view .o_form_sheet .btn-edu-teal:hover, .o_form_view.o_peh_view .o_form_sheet .btn-edu-teal:focus,
+.o_dialog .o_peh_view .modal-footer .btn-edu-teal:hover,
+.o_dialog .modal-footer.o_peh_view .btn-edu-teal:hover, .o_dialog .o_peh_view .modal-footer .btn-edu-teal:focus,
+.o_dialog .modal-footer.o_peh_view .btn-edu-teal:focus
+{ background-color: #00b39c !important; border-color: #00b39c !important; }
+
+.o_form_view.o_peh_view .o_statusbar_buttons .btn-edu-pink:hover, .o_form_view.o_peh_view .o_statusbar_buttons .btn-edu-pink:focus,
+.o_form_view.o_peh_view .o_form_sheet .btn-edu-pink:hover, .o_form_view.o_peh_view .o_form_sheet .btn-edu-pink:focus,
+.o_dialog .o_peh_view .modal-footer .btn-edu-pink:hover,
+.o_dialog .modal-footer.o_peh_view .btn-edu-pink:hover, .o_dialog .o_peh_view .modal-footer .btn-edu-pink:focus,
+.o_dialog .modal-footer.o_peh_view .btn-edu-pink:focus
+{ background-color: #e6127f !important; border-color: #e6127f !important; }

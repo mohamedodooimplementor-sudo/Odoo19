@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_education_reconciliation_log_list" model="ir.ui.view">
+        <field name="name">education.reconciliation.log.list</field>
+        <field name="model">education.reconciliation.log</field>
+        <field name="arch" type="xml">
+            <list string="Reconciliation Log" create="false" edit="false" delete="false"
+                  decoration-danger="state == 'mismatch'" decoration-success="state == 'ok'">
+                <field name="name"/>
+                <field name="check_datetime"/>
+                <field name="total_installment_paid"/>
+                <field name="total_allocation_net"/>
+                <field name="discrepancy"/>
+                <field name="state" widget="badge"
+                       decoration-danger="state == 'mismatch'" decoration-success="state == 'ok'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_education_reconciliation_log_form" model="ir.ui.view">
+        <field name="name">education.reconciliation.log.form</field>
+        <field name="model">education.reconciliation.log</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Reconciliation Log" create="false" edit="false" delete="false">
+                <sheet>
+                    <widget name="web_ribbon" title="Mismatch" bg_color="text-bg-danger"
+                            invisible="state != 'mismatch'"/>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="check_datetime"/>
+                            <field name="company_id"/>
+                            <field name="state"/>
+                        </group>
+                        <group>
+                            <field name="total_installment_paid"/>
+                            <field name="total_allocation_net"/>
+                            <field name="discrepancy"/>
+                        </group>
+                    </group>
+                    <field name="notes" invisible="state != 'mismatch'"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_education_reconciliation_log" model="ir.actions.act_window">
+        <field name="name">Fee Ledger Reconciliation</field>
+        <field name="res_model">education.reconciliation.log</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_education_run_reconciliation_check" model="ir.actions.server">
+        <field name="name">Run Reconciliation Check Now</field>
+        <field name="model_id" ref="model_education_reconciliation_log"/>
+        <field name="binding_model_id" ref="model_education_reconciliation_log"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">model._run_check()</field>
+    </record>
+</odoo>

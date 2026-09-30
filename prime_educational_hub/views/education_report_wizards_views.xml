@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_education_group_attendance_sheet_wizard_form" model="ir.ui.view">
+        <field name="name">education.group.attendance.sheet.wizard.form</field>
+        <field name="model">education.group.attendance.sheet.wizard</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Print Attendance Sheet">
+                <group>
+                    <field name="group_id" readonly="1"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                </group>
+                <footer>
+                    <button name="action_print" type="object" string="Print" class="btn-info"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_education_collection_report_wizard_form" model="ir.ui.view">
+        <field name="name">education.collection.report.wizard.form</field>
+        <field name="model">education.collection.report.wizard</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Collection Report">
+                <group>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="group_id"/>
+                </group>
+                <footer>
+                    <button name="action_print" type="object" string="Print PDF" class="btn-info"/>
+                    <button name="action_export_excel" type="object" string="Export to Excel" class="btn-success"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_education_collection_report_wizard" model="ir.actions.act_window">
+        <field name="name">Collection Report</field>
+        <field name="res_model">education.collection.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="view_education_outstanding_fees_report_wizard_form" model="ir.ui.view">
+        <field name="name">education.outstanding.fees.report.wizard.form</field>
+        <field name="model">education.outstanding.fees.report.wizard</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Outstanding Fees Report">
+                <group>
+                    <field name="group_id"/>
+                </group>
+                <footer>
+                    <button name="action_print" type="object" string="Print PDF" class="btn-info"/>
+                    <button name="action_export_excel" type="object" string="Export to Excel" class="btn-success"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_education_outstanding_fees_report_wizard" model="ir.actions.act_window">
+        <field name="name">Outstanding Fees Report</field>
+        <field name="res_model">education.outstanding.fees.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="view_education_aging_report_wizard_form" model="ir.ui.view">
+        <field name="name">education.aging.report.wizard.form</field>
+        <field name="model">education.aging.report.wizard</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Aging Report">
+                <group>
+                    <field name="as_of_date"/>
+                    <field name="group_id"/>
+                </group>
+                <footer>
+                    <button name="action_print" type="object" string="Print PDF" class="btn-info"/>
+                    <button name="action_export_excel" type="object" string="Export to Excel" class="btn-success"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_education_aging_report_wizard" model="ir.actions.act_window">
+        <field name="name">Aging Report</field>
+        <field name="res_model">education.aging.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="view_education_report_card_wizard_form" model="ir.ui.view">
+        <field name="name">education.report.card.wizard.form</field>
+        <field name="model">education.report.card.wizard</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Print Report Card">
+                <group>
+                    <field name="student_id"/>
+                    <field name="academic_year_id"/>
+                </group>
+                <footer>
+                    <button name="action_print" type="object" string="Print" class="btn-info"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_education_report_card_wizard" model="ir.actions.act_window">
+        <field name="name">Report Card</field>
+        <field name="res_model">education.report.card.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_education_student"/>
+        <field name="binding_view_types">form</field>
+    </record>
+
+    <record id="view_education_cashier_closing_wizard_form" model="ir.ui.view">
+        <field name="name">education.cashier.closing.wizard.form</field>
+        <field name="model">education.cashier.closing.wizard</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Cashier Daily Closing">
+                <group>
+                    <field name="closing_date"/>
+                    <field name="cashier_id"/>
+                </group>
+                <footer>
+                    <button name="action_print" type="object" string="Print" class="btn-info"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_education_cashier_closing_wizard" model="ir.actions.act_window">
+        <field name="name">Cashier Daily Closing</field>
+        <field name="res_model">education.cashier.closing.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="view_education_financial_audit_wizard_form" model="ir.ui.view">
+        <field name="name">education.financial.audit.wizard.form</field>
+        <field name="model">education.financial.audit.wizard</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Student Financial Audit">
+                <group>
+                    <field name="student_id"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                </group>
+                <footer>
+                    <button name="action_print" type="object" string="Print PDF" class="btn-info"/>
+                    <button name="action_export_excel" type="object" string="Export to Excel" class="btn-success"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_education_financial_audit_wizard" model="ir.actions.act_window">
+        <field name="name">Student Financial Audit</field>
+        <field name="res_model">education.financial.audit.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

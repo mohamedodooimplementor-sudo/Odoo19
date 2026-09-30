@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_education_assignment_list" model="ir.ui.view">
+        <field name="name">education.assignment.list</field>
+        <field name="model">education.assignment</field>
+        <field name="arch" type="xml">
+            <list string="Assignments" decoration-muted="state == 'closed'">
+                <field name="title"/>
+                <field name="group_id"/>
+                <field name="subject_id"/>
+                <field name="assigned_date"/>
+                <field name="due_date"/>
+                <field name="completion_percentage" widget="percentage"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-success="state == 'published'"
+                       decoration-muted="state == 'closed'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_education_assignment_form" model="ir.ui.view">
+        <field name="name">education.assignment.form</field>
+        <field name="model">education.assignment</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Assignment">
+                <header>
+                    <button name="action_publish" type="object" string="Publish"
+                            invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_close" type="object" string="Close"
+                            invisible="state != 'published'" class="btn-secondary"/>
+                    <button name="action_reset_to_draft" type="object" string="Reset to Draft"
+                            invisible="state == 'draft'" class="btn-secondary"/>
+                    <button name="action_generate_submissions_for_group" type="object" string="Generate Submission Lines"
+                            invisible="state == 'closed'" class="btn-success"/>
+                    <button name="action_mark_overdue_as_not_submitted" type="object" string="Mark Overdue"
+                            invisible="state == 'closed'" class="btn-warning"/>
+                    <button name="action_send_whatsapp_reminders" type="object" string="Remind Pending (WhatsApp)"
+                            invisible="state == 'closed'" class="btn-edu-teal"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,published,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_submissions" type="object" class="oe_stat_button" icon="fa-users">
+                            <field name="submission_count" widget="statinfo" string="Students"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="title" placeholder="e.g. Chapter 3 Exercises"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="group_id"/>
+                            <field name="subject_id"/>
+                            <field name="max_mark"/>
+                            <field name="rubric_id"/>
+                        </group>
+                        <group>
+                            <field name="assigned_date"/>
+                            <field name="due_date"/>
+                            <field name="completion_percentage" widget="percentage" readonly="1"
+                                   invisible="submission_count == 0"/>
+                            <field name="average_mark" readonly="1" invisible="submission_count == 0"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Description">
+                            <field name="description"/>
+                        </page>
+                        <page string="Attachments">
+                            <field name="attachment_ids" widget="many2many_binary"/>
+                        </page>
+                        <page string="Submissions">
+                            <field name="submission_ids">
+                                <list editable="bottom" decoration-danger="status == 'not_submitted'"
+                                      decoration-warning="status == 'late'" decoration-success="status == 'submitted'">
+                                    <field name="student_id"/>
+                                    <field name="submission_date"/>
+                                    <field name="status"/>
+                                    <field name="mark"/>
+                                    <field name="feedback"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_education_assignment_search" model="ir.ui.view">
+        <field name="name">education.assignment.search</field>
+        <field name="model">education.assignment</field>
+        <field name="arch" type="xml">
+            <search string="Assignments">
+                <field name="title"/>
+                <field name="group_id"/>
+                <field name="subject_id"/>
+                <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Published" name="published" domain="[('state', '=', 'published')]"/>
+                <filter string="Overdue" name="overdue" domain="[('due_date', '&lt;', context_today().strftime('%Y-%m-%d'))]"/>
+                <group name="group_by">
+                    <filter string="Group" name="group_by_group" context="{'group_by': 'group_id'}"/>
+                    <filter string="Subject" name="group_by_subject" context="{'group_by': 'subject_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_education_assignment" model="ir.actions.act_window">
+        <field name="name">Assignments</field>
+        <field name="res_model">education.assignment</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first assignment</p>
+        </field>
+    </record>
+</odoo>

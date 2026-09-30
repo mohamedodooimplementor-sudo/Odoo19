@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_education_quick_enroll_wizard_form" model="ir.ui.view">
+        <field name="name">education.quick.enroll.wizard.form</field>
+        <field name="model">education.quick.enroll.wizard</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Quick Enroll">
+                <group>
+                    <field name="mode" widget="radio" options="{'horizontal': true}"/>
+                </group>
+                <group string="Student" invisible="mode != 'new'">
+                    <group>
+                        <field name="name" placeholder="Full name" required="mode == 'new'"/>
+                        <field name="phone"/>
+                        <field name="mobile"/>
+                    </group>
+                    <group>
+                        <field name="whatsapp"/>
+                        <field name="email"/>
+                        <field name="guardian_id"/>
+                    </group>
+                </group>
+                <group string="Student" invisible="mode != 'existing'">
+                    <field name="existing_student_id" required="mode == 'existing'"/>
+                </group>
+                <group string="Enrollment">
+                    <group>
+                        <field name="group_id"/>
+                        <field name="enrollment_date"/>
+                    </group>
+                    <group>
+                        <field name="currency_id" invisible="1"/>
+                        <field name="fee_plan_id"/>
+                        <field name="gross_fee"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_confirm" type="object" string="Enroll" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_education_quick_enroll_wizard" model="ir.actions.act_window">
+        <field name="name">Quick Enroll</field>
+        <field name="res_model">education.quick.enroll.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

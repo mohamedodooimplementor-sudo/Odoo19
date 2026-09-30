@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_education_refund_list" model="ir.ui.view">
+        <field name="name">education.refund.list</field>
+        <field name="model">education.refund</field>
+        <field name="arch" type="xml">
+            <list string="Refunds" decoration-muted="state == 'cancelled'">
+                <field name="refund_number"/>
+                <field name="student_id"/>
+                <field name="payment_id"/>
+                <field name="refund_date"/>
+                <field name="amount"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-warning="state == 'approved'"
+                       decoration-success="state == 'paid'"
+                       decoration-muted="state == 'cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_education_refund_form" model="ir.ui.view">
+        <field name="name">education.refund.form</field>
+        <field name="model">education.refund</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Refund">
+                <header>
+                    <button name="action_approve" type="object" string="Approve"
+                            invisible="state != 'draft'" class="btn-primary"
+                            groups="prime_educational_hub.group_education_admin,prime_educational_hub.group_education_supervisor"/>
+                    <button name="action_mark_paid" type="object" string="Mark Paid"
+                            invisible="state != 'approved'" class="btn-primary"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            invisible="state in ('paid', 'cancelled')" class="btn-secondary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,approved,paid"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="refund_number" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="student_id"/>
+                            <field name="payment_id"/>
+                        </group>
+                        <group>
+                            <field name="refund_date"/>
+                            <field name="amount"/>
+                            <field name="currency_id" groups="base.group_multi_currency"/>
+                            <field name="cash_account_id"/>
+                            <field name="approved_by" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Reason">
+                        <field name="reason" nolabel="1"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_education_refund" model="ir.actions.act_window">
+        <field name="name">Refunds</field>
+        <field name="res_model">education.refund</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No refunds recorded yet</p>
+        </field>
+    </record>
+</odoo>

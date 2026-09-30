@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="cron_mark_overdue_installments" model="ir.cron">
+            <field name="name">Education: Mark Overdue Installments</field>
+            <field name="model_id" ref="model_education_installment"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_mark_overdue_installments()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="cron_generate_upcoming_sessions" model="ir.cron">
+            <field name="name">Education: Auto-Generate Upcoming Sessions</field>
+            <field name="model_id" ref="model_education_group"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_generate_upcoming_sessions()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="cron_notify_upcoming_events" model="ir.cron">
+            <field name="name">Education: Notify Upcoming Exams &amp; Sessions</field>
+            <field name="model_id" ref="model_education_exam"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_notify_upcoming_events()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">False</field>
+        </record>
+
+        <record id="cron_auto_mark_absent" model="ir.cron">
+            <field name="name">Education: Auto-Mark Absent After Session Attendance Window</field>
+            <field name="model_id" ref="model_education_session"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_auto_mark_absent()</field>
+            <field name="interval_number">15</field>
+            <field name="interval_type">minutes</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="cron_refresh_room_status" model="ir.cron">
+            <field name="name">Education: Refresh Room Free/Occupied Status</field>
+            <field name="model_id" ref="model_education_room"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_refresh_room_status()</field>
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="cron_refresh_teacher_leave_warnings" model="ir.cron">
+            <field name="name">Education: Refresh Teacher-On-Leave Session Warnings</field>
+            <field name="model_id" ref="model_education_session"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_refresh_teacher_leave_warnings()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="cron_purge_public_access_log" model="ir.cron">
+            <field name="name">Education: Purge Old Public Access Logs</field>
+            <field name="model_id" ref="model_education_public_access_log"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_purge_old_logs()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+        </record>
+        <record id="cron_reconciliation_check" model="ir.cron">
+            <field name="name">Education: Daily Fee Ledger Reconciliation Check</field>
+            <field name="model_id" ref="model_education_reconciliation_log"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_run_reconciliation_check()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="cron_apply_late_penalties" model="ir.cron">
+            <field name="name">Education: Apply Late Penalties</field>
+            <field name="model_id" ref="model_education_installment"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_apply_late_penalties()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">False</field>
+        </record>
+    </data>
+</odoo>

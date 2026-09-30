@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="education_lead_stage_new" model="education.lead.stage">
+        <field name="name">New</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="education_lead_stage_contacted" model="education.lead.stage">
+        <field name="name">Contacted</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="education_lead_stage_trial_scheduled" model="education.lead.stage">
+        <field name="name">Trial Scheduled</field>
+        <field name="sequence">30</field>
+    </record>
+    <record id="education_lead_stage_enrolled" model="education.lead.stage">
+        <field name="name">Enrolled</field>
+        <field name="sequence">40</field>
+        <field name="is_won">True</field>
+    </record>
+    <record id="education_lead_stage_lost" model="education.lead.stage">
+        <field name="name">Lost</field>
+        <field name="sequence">50</field>
+        <field name="fold">True</field>
+        <field name="is_lost">True</field>
+    </record>
+</odoo>

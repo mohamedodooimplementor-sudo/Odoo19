@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_education_lead_kanban" model="ir.ui.view">
+        <field name="name">education.lead.kanban</field>
+        <field name="model">education.lead</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="stage_id" records_draggable="1" quick_create="0">
+                <field name="name"/>
+                <field name="phone"/>
+                <field name="subject_id"/>
+                <field name="assigned_to"/>
+                <field name="stage_id"/>
+                <field name="student_id"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="o_kanban_record_title">
+                                <strong><field name="name"/></strong>
+                            </div>
+                            <div t-if="record.subject_id.value">
+                                <field name="subject_id"/>
+                            </div>
+                            <div class="text-muted" t-if="record.phone.value">
+                                <field name="phone"/>
+                            </div>
+                            <div class="text-muted small">
+                                <field name="assigned_to" widget="many2one_avatar_user"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_education_lead_list" model="ir.ui.view">
+        <field name="name">education.lead.list</field>
+        <field name="model">education.lead</field>
+        <field name="arch" type="xml">
+            <list string="Admissions Leads" decoration-muted="stage_id.is_lost"
+                  decoration-success="stage_id.is_won">
+                <field name="name"/>
+                <field name="phone"/>
+                <field name="subject_id"/>
+                <field name="source"/>
+                <field name="stage_id" widget="badge"/>
+                <field name="assigned_to"/>
+                <field name="create_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_education_lead_search" model="ir.ui.view">
+        <field name="name">education.lead.search</field>
+        <field name="model">education.lead</field>
+        <field name="arch" type="xml">
+            <search string="Admissions Leads">
+                <field name="name"/>
+                <field name="phone"/>
+                <field name="subject_id"/>
+                <field name="assigned_to"/>
+                <filter name="my_leads" string="My Leads" domain="[('assigned_to', '=', uid)]"/>
+                <filter name="active_leads" string="Active"
+                        domain="[('stage_id.is_won', '=', False), ('stage_id.is_lost', '=', False)]"/>
+                <group>
+                    <filter name="group_by_stage" string="Stage" context="{'group_by': 'stage_id'}"/>
+                    <filter name="group_by_source" string="Source" context="{'group_by': 'source'}"/>
+                    <filter name="group_by_assigned" string="Assigned To" context="{'group_by': 'assigned_to'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_education_lead_form" model="ir.ui.view">
+        <field name="name">education.lead.form</field>
+        <field name="model">education.lead</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Admissions Lead">
+                <header>
+                    <button name="action_convert_to_student" type="object" string="Convert to Student"
+                            class="btn-primary" invisible="not stage_id.is_won or student_id"/>
+                    <button name="action_mark_lost" type="object" string="Mark Lost"
+                            invisible="stage_id.is_lost or stage_id.is_won" class="btn-danger"/>
+                    <field name="stage_id" widget="statusbar" options="{'clickable': '1'}"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_student" type="object" class="oe_stat_button"
+                                icon="fa-user text-success" invisible="not student_id">
+                            <field name="student_id" widget="statinfo" string="Student"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="phone"/>
+                            <field name="email"/>
+                            <field name="source"/>
+                        </group>
+                        <group>
+                            <field name="subject_id"/>
+                            <field name="level_id"/>
+                            <field name="trial_group_id"/>
+                            <field name="trial_date"/>
+                            <field name="assigned_to"/>
+                        </group>
+                    </group>
+                    <field name="lost_reason" invisible="not stage_id.is_lost"/>
+                    <field name="notes" placeholder="Any other notes about this inquiry..."/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_education_lead_stage_list" model="ir.ui.view">
+        <field name="name">education.lead.stage.list</field>
+        <field name="model">education.lead.stage</field>
+        <field name="arch" type="xml">
+            <list string="Pipeline Stages" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="fold"/>
+                <field name="is_won"/>
+                <field name="is_lost"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_education_lead_stage_form" model="ir.ui.view">
+        <field name="name">education.lead.stage.form</field>
+        <field name="model">education.lead.stage</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Pipeline Stage">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="sequence"/>
+                        <field name="fold"/>
+                        <field name="is_won"/>
+                        <field name="is_lost"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_education_lead_stage" model="ir.actions.act_window">
+        <field name="name">Pipeline Stages</field>
+        <field name="res_model">education.lead.stage</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Add a pipeline stage</p>
+            <p>Stages appear as columns in the Admissions kanban and as the status bar
+                on each lead. Mark one stage "Is Enrolled Stage" to unlock converting a
+                lead to a student, and one "Is Lost Stage" for the Mark Lost button.</p>
+        </field>
+    </record>
+
+    <record id="action_education_lead" model="ir.actions.act_window">
+        <field name="name">Admissions Pipeline</field>
+        <field name="res_model">education.lead</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="context">{'search_default_active_leads': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Log your first inquiry</p>
+            <p>Track a prospective student from first contact through to enrollment.</p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <t t-name="prime_educational_hub.EducationSessionCalendarDashboard" owl="1">
+        <div class="o_education_dashboard" t-ref="root">
+            <div t-attf-class="o_education_sidebar {{ state.sidebarExpanded ? 'o_education_sidebar_expanded' : '' }}">
+                <div class="o_education_sidebar_toggle o_education_clickable" title="Collapse / expand" t-on-click="() => this.toggleSidebar()">
+                    <i class="fa fa-bars"/>
+                </div>
+                <div class="o_education_sidebar_icons">
+                    <t t-if="state.shell">
+                        <t t-foreach="state.shell.sidebar_items" t-as="item" t-key="item.id">
+                            <a class="o_education_sidebar_icon"
+                               t-att-title="item.name" t-on-click="() => this.openSidebarItem(item)">
+                                <i t-attf-class="fa {{ item.icon }}"/>
+                                <span class="o_education_sidebar_icon_text" t-esc="item.name"/>
+                            </a>
+                        </t>
+                    </t>
+                </div>
+                <a t-if="state.shell and state.shell.is_admin" class="o_education_sidebar_icon o_education_sidebar_icon_apps"
+                   title="Open Odoo Apps" t-on-click="() => this.openOdooApps()">
+                    <i class="fa fa-th"/>
+                    <span class="o_education_sidebar_icon_text">Odoo Apps</span>
+                </a>
+            </div>
+
+            <div class="o_education_main">
+                <div class="o_education_dashboard_header">
+                    <img class="o_education_dashboard_logo" src="/prime_educational_hub/static/src/img/dashboard_logo.png" alt="Prime Educational Hub"/>
+                    <div class="o_education_dashboard_title">
+                        <h3>Session Calendar</h3>
+                        <span>Prime Educational Hub</span>
+                        <div class="o_education_dashboard_tagline">Learn • Manage • Grow</div>
+                    </div>
+                </div>
+
+                <t t-if="state.loading">
+                    <div class="o_education_loading">
+                        <i class="fa fa-spinner fa-spin"/> Loading calendar...
+                    </div>
+                </t>
+                <t t-else="">
+                    <div class="o_education_cal_toolbar">
+                        <div class="o_education_cal_nav">
+                            <button class="o_education_cal_nav_btn" t-on-click="() => this.goToMonth(-1)" title="Previous month">
+                                <i class="fa fa-chevron-left"/>
+                            </button>
+                            <div class="o_education_cal_month_label" t-esc="monthLabel"/>
+                            <button class="o_education_cal_nav_btn" t-on-click="() => this.goToMonth(1)" title="Next month">
+                                <i class="fa fa-chevron-right"/>
+                            </button>
+                        </div>
+                        <div class="o_education_cal_actions">
+                            <button class="o_education_cal_today_btn" t-on-click="() => this.goToToday()">Today</button>
+                            <button class="o_education_cal_new_btn" t-on-click="() => this.createSession()">
+                                <i class="fa fa-plus"/> New Session
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="o_education_cal_grid">
+                        <div class="o_education_cal_dow_row">
+                            <t t-foreach="dayLabels" t-as="dl" t-key="dl">
+                                <div class="o_education_cal_dow" t-esc="dl"/>
+                            </t>
+                        </div>
+                        <t t-foreach="weeks" t-as="week" t-key="week_index">
+                            <div class="o_education_cal_week_row">
+                                <t t-foreach="week" t-as="day" t-key="day.iso">
+                                    <div t-attf-class="o_education_cal_day {{ !day.isCurrentMonth ? 'o_education_cal_day_muted' : '' }} {{ day.isToday ? 'o_education_cal_day_today' : '' }} {{ day.isSelected ? 'o_education_cal_day_selected' : '' }}"
+                                         t-on-click="() => this.selectDay(day)">
+                                        <div class="o_education_cal_day_number" t-esc="day.dayNumber"/>
+                                        <div class="o_education_cal_day_sessions">
+                                            <t t-foreach="day.sessions.slice(0, 3)" t-as="session" t-key="session.id">
+                                                <div class="o_education_cal_pill"
+                                                     t-attf-style="background: {{ stateColor(session.state) }}26; border-color: {{ stateColor(session.state) }}66; color: {{ stateColor(session.state) }};"
+                                                     t-on-click.stop="() => this.openSession(session)">
+                                                    <span t-if="session.start" class="o_education_cal_pill_time" t-esc="session.start"/>
+                                                    <span class="o_education_cal_pill_name" t-esc="session.group"/>
+                                                </div>
+                                            </t>
+                                            <div t-if="day.sessions.length > 3" class="o_education_cal_more">
+                                                +<t t-esc="day.sessions.length - 3"/> more
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </t>
+                    </div>
+
+                    <div class="o_education_cal_day_panel">
+                        <div class="o_education_cal_day_panel_header">
+                            <h4 t-esc="selectedDateLabel"/>
+                            <button class="o_education_cal_new_btn o_education_cal_new_btn_small" t-on-click="() => this.createSession()">
+                                <i class="fa fa-plus"/> New Session
+                            </button>
+                        </div>
+                        <t t-if="!selectedDaySessions.length">
+                            <div class="o_education_cal_day_panel_empty">No sessions scheduled this day</div>
+                        </t>
+                        <t t-else="">
+                            <div class="o_education_cal_day_panel_list">
+                                <t t-foreach="selectedDaySessions" t-as="session" t-key="session.id">
+                                    <div class="o_education_cal_day_panel_row o_education_clickable" t-on-click="() => this.openSession(session)">
+                                        <div class="o_education_cal_day_panel_time">
+                                            <t t-if="session.start" t-esc="session.start"/>
+                                            <t t-if="session.start and session.end"> - </t>
+                                            <t t-if="session.end" t-esc="session.end"/>
+                                            <t t-if="!session.start">All day</t>
+                                        </div>
+                                        <div class="o_education_cal_day_panel_info">
+                                            <div class="o_education_cal_day_panel_group" t-esc="session.group"/>
+                                            <div class="o_education_cal_day_panel_meta">
+                                                <span t-if="session.teacher"><i class="fa fa-user"/> <t t-esc="session.teacher"/></span>
+                                                <span t-if="session.room"><i class="fa fa-map-marker"/> <t t-esc="session.room"/></span>
+                                                <span t-if="session.is_makeup" class="o_education_cal_makeup_badge">Make-up</span>
+                                            </div>
+                                        </div>
+                                        <div class="o_education_cal_day_panel_state"
+                                             t-attf-style="background: {{ stateColor(session.state) }}26; color: {{ stateColor(session.state) }};"
+                                             t-esc="stateLabel(session.state)"/>
+                                    </div>
+                                </t>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+            </div>
+        </div>
+    </t>
+</templates>

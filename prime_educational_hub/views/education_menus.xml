@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_education_root" name="Prime Educational Hub" sequence="10"
+              web_icon="prime_educational_hub,static/description/icon.png"/>
+
+    <menuitem id="menu_education_overview_section" name="Overview" parent="menu_education_root" sequence="5"/>
+
+    <menuitem id="menu_education_dashboard" name="Dashboard" parent="menu_education_overview_section" sequence="10"
+              action="action_education_dashboard"/>
+    <menuitem id="menu_education_session_calendar_dashboard" name="Sessions Calendar" parent="menu_education_overview_section"
+              action="action_education_session_calendar_dashboard" sequence="20"/>
+
+    <!-- ======================= Students ======================= -->
+    <menuitem id="menu_education_students_section" name="Students" parent="menu_education_root" sequence="10"/>
+
+    <menuitem id="menu_education_students_root" name="Students" parent="menu_education_students_section"
+              action="action_education_student" sequence="10"/>
+    <menuitem id="menu_education_guardians_root" name="Guardians" parent="menu_education_students_section"
+              action="action_education_guardian" sequence="20"/>
+    <menuitem id="menu_education_admissions" name="Admissions" parent="menu_education_students_section"
+              action="action_education_lead" sequence="30"/>
+    <menuitem id="menu_education_quick_enroll" name="Quick Enroll" parent="menu_education_students_section"
+              action="action_education_quick_enroll_wizard" sequence="40"/>
+    <menuitem id="menu_education_certificates_root" name="Certificates" parent="menu_education_students_section"
+              action="action_education_certificate" sequence="50"/>
+
+    <!-- ======================= Academics ======================= -->
+    <menuitem id="menu_education_academics_section" name="Academics" parent="menu_education_root" sequence="20"/>
+
+    <menuitem id="menu_education_groups_root" name="Groups" parent="menu_education_academics_section" sequence="10"/>
+    <menuitem id="menu_education_group" name="Groups" parent="menu_education_groups_root"
+              action="action_education_group" sequence="10"/>
+    <menuitem id="menu_education_enrollment" name="Enrollments" parent="menu_education_groups_root"
+              action="action_education_enrollment" sequence="20"/>
+    <menuitem id="menu_education_group_waitlist" name="Waiting List" parent="menu_education_groups_root"
+              action="action_education_group_waitlist" sequence="30"/>
+    <menuitem id="menu_education_group_schedule" name="Schedules" parent="menu_education_groups_root"
+              action="action_education_group_schedule" sequence="40"/>
+    <menuitem id="menu_education_session" name="Sessions" parent="menu_education_groups_root"
+              action="action_education_session" sequence="50"/>
+    <menuitem id="menu_education_attendance_root" name="Attendance" parent="menu_education_groups_root" sequence="70"
+              action="action_education_attendance"/>
+
+    <menuitem id="menu_education_academic_root" name="Setup" parent="menu_education_academics_section" sequence="20"/>
+    <menuitem id="menu_education_room" name="Rooms" parent="menu_education_academic_root"
+              action="action_education_room" sequence="5"/>
+    <menuitem id="menu_education_academic_year" name="Academic Years" parent="menu_education_academic_root"
+              action="action_education_academic_year" sequence="10"/>
+    <menuitem id="menu_education_term" name="Terms" parent="menu_education_academic_root"
+              action="action_education_term" sequence="20"/>
+    <menuitem id="menu_education_subject" name="Subjects" parent="menu_education_academic_root"
+              action="action_education_subject" sequence="30"/>
+    <menuitem id="menu_education_level" name="Levels" parent="menu_education_academic_root"
+              action="action_education_level" sequence="40"/>
+    <menuitem id="menu_education_syllabus_topic" name="Syllabus Topics" parent="menu_education_academic_root"
+              action="action_education_syllabus_topic" sequence="50"/>
+    <menuitem id="menu_education_branch" name="Branches" parent="menu_education_academic_root"
+              action="action_education_branch" sequence="60"/>
+
+    <!-- ======================= Teachers ======================= -->
+    <menuitem id="menu_education_teachers_root" name="Teachers" parent="menu_education_root" sequence="30"/>
+    <menuitem id="menu_education_teacher" name="Teachers" parent="menu_education_teachers_root"
+              action="action_education_teacher" sequence="10"/>
+    <menuitem id="menu_education_teacher_payout" name="Payouts" parent="menu_education_teachers_root"
+              action="action_education_teacher_payout" sequence="20"/>
+    <menuitem id="menu_education_teacher_payout_generate" name="Generate Payouts" parent="menu_education_teachers_root"
+              action="action_education_teacher_payout_generate_wizard" sequence="30"/>
+    <menuitem id="menu_education_teacher_leave_request" name="Leave Requests" parent="menu_education_teachers_root"
+              action="action_education_teacher_leave_request" sequence="40"/>
+
+    <!-- ================= Exams &amp; Assignments ================= -->
+    <menuitem id="menu_education_exams_root" name="Exams &amp; Assignments" parent="menu_education_root" sequence="40"/>
+    <menuitem id="menu_education_exam" name="Exams" parent="menu_education_exams_root"
+              action="action_education_exam" sequence="10"/>
+    <menuitem id="menu_education_question_bank" name="Question Bank" parent="menu_education_exams_root"
+              action="action_education_question_bank" sequence="20"/>
+    <menuitem id="menu_education_exam_result" name="Results" parent="menu_education_exams_root"
+              action="action_education_exam_result" sequence="30"/>
+    <menuitem id="menu_education_grade_scale" name="Grade Scales" parent="menu_education_exams_root"
+              action="action_education_grade_scale" sequence="40"/>
+    <menuitem id="menu_education_assignments_root" name="Assignments" parent="menu_education_exams_root"
+              action="action_education_assignment" sequence="50"/>
+    <menuitem id="menu_education_assignment_submission" name="Submissions" parent="menu_education_exams_root"
+              action="action_education_assignment_submission" sequence="60"/>
+
+    <!-- ================= Fees &amp; Accounting ================= -->
+    <menuitem id="menu_education_fees_root" name="Fees &amp; Accounting" parent="menu_education_root" sequence="50"/>
+    <menuitem id="menu_education_fee_plan" name="Fee Plans" parent="menu_education_fees_root"
+              action="action_education_fee_plan" sequence="10"/>
+    <menuitem id="menu_education_fee" name="Fees / Charges" parent="menu_education_fees_root"
+              action="action_education_fee" sequence="20"/>
+    <menuitem id="menu_education_installment" name="Installments" parent="menu_education_fees_root"
+              action="action_education_installment" sequence="30"/>
+    <menuitem id="menu_education_payment" name="Payments" parent="menu_education_fees_root"
+              action="action_education_payment" sequence="40"/>
+    <menuitem id="menu_education_refund" name="Refunds" parent="menu_education_fees_root"
+              action="action_education_refund" sequence="50"/>
+    <menuitem id="menu_education_expense" name="Expenses" parent="menu_education_fees_root"
+              action="action_education_expense" sequence="60"/>
+    <menuitem id="menu_education_cash_account" name="Cash / Bank Accounts" parent="menu_education_fees_root"
+              action="action_education_cash_account" sequence="70"/>
+    <menuitem id="menu_education_cash_transfer" name="Cash/Bank Transfers" parent="menu_education_fees_root"
+              action="action_education_cash_transfer" sequence="75"/>
+    <menuitem id="menu_education_cashier_shift" name="Cashier Shifts" parent="menu_education_fees_root"
+              action="action_education_cashier_shift" sequence="76"/>
+    <menuitem id="menu_education_expense_category" name="Expense Categories" parent="menu_education_fees_root"
+              action="action_education_expense_category" sequence="80"/>
+
+    <!-- ======================= Reports ======================= -->
+    <menuitem id="menu_education_reports_root" name="Reports" parent="menu_education_root" sequence="60"/>
+    <menuitem id="menu_education_collection_report" name="Collection Report" parent="menu_education_reports_root"
+              action="action_education_collection_report_wizard" sequence="10"/>
+    <menuitem id="menu_education_outstanding_fees_report" name="Outstanding Fees Report"
+              parent="menu_education_reports_root"
+              action="action_education_outstanding_fees_report_wizard" sequence="20"/>
+    <menuitem id="menu_education_aging_report" name="Aging Report" parent="menu_education_reports_root"
+              action="action_education_aging_report_wizard" sequence="30"/>
+    <menuitem id="menu_education_cashier_closing" name="Cashier Daily Closing" parent="menu_education_reports_root"
+              action="action_education_cashier_closing_wizard" sequence="40"/>
+    <menuitem id="menu_education_reconciliation_log" name="Fee Ledger Reconciliation" parent="menu_education_reports_root"
+              action="action_education_reconciliation_log" sequence="50"
+              groups="prime_educational_hub.group_education_admin,prime_educational_hub.group_education_supervisor"/>
+    <menuitem id="menu_education_financial_audit" name="Student Financial Audit" parent="menu_education_reports_root"
+              action="action_education_financial_audit_wizard" sequence="60"/>
+    <menuitem id="menu_education_feedback" name="Student Feedback" parent="menu_education_reports_root"
+              action="action_education_feedback" sequence="70"/>
+    <menuitem id="menu_education_income_statement" name="Income Statement (P&amp;L)" parent="menu_education_reports_root"
+              action="action_education_income_statement_wizard" sequence="80"/>
+    <menuitem id="menu_education_cash_book" name="Cash Book" parent="menu_education_reports_root"
+              action="action_education_cash_book_wizard" sequence="90"/>
+    <menuitem id="menu_education_expense_report" name="Expense Report" parent="menu_education_reports_root"
+              action="action_education_expense_report_wizard" sequence="100"/>
+
+    <!-- ======================= Configuration ======================= -->
+    <menuitem id="menu_education_config_root" name="Configuration" parent="menu_education_root" sequence="100"
+              groups="prime_educational_hub.group_education_admin"/>
+    <menuitem id="menu_education_config_payment_method" name="Payment Methods" parent="menu_education_config_root"
+              action="action_education_payment_method" sequence="10"/>
+    <menuitem id="menu_education_config_holiday" name="Holidays" parent="menu_education_config_root"
+              action="action_education_holiday" sequence="20"/>
+    <menuitem id="menu_education_config_access_log" name="Public Access Log" parent="menu_education_config_root"
+              action="action_education_public_access_log" sequence="30"/>
+    <menuitem id="menu_education_config_certificate_template" name="Certificate Templates"
+              parent="menu_education_config_root"
+              action="action_education_certificate_template" sequence="40"/>
+    <menuitem id="menu_education_config_grading_rubric" name="Grading Rubrics" parent="menu_education_config_root"
+              action="action_education_grading_rubric" sequence="50"/>
+    <menuitem id="menu_education_config_lead_stage" name="Pipeline Stages" parent="menu_education_config_root"
+              action="action_education_lead_stage" sequence="55"/>
+    <menuitem id="menu_education_config_settings" name="Settings" parent="menu_education_config_root"
+              action="action_education_config_settings" sequence="1"/>
+    <menuitem id="menu_education_config_dashboard_menu_item" name="Dashboard Navigation Items"
+              parent="menu_education_config_root" action="action_education_dashboard_menu_item"
+              groups="prime_educational_hub.group_education_admin" sequence="60"/>
+    <menuitem id="menu_education_config_dashboard_stat_card" name="Dashboard Statistics Cards"
+              parent="menu_education_config_root" action="action_education_dashboard_stat_card"
+              groups="prime_educational_hub.group_education_admin" sequence="61"/>
+</odoo>

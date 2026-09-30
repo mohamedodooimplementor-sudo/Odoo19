@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_education_branch_list" model="ir.ui.view">
+        <field name="name">education.branch.list</field>
+        <field name="model">education.branch</field>
+        <field name="arch" type="xml">
+            <list string="Branches">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="manager_id"/>
+                <field name="student_count"/>
+                <field name="group_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_education_branch_form" model="ir.ui.view">
+        <field name="name">education.branch.form</field>
+        <field name="model">education.branch</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Branch">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_students" type="object" class="oe_stat_button" icon="fa-users text-primary">
+                            <field name="student_count" widget="statinfo" string="Students"/>
+                        </button>
+                        <button name="action_view_teachers" type="object" class="oe_stat_button" icon="fa-user-o text-info">
+                            <field name="teacher_count" widget="statinfo" string="Teachers"/>
+                        </button>
+                        <button name="action_view_groups" type="object" class="oe_stat_button" icon="fa-object-group text-primary">
+                            <field name="group_count" widget="statinfo" string="Groups"/>
+                        </button>
+                        <button name="action_view_rooms" type="object" class="oe_stat_button" icon="fa-building-o text-warning">
+                            <field name="room_count" widget="statinfo" string="Rooms"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="company_id"/>
+                        </group>
+                        <group>
+                            <field name="manager_id"/>
+                            <field name="phone"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <field name="address" placeholder="Branch address..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_education_branch" model="ir.actions.act_window">
+        <field name="name">Branches</field>
+        <field name="res_model">education.branch</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

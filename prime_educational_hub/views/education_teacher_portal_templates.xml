@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="teacher_portal_no_access" name="Teacher Portal - No Access">
+        <html>
+            <head>
+                <meta charset="utf-8"/>
+                <title>Teacher Portal</title>
+                <style>
+                    body { font-family: -apple-system, Arial, sans-serif; background: #f4f6f8; margin: 0; padding: 60px 16px; text-align: center; }
+                    .card { max-width: 420px; margin: 0 auto; background: #fff; border-radius: 12px;
+                            box-shadow: 0 2px 12px rgba(0,0,0,0.08); padding: 32px; }
+                </style>
+            </head>
+            <body>
+                <div class="card">
+                    <h2>No Teacher Profile Linked</h2>
+                    <p class="muted">Your account isn't linked to a teacher record. Ask an administrator to link
+                        your user on your Teacher profile.</p>
+                </div>
+            </body>
+        </html>
+    </template>
+
+    <template id="teacher_portal_home" name="Teacher Portal">
+        <html>
+            <head>
+                <meta charset="utf-8"/>
+                <title>Teacher Portal</title>
+                <style>
+                    body { font-family: -apple-system, Arial, sans-serif; background: #f4f6f8; margin: 0; padding: 30px 16px; }
+                    .brand { text-align: center; margin-bottom: 18px; }
+                    .brand img { width: 56px; height: 56px; border-radius: 14px; box-shadow: 0 4px 14px rgba(0,0,0,0.12); }
+                    .brand h3 { margin: 8px 0 0; font-size: 15px; color: #2c3e50; font-weight: 700; }
+                    .wrap { max-width: 720px; margin: 0 auto; }
+                    .card { background: #fff; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+                            padding: 22px; margin-bottom: 16px; }
+                    h2 { margin: 0 0 12px 0; color: #1a1a1a; font-size: 16px; }
+                    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+                    td, th { padding: 8px 6px; border-bottom: 1px solid #eef0f3; text-align: left; }
+                    th { color: #888; font-weight: 600; text-transform: uppercase; font-size: 10.5px; }
+                    .muted { color: #888; font-size: 12.5px; }
+                    .pill { display: inline-block; padding: 2px 9px; border-radius: 10px; font-size: 10.5px; font-weight: 700; }
+                    .pill-draft { background: #f3f4f6; color: #4b5563; }
+                    .pill-approved { background: #dcfce7; color: #15803d; }
+                    .pill-rejected { background: #fee2e2; color: #b91c1c; }
+                    .pill-paid { background: #dcfce7; color: #15803d; }
+                    .pill-pending { background: #fef3c7; color: #92400e; }
+                    form.leave-form input, form.leave-form textarea {
+                        width: 100%; box-sizing: border-box; padding: 8px; margin: 4px 0 12px;
+                        border: 1px solid #dfe3e8; border-radius: 6px; font-size: 13px;
+                    }
+                    button.submit-btn {
+                        background: #4f46e5; color: #fff; border: none; padding: 9px 18px;
+                        border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="wrap">
+                    <div class="brand">
+                        <img src="/prime_educational_hub/static/description/icon.png" alt="Prime Educational Hub"/>
+                        <h3>Prime Educational Hub · Teacher Portal</h3>
+                    </div>
+
+                    <div class="card">
+                        <h2>Welcome, <t t-esc="teacher.name"/></h2>
+                        <p class="muted">Teacher Code: <t t-esc="teacher.teacher_code"/></p>
+                    </div>
+
+                    <div class="card">
+                        <h2>Upcoming Sessions</h2>
+                        <table>
+                            <tr><th>Date</th><th>Group</th><th>Status</th></tr>
+                            <t t-foreach="sessions" t-as="s" t-key="s.id">
+                                <tr>
+                                    <td><t t-esc="s.date"/></td>
+                                    <td><t t-esc="s.group_id.name"/></td>
+                                    <td><t t-esc="s.state"/></td>
+                                </tr>
+                            </t>
+                            <tr t-if="not sessions"><td colspan="3" class="muted">No upcoming sessions.</td></tr>
+                        </table>
+                    </div>
+
+                    <div class="card">
+                        <h2>Payouts</h2>
+                        <table>
+                            <tr><th>Date</th><th>Amount</th><th>Status</th></tr>
+                            <t t-foreach="pending_payouts" t-as="p" t-key="p.id">
+                                <tr>
+                                    <td><t t-esc="p.date"/></td>
+                                    <td><t t-esc="p.amount"/></td>
+                                    <td><span class="pill pill-pending">Pending</span></td>
+                                </tr>
+                            </t>
+                            <t t-foreach="recent_payouts" t-as="p" t-key="p.id">
+                                <tr>
+                                    <td><t t-esc="p.date"/></td>
+                                    <td><t t-esc="p.amount"/></td>
+                                    <td><span class="pill pill-paid">Paid</span></td>
+                                </tr>
+                            </t>
+                            <tr t-if="not pending_payouts and not recent_payouts">
+                                <td colspan="3" class="muted">No payouts recorded yet.</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="card">
+                        <h2>Request Leave</h2>
+                        <form class="leave-form" method="post" t-attf-action="/education/teacher/leave/new">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <label class="muted">From</label>
+                            <input type="date" name="date_from" required="required"/>
+                            <label class="muted">To</label>
+                            <input type="date" name="date_to" required="required"/>
+                            <label class="muted">Reason</label>
+                            <textarea name="reason" rows="2"/>
+                            <button type="submit" class="submit-btn">Submit Request</button>
+                        </form>
+                    </div>
+
+                    <div class="card">
+                        <h2>My Leave Requests</h2>
+                        <table>
+                            <tr><th>From</th><th>To</th><th>Status</th></tr>
+                            <t t-foreach="leave_requests" t-as="lr" t-key="lr.id">
+                                <tr>
+                                    <td><t t-esc="lr.date_from"/></td>
+                                    <td><t t-esc="lr.date_to"/></td>
+                                    <td><span t-attf-class="pill pill-{{ lr.state }}"><t t-esc="lr.state"/></span></td>
+                                </tr>
+                            </t>
+                            <tr t-if="not leave_requests"><td colspan="3" class="muted">No leave requests yet.</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </body>
+        </html>
+    </template>
+</odoo>

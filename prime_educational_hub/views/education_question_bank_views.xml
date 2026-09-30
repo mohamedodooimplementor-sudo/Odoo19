@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_education_question_bank_list" model="ir.ui.view">
+        <field name="name">education.question.bank.list</field>
+        <field name="model">education.question.bank</field>
+        <field name="arch" type="xml">
+            <list string="Question Bank">
+                <field name="name"/>
+                <field name="subject_id"/>
+                <field name="level_id"/>
+                <field name="question_type"/>
+                <field name="default_max_mark"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_education_question_bank_form" model="ir.ui.view">
+        <field name="name">education.question.bank.form</field>
+        <field name="model">education.question.bank</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Question Bank Item">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="subject_id"/>
+                            <field name="level_id"/>
+                            <field name="question_type"/>
+                        </group>
+                        <group>
+                            <field name="default_max_mark"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group string="Question">
+                        <field name="question_text" nolabel="1"/>
+                    </group>
+                    <group string="Choices &amp; Answer" invisible="question_type not in ('mcq','true_false')">
+                        <field name="choices" nolabel="1" placeholder="One choice per line"/>
+                        <field name="correct_answer"/>
+                    </group>
+                    <group string="Notes">
+                        <field name="notes" nolabel="1"/>
+                    </group>
+                </sheet>
+            <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_education_question_bank_search" model="ir.ui.view">
+        <field name="name">education.question.bank.search</field>
+        <field name="model">education.question.bank</field>
+        <field name="arch" type="xml">
+            <search string="Question Bank">
+                <field name="subject_id"/>
+                <field name="level_id"/>
+                <field name="question_text"/>
+                <group name="group_by">
+                    <filter string="Subject" name="group_subject" context="{'group_by': 'subject_id'}"/>
+                    <filter string="Question Type" name="group_type" context="{'group_by': 'question_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_education_question_bank" model="ir.actions.act_window">
+        <field name="name">Question Bank</field>
+        <field name="res_model">education.question.bank</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Build a reusable bank of exam questions</p>
+        </field>
+    </record>
+</odoo>

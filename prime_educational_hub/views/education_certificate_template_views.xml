@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_education_certificate_template_list" model="ir.ui.view">
+        <field name="name">education.certificate.template.list</field>
+        <field name="model">education.certificate.template</field>
+        <field name="arch" type="xml">
+            <list string="Certificate Templates">
+                <field name="name"/>
+                <field name="header_text"/>
+                <field name="show_qr_code"/>
+                <field name="show_signature_line"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_education_certificate_template_form" model="ir.ui.view">
+        <field name="name">education.certificate.template.form</field>
+        <field name="model">education.certificate.template</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Certificate Template">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="header_text"/>
+                            <field name="intro_text"/>
+                            <field name="footer_text"/>
+                        </group>
+                        <group>
+                            <field name="border_color"/>
+                            <field name="accent_color"/>
+                            <field name="show_qr_code"/>
+                            <field name="show_signature_line"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_education_certificate_template" model="ir.actions.act_window">
+        <field name="name">Certificate Templates</field>
+        <field name="res_model">education.certificate.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first certificate template</p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_education_cash_transfer_list" model="ir.ui.view">
+        <field name="name">education.cash.transfer.list</field>
+        <field name="model">education.cash.transfer</field>
+        <field name="arch" type="xml">
+            <list string="Cash/Bank Transfers" decoration-muted="state == 'cancelled'">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="from_account_id"/>
+                <field name="to_account_id"/>
+                <field name="amount"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-success="state == 'confirmed'"
+                       decoration-muted="state == 'cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_education_cash_transfer_form" model="ir.ui.view">
+        <field name="name">education.cash.transfer.form</field>
+        <field name="model">education.cash.transfer</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Cash/Bank Transfer">
+                <header>
+                    <button name="action_confirm" type="object" string="Confirm" class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_cancel" type="object" string="Cancel" class="btn-secondary"
+                            invisible="state == 'cancelled'"/>
+                    <button name="action_reset_to_draft" type="object" string="Reset to Draft" class="btn-secondary"
+                            invisible="state != 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="date"/>
+                            <field name="from_account_id"/>
+                            <field name="to_account_id"/>
+                        </group>
+                        <group>
+                            <field name="amount"/>
+                            <field name="currency_id" groups="base.group_multi_currency"/>
+                            <field name="reference"/>
+                            <field name="requested_by" readonly="1"/>
+                            <field name="confirmed_by" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_education_cash_transfer" model="ir.actions.act_window">
+        <field name="name">Cash/Bank Transfers</field>
+        <field name="res_model">education.cash.transfer</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Record a transfer between two of your own accounts</p>
+        </field>
+    </record>
+</odoo>

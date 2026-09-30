@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_users_form_education_teacher" model="ir.ui.view">
+        <field name="name">res.users.form.education.teacher</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                <button name="action_view_education_groups" type="object"
+                        class="oe_stat_button" icon="fa-users text-primary"
+                        invisible="not education_is_teacher">
+                    <field name="education_group_count" widget="statinfo" string="Groups"/>
+                </button>
+                <button name="action_view_education_sessions" type="object"
+                        class="oe_stat_button" icon="fa-calendar-check-o text-success"
+                        invisible="not education_is_teacher">
+                    <field name="education_session_count" widget="statinfo" string="Sessions"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_education_term_list" model="ir.ui.view">
+        <field name="name">education.term.list</field>
+        <field name="model">education.term</field>
+        <field name="arch" type="xml">
+            <list string="Terms">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="academic_year_id"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'active'"
+                       decoration-info="state == 'draft'"
+                       decoration-muted="state == 'closed'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_education_term_form" model="ir.ui.view">
+        <field name="name">education.term.form</field>
+        <field name="model">education.term</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Term">
+                <header>
+                    <button name="action_set_active" type="object" string="Set Active"
+                            invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_set_closed" type="object" string="Close Term"
+                            invisible="state != 'active'" class="btn-secondary"/>
+                    <button name="action_set_draft" type="object" string="Reset to Draft" class="btn-secondary"
+                            invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,active,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_groups" type="object" class="oe_stat_button" icon="fa-object-group text-primary">
+                            <field name="group_count" widget="statinfo" string="Groups"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="academic_year_id"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_education_term" model="ir.actions.act_window">
+        <field name="name">Terms</field>
+        <field name="res_model">education.term</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first term</p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_education_group_waitlist_list" model="ir.ui.view">
+        <field name="name">education.group.waitlist.list</field>
+        <field name="model">education.group.waitlist</field>
+        <field name="arch" type="xml">
+            <list string="Waiting List" decoration-muted="state == 'cancelled'" decoration-success="state == 'enrolled'">
+                <field name="student_id"/>
+                <field name="group_id"/>
+                <field name="request_date"/>
+                <field name="priority" widget="priority"/>
+                <field name="state" widget="badge"/>
+                <button name="action_enroll_now" type="object" string="Enroll Now" class="btn-link"
+                        invisible="state != 'waiting'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_education_group_waitlist_form" model="ir.ui.view">
+        <field name="name">education.group.waitlist.form</field>
+        <field name="model">education.group.waitlist</field>
+        <field name="arch" type="xml">
+            <form class="o_peh_view" string="Waiting List Entry">
+                <header>
+                    <button name="action_enroll_now" type="object" string="Enroll Now"
+                            invisible="state != 'waiting'" class="btn-primary"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            invisible="state != 'waiting'" class="btn-secondary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="waiting,enrolled"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="student_id"/>
+                            <field name="group_id"/>
+                        </group>
+                        <group>
+                            <field name="request_date"/>
+                            <field name="priority"/>
+                        </group>
+                    </group>
+                    <field name="notes" placeholder="Notes..."/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_education_group_waitlist" model="ir.actions.act_window">
+        <field name="name">Waiting List</field>
+        <field name="res_model">education.group.waitlist</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No students waiting</p>
+        </field>
+    </record>
+</odoo>

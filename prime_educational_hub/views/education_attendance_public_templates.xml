@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="attendance_page_style" name="Attendance Page Shared Style">
+        <style>
+            body { font-family: -apple-system, 'Segoe UI', Tahoma, Arial, sans-serif;
+                   background: linear-gradient(160deg, #1b1f6b 0%, #6d21c9 100%);
+                   margin: 0; padding: 24px 14px; min-height: 100vh; box-sizing: border-box; }
+            .wrap { max-width: 420px; margin: 24px auto 0; }
+            .card { background: #fff; border-radius: 18px; box-shadow: 0 12px 32px rgba(20,10,60,0.35);
+                    padding: 28px 24px; }
+            .brand { text-align: center; color: #fff; margin-bottom: 18px; }
+            .brand .brand-logo { width: 56px; height: 56px; border-radius: 14px; box-shadow: 0 4px 14px rgba(0,0,0,0.25); }
+            .brand h2 { margin: 6px 0 0; font-size: 18px; font-weight: 700; letter-spacing: .2px; }
+            .brand .sub { color: #d9d3ff; font-size: 12.5px; margin-top: 2px; }
+            label { display:block; font-size: 13px; color: #444; margin: 14px 0 6px; font-weight: 600; }
+            input[type=text], input[type=password], input[type=tel] {
+                width: 100%; box-sizing: border-box; padding: 13px 14px; border-radius: 10px;
+                border: 1.5px solid #e1e1ec; font-size: 16px; background: #f8f8fc; }
+            input:focus { outline: none; border-color: #6d21c9; background: #fff; }
+            button.primary { width: 100%; margin-top: 20px; padding: 14px; border: none; border-radius: 12px;
+                    background: linear-gradient(135deg,#2b2f9e,#7c21d1); color: #fff; font-size: 16px;
+                    font-weight: 700; cursor: pointer; }
+            button.primary:active { opacity: .9; }
+            .session-box { background: #f4f2ff; border-radius: 12px; padding: 12px 14px; margin-top: 6px;
+                           font-size: 13.5px; color: #3a2e6b; }
+            .session-box b { color: #201655; }
+            .status-icon { font-size: 46px; text-align:center; margin-bottom: 6px; }
+            .status-title { text-align:center; font-size: 19px; font-weight: 800; margin-bottom: 4px; }
+            .status-title.ok { color: #0f9d58; }
+            .status-title.fail { color: #d23f3f; }
+            .status-sub { text-align:center; color: #666; font-size: 14px; margin-bottom: 16px; }
+            .row { display:flex; justify-content: space-between; padding: 9px 0;
+                   border-bottom: 1px solid #eee; font-size: 14px; }
+            .row span:first-child { color: #888; }
+            .row span:last-child { font-weight: 700; color: #222; }
+            .pill { display:inline-block; padding: 2px 10px; border-radius: 999px; font-size: 12.5px; font-weight: 700; }
+            .pill.present { background: #e4f8ec; color: #0f9d58; }
+            .pill.late { background: #fff4e0; color: #b96a00; }
+            .foot-note { text-align:center; color: #cfc8ff; font-size: 11.5px; margin-top: 16px; }
+            .lang-ar { direction: rtl; text-align: right; }
+        </style>
+    </template>
+
+    <template id="attendance_identify_page" name="Attendance Self Check-in">
+        <html>
+            <head>
+                <meta charset="utf-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <title>Student Attendance / تسجيل حضور الطالب</title>
+                <t t-call="prime_educational_hub.attendance_page_style"/>
+            </head>
+            <body>
+                <div class="wrap">
+                    <div class="brand">
+                        <img class="brand-logo" src="/prime_educational_hub/static/description/icon.png" alt="Prime Educational Hub"/>
+                        <h2>Student Attendance · تسجيل الحضور</h2>
+                        <div class="sub">Scan confirmed — enter your details to check in</div>
+                    </div>
+                    <div class="card">
+                        <div class="session-box">
+                            <div><b t-esc="session.group_id.subject_id.name or ''"/> — <span t-esc="session.group_id.name"/></div>
+                            <div t-esc="session.date"/>
+                            <div t-if="session.start_datetime" t-esc="session.start_datetime"/>
+                        </div>
+                        <form action="/education/attendance/submit" method="POST" autocomplete="off">
+                            <input type="hidden" name="csrf_token" t-att-value="csrf_token"/>
+                            <input type="hidden" name="token" t-att-value="token"/>
+                            <label>Student Code · كود الطالب</label>
+                            <input type="text" name="student_code" autocapitalize="characters" required="required"
+                                   placeholder="e.g. STU00123"/>
+                            <t t-if="pin_required">
+                                <label>PIN · الرقم السري</label>
+                                <input type="password" name="pin" inputmode="numeric" maxlength="4" required="required"
+                                       placeholder="••••"/>
+                            </t>
+                            <button type="submit" class="primary">Check In · تسجيل الحضور</button>
+                        </form>
+                    </div>
+                    <div class="foot-note" t-if="pin_required">Your PIN is personal — never share it with classmates.
+                        · رقمك السري شخصي، لا تشاركه مع أحد</div>
+                </div>
+            </body>
+        </html>
+    </template>
+
+    <template id="attendance_result_page" name="Attendance Result">
+        <html>
+            <head>
+                <meta charset="utf-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <title>Attendance Result / نتيجة تسجيل الحضور</title>
+                <t t-call="prime_educational_hub.attendance_page_style"/>
+            </head>
+            <body>
+                <div class="wrap">
+                    <div class="brand">
+                        <img class="brand-logo" src="/prime_educational_hub/static/description/icon.png" alt="Prime Educational Hub"/>
+                        <h2>Prime Educational Hub</h2>
+                    </div>
+                    <div class="card">
+                        <t t-if="ok">
+                            <div class="status-icon">✅</div>
+                            <div class="status-title ok">Attendance Registered Successfully</div>
+                            <div class="status-sub lang-ar">تم تسجيل حضورك بنجاح</div>
+                            <div class="row"><span>Student</span><span t-esc="student_name"/></div>
+                            <div class="row"><span>Subject · المادة</span><span t-esc="subject_name"/></div>
+                            <div class="row"><span>Group · المجموعة</span><span t-esc="group_name"/></div>
+                            <div class="row"><span>Session</span><span t-esc="session_name"/></div>
+                            <div class="row"><span>Status</span>
+                                <span>
+                                    <span t-attf-class="pill #{status_en.lower()}" t-esc="status_en"/>
+                                    · <span t-esc="status_ar"/>
+                                </span>
+                            </div>
+                            <div class="row"><span>Check-in Time</span><span t-esc="check_in"/></div>
+                        </t>
+                        <t t-else="">
+                            <div class="status-icon">✕</div>
+                            <div class="status-title fail" t-esc="error_en"/>
+                            <div class="status-sub lang-ar" t-esc="error_ar"/>
+                        </t>
+                    </div>
+                </div>
+            </body>
+        </html>
+    </template>
+
+    <template id="attendance_error_page" name="Attendance Error">
+        <html>
+            <head>
+                <meta charset="utf-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <title>Attendance / الحضور</title>
+                <t t-call="prime_educational_hub.attendance_page_style"/>
+            </head>
+            <body>
+                <div class="wrap">
+                    <div class="brand">
+                        <img class="brand-logo" src="/prime_educational_hub/static/description/icon.png" alt="Prime Educational Hub"/>
+                        <h2>Prime Educational Hub</h2>
+                    </div>
+                    <div class="card">
+                        <div class="status-icon">✕</div>
+                        <div class="status-title fail" t-esc="error_en"/>
+                        <div class="status-sub lang-ar" t-esc="error_ar"/>
+                    </div>
+                </div>
+            </body>
+        </html>
+    </template>
+
+</odoo>
