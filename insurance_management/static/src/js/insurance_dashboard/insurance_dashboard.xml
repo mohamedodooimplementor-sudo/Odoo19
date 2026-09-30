@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="insurance_management.InsuranceDashboard">
+        <div class="o_insurance_dashboard" t-att-class="{ o_dark_mode: state.darkMode }" t-on-pointerdown="onPointerDown">
+
+            <div class="o_id_tooltip" t-ref="tooltip" t-att-class="{ o_id_tooltip_on: state.tooltip.visible }">
+                <div class="o_id_tooltip_title" t-esc="state.tooltip.title"/>
+                <div class="o_id_tooltip_row" t-foreach="state.tooltip.rows" t-as="row" t-key="row_index">
+                    <i class="o_id_legend_dot" t-attf-style="background-color:{{row.color}}"/>
+                    <span class="o_id_tooltip_label" t-esc="row.label"/>
+                    <span class="o_id_tooltip_value" t-esc="row.value"/>
+                </div>
+            </div>
+
+            <div class="o_insurance_dashboard_header">
+                <div class="o_insurance_dashboard_title">
+                    <i class="fa fa-shield"/>
+                    <h2>Insurance Dashboard</h2>
+                </div>
+                <div class="o_id_pages">
+                    <button class="btn o_id_page_btn o_id_pressable" t-att-class="{ o_id_page_active: mode === 'cards' }"
+                            t-on-click="() => this.switchMode('cards')">
+                        <i class="fa fa-th-large"/> Cards
+                    </button>
+                    <button class="btn o_id_page_btn o_id_pressable" t-att-class="{ o_id_page_active: mode === 'charts' }"
+                            t-on-click="() => this.switchMode('charts')">
+                        <i class="fa fa-bar-chart"/> Charts
+                    </button>
+                </div>
+                <div class="o_insurance_dashboard_actions">
+                    <button class="btn o_id_btn o_id_pressable" t-on-click="() => this._loadData()" title="Refresh">
+                        <i class="fa fa-refresh"/>
+                    </button>
+                    <button class="btn o_id_btn o_id_pressable" t-on-click="toggleDarkMode" title="Toggle dark mode">
+                        <i t-if="!state.darkMode" class="fa fa-moon-o"/>
+                        <i t-else="" class="fa fa-sun-o"/>
+                    </button>
+                </div>
+            </div>
+
+            <div class="o_insurance_dashboard_filters">
+                <div class="o_id_filter">
+                    <label>Period</label>
+                    <select class="form-select form-select-sm o_id_pressable" t-on-change="onPresetChange">
+                        <option value="this_month" t-att-selected="state.filters.preset === 'this_month'">This Month</option>
+                        <option value="last_3_months" t-att-selected="state.filters.preset === 'last_3_months'">Last 3 Months</option>
+                        <option value="last_12_months" t-att-selected="state.filters.preset === 'last_12_months'">Last 12 Months</option>
+                        <option value="this_year" t-att-selected="state.filters.preset === 'this_year'">This Year</option>
+                        <option value="custom" t-att-selected="state.filters.preset === 'custom'">Custom</option>
+                    </select>
+                </div>
+
+                <div class="o_id_filter">
+                    <label>From</label>
+                    <input type="date" class="form-control form-control-sm"
+                           t-att-value="state.filters.dateFrom"
+                           t-on-change="onDateFromChange"/>
+                </div>
+                <div class="o_id_filter">
+                    <label>To</label>
+                    <input type="date" class="form-control form-control-sm"
+                           t-att-value="state.filters.dateTo"
+                           t-on-change="onDateToChange"/>
+                </div>
+                <div class="o_id_filter" t-if="state.filters.preset === 'custom'">
+                    <button class="btn btn-sm btn-primary o_id_pressable" t-on-click="applyCustomRange">Apply</button>
+                </div>
+
+                <div class="o_id_filter dropdown">
+                    <label>Insurance Company</label>
+                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle o_id_pressable" data-bs-toggle="dropdown">
+                        <t t-if="state.filters.companyIds.length">
+                            <t t-esc="state.filters.companyIds.length"/> selected
+                        </t>
+                        <t t-else="">All Companies</t>
+                    </button>
+                    <ul class="dropdown-menu o_id_dropdown_menu">
+                        <li t-foreach="state.meta.companies" t-as="company" t-key="company.id">
+                            <label class="dropdown-item o_id_pressable">
+                                <input type="checkbox"
+                                       t-att-checked="state.filters.companyIds.includes(company.id)"
+                                       t-on-change="() => this.onCompanyToggle(company.id)"/>
+                                <t t-esc="company.name"/>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="o_id_filter dropdown">
+                    <label>Insurance Plan</label>
+                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle o_id_pressable" data-bs-toggle="dropdown">
+                        <t t-if="state.filters.planIds.length">
+                            <t t-esc="state.filters.planIds.length"/> selected
+                        </t>
+                        <t t-else="">All Plans</t>
+                    </button>
+                    <ul class="dropdown-menu o_id_dropdown_menu">
+                        <li t-foreach="state.meta.plans" t-as="plan" t-key="plan.id">
+                            <label class="dropdown-item o_id_pressable">
+                                <input type="checkbox"
+                                       t-att-checked="state.filters.planIds.includes(plan.id)"
+                                       t-on-change="() => this.onPlanToggle(plan.id)"/>
+                                <t t-esc="plan.name"/>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+
+                <button class="btn btn-sm o_id_reset o_id_pressable" t-on-click="resetFilters">
+                    <i class="fa fa-times"/> Reset
+                </button>
+            </div>
+
+            <div class="o_insurance_dashboard_scroll">
+
+                <div class="o_insurance_dashboard_loading" t-if="state.loading">
+                    <i class="fa fa-circle-o-notch fa-spin"/> Loading dashboard…
+                </div>
+
+                <div class="o_insurance_dashboard_body" t-if="state.data">
+
+                    <t t-if="mode === 'cards'">
+                    <div class="o_id_kpi_grid">
+                        <div class="o_id_kpi o_id_kpi_indigo o_id_pressable o_id_ripple" t-on-click="onKpiOrdersClick">
+                            <div class="o_id_kpi_top">
+                                <div class="o_id_kpi_icon"><i class="fa fa-file-text-o"/></div>
+                                <t t-set="d" t-value="getDelta('orders_count')"/>
+                                <span t-if="d" t-attf-class="o_id_delta {{d.cls}}">
+                                    <i t-attf-class="fa {{d.icon}}"/> <t t-esc="d.text"/>
+                                </span>
+                            </div>
+                            <span class="o_id_kpi_label">Insured Orders</span>
+                            <span class="o_id_kpi_value" t-esc="formatNumber(state.data.kpis.orders_count)"/>
+                            <canvas class="o_id_sparkline" t-ref="sparkOrders"/>
+                        </div>
+
+                        <div class="o_id_kpi o_id_kpi_blue o_id_pressable o_id_ripple" t-on-click="onKpiTotalSalesClick">
+                            <div class="o_id_kpi_top">
+                                <div class="o_id_kpi_icon"><i class="fa fa-money"/></div>
+                                <t t-set="d" t-value="getDelta('total_sales')"/>
+                                <span t-if="d" t-attf-class="o_id_delta {{d.cls}}">
+                                    <i t-attf-class="fa {{d.icon}}"/> <t t-esc="d.text"/>
+                                </span>
+                            </div>
+                            <span class="o_id_kpi_label">Total Insured Sales</span>
+                            <span class="o_id_kpi_value" t-esc="formatMoney(state.data.kpis.total_sales)"/>
+                            <canvas class="o_id_sparkline" t-ref="sparkSales"/>
+                        </div>
+
+                        <div class="o_id_kpi o_id_kpi_green o_id_pressable o_id_ripple" t-on-click="onKpiCoveredClick">
+                            <div class="o_id_kpi_top">
+                                <div class="o_id_kpi_icon"><i class="fa fa-shield"/></div>
+                                <t t-set="d" t-value="getDelta('total_covered')"/>
+                                <span t-if="d" t-attf-class="o_id_delta {{d.cls}}">
+                                    <i t-attf-class="fa {{d.icon}}"/> <t t-esc="d.text"/>
+                                </span>
+                            </div>
+                            <span class="o_id_kpi_label">Insurance Covered</span>
+                            <span class="o_id_kpi_value" t-esc="formatMoney(state.data.kpis.total_covered)"/>
+                            <span class="o_id_kpi_sub" t-esc="formatPercent(state.data.kpis.coverage_ratio) + ' of total sales'"/>
+                            <canvas class="o_id_sparkline" t-ref="sparkCovered"/>
+                        </div>
+
+                        <div class="o_id_kpi o_id_kpi_amber o_id_pressable o_id_ripple" t-on-click="onKpiCustomerClick">
+                            <div class="o_id_kpi_top">
+                                <div class="o_id_kpi_icon"><i class="fa fa-user"/></div>
+                                <t t-set="d" t-value="getDelta('total_customer')"/>
+                                <span t-if="d" t-attf-class="o_id_delta {{d.cls}}">
+                                    <i t-attf-class="fa {{d.icon}}"/> <t t-esc="d.text"/>
+                                </span>
+                            </div>
+                            <span class="o_id_kpi_label">Customer Share</span>
+                            <span class="o_id_kpi_value" t-esc="formatMoney(state.data.kpis.total_customer)"/>
+                            <canvas class="o_id_sparkline" t-ref="sparkCustomer"/>
+                        </div>
+
+                        <div class="o_id_kpi o_id_kpi_indigo o_id_pressable o_id_ripple" t-on-click="onKpiClaimedClick">
+                            <div class="o_id_kpi_top">
+                                <div class="o_id_kpi_icon"><i class="fa fa-file-text-o"/></div>
+                                <t t-set="d" t-value="getDelta('total_claimed')"/>
+                                <span t-if="d" t-attf-class="o_id_delta {{d.cls}}">
+                                    <i t-attf-class="fa {{d.icon}}"/> <t t-esc="d.text"/>
+                                </span>
+                            </div>
+                            <span class="o_id_kpi_label">Total Claimed</span>
+                            <span class="o_id_kpi_value" t-esc="formatMoney(state.data.kpis.total_claimed)"/>
+                        </div>
+
+                        <div class="o_id_kpi o_id_kpi_teal o_id_pressable o_id_ripple" t-on-click="onKpiCollectedClick">
+                            <div class="o_id_kpi_top">
+                                <div class="o_id_kpi_icon"><i class="fa fa-check-circle"/></div>
+                                <t t-set="d" t-value="getDelta('total_collected')"/>
+                                <span t-if="d" t-attf-class="o_id_delta {{d.cls}}">
+                                    <i t-attf-class="fa {{d.icon}}"/> <t t-esc="d.text"/>
+                                </span>
+                            </div>
+                            <span class="o_id_kpi_label">Total Collected</span>
+                            <span class="o_id_kpi_value" t-esc="formatMoney(state.data.kpis.total_collected)"/>
+                        </div>
+
+                        <div class="o_id_kpi o_id_kpi_orange o_id_pressable o_id_ripple" t-on-click="onKpiOutstandingClick">
+                            <div class="o_id_kpi_top">
+                                <div class="o_id_kpi_icon"><i class="fa fa-hourglass-half"/></div>
+                                <t t-set="d" t-value="getDelta('total_outstanding')"/>
+                                <span t-if="d" t-attf-class="o_id_delta {{d.cls}}">
+                                    <i t-attf-class="fa {{d.icon}}"/> <t t-esc="d.text"/>
+                                </span>
+                            </div>
+                            <span class="o_id_kpi_label">Total Outstanding</span>
+                            <span class="o_id_kpi_value" t-esc="formatMoney(state.data.kpis.total_outstanding)"/>
+                        </div>
+
+                        <div class="o_id_kpi o_id_kpi_purple">
+                            <div class="o_id_kpi_top">
+                                <div class="o_id_kpi_icon"><i class="fa fa-percent"/></div>
+                                <t t-set="d" t-value="getDelta('collection_rate')"/>
+                                <span t-if="d" t-attf-class="o_id_delta {{d.cls}}">
+                                    <i t-attf-class="fa {{d.icon}}"/> <t t-esc="d.text"/>
+                                </span>
+                            </div>
+                            <span class="o_id_kpi_label">Collection Rate</span>
+                            <span class="o_id_kpi_value" t-esc="formatPercent(state.data.kpis.collection_rate)"/>
+                        </div>
+
+                        <div class="o_id_kpi o_id_kpi_red o_id_pressable o_id_ripple" t-on-click="onKpiOpenClaimsClick">
+                            <div class="o_id_kpi_top">
+                                <div class="o_id_kpi_icon"><i class="fa fa-clock-o"/></div>
+                                <t t-set="d" t-value="getDelta('open_claims_count')"/>
+                                <span t-if="d" t-attf-class="o_id_delta {{d.cls}}">
+                                    <i t-attf-class="fa {{d.icon}}"/> <t t-esc="d.text"/>
+                                </span>
+                            </div>
+                            <span class="o_id_kpi_label">Open Claims</span>
+                            <span class="o_id_kpi_value" t-esc="formatNumber(state.data.kpis.open_claims_count)"/>
+                        </div>
+
+                        <div class="o_id_kpi o_id_kpi_red o_id_pressable o_id_ripple" t-on-click="onKpiRejectedClick">
+                            <div class="o_id_kpi_top">
+                                <div class="o_id_kpi_icon"><i class="fa fa-ban"/></div>
+                                <t t-set="d" t-value="getDelta('total_rejected')"/>
+                                <span t-if="d" t-attf-class="o_id_delta {{d.cls}}">
+                                    <i t-attf-class="fa {{d.icon}}"/> <t t-esc="d.text"/>
+                                </span>
+                            </div>
+                            <span class="o_id_kpi_label">Total Rejected</span>
+                            <span class="o_id_kpi_value" t-esc="formatMoney(state.data.kpis.total_rejected)"/>
+                        </div>
+
+                        <div class="o_id_kpi o_id_kpi_slate o_id_pressable o_id_ripple" t-on-click="onKpiOpenReceivableClick">
+                            <div class="o_id_kpi_top">
+                                <div class="o_id_kpi_icon"><i class="fa fa-university"/></div>
+                            </div>
+                            <span class="o_id_kpi_label">Open Receivable</span>
+                            <span class="o_id_kpi_value" t-esc="formatMoney(state.data.snapshot.open_amount)"/>
+                            <span class="o_id_kpi_sub" t-esc="formatNumber(state.data.snapshot.open_invoices) + ' open invoices'"/>
+                        </div>
+
+                        <div class="o_id_kpi o_id_kpi_orange o_id_pressable o_id_ripple" t-on-click="onKpiOverdueClick">
+                            <div class="o_id_kpi_top">
+                                <div class="o_id_kpi_icon"><i class="fa fa-exclamation-triangle"/></div>
+                            </div>
+                            <span class="o_id_kpi_label">Overdue Receivable</span>
+                            <span class="o_id_kpi_value" t-esc="formatMoney(state.data.snapshot.overdue_amount)"/>
+                            <span class="o_id_kpi_sub" t-esc="formatNumber(state.data.snapshot.overdue_invoices) + ' invoices past due'"/>
+                        </div>
+
+                        <div class="o_id_kpi o_id_kpi_purple o_id_pressable o_id_ripple" t-on-click="onKpiOpenReceivableClick">
+                            <div class="o_id_kpi_top">
+                                <div class="o_id_kpi_icon"><i class="fa fa-calendar"/></div>
+                            </div>
+                            <span class="o_id_kpi_label">Average Invoice Age</span>
+                            <span class="o_id_kpi_value" t-esc="formatDays(state.data.snapshot.avg_age_days)"/>
+                            <span class="o_id_kpi_sub">of open insurance invoices</span>
+                        </div>
+
+                        <div class="o_id_kpi o_id_kpi_blue o_id_pressable o_id_ripple" t-on-click="onKpiOrdersClick">
+                            <div class="o_id_kpi_top">
+                                <div class="o_id_kpi_icon"><i class="fa fa-line-chart"/></div>
+                                <t t-set="d" t-value="getDelta('avg_order_value')"/>
+                                <span t-if="d" t-attf-class="o_id_delta {{d.cls}}">
+                                    <i t-attf-class="fa {{d.icon}}"/> <t t-esc="d.text"/>
+                                </span>
+                            </div>
+                            <span class="o_id_kpi_label">Average Order Value</span>
+                            <span class="o_id_kpi_value" t-esc="formatMoney(state.data.kpis.avg_order_value)"/>
+                        </div>
+
+                        <div class="o_id_kpi o_id_kpi_teal o_id_pressable o_id_ripple" t-on-click="onKpiOrdersClick">
+                            <div class="o_id_kpi_top">
+                                <div class="o_id_kpi_icon"><i class="fa fa-users"/></div>
+                                <t t-set="d" t-value="getDelta('patients_count')"/>
+                                <span t-if="d" t-attf-class="o_id_delta {{d.cls}}">
+                                    <i t-attf-class="fa {{d.icon}}"/> <t t-esc="d.text"/>
+                                </span>
+                            </div>
+                            <span class="o_id_kpi_label">Patients Served</span>
+                            <span class="o_id_kpi_value" t-esc="formatNumber(state.data.kpis.patients_count)"/>
+                        </div>
+
+                        <div class="o_id_kpi o_id_kpi_indigo o_id_pressable o_id_ripple" t-on-click="onKpiClaimsCountClick">
+                            <div class="o_id_kpi_top">
+                                <div class="o_id_kpi_icon"><i class="fa fa-folder-open-o"/></div>
+                                <t t-set="d" t-value="getDelta('claims_count')"/>
+                                <span t-if="d" t-attf-class="o_id_delta {{d.cls}}">
+                                    <i t-attf-class="fa {{d.icon}}"/> <t t-esc="d.text"/>
+                                </span>
+                            </div>
+                            <span class="o_id_kpi_label">Claims</span>
+                            <span class="o_id_kpi_value" t-esc="formatNumber(state.data.kpis.claims_count)"/>
+                        </div>
+                    </div>
+
+                    <div class="o_id_chart_grid o_id_details_grid">
+
+                        <div class="o_id_chart_card o_id_table_card o_id_ripple">
+                            <div class="o_id_chart_header">
+                                <h3>Recent Claims</h3>
+                            </div>
+                            <div class="o_id_table_scroll">
+                                <table class="o_id_table">
+                                    <thead>
+                                        <tr>
+                                            <th>Claim</th>
+                                            <th>Insurance Company</th>
+                                            <th>Status</th>
+                                            <th class="o_id_num">Claimed</th>
+                                            <th class="o_id_num">Collected</th>
+                                            <th class="o_id_num">Remaining</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr t-foreach="state.data.recent_claims" t-as="claim" t-key="claim.id"
+                                            class="o_id_table_row" t-on-click="() => this.openClaim(claim.id)">
+                                            <td class="o_id_cell_strong" t-esc="claim.name"/>
+                                            <td t-esc="claim.company"/>
+                                            <td><span class="o_id_chip" t-attf-style="--chip:{{claim.color}}" t-esc="claim.state_label"/></td>
+                                            <td class="o_id_num" t-esc="formatMoney(claim.total_claimed)"/>
+                                            <td class="o_id_num" t-esc="formatMoney(claim.total_paid)"/>
+                                            <td class="o_id_num o_id_cell_strong" t-esc="formatMoney(claim.remaining)"/>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="o_id_empty" t-if="!state.data.recent_claims.length">No claims in this period</div>
+                            </div>
+                        </div>
+
+                        <div class="o_id_chart_card o_id_table_card o_id_ripple">
+                            <div class="o_id_chart_header">
+                                <h3>Top Patients by Insurance Covered</h3>
+                            </div>
+                            <div class="o_id_table_scroll">
+                                <table class="o_id_table">
+                                    <thead>
+                                        <tr>
+                                            <th>Patient / Customer</th>
+                                            <th class="o_id_num">Orders</th>
+                                            <th class="o_id_num">Insurance Covered</th>
+                                            <th class="o_id_num">Customer Share</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr t-foreach="state.data.top_patients" t-as="patient" t-key="patient.id"
+                                            class="o_id_table_row" t-on-click="() => this.openPatientOrders(patient)">
+                                            <td class="o_id_cell_strong" t-esc="patient.name"/>
+                                            <td class="o_id_num" t-esc="formatNumber(patient.orders)"/>
+                                            <td class="o_id_num" t-esc="formatMoney(patient.covered)"/>
+                                            <td class="o_id_num" t-esc="formatMoney(patient.customer)"/>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="o_id_empty" t-if="!state.data.top_patients.length">No insured orders in this period</div>
+                            </div>
+                        </div>
+
+                    </div>
+                    </t>
+
+                    <t t-if="mode === 'charts'">
+                    <div class="o_id_chart_grid">
+
+                        <div class="o_id_chart_card o_id_chart_wide o_id_ripple">
+                            <div class="o_id_chart_header">
+                                <h3>Sales &amp; Coverage Trend</h3>
+                                <div class="o_id_legend">
+                                    <span t-foreach="state.data.sales_trend.series" t-as="s" t-key="s.key" class="o_id_legend_item">
+                                        <i class="o_id_legend_dot" t-attf-style="background-color:{{s.color}}"/>
+                                        <t t-esc="s.label"/>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="o_id_chart_canvas_wrap">
+                                <canvas t-ref="trendCanvas"
+                                        t-on-mousemove="(ev) => this.onChartMove('trend', ev)"
+                                        t-on-mouseleave="() => this.onChartLeave('trend')"
+                                        t-on-click="(ev) => this.onChartClick('trend', ev)"/>
+                            </div>
+                        </div>
+
+                        <div class="o_id_chart_card o_id_ripple">
+                            <div class="o_id_chart_header">
+                                <h3>Claims by Status</h3>
+                            </div>
+                            <div class="o_id_donut_wrap">
+                                <canvas t-ref="statusCanvas"
+                                        t-on-mousemove="(ev) => this.onChartMove('status', ev)"
+                                        t-on-mouseleave="() => this.onChartLeave('status')"
+                                        t-on-click="(ev) => this.onChartClick('status', ev)"/>
+                            </div>
+                            <div class="o_id_donut_legend">
+                                <span t-foreach="state.data.claim_status.labels" t-as="label" t-key="label_index"
+                                      class="o_id_legend_item o_id_legend_clickable o_id_pressable"
+                                      t-on-click="() => this.onStatusLegendClick(label_index)">
+                                    <i class="o_id_legend_dot" t-attf-style="background-color:{{state.data.claim_status.colors[label_index]}}"/>
+                                    <t t-esc="label"/> (<t t-esc="state.data.claim_status.counts[label_index]"/>)
+                                </span>
+                                <span t-if="!state.data.claim_status.labels.length" class="o_id_legend_item">No claims in this period</span>
+                            </div>
+                        </div>
+
+                        <div class="o_id_chart_card o_id_ripple">
+                            <div class="o_id_chart_header">
+                                <h3>Coverage Split</h3>
+                            </div>
+                            <div class="o_id_donut_wrap">
+                                <canvas t-ref="coverageCanvas"
+                                        t-on-mousemove="(ev) => this.onChartMove('coverage', ev)"
+                                        t-on-mouseleave="() => this.onChartLeave('coverage')"
+                                        t-on-click="(ev) => this.onChartClick('coverage', ev)"/>
+                            </div>
+                            <div class="o_id_donut_legend">
+                                <span t-foreach="state.data.coverage_split.labels" t-as="label" t-key="label_index" class="o_id_legend_item">
+                                    <i class="o_id_legend_dot" t-attf-style="background-color:{{state.data.coverage_split.colors[label_index]}}"/>
+                                    <t t-esc="label"/>: <t t-esc="formatMoney(state.data.coverage_split.values[label_index], true)"/>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="o_id_chart_card o_id_ripple">
+                            <div class="o_id_chart_header">
+                                <h3>Receivable Aging (open insurance invoices)</h3>
+                            </div>
+                            <div class="o_id_chart_canvas_wrap">
+                                <canvas t-ref="agingCanvas"
+                                        t-on-mousemove="(ev) => this.onChartMove('aging', ev)"
+                                        t-on-mouseleave="() => this.onChartLeave('aging')"
+                                        t-on-click="(ev) => this.onChartClick('aging', ev)"/>
+                            </div>
+                        </div>
+
+                        <div class="o_id_chart_card o_id_ripple">
+                            <div class="o_id_chart_header">
+                                <h3>Collection Overview</h3>
+                            </div>
+                            <div class="o_id_chart_canvas_wrap">
+                                <canvas t-ref="funnelCanvas"
+                                        t-on-mousemove="(ev) => this.onChartMove('funnel', ev)"
+                                        t-on-mouseleave="() => this.onChartLeave('funnel')"
+                                        t-on-click="(ev) => this.onChartClick('funnel', ev)"/>
+                            </div>
+                        </div>
+
+                        <div class="o_id_chart_card o_id_ripple">
+                            <div class="o_id_chart_header">
+                                <h3>Outstanding by Insurance Company</h3>
+                            </div>
+                            <div class="o_id_chart_canvas_wrap">
+                                <canvas t-ref="stateCanvas"
+                                        t-on-mousemove="(ev) => this.onChartMove('outstanding', ev)"
+                                        t-on-mouseleave="() => this.onChartLeave('outstanding')"
+                                        t-on-click="(ev) => this.onChartClick('outstanding', ev)"/>
+                            </div>
+                        </div>
+
+                        <div class="o_id_chart_card o_id_ripple">
+                            <div class="o_id_chart_header">
+                                <h3>Top Insurance Companies</h3>
+                            </div>
+                            <div class="o_id_chart_canvas_wrap">
+                                <canvas t-ref="companiesCanvas"
+                                        t-on-mousemove="(ev) => this.onChartMove('companies', ev)"
+                                        t-on-mouseleave="() => this.onChartLeave('companies')"
+                                        t-on-click="(ev) => this.onChartClick('companies', ev)"/>
+                            </div>
+                        </div>
+
+                        <div class="o_id_chart_card o_id_ripple">
+                            <div class="o_id_chart_header">
+                                <h3>Top Plans by Insurance Covered Amount</h3>
+                            </div>
+                            <div class="o_id_chart_canvas_wrap">
+                                <canvas t-ref="plansCanvas"
+                                        t-on-mousemove="(ev) => this.onChartMove('plans', ev)"
+                                        t-on-mouseleave="() => this.onChartLeave('plans')"
+                                        t-on-click="(ev) => this.onChartClick('plans', ev)"/>
+                            </div>
+                        </div>
+
+                        <div class="o_id_chart_card o_id_ripple">
+                            <div class="o_id_chart_header">
+                                <h3>Top Products / Services Covered</h3>
+                            </div>
+                            <div class="o_id_chart_canvas_wrap">
+                                <canvas t-ref="productsCanvas"
+                                        t-on-mousemove="(ev) => this.onChartMove('products', ev)"
+                                        t-on-mouseleave="() => this.onChartLeave('products')"
+                                        t-on-click="(ev) => this.onChartClick('products', ev)"/>
+                            </div>
+                        </div>
+
+                    </div>
+                    </t>
+                    <div class="o_id_footer_space"/>
+                </div>
+            </div>
+        </div>
+    </t>
+
+</templates>

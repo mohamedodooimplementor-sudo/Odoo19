@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_insurance_coverage_rule_list" model="ir.ui.view">
+        <field name="name">insurance.coverage.rule.list</field>
+        <field name="model">insurance.coverage.rule</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="plan_id"/>
+                <field name="product_id"/>
+                <field name="category_id"/>
+                <field name="coverage_type"/>
+                <field name="coverage_percentage"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_insurance_coverage_rule_form" model="ir.ui.view">
+        <field name="name">insurance.coverage.rule.form</field>
+        <field name="model">insurance.coverage.rule</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="plan_id"/>
+                            <field name="product_id"/>
+                            <field name="category_id"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="coverage_type"/>
+                            <field name="coverage_percentage" invisible="coverage_type != 'percentage'"/>
+                            <field name="fixed_insurance_amount" invisible="coverage_type != 'fixed_insurance'"/>
+                            <field name="max_coverage_amount" invisible="coverage_type != 'max_covered'"/>
+                            <field name="fixed_copay_amount" invisible="coverage_type != 'fixed_copay'"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_insurance_coverage_rule" model="ir.actions.act_window">
+        <field name="name">Coverage Rules</field>
+        <field name="res_model">insurance.coverage.rule</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

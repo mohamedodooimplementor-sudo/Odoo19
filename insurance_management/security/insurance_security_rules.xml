@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="rule_insurance_company_multi_company" model="ir.rule">
+        <field name="name">Insurance Company: multi-company</field>
+        <field name="model_id" ref="model_insurance_company"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_insurance_plan_multi_company" model="ir.rule">
+        <field name="name">Insurance Plan: multi-company</field>
+        <field name="model_id" ref="model_insurance_plan"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_insurance_claim_multi_company" model="ir.rule">
+        <field name="name">Insurance Claim: multi-company</field>
+        <field name="model_id" ref="model_insurance_claim"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- Rules for the models that were not yet protected in a multi-company
+         database: children follow the company of their parent record. -->
+    <record id="rule_insurance_claim_line_multi_company" model="ir.rule">
+        <field name="name">Insurance claim line: multi-company</field>
+        <field name="model_id" ref="model_insurance_claim_line"/>
+        <field name="domain_force">['|', ('claim_id.company_id', '=', False), ('claim_id.company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_insurance_policy_multi_company" model="ir.rule">
+        <field name="name">Insurance policy: multi-company</field>
+        <field name="model_id" ref="model_insurance_policy"/>
+        <field name="domain_force">['|', ('insurance_company_id.company_id', '=', False), ('insurance_company_id.company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_insurance_authorization_multi_company" model="ir.rule">
+        <field name="name">Insurance authorization: multi-company</field>
+        <field name="model_id" ref="model_insurance_authorization"/>
+        <field name="domain_force">['|', ('insurance_company_id.company_id', '=', False), ('insurance_company_id.company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_insurance_coverage_rule_multi_company" model="ir.rule">
+        <field name="name">Insurance coverage rule: multi-company</field>
+        <field name="model_id" ref="model_insurance_coverage_rule"/>
+        <field name="domain_force">['|', ('plan_id.company_id', '=', False), ('plan_id.company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Filterable "Insurance Claims Report": Insurance Company / Customer /
+         Status filters on top of the same insurance.claim model, saved as a
+         distinct menu entry so it can carry its own default filters/groupby
+         without touching the operational Claims list. -->
+    <record id="view_insurance_claim_report_search" model="ir.ui.view">
+        <field name="name">insurance.claim.report.search</field>
+        <field name="model">insurance.claim</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="partner_id"/>
+                <field name="insurance_company_id"/>
+                <field name="insurance_plan_id"/>
+                <field name="state"/>
+                <separator/>
+                <filter string="Submitted" name="filter_submitted" domain="[('state', '=', 'submitted')]"/>
+                <filter string="Partially Paid" name="filter_partial_paid" domain="[('state', '=', 'partial_paid')]"/>
+                <filter string="Paid" name="filter_paid" domain="[('state', '=', 'paid')]"/>
+                <group>
+                    <filter string="Insurance Company" name="group_company" context="{'group_by': 'insurance_company_id'}"/>
+                    <filter string="Customer" name="group_partner" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_insurance_claim_report" model="ir.actions.act_window">
+        <field name="name">Insurance Claims Report</field>
+        <field name="res_model">insurance.claim</field>
+        <field name="view_mode">list,pivot,form</field>
+        <field name="search_view_id" ref="view_insurance_claim_report_search"/>
+        <field name="context">{'search_default_group_company': 1}</field>
+    </record>
+</odoo>

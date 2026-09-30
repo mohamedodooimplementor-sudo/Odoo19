@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_insurance_claim_list" model="ir.ui.view">
+        <field name="name">insurance.claim.list</field>
+        <field name="model">insurance.claim</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="state == 'rejected'" decoration-muted="state == 'cancelled'">
+                <field name="name"/>
+                <field name="insurance_company_id"/>
+                <field name="partner_id"/>
+                <field name="insurance_plan_id"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="invoice_count"/>
+                <field name="total_claimed" sum="Total Claimed"/>
+                <field name="total_paid" sum="Total Paid"/>
+                <field name="total_rejected" sum="Total Rejected" optional="hide"/>
+                <field name="remaining_balance" sum="Total Remaining"/>
+                <field name="state" decoration-success="state == 'paid'" decoration-warning="state == 'partial_paid'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_insurance_claim_kanban" model="ir.ui.view">
+        <field name="name">insurance.claim.kanban</field>
+        <field name="model">insurance.claim</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" class="o_insurance_claim_kanban" records_draggable="0" quick_create="false">
+                <field name="name"/>
+                <field name="insurance_company_id"/>
+                <field name="partner_id"/>
+                <field name="insurance_plan_id"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="invoice_count"/>
+                <field name="total_claimed"/>
+                <field name="total_paid"/>
+                <field name="remaining_balance"/>
+                <field name="currency_id"/>
+                <field name="state"/>
+                <field name="state_color"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click o_insurance_claim_card"
+                             t-attf-style="border-left-color: #{record.state_color.raw_value}">
+                            <div class="o_icc_header">
+                                <strong class="o_icc_name"><field name="name"/></strong>
+                                <span class="o_icc_date"><field name="date_from"/> - <field name="date_to"/></span>
+                            </div>
+                            <div class="o_icc_partner">
+                                <i class="fa fa-building-o"/>&#160;<field name="insurance_company_id"/>
+                            </div>
+                            <div class="o_icc_company text-muted" t-if="record.partner_id.value or record.insurance_plan_id.value">
+                                <t t-if="record.partner_id.value"><i class="fa fa-user-o"/>&#160;<field name="partner_id"/></t>
+                                <t t-if="record.insurance_plan_id.value"> - <field name="insurance_plan_id"/></t>
+                            </div>
+                            <div class="o_icc_amounts">
+                                <div class="o_icc_amount">
+                                    <span class="o_icc_amount_label">Claimed</span>
+                                    <span class="o_icc_amount_value"><field name="total_claimed" widget="monetary"/></span>
+                                </div>
+                                <div class="o_icc_amount" t-if="record.total_paid.raw_value">
+                                    <span class="o_icc_amount_label">Paid</span>
+                                    <span class="o_icc_amount_value o_icc_positive"><field name="total_paid" widget="monetary"/></span>
+                                </div>
+                                <div class="o_icc_amount" t-if="record.remaining_balance.raw_value">
+                                    <span class="o_icc_amount_label">Remaining</span>
+                                    <span class="o_icc_amount_value o_icc_pending"><field name="remaining_balance" widget="monetary"/></span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_insurance_claim_form" model="ir.ui.view">
+        <field name="name">insurance.claim.form</field>
+        <field name="model">insurance.claim</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_submit" type="object" string="Submit" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_open_register_payment_wizard" type="object" string="Register Payment" class="btn-primary"
+                            invisible="state not in ('submitted', 'partial_paid')"/>
+                    <button name="action_print_statement" type="object" string="Print Statement" class="btn-secondary"
+                            invisible="state == 'draft'"/>
+                    <button name="action_post_rejections" type="object" string="Post Rejections" class="btn-secondary"
+                            invisible="state not in ('submitted', 'partial_paid') or not has_pending_rejections"/>
+                    <button name="action_refresh_credit_notes" type="object" string="Refresh Credit Notes" class="btn-secondary"
+                            invisible="state not in ('submitted', 'partial_paid') or not credit_notes_pending"/>
+                    <button name="action_reject" type="object" string="Reject" invisible="state != 'submitted'"/>
+                    <button name="action_draft" type="object" string="Reset to Draft" invisible="state not in ('rejected', 'cancelled')"/>
+                    <button name="action_cancel" type="object" string="Cancel" invisible="state in ('paid', 'cancelled')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,partial_paid,paid"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_invoices" type="object" class="oe_stat_button" icon="fa-file-text-o" invisible="not invoice_count">
+                            <field name="invoice_count" widget="statinfo" string="Invoices"/>
+                        </button>
+                        <button name="action_view_payments" type="object" class="oe_stat_button" icon="fa-money" invisible="not payment_count">
+                            <field name="payment_count" widget="statinfo" string="Payments"/>
+                        </button>
+                    </div>
+                    <field name="credit_notes_pending" invisible="1"/>
+                    <field name="has_pending_rejections" invisible="1"/>
+                    <div class="alert alert-warning" role="alert" invisible="not credit_notes_pending">
+                        A credit note was applied to one of the included invoices after this claim was
+                        submitted. Click <strong>Refresh Credit Notes</strong> to update Total Claimed.
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Insurance Company">
+                            <field name="insurance_company_id" readonly="state != 'draft'"/>
+                            <field name="partner_id" readonly="state != 'draft'"/>
+                            <field name="insurance_plan_id" readonly="state != 'draft'"/>
+                        </group>
+                        <group string="Period &amp; Payment">
+                            <field name="date_from" readonly="state != 'draft'"/>
+                            <field name="date_to" readonly="state != 'draft'"/>
+                            <field name="journal_id"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+
+                    <div class="o_ic_summary" invisible="state in ('draft', 'cancelled')">
+                        <div class="o_ic_summary_card o_ic_card_claimed">
+                            <span class="o_ic_summary_label">Total Claimed</span>
+                            <span class="o_ic_summary_value"><field name="total_claimed" readonly="1"/></span>
+                        </div>
+                        <div class="o_ic_summary_card o_ic_card_paid">
+                            <span class="o_ic_summary_label">Total Paid</span>
+                            <span class="o_ic_summary_value"><field name="total_paid" readonly="1"/></span>
+                        </div>
+                        <div class="o_ic_summary_card o_ic_card_remaining" invisible="not total_rejected">
+                            <span class="o_ic_summary_label">Total Rejected</span>
+                            <span class="o_ic_summary_value"><field name="total_rejected" readonly="1"/></span>
+                        </div>
+                        <div class="o_ic_summary_card o_ic_card_remaining" invisible="remaining_balance == 0">
+                            <span class="o_ic_summary_label">Remaining Balance</span>
+                            <span class="o_ic_summary_value"><field name="remaining_balance" readonly="1"/></span>
+                        </div>
+                        <div class="o_ic_summary_card o_ic_card_remaining o_ic_card_remaining_zero" invisible="remaining_balance != 0">
+                            <span class="o_ic_summary_label">Remaining Balance</span>
+                            <span class="o_ic_summary_value"><field name="remaining_balance" readonly="1"/></span>
+                        </div>
+                    </div>
+
+                    <notebook>
+                        <page string="Invoices" name="invoices">
+                            <field name="claim_line_ids" readonly="state in ('paid', 'cancelled')">
+                                <list editable="bottom" decoration-muted="not include">
+                                    <field name="move_id" readonly="1"/>
+                                    <field name="partner_id" readonly="1"/>
+                                    <field name="insurance_plan_id" readonly="1"/>
+                                    <field name="invoice_date" readonly="1"/>
+                                    <field name="amount_due" readonly="1" sum="Insurance Share" string="Insurance Share"/>
+                                    <field name="paid_amount" readonly="1" sum="Paid"/>
+                                    <field name="residual" readonly="1" sum="Residual"/>
+                                    <field name="credit_note_amount" optional="hide"/>
+                                    <field name="rejected_amount" sum="Rejected"
+                                           readonly="rejection_move_id or parent.state not in ('submitted', 'partial_paid')"/>
+                                    <field name="rejection_reason"
+                                           readonly="rejection_move_id or parent.state not in ('submitted', 'partial_paid')"/>
+                                    <field name="rejection_move_id" optional="hide" readonly="1"/>
+                                    <button name="action_cancel_rejection" type="object" icon="fa-undo"
+                                            title="Undo the booked rejection"
+                                            invisible="not rejection_move_id or parent.state not in ('submitted', 'partial_paid')"
+                                            confirm="Cancel the credit note booked for this rejection?"/>
+                                    <field name="include"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_insurance_claim_pivot" model="ir.ui.view">
+        <field name="name">insurance.claim.pivot</field>
+        <field name="model">insurance.claim</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="insurance_company_id" type="row"/>
+                <field name="state" type="col"/>
+                <field name="total_claimed" type="measure"/>
+                <field name="total_paid" type="measure"/>
+                <field name="total_rejected" type="measure"/>
+                <field name="remaining_balance" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_insurance_claim_search" model="ir.ui.view">
+        <field name="name">insurance.claim.search</field>
+        <field name="model">insurance.claim</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="insurance_company_id"/>
+                <field name="partner_id"/>
+                <field name="insurance_plan_id"/>
+                <field name="date_from"/>
+                <filter string="Draft" name="filter_draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Submitted" name="filter_submitted" domain="[('state', '=', 'submitted')]"/>
+                <filter string="Partially Paid" name="filter_partial_paid" domain="[('state', '=', 'partial_paid')]"/>
+                <filter string="Paid" name="filter_paid" domain="[('state', '=', 'paid')]"/>
+                <filter string="Rejected" name="filter_rejected" domain="[('state', '=', 'rejected')]"/>
+                <separator/>
+                <group>
+                    <filter string="Insurance Company" name="group_company" context="{'group_by': 'insurance_company_id'}"/>
+                    <filter string="Insurance Plan" name="group_plan" context="{'group_by': 'insurance_plan_id'}"/>
+                    <filter string="Customer" name="group_partner" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Month" name="group_month" context="{'group_by': 'date_from:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_insurance_claim" model="ir.actions.act_window">
+        <field name="name">Insurance Claims</field>
+        <field name="res_model">insurance.claim</field>
+        <field name="view_mode">kanban,list,form,pivot</field>
+    </record>
+</odoo>

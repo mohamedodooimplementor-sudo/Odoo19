@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_order_form_insurance_inherit" model="ir.ui.view">
+        <field name="name">sale.order.form.insurance.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_insurance_invoices" type="object" class="oe_stat_button"
+                        icon="fa-shield" invisible="not insurance_invoice_count">
+                    <field name="insurance_invoice_count" widget="statinfo" string="Insurance Invoices"/>
+                </button>
+            </xpath>
+
+            <xpath expr="//field[@name='order_line']/list/field[@name='product_id']" position="after">
+                <field name="insurance_eligible" optional="hide"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/list/field[@name='price_subtotal']" position="after">
+                <field name="coverage_percentage" optional="hide" string="Coverage %"/>
+                <field name="insurance_amount" optional="show" invisible="not parent.insurance_enabled"/>
+                <field name="customer_copay_amount" optional="show" invisible="not parent.insurance_enabled"/>
+                <field name="amount_not_covered" optional="hide"/>
+                <field name="covered" optional="hide"/>
+            </xpath>
+
+            <xpath expr="//notebook" position="inside">
+                <page string="Insurance" name="insurance">
+                    <group>
+                        <group string="Insurance Policy">
+                            <field name="insurance_enabled"/>
+                            <field name="insurance_policy_id" invisible="not insurance_enabled"
+                                   options="{'no_create': True}"/>
+                            <field name="insurance_company_id" readonly="1" invisible="not insurance_enabled"/>
+                            <field name="insurance_plan_id" readonly="1" invisible="not insurance_enabled"/>
+                            <field name="insurance_member_id" readonly="1" invisible="not insurance_enabled"
+                                   groups="insurance_management.group_insurance_user"/>
+                            <field name="insurance_policy_number" readonly="1" invisible="not insurance_enabled"/>
+                            <field name="insurance_policy_state" readonly="1" invisible="not insurance_enabled"/>
+                        </group>
+                        <group string="Authorization" invisible="not insurance_authorization_required">
+                            <field name="insurance_authorization_required" invisible="1"/>
+                            <field name="insurance_authorization_id"/>
+                        </group>
+                    </group>
+                    <group string="Insurance Summary" invisible="not insurance_enabled">
+                        <group>
+                            <field name="amount_total" readonly="1" string="Order Total"/>
+                            <field name="amount_insurance_covered" readonly="1" string="Insurance Covered"/>
+                            <field name="amount_customer_responsibility" readonly="1" string="Customer Co-Pay"/>
+                            <field name="amount_not_covered" readonly="1" string="Not Covered (limits)"/>
+                        </group>
+                        <group>
+                            <field name="insurance_invoice_id" readonly="1"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_insurance_root" name="Insurance" sequence="55" groups="group_insurance_user"
+              web_icon="insurance_management,static/description/icon.png"/>
+
+    <!-- Dashboard -->
+    <menuitem id="menu_insurance_dashboard" name="Dashboard" parent="menu_insurance_root" sequence="10"/>
+    <menuitem id="menu_insurance_dashboard_cards" name="Cards"
+              parent="menu_insurance_dashboard" action="action_insurance_dashboard_cards" sequence="5"/>
+    <menuitem id="menu_insurance_dashboard_charts" name="Charts"
+              parent="menu_insurance_dashboard" action="action_insurance_dashboard_charts" sequence="10"/>
+
+    <!-- Customers -->
+    <menuitem id="menu_insurance_customers" name="Customers" parent="menu_insurance_root" sequence="20"/>
+    <menuitem id="menu_insurance_policies" name="Insurance Policies"
+              parent="menu_insurance_customers" action="action_insurance_policy" sequence="10"/>
+
+    <!-- Claims -->
+    <menuitem id="menu_insurance_claims_root" name="Claims" parent="menu_insurance_root" sequence="30"/>
+    <menuitem id="menu_insurance_claims" name="Claims"
+              parent="menu_insurance_claims_root" action="action_insurance_claim" sequence="10"/>
+
+    <!-- Operations -->
+    <menuitem id="menu_insurance_operations" name="Operations" parent="menu_insurance_root" sequence="40"/>
+    <menuitem id="menu_insurance_authorizations" name="Authorizations"
+              parent="menu_insurance_operations" action="action_insurance_authorization" sequence="10"/>
+    <menuitem id="menu_insurance_invoice" name="Insurance Invoices"
+              parent="menu_insurance_operations" action="action_insurance_invoice" sequence="20"/>
+
+    <!-- Reports -->
+    <menuitem id="menu_insurance_reports_root" name="Reporting" parent="menu_insurance_root" sequence="50"/>
+    <menuitem id="menu_insurance_claims_report" name="Claims Report"
+              parent="menu_insurance_reports_root" action="action_insurance_claim_report" sequence="10"/>
+    <menuitem id="menu_insurance_product_coverage_report" name="Insurance Product Coverage"
+              parent="menu_insurance_reports_root" action="action_insurance_product_coverage_report" sequence="20"/>
+    <menuitem id="menu_insurance_claims_report_export" name="Claims Report (PDF / Excel)"
+              parent="menu_insurance_reports_root" action="action_insurance_report_wizard_claims" sequence="30"/>
+    <menuitem id="menu_insurance_aging_export" name="Aging (PDF / Excel)"
+              parent="menu_insurance_reports_root" action="action_insurance_report_wizard_aging" sequence="50"/>
+    <menuitem id="menu_insurance_product_coverage_export" name="Product Coverage (PDF / Excel)"
+              parent="menu_insurance_reports_root" action="action_insurance_report_wizard_coverage" sequence="40"/>
+
+    <!-- Configuration -->
+    <menuitem id="menu_insurance_configuration" name="Configuration" parent="menu_insurance_root"
+              sequence="60" groups="group_insurance_manager"/>
+    <menuitem id="menu_insurance_companies" name="Insurance Companies"
+              parent="menu_insurance_configuration" action="action_insurance_company" sequence="10"/>
+    <menuitem id="menu_insurance_plans" name="Insurance Plans"
+              parent="menu_insurance_configuration" action="action_insurance_plan" sequence="20"/>
+    <menuitem id="menu_insurance_coverage_rules" name="Coverage Rules"
+              parent="menu_insurance_configuration" action="action_insurance_coverage_rule" sequence="30"/>
+    <menuitem id="menu_insurance_settings" name="Settings"
+              parent="menu_insurance_configuration" action="action_insurance_config_settings" sequence="40"/>
+</odoo>

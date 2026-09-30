@@ -1,0 +1,196 @@
+// ======================================================================
+// Claim cards: WHITE in the normal (light) theme, BLACK in dark mode.
+//
+// `o_ic_dark` is set on <html> by static/src/js/color_scheme.js, which
+// measures the real background behind the cards, so it works however the
+// backend's dark mode is implemented. `[data-bs-theme="dark"]` is also
+// accepted so the right colours show even before that script has run.
+// To change the dark card colour, edit --ic-card-bg below.
+// ======================================================================
+.o_insurance_claim_kanban,
+.o_ic_summary {
+    --ic-card-bg: #FFFFFF;
+    --ic-card-border: #E2E8F0;
+    --ic-card-text: #1E293B;
+    --ic-card-muted: #64748B;
+    --ic-card-divider: #E2E8F0;
+    --ic-card-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+    --ic-card-shadow-hover: 0 6px 16px rgba(15, 23, 42, 0.12);
+}
+
+html.o_ic_dark,
+html[data-bs-theme="dark"] {
+    .o_insurance_claim_kanban,
+    .o_ic_summary {
+        --ic-card-bg: #000000;
+        --ic-card-border: #2B2B2B;
+        --ic-card-text: #F1F5F9;
+        --ic-card-muted: #94A3B8;
+        --ic-card-divider: #2B2B2B;
+        --ic-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+        --ic-card-shadow-hover: 0 6px 18px rgba(0, 0, 0, 0.85);
+    }
+}
+
+.o_insurance_claim_kanban {
+    // The record wrapper itself is painted too, so no white/grey frame is
+    // left around the card in either theme.
+    .o_kanban_record {
+        padding: 0;
+        background: var(--ic-card-bg);
+        border-color: var(--ic-card-border);
+    }
+
+    .o_insurance_claim_card {
+        width: 100%;
+        border-radius: 10px;
+        border: 1px solid var(--ic-card-border);
+        border-left: 4px solid #94A3B8;
+        background: var(--ic-card-bg);
+        color: var(--ic-card-text);
+        padding: 12px 14px;
+        box-shadow: var(--ic-card-shadow);
+        transition: box-shadow 0.15s ease, transform 0.15s ease;
+        cursor: pointer;
+
+        &:hover {
+            box-shadow: var(--ic-card-shadow-hover);
+            transform: translateY(-1px);
+        }
+    }
+
+    .o_icc_header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        margin-bottom: 6px;
+
+        .o_icc_name {
+            font-size: 14px;
+            color: var(--ic-card-text);
+        }
+
+        .o_icc_date {
+            font-size: 11px;
+            color: var(--ic-card-muted);
+        }
+    }
+
+    .o_icc_partner {
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 2px;
+        color: var(--ic-card-text);
+
+        i {
+            color: #6366F1;
+            margin-right: 2px;
+        }
+    }
+
+    .o_icc_company {
+        font-size: 12px;
+        margin-bottom: 8px;
+        color: var(--ic-card-muted);
+
+        i {
+            margin-right: 2px;
+        }
+    }
+
+    .o_icc_amounts {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding-top: 6px;
+        border-top: 1px dashed var(--ic-card-divider);
+        margin-bottom: 6px;
+    }
+
+    .o_icc_amount {
+        display: flex;
+        flex-direction: column;
+        min-width: 60px;
+    }
+
+    .o_icc_amount_label {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        color: var(--ic-card-muted);
+    }
+
+    .o_icc_amount_value {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--ic-card-text);
+
+        &.o_icc_positive {
+            color: #16A34A;
+        }
+        &.o_icc_pending {
+            color: #D97706;
+        }
+    }
+
+    .o_icc_footer {
+        margin-top: 4px;
+    }
+
+    .o_icc_batch_badge {
+        background: var(--ic-card-divider);
+        color: var(--ic-card-text);
+        font-weight: 500;
+        font-size: 11px;
+    }
+}
+
+// ---- Claim form: Total Claimed / Total Paid / Remaining Balance cards ----
+.o_ic_summary {
+    display: flex;
+    gap: 14px;
+    margin: 4px 0 20px 0;
+}
+
+.o_ic_summary_card {
+    flex: 1;
+    border-radius: 12px;
+    padding: 14px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border: 1px solid var(--ic-card-border);
+    background: var(--ic-card-bg);
+    box-shadow: var(--ic-card-shadow);
+
+    .o_ic_summary_label {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--ic-card-muted);
+        font-weight: 600;
+    }
+
+    .o_ic_summary_value {
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--ic-card-text);
+    }
+
+    &.o_ic_card_claimed {
+        border-left: 4px solid #6366F1;
+    }
+    &.o_ic_card_paid {
+        border-left: 4px solid #22C55E;
+        .o_ic_summary_value { color: #16A34A; }
+    }
+    &.o_ic_card_remaining {
+        border-left: 4px solid #F59E0B;
+        .o_ic_summary_value { color: #D97706; }
+
+        &.o_ic_card_remaining_zero {
+            border-left-color: #22C55E;
+            .o_ic_summary_value { color: #16A34A; }
+        }
+    }
+}

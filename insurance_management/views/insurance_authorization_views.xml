@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_insurance_authorization_list" model="ir.ui.view">
+        <field name="name">insurance.authorization.list</field>
+        <field name="model">insurance.authorization</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="insurance_company_id"/>
+                <field name="insurance_plan_id"/>
+                <field name="requested_amount"/>
+                <field name="approved_amount"/>
+                <field name="state" decoration-success="state in ('approved','partially_approved')" decoration-danger="state in ('rejected','expired','cancelled')"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_insurance_authorization_form" model="ir.ui.view">
+        <field name="name">insurance.authorization.form</field>
+        <field name="model">insurance.authorization</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_print" type="object" string="Print" class="btn-secondary"/>
+                    <button name="action_request" type="object" string="Request" invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_set_pending" type="object" string="Mark Pending" invisible="state != 'requested'"/>
+                    <button name="action_approve" type="object" string="Approve" invisible="state not in ('requested','pending')" class="btn-primary"/>
+                    <button name="action_reject" type="object" string="Reject" invisible="state not in ('requested','pending')"/>
+                    <button name="action_cancel" type="object" string="Cancel" invisible="state in ('cancelled','approved','partially_approved')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,requested,pending,approved"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_sale_order" type="object" class="oe_stat_button" icon="fa-file-text-o" invisible="not sale_order_id">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Sales Order</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="insurance_company_id"/>
+                            <field name="insurance_plan_id"/>
+                            <field name="sale_order_id"/>
+                        </group>
+                        <group>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="requested_amount"/>
+                            <field name="approved_amount" readonly="state not in ('requested','pending')"/>
+                            <field name="request_date"/>
+                            <field name="approval_date" readonly="1"/>
+                            <field name="expiry_date"/>
+                        </group>
+                    </group>
+                    <field name="requested_services" placeholder="Describe requested services..."/>
+                    <field name="notes" placeholder="Notes..."/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_insurance_authorization" model="ir.actions.act_window">
+        <field name="name">Authorizations</field>
+        <field name="res_model">insurance.authorization</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        The Dashboard has two pages that share the same OWL component and the
+        same filters (period, insurance companies, plans - remembered while
+        you switch between the pages):
+
+          * Cards  - the KPI cards plus the Recent Claims / Top Patients tables
+          * Charts - every chart
+
+        Implemented in static/src/js/insurance_dashboard/. The pivot analysis
+        that used to sit next to them lives in Insurance > Reporting.
+    -->
+    <record id="action_insurance_dashboard_cards" model="ir.actions.client">
+        <field name="name">Dashboard - Cards</field>
+        <field name="tag">insurance_dashboard</field>
+        <field name="target">main</field>
+        <field name="context">{'dashboard_mode': 'cards'}</field>
+    </record>
+
+    <record id="action_insurance_dashboard_charts" model="ir.actions.client">
+        <field name="name">Dashboard - Charts</field>
+        <field name="tag">insurance_dashboard</field>
+        <field name="target">main</field>
+        <field name="context">{'dashboard_mode': 'charts'}</field>
+    </record>
+</odoo>

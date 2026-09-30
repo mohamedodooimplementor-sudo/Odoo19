@@ -1,0 +1,107 @@
+<section style="max-width: 940px; margin: 0 auto; font-family: -apple-system, 'Segoe UI', Arial, sans-serif; color:#1f2937;">
+
+    <img src="banner.png" alt="Insurance Management" style="width:100%; border-radius:16px; margin-bottom:24px;"/>
+
+    <div style="display:flex; align-items:center; gap:24px; margin-bottom: 24px;">
+        <img src="icon.png" alt="Insurance Management" style="width:96px; height:96px; border-radius:20px;"/>
+        <div>
+            <h1 style="margin:0; font-size:32px;">Insurance Management</h1>
+            <p style="margin:4px 0 0; font-size:16px; color:#555;">
+                Insurance co-pay billing for Odoo &mdash; from the sale, to the invoices, to collecting the claim.
+            </p>
+        </div>
+    </div>
+
+    <p style="font-size:16px; line-height:1.7;">
+        For clinics, pharmacies, labs and any business whose customers are partly paid for by an insurance
+        company. Every insured sale is split between the <strong>Customer</strong> (co-pay) and the
+        <strong>Insurance Company</strong> (covered share) by configurable coverage rules &mdash; never as a
+        discount &mdash; and billed with two real, traceable invoices. The insurance side is then collected
+        through <strong>Claims</strong>, with payments, rejections, credit notes, reports and a live dashboard.
+    </p>
+
+    <h2 style="margin-top:36px;">How it works</h2>
+    <img src="how_it_works.png" alt="Workflow" style="width:100%; margin:12px 0;"/>
+    <img src="coverage_example.png" alt="Coverage example" style="width:100%; margin:12px 0;"/>
+    <div style="display:grid; grid-template-columns: repeat(5, 1fr); gap:12px; margin-top:12px; text-align:center;">
+        <div style="padding:14px 8px; background:#eef2ff; border-radius:12px;"><strong>1. Set up</strong><br/><span style="color:#555; font-size:13px;">Companies, plans, coverage rules</span></div>
+        <div style="padding:14px 8px; background:#eef2ff; border-radius:12px;"><strong>2. Policy</strong><br/><span style="color:#555; font-size:13px;">Register the customer's card</span></div>
+        <div style="padding:14px 8px; background:#eef2ff; border-radius:12px;"><strong>3. Sell</strong><br/><span style="color:#555; font-size:13px;">Split calculated on the order</span></div>
+        <div style="padding:14px 8px; background:#eef2ff; border-radius:12px;"><strong>4. Invoice</strong><br/><span style="color:#555; font-size:13px;">Customer + insurer invoices</span></div>
+        <div style="padding:14px 8px; background:#eef2ff; border-radius:12px;"><strong>5. Claim</strong><br/><span style="color:#555; font-size:13px;">Collect, reject, report</span></div>
+    </div>
+
+    <h2 style="margin-top:36px;">Key features</h2>
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:18px; margin-top:14px;">
+
+        <div style="padding:16px; border:1px solid #e5e7eb; border-radius:12px;">
+            <h3 style="margin:0 0 8px; color:#1e40af;">Companies, Plans &amp; Coverage Rules</h3>
+            <p style="margin:0; color:#444;">Multiple plans per insurance company with automatic, editable codes.
+            Percentage, Fixed Insurance, Max Covered and Fixed Co-Pay rules, resolved by
+            Product &gt; Category &gt; Plan default.</p>
+        </div>
+
+        <div style="padding:16px; border:1px solid #e5e7eb; border-radius:12px;">
+            <h3 style="margin:0 0 8px; color:#0f766e;">Customer Policies</h3>
+            <p style="margin:0; color:#444;">Several policies per customer, one primary. Suspend, Reactivate, Renew
+            and Cancel buttons, expiry alerts, a used-coverage bar, automatic daily expiry and a printable policy card.</p>
+        </div>
+
+        <div style="padding:16px; border:1px solid #e5e7eb; border-radius:12px;">
+            <h3 style="margin:0 0 8px; color:#1e40af;">Sales &amp; Invoicing</h3>
+            <p style="margin:0; color:#444;">The split is calculated per order line and frozen at confirmation.
+            The insurer gets its own invoice, booked to the insurance journal's default account, with an
+            Insurance Invoices button on the Sales Order.</p>
+        </div>
+
+        <div style="padding:16px; border:1px solid #e5e7eb; border-radius:12px;">
+            <h3 style="margin:0 0 8px; color:#0f766e;">Authorizations</h3>
+            <p style="margin:0; color:#444;">Prior-approval workflow with approved amounts, required by plan or by
+            product, and a printable form.</p>
+        </div>
+
+        <div style="padding:16px; border:1px solid #e5e7eb; border-radius:12px;">
+            <h3 style="margin:0 0 8px; color:#1e40af;">Claims</h3>
+            <p style="margin:0; color:#444;">Submit collects the insurer's open invoices. Payments are settled oldest
+            invoice first; the status always follows the real payments. A rejected amount is booked automatically as a
+            credit note (with undo); credit notes issued later can be refreshed; statement PDF included.</p>
+        </div>
+
+        <div style="padding:16px; border:1px solid #e5e7eb; border-radius:12px;">
+            <h3 style="margin:0 0 8px; color:#0f766e;">Dashboard</h3>
+            <p style="margin:0; color:#444;">Two pages with shared filters: <strong>Cards</strong> (16 KPIs, recent claims,
+            top patients) and <strong>Charts</strong> (trend, status, coverage split, aging, collection overview, top
+            companies / plans / products). Click-through, tooltips, light and dark mode.</p>
+        </div>
+    </div>
+
+    <h2 style="margin-top:36px;">Reports</h2>
+    <p style="line-height:1.7;">
+        Claims, Product Coverage and Aging reports as <strong>PDF</strong> (ReportLab) and <strong>Excel</strong>,
+        with filters; claim statement, policy card and authorization form as PDF. Arabic text is supported.
+        The reports are completely independent of Odoo's own reports: this module does not use wkhtmltopdf and
+        does not change how any Odoo report is generated.
+    </p>
+
+    <h2 style="margin-top:28px;">Security &amp; access</h2>
+    <ul style="line-height:1.8;">
+        <li>Groups: Insurance User, Officer, Manager and Accountant. Only Officers and above create policies and authorizations.</li>
+        <li>Salespeople and billing users <em>without</em> an Insurance group can still confirm, invoice and post insured
+            orders, but never see the Insurance app or a customer's member ID / card number.</li>
+        <li>Multi-company rules, protected accounting records (claims, credit notes, policies in use cannot be deleted),
+            server-side checks on who a policy belongs to, and safe Excel exports.</li>
+    </ul>
+
+    <h2 style="margin-top:28px;">Requirements</h2>
+    <p style="line-height:1.7;">
+        Odoo 19 with <em>Sales</em>, <em>Invoicing</em> and <em>Contacts</em>. The Python libraries ReportLab and
+        XlsxWriter come with Odoo (a verified copy is bundled as a fallback).
+    </p>
+
+    <p style="margin-top:32px; color:#6b7280; font-size:13px;">Author: Eng. M.Aboelmagde &middot; License: LGPL-3</p>
+
+    <h2 style="margin-top:36px;">Everything included</h2>
+    <img src="features.png" alt="Features" style="width:100%;"/>
+    <h2 style="margin-top:36px;">Support</h2>
+    <p style="font-size:16px;">Bug-fix updates included. Installation and customization support: Eng. M.Aboelmagde (YouTube: @odoolab).</p>
+</section>

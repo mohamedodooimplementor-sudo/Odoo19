@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Scheduled action only. (This module deliberately has no hook of any
+        kind into Odoo's own report engine / PDF generation.)
+    -->
+    <!-- Daily: Active policies whose expiry date has passed become Expired. -->
+    <record id="cron_expire_insurance_policies" model="ir.cron">
+        <field name="name">Insurance: expire outdated policies</field>
+        <field name="model_id" ref="model_insurance_policy"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_expire_policies()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="active" eval="True"/>
+    </record>
+</odoo>

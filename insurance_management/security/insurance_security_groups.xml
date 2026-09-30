@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Odoo 19 replaced res.groups.category_id with a dedicated
+        res.groups.privilege model (privilege_id on res.groups), while
+        ir.module.category is still used to group those privileges under
+        an App in the Users & Companies > Groups screen. See:
+        https://www.odoo.com/documentation/19.0/developer/reference/backend/security.html
+    -->
+    <record id="module_category_insurance" model="ir.module.category">
+        <field name="name">Insurance</field>
+        <field name="sequence">20</field>
+    </record>
+
+    <record id="res_groups_privilege_insurance" model="res.groups.privilege">
+        <field name="name">Insurance</field>
+        <field name="category_id" ref="module_category_insurance"/>
+        <field name="sequence">10</field>
+    </record>
+
+    <record id="group_insurance_user" model="res.groups">
+        <field name="name">Insurance User</field>
+        <field name="privilege_id" ref="res_groups_privilege_insurance"/>
+        <field name="sequence">10</field>
+        <field name="implied_ids" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
+        <field name="comment">Can view insurance information, create Sales Orders with insurance and create claims.</field>
+    </record>
+
+    <record id="group_insurance_officer" model="res.groups">
+        <field name="name">Insurance Officer</field>
+        <field name="privilege_id" ref="res_groups_privilege_insurance"/>
+        <field name="sequence">20</field>
+        <field name="implied_ids" eval="[(4, ref('group_insurance_user'))]"/>
+        <field name="comment">Can manage claims, submit claims, manage authorizations and update claim statuses.</field>
+    </record>
+
+    <record id="group_insurance_manager" model="res.groups">
+        <field name="name">Insurance Manager</field>
+        <field name="privilege_id" ref="res_groups_privilege_insurance"/>
+        <field name="sequence">30</field>
+        <field name="implied_ids" eval="[(4, ref('group_insurance_officer'))]"/>
+        <field name="comment">Can manage insurance companies, plans, coverage rules, approve exceptions and manage claim batches.</field>
+    </record>
+
+    <record id="group_insurance_accountant" model="res.groups">
+        <field name="name">Insurance Accountant</field>
+        <field name="privilege_id" ref="res_groups_privilege_insurance"/>
+        <field name="sequence">40</field>
+        <field name="implied_ids" eval="[(4, ref('group_insurance_user')), (4, ref('account.group_account_invoice'))]"/>
+        <field name="comment">Can register insurance payments, reconcile payments, handle rejected amounts and access insurance accounting reports.</field>
+    </record>
+</odoo>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_insurance_policy_list" model="ir.ui.view">
+        <field name="name">insurance.policy.list</field>
+        <field name="model">insurance.policy</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="state in ('expired', 'cancelled')">
+                <field name="partner_id"/>
+                <field name="insurance_company_id"/>
+                <field name="plan_id"/>
+                <field name="policy_number"/>
+                <field name="member_id" optional="hide"/>
+                <field name="card_number" optional="hide"/>
+                <field name="state" widget="badge" decoration-success="state == 'active'" decoration-danger="state in ('expired','cancelled')" decoration-warning="state == 'suspended'"/>
+                <field name="is_primary"/>
+                <field name="date_start" optional="hide"/>
+                <field name="date_end" decoration-danger="expiry_state == 'expired'" decoration-warning="expiry_state == 'soon'"/>
+                <field name="expiry_state" column_invisible="1"/>
+                <field name="coverage_used_percent" widget="progressbar" string="Used"/>
+                <field name="coverage_remaining"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_insurance_policy_form" model="ir.ui.view">
+        <field name="name">insurance.policy.form</field>
+        <field name="model">insurance.policy</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_print" type="object" string="Print Policy" class="btn-secondary"/>
+                    <button name="action_renew" type="object" string="Renew (+1 year)" class="btn-primary"
+                            invisible="state == 'cancelled'"
+                            confirm="Extend the expiry date by one year and make the policy Active?"/>
+                    <button name="action_reactivate" type="object" string="Reactivate" class="btn-primary"
+                            invisible="state == 'active'"/>
+                    <button name="action_suspend" type="object" string="Suspend" invisible="state != 'active'"/>
+                    <button name="action_cancel" type="object" string="Cancel Policy"
+                            invisible="state == 'cancelled'"
+                            confirm="Cancel this policy? It will no longer be applied to new orders."/>
+                    <button name="action_reset_coverage_used" type="object" string="Reset Used Coverage"
+                            groups="insurance_management.group_insurance_manager"
+                            confirm="This will set Used Coverage back to 0 for this policy. Are you sure?"/>
+                    <field name="state" widget="statusbar" statusbar_visible="active,suspended,expired,cancelled"/>
+                </header>
+                <sheet>
+                    <field name="expiry_state" invisible="1"/>
+                    <div class="alert alert-danger" role="alert" invisible="expiry_state != 'expired' or state != 'active'">
+                        This policy's expiry date has passed, so it is <strong>not applied</strong> to new orders.
+                        Use <strong>Renew</strong> to extend it.
+                    </div>
+                    <div class="alert alert-warning" role="alert" invisible="expiry_state != 'soon' or state != 'active'">
+                        This policy expires in <strong><field name="days_to_expiry" class="oe_inline"/> day(s)</strong>.
+                    </div>
+                    <div class="alert alert-info" role="alert" invisible="state not in ('suspended', 'cancelled', 'expired')">
+                        This policy is not Active, so it is <strong>not applied</strong> to new orders.
+                    </div>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_sale_orders" type="object" class="oe_stat_button" icon="fa-file-text-o">
+                            <field name="sale_order_count" widget="statinfo" string="Sales Orders"/>
+                        </button>
+                        <button name="action_view_authorizations" type="object" class="oe_stat_button" icon="fa-check-square-o"
+                                invisible="not authorization_count">
+                            <field name="authorization_count" widget="statinfo" string="Authorizations"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group string="Customer &amp; Company">
+                            <field name="partner_id"/>
+                            <field name="insurance_company_id"/>
+                            <field name="plan_id"/>
+                            <field name="is_primary"/>
+                        </group>
+                        <group string="Policy Identification">
+                            <field name="member_id"/>
+                            <field name="card_number"/>
+                            <field name="policy_number"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Validity">
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="is_valid" readonly="1"/>
+                        </group>
+                        <group string="Coverage Usage">
+                            <field name="currency_id" invisible="1"/>
+                            <field name="annual_coverage_limit" readonly="1"/>
+                            <field name="coverage_used" readonly="1"/>
+                            <field name="coverage_remaining" readonly="1"/>
+                            <field name="coverage_used_percent" widget="progressbar" string="Used"
+                                   invisible="not annual_coverage_limit"/>
+                        </group>
+                    </group>
+                    <field name="notes" placeholder="Notes..."/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_insurance_policy_search" model="ir.ui.view">
+        <field name="name">insurance.policy.search</field>
+        <field name="model">insurance.policy</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="partner_id" string="Customer"/>
+                <field name="policy_number"/>
+                <field name="member_id"/>
+                <field name="card_number"/>
+                <field name="insurance_company_id"/>
+                <field name="plan_id"/>
+                <filter name="filter_valid" string="Valid Today" domain="[('is_valid', '=', True)]"/>
+                <filter name="filter_active" string="Active" domain="[('state', '=', 'active')]"/>
+                <filter name="filter_expiring" string="Expiring in 30 days"
+                        domain="[('state', '=', 'active'), ('date_end', '!=', False), ('date_end', '&gt;=', context_today().strftime('%Y-%m-%d')), ('date_end', '&lt;=', (context_today() + relativedelta(days=30)).strftime('%Y-%m-%d'))]"/>
+                <separator/>
+                <filter name="filter_suspended" string="Suspended" domain="[('state', '=', 'suspended')]"/>
+                <filter name="filter_expired" string="Expired" domain="[('state', '=', 'expired')]"/>
+                <filter name="filter_cancelled" string="Cancelled" domain="[('state', '=', 'cancelled')]"/>
+                <separator/>
+                <filter name="filter_primary" string="Primary" domain="[('is_primary', '=', True)]"/>
+                <group>
+                    <filter name="group_company" string="Insurance Company" context="{'group_by': 'insurance_company_id'}"/>
+                    <filter name="group_plan" string="Plan" context="{'group_by': 'plan_id'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_insurance_policy" model="ir.actions.act_window">
+        <field name="name">Customer Insurance Policies</field>
+        <field name="res_model">insurance.policy</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_insurance_policy_search"/>
+        <field name="context">{'search_default_filter_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create the first customer policy</p>
+            <p>A policy links a customer to an insurance company and plan. The primary policy is applied automatically on new sales orders.</p>
+        </field>
+    </record>
+</odoo>

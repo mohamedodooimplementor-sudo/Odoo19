@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_move_form_insurance_inherit" model="ir.ui.view">
+        <field name="name">account.move.form.insurance.inherit</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_insurance_claim" type="object" class="oe_stat_button"
+                        icon="fa-file-text-o" invisible="not insurance_claim_count"
+                        groups="insurance_management.group_insurance_user">
+                    <field name="insurance_claim_count" widget="statinfo" string="Insurance Claim"/>
+                </button>
+                <button name="action_view_insurance_sale_order" type="object" class="oe_stat_button"
+                        icon="fa-shopping-cart" invisible="not insurance_sale_order_id"
+                        groups="sales_team.group_sale_salesman">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Sales Order</span>
+                    </div>
+                </button>
+                <button name="action_view_insurance_sibling_invoice" type="object" class="oe_stat_button"
+                        icon="fa-exchange" invisible="not insurance_sibling_invoice_id">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text" invisible="insurance_invoice_role != 'patient'">Insurance Invoice</span>
+                        <span class="o_stat_text" invisible="insurance_invoice_role != 'insurance'">Patient Invoice</span>
+                    </div>
+                </button>
+            </xpath>
+            <!-- The field the user asked for: an editable "Insurance Company"
+                 field right under Customer on the invoice header. Pre-filled
+                 from the Sales Order (see sale.order._create_invoices), but
+                 left editable so it can be corrected/cleared before Confirm.
+                 Only ever meaningful (and only ever shown) on an invoice that
+                 actually originates from an insured order. -->
+            <xpath expr="//field[@name='partner_id'][1]" position="after">
+                <field name="insurance_company_id"
+                       invisible="not insurance_sale_order_id or insurance_invoice_role == 'insurance'"
+                       readonly="state != 'draft'"
+                       placeholder="Bill part of this invoice to an insurance company..."/>
+                <field name="insurance_patient_id" invisible="insurance_invoice_role != 'insurance'" readonly="1"/>
+            </xpath>
+            <xpath expr="//sheet/notebook" position="inside">
+                <page name="insurance_customer_products" string="Customer Products"
+                      invisible="insurance_invoice_role != 'insurance' or not insurance_sale_order_id"
+                      groups="insurance_management.group_insurance_user">
+                    <field name="insurance_customer_product_line_ids" readonly="1" nolabel="1">
+                        <list create="0" edit="0" delete="0" decoration-muted="not insurance_amount">
+                            <field name="product_id"/>
+                            <field name="name" optional="hide"/>
+                            <field name="product_uom_qty" string="Quantity"/>
+                            <field name="product_uom_id" string="UoM"/>
+                            <field name="full_sale_unit_price" string="Full Unit Price"/>
+                            <field name="full_sale_amount" string="Full Sale Value"/>
+                            <field name="price_subtotal" string="Original Sale Value" optional="hide"/>
+                            <field name="coverage_percentage" string="Coverage %"/>
+                            <field name="insurance_amount" string="Insurance Coverage"/>
+                            <field name="customer_copay_amount" string="Customer Share"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+            <xpath expr="//page[@name='other_info']//group" position="after">
+                <group string="Insurance" invisible="not insurance_sale_order_id">
+                    <field name="insurance_sale_order_id" readonly="1" groups="sales_team.group_sale_salesman"/>
+                    <field name="insurance_invoice_role" readonly="1"/>
+                    <field name="insurance_split_done" readonly="1"/>
+                    <field name="insurance_sibling_invoice_id" readonly="1"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+    <record id="action_insurance_invoice" model="ir.actions.act_window">
+        <field name="name">Insurance Invoices</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('insurance_sale_order_id', '!=', False), ('insurance_invoice_role', '=', 'insurance')]</field>
+        <field name="context">{'default_move_type': 'out_invoice', 'search_default_posted': 1}</field>
+    </record>
+</odoo>

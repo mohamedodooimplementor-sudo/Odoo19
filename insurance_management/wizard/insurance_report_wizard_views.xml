@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_insurance_report_wizard_form" model="ir.ui.view">
+        <field name="name">insurance.report.wizard.form</field>
+        <field name="model">insurance.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Insurance Report">
+                <field name="report_type" invisible="1"/>
+                <group>
+                    <group string="Filters">
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                        <field name="insurance_company_id" options="{'no_create': True}"/>
+                        <field name="insurance_plan_id" options="{'no_create': True}"/>
+                        <field name="partner_id" string="Customer / Patient"/>
+                        <field name="claim_state" invisible="report_type != 'claims'"/>
+                        <field name="product_id" invisible="report_type != 'coverage'" options="{'no_create': True}"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_print_pdf" type="object" string="Print PDF" class="btn-primary" data-hotkey="q"/>
+                    <button name="action_export_xlsx" type="object" string="Export Excel" class="btn-secondary" data-hotkey="x"/>
+                    <button string="Close" special="cancel" class="btn-secondary" data-hotkey="z"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_insurance_report_wizard_claims" model="ir.actions.act_window">
+        <field name="name">Claims Report</field>
+        <field name="res_model">insurance.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_report_type': 'claims'}</field>
+    </record>
+
+    <record id="action_insurance_report_wizard_coverage" model="ir.actions.act_window">
+        <field name="name">Product Coverage Report</field>
+        <field name="res_model">insurance.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_report_type': 'coverage'}</field>
+    </record>
+
+    <record id="action_insurance_report_wizard_aging" model="ir.actions.act_window">
+        <field name="name">Insurance Aging Report</field>
+        <field name="res_model">insurance.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_report_type': 'aging'}</field>
+    </record>
+</odoo>

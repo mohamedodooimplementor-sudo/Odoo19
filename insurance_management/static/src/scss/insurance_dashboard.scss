@@ -1,0 +1,724 @@
+.o_insurance_dashboard {
+    // ---- Light theme (default) ----
+    --id-bg: #F1F5F9;
+    --id-card-bg: #FFFFFF;
+    --id-border: #E2E8F0;
+    --id-text: #1E293B;
+    --id-subtext: #64748B;
+    --id-shadow: 0 1px 3px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.06);
+    --id-shadow-hover: 0 12px 24px rgba(15, 23, 42, 0.12), 0 4px 8px rgba(15, 23, 42, 0.06);
+
+    display: flex;
+    flex-direction: column;
+    background: var(--id-bg);
+    color: var(--id-text);
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+    font-family: inherit;
+    -webkit-font-smoothing: antialiased;
+
+    &.o_dark_mode {
+        --id-bg: #0F172A;
+        --id-card-bg: #1E293B;
+        --id-border: #334155;
+        --id-text: #E2E8F0;
+        --id-subtext: #94A3B8;
+        --id-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+        --id-shadow-hover: 0 12px 28px rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    // Smooth, Apple-like feedback used everywhere something is clickable.
+    .o_id_pressable {
+        cursor: pointer;
+        transition: transform 0.12s cubic-bezier(0.4, 0, 0.2, 1),
+            box-shadow 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+            background-color 0.15s ease, opacity 0.15s ease;
+
+        &:active {
+            transform: scale(0.96);
+        }
+    }
+
+    // ---- Header ----
+    .o_insurance_dashboard_header {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 20px 0 20px;
+        margin-bottom: 16px;
+
+        .o_insurance_dashboard_title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            i {
+                font-size: 22px;
+                color: #6366F1;
+            }
+            h2 {
+                margin: 0;
+                font-weight: 700;
+                font-size: 20px;
+                color: var(--id-text);
+            }
+        }
+
+        .o_insurance_dashboard_actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .o_id_btn {
+            background: var(--id-card-bg);
+            border: 1px solid var(--id-border);
+            color: var(--id-text);
+            border-radius: 10px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--id-shadow);
+
+            &:hover {
+                background: var(--id-border);
+                box-shadow: var(--id-shadow-hover);
+            }
+        }
+    }
+
+    // ---- Filters bar ----
+    .o_insurance_dashboard_filters {
+        flex: 0 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        gap: 14px;
+        background: var(--id-card-bg);
+        border: 1px solid var(--id-border);
+        border-radius: 12px;
+        padding: 12px 14px;
+        margin: 0 20px 18px 20px;
+        box-shadow: var(--id-shadow);
+
+        .o_id_filter {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+
+            label {
+                font-size: 11px;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+                color: var(--id-subtext);
+                font-weight: 600;
+                margin: 0;
+            }
+
+            select, input, button.dropdown-toggle {
+                background: var(--id-bg);
+                color: var(--id-text);
+                border: 1px solid var(--id-border);
+                transition: border-color 0.15s ease;
+
+                &:hover, &:focus {
+                    border-color: #6366F1;
+                }
+            }
+        }
+
+        .o_id_reset {
+            color: var(--id-subtext);
+            border: 1px dashed var(--id-border);
+            margin-left: auto;
+            align-self: flex-end;
+            border-radius: 8px;
+
+            &:hover {
+                color: var(--id-text);
+                border-color: var(--id-subtext);
+            }
+        }
+
+        .o_id_dropdown_menu {
+            max-height: 240px;
+            overflow: auto;
+            background: var(--id-card-bg);
+            border: 1px solid var(--id-border);
+            box-shadow: var(--id-shadow-hover);
+
+            .dropdown-item {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                color: var(--id-text);
+
+                input[type="checkbox"] {
+                    margin: 0;
+                }
+
+                &:hover {
+                    background: var(--id-bg);
+                }
+            }
+        }
+    }
+
+    // ---- Scrollable content area (header + filters stay put) ----
+    .o_insurance_dashboard_scroll {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: 0 20px 24px 20px;
+        scrollbar-gutter: stable;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .o_insurance_dashboard_loading {
+        text-align: center;
+        padding: 60px 0;
+        color: var(--id-subtext);
+        font-size: 15px;
+
+        i {
+            margin-right: 8px;
+        }
+    }
+
+    // ---- KPI cards ----
+    .o_id_kpi_grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+        margin-bottom: 20px;
+
+        @media (max-width: 1200px) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    .o_id_kpi {
+        position: relative;
+        background: var(--id-card-bg);
+        border: 1px solid var(--id-border);
+        border-radius: 14px;
+        padding: 16px 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        box-shadow: var(--id-shadow);
+        overflow: hidden;
+
+        &:hover {
+            box-shadow: var(--id-shadow-hover);
+            transform: translateY(-3px);
+        }
+
+        .o_id_kpi_top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .o_id_kpi_icon {
+            width: 40px;
+            height: 40px;
+            min-width: 40px;
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+            color: #FFFFFF;
+            box-shadow: 0 4px 10px -2px rgba(0, 0, 0, 0.25);
+        }
+
+        .o_id_kpi_label {
+            font-size: 12px;
+            color: var(--id-subtext);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .o_id_kpi_value {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--id-text);
+            line-height: 1.25;
+            letter-spacing: -0.01em;
+        }
+
+        .o_id_kpi_sub {
+            font-size: 11px;
+            color: var(--id-subtext);
+        }
+
+        .o_id_sparkline {
+            width: 100%;
+            height: 30px;
+            margin-top: 2px;
+        }
+
+        // Saturated, professional gradient set - one per KPI family
+        &.o_id_kpi_indigo { .o_id_kpi_icon { background: linear-gradient(135deg, #818CF8, #6366F1); } }
+        &.o_id_kpi_blue   { .o_id_kpi_icon { background: linear-gradient(135deg, #60A5FA, #3B82F6); } }
+        &.o_id_kpi_green  { .o_id_kpi_icon { background: linear-gradient(135deg, #4ADE80, #22C55E); } }
+        &.o_id_kpi_amber  { .o_id_kpi_icon { background: linear-gradient(135deg, #FBBF24, #F59E0B); } }
+        &.o_id_kpi_slate  { .o_id_kpi_icon { background: linear-gradient(135deg, #94A3B8, #64748B); } }
+        &.o_id_kpi_orange { .o_id_kpi_icon { background: linear-gradient(135deg, #FDBA74, #FB923C); } }
+        &.o_id_kpi_red    { .o_id_kpi_icon { background: linear-gradient(135deg, #F87171, #EF4444); } }
+        &.o_id_kpi_teal   { .o_id_kpi_icon { background: linear-gradient(135deg, #2DD4BF, #14B8A6); } }
+        &.o_id_kpi_purple { .o_id_kpi_icon { background: linear-gradient(135deg, #C084FC, #A855F7); } }
+    }
+
+    // ---- Delta / trend badges ----
+    .o_id_delta {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 3px 7px;
+        border-radius: 999px;
+
+        i {
+            font-size: 9px;
+        }
+
+        &.o_id_delta_up {
+            color: #16A34A;
+            background: rgba(34, 197, 94, 0.14);
+        }
+        &.o_id_delta_down {
+            color: #DC2626;
+            background: rgba(239, 68, 68, 0.14);
+        }
+        &.o_id_delta_flat {
+            color: var(--id-subtext);
+            background: rgba(148, 163, 184, 0.16);
+        }
+        &.o_id_delta_new {
+            color: #7C3AED;
+            background: rgba(168, 85, 247, 0.14);
+        }
+    }
+
+    // ---- Charts ----
+    .o_id_chart_grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+
+        @media (max-width: 1200px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .o_id_chart_card {
+        background: var(--id-card-bg);
+        border: 1px solid var(--id-border);
+        border-radius: 14px;
+        padding: 14px 16px;
+        box-shadow: var(--id-shadow);
+        transition: box-shadow 0.18s ease;
+
+        &:hover {
+            box-shadow: var(--id-shadow-hover);
+        }
+
+        &.o_id_chart_wide {
+            grid-column: span 2;
+
+            @media (max-width: 1200px) {
+                grid-column: span 1;
+            }
+        }
+    }
+
+    .o_id_chart_header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 8px;
+
+        h3 {
+            font-size: 14px;
+            font-weight: 700;
+            margin: 0;
+            color: var(--id-text);
+        }
+    }
+
+    .o_id_chart_canvas_wrap {
+        position: relative;
+        width: 100%;
+        height: 260px;
+
+        canvas {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .o_id_clickable_chart {
+        cursor: pointer;
+    }
+
+    .o_id_donut_wrap {
+        height: 190px;
+    }
+
+    .o_id_legend, .o_id_donut_legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .o_id_donut_legend {
+        margin-top: 10px;
+        justify-content: center;
+    }
+
+    .o_id_legend_item {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+        color: var(--id-subtext);
+    }
+
+    .o_id_legend_clickable {
+        padding: 3px 8px;
+        border-radius: 999px;
+
+        &:hover {
+            background: var(--id-bg);
+            color: var(--id-text);
+        }
+    }
+
+    .o_id_legend_dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+}
+
+
+// ======================================================================
+// v2 - visible shadows, press / hover effects, tooltips, detail tables
+// ======================================================================
+
+// A clearly visible shadow all around every card (soft dark drop shadow +
+// a faint halo in the card's own accent colour), stronger on hover.
+.o_insurance_dashboard {
+    --id-accent: #64748B;
+    --id-accent-soft: rgba(100, 116, 139, 0.20);
+    --id-shadow: 0 0 0 1px var(--id-border),
+        0 8px 20px -8px rgba(15, 23, 42, 0.30),
+        0 0 18px -2px var(--id-accent-soft);
+    --id-shadow-hover: 0 0 0 1px var(--id-accent),
+        0 18px 32px -10px rgba(15, 23, 42, 0.38),
+        0 0 28px 0 var(--id-accent-soft);
+
+    &.o_dark_mode {
+        --id-shadow: 0 0 0 1px var(--id-border),
+            0 8px 22px -6px rgba(0, 0, 0, 0.65),
+            0 0 18px -2px var(--id-accent-soft);
+        --id-shadow-hover: 0 0 0 1px var(--id-accent),
+            0 18px 34px -8px rgba(0, 0, 0, 0.75),
+            0 0 30px 0 var(--id-accent-soft);
+    }
+
+    // Accent colour per KPI family (drives the halo + ripple colour).
+    .o_id_kpi_indigo { --id-accent: #6366F1; --id-accent-soft: rgba(99, 102, 241, 0.30); }
+    .o_id_kpi_blue   { --id-accent: #3B82F6; --id-accent-soft: rgba(59, 130, 246, 0.30); }
+    .o_id_kpi_green  { --id-accent: #22C55E; --id-accent-soft: rgba(34, 197, 94, 0.30); }
+    .o_id_kpi_amber  { --id-accent: #F59E0B; --id-accent-soft: rgba(245, 158, 11, 0.30); }
+    .o_id_kpi_slate  { --id-accent: #64748B; --id-accent-soft: rgba(100, 116, 139, 0.30); }
+    .o_id_kpi_orange { --id-accent: #FB923C; --id-accent-soft: rgba(251, 146, 60, 0.32); }
+    .o_id_kpi_red    { --id-accent: #EF4444; --id-accent-soft: rgba(239, 68, 68, 0.30); }
+    .o_id_kpi_teal   { --id-accent: #14B8A6; --id-accent-soft: rgba(20, 184, 166, 0.30); }
+    .o_id_kpi_purple { --id-accent: #A855F7; --id-accent-soft: rgba(168, 85, 247, 0.30); }
+
+    .o_id_kpi,
+    .o_id_chart_card {
+        box-shadow: var(--id-shadow);
+        animation: o_id_rise 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+        transition: transform 0.16s cubic-bezier(0.4, 0, 0.2, 1),
+            box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        will-change: transform;
+
+        &:hover {
+            box-shadow: var(--id-shadow-hover);
+            transform: translateY(-4px);
+        }
+
+        &:active {
+            transform: translateY(0) scale(0.975);
+            box-shadow: var(--id-shadow);
+            transition-duration: 0.08s;
+        }
+    }
+
+    // Staggered entrance so the cards "arrive" one after another.
+    @for $i from 1 through 16 {
+        .o_id_kpi:nth-child(#{$i}) {
+            animation-delay: #{$i * 35}ms;
+        }
+    }
+    @for $i from 1 through 12 {
+        .o_id_chart_card:nth-child(#{$i}) {
+            animation-delay: #{$i * 60}ms;
+        }
+    }
+
+    // Charts are big cards that contain clickable canvases: no "lift" on
+    // press, only on hover, otherwise the chart would jump under the mouse.
+    .o_id_chart_card:active {
+        transform: translateY(-4px);
+    }
+
+    // Ripple wave spawned by the JS on pointer-down.
+    .o_id_ripple {
+        position: relative;
+        overflow: hidden;
+    }
+    .o_id_ripple_wave {
+        position: absolute;
+        border-radius: 50%;
+        background: var(--id-accent);
+        opacity: 0.30;
+        transform: scale(0);
+        pointer-events: none;
+        animation: o_id_ripple 0.65s ease-out forwards;
+        z-index: 3;
+    }
+
+    // ---- Chart tooltip --------------------------------------------------
+    .o_id_tooltip {
+        position: fixed;
+        z-index: 2000;
+        left: 0;
+        top: 0;
+        min-width: 170px;
+        max-width: 280px;
+        padding: 10px 12px;
+        border-radius: 10px;
+        background: rgba(15, 23, 42, 0.95);
+        color: #F8FAFC;
+        font-size: 12px;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.40);
+        pointer-events: none;
+        opacity: 0;
+        transform: translateY(4px);
+        transition: opacity 0.12s ease, transform 0.12s ease;
+
+        &.o_id_tooltip_on {
+            opacity: 1;
+            transform: none;
+        }
+
+        .o_id_tooltip_title {
+            font-weight: 700;
+            margin-bottom: 6px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+        }
+
+        .o_id_tooltip_row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 2px 0;
+        }
+
+        .o_id_tooltip_label {
+            flex: 1;
+            color: #CBD5E1;
+        }
+
+        .o_id_tooltip_value {
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+        }
+    }
+
+    // ---- Donut cards ------------------------------------------------------
+    .o_id_donut_wrap {
+        height: 210px;
+
+        canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+    }
+
+    // ---- Detail tables ----------------------------------------------------
+    .o_id_table_scroll {
+        overflow: auto;
+        max-height: 340px;
+    }
+
+    .o_id_table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+
+        th {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            text-align: left;
+            padding: 8px 10px;
+            color: var(--id-subtext);
+            font-weight: 600;
+            background: var(--id-card-bg);
+            border-bottom: 1px solid var(--id-border);
+        }
+
+        td {
+            padding: 10px;
+            max-width: 190px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            border-bottom: 1px solid var(--id-border);
+        }
+
+        .o_id_num {
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+        }
+    }
+
+    .o_id_table_row {
+        cursor: pointer;
+        transition: background-color 0.12s ease, transform 0.12s ease;
+
+        &:hover {
+            background: var(--id-bg);
+        }
+
+        &:active {
+            transform: scale(0.99);
+        }
+    }
+
+    .o_id_cell_strong {
+        font-weight: 600;
+        color: var(--id-text);
+    }
+
+    .o_id_chip {
+        --chip: #64748B;
+        position: relative;
+        z-index: 0;
+        display: inline-block;
+        padding: 2px 9px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--chip);
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            border-radius: inherit;
+            background: var(--chip);
+            opacity: 0.16;
+            z-index: -1;
+        }
+    }
+
+    .o_id_empty {
+        padding: 28px 10px;
+        text-align: center;
+        color: var(--id-subtext);
+        font-size: 12px;
+    }
+
+    .o_id_footer_space {
+        height: 28px;
+    }
+}
+
+@keyframes o_id_rise {
+    from {
+        opacity: 0;
+        transform: translateY(14px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes o_id_ripple {
+    to {
+        transform: scale(1);
+        opacity: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .o_insurance_dashboard .o_id_kpi,
+    .o_insurance_dashboard .o_id_chart_card {
+        animation: none;
+        transition: none;
+    }
+    .o_insurance_dashboard .o_id_ripple_wave {
+        animation-duration: 0.01s;
+    }
+}
+
+// ---- Cards / Charts page switch -----------------------------------------
+.o_insurance_dashboard {
+    .o_id_pages {
+        display: flex;
+        gap: 4px;
+        margin: 0 auto 0 24px;
+        padding: 4px;
+        border-radius: 999px;
+        background: var(--id-card-bg);
+        box-shadow: var(--id-shadow);
+    }
+
+    .o_id_page_btn {
+        border: 0;
+        border-radius: 999px;
+        padding: 5px 16px;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--id-subtext);
+        background: transparent;
+        transition: background-color 0.18s ease, color 0.18s ease, transform 0.1s ease;
+
+        &:hover {
+            color: var(--id-text);
+            background: var(--id-bg);
+        }
+
+        &.o_id_page_active {
+            color: #FFFFFF;
+            background: #6366F1;
+            box-shadow: 0 4px 12px -2px rgba(99, 102, 241, 0.55);
+        }
+    }
+}
