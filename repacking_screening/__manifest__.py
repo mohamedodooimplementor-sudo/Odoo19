@@ -2,23 +2,22 @@
     'name': 'Repacking & Screening',
     'version': '18.0.1.0.0',
     'category': 'Inventory',
-    'summary': 'Repacking & Screening Operations for Inventory',
+    'summary': 'Repack and screen stock through real transfers and Manufacturing Orders, with cost allocation and yield analysis',
     'description': """
 Repacking & Screening
-======================
-Allows creating Repacking operations (split a product into new packages)
-and Screening operations (split a product into graded products / waste),
-based on an Inventory Loss + Receipt mechanism.
+=====================
+Repack bulk stock into packages or screen (grade) a product, with every step
+backed by a real Odoo document: an internal transfer, two Manufacturing Orders
+and the delivery transfers.
 
 Flow:
-1. Create Operation
-2. Choose Type (Repacking / Screening)
-3. Select Source Location
-4. Select Product
-5. Enter Result Lines
-6. System creates Inventory Loss Transfer (consumes original product)
-7. Finish Operation
-8. System creates Receipt from Inventory Loss (receives new packages/grades)
+0. Transfer to Manufacturing (internal transfer of product + packaging)
+1. Confirm (intermediate WIP Manufacturing Order, lot-tracked)
+2. Validate (final Manufacturing Order: product + byproducts)
+3. Delivery to destination locations
+
+Each step can be automatic or manual. Includes cost allocation to byproducts,
+yield / loss analysis, recurring operations, dashboard and PDF report.
 """,
     'author': 'odoolabtech.offical',
     'website': '',
@@ -47,5 +46,9 @@ Flow:
     },
     'installable': True,
     'application': True,
-    'license': 'LGPL-3',
+    'license': 'OPL-1',
+    'price': 79.00,
+    'currency': 'USD',
+    'support': 'odoolabtech.offical',
+    'images': ['static/description/banner.png', 'static/description/workflow.png', 'static/description/types_and_cost.png', 'static/description/setup_steps.png'],
 }
