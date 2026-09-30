@@ -31,7 +31,9 @@ Key Features
   (or companies) selected in the switcher.
 """,
     "author": "Eng. M.Aboelmagde",
-    "license": "LGPL-3",
+    "license": "OPL-1",
+    "price": 49.00,
+    "currency": "USD",
     "depends": ["base", "mail", "account", "web"],
     "data": [
         "security/check_security.xml",
