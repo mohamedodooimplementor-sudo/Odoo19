@@ -21,7 +21,7 @@ Features:
 
 For Point of Sale support, install: uom_barcode_product_pos
     """,
-    'author': 'odoolabtech.offical',
+    'author': "Eng. M.Aboelmagde",
     'website': 'https://www.yourcompany.com',
     'category': 'Inventory/Inventory',
     'license': 'LGPL-3',
