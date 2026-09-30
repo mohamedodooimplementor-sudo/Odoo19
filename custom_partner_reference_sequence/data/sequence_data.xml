@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="seq_partner_customer" model="ir.sequence">
+        <field name="name">Customer Reference</field>
+        <field name="code">partner.customer.seq</field>
+        <field name="prefix">C</field>
+        <field name="padding">4</field>
+        <field name="implementation">no_gap</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_partner_supplier" model="ir.sequence">
+        <field name="name">Supplier Reference</field>
+        <field name="code">partner.supplier.seq</field>
+        <field name="prefix">S</field>
+        <field name="padding">4</field>
+        <field name="implementation">no_gap</field>
+        <field name="company_id" eval="False"/>
+    </record>
+</odoo>
