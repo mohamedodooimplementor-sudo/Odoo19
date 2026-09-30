@@ -3,7 +3,7 @@
     'version': '1.0',
     'summary': 'Auto-generate reference codes for customers and suppliers',
     'category': 'Contacts',
-    'author': 'ChatGPT (generated)',
+    'author': "Eng. M.Aboelmagde",
     'license': 'LGPL-3',
     'depends': ['base'],
     'data': [
