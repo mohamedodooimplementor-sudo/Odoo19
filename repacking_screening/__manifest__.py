@@ -19,7 +19,7 @@ Flow:
 Each step can be automatic or manual. Includes cost allocation to byproducts,
 yield / loss analysis, recurring operations, dashboard and PDF report.
 """,
-    'author': 'odoolabtech.offical',
+    'author': "Eng. M.Aboelmagde",
     'website': '',
     'depends': ['stock', 'mrp', 'mail'],
     'data': [
