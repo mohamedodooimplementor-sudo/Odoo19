@@ -106,6 +106,94 @@
     </tbody>
   </table>
 
+
+  <h2 style="font-size:22px;font-weight:800;margin:40px 0 14px;">Who is it for</h2>
+  <p style="color:#374151;margin-bottom:14px;">Any company that receives checks from customers or issues checks to vendors: trading, contracting, distribution, services, real estate. If you track post-dated checks in spreadsheets today, this replaces them and keeps the accounting in sync.</p>
+
+  <h2 style="font-size:22px;font-weight:800;margin:40px 0 14px;">Check lifecycle</h2>
+  <p style="color:#374151;margin-bottom:14px;">Each direction has its own kanban pipeline and form status bar. Status changes are validated in the model itself, so they cannot be bypassed by editing the record directly.</p>
+  <img src="lifecycle.png" style="width:100%;border-radius:10px;box-shadow:0 8px 24px -8px rgba(15,23,42,.25);margin-bottom:18px;" alt="Incoming and outgoing check lifecycle"/>
+  <ul style="color:#374151;margin-bottom:14px;">
+    <li><strong>Incoming:</strong> Receive, Deposit, Under Collection (optional), Collect.</li>
+    <li><strong>Outgoing:</strong> Hand Over, Mark as Cleared.</li>
+    <li><strong>Managers only:</strong> Bounce, Cancel, Reset to Draft.</li>
+    <li>Colored status ribbon on the check form, a movement history (who changed what and when), chatter and activities on every check.</li>
+    <li>Fields lock once they should no longer change: amount, partner, type and currency after entries exist; bank, journal, account, check number and dates by status.</li>
+  </ul>
+
+  <h2 style="font-size:22px;font-weight:800;margin:40px 0 14px;">Automatic accounting</h2>
+  <p style="color:#374151;margin-bottom:14px;">Every status change posts its own journal entry on a Miscellaneous journal (you can switch auto-posting off in the settings). Receiving or handing over a check also reconciles the linked invoices or bills, oldest due date first. Bouncing reverses the whole trail, newest entry first, and reopens the customer or vendor balance.</p>
+  <img src="accounting_entries.png" style="width:100%;border-radius:10px;box-shadow:0 8px 24px -8px rgba(15,23,42,.25);margin-bottom:18px;" alt="Journal entries per action"/>
+  <ul style="color:#374151;margin-bottom:14px;">
+    <li>Link a check to one or more <strong>posted</strong> customer invoices (incoming) or vendor bills (outgoing) of the same partner, company and currency. Anything not allocated stays on the partner account as an unapplied payment.</li>
+    <li>Collect and Clear use the journal of the check's bank, so that journal needs a default account.</li>
+    <li>On a bounced incoming check that was already deposited, the bank fee entered on the check is booked to the Bank Charges account and is not reversed.</li>
+  </ul>
+
+  <h2 style="font-size:22px;font-weight:800;margin:40px 0 14px;">Configuration guide</h2>
+  <p style="color:#374151;margin-bottom:14px;">Setup takes a few minutes. Everything is under the <strong>Checks &gt; Configuration</strong> menu, visible to Check Managers.</p>
+  <img src="setup_steps.png" style="width:100%;border-radius:10px;box-shadow:0 8px 24px -8px rgba(15,23,42,.25);margin-bottom:18px;" alt="Setup in five steps"/>
+
+  <h3 style="font-size:18px;font-weight:800;margin:26px 0 10px;">Step 1: Accounting Settings</h3>
+  <p style="color:#374151;margin-bottom:14px;">Open <strong>Checks &gt; Configuration &gt; Accounting Settings</strong> (one record per company). Click <strong>Create Missing Accounts</strong> to create the four accounts automatically, or pick your own from your chart of accounts.</p>
+<table style="width:100%;border-collapse:collapse;margin-bottom:20px;font-size:14px;"><thead><tr><th style="text-align:left;background:#eef2ff;color:#3730a3;padding:8px 10px;border:1px solid #e5e7eb;">Setting</th><th style="text-align:left;background:#eef2ff;color:#3730a3;padding:8px 10px;border:1px solid #e5e7eb;">What it does</th></tr></thead><tbody><tr><td style="padding:8px 10px;border:1px solid #e5e7eb;vertical-align:top;">Create Accounting Entries</td><td style="padding:8px 10px;border:1px solid #e5e7eb;vertical-align:top;">On by default. Turn off if you only want to track checks without posting entries.</td></tr><tr><td style="padding:8px 10px;border:1px solid #e5e7eb;vertical-align:top;">Checks Journal</td><td style="padding:8px 10px;border:1px solid #e5e7eb;vertical-align:top;">A Miscellaneous journal for the receive, deposit, hand over and bounce entries. If empty, the first Miscellaneous journal of the company is used.</td></tr><tr><td style="padding:8px 10px;border:1px solid #e5e7eb;vertical-align:top;">Notes Receivable (Checks in Hand)</td><td style="padding:8px 10px;border:1px solid #e5e7eb;vertical-align:top;">Debited when an incoming check is received.</td></tr><tr><td style="padding:8px 10px;border:1px solid #e5e7eb;vertical-align:top;">Checks Under Collection</td><td style="padding:8px 10px;border:1px solid #e5e7eb;vertical-align:top;">Debited when an incoming check is deposited. Optional: leave empty to use one account for incoming checks, and Deposit then posts no entry.</td></tr><tr><td style="padding:8px 10px;border:1px solid #e5e7eb;vertical-align:top;">Notes Payable (Issued Checks)</td><td style="padding:8px 10px;border:1px solid #e5e7eb;vertical-align:top;">Credited when an outgoing check is handed over.</td></tr><tr><td style="padding:8px 10px;border:1px solid #e5e7eb;vertical-align:top;">Bank Charges (Bounced Checks)</td><td style="padding:8px 10px;border:1px solid #e5e7eb;vertical-align:top;">Debited with the bank fee of a bounced incoming check.</td></tr></tbody></table>
+
+  <h3 style="font-size:18px;font-weight:800;margin:26px 0 10px;">Step 2: Banks</h3>
+  <p style="color:#374151;margin-bottom:14px;">Open <strong>Checks &gt; Configuration &gt; Banks</strong> and create one record per bank account (for example "NBE - EGP" and "NBE - USD"). Choose the <strong>Bank Journal</strong> (type Bank); the Account Number is filled from the journal's bank account and can be edited. Bank names are unique per company, and each journal can belong to one bank only.</p>
+  <p style="color:#374151;margin-bottom:14px;">When a user picks the bank on a check, the Bank Journal and Account Number are filled in automatically (still editable).</p>
+
+  <h3 style="font-size:18px;font-weight:800;margin:26px 0 10px;">Step 3: Print Templates</h3>
+  <p style="color:#374151;margin-bottom:14px;">Open <strong>Checks &gt; Configuration &gt; Print Templates</strong> and create a template for your check leaf (details in the next section). Link it to a bank to use it automatically for that bank's checks, or leave the bank empty for a template that fits any bank.</p>
+
+  <h3 style="font-size:18px;font-weight:800;margin:26px 0 10px;">Step 4: Users and roles</h3>
+  <p style="color:#374151;margin-bottom:14px;">In <strong>Settings &gt; Users</strong>, give each user <strong>Check Management: User</strong> or <strong>Manager</strong> (see the permissions table below). Administrators are Managers by default.</p>
+
+  <h3 style="font-size:18px;font-weight:800;margin:26px 0 10px;">Step 5: Register your first check</h3>
+  <ol style="color:#374151;margin-bottom:14px;">
+    <li>Go to <strong>Checks &gt; Incoming Checks</strong> (or Outgoing) and click New.</li>
+    <li>Fill in the partner, check number, bank, due date and amount. Optionally link the posted invoices or bills it settles.</li>
+    <li>Use the status buttons at the top of the form. The reference (CHK-IN/... or CHK-OUT/...) is generated automatically, with a separate sequence for each direction and company.</li>
+  </ol>
+
+  <h2 style="font-size:22px;font-weight:800;margin:40px 0 14px;">Real check printing</h2>
+  <p style="color:#374151;margin-bottom:14px;">Print the check itself from the <strong>Print Check</strong> button (available once the check is Received or Handed Over), and print the record as a document with <strong>Print Details</strong>. A sample print is included to calibrate the printer.</p>
+  <img src="printing.png" style="width:100%;border-radius:10px;box-shadow:0 8px 24px -8px rgba(15,23,42,.25);margin-bottom:18px;" alt="Check printing modes and options"/>
+  <ul style="color:#374151;margin-bottom:14px;">
+    <li><strong>Overlay:</strong> prints only the date, payee, amount in words and figures over your bank's pre-printed leaf. Position each field in millimetres and shift everything to calibrate. Upload a scan of a blank leaf to line the fields up in the preview (the scan is never printed).</li>
+    <li><strong>Full Check Design:</strong> prints a complete check on blank paper, with border, bank header, labels, check number, memo, signature line and a decorative MICR-style line in your accent color.</li>
+    <li>Paper presets: 175 x 80 mm, US Business (8.5 x 3.5 in), US Personal (6 x 3.25 in) or a custom size.</li>
+    <li>Date taken from the Due Date or Issue Date, custom date format, optional Arabic-Indic digits, crossing text (for example "A/C Payee Only").</li>
+    <li>Amount in words (Tafqeet) in Arabic or English, with configurable prefix and suffix.</li>
+  </ul>
+  <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:12px;padding:16px 20px;color:#7c2d12;font-size:14px;margin-bottom:20px;">
+    <strong>Printing requirements.</strong> Check printing uses Odoo's PDF engine, so the server needs the official <strong>wkhtmltopdf 0.12.6.1 with patched Qt</strong> (the build Odoo itself requires; unpatched Debian/Ubuntu packages print at about 77% size) and a font with Arabic glyphs (Tahoma, Arial, DejaVu Sans or Noto) for Arabic checks. The page size comes from the paper format "Check Leaf (175 x 80 mm)" under Settings &gt; Technical &gt; Paper Format: edit it if your leaf has another size.
+  </div>
+
+  <h2 style="font-size:22px;font-weight:800;margin:40px 0 14px;">Reports</h2>
+  <p style="color:#374151;margin-bottom:14px;">Under <strong>Checks &gt; Reports</strong>: Checks Received, Checks Sent, Maturity Analysis, Overdue Checks and Bounced Checks, each as a filterable list with group-by and pivot views. The Checks Statement, Maturity / Aging and Bounced Checks reports can also be printed as PDF. A daily scheduled action creates a "Check Due Reminder" activity for open checks due today or tomorrow.</p>
+
+  <h2 style="font-size:22px;font-weight:800;margin:40px 0 14px;">Roles and permissions</h2>
+<table style="width:100%;border-collapse:collapse;margin-bottom:20px;font-size:14px;"><thead><tr><th style="text-align:left;background:#eef2ff;color:#3730a3;padding:8px 10px;border:1px solid #e5e7eb;">Action</th><th style="text-align:left;background:#eef2ff;color:#3730a3;padding:8px 10px;border:1px solid #e5e7eb;">User</th><th style="text-align:left;background:#eef2ff;color:#3730a3;padding:8px 10px;border:1px solid #e5e7eb;">Manager</th></tr></thead><tbody><tr><td style="padding:8px 10px;border:1px solid #e5e7eb;vertical-align:top;">See checks, banks, dashboard and reports</td><td style="padding:8px 10px;border:1px solid #e5e7eb;vertical-align:top;">Yes</td><td style="padding:8px 10px;border:1px solid #e5e7eb;vertical-align:top;">Yes</td></tr><tr><td style="padding:8px 10px;border:1px solid #e5e7eb;vertical-align:top;">Create and edit checks</td><td style="padding:8px 10px;border:1px solid #e5e7eb;vertical-align:top;">Yes</td><td style="padding:8px 10px;border:1px solid #e5e7eb;vertical-align:top;">Yes</td></tr><tr><td style="padding:8px 10px;border:1px solid #e5e7eb;vertical-align:top;">Receive, Deposit, Under Collection, Collect, Hand Over, Clear</td><td style="padding:8px 10px;border:1px solid #e5e7eb;vertical-align:top;">Yes</td><td style="padding:8px 10px;border:1px solid #e5e7eb;vertical-align:top;">Yes</td></tr><tr><td style="padding:8px 10px;border:1px solid #e5e7eb;vertical-align:top;">Print Check and Print Details</td><td style="padding:8px 10px;border:1px solid #e5e7eb;vertical-align:top;">Yes</td><td style="padding:8px 10px;border:1px solid #e5e7eb;vertical-align:top;">Yes</td></tr><tr><td style="padding:8px 10px;border:1px solid #e5e7eb;vertical-align:top;">Bounce, Cancel, Reset to Draft</td><td style="padding:8px 10px;border:1px solid #e5e7eb;vertical-align:top;">No</td><td style="padding:8px 10px;border:1px solid #e5e7eb;vertical-align:top;">Yes</td></tr><tr><td style="padding:8px 10px;border:1px solid #e5e7eb;vertical-align:top;">Delete checks, banks and movements</td><td style="padding:8px 10px;border:1px solid #e5e7eb;vertical-align:top;">No</td><td style="padding:8px 10px;border:1px solid #e5e7eb;vertical-align:top;">Yes</td></tr><tr><td style="padding:8px 10px;border:1px solid #e5e7eb;vertical-align:top;">Configuration menu (banks, print templates, accounting settings)</td><td style="padding:8px 10px;border:1px solid #e5e7eb;vertical-align:top;">No</td><td style="padding:8px 10px;border:1px solid #e5e7eb;vertical-align:top;">Yes</td></tr></tbody></table>
+
+  <p style="color:#374151;margin-bottom:14px;">Bounce, Cancel and Reset to Draft are enforced in the model, not only hidden on the buttons. Journal Entries menu requires accounting rights. Every model has a multi-company record rule.</p>
+
+  <h2 style="font-size:22px;font-weight:800;margin:40px 0 14px;">Technical details</h2>
+  <ul style="color:#374151;margin-bottom:14px;">
+    <li>Odoo 19.0, Community and Enterprise. Depends only on base, mail, account and web.</li>
+    <li>License: Odoo Proprietary License v1.0 (OPL-1).</li>
+    <li>Installs two user groups, per-direction sequences, a daily cron, three report templates and one print paper format.</li>
+    <li>Supports multi-currency checks (an invoice must have the same currency as the check) and multi-company.</li>
+  </ul>
+
+  <h2 style="font-size:22px;font-weight:800;margin:40px 0 14px;">Frequently asked questions</h2>
+  <p style="color:#374151;margin-bottom:14px;"><strong>Can I use it without linking invoices?</strong> Yes. Then the full amount stays on the partner account as an unapplied payment.</p>
+  <p style="color:#374151;margin-bottom:14px;"><strong>Can I track checks without accounting entries?</strong> Yes: switch off "Create Accounting Entries" in Accounting Settings.</p>
+  <p style="color:#374151;margin-bottom:14px;"><strong>Why can't I Collect or Clear a check?</strong> The check's bank needs a Bank Journal with a default account. Set it on the bank record.</p>
+  <p style="color:#374151;margin-bottom:14px;"><strong>Why can't I print a check?</strong> Printing is blocked while a check is Draft or Cancelled. Move it to Received or Handed Over first.</p>
+
+  <h2 style="font-size:22px;font-weight:800;margin:40px 0 14px;">Support</h2>
+  <p style="color:#374151;margin-bottom:14px;">Bug-fix updates are included. Installation, configuration and customization support: Eng. M.Aboelmagde (YouTube: Odoo Lab, @odoolab).</p>
+
   <div style="background:#f8fafc;border:1px solid #e5e7eb;border-radius:12px;padding:20px 24px;color:#4b5563;font-size:14px;">
     Screenshots above show sample data for illustration.
   </div>

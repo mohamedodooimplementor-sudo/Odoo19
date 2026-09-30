@@ -32,8 +32,10 @@ Key Features
 """,
     "author": "Eng. M.Aboelmagde",
     "license": "OPL-1",
-    "price": 49.00,
+    "price": 89.00,
     "currency": "USD",
+    "support": "odoolabtech.offical",
+    "images": ["static/description/banner.jpg", "static/description/screenshot_1_overview.jpg", "static/description/lifecycle.png", "static/description/accounting_entries.png", "static/description/setup_steps.png", "static/description/printing.png"],
     "depends": ["base", "mail", "account", "web"],
     "data": [
         "security/check_security.xml",
