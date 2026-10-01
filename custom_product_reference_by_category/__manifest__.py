@@ -1,10 +1,12 @@
 {
     'name': 'Product Reference by Category',
-    'version': '1.0',
+    'version': '18.0.1',
     'summary': 'Automatically assign product reference based on category sequence',
     'category': 'Inventory/Products',
     'author': "Eng. M.Aboelmagde",
-    'license': 'LGPL-3',
+    'license': 'OPL-1',
+    'price': 29.00,
+    'currency': 'USD',
     'depends': ['product'],
     'data': [
         'views/product_category_views.xml',
