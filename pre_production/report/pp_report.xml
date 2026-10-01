@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="report_pp_check_prd_line" model="ir.actions.report">
+        <field name="name">PRD Line Check Report</field>
+        <field name="model">pp.quality.check</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pre_production.tpl_pp_check_prd_line</field>
+        <field name="report_file">pre_production.tpl_pp_check_prd_line</field>
+    </record>
+    <record id="report_pp_check_product_check1" model="ir.actions.report">
+        <field name="name">Product Check 1 Report</field>
+        <field name="model">pp.quality.check</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pre_production.tpl_pp_check_product_check1</field>
+        <field name="report_file">pre_production.tpl_pp_check_product_check1</field>
+    </record>
+    <record id="report_pp_check_product_check" model="ir.actions.report">
+        <field name="name">Product Check Report</field>
+        <field name="model">pp.quality.check</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pre_production.tpl_pp_check_product_check</field>
+        <field name="report_file">pre_production.tpl_pp_check_product_check</field>
+    </record>
+    <record id="report_pp_check_filling" model="ir.actions.report">
+        <field name="name">Filling Line Check Report</field>
+        <field name="model">pp.quality.check</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pre_production.tpl_pp_check_filling</field>
+        <field name="report_file">pre_production.tpl_pp_check_filling</field>
+    </record>
+    <record id="report_pp_check_pack_line" model="ir.actions.report">
+        <field name="name">Pack Line Check Report</field>
+        <field name="model">pp.quality.check</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pre_production.tpl_pp_check_pack_line</field>
+        <field name="report_file">pre_production.tpl_pp_check_pack_line</field>
+    </record>
+    <record id="report_pp_check_product_check2" model="ir.actions.report">
+        <field name="name">Product Check 2 Report</field>
+        <field name="model">pp.quality.check</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pre_production.tpl_pp_check_product_check2</field>
+        <field name="report_file">pre_production.tpl_pp_check_product_check2</field>
+    </record>
+    <record id="report_pp_summary" model="ir.actions.report">
+        <field name="name">Pre-Production Summary Report</field>
+        <field name="model">pp.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pre_production.tpl_pp_summary</field>
+        <field name="report_file">pre_production.tpl_pp_summary</field>
+        <field name="binding_model_id" ref="model_pp_order"/>
+        <field name="binding_type">report</field>
+    </record>
+    <record id="report_pp_issue" model="ir.actions.report">
+        <field name="name">Material Consumption / Issue Report</field>
+        <field name="model">pp.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pre_production.tpl_pp_issue</field>
+        <field name="report_file">pre_production.tpl_pp_issue</field>
+        <field name="binding_model_id" ref="model_pp_order"/>
+        <field name="binding_type">report</field>
+    </record>
+    <record id="report_pp_issue_cost" model="ir.actions.report">
+        <field name="name">Material Consumption / Issue Report (with Cost)</field>
+        <field name="model">pp.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pre_production.tpl_pp_issue_cost</field>
+        <field name="report_file">pre_production.tpl_pp_issue_cost</field>
+        <field name="binding_model_id" ref="model_pp_order"/>
+        <field name="binding_type">report</field>
+        <field name="groups_id" eval="[(4, ref('pre_production.group_pp_cost'))]"/>
+    </record>
+    <record id="report_pp_trace" model="ir.actions.report">
+        <field name="name">Lot Traceability Report</field>
+        <field name="model">pp.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pre_production.tpl_pp_trace</field>
+        <field name="report_file">pre_production.tpl_pp_trace</field>
+        <field name="binding_model_id" ref="model_pp_order"/>
+        <field name="binding_type">report</field>
+    </record>
+    <record id="report_pp_final" model="ir.actions.report">
+        <field name="name">Pre-Production Final Report</field>
+        <field name="model">pp.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pre_production.tpl_pp_final</field>
+        <field name="report_file">pre_production.tpl_pp_final</field>
+        <field name="binding_model_id" ref="model_pp_order"/>
+        <field name="binding_type">report</field>
+    </record>
+    <template id="tpl_pp_check_prd_line"><t t-call="pre_production.tpl_pp_check_base"><t t-set="title">PRD Line Check Report</t></t></template>
+    <template id="tpl_pp_check_product_check1"><t t-call="pre_production.tpl_pp_check_base"><t t-set="title">Product Check 1 Report</t></t></template>
+    <template id="tpl_pp_check_product_check"><t t-call="pre_production.tpl_pp_check_base"><t t-set="title">Product Check Report</t></t></template>
+    <template id="tpl_pp_check_filling"><t t-call="pre_production.tpl_pp_check_base"><t t-set="title">Filling Line Check Report</t></t></template>
+    <template id="tpl_pp_check_pack_line"><t t-call="pre_production.tpl_pp_check_base"><t t-set="title">Pack Line Check Report</t></t></template>
+    <template id="tpl_pp_check_product_check2"><t t-call="pre_production.tpl_pp_check_base"><t t-set="title">Product Check 2 Report</t></t></template>
+
+    <template id="tpl_pp_header">
+        <table class="table table-sm table-borderless">
+            <tr><th>Company</th><td><span t-field="o.company_id.name"/></td><th>Pre-Production No.</th><td><span t-field="o.name"/></td></tr>
+            <tr><th>Customer</th><td><span t-field="o.partner_id"/></td><th>Sales Order</th><td><span t-field="o.sale_order_id"/></td></tr>
+            <tr><th>Product</th><td><span t-field="o.product_id"/></td><th>Quantity</th><td><span t-field="o.product_qty"/> <span t-field="o.product_uom_id"/></td></tr>
+            <tr><th>BOM</th><td><span t-field="o.bom_id"/></td><th>Manufacturing Warehouse</th><td><span t-field="o.manufacturing_warehouse_id"/></td></tr>
+            <tr><th>Status</th><td><span t-field="o.state"/></td><th>Manufacturing Order</th><td><span t-field="o.mo_id"/></td></tr>
+        </table>
+    </template>
+
+    <template id="tpl_pp_check_base">
+        <t t-call="web.html_container"><t t-foreach="docs" t-as="c"><t t-set="o" t-value="c.order_id"/>
+            <t t-call="web.external_layout"><div class="page">
+                <h2><t t-esc="title"/> <small>(<span t-field="c.stage_id.name"/>, #<span t-field="c.attempt"/>)</small></h2>
+                <t t-call="pre_production.tpl_pp_header"/>
+                <table class="table table-sm">
+                    <thead><tr><th>Inspection Item</th><th>Checked</th><th>Notes</th></tr></thead>
+                    <tbody><t t-foreach="c.line_ids" t-as="l"><tr><td><span t-field="l.name"/></td><td><t t-esc="'Yes' if l.checked else 'No'"/></td><td><span t-field="l.notes"/></td></tr></t></tbody>
+                </table>
+                <table class="table table-sm table-borderless">
+                    <tr><th>Result</th><td><span t-field="c.state"/></td><th>Inspector</th><td><span t-field="c.inspector_id"/></td></tr>
+                    <tr><th>Approved By</th><td><span t-field="c.approved_by"/> <span t-field="c.approved_date"/></td>
+                        <th>Rejected By</th><td><span t-field="c.rejected_by"/> <span t-field="c.rejected_date"/></td></tr>
+                </table>
+                <p t-if="c.reject_reason"><strong>Rejection reason:</strong> <span t-field="c.reject_reason"/></p>
+                <p><strong>Notes:</strong> <span t-field="c.notes"/></p>
+            </div></t>
+        </t></t>
+    </template>
+
+    <template id="tpl_pp_summary">
+        <t t-call="web.html_container"><t t-foreach="docs" t-as="o"><t t-call="web.external_layout"><div class="page">
+            <h2>Pre-Production Summary</h2>
+            <t t-call="pre_production.tpl_pp_header"/>
+            <table class="table table-sm">
+                <thead><tr><th>Stage</th><th>Attempt</th><th>Result</th><th>Inspector</th><th>Date</th><th>Notes</th></tr></thead>
+                <tbody><t t-foreach="o.check_ids.sorted('id')" t-as="c"><tr>
+                    <td><span t-field="c.stage_id"/></td><td><span t-field="c.attempt"/></td><td><span t-field="c.state"/></td>
+                    <td><span t-field="c.inspector_id"/></td><td><span t-field="c.date"/></td><td><span t-field="c.notes"/></td></tr></t></tbody>
+            </table>
+        </div></t></t></t>
+    </template>
+
+    <template id="tpl_pp_issue_base">
+        <t t-call="web.html_container"><t t-foreach="docs" t-as="o"><t t-call="web.external_layout"><div class="page">
+            <h2>Material Consumption / Issue Report</h2>
+            <t t-call="pre_production.tpl_pp_header"/>
+            <table class="table table-sm">
+                <thead><tr><th>Type</th><th>Product</th><th>Lots</th><th>Required</th><th>Issued</th><th>UoM</th><th t-if="show_cost">Unit Cost</th><th t-if="show_cost">Cost</th><th>Weight Confirmed</th></tr></thead>
+                <tbody><t t-foreach="o.line_ids" t-as="l"><tr>
+                    <td><span t-field="l.line_type"/></td><td><span t-field="l.product_id"/></td><td><span t-field="l.lot_summary"/></td>
+                    <td><span t-field="l.required_qty"/></td><td><span t-esc="'Yes' if l.issued else 'No'"/></td><td><span t-field="l.uom_id"/></td>
+                    <td t-if="show_cost"><span t-field="l.unit_cost"/></td><td t-if="show_cost"><span t-field="l.cost"/></td>
+                    <td><t t-esc="'Yes' if l.weight_confirmed else 'No'"/></td></tr></t></tbody>
+            </table>
+            <table t-if="show_cost" class="table table-sm table-borderless" style="width:50%;margin-left:auto;">
+                <tr><th>Materials Cost</th><td class="text-end"><span t-field="o.material_cost_total"/></td></tr>
+                <tr><th>Packaging Cost</th><td class="text-end"><span t-field="o.packaging_cost_total"/></td></tr>
+                <tr><th>Total Cost</th><td class="text-end"><strong><span t-field="o.total_cost"/></strong></td></tr>
+            </table>
+            <p>Transfers: <t t-foreach="o.picking_ids" t-as="p"><span t-field="p.name"/> </t></p>
+        </div></t></t></t>
+    </template>
+    <template id="tpl_pp_issue"><t t-set="show_cost" t-value="False"/><t t-call="pre_production.tpl_pp_issue_base"/></template>
+    <template id="tpl_pp_issue_cost"><t t-set="show_cost" t-value="True"/><t t-call="pre_production.tpl_pp_issue_base"/></template>
+
+    <template id="tpl_pp_trace">
+        <t t-call="web.html_container"><t t-foreach="docs" t-as="o"><t t-call="web.external_layout"><div class="page">
+            <h2>Lot Traceability Report</h2>
+            <t t-call="pre_production.tpl_pp_header"/>
+            <table class="table table-sm">
+                <thead><tr><th>Lot</th><th>Product</th><th>Quantity</th><th>Source Warehouse</th><th>Stock Transfer</th><th>Pre-Production</th><th>Manufacturing Order</th></tr></thead>
+                <tbody><t t-foreach="o.lock_ids" t-as="l"><tr>
+                    <td><span t-field="l.lot_id"/></td><td><span t-field="l.product_id"/></td><td><span t-field="l.qty"/></td>
+                    <td><span t-field="l.source_warehouse_id"/></td><td><span t-field="l.picking_id"/></td>
+                    <td><span t-field="l.order_id"/></td><td><span t-field="l.mo_id"/></td></tr></t></tbody>
+            </table>
+        </div></t></t></t>
+    </template>
+
+    <template id="tpl_pp_final">
+        <t t-call="web.html_container"><t t-foreach="docs" t-as="o"><t t-call="web.external_layout"><div class="page">
+            <h2>Pre-Production Final Report</h2>
+            <t t-call="pre_production.tpl_pp_header"/>
+            <h4>Production Result</h4>
+            <table class="table table-sm table-borderless">
+                <tr><th>Planned Quantity</th><td><span t-field="o.product_qty"/> <span t-field="o.product_uom_id"/></td>
+                    <th>Actual Produced</th><td><span t-field="o.actual_product_qty"/> <span t-field="o.product_uom_id"/></td></tr>
+                <tr><th>Waste / Loss</th><td><span t-field="o.waste_qty"/> <span t-field="o.product_uom_id"/></td>
+                    <th>Finished Product Lot</th><td><span t-field="o.lot_producing_id"/></td></tr>
+                <tr><th>Manufacturing Order</th><td><span t-field="o.mo_id"/> <span t-if="o.mo_id" t-field="o.mo_id.state"/></td>
+                    <th>Production Date</th><td><span t-field="o.production_date"/></td></tr>
+            </table>
+            <h4>Materials &amp; Packaging</h4>
+            <table class="table table-sm">
+                <thead><tr><th>Type</th><th>Product</th><th>Lots</th><th>Required</th><th>Issued</th><th>Weight Confirmed</th></tr></thead>
+                <tbody><t t-foreach="o.line_ids" t-as="l"><tr><td><span t-field="l.line_type"/></td><td><span t-field="l.product_id"/></td><td><span t-field="l.lot_summary"/></td>
+                    <td><span t-field="l.required_qty"/> <span t-field="l.uom_id"/></td><td><t t-esc="'Yes' if l.issued else 'No'"/></td>
+                    <td><t t-esc="'Yes' if l.weight_confirmed else 'No'"/></td></tr></t></tbody>
+            </table>
+            <h4>Quality Checks</h4>
+            <table class="table table-sm">
+                <thead><tr><th>Stage</th><th>Result</th><th>Inspector</th><th>Date</th><th>Inspection Items / Notes</th></tr></thead>
+                <tbody><t t-foreach="o.check_ids.sorted('id')" t-as="c"><tr><td><span t-field="c.stage_id"/> #<span t-field="c.attempt"/></td>
+                    <td><span t-field="c.state"/></td><td><span t-field="c.inspector_id"/></td><td><span t-field="c.date"/></td>
+                    <td><small>
+                        <t t-foreach="c.line_ids" t-as="l"><div><t t-esc="'[x]' if l.checked else '[ ]'"/> <span t-field="l.name"/><t t-if="l.notes"> - <span t-field="l.notes"/></t></div></t>
+                        <div t-if="c.notes"><strong>Notes:</strong> <span t-field="c.notes"/></div>
+                        <div t-if="c.reject_reason"><strong>Rejected:</strong> <span t-field="c.reject_reason"/></div>
+                    </small></td></tr></t></tbody>
+            </table>
+            <h4>Time per Stage</h4>
+            <table class="table table-sm">
+                <thead><tr><th>Stage</th><th>Entered</th><th>Left</th><th>Duration (hours)</th></tr></thead>
+                <tbody><t t-foreach="o.stage_log_ids" t-as="t"><tr><td><span t-field="t.stage_id"/></td><td><span t-field="t.date_start"/></td>
+                    <td><span t-field="t.date_end"/></td><td><t t-if="t.date_end" t-esc="'%.2f' % t.duration_hours"/></td></tr></t></tbody>
+                <tfoot><tr><th colspan="3">Total</th><th><t t-esc="'%.2f' % sum(o.stage_log_ids.mapped('duration_hours'))"/></th></tr></tfoot>
+            </table>
+            <h4>Approval History</h4>
+            <table class="table table-sm">
+                <thead><tr><th>Stage</th><th>User</th><th>Date</th><th>Result</th><th>Notes</th></tr></thead>
+                <tbody><t t-foreach="o.audit_ids" t-as="a"><tr><td><span t-field="a.stage_id"/></td><td><span t-field="a.user_id"/></td>
+                    <td><span t-field="a.date"/></td><td><span t-field="a.result"/></td><td><span t-field="a.notes"/></td></tr></t></tbody>
+            </table>
+        </div></t></t></t>
+    </template>
+</odoo>

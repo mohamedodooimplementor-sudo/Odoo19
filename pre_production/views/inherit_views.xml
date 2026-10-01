@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product_category_form_pp" model="ir.ui.view">
+        <field name="name">product.category.form.pp</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='parent_id']" position="after">
+                <field name="pp_enabled"/>
+                <field name="pp_is_packaging" invisible="not pp_enabled"/>
+                <field name="pp_warehouse_ids" widget="many2many_tags" invisible="not pp_enabled"
+                       options="{'no_create': True}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_order_form_pp" model="ir.ui.view">
+        <field name="name">sale.order.form.pp</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_pp_orders" type="object" class="oe_stat_button" icon="fa-industry"
+                        invisible="pp_order_count == 0">
+                    <field name="pp_order_count" widget="statinfo" string="Pre-Production"/>
+                </button>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/list/field[@name='product_template_id']" position="after">
+                <field name="pp_allowed" column_invisible="1"/>
+                <field name="pp_enabled" string="Pre-Production" readonly="parent.state in ('sale', 'done', 'cancel')"/>
+                <field name="pp_bom_id" string="BOM" invisible="not pp_enabled" required="pp_enabled"
+                       readonly="parent.state in ('sale', 'done')" options="{'no_create': True}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_users_form_pp" model="ir.ui.view">
+        <field name="name">res.users.form.pp</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Pre-Production" name="pp_permissions" groups="base.group_erp_manager">
+                    <field name="groups_id" invisible="1"/>
+                    <group string="Pre-Production Permissions">
+                        <group>
+                            <field name="pp_g_manager"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="General">
+                            <field name="pp_g_user"/>
+                            <field name="pp_g_dashboard"/>
+                            <field name="pp_g_cost"/>
+                            <field name="pp_g_confirm"/>
+                            <field name="pp_g_issue"/>
+                            <field name="pp_g_weight"/>
+                            <field name="pp_g_final"/>
+                        </group>
+                        <group string="Quality Approvals">
+                            <field name="pp_g_prd"/>
+                            <field name="pp_g_check1"/>
+                            <field name="pp_g_check"/>
+                            <field name="pp_g_filling"/>
+                            <field name="pp_g_pack"/>
+                            <field name="pp_g_check2"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_mrp_production_form_pp_extra" model="ir.ui.view">
+        <field name="name">mrp.production.form.pp.extra</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="EXTRA COMPOUND" name="pp_extra" invisible="not pp_order_id">
+                    <field name="pp_order_id" invisible="1"/>
+                    <field name="pp_extra_ids" readonly="1">
+                        <list create="0" delete="0" edit="0">
+                            <field name="product_id"/>
+                            <field name="product_qty"/>
+                            <field name="product_uom_id"/>
+                            <field name="lot_summary"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

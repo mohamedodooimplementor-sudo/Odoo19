@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_pp_order" model="ir.sequence">
+            <field name="name">Pre-Production Order</field>
+            <field name="code">pp.order</field>
+            <field name="prefix">PRE-</field>
+            <field name="padding">5</field>
+        </record>
+
+        <record id="mail_act_pp_stage" model="mail.activity.type">
+            <field name="name">Pre-Production Action</field>
+            <field name="icon">fa-tasks</field>
+            <field name="delay_count">0</field>
+        </record>
+
+        <record id="stage_material_issue" model="pp.stage"><field name="code">material_issue</field><field name="name">Material Issue</field><field name="sequence">10</field></record>
+        <record id="stage_weight" model="pp.stage"><field name="code">weight</field><field name="name">Weight Confirmation</field><field name="sequence">20</field></record>
+        <record id="stage_prd_line" model="pp.stage"><field name="code">prd_line</field><field name="name">PRD Line Check</field><field name="sequence">30</field></record>
+        <record id="stage_product_check1" model="pp.stage"><field name="code">product_check1</field><field name="name">Product Check 1</field><field name="sequence">40</field></record>
+        <record id="stage_product_check" model="pp.stage"><field name="code">product_check</field><field name="name">Product Check</field><field name="sequence">50</field></record>
+        <record id="stage_filling" model="pp.stage"><field name="code">filling</field><field name="name">Filling Line Check</field><field name="sequence">60</field></record>
+        <record id="stage_pack_line" model="pp.stage"><field name="code">pack_line</field><field name="name">Pack Line Check</field><field name="sequence">70</field></record>
+        <record id="stage_product_check2" model="pp.stage"><field name="code">product_check2</field><field name="name">Product Check 2</field><field name="sequence">80</field></record>
+        <record id="stage_done" model="pp.stage"><field name="code">done</field><field name="name">Done</field><field name="sequence">90</field></record>
+
+        <record id="tmpl_prd" model="pp.quality.template">
+            <field name="name">PRD Line Check</field><field name="stage_code">prd_line</field>
+            <field name="line_ids" eval="[(0,0,{'name':'Machine Check','sequence':10}),(0,0,{'name':'Equipment Check','sequence':20}),(0,0,{'name':'Production Line Check','sequence':30}),(0,0,{'name':'Safety Check','sequence':40})]"/>
+        </record>
+        <record id="tmpl_pc1" model="pp.quality.template">
+            <field name="name">Raw Material Check</field><field name="stage_code">product_check1</field>
+            <field name="line_ids" eval="[(0,0,{'name':'Visual Inspection','sequence':10}),(0,0,{'name':'Lot / Label Verification','sequence':20}),(0,0,{'line_type':'material','sequence':30})]"/>
+        </record>
+        <record id="tmpl_pc" model="pp.quality.template">
+            <field name="name">In-Process Product Check</field><field name="stage_code">product_check</field>
+            <field name="line_ids" eval="[(0,0,{'name':'Appearance','sequence':10}),(0,0,{'name':'Process Parameters','sequence':20})]"/>
+        </record>
+        <record id="tmpl_fill" model="pp.quality.template">
+            <field name="name">Filling Line Check</field><field name="stage_code">filling</field>
+            <field name="line_ids" eval="[(0,0,{'name':'Filling Machine','sequence':10}),(0,0,{'name':'Filling Settings','sequence':20}),(0,0,{'name':'Safety','sequence':30}),(0,0,{'name':'Product Flow','sequence':40})]"/>
+        </record>
+        <record id="tmpl_pack" model="pp.quality.template">
+            <field name="name">Pack Line Check</field><field name="stage_code">pack_line</field>
+            <field name="line_ids" eval="[(0,0,{'name':'Packing Machine','sequence':10}),(0,0,{'name':'Packaging Material','sequence':20}),(0,0,{'name':'Safety','sequence':30}),(0,0,{'name':'Product Packaging','sequence':40})]"/>
+        </record>
+        <record id="tmpl_pc2" model="pp.quality.template">
+            <field name="name">Final Product Check</field><field name="stage_code">product_check2</field>
+            <field name="line_ids" eval="[(0,0,{'name':'Quality Parameters','sequence':10}),(0,0,{'name':'Final Result','sequence':20}),(0,0,{'line_type':'finished','sequence':30})]"/>
+        </record>
+    </data>
+</odoo>

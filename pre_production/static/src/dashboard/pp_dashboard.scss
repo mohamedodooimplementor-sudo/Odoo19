@@ -1,0 +1,32 @@
+// Light theme colours (default) and dark theme colours (.pp_dark, set from JS when the web client is dark).
+.o_pp_dashboard {
+    --pp-page-bg: #f4f5f7; --pp-card-bg: #ffffff; --pp-border: #e3e6ea; --pp-text: #212529;
+    --pp-muted: #777777; --pp-input-bg: #ffffff; --pp-shadow: rgba(0, 0, 0, .08); --pp-shadow-hover: rgba(0, 0, 0, .12);
+    &.pp_dark {
+        --pp-page-bg: #14171a; --pp-card-bg: #1f2429; --pp-border: #2f363d; --pp-text: #e4e7ea;
+        --pp-muted: #9aa5af; --pp-input-bg: #2a3036; --pp-shadow: rgba(0, 0, 0, .5); --pp-shadow-hover: rgba(0, 0, 0, .7);
+    }
+
+    padding: 16px; overflow: auto; height: 100%; background: var(--pp-page-bg); color: var(--pp-text);
+    .pp_filters { display: flex; flex-wrap: wrap; gap: 10px; background: var(--pp-card-bg); padding: 12px 14px; border-radius: 10px;
+        border: 1px solid var(--pp-border); box-shadow: 0 1px 3px var(--pp-shadow); margin-bottom: 16px; align-items: flex-end;
+        .pp_f { display: flex; flex-direction: column; min-width: 130px;
+            input, select { background: var(--pp-input-bg); color: var(--pp-text); border: 1px solid var(--pp-border);
+                border-radius: 6px; padding: 4px 8px; color-scheme: light; }
+            label { font-size: 11px; color: var(--pp-muted); margin-bottom: 2px; } } }
+    &.pp_dark .pp_filters .pp_f { input, select { color-scheme: dark; } }
+    .pp_kpis { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; margin-bottom: 16px;
+        .pp_kpi { display: flex; align-items: center; gap: 12px; background: var(--pp-card-bg); border: 1px solid var(--pp-border);
+            border-radius: 10px; padding: 14px; border-left: 5px solid #714B67; cursor: pointer;
+            box-shadow: 0 1px 3px var(--pp-shadow); transition: transform .12s;
+            &:hover { transform: translateY(-2px); box-shadow: 0 4px 10px var(--pp-shadow-hover); }
+            .pp_kpi_icon { width: 44px; height: 44px; border-radius: 50%; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+            .pp_kpi_value { font-size: 26px; font-weight: 700; line-height: 1; }
+            .pp_kpi_label { font-size: 12px; color: var(--pp-muted); margin-top: 4px; } } }
+    .pp_charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 14px;
+        .pp_chart { background: var(--pp-card-bg); border: 1px solid var(--pp-border); border-radius: 10px; padding: 14px;
+            box-shadow: 0 1px 3px var(--pp-shadow);
+            &.wide { grid-column: span 2; } h5 { font-size: 14px; margin-bottom: 10px; color: var(--pp-text); }
+            .pp_cv { position: relative; height: 260px; } } }
+}
+@media (max-width: 800px) { .o_pp_dashboard .pp_charts .pp_chart.wide { grid-column: span 1; } }

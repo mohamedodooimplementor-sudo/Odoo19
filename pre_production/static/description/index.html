@@ -1,0 +1,87 @@
+<section style="font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#22304f;max-width:1100px;margin:0 auto;line-height:1.6;">
+
+  <img src="banner.png" alt="Pre-Production Management" style="width:100%;border-radius:14px;display:block;"/>
+
+  <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;margin:24px 0;padding:20px 26px;background:#f3f6fb;border-radius:14px;">
+    <div>
+      <div style="font-size:22px;font-weight:700;">Control everything between the Sales Order and the Manufacturing Order</div>
+      <div style="color:#5b6b8c;">Material issue, weight confirmation, six quality approvals, lot traceability and one-click MO creation.</div>
+    </div>
+    <div style="text-align:center;background:#0e8a8e;color:#fff;border-radius:12px;padding:12px 28px;">
+      <div style="font-size:13px;letter-spacing:1px;opacity:.85;">PRICE</div>
+      <div style="font-size:32px;font-weight:700;">USD 149</div>
+      <div style="font-size:12px;opacity:.85;">one-time, per database</div>
+    </div>
+  </div>
+
+  <h2 style="color:#162248;">Why this module</h2>
+  <p>Factories that fill, pack or process products cannot start a Manufacturing Order before the raw materials are issued, weighed and inspected.
+     <b>Pre-Production Management</b> puts that whole checklist inside Odoo: every step has an owner, a permission, a checklist and an audit trail,
+     and the Manufacturing Order is created only after the last approval.</p>
+
+  <h2 style="color:#162248;">Key features</h2>
+  <ul>
+    <li><b>Created from the Sales Order</b> &ndash; flag the product for Pre-Production on the order line and pick its BOM; the Pre-Production Order is created when the order is confirmed.</li>
+    <li><b>Material &amp; packaging issue</b> &ndash; pick the source warehouse and lots, reserve stock and create the issue transfers (auto-validated or validated manually by the stock user).</li>
+    <li><b>Safe lines</b> &ndash; an issued line whose lot is reserved cannot be deleted; its remove button disappears.</li>
+    <li><b>Weight confirmation</b> &ndash; confirm every line (or all at once) before the order moves on.</li>
+    <li><b>Six configurable quality stages</b> &ndash; PRD Line, Product Check 1, Product Check, Filling Line, Pack Line and Product Check 2, each with its own approver group, checklist, rejection reason and re-inspection.</li>
+    <li><b>Several checks per stage</b> &ndash; give a stage more than one template and it opens one inspection for each; the order moves on only when all of them are approved, and a rejection re-opens just the failed one.</li>
+    <li><b>Smart quality templates</b> &ndash; type the inspection points yourself or let them fill in automatically from the order&rsquo;s raw materials, packaging or finished product.</li>
+    <li><b>Final step button</b> &ndash; <i>Create MO &amp; Final Transfer</i> builds, confirms and finishes the Manufacturing Order with the actual produced quantity (you can edit it at the last stage).</li>
+    <li><b>Lot traceability</b> &ndash; search orders by finished-product lot or by material lot, and print the traceability report.</li>
+    <li><b>Component status</b> &ndash; see at a glance (list, kanban and filters) whether the components are Available, Not Available or already Issued.</li>
+    <li><b>Activities</b> &ndash; users are notified automatically when an order is waiting for their stage.</li>
+    <li><b>Dashboard</b> &ndash; KPIs, charts, filters and the average time spent in every stage, behind its own permission.</li>
+    <li><b>Reports</b> &ndash; a quality report per stage, material issue report, lot traceability report and a final report with production result, inspection details and time per stage.</li>
+  </ul>
+
+  <h2 style="color:#162248;">The stages</h2>
+  <img src="workflow.png" alt="Workflow" style="width:100%;border-radius:12px;border:1px solid #e1e6f0;"/>
+  <table style="width:100%;border-collapse:collapse;margin-top:18px;font-size:15px;">
+    <tr style="background:#162248;color:#fff;"><th style="padding:8px 12px;text-align:left;">Stage</th><th style="padding:8px 12px;text-align:left;">What happens</th><th style="padding:8px 12px;text-align:left;">Who</th></tr>
+    <tr><td style="padding:8px 12px;border-bottom:1px solid #e6eaf2;">Confirm</td><td style="padding:8px 12px;border-bottom:1px solid #e6eaf2;">Customer, product, BOM and warehouse are checked and the order starts.</td><td style="padding:8px 12px;border-bottom:1px solid #e6eaf2;">Confirm Orders</td></tr>
+    <tr style="background:#f7f9fc;"><td style="padding:8px 12px;border-bottom:1px solid #e6eaf2;">Material / Packaging Issue</td><td style="padding:8px 12px;border-bottom:1px solid #e6eaf2;">Lots are selected, stock is reserved and the issue transfers are created.</td><td style="padding:8px 12px;border-bottom:1px solid #e6eaf2;">Material / Packaging Issue</td></tr>
+    <tr><td style="padding:8px 12px;border-bottom:1px solid #e6eaf2;">Weight Confirmation</td><td style="padding:8px 12px;border-bottom:1px solid #e6eaf2;">Every issued line is weighed and confirmed.</td><td style="padding:8px 12px;border-bottom:1px solid #e6eaf2;">Weight Confirmation</td></tr>
+    <tr style="background:#f7f9fc;"><td style="padding:8px 12px;border-bottom:1px solid #e6eaf2;">PRD Line &rarr; Product Check 2 (6 stages)</td><td style="padding:8px 12px;border-bottom:1px solid #e6eaf2;">Each stage opens a checklist from its template; all items must be ticked to approve, otherwise the check is rejected with a reason.</td><td style="padding:8px 12px;border-bottom:1px solid #e6eaf2;">One approval group per stage</td></tr>
+    <tr><td style="padding:8px 12px;">Create MO &amp; Final Transfer</td><td style="padding:8px 12px;">Set the actual produced quantity and press the button: the Manufacturing Order is created, confirmed and finished.</td><td style="padding:8px 12px;">Final Approval / Create MO</td></tr>
+  </table>
+
+  <h2 style="color:#162248;">Step by step</h2>
+  <ol>
+    <li>Open <b>Pre-Production &rarr; Configuration &rarr; Settings</b> and choose the manufacturing warehouse and the workflow requirements.</li>
+    <li>On each product category, set the warehouses the Pre-Production stock is taken from.</li>
+    <li>Review the <b>Quality Report Templates</b> and add your own inspection points.</li>
+    <li>On the user form, open the <b>Pre-Production</b> tab and tick the permissions each person needs.</li>
+    <li>Create a Sales Order, flag the line for Pre-Production, choose the BOM and confirm it &ndash; or create the Pre-Production Order directly.</li>
+    <li>Press <b>Confirm</b>, then <b>Issue</b> the materials and packaging and confirm the weights.</li>
+    <li>Each approver opens the order (or the activity assigned to them) and approves or rejects the quality check.</li>
+    <li>At the last stage set the <b>Actual Produced Quantity</b> and the finished-product lot, then press <b>Create MO &amp; Final Transfer</b>.</li>
+    <li>Print the <b>Final Report</b> from the order.</li>
+  </ol>
+
+  <h2 style="color:#162248;">Quality templates</h2>
+  <img src="quality.png" alt="Quality templates" style="width:100%;border-radius:12px;border:1px solid #e1e6f0;"/>
+  <p>Every template line has a type: <b>Written Item</b>, <b>Raw Materials</b>, <b>Packaging Materials</b> or <b>Finished Product</b>.
+     The last three expand automatically into one inspection row per product (product | lot | quantity). Templates only affect new checks &ndash; history never changes.</p>
+
+  <h2 style="color:#162248;">Settings &amp; permissions</h2>
+  <img src="settings.png" alt="Settings and permissions" style="width:100%;border-radius:12px;border:1px solid #e1e6f0;"/>
+  <ul>
+    <li><b>Manufacturing Warehouse</b> &ndash; where the finished product is manufactured.</li>
+    <li><b>Auto-validate Issue Transfers</b> &ndash; validate the issue transfers when Issue is pressed, or leave them for the stock user.</li>
+    <li><b>Lot Number Required / Material Issue Required / Packaging Issue Required / Weight Confirmation Required</b> &ndash; switch workflow steps on or off.</li>
+    <li><b>Stage Configuration</b> &ndash; rename stages, reorder them and choose which are folded in the Kanban view.</li>
+    <li><b>Permissions</b> &ndash; all groups (Manager, Dashboard, Confirm, Issue, Weight, six quality approvals, Final Approval, User) are set from one tab on the user form; ticking <i>Manager</i> ticks everything.</li>
+  </ul>
+
+  <h2 style="color:#162248;">Requirements</h2>
+  <p>Odoo 18 &middot; depends on <b>Sales</b>, <b>Inventory</b> and <b>Manufacturing</b>. Works with lot-tracked and untracked products.</p>
+
+  <div style="margin-top:28px;padding:20px 26px;background:#162248;color:#fff;border-radius:14px;">
+    <div style="font-size:18px;font-weight:700;">Author</div>
+    <div>Eng. M.Aboelmagde &ndash; Odoo Lab</div>
+    <div><a href="https://www.youtube.com/@odoolab" style="color:#78e6d7;">youtube.com/@odoolab</a></div>
+  </div>
+  <p style="color:#8b97b3;font-size:12px;margin-top:14px;">Diagrams on this page are illustrations of the module&rsquo;s workflow and options.</p>
+</section>

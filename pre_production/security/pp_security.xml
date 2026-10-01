@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="module_category_pp" model="ir.module.category">
+        <field name="name">Pre-Production</field>
+        <field name="sequence">40</field>
+    </record>
+
+    <record id="group_pp_user" model="res.groups">
+        <field name="name">User (Create / Read / Edit)</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+    <record id="group_pp_confirm" model="res.groups">
+        <field name="name">Confirm Orders</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+        <field name="implied_ids" eval="[(4, ref('group_pp_user'))]"/>
+    </record>
+    <record id="group_pp_issue" model="res.groups">
+        <field name="name">Material / Packaging Issue</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+        <field name="implied_ids" eval="[(4, ref('group_pp_user'))]"/>
+    </record>
+    <record id="group_pp_weight" model="res.groups">
+        <field name="name">Weight Confirmation</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+        <field name="implied_ids" eval="[(4, ref('group_pp_user'))]"/>
+    </record>
+    <record id="group_pp_prd" model="res.groups">
+        <field name="name">PRD Line Check Approval</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+        <field name="implied_ids" eval="[(4, ref('group_pp_user'))]"/>
+    </record>
+    <record id="group_pp_check1" model="res.groups">
+        <field name="name">Product Check 1 Approval</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+        <field name="implied_ids" eval="[(4, ref('group_pp_user'))]"/>
+    </record>
+    <record id="group_pp_check" model="res.groups">
+        <field name="name">Product Check Approval</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+        <field name="implied_ids" eval="[(4, ref('group_pp_user'))]"/>
+    </record>
+    <record id="group_pp_filling" model="res.groups">
+        <field name="name">Filling Line Check Approval</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+        <field name="implied_ids" eval="[(4, ref('group_pp_user'))]"/>
+    </record>
+    <record id="group_pp_pack" model="res.groups">
+        <field name="name">Pack Line Check Approval</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+        <field name="implied_ids" eval="[(4, ref('group_pp_user'))]"/>
+    </record>
+    <record id="group_pp_check2" model="res.groups">
+        <field name="name">Product Check 2 Approval</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+        <field name="implied_ids" eval="[(4, ref('group_pp_user'))]"/>
+    </record>
+    <record id="group_pp_final" model="res.groups">
+        <field name="name">Final Approval / Create MO</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+        <field name="implied_ids" eval="[(4, ref('group_pp_user'))]"/>
+    </record>
+    <record id="group_pp_dashboard" model="res.groups">
+        <field name="name">Dashboard</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+        <field name="implied_ids" eval="[(4, ref('group_pp_user'))]"/>
+    </record>
+    <record id="group_pp_cost" model="res.groups">
+        <field name="name">Cost (Costs, Totals and Cost Reports)</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+        <field name="implied_ids" eval="[(4, ref('group_pp_user'))]"/>
+    </record>
+    <record id="group_pp_manager" model="res.groups">
+        <field name="name">Manager (All permissions + Configuration)</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+        <field name="implied_ids" eval="[(4, ref('group_pp_cost')), (4, ref('group_pp_dashboard')), (4, ref('group_pp_confirm')), (4, ref('group_pp_issue')), (4, ref('group_pp_weight')),
+            (4, ref('group_pp_prd')), (4, ref('group_pp_check1')), (4, ref('group_pp_check')), (4, ref('group_pp_filling')),
+            (4, ref('group_pp_pack')), (4, ref('group_pp_check2')), (4, ref('group_pp_final'))]"/>
+        <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+    </record>
+
+    <record id="rule_pp_order_company" model="ir.rule">
+        <field name="name">Pre-Production Order: multi-company</field>
+        <field name="model_id" ref="model_pp_order"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

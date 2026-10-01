@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="pre_production.Dashboard">
+        <div class="o_pp_dashboard" t-ref="root">
+            <div class="pp_filters">
+                <div class="pp_f"><label>From</label>
+                    <input type="date" t-att-value="state.filters.date_from" t-on-change="(ev) => this.onFilter('date_from', ev)"/></div>
+                <div class="pp_f"><label>To</label>
+                    <input type="date" t-att-value="state.filters.date_to" t-on-change="(ev) => this.onFilter('date_to', ev)"/></div>
+                <div class="pp_f"><label>Customer</label>
+                    <select t-on-change="(ev) => this.onFilter('partner_id', ev)">
+                        <option value="">All</option>
+                        <t t-foreach="state.data.options.partners" t-as="o" t-key="o.id">
+                            <option t-att-value="o.id" t-att-selected="isSel('partner_id', o.id)"><t t-esc="o.name"/></option>
+                        </t>
+                    </select></div>
+                <div class="pp_f"><label>Product</label>
+                    <select t-on-change="(ev) => this.onFilter('product_id', ev)">
+                        <option value="">All</option>
+                        <t t-foreach="state.data.options.products" t-as="o" t-key="o.id">
+                            <option t-att-value="o.id" t-att-selected="isSel('product_id', o.id)"><t t-esc="o.name"/></option>
+                        </t>
+                    </select></div>
+                <div class="pp_f"><label>Warehouse</label>
+                    <select t-on-change="(ev) => this.onFilter('warehouse_id', ev)">
+                        <option value="">All</option>
+                        <t t-foreach="state.data.options.warehouses" t-as="o" t-key="o.id">
+                            <option t-att-value="o.id" t-att-selected="isSel('warehouse_id', o.id)"><t t-esc="o.name"/></option>
+                        </t>
+                    </select></div>
+                <div class="pp_f"><label>Stage</label>
+                    <select t-on-change="(ev) => this.onFilter('stage_id', ev)">
+                        <option value="">All</option>
+                        <t t-foreach="state.data.options.stages" t-as="o" t-key="o.id">
+                            <option t-att-value="o.id" t-att-selected="isSel('stage_id', o.id)"><t t-esc="o.name"/></option>
+                        </t>
+                    </select></div>
+                <div class="pp_f"><label>Status</label>
+                    <select t-on-change="(ev) => this.onFilter('state', ev)">
+                        <option value="">All</option>
+                        <t t-foreach="state.data.options.states" t-as="o" t-key="o.id">
+                            <option t-att-value="o.id" t-att-selected="o.id === state.filters.state"><t t-esc="o.name"/></option>
+                        </t>
+                    </select></div>
+                <div class="pp_f"><label>Sales Order</label>
+                    <input type="text" t-att-value="state.filters.sale_order" t-on-change="(ev) => this.onFilter('sale_order', ev)"/></div>
+                <div class="pp_f"><label>Lot</label>
+                    <input type="text" t-att-value="state.filters.lot" t-on-change="(ev) => this.onFilter('lot', ev)"/></div>
+                <div class="pp_f"><button class="btn btn-secondary" t-on-click="resetFilters">Reset</button></div>
+            </div>
+
+            <div class="pp_kpis">
+                <t t-foreach="state.data.kpis" t-as="k" t-key="k.key">
+                    <div class="pp_kpi" t-att-style="'border-left-color:' + k.color" t-on-click="() => this.openKpi(k)">
+                        <div class="pp_kpi_icon" t-att-style="'background:' + k.color"><i t-att-class="'fa ' + k.icon"/></div>
+                        <div>
+                            <div class="pp_kpi_value"><t t-esc="k.value"/></div>
+                            <div class="pp_kpi_label"><t t-esc="k.label"/></div>
+                        </div>
+                    </div>
+                </t>
+            </div>
+
+            <div class="pp_charts">
+                <div class="pp_chart wide"><h5>Orders by Stage</h5><div class="pp_cv"><canvas t-ref="c_stage"/></div></div>
+                <div class="pp_chart wide"><h5>Average Hours per Stage</h5><div class="pp_cv"><canvas t-ref="c_duration"/></div></div>
+                <div class="pp_chart"><h5>Quality Results</h5><div class="pp_cv"><canvas t-ref="c_quality"/></div></div>
+                <div class="pp_chart"><h5>Material Issue Status</h5><div class="pp_cv"><canvas t-ref="c_issue"/></div></div>
+                <div class="pp_chart wide"><h5>Orders by Product</h5><div class="pp_cv"><canvas t-ref="c_product"/></div></div>
+                <div class="pp_chart"><h5>Orders by Source Warehouse</h5><div class="pp_cv"><canvas t-ref="c_warehouse"/></div></div>
+            </div>
+        </div>
+    </t>
+</templates>

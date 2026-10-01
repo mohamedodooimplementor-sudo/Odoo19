@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_pp_settings" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module': 'pre_production', 'bin_size': False}</field>
+    </record>
+
+    <menuitem id="menu_pp_root" name="Pre-Production" sequence="45"
+              web_icon="pre_production,static/description/icon.png"
+              groups="group_pp_user"/>
+    <menuitem id="menu_pp_dashboard" name="Dashboard" parent="menu_pp_root" action="action_pp_dashboard_client" sequence="1" groups="group_pp_dashboard"/>
+    <menuitem id="menu_pp_ops" name="Operations" parent="menu_pp_root" sequence="10"/>
+    <menuitem id="menu_pp_orders" name="Pre-Production Orders" parent="menu_pp_ops" action="action_pp_order" sequence="1"/>
+    <menuitem id="menu_pp_mat" name="Material Issues" parent="menu_pp_ops" action="action_pp_material_issues" sequence="2"/>
+    <menuitem id="menu_pp_pack" name="Packaging Issues" parent="menu_pp_ops" action="action_pp_packaging_issues" sequence="3"/>
+    <menuitem id="menu_pp_checks" name="Quality Checks" parent="menu_pp_ops" action="action_pp_check" sequence="4"/>
+    <menuitem id="menu_pp_mos" name="Manufacturing Orders" parent="menu_pp_ops" action="action_pp_mos" sequence="5"/>
+
+    <menuitem id="menu_pp_conf" name="Configuration" parent="menu_pp_root" sequence="20" groups="group_pp_manager"/>
+    <menuitem id="menu_pp_settings" name="Settings" parent="menu_pp_conf" action="action_pp_settings" sequence="1"/>
+    <menuitem id="menu_pp_stages" name="Stage Configuration" parent="menu_pp_conf" action="action_pp_stage" sequence="2"/>
+    <menuitem id="menu_pp_templates" name="Quality Report Templates" parent="menu_pp_conf" action="action_pp_template" sequence="3"/>
+
+    <menuitem id="menu_pp_reports" name="Reports" parent="menu_pp_root" sequence="15"/>
+    <menuitem id="menu_pp_rep_orders" name="Pre-Production Report" parent="menu_pp_reports" action="action_pp_dashboard" sequence="1"/>
+    <menuitem id="menu_pp_rep_issue" name="Material Issue Report" parent="menu_pp_reports" action="action_pp_issue_report" sequence="2"/>
+    <menuitem id="menu_pp_rep_quality" name="Quality Report" parent="menu_pp_reports" action="action_pp_quality_report" sequence="3"/>
+    <menuitem id="menu_pp_rep_lot" name="Lot Traceability Report" parent="menu_pp_reports" action="action_pp_lock" sequence="4"/>
+</odoo>

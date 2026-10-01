@@ -1,0 +1,17 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+acc_pp_order_user,pp.order user,model_pp_order,group_pp_user,1,1,1,0
+acc_pp_order_mgr,pp.order manager,model_pp_order,group_pp_manager,1,1,1,1
+acc_pp_line_user,pp.order.line user,model_pp_order_line,group_pp_user,1,1,1,1
+acc_pp_lot_user,pp.order.line.lot user,model_pp_order_line_lot,group_pp_user,1,1,1,1
+acc_pp_stage_user,pp.stage user,model_pp_stage,group_pp_user,1,0,0,0
+acc_pp_stage_mgr,pp.stage manager,model_pp_stage,group_pp_manager,1,1,0,0
+acc_pp_tmpl_user,pp.quality.template user,model_pp_quality_template,group_pp_user,1,0,0,0
+acc_pp_tmpl_mgr,pp.quality.template manager,model_pp_quality_template,group_pp_manager,1,1,1,1
+acc_pp_tmpll_user,pp.quality.template.line user,model_pp_quality_template_line,group_pp_user,1,0,0,0
+acc_pp_tmpll_mgr,pp.quality.template.line manager,model_pp_quality_template_line,group_pp_manager,1,1,1,1
+acc_pp_check_user,pp.quality.check user,model_pp_quality_check,group_pp_user,1,1,1,0
+acc_pp_checkl_user,pp.quality.check.line user,model_pp_quality_check_line,group_pp_user,1,1,1,0
+acc_pp_audit_user,pp.audit user,model_pp_audit,group_pp_user,1,0,0,0
+acc_pp_lock_user,pp.lock user,model_pp_lock,group_pp_user,1,0,0,0
+acc_pp_mo_extra_user,pp.mo.extra user,model_pp_mo_extra,group_pp_user,1,0,0,0
+acc_pp_stage_log_user,pp.stage.log user,model_pp_stage_log,group_pp_user,1,0,0,0
