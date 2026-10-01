@@ -1,6 +1,6 @@
 {
     'name': 'Product Reference by Category',
-    'version': '18.0.1',
+    'version': '18.0.2.0.0',
     'summary': 'Automatically assign product reference based on category sequence',
     'category': 'Inventory/Products',
     'author': "Eng. M.Aboelmagde",
