@@ -16,15 +16,17 @@ of a product. The barcode will automatically appear in all transactions:
 Features:
 - Unique barcode per unit of measure
 - Appears automatically in all transactions (Sales, Purchases, Inventory, Invoices)
-- Barcode printing support
-- Easy to use and compatible with Odoo 18
-
-For Point of Sale support, install: uom_barcode_product_pos
+- Scan a barcode on sales orders, purchase orders and transfers to add the product with the right unit
+- Barcode labels (Code 128) printed from the product form
+- Compatible with Odoo 18
     """,
-    'author': "Eng. M.Aboelmagde",
-    'website': 'https://www.yourcompany.com',
+    'author': 'Eng. M.Aboelmagde',
+    'website': 'https://www.youtube.com/@odoolab',
     'category': 'Inventory/Inventory',
-    'license': 'LGPL-3',
+    'license': 'OPL-1',
+    'price': 39.00,
+    'currency': 'USD',
+    'support': 'odoolabtech.offical',
     'depends': [
         'product',
         'stock',
@@ -43,7 +45,7 @@ For Point of Sale support, install: uom_barcode_product_pos
         'views/account_views.xml',
         'views/report_barcode.xml',
     ],
-    'images': ['static/description/banner.png'],
+    'images': ['static/description/banner.png', 'static/description/how_it_works.png', 'static/description/where_it_shows.png', 'static/description/setup_steps.png'],
     'installable': True,
     'application': False,
     'auto_install': False,
