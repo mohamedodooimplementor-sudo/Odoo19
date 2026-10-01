@@ -1,10 +1,15 @@
 {
     'name': 'Product Reference by Category',
     'version': '19.0.2.0.0',
-    'summary': 'Automatically assign product reference based on category sequence',
+    'summary': 'Automatic product Internal Reference from the sequence of the product category',
     'category': 'Inventory/Products',
     'author': 'Eng. M.Aboelmagde',
-    'license': 'LGPL-3',
+    'website': 'https://www.youtube.com/@odoolab',
+    'license': 'OPL-1',
+    'price': 29.00,
+    'currency': 'USD',
+    'support': 'odoolabtech.offical',
+    'images': ['static/description/banner.png', 'static/description/how_it_works.png', 'static/description/setup_steps.png'],
     'depends': ['product'],
     'data': [
         'views/product_category_views.xml',

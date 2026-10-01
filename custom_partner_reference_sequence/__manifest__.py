@@ -4,7 +4,12 @@
     'summary': 'Auto-generate reference codes for customers, suppliers and contacts',
     'category': 'Contacts',
     'author': 'Eng. M.Aboelmagde',
-    'license': 'LGPL-3',
+    'website': 'https://www.youtube.com/@odoolab',
+    'license': 'OPL-1',
+    'price': 19.00,
+    'currency': 'USD',
+    'support': 'odoolabtech.offical',
+    'images': ['static/description/banner.png', 'static/description/how_it_works.png', 'static/description/setup_steps.png'],
     'depends': ['base'],
     'data': [
         'data/sequence_data.xml',
