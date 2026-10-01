@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Lost reasons -->
+    <record id="tm_lost_reason_view_list" model="ir.ui.view">
+        <field name="name">tm.tender.lost.reason.list</field>
+        <field name="model">tm.tender.lost.reason</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="tm_lost_reason_action" model="ir.actions.act_window">
+        <field name="name">Lost Reasons</field>
+        <field name="res_model">tm.tender.lost.reason</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- Tags -->
+    <record id="tm_tag_view_list" model="ir.ui.view">
+        <field name="name">tm.tender.tag.list</field>
+        <field name="model">tm.tender.tag</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="color" widget="color_picker"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="tm_tag_action" model="ir.actions.act_window">
+        <field name="name">Tags</field>
+        <field name="res_model">tm.tender.tag</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- Mark as lost wizard -->
+    <record id="tm_lost_wizard_view_form" model="ir.ui.view">
+        <field name="name">tm.tender.lost.wizard.form</field>
+        <field name="model">tm.tender.lost.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="tender_id" invisible="1"/>
+                    <field name="reason_id" options="{'no_create': True}"/>
+                    <field name="note"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" type="object" string="Mark as Lost" class="btn-primary"
+                            data-hotkey="q"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Add products wizard -->
+    <record id="tm_add_products_wizard_view_form" model="ir.ui.view">
+        <field name="name">tm.tender.add.products.wizard.form</field>
+        <field name="model">tm.tender.add.products.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="tender_id" invisible="1"/>
+                <notebook>
+                    <page string="Products" name="products">
+                        <field name="line_ids">
+                            <list editable="bottom">
+                                <field name="product_id"/>
+                                <field name="quantity"/>
+                            </list>
+                        </field>
+                    </page>
+                    <page string="Import from Excel" name="excel">
+                        <group>
+                            <field name="file" filename="filename"/>
+                            <field name="filename" invisible="1"/>
+                        </group>
+                        <p class="text-muted">
+                            Columns: Product (internal reference, barcode or name), Quantity, Sale Price (optional).
+                        </p>
+                        <button name="action_download_template" type="object" string="Download Template"
+                                class="btn-link"/>
+                    </page>
+                </notebook>
+                <footer>
+                    <button name="action_add" type="object" string="Add Products" class="btn-primary"
+                            invisible="not line_ids"/>
+                    <button name="action_import_xlsx" type="object" string="Import File" class="btn-primary"
+                            invisible="not file"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Cost breakdown of a tender line -->
+    <record id="tm_tender_line_view_form_breakdown" model="ir.ui.view">
+        <field name="name">tm.tender.line.form.breakdown</field>
+        <field name="model">tm.tender.line</field>
+        <field name="arch" type="xml">
+            <form create="0" edit="0" delete="0">
+                <field name="currency_id" invisible="1"/>
+                <group>
+                    <group>
+                        <field name="product_id"/>
+                        <field name="bom_id"/>
+                        <field name="uom_id"/>
+                    </group>
+                    <group>
+                        <field name="material_cost_unit"/>
+                        <field name="labour_cost_unit"/>
+                        <field name="overhead_cost_unit"/>
+                        <field name="other_cost_unit"/>
+                        <field name="bom_cost_unit"/>
+                    </group>
+                </group>
+                <footer>
+                    <button string="Close" class="btn-secondary" special="cancel" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

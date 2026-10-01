@@ -1,0 +1,1865 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* tender_management
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: Arabic\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: ar\n"
+"Plural-Forms: \n"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_account_move__tm_tender_id
+#: model:ir.model.fields,field_description:tender_management.field_purchase_order__tender_id
+#: model:ir.model.fields,field_description:tender_management.field_sale_order__tender_id
+#: model:ir.model.fields,field_description:tender_management.field_stock_landed_cost__tender_id
+#: model:ir.model.fields,field_description:tender_management.field_stock_picking__tm_tender_id
+#: model:ir.model,name:tender_management.model_tm_tender
+#: model_terms:ir.ui.view,arch_db:tender_management.view_purchase_order_form_inherit_tm
+#: model_terms:ir.ui.view,arch_db:tender_management.view_order_form_inherit_tm
+#: model_terms:ir.ui.view,arch_db:tender_management.view_picking_form_inherit_tm
+#: model_terms:ir.ui.view,arch_db:tender_management.view_move_form_inherit_tm
+#: model_terms:ir.ui.view,arch_db:tender_management.view_landed_cost_form_inherit_tm
+#: code:addons/tender_management/static/src/xml/tm_dashboard.xml:0
+msgid "Tender"
+msgstr "مناقصة"
+
+#. module: tender_management
+#: code:addons/tender_management/models/mrp_bom.py:118
+#: model:ir.model.fields,field_description:tender_management.field_mrp_bom__tm_tender_count
+#: model:ir.ui.menu,name:tender_management.menu_tender_root
+#: model:ir.ui.menu,name:tender_management.menu_tender_tenders
+#: model_terms:ir.ui.view,arch_db:tender_management.mrp_bom_form_view_inherit_tm
+#: model_terms:ir.ui.view,arch_db:tender_management.res_config_settings_view_form_tm
+#: model:ir.actions.act_window,name:tender_management.tm_tender_action
+msgid "Tenders"
+msgstr "المناقصات"
+
+#. module: tender_management
+#: code:addons/tender_management/models/mrp_bom.py:53
+msgid "Manufacturing cost amounts cannot be negative."
+msgstr "لا يمكن أن تكون مبالغ تكاليف التصنيع سالبة."
+
+#. module: tender_management
+#: code:addons/tender_management/models/mrp_bom.py:55
+#, python-format
+msgid "Please choose an account for the %s cost line (or set default accounts in Tenders > Configuration > Settings)."
+msgstr "يرجى اختيار حساب لسطر التكلفة %s (أو تحديد الحسابات الافتراضية من المناقصات > الإعدادات > الإعدادات)."
+
+#. module: tender_management
+#: model:ir.model,name:tender_management.model_mrp_bom_cost_line
+msgid "BOM Manufacturing Cost Line"
+msgstr "سطر تكلفة تصنيع قائمة المواد"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_mrp_bom_cost_line__bom_id
+msgid "Bill of Materials"
+msgstr "قائمة المواد"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_mrp_bom_cost_line__cost_type
+#: model:ir.model.fields,field_description:tender_management.field_mrp_production_cost_line__cost_type
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_cost__cost_type
+msgid "Cost Type"
+msgstr "نوع التكلفة"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_mrp_bom_cost_line__name
+#: model:ir.model.fields,field_description:tender_management.field_mrp_production_cost_line__name
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_cost__name
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_costing
+#: model_terms:ir.ui.view,arch_db:tender_management.report_bom_cost
+msgid "Description"
+msgstr "الوصف"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_mrp_bom_cost_line__amount
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_cost__amount
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_costing
+#: model_terms:ir.ui.view,arch_db:tender_management.report_bom_cost
+msgid "Amount"
+msgstr "المبلغ"
+
+#. module: tender_management
+#: model:ir.model.fields,help:tender_management.field_mrp_bom_cost_line__amount
+msgid "Cost for the full quantity produced by the BOM."
+msgstr "التكلفة للكمية الكاملة التي تنتجها قائمة المواد."
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_mrp_bom_cost_line__account_id
+#: model:ir.model.fields,field_description:tender_management.field_mrp_production_cost_line__account_id
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_cost__account_id
+#: model_terms:ir.ui.view,arch_db:tender_management.report_bom_cost
+msgid "Account"
+msgstr "الحساب"
+
+#. module: tender_management
+#: model:ir.model.fields,help:tender_management.field_mrp_bom_cost_line__account_id
+msgid "Account credited when this cost is absorbed into the production cost."
+msgstr "الحساب الدائن عند تحميل هذه التكلفة على تكلفة الإنتاج."
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_mrp_bom__mfg_cost_line_ids
+#: model:ir.model.fields,field_description:tender_management.field_mrp_bom__tm_mfg_cost
+#: model_terms:ir.ui.view,arch_db:tender_management.report_bom_cost
+#: model_terms:ir.ui.view,arch_db:tender_management.mrp_bom_form_view_inherit_tm
+msgid "Manufacturing Costs"
+msgstr "تكاليف التصنيع"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_mrp_bom__tm_material_cost
+#: model_terms:ir.ui.view,arch_db:tender_management.report_bom_cost
+msgid "Material Cost"
+msgstr "تكلفة الخامات"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_mrp_bom__tm_total_cost
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_line__total_bom_cost
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_costing
+#: model_terms:ir.ui.view,arch_db:tender_management.report_bom_cost
+msgid "Total BOM Cost"
+msgstr "إجمالي تكلفة قائمة المواد"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_mrp_bom__tm_unit_cost
+#: model:ir.model.fields,field_description:tender_management.field_mrp_production_cost_line__amount_unit
+#: model_terms:ir.ui.view,arch_db:tender_management.report_bom_cost
+msgid "Cost / Unit"
+msgstr "التكلفة / الوحدة"
+
+#. module: tender_management
+#: model:ir.model.fields,help:tender_management.field_mrp_bom__tm_unit_cost
+msgid "Total BOM Cost divided by the BOM quantity (in the product unit of measure)."
+msgstr "إجمالي تكلفة قائمة المواد مقسوماً على كمية القائمة (بوحدة قياس المنتج)."
+
+#. module: tender_management
+#: code:addons/tender_management/models/mrp_production.py:196
+#, python-format
+msgid "%s - Manufacturing costs absorbed"
+msgstr "%s - تكاليف التصنيع المحمّلة"
+
+#. module: tender_management
+#: code:addons/tender_management/models/mrp_production.py:95
+msgid "The standard Manufacturing \"Extra Cost\" field (mrp_account) was not found, so BOM manufacturing costs cannot be added to the production cost."
+msgstr "لم يتم العثور على حقل \"التكلفة الإضافية\" القياسي في التصنيع (mrp_account)، لذلك لا يمكن إضافة تكاليف تصنيع قائمة المواد إلى تكلفة الإنتاج."
+
+#. module: tender_management
+#: code:addons/tender_management/models/mrp_production.py:190
+msgid "Manufacturing costs are included in inventory valuation, but the WIP / production account could not be found, so no account entry was generated."
+msgstr "تكاليف التصنيع مضمّنة في تقييم المخزون، لكن تعذر العثور على حساب تحت التشغيل / الإنتاج، لذلك لم يتم إنشاء قيد محاسبي."
+
+#. module: tender_management
+#: code:addons/tender_management/models/mrp_production.py:213
+#, python-format
+msgid "Manufacturing cost entry %s posted for %s."
+msgstr "تم ترحيل قيد تكلفة التصنيع %s بقيمة %s."
+
+#. module: tender_management
+#: code:addons/tender_management/models/mrp_production.py:171
+#, python-format
+msgid "The %s cost line has no account."
+msgstr "سطر التكلفة %s ليس له حساب."
+
+#. module: tender_management
+#: code:addons/tender_management/models/mrp_production.py:134
+#, python-format
+msgid "The manufacturing cost entry could not be posted automatically (%s). Inventory valuation is not affected. Use \"Post Cost Entry\" to retry."
+msgstr "تعذر ترحيل قيد تكلفة التصنيع تلقائياً (%s). تقييم المخزون لم يتأثر. استخدم \"ترحيل قيد التكلفة\" لإعادة المحاولة."
+
+#. module: tender_management
+#: model:ir.model,name:tender_management.model_mrp_production_cost_line
+msgid "Manufacturing Order BOM Cost Line"
+msgstr "سطر تكلفة قائمة المواد لأمر التصنيع"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_mrp_production_cost_line__amount_total
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_summary
+msgid "Total Cost"
+msgstr "إجمالي التكلفة"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_mrp_production__tm_cost_line_ids
+#: model_terms:ir.ui.view,arch_db:tender_management.mrp_production_form_view_inherit_tm
+msgid "BOM Manufacturing Costs"
+msgstr "تكاليف تصنيع قائمة المواد"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_mrp_production__tm_unit_cost
+msgid "BOM Manufacturing Cost / Unit"
+msgstr "تكلفة تصنيع قائمة المواد / الوحدة"
+
+#. module: tender_management
+#: model:ir.model.fields,help:tender_management.field_mrp_production__tm_unit_cost
+msgid "Labour + Overhead + Other from the BOM, per unit of the product. Added once to the standard MO Extra Cost."
+msgstr "العمالة + المصروفات غير المباشرة + أخرى من قائمة المواد، لكل وحدة من المنتج. تُضاف مرة واحدة إلى التكلفة الإضافية القياسية لأمر التصنيع."
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_mrp_production__tm_cost_move_id
+msgid "Manufacturing Cost Entry"
+msgstr "قيد تكلفة التصنيع"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_res_company__tm_labour_account_id
+msgid "Default Labour Cost Account"
+msgstr "حساب تكلفة العمالة الافتراضي"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_res_company__tm_overhead_account_id
+msgid "Default Overhead Cost Account"
+msgstr "حساب المصروفات غير المباشرة الافتراضي"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_res_company__tm_other_account_id
+msgid "Default Other Manufacturing Cost Account"
+msgstr "حساب تكاليف التصنيع الأخرى الافتراضي"
+
+#. module: tender_management
+#: code:addons/tender_management/models/sale_order.py:15
+msgid "Tender marked as Won: the quotation was confirmed."
+msgstr "تم تحويل المناقصة إلى \"فائزة\": تم تأكيد عرض السعر."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_report_wizard.py:43
+msgid "No tenders match the selected filters."
+msgstr "لا توجد مناقصات تطابق عوامل التصفية المحددة."
+
+#. module: tender_management
+#: model:ir.model,name:tender_management.model_tm_tender_report_wizard
+#: model:ir.ui.menu,name:tender_management.menu_tender_report_summary
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_report_wizard_view_form
+#: model:ir.actions.act_window,name:tender_management.tm_tender_report_wizard_action
+msgid "Tenders Report"
+msgstr "تقرير المناقصات"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_report_wizard__date_from
+msgid "From"
+msgstr "من"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_report_wizard__date_to
+msgid "To"
+msgstr "إلى"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_report_wizard__state
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__state
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_summary
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_search
+#: code:addons/tender_management/static/src/xml/tm_dashboard.xml:0
+msgid "Status"
+msgstr "الحالة"
+
+#. module: tender_management
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender_report_wizard__state__all
+msgid "All"
+msgstr "الكل"
+
+#. module: tender_management
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender_report_wizard__state__draft
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender__state__draft
+#: model:tm.tender.stage,name:tender_management.tm_stage_draft
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_search
+msgid "Draft"
+msgstr "مسودة"
+
+#. module: tender_management
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender_report_wizard__state__submitted
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender__state__submitted
+#: model:tm.tender.stage,name:tender_management.tm_stage_submitted
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Submitted"
+msgstr "مقدّمة"
+
+#. module: tender_management
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender_report_wizard__state__approved
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender__state__approved
+#: model:tm.tender.stage,name:tender_management.tm_stage_approved
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Approved"
+msgstr "معتمدة"
+
+#. module: tender_management
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender_report_wizard__state__quotation
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender__state__quotation
+#: model:tm.tender.stage,name:tender_management.tm_stage_quotation
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Quotation"
+msgstr "عرض سعر"
+
+#. module: tender_management
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender_report_wizard__state__won
+#: code:addons/tender_management/models/tm_tender.py:962
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender__state__won
+#: model:tm.tender.stage,name:tender_management.tm_stage_won
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_line_view_search
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_search
+msgid "Won"
+msgstr "فائزة"
+
+#. module: tender_management
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender_report_wizard__state__delivered
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender__state__delivered
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender__delivery_status__delivered
+#: model:tm.tender.stage,name:tender_management.tm_stage_delivered
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Delivered"
+msgstr "تم التسليم"
+
+#. module: tender_management
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender_report_wizard__state__invoiced
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender__state__invoiced
+#: model:tm.tender.stage,name:tender_management.tm_stage_invoiced
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_search
+msgid "Invoiced"
+msgstr "تمت الفوترة"
+
+#. module: tender_management
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender_report_wizard__state__paid
+#: code:addons/tender_management/models/tm_tender.py:974
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender__state__paid
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender__invoicing_status__paid
+#: model:tm.tender.stage,name:tender_management.tm_stage_paid
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_search
+msgid "Paid"
+msgstr "مدفوعة"
+
+#. module: tender_management
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender_report_wizard__state__lost
+#: code:addons/tender_management/models/tm_tender.py:977
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender__state__lost
+#: model:tm.tender.stage,name:tender_management.tm_stage_lost
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_line_view_search
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_search
+msgid "Lost"
+msgstr "خاسرة"
+
+#. module: tender_management
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender_report_wizard__state__cancelled
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender__state__cancelled
+#: model:tm.tender.stage,name:tender_management.tm_stage_cancelled
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Cancelled"
+msgstr "ملغاة"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_report_wizard__partner_ids
+msgid "Customers"
+msgstr "العملاء"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:363
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__revision_ids
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Revisions"
+msgstr "المراجعات"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:555
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_lost_wizard_view_form
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Mark as Lost"
+msgstr "تحديد كخاسرة"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:577
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_add_products_wizard_view_form
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Add Products"
+msgstr "إضافة منتجات"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:627
+msgid "Bills of Materials"
+msgstr "قوائم المواد"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:641
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__sale_order_ids
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__sale_order_count
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Sales Orders"
+msgstr "أوامر البيع"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:656
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__production_count
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_variance
+msgid "Manufacturing Orders"
+msgstr "أوامر التصنيع"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:667
+msgid "Delivery Orders"
+msgstr "أوامر التسليم"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:682
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__payment_count
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Payments"
+msgstr "الدفعات"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:696
+#: code:addons/tender_management/models/tm_tender.py:874
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__purchase_order_ids
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__purchase_order_count
+msgid "Purchase Orders"
+msgstr "أوامر الشراء"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:711
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__landed_cost_ids
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__landed_cost_count
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Landed Costs"
+msgstr "التكاليف الإضافية على المخزون"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:868
+#, python-format
+msgid "%s purchase order(s) created."
+msgstr "تم إنشاء %s أمر/أوامر شراء."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:889
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__invoice_count
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Invoices"
+msgstr "الفواتير"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:1158
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Cost Breakdown"
+msgstr "تفصيل التكلفة"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:176
+msgid "Unsupported search on \"Overdue\"."
+msgstr "بحث غير مدعوم على \"المتأخرة\"."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:338
+msgid "A revision can only be created from a submitted, approved, quotation, lost or cancelled tender."
+msgstr "يمكن إنشاء مراجعة فقط من مناقصة مقدّمة أو معتمدة أو في مرحلة عرض السعر أو خاسرة أو ملغاة."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:341
+msgid "Cancel the quotation of this tender before creating a revision."
+msgstr "قم بإلغاء عرض السعر الخاص بهذه المناقصة قبل إنشاء مراجعة."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:397
+msgid "Only draft or cancelled tenders can be deleted."
+msgstr "لا يمكن حذف إلا المناقصات في حالة مسودة أو الملغاة."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:405
+msgid "Only Tender Managers can perform this action."
+msgstr "مديرو المناقصات فقط يمكنهم تنفيذ هذا الإجراء."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:500
+msgid "The tender must be approved before creating a quotation."
+msgstr "يجب اعتماد المناقصة قبل إنشاء عرض السعر."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:502
+msgid "An active quotation already exists for this tender."
+msgstr "يوجد عرض سعر نشط لهذه المناقصة بالفعل."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:738
+msgid "Add at least one Additional Cost line before creating a Landed Cost."
+msgstr "أضف سطر تكلفة إضافية واحداً على الأقل قبل إنشاء Landed Cost."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:745
+msgid "No Manufacturing Orders were found for this tender yet."
+msgstr "لا توجد أوامر تصنيع لهذه المناقصة بعد."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:754
+msgid "No completed delivery transfers were found for this tender yet."
+msgstr "لا توجد عمليات تسليم مكتملة لهذه المناقصة بعد."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:760
+msgid "This tender has no posted invoice yet."
+msgstr "لا توجد فاتورة مرحّلة لهذه المناقصة بعد."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:785
+msgid "The generic Landed Cost product is missing; reinstall the module."
+msgstr "المنتج العام الخاص بالـ Landed Cost غير موجود؛ أعد تثبيت الموديول."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:834
+msgid "Approve the tender before creating purchase orders."
+msgstr "اعتمد المناقصة قبل إنشاء أوامر الشراء."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:837
+msgid "None of the tender products have a BOM with components."
+msgstr "لا يوجد لأي من منتجات المناقصة قائمة مواد بها مكونات."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:957
+msgid "Total Tenders"
+msgstr "إجمالي المناقصات"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:959
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_line_view_search
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_search
+msgid "In Progress"
+msgstr "قيد التنفيذ"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:961
+msgid "pipeline value"
+msgstr "قيمة قيد التنفيذ"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:963
+msgid "won value"
+msgstr "قيمة الفائزة"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:965
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender__delivery_status__pending
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_search
+msgid "To Deliver"
+msgstr "للتسليم"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:967
+msgid "waiting delivery"
+msgstr "بانتظار التسليم"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:968
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender__invoicing_status__to_invoice
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_search
+msgid "To Invoice"
+msgstr "للفوترة"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:970
+msgid "delivered, not invoiced"
+msgstr "تم التسليم ولم تتم الفوترة"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:971
+msgid "Invoiced, Unpaid"
+msgstr "مفوترة وغير مدفوعة"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:973
+msgid "invoiced value"
+msgstr "قيمة المفوترة"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:976
+msgid "collected value"
+msgstr "قيمة المحصّل"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:978
+msgid "lost value"
+msgstr "قيمة الخاسرة"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:980
+msgid "Win Rate"
+msgstr "نسبة الفوز"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:982
+msgid "Expected Profit"
+msgstr "الربح المتوقع"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:984
+msgid "avg margin"
+msgstr "متوسط الهامش"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:986
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_search
+msgid "Overdue"
+msgstr "المتأخرة"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:350
+#, python-format
+msgid "Superseded by revision %s."
+msgstr "تم استبدالها بالمراجعة %s."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:351
+#, python-format
+msgid "Revision of %s."
+msgstr "مراجعة للمناقصة %s."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:383
+msgid "The deadline cannot be before the tender date."
+msgstr "لا يمكن أن يسبق الموعد النهائي تاريخ المناقصة."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:410
+msgid "Add at least one product before submitting the tender."
+msgstr "أضف منتجاً واحداً على الأقل قبل تقديم المناقصة."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:475
+#: code:addons/tender_management/models/tm_tender.py:1230
+msgid "Invalid margin"
+msgstr "هامش غير صالح"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:476
+#: code:addons/tender_management/models/tm_tender.py:1231
+msgid "The percentage must be greater than -100%."
+msgstr "يجب أن تكون النسبة أكبر من -100%."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:481
+#: code:addons/tender_management/models/tm_tender.py:1237
+msgid "No cost"
+msgstr "لا توجد تكلفة"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:490
+msgid "Costs are frozen once the tender is approved."
+msgstr "التكاليف تُجمَّد بمجرد اعتماد المناقصة."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:528
+#, python-format
+msgid "Quotation %s created."
+msgstr "تم إنشاء عرض السعر %s."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:748
+#, python-format
+msgid "These Manufacturing Orders are not done yet: %s"
+msgstr "أوامر التصنيع التالية لم تكتمل بعد: %s"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:769
+msgid "Landed Cost Already Created"
+msgstr "تم إنشاء Landed Cost بالفعل"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:770
+msgid "A Landed Cost already exists for this tender."
+msgstr "يوجد بالفعل Landed Cost لهذه المناقصة."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:800
+#, python-format
+msgid "Landed Cost %s created for %s."
+msgstr "تم إنشاء Landed Cost %s لـ %s."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:849
+#, python-format
+msgid "No vendor is configured for any of the needed components: %s"
+msgstr "لا يوجد مورّد مُعرَّف لأي من المكونات المطلوبة: %s"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:870
+#, python-format
+msgid "No vendor configured for: %s"
+msgstr "لا يوجد مورّد مُعرَّف لـ: %s"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:922
+msgid "Tender deadline is tomorrow"
+msgstr "الموعد النهائي للمناقصة غداً"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:1012
+msgid "Not specified"
+msgstr "غير محدد"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:1247
+msgid "The quantity must be greater than zero."
+msgstr "يجب أن تكون الكمية أكبر من صفر."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:1294
+msgid "Tender additional costs cannot be negative."
+msgstr "لا يمكن أن تكون التكاليف الإضافية للمناقصة سالبة."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:448
+#, python-format
+msgid "Tender %s is approved: create the quotation"
+msgstr "تم اعتماد المناقصة %s: أنشئ عرض السعر"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:482
+#, python-format
+msgid "These products have no BOM cost, so their price was not changed: %s"
+msgstr "هذه المنتجات ليس لها تكلفة قائمة مواد، لذلك لم يتغير سعرها: %s"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:1198
+#, python-format
+msgid "%s on %s"
+msgstr "%s بتاريخ %s"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:1296
+#, python-format
+msgid "Please choose an account for the \"%s\" additional cost (or set default accounts in Tenders > Configuration > Settings)."
+msgstr "يرجى اختيار حساب للتكلفة الإضافية \"%s\" (أو تحديد الحسابات الافتراضية من المناقصات > الإعدادات > الإعدادات)."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:267
+#, python-format
+msgid "Tender moved to %s automatically."
+msgstr "انتقلت المناقصة إلى \"%s\" تلقائياً."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:423
+#, python-format
+msgid "Tender %s is waiting for approval"
+msgstr "المناقصة %s بانتظار الاعتماد"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender.py:1238
+msgid "This product has no cost yet, so a sale price cannot be calculated from a margin."
+msgstr "لا توجد تكلفة لهذا المنتج بعد، لذلك لا يمكن حساب سعر البيع من الهامش."
+
+#. module: tender_management
+#: model:ir.model,name:tender_management.model_tm_tender_stage
+msgid "Tender Stage"
+msgstr "مرحلة المناقصة"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_stage__fold
+msgid "Folded in Kanban"
+msgstr "مطوية في الكانبان"
+
+#. module: tender_management
+#: model:ir.model.fields,help:tender_management.field_tm_tender_stage__fold
+msgid "Folded stages are collapsed in the kanban view."
+msgstr "المراحل المطوية تظهر مصغّرة في عرض الكانبان."
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__name
+msgid "Tender Number"
+msgstr "رقم المناقصة"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__partner_id
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_line__partner_id
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_proposal
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_summary
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_line_view_search
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_search
+#: code:addons/tender_management/static/src/xml/tm_dashboard.xml:0
+msgid "Customer"
+msgstr "العميل"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__tender_date
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_line__tender_date
+msgid "Tender Date"
+msgstr "تاريخ المناقصة"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__deadline
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_summary
+#: code:addons/tender_management/static/src/xml/tm_dashboard.xml:0
+msgid "Deadline"
+msgstr "الموعد النهائي"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__stage_id
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_search
+msgid "Stage"
+msgstr "المرحلة"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__user_id
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_search
+msgid "Responsible"
+msgstr "المسؤول"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__company_id
+msgid "Company"
+msgstr "الشركة"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__note
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_proposal
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Notes"
+msgstr "ملاحظات"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__lost_reason
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_lost_wizard__note
+msgid "Lost Notes"
+msgstr "ملاحظات الخسارة"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__lost_reason_id
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_lost_wizard__reason_id
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_search
+msgid "Lost Reason"
+msgstr "سبب الخسارة"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__priority
+msgid "Priority"
+msgstr "الأولوية"
+
+#. module: tender_management
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender__priority__0
+msgid "Normal"
+msgstr "عادية"
+
+#. module: tender_management
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender__priority__1
+msgid "Low"
+msgstr "منخفضة"
+
+#. module: tender_management
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender__priority__2
+msgid "High"
+msgstr "عالية"
+
+#. module: tender_management
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender__priority__3
+msgid "Very High"
+msgstr "عالية جداً"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__tag_ids
+#: model:ir.ui.menu,name:tender_management.menu_tender_config_tags
+#: model:ir.actions.act_window,name:tender_management.tm_tag_action
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Tags"
+msgstr "الوسوم"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__document_ids
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Attachments"
+msgstr "المرفقات"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__payment_term_id
+msgid "Payment Terms"
+msgstr "شروط الدفع"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__validity_days
+msgid "Quotation Validity (days)"
+msgstr "صلاحية عرض السعر (أيام)"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__min_margin
+msgid "Target Margin %"
+msgstr "الهامش المستهدف %"
+
+#. module: tender_management
+#: model:ir.model.fields,help:tender_management.field_tm_tender__min_margin
+msgid "Profit percentage on cost. Type it to set the sale price of all the lines, including the lines you add later: price = BOM cost x (1 + percentage). It is also a threshold: an alert is shown when the tender profit percentage, after the tender additional costs, is below it."
+msgstr "نسبة الربح على التكلفة. اكتبها ليتم حساب سعر البيع لكل السطور، بما فيها السطور التي تضيفها لاحقاً: السعر = تكلفة قائمة المواد × (1 + النسبة). وهي أيضاً حدّ للتنبيه: يظهر تنبيه إذا كانت نسبة ربح المناقصة، بعد التكاليف الإضافية للمناقصة، أقل منها."
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__approved_by
+msgid "Approved By"
+msgstr "اعتمدها"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__approved_date
+msgid "Approved On"
+msgstr "تاريخ الاعتماد"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__revision_of_id
+msgid "Revision Of"
+msgstr "مراجعة للمناقصة"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__revision_no
+msgid "Revision"
+msgstr "المراجعة"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__actual_cost
+msgid "Actual Manufacturing Cost"
+msgstr "تكلفة التصنيع الفعلية"
+
+#. module: tender_management
+#: model:ir.model.fields,help:tender_management.field_tm_tender__actual_cost
+msgid "Cost of the finished products of the completed manufacturing orders."
+msgstr "تكلفة المنتجات التامة لأوامر التصنيع المكتملة."
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__estimated_produced_cost
+msgid "Estimated Cost (produced quantity)"
+msgstr "التكلفة التقديرية (للكمية المنتجة)"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__cost_variance
+msgid "Cost Variance"
+msgstr "انحراف التكلفة"
+
+#. module: tender_management
+#: model:ir.model.fields,help:tender_management.field_tm_tender__cost_variance
+msgid "Actual minus estimated. Positive means the production cost more than estimated."
+msgstr "الفعلي ناقص التقديري. القيمة الموجبة تعني أن الإنتاج كلّف أكثر من المقدّر."
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__cost_variance_percent
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_variance
+msgid "Variance %"
+msgstr "نسبة الانحراف %"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__line_ids
+#: code:addons/tender_management/models/tm_tender_misc.py:69
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_add_products_wizard__line_ids
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_add_products_wizard_view_form
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Products"
+msgstr "المنتجات"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__cost_ids
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_summary
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Additional Costs"
+msgstr "التكاليف الإضافية"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__bom_count
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "BOMs"
+msgstr "قوائم المواد"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__picking_count
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Deliveries"
+msgstr "التسليمات"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__delivery_status
+msgid "Delivery Status"
+msgstr "حالة التسليم"
+
+#. module: tender_management
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender__delivery_status__none
+msgid "Nothing to Deliver"
+msgstr "لا يوجد ما يُسلَّم"
+
+#. module: tender_management
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender__delivery_status__partial
+msgid "Partially Delivered"
+msgstr "تسليم جزئي"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__invoicing_status
+msgid "Invoicing Status"
+msgstr "حالة الفوترة"
+
+#. module: tender_management
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender__invoicing_status__none
+msgid "Nothing to Invoice"
+msgstr "لا يوجد ما يُفوتر"
+
+#. module: tender_management
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender__invoicing_status__invoiced
+msgid "Fully Invoiced"
+msgstr "مفوترة بالكامل"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__amount_sale
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_line__total_price
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_costing
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_summary
+msgid "Total Sale"
+msgstr "إجمالي البيع"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__amount_bom_cost
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_costing
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_summary
+msgid "BOM Costs"
+msgstr "تكاليف قوائم المواد"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__amount_extra_cost
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_costing
+msgid "Tender Additional Costs"
+msgstr "التكاليف الإضافية للمناقصة"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__amount_total_cost
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_costing
+msgid "Tender Total Cost"
+msgstr "إجمالي تكلفة المناقصة"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__profit
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_line__profit
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_costing
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_summary
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_kanban
+msgid "Profit"
+msgstr "الربح"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender__margin_percent
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_line__margin_percent
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_costing
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_summary
+msgid "Margin %"
+msgstr "الهامش %"
+
+#. module: tender_management
+#: model:ir.model,name:tender_management.model_tm_tender_line
+msgid "Tender Product"
+msgstr "منتج المناقصة"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_line__tender_state
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_line_view_search
+msgid "Tender Status"
+msgstr "حالة المناقصة"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_line__product_categ_id
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_line_view_search
+msgid "Product Category"
+msgstr "فئة المنتج"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_line__product_id
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_add_products_line__product_id
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_proposal
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_costing
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_variance
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_line_view_search
+msgid "Product"
+msgstr "المنتج"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_line__quantity
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_add_products_line__quantity
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_proposal
+#: model_terms:ir.ui.view,arch_db:tender_management.report_bom_cost
+msgid "Quantity"
+msgstr "الكمية"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_line__uom_id
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_proposal
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_costing
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_variance
+#: model_terms:ir.ui.view,arch_db:tender_management.report_bom_cost
+msgid "UoM"
+msgstr "وحدة القياس"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_line__bom_id
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_costing
+msgid "BOM"
+msgstr "قائمة المواد"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_line__material_cost_unit
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_costing
+msgid "Materials / Unit"
+msgstr "الخامات / الوحدة"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_line__labour_cost_unit
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_costing
+msgid "Labour / Unit"
+msgstr "العمالة / الوحدة"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_line__overhead_cost_unit
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_costing
+msgid "Overhead / Unit"
+msgstr "المصروفات غير المباشرة / الوحدة"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_line__other_cost_unit
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_costing
+msgid "Other / Unit"
+msgstr "أخرى / الوحدة"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_line__bom_cost_unit
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_costing
+msgid "BOM Cost / Unit"
+msgstr "تكلفة قائمة المواد / الوحدة"
+
+#. module: tender_management
+#: model:ir.model.fields,help:tender_management.field_tm_tender_line__bom_cost_unit
+msgid "Total BOM Cost (Materials + Labour + Overhead + Other) per unit. Products without a BOM use their standard cost. Frozen once approved; use \"Refresh Costs\" before approval to re-read it."
+msgstr "إجمالي تكلفة قائمة المواد (الخامات + العمالة + المصروفات غير المباشرة + أخرى) للوحدة. المنتجات بدون قائمة مواد تستخدم تكلفتها القياسية. تُجمَّد بعد الاعتماد؛ استخدم \"تحديث التكاليف\" قبل الاعتماد لإعادة قراءتها."
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_line__price_unit
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_costing
+msgid "Sale Price"
+msgstr "سعر البيع"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_line__last_price_sold
+msgid "Last Price Sold"
+msgstr "آخر سعر بيع"
+
+#. module: tender_management
+#: model:ir.model.fields,help:tender_management.field_tm_tender_line__last_price_sold
+msgid "Unit price on the most recent confirmed sales order for this customer and product."
+msgstr "سعر الوحدة في آخر أمر بيع مؤكد لهذا العميل ولهذا المنتج."
+
+#. module: tender_management
+#: model:ir.model.fields,help:tender_management.field_tm_tender_line__margin_percent
+msgid "Profit as a percentage of the BOM cost: (Sale Price - BOM Cost) / BOM Cost. Type a percentage to set the sale price (BOM cost x (1 + percentage)); changing the sale price updates the percentage."
+msgstr "الربح كنسبة من تكلفة قائمة المواد: (سعر البيع - التكلفة) / التكلفة. اكتب النسبة ليتم حساب سعر البيع (التكلفة × (1 + النسبة))، وعند تغيير سعر البيع تتحدّث النسبة."
+
+#. module: tender_management
+#: model:ir.model,name:tender_management.model_tm_tender_cost
+msgid "Tender Additional Cost"
+msgstr "تكلفة إضافية للمناقصة"
+
+#. module: tender_management
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender_cost__cost_type__overhead
+msgid "Tender Overhead"
+msgstr "مصروفات غير مباشرة للمناقصة"
+
+#. module: tender_management
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender_cost__cost_type__other
+msgid "Other Tender Cost"
+msgstr "تكلفة أخرى للمناقصة"
+
+#. module: tender_management
+#: model:ir.model.fields,help:tender_management.field_tm_tender_cost__account_id
+msgid "Account credited by the Landed Cost when this cost is validated."
+msgstr "الحساب الدائن عن طريق الـ Landed Cost عند اعتماد هذه التكلفة."
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_cost__split_method
+msgid "Split Method"
+msgstr "طريقة التوزيع"
+
+#. module: tender_management
+#: model:ir.model.fields,help:tender_management.field_tm_tender_cost__split_method
+msgid "How the Landed Cost distributes this amount across the delivered products."
+msgstr "كيفية توزيع الـ Landed Cost لهذا المبلغ على المنتجات المسلَّمة."
+
+#. module: tender_management
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender_cost__split_method__equal
+msgid "Equal"
+msgstr "بالتساوي"
+
+#. module: tender_management
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender_cost__split_method__by_quantity
+msgid "By Quantity"
+msgstr "حسب الكمية"
+
+#. module: tender_management
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender_cost__split_method__by_current_cost
+msgid "By Current Cost"
+msgstr "حسب التكلفة الحالية"
+
+#. module: tender_management
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender_cost__split_method__by_weight
+msgid "By Weight"
+msgstr "حسب الوزن"
+
+#. module: tender_management
+#: model:ir.model.fields.selection,name:tender_management.selection__tm_tender_cost__split_method__by_volume
+msgid "By Volume"
+msgstr "حسب الحجم"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender_misc.py:76
+msgid "Products can only be added to a draft tender."
+msgstr "لا يمكن إضافة منتجات إلا لمناقصة في حالة مسودة."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender_misc.py:82
+msgid "Add at least one product."
+msgstr "أضف منتجاً واحداً على الأقل."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender_misc.py:102
+msgid "Choose an Excel file first."
+msgstr "اختر ملف إكسل أولاً."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender_misc.py:142
+msgid "No products were found in the file."
+msgstr "لم يتم العثور على منتجات في الملف."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender_misc.py:106
+msgid "The Python library openpyxl is not installed on the server."
+msgstr "مكتبة بايثون openpyxl غير مثبتة على الخادم."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender_misc.py:112
+msgid "The file could not be read. Use an .xlsx file."
+msgstr "تعذّرت قراءة الملف. استخدم ملف .xlsx."
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender_misc.py:140
+#, python-format
+msgid "%s products added. Problems: %s"
+msgstr "تمت إضافة %s منتج. مشاكل: %s"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender_misc.py:122
+#, python-format
+msgid "Row %s: product \"%s\" not found"
+msgstr "الصف %s: المنتج \"%s\" غير موجود"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender_misc.py:127
+#, python-format
+msgid "Row %s: invalid quantity"
+msgstr "الصف %s: كمية غير صالحة"
+
+#. module: tender_management
+#: code:addons/tender_management/models/tm_tender_misc.py:134
+#, python-format
+msgid "Row %s: invalid price"
+msgstr "الصف %s: سعر غير صالح"
+
+#. module: tender_management
+#: model:ir.model,name:tender_management.model_tm_tender_lost_reason
+msgid "Tender Lost Reason"
+msgstr "سبب خسارة المناقصة"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_lost_reason__name
+msgid "Reason"
+msgstr "السبب"
+
+#. module: tender_management
+#: model:ir.model,name:tender_management.model_tm_tender_tag
+msgid "Tender Tag"
+msgstr "وسم المناقصة"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_tag__name
+msgid "Tag"
+msgstr "الوسم"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_tag__color
+msgid "Color"
+msgstr "اللون"
+
+#. module: tender_management
+#: model:ir.model,name:tender_management.model_tm_tender_lost_wizard
+msgid "Mark Tender as Lost"
+msgstr "تحديد المناقصة كخاسرة"
+
+#. module: tender_management
+#: model:ir.model,name:tender_management.model_tm_tender_add_products_line
+msgid "Add Products Line"
+msgstr "سطر إضافة منتجات"
+
+#. module: tender_management
+#: model:ir.model,name:tender_management.model_tm_tender_add_products_wizard
+msgid "Add Products to Tender"
+msgstr "إضافة منتجات للمناقصة"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_add_products_wizard__file
+msgid "Excel File"
+msgstr "ملف إكسل"
+
+#. module: tender_management
+#: model:ir.model.fields,field_description:tender_management.field_tm_tender_add_products_wizard__filename
+msgid "File Name"
+msgstr "اسم الملف"
+
+#. module: tender_management
+#: model:ir.actions.report,name:tender_management.action_report_tender_proposal
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_proposal
+msgid "Tender Proposal"
+msgstr "عرض المناقصة"
+
+#. module: tender_management
+#: model:ir.actions.report,name:tender_management.action_report_tender_costing
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_costing
+msgid "Tender Costing Sheet"
+msgstr "كشف تكلفة المناقصة"
+
+#. module: tender_management
+#: model:ir.actions.report,name:tender_management.action_report_tender_variance
+msgid "Tender Actual vs Estimated Cost"
+msgstr "التكلفة الفعلية مقابل التقديرية للمناقصة"
+
+#. module: tender_management
+#: model:ir.actions.report,name:tender_management.action_report_tender_summary
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_summary
+msgid "Tenders Summary"
+msgstr "ملخص المناقصات"
+
+#. module: tender_management
+#: model:ir.actions.report,name:tender_management.action_report_bom_cost
+#: model_terms:ir.ui.view,arch_db:tender_management.report_bom_cost
+msgid "BOM Cost Sheet"
+msgstr "كشف تكلفة قائمة المواد"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_proposal
+msgid "Tender Date:"
+msgstr "تاريخ المناقصة:"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_proposal
+msgid "Validity:"
+msgstr "الصلاحية:"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_proposal
+msgid "days"
+msgstr "يوم"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_proposal
+msgid "Payment Terms:"
+msgstr "شروط الدفع:"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_proposal
+msgid "Responsible:"
+msgstr "المسؤول:"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_proposal
+msgid "Unit Price"
+msgstr "سعر الوحدة"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_proposal
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_variance
+#: model_terms:ir.ui.view,arch_db:tender_management.mrp_bom_form_view_inherit_tm
+#: model_terms:ir.ui.view,arch_db:tender_management.mrp_production_form_view_inherit_tm
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_line_view_list
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_list
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Total"
+msgstr "الإجمالي"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_proposal
+msgid "Prepared by"
+msgstr "أعدّه"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_proposal
+msgid "Customer acceptance"
+msgstr "موافقة العميل"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_costing
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_variance
+msgid "Customer:"
+msgstr "العميل:"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_costing
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_variance
+msgid "Date:"
+msgstr "التاريخ:"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_costing
+msgid "Deadline:"
+msgstr "الموعد النهائي:"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_costing
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_variance
+msgid "Status:"
+msgstr "الحالة:"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_costing
+msgid "Qty"
+msgstr "الكمية"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_costing
+#: model_terms:ir.ui.view,arch_db:tender_management.report_bom_cost
+msgid "Type"
+msgstr "النوع"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_variance
+msgid "Actual vs Estimated Cost"
+msgstr "التكلفة الفعلية مقابل التقديرية"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_variance
+msgid "Ordered"
+msgstr "المطلوبة"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_variance
+msgid "Produced"
+msgstr "المنتجة"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_variance
+msgid "Estimated Cost"
+msgstr "التكلفة التقديرية"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_variance
+msgid "Actual Cost"
+msgstr "التكلفة الفعلية"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_variance
+msgid "Variance"
+msgstr "الانحراف"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_variance
+msgid "No completed manufacturing orders yet."
+msgstr "لا توجد أوامر تصنيع مكتملة بعد."
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_variance
+msgid "Estimated = produced quantity x tender BOM cost per unit. Actual = value of the finished product of the completed manufacturing orders (materials + BOM manufacturing costs). A positive variance means the production cost more than estimated."
+msgstr "التقديرية = الكمية المنتجة × تكلفة قائمة المواد للوحدة في المناقصة. الفعلية = قيمة المنتج التام في أوامر التصنيع المكتملة (الخامات + تكاليف تصنيع قائمة المواد). الانحراف الموجب يعني أن الإنتاج كلّف أكثر من المقدّر."
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_summary
+msgid "Number"
+msgstr "الرقم"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_summary
+msgid "Date"
+msgstr "التاريخ"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_summary
+msgid "Delivery"
+msgstr "التسليم"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_summary
+msgid "Invoicing"
+msgstr "الفوترة"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_summary
+msgid "Total ("
+msgstr "الإجمالي ("
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_tender_summary
+msgid "tenders)"
+msgstr "مناقصة)"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_bom_cost
+msgid "Product:"
+msgstr "المنتج:"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_bom_cost
+msgid "Reference:"
+msgstr "المرجع:"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_bom_cost
+msgid "Quantity:"
+msgstr "الكمية:"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_bom_cost
+msgid "Company:"
+msgstr "الشركة:"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_bom_cost
+msgid "Materials"
+msgstr "الخامات"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_bom_cost
+msgid "Component"
+msgstr "المكوّن"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_bom_cost
+msgid "Unit Cost"
+msgstr "تكلفة الوحدة"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.report_bom_cost
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_kanban
+#: code:addons/tender_management/static/src/xml/tm_dashboard.xml:0
+msgid "Cost"
+msgstr "التكلفة"
+
+#. module: tender_management
+#: model:res.groups,name:tender_management.group_tender_user
+msgid "Tender: User"
+msgstr "المناقصات: مستخدم"
+
+#. module: tender_management
+#: model:res.groups,name:tender_management.group_tender_manager
+msgid "Tender: Manager"
+msgstr "المناقصات: مدير"
+
+#. module: tender_management
+#: model:ir.ui.menu,name:tender_management.menu_tender_dashboard
+msgid "Dashboard"
+msgstr "لوحة المعلومات"
+
+#. module: tender_management
+#: model:ir.ui.menu,name:tender_management.menu_tender_reports
+msgid "Reports"
+msgstr "التقارير"
+
+#. module: tender_management
+#: model:ir.ui.menu,name:tender_management.menu_tender_report_products
+#: model:ir.actions.act_window,name:tender_management.tm_tender_line_action
+msgid "Product Analysis"
+msgstr "تحليل المنتجات"
+
+#. module: tender_management
+#: model:ir.ui.menu,name:tender_management.menu_tender_config
+msgid "Configuration"
+msgstr "الإعدادات"
+
+#. module: tender_management
+#: model:ir.ui.menu,name:tender_management.menu_tender_config_settings
+#: model:ir.actions.act_window,name:tender_management.tm_config_settings_action
+msgid "Settings"
+msgstr "الإعدادات"
+
+#. module: tender_management
+#: model:ir.ui.menu,name:tender_management.menu_tender_config_stages
+#: model:ir.actions.act_window,name:tender_management.tm_tender_stage_action
+msgid "Stages"
+msgstr "المراحل"
+
+#. module: tender_management
+#: model:ir.ui.menu,name:tender_management.menu_tender_config_lost_reasons
+#: model:ir.actions.act_window,name:tender_management.tm_lost_reason_action
+#: code:addons/tender_management/static/src/xml/tm_dashboard.xml:0
+msgid "Lost Reasons"
+msgstr "أسباب الخسارة"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.mrp_bom_form_view_inherit_tm
+msgid "Description (optional)"
+msgstr "الوصف (اختياري)"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.mrp_production_form_view_inherit_tm
+msgid "Post Cost Entry"
+msgstr "ترحيل قيد التكلفة"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.res_config_settings_view_form_tm
+msgid "Manufacturing Cost Accounts"
+msgstr "حسابات تكاليف التصنيع"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.res_config_settings_view_form_tm
+msgid "Labour Cost Account"
+msgstr "حساب تكلفة العمالة"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.res_config_settings_view_form_tm
+msgid "Default account for new BOM cost lines. Each line can still use another account."
+msgstr "الحساب الافتراضي لسطور تكلفة قائمة المواد الجديدة. يمكن لكل سطر استخدام حساب آخر."
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.res_config_settings_view_form_tm
+msgid "Overhead Cost Account"
+msgstr "حساب المصروفات غير المباشرة"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.res_config_settings_view_form_tm
+msgid "Other Manufacturing Cost Account"
+msgstr "حساب تكاليف التصنيع الأخرى"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_line_view_search
+msgid "Loss Making"
+msgstr "خاسرة"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_line_view_search
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_search
+msgid "Tender Month"
+msgstr "شهر المناقصة"
+
+#. module: tender_management
+#: model:ir.actions.client,name:tender_management.tm_dashboard_action
+#: code:addons/tender_management/static/src/xml/tm_dashboard.xml:0
+msgid "Tender Dashboard"
+msgstr "لوحة معلومات المناقصات"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_lost_wizard_view_form
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_add_products_wizard_view_form
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Cancel"
+msgstr "إلغاء"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_add_products_wizard_view_form
+msgid "Import from Excel"
+msgstr "استيراد من إكسل"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_add_products_wizard_view_form
+msgid "Columns: Product (internal reference, barcode or name), Quantity, Sale Price (optional)."
+msgstr "الأعمدة: المنتج (المرجع الداخلي أو الباركود أو الاسم)، الكمية، سعر البيع (اختياري)."
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_add_products_wizard_view_form
+msgid "Download Template"
+msgstr "تنزيل نموذج"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_add_products_wizard_view_form
+msgid "Import File"
+msgstr "استيراد الملف"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_line_view_form_breakdown
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_report_wizard_view_form
+msgid "Close"
+msgstr "إغلاق"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_report_wizard_view_form
+msgid "Print PDF"
+msgstr "طباعة PDF"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_report_wizard_view_form
+msgid "Export Excel"
+msgstr "تصدير Excel"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Submit"
+msgstr "تقديم"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Approve"
+msgstr "اعتماد"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Create Quotation"
+msgstr "إنشاء عرض سعر"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Create Purchase Orders"
+msgstr "إنشاء أوامر شراء"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Additional Cost"
+msgstr "تكلفة إضافية"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Mark as Won"
+msgstr "تحديد كفائزة"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Mark as Delivered"
+msgstr "تحديد كتم التسليم"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Mark as Invoiced"
+msgstr "تحديد كتمت الفوترة"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Mark as Paid"
+msgstr "تحديد كمدفوعة"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "New Revision"
+msgstr "مراجعة جديدة"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Actual vs Estimated"
+msgstr "الفعلي مقابل التقديري"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Refresh Costs"
+msgstr "تحديث التكاليف"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Send by Email"
+msgstr "إرسال بالبريد الإلكتروني"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Print Proposal"
+msgstr "طباعة العرض"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Costing Sheet"
+msgstr "كشف التكلفة"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Reset to Draft"
+msgstr "إعادة إلى مسودة"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Manufacturing"
+msgstr "التصنيع"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Purchases"
+msgstr "المشتريات"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "The BOM costs changed since these lines were priced. Press Refresh Costs to update them."
+msgstr "تكاليف قائمة المواد تغيّرت منذ تسعير هذه السطور. اضغط \"تحديث التكاليف\" لتحديثها."
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "The tender deadline has passed."
+msgstr "انتهى الموعد النهائي للمناقصة."
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "The tender margin is below the target margin."
+msgstr "هامش المناقصة أقل من الهامش المستهدف."
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_form
+msgid "Once this tender is delivered and invoiced, use \"Additional Cost\" in the header to turn these lines into a real Landed Cost."
+msgstr "بمجرد تسليم هذه المناقصة وفوترتها، استخدم زر \"تكلفة إضافية\" أعلى الشاشة لتحويل هذه السطور إلى Landed Cost فعلي."
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_search
+msgid "My Tenders"
+msgstr "مناقصاتي"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_search
+msgid "Important"
+msgstr "مهمة"
+
+#. module: tender_management
+#: model_terms:ir.ui.view,arch_db:tender_management.tm_tender_view_kanban
+#: code:addons/tender_management/static/src/xml/tm_dashboard.xml:0
+msgid "Sale"
+msgstr "البيع"
+
+#. module: tender_management
+#: code:addons/tender_management/static/src/xml/tm_dashboard.xml:0
+msgid "Tenders by Stage"
+msgstr "المناقصات حسب المرحلة"
+
+#. module: tender_management
+#: code:addons/tender_management/static/src/xml/tm_dashboard.xml:0
+msgid "Sale Value by Stage"
+msgstr "قيمة البيع حسب المرحلة"
+
+#. module: tender_management
+#: code:addons/tender_management/static/src/xml/tm_dashboard.xml:0
+msgid "Sale vs Cost (last 12 months)"
+msgstr "البيع مقابل التكلفة (آخر 12 شهراً)"
+
+#. module: tender_management
+#: code:addons/tender_management/static/src/xml/tm_dashboard.xml:0
+msgid "Top Customers"
+msgstr "أفضل العملاء"
+
+#. module: tender_management
+#: code:addons/tender_management/static/src/xml/tm_dashboard.xml:0
+msgid "Upcoming Deadlines"
+msgstr "المواعيد النهائية القادمة"
+
+#. module: tender_management
+#: code:addons/tender_management/static/src/xml/tm_dashboard.xml:0
+msgid "No open tenders with a deadline."
+msgstr "لا توجد مناقصات مفتوحة لها موعد نهائي."
+
+#. module: tender_management
+#: code:addons/tender_management/static/src/xml/tm_dashboard.xml:0
+msgid "Loading..."
+msgstr "جارٍ التحميل..."
+
+#. module: tender_management
+#: code:addons/tender_management/static/src/js/tm_dashboard.js:0
+msgid "This Month"
+msgstr "هذا الشهر"
+
+#. module: tender_management
+#: code:addons/tender_management/static/src/js/tm_dashboard.js:0
+msgid "This Quarter"
+msgstr "هذا الربع"
+
+#. module: tender_management
+#: code:addons/tender_management/static/src/js/tm_dashboard.js:0
+msgid "This Year"
+msgstr "هذه السنة"
+
+#. module: tender_management
+#: code:addons/tender_management/static/src/js/tm_dashboard.js:0
+msgid "All Time"
+msgstr "كل الأوقات"
+
+#. module: tender_management
+#: code:addons/tender_management/static/src/js/tm_dashboard.js:0
+msgid "No data"
+msgstr "لا توجد بيانات"

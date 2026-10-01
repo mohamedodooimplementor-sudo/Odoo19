@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="mrp_production_form_view_inherit_tm" model="ir.ui.view">
+        <field name="name">mrp.production.form.inherit.tender.management</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="BOM Manufacturing Costs" name="tm_manufacturing_costs"
+                      invisible="not tm_cost_line_ids">
+                    <field name="tm_cost_line_ids" readonly="1">
+                        <list>
+                            <field name="cost_type"/>
+                            <field name="name"/>
+                            <field name="account_id"/>
+                            <field name="amount_unit"/>
+                            <field name="amount_total" sum="Total"/>
+                            <field name="currency_id" column_invisible="1"/>
+                        </list>
+                    </field>
+                    <group>
+                        <field name="tm_unit_cost"/>
+                        <field name="tm_cost_move_id"/>
+                    </group>
+                    <button name="action_tm_post_cost_entry" type="object" class="btn-secondary"
+                            string="Post Cost Entry"
+                            invisible="state != 'done' or tm_cost_move_id"
+                            groups="tender_management.group_tender_manager,mrp.group_mrp_manager"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

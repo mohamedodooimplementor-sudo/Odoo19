@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="mail_activity_type_tender_approval" model="mail.activity.type">
+        <field name="name">Tender Approval</field>
+        <field name="icon">fa-check-square-o</field>
+        <field name="delay_count">1</field>
+    </record>
+    <record id="mail_activity_type_tender_quotation" model="mail.activity.type">
+        <field name="name">Create Quotation</field>
+        <field name="icon">fa-file-text-o</field>
+        <field name="delay_count">2</field>
+    </record>
+
+    <record id="tm_lost_reason_price" model="tm.tender.lost.reason">
+        <field name="name">Price too high</field><field name="sequence">10</field>
+    </record>
+    <record id="tm_lost_reason_competitor" model="tm.tender.lost.reason">
+        <field name="name">Competitor won</field><field name="sequence">20</field>
+    </record>
+    <record id="tm_lost_reason_requirements" model="tm.tender.lost.reason">
+        <field name="name">Requirements changed</field><field name="sequence">30</field>
+    </record>
+    <record id="tm_lost_reason_deadline" model="tm.tender.lost.reason">
+        <field name="name">Deadline missed</field><field name="sequence">40</field>
+    </record>
+    <record id="tm_lost_reason_cancelled" model="tm.tender.lost.reason">
+        <field name="name">Project cancelled by the customer</field><field name="sequence">50</field>
+    </record>
+    <record id="tm_lost_reason_other" model="tm.tender.lost.reason">
+        <field name="name">Other</field><field name="sequence">90</field>
+    </record>
+
+    <record id="mail_template_tender_proposal" model="mail.template">
+        <field name="name">Tender: Send Proposal</field>
+        <field name="model_id" ref="model_tm_tender"/>
+        <field name="subject">Tender Proposal {{ object.name }}</field>
+        <field name="partner_to">{{ object.partner_id.id }}</field>
+        <field name="auto_delete" eval="True"/>
+        <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px;">
+    <p>Dear <t t-out="object.partner_id.name or ''">Customer</t>,</p>
+    <p>
+        Please find attached our proposal <strong t-out="object.name or ''">TND/0001</strong>.
+        <t t-if="object.validity_days">
+            It is valid for <t t-out="object.validity_days">30</t> days.
+        </t>
+    </p>
+    <p>Do not hesitate to contact us for any further information.</p>
+    <p>Best regards,<br/><t t-out="object.user_id.name or ''">Sales</t></p>
+</div>
+        </field>
+    </record>
+</odoo>

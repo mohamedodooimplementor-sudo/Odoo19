@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="tender_management.Dashboard">
+        <div class="o_tm_dashboard" t-ref="root">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+                <h2 class="m-0">Tender Dashboard</h2>
+                <div class="btn-group" role="group">
+                    <t t-foreach="periods" t-as="p" t-key="p.key">
+                        <button type="button"
+                                t-attf-class="btn btn-sm #{state.period === p.key ? 'btn-primary' : 'btn-outline-secondary'}"
+                                t-on-click="() => this.setPeriod(p.key)">
+                            <t t-esc="p.label"/>
+                        </button>
+                    </t>
+                </div>
+            </div>
+
+            <t t-if="state.data">
+                <div class="tm_kpis">
+                    <t t-foreach="state.data.kpis" t-as="k" t-key="k.key">
+                        <div class="tm_card tm_kpi"
+                             t-attf-style="border-inline-start: 4px solid var(--bs-#{k.color})"
+                             t-on-click="() => this.openKpi(k)">
+                            <div class="tm_kpi_label"><t t-esc="k.label"/></div>
+                            <div class="tm_kpi_value"><t t-esc="formatValue(k.value, k.type)"/></div>
+                            <div class="tm_kpi_sub" t-if="k.sub_label">
+                                <t t-esc="formatValue(k.sub_value, k.sub_type || 'money')"/>
+                                <t t-esc="k.sub_label"/>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+
+                <div class="tm_grid">
+                    <div class="tm_card">
+                        <div class="tm_title">Tenders by Stage</div>
+                        <canvas t-ref="stageCanvas"/>
+                    </div>
+                    <div class="tm_card">
+                        <div class="tm_title">Sale Value by Stage</div>
+                        <canvas t-ref="valueCanvas"/>
+                    </div>
+                </div>
+
+                <div class="tm_grid">
+                    <div class="tm_card tm_grid_wide">
+                        <div class="tm_title">Sale vs Cost (last 12 months)</div>
+                        <div class="tm_legend">
+                            <span><span class="tm_dot" style="background: var(--bs-primary)"/>Sale</span>
+                            <span><span class="tm_dot" style="background: var(--bs-warning)"/>Cost</span>
+                        </div>
+                        <canvas t-ref="monthCanvas"/>
+                    </div>
+                </div>
+
+                <div class="tm_grid">
+                    <div class="tm_card">
+                        <div class="tm_title">Top Customers</div>
+                        <canvas t-ref="customerCanvas"/>
+                    </div>
+                    <div class="tm_card">
+                        <div class="tm_title">Lost Reasons</div>
+                        <canvas t-ref="lostCanvas"/>
+                    </div>
+                </div>
+
+                <div class="tm_grid">
+                    <div class="tm_card tm_grid_wide">
+                        <div class="tm_title">Upcoming Deadlines</div>
+                        <table class="tm_table">
+                            <thead>
+                                <tr>
+                                    <th>Tender</th>
+                                    <th>Customer</th>
+                                    <th>Deadline</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="state.data.upcoming" t-as="row" t-key="row.id">
+                                    <tr class="tm_row" t-on-click="() => this.openTender(row.id)">
+                                        <td><t t-esc="row.name"/></td>
+                                        <td><t t-esc="row.partner_id and row.partner_id[1]"/></td>
+                                        <td t-att-class="row.is_overdue ? 'text-danger fw-bold' : ''"><t t-esc="row.deadline"/></td>
+                                        <td><t t-esc="row.state_label"/></td>
+                                    </tr>
+                                </t>
+                                <tr t-if="!state.data.upcoming.length">
+                                    <td colspan="4" class="text-muted text-center">No open tenders with a deadline.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </t>
+            <div t-else="" class="text-center text-muted p-5">Loading...</div>
+        </div>
+    </t>
+</templates>

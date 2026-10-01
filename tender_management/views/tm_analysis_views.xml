@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="tm_tender_line_view_list" model="ir.ui.view">
+        <field name="name">tm.tender.line.list</field>
+        <field name="model">tm.tender.line</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0" delete="0" decoration-danger="profit &lt; 0">
+                <field name="tender_id"/>
+                <field name="partner_id"/>
+                <field name="tender_date"/>
+                <field name="product_id"/>
+                <field name="quantity"/>
+                <field name="uom_id"/>
+                <field name="bom_cost_unit"/>
+                <field name="total_bom_cost" sum="Total"/>
+                <field name="price_unit"/>
+                <field name="total_price" sum="Total"/>
+                <field name="profit" sum="Total"/>
+                <field name="margin_percent"/>
+                <field name="tender_state" widget="badge"/>
+                <field name="currency_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="tm_tender_line_view_pivot" model="ir.ui.view">
+        <field name="name">tm.tender.line.pivot</field>
+        <field name="model">tm.tender.line</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="product_id" type="row"/>
+                <field name="tender_state" type="col"/>
+                <field name="quantity" type="measure"/>
+                <field name="total_price" type="measure"/>
+                <field name="total_bom_cost" type="measure"/>
+                <field name="profit" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="tm_tender_line_view_graph" model="ir.ui.view">
+        <field name="name">tm.tender.line.graph</field>
+        <field name="model">tm.tender.line</field>
+        <field name="arch" type="xml">
+            <graph type="bar">
+                <field name="product_id"/>
+                <field name="total_price" type="measure"/>
+                <field name="profit" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="tm_tender_line_view_search" model="ir.ui.view">
+        <field name="name">tm.tender.line.search</field>
+        <field name="model">tm.tender.line</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="product_id"/>
+                <field name="tender_id"/>
+                <field name="partner_id"/>
+                <filter name="won" string="Won" domain="[('tender_state', 'in', ('won', 'delivered', 'invoiced', 'paid'))]"/>
+                <filter name="open" string="In Progress"
+                        domain="[('tender_state', 'in', ('submitted', 'approved', 'quotation'))]"/>
+                <filter name="lost" string="Lost" domain="[('tender_state', '=', 'lost')]"/>
+                <filter name="loss_making" string="Loss Making" domain="[('profit', '&lt;', 0)]"/>
+                <group>
+                    <filter name="group_product" string="Product" context="{'group_by': 'product_id'}"/>
+                    <filter name="group_categ" string="Product Category" context="{'group_by': 'product_categ_id'}"/>
+                    <filter name="group_partner" string="Customer" context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_state" string="Tender Status" context="{'group_by': 'tender_state'}"/>
+                    <filter name="group_month" string="Tender Month" context="{'group_by': 'tender_date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="tm_tender_line_action" model="ir.actions.act_window">
+        <field name="name">Product Analysis</field>
+        <field name="res_model">tm.tender.line</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="search_view_id" ref="tm_tender_line_view_search"/>
+    </record>
+</odoo>

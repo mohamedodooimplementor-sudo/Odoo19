@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="tm_tender_view_list" model="ir.ui.view">
+        <field name="name">tm.tender.list</field>
+        <field name="model">tm.tender</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="is_overdue" decoration-muted="state in ('cancelled', 'lost')">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="tender_date"/>
+                <field name="deadline"/>
+                <field name="user_id" widget="many2one_avatar_user" optional="show"/>
+                <field name="amount_sale" sum="Total"/>
+                <field name="amount_total_cost" sum="Total" optional="show"/>
+                <field name="profit" sum="Total"/>
+                <field name="margin_percent" optional="show"/>
+                <field name="delivery_status" optional="hide"/>
+                <field name="invoicing_status" optional="hide"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-warning="state in ('submitted', 'quotation')"
+                       decoration-success="state in ('approved', 'won', 'delivered', 'invoiced', 'paid')"
+                       decoration-danger="state in ('lost', 'cancelled')"/>
+                <field name="is_overdue" column_invisible="1"/>
+                <field name="currency_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="tm_tender_view_form" model="ir.ui.view">
+        <field name="name">tm.tender.form</field>
+        <field name="model">tm.tender</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_submit" string="Submit" type="object" class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_approve" string="Approve" type="object" class="btn-primary"
+                            invisible="state != 'submitted'"
+                            groups="tender_management.group_tender_manager"/>
+                    <button name="action_create_quotation" string="Create Quotation" type="object"
+                            class="btn-primary"
+                            invisible="state not in ('approved', 'quotation') or quotation_count > 0"/>
+                    <button name="action_create_purchase_orders" string="Create Purchase Orders"
+                            type="object" invisible="state == 'draft'"
+                            groups="tender_management.group_tender_manager"/>
+                    <button name="action_create_landed_cost" string="Additional Cost" type="object"
+                            invisible="not cost_ids or not production_count or landed_cost_count"
+                            groups="tender_management.group_tender_manager"/>
+                    <button name="action_won" string="Mark as Won" type="object"
+                            invisible="state != 'quotation'" groups="tender_management.group_tender_manager"/>
+                    <button name="action_lost" string="Mark as Lost" type="object"
+                            invisible="state != 'quotation'" groups="tender_management.group_tender_manager"/>
+                    <button name="action_delivered" string="Mark as Delivered" type="object"
+                            invisible="state != 'won'"/>
+                    <button name="action_invoiced" string="Mark as Invoiced" type="object"
+                            invisible="state not in ('won', 'delivered')"/>
+                    <button name="action_paid" string="Mark as Paid" type="object"
+                            invisible="state != 'invoiced'"/>
+                    <button name="action_new_revision" string="New Revision" type="object"
+                            invisible="state not in ('submitted', 'approved', 'quotation', 'lost', 'cancelled')"/>
+                    <button name="action_refresh_costs" string="Refresh Costs" type="object"
+                            invisible="state not in ('draft', 'submitted')"/>
+                    <button name="action_add_products" string="Import from Excel" type="object"
+                            invisible="state != 'draft'"/>
+                    <button name="action_send_email" string="Send by Email" type="object"
+                            invisible="not line_ids"/>
+                    <button name="action_cancel" string="Cancel" type="object"
+                            invisible="state in ('won', 'delivered', 'invoiced', 'paid', 'lost', 'cancelled')" groups="tender_management.group_tender_manager"/>
+                    <button name="action_draft" string="Reset to Draft" type="object"
+                            invisible="state in ('draft', 'won', 'delivered', 'invoiced', 'paid')"
+                            groups="tender_management.group_tender_manager"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,submitted,approved,quotation,won,delivered,invoiced,paid"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Draft" bg_color="text-bg-secondary"
+                            invisible="state != 'draft'"/>
+                    <widget name="web_ribbon" title="Submitted" bg_color="text-bg-warning"
+                            invisible="state != 'submitted'"/>
+                    <widget name="web_ribbon" title="Approved" bg_color="text-bg-info"
+                            invisible="state != 'approved'"/>
+                    <widget name="web_ribbon" title="Quotation" bg_color="text-bg-primary"
+                            invisible="state != 'quotation'"/>
+                    <widget name="web_ribbon" title="Won" bg_color="text-bg-success"
+                            invisible="state != 'won'"/>
+                    <widget name="web_ribbon" title="Delivered" bg_color="text-bg-tm-delivered"
+                            invisible="state != 'delivered'"/>
+                    <widget name="web_ribbon" title="Invoiced" bg_color="text-bg-tm-invoiced"
+                            invisible="state != 'invoiced'"/>
+                    <widget name="web_ribbon" title="Paid" bg_color="text-bg-tm-paid"
+                            invisible="state != 'paid'"/>
+                    <widget name="web_ribbon" title="Lost" bg_color="text-bg-danger"
+                            invisible="state != 'lost'"/>
+                    <widget name="web_ribbon" title="Cancelled" bg_color="text-bg-dark"
+                            invisible="state != 'cancelled'"/>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_boms" type="object" class="oe_stat_button" icon="fa-flask"
+                                invisible="not bom_count">
+                            <field name="bom_count" widget="statinfo" string="BOMs"/>
+                        </button>
+                        <button name="action_view_sale_orders" type="object" class="oe_stat_button"
+                                icon="fa-shopping-cart" invisible="not sale_order_count">
+                            <field name="sale_order_count" widget="statinfo" string="Sales Orders"/>
+                        </button>
+                        <button name="action_view_productions" type="object" class="oe_stat_button"
+                                icon="fa-cogs" invisible="not production_count">
+                            <field name="production_count" widget="statinfo" string="Manufacturing"/>
+                        </button>
+                        <button name="action_view_revisions" type="object" class="oe_stat_button"
+                                icon="fa-files-o" invisible="not revision_count">
+                            <field name="revision_count" widget="statinfo" string="Revisions"/>
+                        </button>
+                        <button name="action_view_pickings" type="object" class="oe_stat_button"
+                                icon="fa-truck" invisible="not picking_count">
+                            <field name="picking_count" widget="statinfo" string="Deliveries"/>
+                        </button>
+                        <button name="action_view_invoices" type="object" class="oe_stat_button"
+                                icon="fa-pencil-square-o" invisible="not invoice_count">
+                            <field name="invoice_count" widget="statinfo" string="Invoices"/>
+                        </button>
+                        <button name="action_view_payments" type="object" class="oe_stat_button"
+                                icon="fa-money" invisible="not payment_count">
+                            <field name="payment_count" widget="statinfo" string="Payments"/>
+                        </button>
+                        <button name="action_view_purchase_orders" type="object" class="oe_stat_button"
+                                icon="fa-shopping-basket" invisible="not purchase_order_count"
+                                groups="tender_management.group_tender_manager">
+                            <field name="purchase_order_count" widget="statinfo" string="Purchases"/>
+                        </button>
+                        <button name="action_view_landed_costs" type="object" class="oe_stat_button"
+                                icon="fa-balance-scale" invisible="not landed_cost_count"
+                                groups="tender_management.group_tender_manager">
+                            <field name="landed_cost_count" widget="statinfo" string="Landed Costs"/>
+                        </button>
+                    </div>
+                    <field name="is_overdue" invisible="1"/>
+                    <field name="low_margin" invisible="1"/>
+                    <field name="quotation_count" invisible="1"/>
+                    <field name="costs_outdated" invisible="1"/>
+                    <div class="alert alert-warning" role="alert" invisible="not costs_outdated">
+                        The BOM costs changed since these lines were priced. Press Refresh Costs to update them.
+                    </div>
+                    <div class="alert alert-danger" role="alert" invisible="not is_overdue">
+                        The tender deadline has passed.
+                    </div>
+                    <div class="alert alert-warning" role="alert" invisible="not low_margin">
+                        The tender margin is below the target margin.
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="priority" widget="priority" class="me-2"/>
+                            <field name="name"/>
+                        </h1>
+                        <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"
+                               placeholder="Tags"/>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id" readonly="state != 'draft'"/>
+                            <field name="revision_of_id" invisible="not revision_of_id"/>
+                            <field name="user_id"/>
+                            <field name="min_margin"/>
+                            <field name="payment_term_id"/>
+                            <field name="validity_days"/>
+                        </group>
+                        <group>
+                            <field name="tender_date" readonly="state != 'draft'"/>
+                            <field name="deadline"/>
+                            <field name="company_id" groups="base.group_multi_company"
+                                   readonly="state != 'draft'"/>
+                            <field name="delivery_status"
+                                   invisible="state not in ('won', 'delivered', 'invoiced', 'paid')"/>
+                            <field name="invoicing_status"
+                                   invisible="state not in ('won', 'delivered', 'invoiced', 'paid')"/>
+                            <field name="approved_by" invisible="not approved_by"/>
+                            <field name="approved_date" invisible="not approved_date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Products" name="products">
+                            <button name="action_add_from_catalog" string="Catalog" type="object"
+                                    class="btn-secondary mb-2" invisible="state != 'draft' or not id"/>
+                            <field name="line_ids" readonly="state != 'draft'">
+                                <list editable="bottom" decoration-danger="profit &lt; 0" decoration-warning="cost_outdated">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id"/>
+                                    <field name="product_tmpl_id" column_invisible="1"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="bom_id"/>
+                                    <field name="bom_cost_unit"/>
+                                    <button name="action_show_cost_breakdown" type="object"
+                                            icon="fa-info-circle" title="Cost Breakdown"/>
+                                    <field name="cost_outdated" column_invisible="1"/>
+                                    <field name="total_bom_cost" sum="Total"/>
+                                    <field name="extra_cost_share" optional="hide" sum="Total"/>
+                                    <field name="price_unit"/>
+                                    <field name="last_price_sold" optional="hide" widget="monetary"/>
+                                    <field name="total_price" sum="Total"/>
+                                    <field name="profit" sum="Total"/>
+                                    <field name="margin_percent"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="BOM Cost" name="bom_cost" invisible="not line_ids">
+                            <field name="line_ids" readonly="1">
+                                <list create="0" edit="0" delete="0">
+                                    <field name="product_id"/>
+                                    <field name="bom_id"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="material_cost_total" sum="Total"/>
+                                    <field name="labour_cost_total" sum="Total"/>
+                                    <field name="overhead_cost_total" sum="Total"/>
+                                    <field name="other_cost_total" sum="Total"/>
+                                    <field name="total_bom_cost" string="Total BOM Cost" sum="Total"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Additional Costs" name="additional_costs">
+                            <field name="cost_ids" readonly="state != 'draft'">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="cost_type"/>
+                                    <field name="name"/>
+                                    <field name="amount" sum="Total"/>
+                                    <field name="account_id" required="1"/>
+                                    <field name="split_method"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                </list>
+                            </field>
+                            <p class="text-muted" invisible="state == 'draft'">
+                                Once this tender's Manufacturing Orders are done and invoiced, use
+                                "Additional Cost" in the header to turn these lines into a real
+                                Landed Cost applied directly to those Manufacturing Orders.
+                            </p>
+                        </page>
+                        <page string="Actual vs Estimated" name="actual_cost"
+                              invisible="not production_count">
+                            <group>
+                                <group>
+                                    <field name="estimated_produced_cost"/>
+                                    <field name="actual_cost"/>
+                                </group>
+                                <group>
+                                    <field name="cost_variance"/>
+                                    <field name="cost_variance_percent"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Attachments" name="attachments">
+                            <field name="document_ids" widget="many2many_binary"/>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="note"/>
+                            <group invisible="state != 'lost'">
+                                <field name="lost_reason_id"/>
+                                <field name="lost_reason"/>
+                            </group>
+                        </page>
+                    </notebook>
+                    <group class="oe_subtotal_footer">
+                        <field name="currency_id" invisible="1"/>
+                        <field name="amount_sale"/>
+                        <field name="amount_bom_cost"/>
+                        <field name="amount_extra_cost"/>
+                        <field name="amount_total_cost"/>
+                        <field name="profit"/>
+                        <field name="margin_percent"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="tm_tender_view_search" model="ir.ui.view">
+        <field name="name">tm.tender.search</field>
+        <field name="model">tm.tender</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="user_id"/>
+                <field name="tag_ids"/>
+                <filter name="my" string="My Tenders" domain="[('user_id', '=', uid)]"/>
+                <filter name="important" string="Important" domain="[('priority', 'in', ('2', '3'))]"/>
+                <separator/>
+                <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="open" string="In Progress"
+                        domain="[('state', 'in', ('submitted', 'approved', 'quotation'))]"/>
+                <filter name="won" string="Won" domain="[('state', 'in', ('won', 'delivered', 'invoiced', 'paid'))]"/>
+                <filter name="to_deliver" string="To Deliver" domain="[('state', '=', 'won')]"/>
+                <filter name="to_invoice" string="To Invoice" domain="[('state', '=', 'delivered')]"/>
+                <filter name="invoiced" string="Invoiced" domain="[('state', '=', 'invoiced')]"/>
+                <filter name="paid" string="Paid" domain="[('state', '=', 'paid')]"/>
+                <filter name="lost" string="Lost" domain="[('state', '=', 'lost')]"/>
+                <separator/>
+                <filter name="overdue" string="Overdue" domain="[('is_overdue', '=', True)]"/>
+                <group>
+                    <filter name="group_partner" string="Customer" context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_lost_reason" string="Lost Reason" context="{'group_by': 'lost_reason_id'}"/>
+                    <filter name="group_stage" string="Stage" context="{'group_by': 'stage_id'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_user" string="Responsible" context="{'group_by': 'user_id'}"/>
+                    <filter name="group_month" string="Tender Month" context="{'group_by': 'tender_date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="tm_tender_view_pivot" model="ir.ui.view">
+        <field name="name">tm.tender.pivot</field>
+        <field name="model">tm.tender</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="partner_id" type="row"/>
+                <field name="state" type="col"/>
+                <field name="amount_sale" type="measure"/>
+                <field name="amount_total_cost" type="measure"/>
+                <field name="profit" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="tm_tender_view_graph" model="ir.ui.view">
+        <field name="name">tm.tender.graph</field>
+        <field name="model">tm.tender</field>
+        <field name="arch" type="xml">
+            <graph type="bar">
+                <field name="state"/>
+                <field name="amount_sale" type="measure"/>
+                <field name="profit" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="tm_tender_view_kanban" model="ir.ui.view">
+        <field name="name">tm.tender.kanban</field>
+        <field name="model">tm.tender</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="stage_id" group_create="false" group_edit="false"
+                    group_delete="false" records_draggable="false" quick_create="false"
+                    class="o_kanban_small_column">
+                <field name="state"/>
+                <field name="stage_id"/>
+                <field name="is_overdue"/>
+                <field name="currency_id"/>
+                <progressbar field="state"
+                             colors='{"draft": "muted", "submitted": "warning", "approved": "info", "quotation": "primary", "won": "success", "delivered": "info", "invoiced": "info", "paid": "success", "lost": "danger", "cancelled": "muted"}'
+                             sum_field="amount_sale"/>
+                <templates>
+                    <t t-name="card">
+                        <t t-set="tone" t-value="{'draft': 'secondary', 'submitted': 'warning', 'approved': 'info', 'quotation': 'primary', 'won': 'success', 'delivered': 'tm-delivered', 'invoiced': 'tm-invoiced', 'paid': 'tm-paid', 'lost': 'danger', 'cancelled': 'dark'}[record.state.raw_value]"/>
+                        <div t-attf-class="border-start border-4 ps-2 border-#{tone}">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <span><field name="priority" widget="priority"/> <field name="name" class="fw-bold fs-5"/></span>
+                                <field name="user_id" widget="many2one_avatar_user"/>
+                            </div>
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                            <field name="partner_id" class="text-muted d-block mb-2"/>
+                            <div class="d-flex justify-content-between">
+                                <span class="text-muted">Sale</span>
+                                <field name="amount_sale" widget="monetary"/>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span class="text-muted">Cost</span>
+                                <field name="amount_total_cost" widget="monetary"/>
+                            </div>
+                            <div class="d-flex justify-content-between fw-bold">
+                                <span class="text-muted">Profit</span>
+                                <span><field name="profit" widget="monetary"/></span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                <span t-attf-class="#{record.is_overdue.raw_value ? 'text-danger fw-bold' : 'text-muted'}">
+                                    <t t-if="record.deadline.raw_value">
+                                        <i class="fa fa-clock-o me-1"/><field name="deadline"/>
+                                    </t>
+                                </span>
+                                <span class="badge rounded-pill text-bg-light"><field name="margin_percent"/>%</span>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="tm_tender_action" model="ir.actions.act_window">
+        <field name="name">Tenders</field>
+        <field name="res_model">tm.tender</field>
+        <field name="view_mode">kanban,list,form,pivot,graph</field>
+        <field name="search_view_id" ref="tm_tender_view_search"/>
+    </record>
+</odoo>

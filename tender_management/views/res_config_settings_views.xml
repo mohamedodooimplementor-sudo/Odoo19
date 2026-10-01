@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_tm" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.tender.management</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="30"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app string="Tenders" name="tender_management"
+                     groups="tender_management.group_tender_manager">
+                    <block title="Manufacturing Cost Accounts" name="tm_accounts_block">
+                        <setting string="Labour Cost Account"
+                                 help="Default account for new BOM cost lines. Each line can still use another account.">
+                            <field name="tm_labour_account_id"/>
+                        </setting>
+                        <setting string="Overhead Cost Account"
+                                 help="Default account for new BOM cost lines. Each line can still use another account.">
+                            <field name="tm_overhead_account_id"/>
+                        </setting>
+                        <setting string="Other Manufacturing Cost Account"
+                                 help="Default account for new BOM cost lines. Each line can still use another account.">
+                            <field name="tm_other_account_id"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="tm_config_settings_action" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'module': 'tender_management', 'bin_size': False}</field>
+    </record>
+</odoo>

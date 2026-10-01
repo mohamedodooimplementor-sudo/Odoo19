@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_picking_form_inherit_tm" model="ir.ui.view">
+        <field name="name">stock.picking.form.inherit.tender.management</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_tm_tender" type="object" class="oe_stat_button" icon="fa-gavel"
+                        invisible="not tm_tender_id" groups="tender_management.group_tender_user">
+                    <field name="tm_tender_id" invisible="1"/>
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Tender</span>
+                    </div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_move_form_inherit_tm" model="ir.ui.view">
+        <field name="name">account.move.form.inherit.tender.management</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_tm_tender" type="object" class="oe_stat_button" icon="fa-gavel"
+                        invisible="not tm_tender_id" groups="tender_management.group_tender_user">
+                    <field name="tm_tender_id" invisible="1"/>
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Tender</span>
+                    </div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>

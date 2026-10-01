@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="tm_stage_draft" model="tm.tender.stage">
+        <field name="name">Draft</field><field name="code">draft</field><field name="sequence">10</field>
+    </record>
+    <record id="tm_stage_submitted" model="tm.tender.stage">
+        <field name="name">Submitted</field><field name="code">submitted</field><field name="sequence">20</field>
+    </record>
+    <record id="tm_stage_approved" model="tm.tender.stage">
+        <field name="name">Approved</field><field name="code">approved</field><field name="sequence">30</field>
+    </record>
+    <record id="tm_stage_quotation" model="tm.tender.stage">
+        <field name="name">Quotation</field><field name="code">quotation</field><field name="sequence">40</field>
+    </record>
+    <record id="tm_stage_won" model="tm.tender.stage">
+        <field name="name">Won</field><field name="code">won</field><field name="sequence">50</field>
+    </record>
+    <record id="tm_stage_delivered" model="tm.tender.stage">
+        <field name="name">Delivered</field><field name="code">delivered</field><field name="sequence">55</field>
+    </record>
+    <record id="tm_stage_invoiced" model="tm.tender.stage">
+        <field name="name">Invoiced</field><field name="code">invoiced</field><field name="sequence">58</field>
+    </record>
+    <record id="tm_stage_paid" model="tm.tender.stage">
+        <field name="name">Paid</field><field name="code">paid</field><field name="sequence">59</field>
+    </record>
+    <record id="tm_stage_lost" model="tm.tender.stage">
+        <field name="name">Lost</field><field name="code">lost</field><field name="sequence">60</field>
+    </record>
+    <record id="tm_stage_cancelled" model="tm.tender.stage">
+        <field name="name">Cancelled</field><field name="code">cancelled</field><field name="sequence">70</field>
+    </record>
+</odoo>

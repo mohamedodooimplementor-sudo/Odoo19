@@ -1,0 +1,9 @@
+/* Colors for the Delivered / Invoiced stages (ribbon + kanban), independent of light/dark mode */
+.text-bg-tm-delivered { background-color: var(--bs-teal, #20c997) !important; color: #fff !important; }
+.text-bg-tm-invoiced { background-color: var(--bs-indigo, #6610f2) !important; color: #fff !important; }
+.border-tm-delivered { border-color: var(--bs-teal, #20c997) !important; }
+.border-tm-invoiced { border-color: var(--bs-indigo, #6610f2) !important; }
+
+:root { --bs-tm-paid: #146c43; }
+.text-bg-tm-paid { background-color: var(--bs-tm-paid) !important; color: #fff !important; }
+.border-tm-paid { border-color: var(--bs-tm-paid) !important; }

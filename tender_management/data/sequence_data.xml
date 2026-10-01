@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="seq_tm_tender" model="ir.sequence">
+        <field name="name">Tender</field>
+        <field name="code">tm.tender</field>
+        <field name="prefix">TND/%(year)s/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+</odoo>

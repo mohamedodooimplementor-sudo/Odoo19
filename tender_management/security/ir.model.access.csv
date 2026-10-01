@@ -1,0 +1,28 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_tm_tender_user,tm.tender user,model_tm_tender,group_tender_user,1,1,1,0
+access_tm_tender_manager,tm.tender manager,model_tm_tender,group_tender_manager,1,1,1,1
+access_tm_tender_line_user,tm.tender.line user,model_tm_tender_line,group_tender_user,1,1,1,1
+access_tm_tender_cost_user,tm.tender.cost user,model_tm_tender_cost,group_tender_user,1,1,1,1
+access_mrp_bom_cost_line_tender,mrp.bom.cost.line tender user,model_mrp_bom_cost_line,group_tender_user,1,0,0,0
+access_mrp_bom_cost_line_user,mrp.bom.cost.line mrp user,model_mrp_bom_cost_line,mrp.group_mrp_user,1,0,0,0
+access_mrp_bom_cost_line_manager,mrp.bom.cost.line mrp manager,model_mrp_bom_cost_line,mrp.group_mrp_manager,1,1,1,1
+access_mrp_production_cost_line_user,mrp.production.cost.line mrp user,model_mrp_production_cost_line,mrp.group_mrp_user,1,0,0,0
+access_mrp_production_cost_line_tender_manager,mrp.production.cost.line tender manager,model_mrp_production_cost_line,group_tender_manager,1,1,0,0
+access_mrp_production_cost_line_mrp_manager,mrp.production.cost.line mrp manager,model_mrp_production_cost_line,mrp.group_mrp_manager,1,1,0,0
+access_mrp_bom_tender_user,mrp.bom tender user,mrp.model_mrp_bom,group_tender_user,1,0,0,0
+access_mrp_bom_line_tender_user,mrp.bom.line tender user,mrp.model_mrp_bom_line,group_tender_user,1,0,0,0
+access_tm_tender_stage_user,tm.tender.stage user,model_tm_tender_stage,group_tender_user,1,0,0,0
+access_tm_tender_stage_manager,tm.tender.stage manager,model_tm_tender_stage,group_tender_manager,1,1,0,0
+access_tm_tender_lost_reason_user,tm.tender.lost.reason user,model_tm_tender_lost_reason,group_tender_user,1,0,0,0
+access_tm_tender_lost_reason_manager,tm.tender.lost.reason manager,model_tm_tender_lost_reason,group_tender_manager,1,1,1,1
+access_tm_tender_tag_user,tm.tender.tag user,model_tm_tender_tag,group_tender_user,1,1,1,0
+access_tm_tender_tag_manager,tm.tender.tag manager,model_tm_tender_tag,group_tender_manager,1,1,1,1
+access_stock_landed_cost_tender_manager,stock.landed.cost tender manager,stock_landed_costs.model_stock_landed_cost,group_tender_manager,1,1,1,0
+access_stock_landed_cost_lines_tender_manager,stock.landed.cost.lines tender manager,stock_landed_costs.model_stock_landed_cost_lines,group_tender_manager,1,1,1,0
+access_stock_valuation_adjustment_lines_tender_manager,stock.valuation.adjustment.lines tender manager,stock_landed_costs.model_stock_valuation_adjustment_lines,group_tender_manager,1,0,0,0
+access_tm_tender_add_products_wizard_user,tm.tender.add.products.wizard user,model_tm_tender_add_products_wizard,group_tender_user,1,1,1,1
+access_tm_tender_add_products_wizard_manager,tm.tender.add.products.wizard manager,model_tm_tender_add_products_wizard,group_tender_manager,1,1,1,1
+access_tm_tender_add_products_line_user,tm.tender.add.products.line user,model_tm_tender_add_products_line,group_tender_user,1,1,1,1
+access_tm_tender_add_products_line_manager,tm.tender.add.products.line manager,model_tm_tender_add_products_line,group_tender_manager,1,1,1,1
+access_tm_tender_report_wizard_user,tm.tender.report.wizard user,model_tm_tender_report_wizard,group_tender_user,1,1,1,1
+access_tm_tender_lost_wizard_user,tm.tender.lost.wizard user,model_tm_tender_lost_wizard,group_tender_user,1,1,1,1

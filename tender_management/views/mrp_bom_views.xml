@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="mrp_bom_form_view_inherit_tm" model="ir.ui.view">
+        <field name="name">mrp.bom.form.inherit.tender.management</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_tm_tenders" type="object" class="oe_stat_button"
+                        icon="fa-gavel" groups="tender_management.group_tender_user">
+                    <field name="tm_tender_count" widget="statinfo" string="Tenders"/>
+                </button>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Manufacturing Costs" name="tm_manufacturing_costs">
+                    <field name="mfg_cost_line_ids">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="cost_type"/>
+                            <field name="name" placeholder="Description (optional)"/>
+                            <field name="amount" sum="Total"/>
+                            <field name="account_id" required="1"/>
+                            <field name="currency_id" column_invisible="1"/>
+                        </list>
+                    </field>
+                    <group class="oe_subtotal_footer">
+                        <field name="tm_currency_id" invisible="1"/>
+                        <field name="tm_material_cost"/>
+                        <field name="tm_mfg_cost"/>
+                        <field name="tm_total_cost"/>
+                        <field name="tm_unit_cost"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

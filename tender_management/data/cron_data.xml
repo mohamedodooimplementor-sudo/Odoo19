@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="ir_cron_tender_deadline_reminder" model="ir.cron">
+        <field name="name">Tender: Deadline Reminder</field>
+        <field name="model_id" ref="model_tm_tender"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_deadline_reminder()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active" eval="True"/>
+    </record>
+    <record id="ir_cron_tender_sync_fulfillment" model="ir.cron">
+        <field name="name">Tender: Sync Delivery / Invoicing / Payment Stages</field>
+        <field name="model_id" ref="model_tm_tender"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_sync_fulfillment()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <field name="active" eval="True"/>
+    </record>
+</odoo>
