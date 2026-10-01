@@ -1,6 +1,6 @@
 {
     'name': 'Partner Reference Sequence',
-    'version': '1.0',
+    'version': '18.0.2.0.0',
     'summary': 'Auto-generate reference codes for customers and suppliers',
     'category': 'Contacts',
     'author': "Eng. M.Aboelmagde",
