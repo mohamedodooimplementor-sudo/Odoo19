@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+
+    <record id="view_intercompany_landed_cost_validate_wizard_form" model="ir.ui.view">
+        <field name="name">intercompany.landed.cost.validate.wizard.form</field>
+        <field name="model">intercompany.landed.cost.validate.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Validate Landed Costs">
+                <sheet>
+                    <div class="o_form_label" style="margin-bottom:12px;">
+                        <h3 style="color:#1f78c1;">
+                            <i class="fa fa-balance-scale me-2"/>
+                            Landed Cost Validation
+                        </h3>
+                        <p class="text-muted" style="margin-bottom:0;">
+                            Assign transfers to each landed cost, then click <b>Confirm</b> to validate them all.
+                        </p>
+                    </div>
+                    <field name="operation_id" invisible="1"/>
+                    <field name="line_ids" nolabel="1">
+                        <list editable="bottom">
+                            <field name="landed_cost_id" readonly="1"/>
+                            <field name="vendor_bill_id" string="Vendor Bill"/>
+                            <field name="company_id" readonly="1"/>
+                            <field name="lc_state" readonly="1" widget="badge"
+                                   decoration-info="lc_state == 'draft'"
+                                   decoration-success="lc_state == 'done'"/>
+                            <field name="product_id" string="Product"/>
+                            <field name="amount_total" string="Cost Amount"/>
+                            <field name="account_id" string="Account"
+                                   options="{'no_create': True}"
+                                   context="{'default_company_id': company_id}"/>
+                            <field name="picking_ids" widget="many2many_tags"
+                                   options="{'no_create': True}"
+                                   string="Transfers"/>
+                            <!-- mrp_production_ids shown by intercompany_operation_mrp bridge -->
+                        </list>
+                    </field>
+                </sheet>
+                <footer>
+                    <button name="action_confirm" string="Confirm" type="object"
+                            class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</data>
+</odoo>

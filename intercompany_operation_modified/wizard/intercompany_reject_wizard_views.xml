@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+
+    <record id="view_intercompany_reject_wizard_form" model="ir.ui.view">
+        <field name="name">intercompany.reject.wizard.form</field>
+        <field name="model">intercompany.reject.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Reject with Reason">
+                <group>
+                    <field name="document_name" readonly="1" string="Document"/>
+                    <field name="res_model" invisible="1"/>
+                    <field name="res_id" invisible="1"/>
+                    <field name="reason" placeholder="Explain why this is being rejected..." required="1"/>
+                </group>
+                <footer>
+                    <button name="action_confirm_reject" string="Reject" type="object" class="btn-danger"/>
+                    <button string="Discard" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_intercompany_reject_wizard" model="ir.actions.act_window">
+        <field name="name">Reject with Reason</field>
+        <field name="res_model">intercompany.reject.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</data>
+</odoo>

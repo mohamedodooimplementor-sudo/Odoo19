@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data noupdate="0">
+
+    <!-- Root Menu -->
+    <menuitem id="menu_intercompany_root"
+        name="Intercompany"
+        sequence="50"
+        groups="intercompany_operation_modified.group_intercompany_user"
+        web_icon="intercompany_operation_modified,static/description/icon.png"/>
+
+    <!-- ── Dashboard ──────────────────────────────── -->
+    <menuitem id="menu_intercompany_dashboard"
+        name="Dashboard"
+        parent="menu_intercompany_root"
+        action="action_intercompany_dashboard"
+        sequence="1"/>
+
+    <!-- ── Operations ─────────────────────────────── -->
+    <menuitem id="menu_intercompany_operation"
+        name="Operations"
+        parent="menu_intercompany_root"
+        sequence="10"/>
+
+    <!-- All Operations -->
+    <menuitem id="menu_intercompany_operation_all"
+        name="All Operations"
+        parent="menu_intercompany_operation"
+        action="action_intercompany_operation"
+        sequence="10"/>
+
+    <!-- Sales -->
+    <menuitem id="menu_intercompany_operation_sale"
+        name="Sales"
+        parent="menu_intercompany_operation"
+        action="action_intercompany_operation_sale"
+        sequence="20"/>
+
+    <!-- Purchase -->
+    <menuitem id="menu_intercompany_operation_purchase"
+        name="Purchase"
+        parent="menu_intercompany_operation"
+        action="action_intercompany_operation_purchase"
+        sequence="30"/>
+
+    <!-- Payment -->
+    <menuitem id="menu_intercompany_operation_payment"
+        name="Payment"
+        parent="menu_intercompany_operation"
+        action="action_intercompany_operation_payment"
+        sequence="40"/>
+
+    <!-- Landed Cost -->
+    <menuitem id="menu_intercompany_operation_landed_cost"
+        name="Landed Costs"
+        parent="menu_intercompany_operation"
+        action="action_intercompany_operation_landed_cost"
+        sequence="50"/>
+
+    <!-- ── Returns ────────────────────────────────── -->
+    <menuitem id="menu_intercompany_return"
+        name="Return"
+        parent="menu_intercompany_root"
+        sequence="15"/>
+
+    <menuitem id="menu_intercompany_return_sale"
+        name="Sales Return"
+        parent="menu_intercompany_return"
+        action="action_intercompany_return_sale"
+        sequence="10"/>
+
+    <menuitem id="menu_intercompany_return_purchase"
+        name="Purchase Return"
+        parent="menu_intercompany_return"
+        action="action_intercompany_return_purchase"
+        sequence="20"/>
+
+    <!-- ── Branches Transfer ──────────────────────── -->
+    <menuitem id="menu_intercompany_branches_transfer"
+        name="Branches Transfer"
+        parent="menu_intercompany_root"
+        sequence="17"/>
+
+    <menuitem id="menu_intercompany_branches_picking_transfer"
+        name="Picking Transfer"
+        parent="menu_intercompany_branches_transfer"
+        action="action_intercompany_picking_transfer"
+        sequence="10"/>
+
+    <menuitem id="menu_intercompany_branches_payment_transfer"
+        name="Payment Transfer"
+        parent="menu_intercompany_branches_transfer"
+        action="action_intercompany_payment_transfer"
+        sequence="20"/>
+
+    <!-- ── Payment Distribution ───────────────────── -->
+    <menuitem id="menu_intercompany_payment"
+        name="Payment Distribution"
+        parent="menu_intercompany_root"
+        action="action_intercompany_payment"
+        sequence="20"/>
+
+    <!-- ── Pending Approvals (Operations + Payments) — Managers only ── -->
+    <menuitem id="menu_intercompany_pending_approval"
+        name="Pending Approvals"
+        parent="menu_intercompany_root"
+        groups="intercompany_operation_modified.group_intercompany_manager"
+        sequence="25"/>
+
+    <menuitem id="menu_intercompany_pending_approval_ops"
+        name="Operations"
+        parent="menu_intercompany_pending_approval"
+        action="action_intercompany_operation_to_approve"
+        groups="intercompany_operation_modified.group_intercompany_manager"
+        sequence="10"/>
+
+    <menuitem id="menu_intercompany_pending_approval_pay"
+        name="Payment Distribution"
+        parent="menu_intercompany_pending_approval"
+        action="action_intercompany_payment_to_approve"
+        groups="intercompany_operation_modified.group_intercompany_manager"
+        sequence="20"/>
+
+    <menuitem id="menu_intercompany_pending_approval_return"
+        name="Returns"
+        parent="menu_intercompany_pending_approval"
+        action="action_intercompany_return_to_approve"
+        groups="intercompany_operation_modified.group_intercompany_manager"
+        sequence="30"/>
+
+    <menuitem id="menu_intercompany_pending_approval_transfer"
+        name="Transfer"
+        parent="menu_intercompany_pending_approval"
+        groups="intercompany_operation_modified.group_intercompany_manager"
+        sequence="40"/>
+
+    <menuitem id="menu_intercompany_pending_approval_picking_transfer"
+        name="Picking Transfer"
+        parent="menu_intercompany_pending_approval_transfer"
+        action="action_intercompany_picking_transfer_to_approve"
+        groups="intercompany_operation_modified.group_intercompany_manager"
+        sequence="10"/>
+
+    <menuitem id="menu_intercompany_pending_approval_payment_transfer"
+        name="Payment Transfer"
+        parent="menu_intercompany_pending_approval_transfer"
+        action="action_intercompany_payment_transfer_to_approve"
+        groups="intercompany_operation_modified.group_intercompany_manager"
+        sequence="20"/>
+
+    <!-- ── Reports — Manager only ─────────────────── -->
+    <menuitem id="menu_intercompany_reports"
+        name="Reports"
+        parent="menu_intercompany_root"
+        groups="intercompany_operation_modified.group_intercompany_manager"
+        sequence="30"/>
+
+    <menuitem id="menu_intercompany_report_products"
+        name="Products"
+        parent="menu_intercompany_reports"
+        action="action_intercompany_report_products"
+        groups="intercompany_operation_modified.group_intercompany_manager"
+        sequence="10"/>
+
+    <menuitem id="menu_intercompany_report_suppliers"
+        name="Suppliers"
+        parent="menu_intercompany_reports"
+        action="action_intercompany_report_suppliers"
+        groups="intercompany_operation_modified.group_intercompany_manager"
+        sequence="20"/>
+
+    <menuitem id="menu_intercompany_report_customers"
+        name="Customers"
+        parent="menu_intercompany_reports"
+        action="action_intercompany_report_customers"
+        groups="intercompany_operation_modified.group_intercompany_manager"
+        sequence="30"/>
+
+    <menuitem id="menu_intercompany_report_payments"
+        name="Payments"
+        parent="menu_intercompany_reports"
+        action="action_intercompany_report_payments"
+        groups="intercompany_operation_modified.group_intercompany_manager"
+        sequence="40"/>
+
+    <menuitem id="menu_intercompany_report_returns"
+        name="Returns"
+        parent="menu_intercompany_reports"
+        action="action_intercompany_report_returns"
+        groups="intercompany_operation_modified.group_intercompany_manager"
+        sequence="50"/>
+
+    <menuitem id="menu_intercompany_report_picking_transfer"
+        name="Picking Transfers"
+        parent="menu_intercompany_reports"
+        action="action_intercompany_report_picking_transfer"
+        groups="intercompany_operation_modified.group_intercompany_manager"
+        sequence="60"/>
+
+    <menuitem id="menu_intercompany_report_payment_transfer"
+        name="Payment Transfers"
+        parent="menu_intercompany_reports"
+        action="action_intercompany_report_payment_transfer"
+        groups="intercompany_operation_modified.group_intercompany_manager"
+        sequence="70"/>
+
+</data>
+</odoo>

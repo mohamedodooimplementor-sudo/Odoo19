@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+
+    <record id="view_intercompany_return_picking_wizard_form" model="ir.ui.view">
+        <field name="name">intercompany.return.picking.wizard.form</field>
+        <field name="model">intercompany.return.picking.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Process Return">
+                <field name="return_id" invisible="1"/>
+
+                <div class="alert alert-info" role="alert">
+                    <i class="fa fa-info-circle me-1"/>
+                    Review the products below and enter the quantity to return for each line.
+                    Set quantity to <b>0</b> to skip a product.
+                </div>
+
+                <!-- Summary bar -->
+                <group string="Return Summary">
+                    <field name="total_pickings" readonly="1" string="Total Pickings"/>
+                    <field name="total_products" readonly="1" string="Total Products"/>
+                </group>
+
+                <!-- Flat list of all move lines across all pickings -->
+                <field name="flat_move_line_ids" nolabel="1">
+                    <list editable="bottom">
+                        <field name="picking_id" readonly="1" string="Picking / Transfer" optional="show"/>
+                        <field name="order_ref" readonly="1" string="Order Ref." optional="show"/>
+                        <field name="product_id" readonly="1" string="Product"/>
+                        <field name="product_uom_id" readonly="1" string="Unit"/>
+                        <field name="original_qty" readonly="1" string="Delivered Qty"/>
+                        <field name="already_returned_qty" readonly="1" string="Already Returned"/>
+                        <field name="max_return_qty" readonly="1" string="Max. Returnable"/>
+                        <field name="return_qty" string="Qty to Return"
+                               decoration-danger="return_qty &gt; max_return_qty"
+                               decoration-success="return_qty &gt; 0 and return_qty &lt;= max_return_qty"/>
+                    </list>
+                </field>
+
+                <footer>
+                    <button name="action_return" string="Return Selected Qty" type="object"
+                            class="btn-primary" icon="fa-undo"/>
+                    <button name="action_return_all" string="Return All" type="object"
+                            class="btn-secondary"/>
+                    <button name="action_return_replace" string="Return &amp; Replace" type="object"
+                            class="btn-secondary"/>
+                    <button string="Discard" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</data>
+</odoo>

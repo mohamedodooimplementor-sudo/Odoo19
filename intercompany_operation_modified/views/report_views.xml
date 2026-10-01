@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data noupdate="0">
+
+    <!-- ═══════════════════════════════════════════════════
+         REPORTS — Manager only
+         Pivot + Graph views built on intercompany.operation.line
+    ═══════════════════════════════════════════════════ -->
+
+    <!-- Shared Pivot View -->
+    <record id="view_intercompany_report_pivot" model="ir.ui.view">
+        <field name="name">intercompany.operation.line.report.pivot</field>
+        <field name="model">intercompany.operation.line</field>
+        <field name="arch" type="xml">
+            <pivot string="Intercompany Report" sample="1">
+                <field name="product_id" type="row"/>
+                <field name="operation_type" type="col"/>
+                <field name="qty" type="measure"/>
+                <field name="subtotal" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Shared Graph View -->
+    <record id="view_intercompany_report_graph" model="ir.ui.view">
+        <field name="name">intercompany.operation.line.report.graph</field>
+        <field name="model">intercompany.operation.line</field>
+        <field name="arch" type="xml">
+            <graph string="Intercompany Report" type="bar" sample="1">
+                <field name="product_id"/>
+                <field name="subtotal" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Shared List View -->
+    <record id="view_intercompany_report_list" model="ir.ui.view">
+        <field name="name">intercompany.operation.line.report.list</field>
+        <field name="model">intercompany.operation.line</field>
+        <field name="arch" type="xml">
+            <list string="Intercompany Report" create="0" edit="0" delete="0">
+                <field name="operation_date"/>
+                <field name="operation_id"/>
+                <field name="partner_id"/>
+                <field name="product_id"/>
+                <field name="company_id"/>
+                <field name="qty"/>
+                <field name="price"/>
+                <field name="subtotal" sum="Total"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Shared Search View -->
+    <record id="view_intercompany_report_search" model="ir.ui.view">
+        <field name="name">intercompany.operation.line.report.search</field>
+        <field name="model">intercompany.operation.line</field>
+        <field name="arch" type="xml">
+            <search string="Intercompany Report">
+                <field name="product_id"/>
+                <field name="partner_id"/>
+                <field name="company_id"/>
+                <filter string="Sales" name="filter_sale" domain="[('operation_type','=','sale')]"/>
+                <filter string="Purchases" name="filter_purchase" domain="[('operation_type','=','purchase')]"/>
+                <separator/>
+                <filter string="Operation Date" name="filter_date" date="operation_date"/>
+                <group expand="0" string="Group By">
+                    <filter string="Product" name="group_product" context="{'group_by':'product_id'}"/>
+                    <filter string="Partner" name="group_partner" context="{'group_by':'partner_id'}"/>
+                    <filter string="Company" name="group_company" context="{'group_by':'company_id'}"/>
+                    <filter string="Operation Type" name="group_type" context="{'group_by':'operation_type'}"/>
+                    <filter string="Status" name="group_state" context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ── Products Report: all operation lines grouped by product ── -->
+    <record id="action_intercompany_report_products" model="ir.actions.act_window">
+        <field name="name">Products Report</field>
+        <field name="res_model">intercompany.operation.line</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="search_view_id" ref="view_intercompany_report_search"/>
+        <field name="context">{'search_default_group_product': 1, 'pivot_measures': ['qty','subtotal']}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No data to analyze yet</p>
+            <p>Quantities and amounts of every product moved across all Intercompany Operations.</p>
+        </field>
+    </record>
+
+    <!-- ── Suppliers Report: purchase operations grouped by partner ── -->
+    <record id="action_intercompany_report_suppliers" model="ir.actions.act_window">
+        <field name="name">Suppliers Report</field>
+        <field name="res_model">intercompany.operation.line</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="domain">[('operation_type', '=', 'purchase')]</field>
+        <field name="search_view_id" ref="view_intercompany_report_search"/>
+        <field name="context">{'search_default_group_partner': 1, 'pivot_measures': ['qty','subtotal']}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No purchase data to analyze yet</p>
+            <p>Purchase amounts grouped by Supplier across all companies.</p>
+        </field>
+    </record>
+
+    <!-- ── Customers Report: sale operations grouped by partner ── -->
+    <record id="action_intercompany_report_customers" model="ir.actions.act_window">
+        <field name="name">Customers Report</field>
+        <field name="res_model">intercompany.operation.line</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="domain">[('operation_type', '=', 'sale')]</field>
+        <field name="search_view_id" ref="view_intercompany_report_search"/>
+        <field name="context">{'search_default_group_partner': 1, 'pivot_measures': ['qty','subtotal']}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No sales data to analyze yet</p>
+            <p>Sales amounts grouped by Customer across all companies.</p>
+        </field>
+    </record>
+    <!-- ── Payments Report: payment distributions grouped by company/partner ── -->
+
+    <record id="view_intercompany_payment_report_pivot" model="ir.ui.view">
+        <field name="name">intercompany.payment.line.report.pivot</field>
+        <field name="model">intercompany.payment.line</field>
+        <field name="arch" type="xml">
+            <pivot string="Payments Report" sample="1">
+                <field name="company_id" type="row"/>
+                <field name="payment_type" type="col"/>
+                <field name="amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_intercompany_payment_report_graph" model="ir.ui.view">
+        <field name="name">intercompany.payment.line.report.graph</field>
+        <field name="model">intercompany.payment.line</field>
+        <field name="arch" type="xml">
+            <graph string="Payments Report" type="bar" sample="1">
+                <field name="partner_id"/>
+                <field name="amount" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_intercompany_payment_report_list" model="ir.ui.view">
+        <field name="name">intercompany.payment.line.report.list</field>
+        <field name="model">intercompany.payment.line</field>
+        <field name="arch" type="xml">
+            <list string="Payments Report" create="0" edit="0" delete="0">
+                <field name="payment_date"/>
+                <field name="payment_id"/>
+                <field name="partner_id"/>
+                <field name="company_id"/>
+                <field name="payment_type"/>
+                <field name="amount" sum="Total"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_intercompany_payment_report_search" model="ir.ui.view">
+        <field name="name">intercompany.payment.line.report.search</field>
+        <field name="model">intercompany.payment.line</field>
+        <field name="arch" type="xml">
+            <search string="Payments Report">
+                <field name="partner_id"/>
+                <field name="company_id"/>
+                <field name="payment_id"/>
+                <filter string="Receive (Inbound)" name="filter_inbound" domain="[('payment_type','=','inbound')]"/>
+                <filter string="Send (Outbound)" name="filter_outbound" domain="[('payment_type','=','outbound')]"/>
+                <separator/>
+                <filter string="Posted" name="filter_posted" domain="[('state','=','posted')]"/>
+                <filter string="Pending Approval" name="filter_to_approve" domain="[('state','=','to_approve')]"/>
+                <separator/>
+                <filter string="Payment Date" name="filter_date" date="payment_date"/>
+                <group expand="0" string="Group By">
+                    <filter string="Partner" name="group_partner" context="{'group_by':'partner_id'}"/>
+                    <filter string="Company" name="group_company" context="{'group_by':'company_id'}"/>
+                    <filter string="Direction" name="group_type" context="{'group_by':'payment_type'}"/>
+                    <filter string="Status" name="group_state" context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_intercompany_report_payments" model="ir.actions.act_window">
+        <field name="name">Payments Report</field>
+        <field name="res_model">intercompany.payment.line</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="search_view_id" ref="view_intercompany_payment_report_search"/>
+        <field name="context">{'search_default_group_partner': 1, 'pivot_measures': ['amount']}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No payment data to analyze yet</p>
+            <p>Payment distribution amounts grouped by Partner, Company and Direction.</p>
+        </field>
+    </record>
+
+    <!-- ════════════════════════════════════════════════════
+         RETURNS REPORT
+    ════════════════════════════════════════════════════ -->
+    <record id="view_intercompany_return_report_list" model="ir.ui.view">
+        <field name="name">intercompany.return.report.list</field>
+        <field name="model">intercompany.return</field>
+        <field name="arch" type="xml">
+            <list string="Returns Report" create="0" edit="0" delete="0">
+                <field name="name"/>
+                <field name="create_date"/>
+                <field name="partner_id"/>
+                <field name="return_type"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'done'"
+                       decoration-warning="state in ('to_approve','approved')"
+                       decoration-danger="state in ('refused','cancelled')"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_intercompany_return_report_pivot" model="ir.ui.view">
+        <field name="name">intercompany.return.report.pivot</field>
+        <field name="model">intercompany.return</field>
+        <field name="arch" type="xml">
+            <pivot string="Returns Report" sample="1">
+                <field name="partner_id" type="row"/>
+                <field name="return_type" type="col"/>
+                <field name="state" type="col"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_intercompany_return_report_graph" model="ir.ui.view">
+        <field name="name">intercompany.return.report.graph</field>
+        <field name="model">intercompany.return</field>
+        <field name="arch" type="xml">
+            <graph string="Returns Report" type="bar" sample="1">
+                <field name="partner_id"/>
+                <field name="return_type"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_intercompany_return_report_search" model="ir.ui.view">
+        <field name="name">intercompany.return.report.search</field>
+        <field name="model">intercompany.return</field>
+        <field name="arch" type="xml">
+            <search string="Returns Report">
+                <field name="partner_id"/>
+                <field name="return_type"/>
+                <filter string="Sale Returns"    name="filter_sale"     domain="[('return_type','=','sale')]"/>
+                <filter string="Purchase Returns" name="filter_purchase" domain="[('return_type','=','purchase')]"/>
+                <separator/>
+                <filter string="Done"            name="filter_done"     domain="[('state','=','done')]"/>
+                <filter string="Pending Approval" name="filter_pending"  domain="[('state','=','to_approve')]"/>
+                <filter string="Refused"         name="filter_refused"  domain="[('state','=','refused')]"/>
+                <separator/>
+                <filter string="Created On"  name="filter_date"     date="create_date"/>
+                <group expand="0" string="Group By">
+                    <filter string="Partner"    name="group_partner"   context="{'group_by':'partner_id'}"/>
+                    <filter string="Type"       name="group_type"      context="{'group_by':'return_type'}"/>
+                    <filter string="Status"     name="group_state"     context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_intercompany_report_returns" model="ir.actions.act_window">
+        <field name="name">Returns Report</field>
+        <field name="res_model">intercompany.return</field>
+        <field name="view_mode">list,pivot,graph</field>
+        <field name="search_view_id" ref="view_intercompany_return_report_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No returns to analyze yet</p>
+        </field>
+    </record>
+
+    <!-- ════════════════════════════════════════════════════
+         PICKING TRANSFER REPORT
+    ════════════════════════════════════════════════════ -->
+    <record id="view_intercompany_pt_report_list" model="ir.ui.view">
+        <field name="name">intercompany.picking.transfer.report.list</field>
+        <field name="model">intercompany.picking.transfer</field>
+        <field name="arch" type="xml">
+            <list string="Picking Transfer Report" create="0" edit="0" delete="0">
+                <field name="name"/>
+                <field name="create_date"/>
+                <field name="company_sent_id"/>
+                <field name="company_receive_id"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'received'"
+                       decoration-warning="state in ('to_approve','approved')"
+                       decoration-danger="state in ('refused','cancelled')"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_intercompany_pt_report_pivot" model="ir.ui.view">
+        <field name="name">intercompany.picking.transfer.report.pivot</field>
+        <field name="model">intercompany.picking.transfer</field>
+        <field name="arch" type="xml">
+            <pivot string="Picking Transfer Report" sample="1">
+                <field name="company_sent_id" type="row"/>
+                <field name="company_receive_id" type="col"/>
+                <field name="state" type="col"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_intercompany_pt_report_graph" model="ir.ui.view">
+        <field name="name">intercompany.picking.transfer.report.graph</field>
+        <field name="model">intercompany.picking.transfer</field>
+        <field name="arch" type="xml">
+            <graph string="Picking Transfer Report" type="bar" sample="1">
+                <field name="company_sent_id"/>
+                <field name="company_receive_id"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_intercompany_pt_report_search" model="ir.ui.view">
+        <field name="name">intercompany.picking.transfer.report.search</field>
+        <field name="model">intercompany.picking.transfer</field>
+        <field name="arch" type="xml">
+            <search string="Picking Transfer Report">
+                <field name="company_sent_id"/>
+                <field name="company_receive_id"/>
+                <filter string="Received"        name="filter_received"  domain="[('state','=','received')]"/>
+                <filter string="Pending Approval" name="filter_pending"   domain="[('state','=','to_approve')]"/>
+                <filter string="Refused"         name="filter_refused"   domain="[('state','=','refused')]"/>
+                <separator/>
+                <filter string="Created On"   name="filter_date"      date="create_date"/>
+                <group expand="0" string="Group By">
+                    <filter string="Sent From"   name="group_sent"    context="{'group_by':'company_sent_id'}"/>
+                    <filter string="Received By" name="group_receive"  context="{'group_by':'company_receive_id'}"/>
+                    <filter string="Status"      name="group_state"    context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_intercompany_report_picking_transfer" model="ir.actions.act_window">
+        <field name="name">Picking Transfer Report</field>
+        <field name="res_model">intercompany.picking.transfer</field>
+        <field name="view_mode">list,pivot,graph</field>
+        <field name="search_view_id" ref="view_intercompany_pt_report_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No picking transfers to analyze yet</p>
+        </field>
+    </record>
+
+    <!-- ════════════════════════════════════════════════════
+         PAYMENT TRANSFER REPORT
+    ════════════════════════════════════════════════════ -->
+    <record id="view_intercompany_payt_report_list" model="ir.ui.view">
+        <field name="name">intercompany.payment.transfer.report.list</field>
+        <field name="model">intercompany.payment.transfer</field>
+        <field name="arch" type="xml">
+            <list string="Payment Transfer Report" create="0" edit="0" delete="0">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="company_sent_id"/>
+                <field name="company_receive_id"/>
+                <field name="amount" sum="Total"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'posted'"
+                       decoration-warning="state in ('to_approve','approved')"
+                       decoration-danger="state in ('refused','cancelled')"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_intercompany_payt_report_pivot" model="ir.ui.view">
+        <field name="name">intercompany.payment.transfer.report.pivot</field>
+        <field name="model">intercompany.payment.transfer</field>
+        <field name="arch" type="xml">
+            <pivot string="Payment Transfer Report" sample="1">
+                <field name="company_sent_id" type="row"/>
+                <field name="company_receive_id" type="col"/>
+                <field name="amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_intercompany_payt_report_graph" model="ir.ui.view">
+        <field name="name">intercompany.payment.transfer.report.graph</field>
+        <field name="model">intercompany.payment.transfer</field>
+        <field name="arch" type="xml">
+            <graph string="Payment Transfer Report" type="bar" sample="1">
+                <field name="company_sent_id"/>
+                <field name="amount" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_intercompany_payt_report_search" model="ir.ui.view">
+        <field name="name">intercompany.payment.transfer.report.search</field>
+        <field name="model">intercompany.payment.transfer</field>
+        <field name="arch" type="xml">
+            <search string="Payment Transfer Report">
+                <field name="company_sent_id"/>
+                <field name="company_receive_id"/>
+                <filter string="Posted"          name="filter_posted"    domain="[('state','=','posted')]"/>
+                <filter string="Pending Approval" name="filter_pending"   domain="[('state','=','to_approve')]"/>
+                <filter string="Refused"         name="filter_refused"   domain="[('state','=','refused')]"/>
+                <separator/>
+                <filter string="Date"   name="filter_date"      date="date"/>
+                <group expand="0" string="Group By">
+                    <filter string="Sent From"   name="group_sent"    context="{'group_by':'company_sent_id'}"/>
+                    <filter string="Received By" name="group_receive"  context="{'group_by':'company_receive_id'}"/>
+                    <filter string="Status"      name="group_state"    context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_intercompany_report_payment_transfer" model="ir.actions.act_window">
+        <field name="name">Payment Transfer Report</field>
+        <field name="res_model">intercompany.payment.transfer</field>
+        <field name="view_mode">list,pivot,graph</field>
+        <field name="search_view_id" ref="view_intercompany_payt_report_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No payment transfers to analyze yet</p>
+        </field>
+    </record>
+
+</data>
+</odoo>

@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ══════════════════ Picking Transfer ══════════════════ -->
+    <record id="view_intercompany_picking_transfer_form" model="ir.ui.view">
+        <field name="name">intercompany.picking.transfer.form</field>
+        <field name="model">intercompany.picking.transfer</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_submit" string="Submit for Approval" type="object"
+                        class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_approve" string="Approve" type="object"
+                        class="oe_highlight" invisible="state != 'to_approve'"
+                        groups="intercompany_operation_modified.group_intercompany_manager"/>
+                    <button name="action_refuse" string="Refuse" type="object"
+                        class="btn-danger" invisible="state != 'to_approve'"
+                        groups="intercompany_operation_modified.group_intercompany_manager"/>
+                    <button name="action_send_approve" string="Send Approve" type="object"
+                        class="oe_highlight" invisible="state != 'approved'"/>
+                    <button name="action_receive_approve" string="Receive Approve" type="object"
+                        class="oe_highlight" invisible="state != 'send_approved'"/>
+                    <button name="action_reset_draft" string="Reset to Draft" type="object"
+                        invisible="state not in ('to_approve',)"/>
+                    <button name="action_cancel" string="Cancel" type="object"
+                        invisible="state in ('received', 'cancelled')"
+                        confirm="Are you sure you want to cancel this transfer?"/>
+                    <button name="%(action_report_intercompany_picking_transfer)d" string="Print"
+                        type="action" class="btn-secondary" icon="fa-print"/>
+
+                    <field name="state" widget="statusbar"
+                        statusbar_visible="draft,to_approve,approved,send_approved,received"/>
+                </header>
+                <sheet>
+                    <!-- State ribbon -->
+                    <div name="ribbon_draft"
+                        style="background:#6c757d;color:white;padding:3px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-bottom:3px solid #495057;"
+                        invisible="state != 'draft'">
+                        &#9679; Draft
+                    </div>
+                    <div name="ribbon_to_approve"
+                        style="background:#17a2b8;color:white;padding:3px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-bottom:3px solid #117a8b;"
+                        invisible="state != 'to_approve'">
+                        &#9654; Pending Approval
+                    </div>
+                    <div name="ribbon_approved"
+                        style="background:#f6a609;color:white;padding:3px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-bottom:3px solid #d48c00;"
+                        invisible="state != 'approved'">
+                        &#10003; Approved — Ready to Send
+                    </div>
+                    <div name="ribbon_send_approved"
+                        style="background:#1f78c1;color:white;padding:3px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-bottom:3px solid #155a96;"
+                        invisible="state != 'send_approved'">
+                        &#9654; Sent — Awaiting Receipt
+                    </div>
+                    <div name="ribbon_received"
+                        style="background:#3a7d0a;color:white;padding:3px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-bottom:3px solid #2a5c07;"
+                        invisible="state != 'received'">
+                        &#10003; Received
+                    </div>
+                    <div name="ribbon_cancelled"
+                        style="background:#c0392b;color:white;padding:3px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-bottom:3px solid #962d22;"
+                        invisible="state != 'cancelled'">
+                        &#10007; Cancelled
+                    </div>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_pickings" type="object"
+                            class="oe_stat_button" icon="fa-truck"
+                            invisible="picking_count == 0">
+                            <field name="picking_count" widget="statinfo" string="Pickings"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group invisible="not reject_reason">
+                        <field name="reject_reason" readonly="1" string="Rejection Reason"/>
+                    </group>
+                    <group>
+                        <group string="Sent From">
+                            <field name="company_sent_id" readonly="state != 'draft'"/>
+                            <field name="location_sent_id" readonly="state != 'draft'"/>
+                        </group>
+                        <group string="Received By">
+                            <field name="company_receive_id" readonly="state != 'draft'"/>
+                            <field name="location_receive_id" readonly="state != 'draft'"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="intermediate_location_id" readonly="state != 'draft'"/>
+                    </group>
+                    <notebook>
+                        <page string="Products">
+                            <field name="line_ids" readonly="state != 'draft'">
+                                <list editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="product_uom_category_id" column_invisible="1"/>
+                                    <field name="product_uom_id"
+                                        domain="[('category_id', '=', product_uom_category_id)]"
+                                        options="{'no_create': True}" groups="uom.group_uom"/>
+                                    <field name="qty"/>
+                                    <field name="qty_on_hand" readonly="1"
+                                        string="On Hand (Sent)"
+                                        decoration-danger="qty_on_hand == 0"
+                                        decoration-warning="qty_on_hand &lt; qty"
+                                        decoration-success="qty_on_hand &gt;= qty"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Tracking">
+                            <group>
+                                <field name="submitted_by"/>
+                                <field name="approved_by"/>
+                                <field name="reject_reason" readonly="1" invisible="not reject_reason"/>
+                                <field name="send_picking_id"/>
+                                <field name="receive_picking_id"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_intercompany_picking_transfer_list" model="ir.ui.view">
+        <field name="name">intercompany.picking.transfer.list</field>
+        <field name="model">intercompany.picking.transfer</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="company_sent_id"/>
+                <field name="company_receive_id"/>
+                <field name="intermediate_location_id"/>
+                <field name="state" widget="badge"
+                    decoration-info="state == 'to_approve'"
+                    decoration-success="state == 'received'"
+                    decoration-muted="state == 'cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_intercompany_picking_transfer" model="ir.actions.act_window">
+        <field name="name">Picking Transfer</field>
+        <field name="res_model">intercompany.picking.transfer</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_intercompany_picking_transfer_to_approve" model="ir.actions.act_window">
+        <field name="name">Picking Transfer — Pending Approval</field>
+        <field name="res_model">intercompany.picking.transfer</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('state', '=', 'to_approve')]</field>
+    </record>
+
+    <!-- ══════════════════ Payment Transfer ══════════════════ -->
+    <record id="view_intercompany_payment_transfer_form" model="ir.ui.view">
+        <field name="name">intercompany.payment.transfer.form</field>
+        <field name="model">intercompany.payment.transfer</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_submit" string="Submit for Approval" type="object"
+                        class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_approve" string="Approve" type="object"
+                        class="oe_highlight" invisible="state != 'to_approve'"
+                        groups="intercompany_operation_modified.group_intercompany_manager"/>
+                    <button name="action_refuse" string="Refuse" type="object"
+                        class="btn-danger" invisible="state != 'to_approve'"
+                        groups="intercompany_operation_modified.group_intercompany_manager"/>
+                    <button name="action_reset_draft" string="Reset to Draft" type="object"
+                        invisible="state != 'to_approve'"/>
+                    <button name="action_cancel" string="Cancel" type="object"
+                        invisible="state in ('posted', 'cancelled')"
+                        confirm="Are you sure you want to cancel this transfer?"/>
+                    <button name="%(action_report_intercompany_payment_transfer)d" string="Print"
+                        type="action" class="btn-secondary" icon="fa-print"/>
+
+                    <field name="state" widget="statusbar"
+                        statusbar_visible="draft,to_approve,approved,posted"/>
+                </header>
+                <sheet>
+                    <!-- State ribbon -->
+                    <div name="ribbon_draft"
+                        style="background:#6c757d;color:white;padding:3px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-bottom:3px solid #495057;"
+                        invisible="state != 'draft'">
+                        &#9679; Draft
+                    </div>
+                    <div name="ribbon_to_approve"
+                        style="background:#17a2b8;color:white;padding:3px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-bottom:3px solid #117a8b;"
+                        invisible="state != 'to_approve'">
+                        &#9654; Pending Approval
+                    </div>
+                    <div name="ribbon_approved"
+                        style="background:#f6a609;color:white;padding:3px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-bottom:3px solid #d48c00;"
+                        invisible="state != 'approved'">
+                        &#10003; Approved — Ready to Post
+                    </div>
+                    <div name="ribbon_posted"
+                        style="background:#3a7d0a;color:white;padding:3px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-bottom:3px solid #2a5c07;"
+                        invisible="state != 'posted'">
+                        &#10003; Posted
+                    </div>
+                    <div name="ribbon_cancelled"
+                        style="background:#c0392b;color:white;padding:3px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-bottom:3px solid #962d22;"
+                        invisible="state != 'cancelled'">
+                        &#10007; Cancelled
+                    </div>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_payments" type="object"
+                            class="oe_stat_button" icon="fa-money"
+                            invisible="not payment_sent_id">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Payments</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group invisible="not reject_reason">
+                        <field name="reject_reason" readonly="1" string="Rejection Reason"/>
+                    </group>
+                    <group>
+                        <group string="Sent From">
+                            <field name="company_sent_id" readonly="state != 'draft'"/>
+                            <field name="journal_sent_id" readonly="state != 'draft'"/>
+                        </group>
+                        <group string="Received By">
+                            <field name="company_receive_id" readonly="state != 'draft'"/>
+                            <field name="journal_receive_id" readonly="state != 'draft'"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="intermediate_account_id" readonly="state != 'draft'"/>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="amount" readonly="state != 'draft'"/>
+                            <field name="currency_id" readonly="state != 'draft'" groups="base.group_multi_currency"/>
+                        </group>
+                        <group>
+                            <field name="date" readonly="state != 'draft'"/>
+                            <field name="memo" readonly="state != 'draft'"/>
+                        </group>
+                    </group>
+                    <group string="Tracking">
+                        <field name="submitted_by"/>
+                        <field name="approved_by"/>
+                        <field name="reject_reason" readonly="1" invisible="not reject_reason"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_intercompany_payment_transfer_list" model="ir.ui.view">
+        <field name="name">intercompany.payment.transfer.list</field>
+        <field name="model">intercompany.payment.transfer</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="company_sent_id"/>
+                <field name="company_receive_id"/>
+                <field name="amount"/>
+                <field name="date"/>
+                <field name="state" widget="badge"
+                    decoration-info="state == 'to_approve'"
+                    decoration-success="state == 'posted'"
+                    decoration-muted="state == 'cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_intercompany_payment_transfer" model="ir.actions.act_window">
+        <field name="name">Payment Transfer</field>
+        <field name="res_model">intercompany.payment.transfer</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_intercompany_payment_transfer_to_approve" model="ir.actions.act_window">
+        <field name="name">Payment Transfer — Pending Approval</field>
+        <field name="res_model">intercompany.payment.transfer</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('state', '=', 'to_approve')]</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<!-- ════════════════════════════════════════
+     REPORT ACTIONS
+════════════════════════════════════════ -->
+
+<record id="action_report_intercompany_operation" model="ir.actions.report">
+    <field name="name">Intercompany Operation</field>
+    <field name="model">intercompany.operation</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">intercompany_operation_modified.report_intercompany_operation_doc</field>
+    <field name="report_file">intercompany_operation_modified.report_intercompany_operation_doc</field>
+    <field name="binding_model_id" ref="model_intercompany_operation"/>
+    <field name="binding_type">report</field>
+    <field name="paperformat_id" ref="base.paperformat_euro"/>
+</record>
+
+<record id="action_report_intercompany_return" model="ir.actions.report">
+    <field name="name">Intercompany Return</field>
+    <field name="model">intercompany.return</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">intercompany_operation_modified.report_intercompany_return_doc</field>
+    <field name="report_file">intercompany_operation_modified.report_intercompany_return_doc</field>
+    <field name="binding_model_id" ref="model_intercompany_return"/>
+    <field name="binding_type">report</field>
+    <field name="paperformat_id" ref="base.paperformat_euro"/>
+</record>
+
+<record id="action_report_intercompany_payment" model="ir.actions.report">
+    <field name="name">Payment Distribution</field>
+    <field name="model">intercompany.payment</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">intercompany_operation_modified.report_intercompany_payment_doc</field>
+    <field name="report_file">intercompany_operation_modified.report_intercompany_payment_doc</field>
+    <field name="binding_model_id" ref="model_intercompany_payment"/>
+    <field name="binding_type">report</field>
+    <field name="paperformat_id" ref="base.paperformat_euro"/>
+</record>
+
+<record id="action_report_intercompany_picking_transfer" model="ir.actions.report">
+    <field name="name">Picking Transfer</field>
+    <field name="model">intercompany.picking.transfer</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">intercompany_operation_modified.report_intercompany_picking_transfer_doc</field>
+    <field name="report_file">intercompany_operation_modified.report_intercompany_picking_transfer_doc</field>
+    <field name="binding_model_id" ref="model_intercompany_picking_transfer"/>
+    <field name="binding_type">report</field>
+    <field name="paperformat_id" ref="base.paperformat_euro"/>
+</record>
+
+<record id="action_report_intercompany_payment_transfer" model="ir.actions.report">
+    <field name="name">Payment Transfer</field>
+    <field name="model">intercompany.payment.transfer</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">intercompany_operation_modified.report_intercompany_payment_transfer_doc</field>
+    <field name="report_file">intercompany_operation_modified.report_intercompany_payment_transfer_doc</field>
+    <field name="binding_model_id" ref="model_intercompany_payment_transfer"/>
+    <field name="binding_type">report</field>
+    <field name="paperformat_id" ref="base.paperformat_euro"/>
+</record>
+
+<!-- ════════════════════════════════════════
+     QWEB TEMPLATES
+════════════════════════════════════════ -->
+
+<!-- ── Shared styles ── -->
+<template id="report_intercompany_style">
+    <style>
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 12px; color: #1A1A2E; }
+        .ic-report-header { background: linear-gradient(135deg, #1A237E, #00897B); color: #fff; padding: 20px 24px; margin-bottom: 20px; border-radius: 4px; }
+        .ic-report-header h2 { margin: 0 0 4px; font-size: 20px; font-weight: 800; }
+        .ic-report-header .ic-ref { font-size: 13px; opacity: .85; }
+        .ic-section { margin-bottom: 18px; }
+        .ic-section-title { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .8px; color: #546E7A; border-bottom: 2px solid #00897B; padding-bottom: 4px; margin-bottom: 10px; }
+        .ic-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 24px; margin-bottom: 12px; }
+        .ic-info-row { display: flex; gap: 6px; font-size: 12px; }
+        .ic-info-label { font-weight: 700; color: #546E7A; min-width: 120px; }
+        .ic-info-value { color: #1A1A2E; }
+        table.ic-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 12px; }
+        table.ic-table thead tr { background: #1A237E; color: #fff; }
+        table.ic-table thead th { padding: 8px 10px; text-align: left; font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: .5px; }
+        table.ic-table tbody tr:nth-child(even) { background: #F5F7FA; }
+        table.ic-table tbody td { padding: 7px 10px; border-bottom: 1px solid #ECEFF1; vertical-align: top; }
+        table.ic-table tfoot tr { background: #E8F5E9; font-weight: 800; }
+        table.ic-table tfoot td { padding: 8px 10px; border-top: 2px solid #2E7D32; }
+        .ic-badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 9px; font-weight: 800; text-transform: uppercase; }
+        .ic-badge-done     { background: #E8F5E9; color: #2E7D32; }
+        .ic-badge-draft    { background: #ECEFF1; color: #546E7A; }
+        .ic-badge-approved { background: #FFF8E1; color: #E65100; }
+        .ic-badge-cancelled{ background: #FFEBEE; color: #C62828; }
+        .ic-badge-posted   { background: #E8F5E9; color: #2E7D32; }
+        .ic-footer { border-top: 1px solid #ECEFF1; padding-top: 8px; font-size: 10px; color: #90A4AE; display: flex; justify-content: space-between; margin-top: 20px; }
+        .text-right { text-align: right; }
+        .text-end   { text-align: right; }
+        .fw-bold    { font-weight: 800; }
+    </style>
+</template>
+
+<!-- ════════════════ OPERATION REPORT ════════════════ -->
+<template id="report_intercompany_operation_doc">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <t t-call="intercompany_operation_modified.report_intercompany_style"/>
+
+                    <div class="ic-report-header">
+                        <h2>Intercompany Operation</h2>
+                        <div class="ic-ref">
+                            <strong><t t-esc="o.name"/></strong>
+                            &amp;nbsp;·&amp;nbsp;
+                            <t t-esc="o.operation_type and o.operation_type.upper()"/>
+                        </div>
+                    </div>
+
+                    <!-- Info -->
+                    <div class="ic-section">
+                        <div class="ic-section-title">General Information</div>
+                        <div class="ic-info-grid">
+                            <div class="ic-info-row"><span class="ic-info-label">Reference:</span><span class="ic-info-value"><t t-esc="o.name"/></span></div>
+                            <div class="ic-info-row"><span class="ic-info-label">Date:</span><span class="ic-info-value"><t t-esc="o.operation_date or ''"/></span></div>
+                            <div class="ic-info-row"><span class="ic-info-label">Partner:</span><span class="ic-info-value"><t t-esc="o.partner_id.name"/></span></div>
+                            <div class="ic-info-row"><span class="ic-info-label">Status:</span><span class="ic-info-value"><t t-esc="o.state"/></span></div>
+                            <div class="ic-info-row"><span class="ic-info-label">Type:</span><span class="ic-info-value"><t t-esc="o.operation_type"/></span></div>
+                            <div class="ic-info-row"><span class="ic-info-label">Currency:</span><span class="ic-info-value"><t t-esc="o.currency_id.name"/></span></div>
+                        </div>
+                    </div>
+
+                    <!-- Lines -->
+                    <div class="ic-section">
+                        <div class="ic-section-title">Operation Lines</div>
+                        <table class="ic-table">
+                            <thead>
+                                <tr>
+                                    <th>Company</th>
+                                    <th>Product</th>
+                                    <th>Warehouse</th>
+                                    <th>Qty</th>
+                                    <th>UoM</th>
+                                    <th>Unit Price</th>
+                                    <th>Disc%</th>
+                                    <th>Taxes</th>
+                                    <th class="text-right">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.line_ids" t-as="l">
+                                    <tr>
+                                        <td><t t-esc="l.company_id.name"/></td>
+                                        <td><t t-esc="l.product_id.display_name"/></td>
+                                        <td><t t-esc="l.warehouse_id.name or ''"/></td>
+                                        <td><t t-esc="l.qty"/></td>
+                                        <td><t t-esc="l.product_uom_id.name or ''"/></td>
+                                        <td><t t-esc="l.price"/></td>
+                                        <td><t t-esc="l.discount or 0"/>%</td>
+                                        <td><t t-esc="', '.join(l.tax_ids.mapped('name'))"/></td>
+                                        <td class="text-right fw-bold"><t t-esc="l.subtotal"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="8" class="text-right">Total</td>
+                                    <td class="text-right"><t t-esc="sum(o.line_ids.mapped('subtotal'))"/></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <!-- Notes -->
+                    <t t-if="o.note">
+                        <div class="ic-section">
+                            <div class="ic-section-title">Notes</div>
+                            <p><t t-esc="o.note"/></p>
+                        </div>
+                    </t>
+
+                    <div class="ic-footer">
+                        <span><t t-esc="o.name"/> — Printed on <t t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/></span>
+                        <span>Page <span class="page"/> of <span class="topage"/></span>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+
+<!-- ════════════════ RETURN REPORT ════════════════ -->
+<template id="report_intercompany_return_doc">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <t t-call="intercompany_operation_modified.report_intercompany_style"/>
+
+                    <div class="ic-report-header">
+                        <h2>Intercompany Return</h2>
+                        <div class="ic-ref"><strong><t t-esc="o.name"/></strong> · <t t-esc="o.return_type and o.return_type.upper()"/></div>
+                    </div>
+
+                    <div class="ic-section">
+                        <div class="ic-section-title">General Information</div>
+                        <div class="ic-info-grid">
+                            <div class="ic-info-row"><span class="ic-info-label">Reference:</span><span class="ic-info-value"><t t-esc="o.name"/></span></div>
+                            <div class="ic-info-row"><span class="ic-info-label">Return Type:</span><span class="ic-info-value"><t t-esc="o.return_type"/></span></div>
+                            <div class="ic-info-row"><span class="ic-info-label">Partner:</span><span class="ic-info-value"><t t-esc="o.partner_id.name"/></span></div>
+                            <div class="ic-info-row"><span class="ic-info-label">Status:</span><span class="ic-info-value"><t t-esc="o.state"/></span></div>
+                            <div class="ic-info-row"><span class="ic-info-label">Company:</span><span class="ic-info-value"><t t-esc="o.company_id.name"/></span></div>
+                            <div class="ic-info-row"><span class="ic-info-label">Source:</span><span class="ic-info-value"><t t-esc="o.order_source"/></span></div>
+                        </div>
+                    </div>
+
+                    <!-- Return Pickings -->
+                    <t t-if="o.return_picking_ids">
+                        <div class="ic-section">
+                            <div class="ic-section-title">Return Pickings</div>
+                            <table class="ic-table">
+                                <thead>
+                                    <tr>
+                                        <th>Reference</th>
+                                        <th>Type</th>
+                                        <th>From</th>
+                                        <th>To</th>
+                                        <th>Status</th>
+                                        <th>Replacement</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="o.return_picking_ids" t-as="p">
+                                        <tr>
+                                            <td><t t-esc="p.name"/></td>
+                                            <td><t t-esc="p.picking_type_id.name"/></td>
+                                            <td><t t-esc="p.location_id.complete_name"/></td>
+                                            <td><t t-esc="p.location_dest_id.complete_name"/></td>
+                                            <td><t t-esc="p.state"/></td>
+                                            <td><t t-esc="'Yes' if p.is_return_replacement else 'No'"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+
+                    <!-- Invoices -->
+                    <t t-if="o.invoice_ids">
+                        <div class="ic-section">
+                            <div class="ic-section-title">Credit Notes</div>
+                            <table class="ic-table">
+                                <thead><tr><th>Invoice</th><th>Date</th><th>Status</th><th class="text-right">Amount</th></tr></thead>
+                                <tbody>
+                                    <t t-foreach="o.invoice_ids" t-as="inv">
+                                        <tr>
+                                            <td><t t-esc="inv.name"/></td>
+                                            <td><t t-esc="inv.invoice_date or ''"/></td>
+                                            <td><t t-esc="inv.state"/></td>
+                                            <td class="text-right"><t t-esc="inv.amount_total"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+
+                    <div class="ic-footer">
+                        <span><t t-esc="o.name"/> — Printed on <t t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/></span>
+                        <span>Page <span class="page"/> of <span class="topage"/></span>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+
+<!-- ════════════════ PAYMENT DISTRIBUTION REPORT ════════════════ -->
+<template id="report_intercompany_payment_doc">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <t t-call="intercompany_operation_modified.report_intercompany_style"/>
+
+                    <div class="ic-report-header">
+                        <h2>Payment Distribution</h2>
+                        <div class="ic-ref"><strong><t t-esc="o.name"/></strong></div>
+                    </div>
+
+                    <div class="ic-section">
+                        <div class="ic-section-title">General Information</div>
+                        <div class="ic-info-grid">
+                            <div class="ic-info-row"><span class="ic-info-label">Reference:</span><span class="ic-info-value"><t t-esc="o.name"/></span></div>
+                            <div class="ic-info-row"><span class="ic-info-label">Date:</span><span class="ic-info-value"><t t-esc="o.payment_date or ''"/></span></div>
+                            <div class="ic-info-row"><span class="ic-info-label">Partner:</span><span class="ic-info-value"><t t-esc="o.partner_id.name"/></span></div>
+                            <div class="ic-info-row"><span class="ic-info-label">Status:</span><span class="ic-info-value"><t t-esc="o.state"/></span></div>
+                        </div>
+                    </div>
+
+                    <div class="ic-section">
+                        <div class="ic-section-title">Payment Lines</div>
+                        <table class="ic-table">
+                            <thead>
+                                <tr>
+                                    <th>Company</th>
+                                    <th>Journal</th>
+                                    <th>Type</th>
+                                    <th>Date</th>
+                                    <th class="text-right">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.line_ids" t-as="l">
+                                    <tr>
+                                        <td><t t-esc="l.company_id.name"/></td>
+                                        <td><t t-esc="l.journal_id.name or ''"/></td>
+                                        <td><t t-esc="l.payment_type or ''"/></td>
+                                        <td><t t-esc="l.payment_date or ''"/></td>
+                                        <td class="text-right fw-bold"><t t-esc="l.amount"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="4" class="text-right">Total</td>
+                                    <td class="text-right"><t t-esc="sum(o.line_ids.mapped('amount'))"/></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <div class="ic-footer">
+                        <span><t t-esc="o.name"/> — Printed on <t t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/></span>
+                        <span>Page <span class="page"/> of <span class="topage"/></span>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+
+<!-- ════════════════ PICKING TRANSFER REPORT ════════════════ -->
+<template id="report_intercompany_picking_transfer_doc">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <t t-call="intercompany_operation_modified.report_intercompany_style"/>
+
+                    <div class="ic-report-header">
+                        <h2>Branches Picking Transfer</h2>
+                        <div class="ic-ref"><strong><t t-esc="o.name"/></strong></div>
+                    </div>
+
+                    <div class="ic-section">
+                        <div class="ic-section-title">General Information</div>
+                        <div class="ic-info-grid">
+                            <div class="ic-info-row"><span class="ic-info-label">Reference:</span><span class="ic-info-value"><t t-esc="o.name"/></span></div>
+                            <div class="ic-info-row"><span class="ic-info-label">Status:</span><span class="ic-info-value"><t t-esc="o.state"/></span></div>
+                            <div class="ic-info-row"><span class="ic-info-label">From Company:</span><span class="ic-info-value"><t t-esc="o.company_sent_id.name"/></span></div>
+                            <div class="ic-info-row"><span class="ic-info-label">To Company:</span><span class="ic-info-value"><t t-esc="o.company_receive_id.name"/></span></div>
+                        </div>
+                    </div>
+
+                    <!-- Lines -->
+                    <t t-if="o.line_ids">
+                        <div class="ic-section">
+                            <div class="ic-section-title">Transfer Lines</div>
+                            <table class="ic-table">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Qty</th>
+                                        <th>UoM</th>
+                                        <th>From Location</th>
+                                        <th>To Location</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="o.line_ids" t-as="l">
+                                        <tr>
+                                            <td><t t-esc="l.product_id.display_name"/></td>
+                                            <td><t t-esc="l.qty"/></td>
+                                            <td><t t-esc="l.product_uom_id.name or ''"/></td>
+                                            <td><t t-esc="l.location_id.complete_name if hasattr(l, 'location_id') and l.location_id else ''"/></td>
+                                            <td><t t-esc="l.location_dest_id.complete_name if hasattr(l, 'location_dest_id') and l.location_dest_id else ''"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+
+                    <div class="ic-footer">
+                        <span><t t-esc="o.name"/> — Printed on <t t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/></span>
+                        <span>Page <span class="page"/> of <span class="topage"/></span>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+
+<!-- ════════════════ PAYMENT TRANSFER REPORT ════════════════ -->
+<template id="report_intercompany_payment_transfer_doc">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <t t-call="intercompany_operation_modified.report_intercompany_style"/>
+
+                    <div class="ic-report-header">
+                        <h2>Branches Payment Transfer</h2>
+                        <div class="ic-ref"><strong><t t-esc="o.name"/></strong></div>
+                    </div>
+
+                    <div class="ic-section">
+                        <div class="ic-section-title">General Information</div>
+                        <div class="ic-info-grid">
+                            <div class="ic-info-row"><span class="ic-info-label">Reference:</span><span class="ic-info-value"><t t-esc="o.name"/></span></div>
+                            <div class="ic-info-row"><span class="ic-info-label">Date:</span><span class="ic-info-value"><t t-esc="o.date or ''"/></span></div>
+                            <div class="ic-info-row"><span class="ic-info-label">From Company:</span><span class="ic-info-value"><t t-esc="o.company_sent_id.name"/></span></div>
+                            <div class="ic-info-row"><span class="ic-info-label">To Company:</span><span class="ic-info-value"><t t-esc="o.company_receive_id.name"/></span></div>
+                            <div class="ic-info-row"><span class="ic-info-label">Amount:</span><span class="ic-info-value fw-bold"><t t-esc="o.amount"/> <t t-esc="o.currency_id.name"/></span></div>
+                            <div class="ic-info-row"><span class="ic-info-label">Status:</span><span class="ic-info-value"><t t-esc="o.state"/></span></div>
+                        </div>
+                    </div>
+
+                    <t t-if="o.note">
+                        <div class="ic-section">
+                            <div class="ic-section-title">Notes</div>
+                            <p><t t-esc="o.note"/></p>
+                        </div>
+                    </t>
+
+                    <div class="ic-footer">
+                        <span><t t-esc="o.name"/> — Printed on <t t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/></span>
+                        <span>Page <span class="page"/> of <span class="topage"/></span>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+
+</odoo>

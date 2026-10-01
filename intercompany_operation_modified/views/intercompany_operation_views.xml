@@ -1,0 +1,573 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data noupdate="0">
+
+    <!-- ═══════════════════════════════════════════════════
+         SEQUENCES  (one per operation type)
+    ═══════════════════════════════════════════════════ -->
+    <record id="seq_intercompany_operation_sale" model="ir.sequence">
+        <field name="name">Intercompany Sale</field>
+        <field name="code">intercompany.operation.sale</field>
+        <field name="prefix">SAL/%(year)s/</field>
+        <field name="padding">4</field>
+    </record>
+
+    <record id="seq_intercompany_operation_purchase" model="ir.sequence">
+        <field name="name">Intercompany Purchase</field>
+        <field name="code">intercompany.operation.purchase</field>
+        <field name="prefix">PUR/%(year)s/</field>
+        <field name="padding">4</field>
+    </record>
+
+    <record id="seq_intercompany_operation_payment" model="ir.sequence">
+        <field name="name">Intercompany Payment Operation</field>
+        <field name="code">intercompany.operation.payment</field>
+        <field name="prefix">PAY/%(year)s/</field>
+        <field name="padding">4</field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_intercompany_operation_form" model="ir.ui.view">
+        <field name="name">intercompany.operation.form</field>
+        <field name="model">intercompany.operation</field>
+        <field name="arch" type="xml">
+            <form string="Intercompany Operation">
+                <header>
+                    <!-- Submit for Approval (non-manager, sale/purchase/landed_cost) -->
+                    <button name="action_submit" string="To Approve"
+                        type="object" class="btn-info"
+                        invisible="state != 'draft' or operation_type == 'payment'"/>
+
+                    <!-- Manager only: Approve -->
+                    <button name="action_approve" string="Approve"
+                        type="object" class="btn-warning"
+                        groups="intercompany_operation_modified.group_intercompany_manager"
+                        invisible="state != 'to_approve' or operation_type == 'payment'"/>
+
+                    <!-- Manager only: Refuse -->
+                    <button name="action_refuse" string="Refuse"
+                        type="object" class="btn-secondary"
+                        groups="intercompany_operation_modified.group_intercompany_manager"
+                        invisible="state not in ('approved', 'to_approve')"/>
+
+                    <!-- Sale / Purchase flow: Create Documents -->
+                    <button name="action_create_documents" string="Create Documents"
+                        type="object" class="btn-primary"
+                        invisible="state != 'approved' or operation_type in ('payment', 'landed_cost')"/>
+
+                    <!-- Sale / Purchase flow: Confirm Pickings -->
+                    <button name="action_confirm_pickings" string="Confirm Stock Pickings"
+                        type="object" class="btn-primary"
+                        invisible="state != 'confirmed'"/>
+
+                    <!-- Sale / Purchase flow: Create Invoice -->
+                    <button name="action_create_invoices" string="Create Invoice"
+                        type="object" class="btn-success"
+                        invisible="state != 'pickings_confirmed' or operation_type == 'landed_cost'"/>
+
+                    <!-- Landed Cost flow: Create Invoice directly from approved -->
+                    <button name="action_create_invoices" string="Create Invoice"
+                        type="object" class="btn-success"
+                        invisible="state != 'approved' or operation_type != 'landed_cost'"/>
+
+                    <!-- Landed Cost flow: Create Landed Cost -->
+                    <button name="action_create_landed_cost" string="Create Landed Cost"
+                        type="object" class="btn-primary"
+                        invisible="state != 'lc_invoiced' or operation_type != 'landed_cost'"/>
+
+                    <!-- Landed Cost flow: Validate -->
+                    <button name="action_open_landed_cost_validate_wizard" string="Validate"
+                        type="object" class="btn-success"
+                        invisible="state != 'landed_cost_created' or operation_type != 'landed_cost'"/>
+
+                    <!-- Payment flow -->
+                    <!-- Submit for Approval (non-manager, payment) -->
+                    <button name="action_submit_payment" string="To Approve"
+                        type="object" class="btn-info"
+                        invisible="state != 'draft' or operation_type != 'payment'"/>
+
+                    <!-- Approve (manager only, only visible once submitted) -->
+                    <button name="action_approve_payment" string="Approve"
+                        type="object" class="btn-warning"
+                        groups="intercompany_operation_modified.group_intercompany_manager"
+                        invisible="state != 'to_approve' or operation_type != 'payment'"/>
+
+                    <!-- Post Payment -->
+                    <button name="action_create_payment_distribution" string="Post Payments"
+                        type="object" class="btn-primary"
+                        invisible="state != 'approved' or operation_type != 'payment'"/>
+
+                    <!-- Reset to Draft -->
+                    <button name="action_reset_payment_to_draft" string="Reset to Draft"
+                        type="object" class="btn-secondary"
+                        invisible="operation_type != 'payment' or state not in ('approved', 'done')"/>
+
+                    <button name="action_cancel" string="Cancel"
+                        type="object" class="btn-danger"
+                        invisible="state in ('done','cancelled')"/>
+                    <button name="action_draft" string="Reset to Draft"
+                        type="object"
+                        invisible="state != 'cancelled' or operation_type == 'payment'"/>
+
+                    <button name="%(action_report_intercompany_operation)d" string="Print"
+                        type="action" class="btn-secondary" icon="fa-print"/>
+
+                    <field name="state" widget="statusbar"
+                        statusbar_visible="draft,to_approve,approved,confirmed,pickings_confirmed,lc_invoiced,landed_cost_created,done"/>
+                </header>
+                <sheet>
+                    <!-- State ribbon — colored bar like invoice -->
+                    <div name="ribbon_draft"
+                        style="background:#6c757d;color:white;padding:3px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-bottom:3px solid #495057;"
+                        invisible="state != 'draft'">
+                        &#9679; Draft
+                    </div>
+                    <div name="ribbon_to_approve"
+                        style="background:#17a2b8;color:white;padding:3px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-bottom:3px solid #117a8b;"
+                        invisible="state != 'to_approve'">
+                        &#9654; Pending Approval
+                    </div>
+                    <div name="ribbon_approved"
+                        style="background:#f6a609;color:white;padding:3px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-bottom:3px solid #d48c00;"
+                        invisible="state != 'approved'">
+                        &#10003; Approved — Ready to Process
+                    </div>
+                    <div name="ribbon_confirmed"
+                        style="background:#1f78c1;color:white;padding:3px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-bottom:3px solid #155a96;"
+                        invisible="state != 'confirmed'">
+                        &#9654; In Progress
+                    </div>
+                    <div name="ribbon_pickings"
+                        style="background:#0d6c8e;color:white;padding:3px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-bottom:3px solid #095570;"
+                        invisible="state != 'pickings_confirmed' or operation_type == 'landed_cost'">
+                        &#9654; Stock Confirmed — Awaiting Invoice
+                    </div>
+                    <div name="ribbon_lc_invoiced2"
+                        style="background:#20a39e;color:white;padding:3px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-bottom:3px solid #167a76;"
+                        invisible="state != 'lc_invoiced'">
+                        &#9654; Invoiced — Ready to Create Landed Cost
+                    </div>
+                    <div name="ribbon_lc_created"
+                        style="background:#6f42c1;color:white;padding:3px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-bottom:3px solid #59359a;"
+                        invisible="state != 'landed_cost_created'">
+                        &#9654; Landed Cost Created — Awaiting Validation
+                    </div>
+                    <div name="ribbon_done"
+                        style="background:#3a7d0a;color:white;padding:3px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-bottom:3px solid #2a5c07;"
+                        invisible="state != 'done'">
+                        &#10003; Done
+                    </div>
+                    <div name="ribbon_cancelled"
+                        style="background:#c0392b;color:white;padding:3px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-bottom:3px solid #962d22;"
+                        invisible="state != 'cancelled'">
+                        &#10007; Cancelled
+                    </div>
+                    <!-- Smart Buttons -->
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_orders" type="object"
+                            class="oe_stat_button" icon="fa-shopping-cart"
+                            invisible="order_count == 0">
+                            <field name="order_count" widget="statinfo" string="Orders"/>
+                        </button>
+                        <button name="action_view_pickings" type="object"
+                            class="oe_stat_button" icon="fa-truck"
+                            invisible="picking_count == 0">
+                            <field name="picking_count" widget="statinfo" string="Pickings"/>
+                        </button>
+                        <button name="action_view_documents" type="object"
+                            class="oe_stat_button" icon="fa-paperclip"
+                            invisible="document_count == 0">
+                            <field name="document_count" widget="statinfo" string="Docs"/>
+                        </button>
+                        <!-- Payment smart button: opens intercompany.payment form -->
+                        <button name="action_view_payment_distribution" type="object"
+                            class="oe_stat_button" icon="fa-money"
+                            invisible="not intercompany_payment_id">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Payment Distribution</span>
+                            </div>
+                        </button>
+                        <button name="action_view_payments" type="object"
+                            class="oe_stat_button" icon="fa-university"
+                            invisible="payment_count == 0 or operation_type != 'payment'">
+                            <field name="payment_count" widget="statinfo" string="Payments"/>
+                        </button>
+                        <button name="action_view_invoices" type="object"
+                            class="oe_stat_button" icon="fa-file-text-o"
+                            invisible="invoice_count == 0">
+                            <field name="invoice_count" widget="statinfo" string="Invoices"/>
+                        </button>
+                        <button name="action_view_landed_costs" type="object"
+                            class="oe_stat_button" icon="fa-balance-scale"
+                            invisible="landed_cost_count == 0">
+                            <field name="landed_cost_count" widget="statinfo" string="Landed Costs"/>
+                        </button>
+                    </div>
+
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="partner_id" readonly="state != 'draft'"/>
+                            <field name="operation_type" widget="radio" readonly="state != 'draft'"/>
+                            <!-- Payment direction: only for payment type -->
+                            <field name="payment_direction" widget="radio"
+                                invisible="operation_type != 'payment'"
+                                readonly="state != 'draft'"/>
+                            <field name="operation_date" readonly="1"/>
+                            <field name="submitted_by" readonly="1" invisible="not submitted_by"/>
+                        </group>
+                        <group>
+                            <field name="currency_id" readonly="state != 'draft'"/>
+                            <field name="currency_rate" readonly="1"
+                                invisible="currency_id == False"
+                                digits="[12, 6]"/>
+                            <field name="pricelist_id" readonly="state != 'draft'"
+                                invisible="operation_type != 'sale'"
+                                domain="[('company_id', '=', False)]"
+                                options="{'no_create': True}"
+                                help="Only pricelists shared across all companies are shown."/>
+                            <field name="payment_term_id" readonly="state != 'draft'"
+                                invisible="operation_type not in ('sale', 'purchase')"
+                                options="{'no_create': True}"/>
+                            <field name="amount_total" widget="monetary"/>
+                            <!-- Link to intercompany.payment -->
+                            <field name="intercompany_payment_id" readonly="1"
+                                invisible="not intercompany_payment_id"/>
+                        </group>
+                    </group>
+                    <group invisible="not reject_reason">
+                        <field name="reject_reason" readonly="1" string="Rejection Reason"/>
+                    </group>
+
+                    <notebook>
+                        <!-- Sale/Purchase/Landed Cost lines -->
+                        <page string="Operation Lines" name="lines"
+                            invisible="operation_type == 'payment'">
+                            <field name="line_ids" readonly="state != 'draft'">
+                                <list editable="bottom">
+                                    <!-- In landed_cost operations: only show products marked as Landed Cost -->
+                                    <field name="product_domain" column_invisible="1"/>
+                                    <field name="company_id"
+                                        domain="[('partner_id', '!=', parent.partner_id)]"/>
+                                    <field name="product_id"
+                                        domain="product_domain"/>
+                                    <field name="warehouse_id"
+                                        domain="[('company_id', '=', company_id)]"
+                                        options="{'no_create': True}"
+                                        column_invisible="parent.operation_type == 'landed_cost'"/>
+                                    <field name="qty"/>
+                                    <field name="product_uom_category_id" column_invisible="1"/>
+                                    <field name="operation_type" column_invisible="1"/>
+                                    <field name="company_id" column_invisible="1"/>
+                                    <field name="product_uom_id"
+                                        domain="[('category_id', '=', product_uom_category_id)]"
+                                        options="{'no_create': True}"
+                                        groups="uom.group_uom"/>
+                                    <field name="price"/>
+                                    <field name="discount"
+                                        column_invisible="parent.operation_type == 'landed_cost'"/>
+                                    <field name="tax_ids" widget="many2many_tags"
+                                        options="{'no_create': True}"
+                                        domain="[('type_tax_use', '=', operation_type == 'purchase' and 'purchase' or 'sale'), ('company_id', 'child_of', company_id)]"
+                                        string="Taxes"/>
+                                    <field name="note" string="Description / Terms" optional="show"/>
+                                    <field name="subtotal" widget="monetary"
+                                        options="{'currency_field': 'currency_id'}"/>
+                                </list>
+                            </field>
+                            <div class="o_row mt-2">
+                                <button name="action_update_prices"
+                                    string="↻ Update Prices &amp; Taxes"
+                                    type="object"
+                                    class="btn btn-secondary btn-sm"
+                                    invisible="state != 'draft'"
+                                    title="Recompute unit price and taxes on all lines from product settings, pricelist and UoM"/>
+                            </div>
+                            <group class="oe_subtotal_footer">
+                                <field name="amount_total" widget="monetary"
+                                    options="{'currency_field': 'currency_id'}"
+                                    string="Total"/>
+                            </group>
+                        </page>
+
+                        <!-- Payment lines: shown only for payment type -->
+                        <page string="Payment Lines" name="payment_lines"
+                            invisible="operation_type != 'payment'">
+                            <field name="payment_line_ids" readonly="state != 'draft'">
+                                <list editable="bottom">
+                                    <field name="company_id"/>
+                                    <field name="journal_id"
+                                        domain="[('type', 'in', ['bank', 'cash']), ('company_id', '=', company_id)]"
+                                        options="{'no_create': True}"
+                                        placeholder="Auto (first available)"/>
+                                    <field name="amount" widget="monetary"
+                                        options="{'currency_field': 'currency_id'}"/>
+                                    <field name="percentage" readonly="1"/>
+                                    <field name="invoice_ids" widget="many2many_tags"
+                                        options="{'no_create': True}"
+                                        string="Reconcile With"/>
+                                </list>
+                            </field>
+                            <div class="o_row mt-2">
+                                <button name="action_update_prices"
+                                    string="↻ Update Prices &amp; Taxes"
+                                    type="object"
+                                    class="btn btn-secondary btn-sm"
+                                    invisible="state != 'draft'"
+                                    title="Recompute unit price and taxes on all lines from product settings, pricelist and UoM"/>
+                            </div>
+                            <group class="oe_subtotal_footer">
+                                <field name="amount_total" widget="monetary"
+                                    options="{'currency_field': 'currency_id'}"
+                                    string="Total"/>
+                            </group>
+                        </page>
+
+                        <!-- Related Orders -->
+                        <page string="Related Orders" name="orders"
+                            invisible="order_count == 0">
+                            <field name="sale_order_ids" invisible="operation_type != 'sale'">
+                                <list>
+                                    <field name="company_id"/>
+                                    <field name="name"/>
+                                    <field name="partner_id"/>
+                                    <field name="date_order"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                            <field name="purchase_order_ids" invisible="operation_type != 'purchase'">
+                                <list>
+                                    <field name="company_id"/>
+                                    <field name="name"/>
+                                    <field name="partner_id"/>
+                                    <field name="date_order"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <!-- Related Pickings -->
+                        <page string="Related Pickings" name="pickings"
+                            invisible="picking_count == 0">
+                            <field name="picking_ids">
+                                <list>
+                                    <field name="company_id"/>
+                                    <field name="name"/>
+                                    <field name="location_id"/>
+                                    <field name="scheduled_date"/>
+                                    <field name="state" widget="badge"
+                                        decoration-success="state == 'done'"
+                                        decoration-warning="state == 'waiting'"
+                                        decoration-info="state == 'ready'"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <!-- Terms & Conditions -->
+                        <page string="Terms &amp; Conditions" name="terms">
+                            <field name="note" placeholder="Enter terms and conditions that will be passed to sale/purchase orders..."
+                                readonly="state != 'draft'"/>
+                        </page>
+
+                        <!-- Related Invoices -->
+                        <page string="Related Invoices" name="invoices"
+                            invisible="invoice_count == 0">
+                            <field name="invoice_ids">
+                                <list>
+                                    <field name="company_id"/>
+                                    <field name="name"/>
+                                    <field name="partner_id"/>
+                                    <field name="amount_total"/>
+                                    <field name="state" widget="badge"
+                                        decoration-success="state == 'posted'"
+                                        decoration-muted="state == 'draft'"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- List View -->
+    <record id="view_intercompany_operation_list" model="ir.ui.view">
+        <field name="name">intercompany.operation.list</field>
+        <field name="model">intercompany.operation</field>
+        <field name="arch" type="xml">
+            <list string="Intercompany Operations" decoration-muted="state == 'cancelled'"
+                decoration-success="state == 'done'">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="operation_type" widget="badge"/>
+                <field name="operation_date"/>
+                <field name="currency_id" optional="hide"/>
+                <field name="amount_total" widget="monetary"
+                    options="{'currency_field': 'currency_id'}"/>
+                <field name="order_count"/>
+                <field name="picking_count"/>
+                <field name="payment_count"/>
+                <field name="invoice_count"/>
+                <field name="landed_cost_count"/>
+                <field name="state" widget="badge"
+                    decoration-success="state == 'done'"
+                    decoration-warning="state == 'approved' or state == 'confirmed' or state == 'pickings_confirmed'"
+                    decoration-info="state == 'draft' or state == 'to_approve'"
+                    decoration-muted="state == 'cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_intercompany_operation_search" model="ir.ui.view">
+        <field name="name">intercompany.operation.search</field>
+        <field name="model">intercompany.operation</field>
+        <field name="arch" type="xml">
+            <search string="Search Operations">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <filter string="Sale" name="sale" domain="[('operation_type','=','sale')]"/>
+                <filter string="Purchase" name="purchase" domain="[('operation_type','=','purchase')]"/>
+                <filter string="Payment" name="payment" domain="[('operation_type','=','payment')]"/>
+                <filter string="Landed Cost" name="landed_cost" domain="[('operation_type','=','landed_cost')]"/>
+                <separator/>
+                <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
+                <filter string="To Approve" name="to_approve" domain="[('state','=','to_approve')]"/>
+                <filter string="Approved" name="approved" domain="[('state','=','approved')]"/>
+                <filter string="Confirmed" name="confirmed" domain="[('state','=','confirmed')]"/>
+                <filter string="Pickings Confirmed" name="pickings_confirmed" domain="[('state','=','pickings_confirmed')]"/>
+                <filter string="Done" name="done" domain="[('state','=','done')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Partner" name="by_partner" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Operation Type" name="by_type" context="{'group_by': 'operation_type'}"/>
+                    <filter string="Status" name="by_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action: All Operations -->
+    <record id="action_intercompany_operation" model="ir.actions.act_window">
+        <field name="name">All Operations</field>
+        <field name="res_model">intercompany.operation</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_intercompany_operation_search"/>
+        <field name="context">{}</field>
+    </record>
+
+    <!-- ═══════════════════════════════════════════════════
+         FILTERED ACTIONS  (Sales / Purchase / Payment)
+         context sets default_operation_type so "New" pre-fills the type
+    ═══════════════════════════════════════════════════ -->
+
+    <!-- Sales Action -->
+    <record id="action_intercompany_operation_sale" model="ir.actions.act_window">
+        <field name="name">Sales</field>
+        <field name="res_model">intercompany.operation</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('operation_type', '=', 'sale')]</field>
+        <field name="search_view_id" ref="view_intercompany_operation_search"/>
+        <field name="context">{'default_operation_type': 'sale', 'search_default_sale': 1}</field>
+    </record>
+
+    <!-- Purchase Action -->
+    <record id="action_intercompany_operation_purchase" model="ir.actions.act_window">
+        <field name="name">Purchase</field>
+        <field name="res_model">intercompany.operation</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('operation_type', '=', 'purchase')]</field>
+        <field name="search_view_id" ref="view_intercompany_operation_search"/>
+        <field name="context">{'default_operation_type': 'purchase', 'search_default_purchase': 1}</field>
+    </record>
+
+    <!-- Payment Action -->
+    <record id="action_intercompany_operation_payment" model="ir.actions.act_window">
+        <field name="name">Payment</field>
+        <field name="res_model">intercompany.operation</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('operation_type', '=', 'payment')]</field>
+        <field name="search_view_id" ref="view_intercompany_operation_search"/>
+        <field name="context">{'default_operation_type': 'payment', 'search_default_payment': 1}</field>
+    </record>
+
+    <!-- Pending Approval Action: Operations waiting for manager approval -->
+    <record id="action_intercompany_operation_to_approve" model="ir.actions.act_window">
+        <field name="name">Operations — Pending Approval</field>
+        <field name="res_model">intercompany.operation</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('state', '=', 'to_approve')]</field>
+        <field name="search_view_id" ref="view_intercompany_operation_search"/>
+        <field name="context">{}</field>
+    </record>
+
+
+    <!-- Landed Cost Action -->
+    <record id="action_intercompany_operation_landed_cost" model="ir.actions.act_window">
+        <field name="name">Landed Costs</field>
+        <field name="res_model">intercompany.operation</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('operation_type', '=', 'landed_cost')]</field>
+        <field name="search_view_id" ref="view_intercompany_operation_search"/>
+        <field name="context">{'default_operation_type': 'landed_cost', 'search_default_landed_cost': 1}</field>
+    </record>
+
+
+    <!-- ═══════════════════════════════════════════════════
+         Inherit account.move (Vendor Bill) — Add 'Create Landed Cost' button
+    ═══════════════════════════════════════════════════ -->
+    <record id="view_intercompany_account_move_form_inherit" model="ir.ui.view">
+        <field name="name">account.move.form.intercompany.landed.cost</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <!-- Add smart button for Landed Costs created from this bill -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_intercompany_landed_costs"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-balance-scale"
+                    invisible="intercompany_landed_cost_count == 0">
+                    <field name="intercompany_landed_cost_count"
+                        widget="statinfo"
+                        string="Landed Costs"/>
+                </button>
+            </xpath>
+            <!-- Add 'Create Landed Cost' button in header -->
+            <xpath expr="//div[@name='button_box']" position="before">
+                <button name="action_intercompany_create_landed_cost"
+                    type="object"
+                    string="Create Landed Cost"
+                    class="btn-primary"
+                    invisible="not intercompany_show_landed_cost_button"/>
+            </xpath>
+            <!-- Hidden computed fields needed for invisibility conditions -->
+            <xpath expr="//sheet" position="inside">
+                <field name="intercompany_show_landed_cost_button" invisible="1"/>
+                <field name="intercompany_landed_cost_count" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ── Inherit stock.landed.cost form — add tax_ids column to cost lines ── -->
+    <record id="view_stock_landed_cost_intercompany_inherit" model="ir.ui.view">
+        <field name="name">stock.landed.cost.form.intercompany.tax</field>
+        <field name="model">stock.landed.cost</field>
+        <field name="inherit_id" ref="stock_landed_costs.view_stock_landed_cost_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='cost_lines']//field[@name='price_unit']" position="after">
+                <field name="tax_ids" widget="many2many_tags"
+                       options="{'no_create': True}"
+                       string="Taxes"/>
+                <field name="price_with_tax" readonly="1" string="Total incl. Tax"/>
+            </xpath>
+        </field>
+    </record>
+
+</data>
+</odoo>

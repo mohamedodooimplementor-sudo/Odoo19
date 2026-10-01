@@ -1,0 +1,805 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<t t-name="intercompany_operation_modified.Dashboard">
+    <div class="o_action o_intercompany_dashboard">
+
+        <!-- Loading -->
+        <t t-if="!state.loaded">
+            <div class="ic-center-screen">
+                <i class="fa fa-spinner fa-spin fa-3x mb-3"/>
+                <div class="text-muted">Loading Dashboard...</div>
+            </div>
+        </t>
+
+        <t t-if="state.loaded">
+
+            <!-- HEADER -->
+            <div class="ic-header">
+                <h4 class="ic-header-title">
+                    <i class="fa fa-exchange me-2"/>
+                    Intercompany Dashboard
+                    <svg class="ic-header-gear ms-2" width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="#E1BEE7" d="M12 15.5A3.5 3.5 0 0 1 8.5 12 3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5 3.5 3.5 0 0 1-3.5 3.5m7.43-2.92c.04-.33.07-.66.07-1.08s-.03-.74-.07-1.08l2.32-1.81c.21-.16.27-.46.13-.7l-2.2-3.81c-.13-.24-.43-.32-.67-.24l-2.74 1.1c-.57-.44-1.18-.8-1.85-1.08L14.02 2H9.98L9.63 4.47c-.67.28-1.29.64-1.85 1.08L5.04 4.45c-.24-.09-.54 0-.67.24L2.18 8.5c-.14.24-.08.54.13.7l2.32 1.81C4.56 11.26 4.53 11.6 4.53 12s.03.74.07 1.08l-2.32 1.81c-.21.16-.27.46-.13.7l2.2 3.81c.13.24.43.32.67.24l2.74-1.1c.57.44 1.18.8 1.85 1.08L9.98 22h4.04l.35-2.47c.67-.28 1.29-.64 1.85-1.08l2.74 1.1c.24.09.54 0 .67-.24l2.2-3.81c.14-.24.08-.54-.13-.7l-2.32-1.81Z"/>
+                    </svg>
+                </h4>
+                <div class="ic-header-filters">
+                    <select class="ic-filter-select" t-on-change="onCompanyFilterChange">
+                        <option value="0">All Companies</option>
+                        <t t-foreach="state.filters.companies" t-as="c" t-key="c.id">
+                            <option t-att-value="c.id" t-att-selected="state.filters.company_id === c.id">
+                                <t t-esc="c.name"/>
+                            </option>
+                        </t>
+                    </select>
+                    <select class="ic-filter-select" t-on-change="onPeriodFilterChange">
+                        <option value="3" t-att-selected="state.filters.months === 3">Last 3 Months</option>
+                        <option value="6" t-att-selected="state.filters.months === 6">Last 6 Months</option>
+                        <option value="12" t-att-selected="state.filters.months === 12">Last 12 Months</option>
+                        <option value="0" t-att-selected="state.filters.months === 0">All Time</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="ic-body">
+
+                <!-- ── ROW 1: KPI CARDS ── -->
+                <div class="ic-row">
+
+                    <!-- Total -->
+                    <div class="ic-kpi-card ic-kpi-teal" style="cursor:pointer;" t-on-click="() => this.openList('all')">
+                        <div style="display:flex;align-items:flex-start;gap:8px;">
+                            <div class="ic-kpi-left">
+                                <div class="ic-kpi-label">Total Operations</div>
+                                <div class="ic-kpi-value"><t t-esc="state.kpi.total"/></div>
+                                <div class="ic-kpi-sub">
+                                    <span class="ic-text-green"><t t-esc="state.kpi.done"/> Done</span>
+                                    · <t t-esc="state.kpi.draft"/> Draft
+                                </div>
+                            </div>
+                            <div class="ic-kpi-icon ic-icon-teal">
+                                <i class="fa fa-list fa-lg"/>
+                            </div>
+                        </div>
+                        <div class="ic-pay-breakdown">
+                            <div class="ic-pay-part" t-on-click.stop="() => this.openList('all')">
+                                <i class="fa fa-pencil me-1"/>
+                                <span class="ic-pay-part-num" style="color:#6c757d;"><t t-esc="state.kpi.draft || 0"/></span>
+                                Draft
+                            </div>
+                            <div class="ic-pay-divider"/>
+                            <div class="ic-pay-part" t-on-click.stop="() => this.openList('all')">
+                                <i class="fa fa-clock-o me-1"/>
+                                <span class="ic-pay-part-num" style="color:#f6a609;"><t t-esc="(state.kpi.total || 0) - (state.kpi.done || 0) - (state.kpi.draft || 0) - (state.kpi.cancelled || 0) - (state.kpi.refused || 0)"/></span>
+                                In Progress
+                            </div>
+                            <div class="ic-pay-divider"/>
+                            <div class="ic-pay-part" t-on-click.stop="() => this.openList('all')">
+                                <i class="fa fa-check-circle me-1"/>
+                                <span class="ic-pay-part-num" style="color:#198754;"><t t-esc="state.kpi.done || 0"/></span>
+                                Done
+                            </div>
+                            <div class="ic-pay-divider"/>
+                            <div class="ic-pay-part" t-on-click.stop="() => this.openList('all')">
+                                <i class="fa fa-ban me-1"/>
+                                <span class="ic-pay-part-num" style="color:#dc3545;"><t t-esc="(state.kpi.cancelled || 0) + (state.kpi.refused || 0)"/></span>
+                                Cancelled
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sales -->
+                    <div class="ic-kpi-card ic-kpi-mauve" style="cursor:pointer;" t-on-click="() => this.openList('sale')">
+                        <div style="display:flex;align-items:flex-start;gap:8px;">
+                            <div class="ic-kpi-left">
+                                <div class="ic-kpi-label">Sales</div>
+                                <div class="ic-kpi-value ic-text-mauve"><t t-esc="state.kpi.sale"/></div>
+                                <div class="ic-kpi-sub">
+                                    <span style="color:#198754;"><t t-esc="state.kpi.sale_done || 0"/> Done</span>
+                                    · <t t-esc="state.kpi.sale_draft || 0"/> Draft
+                                </div>
+                            </div>
+                            <div class="ic-kpi-icon ic-icon-mauve">
+                                <i class="fa fa-shopping-cart fa-lg"/>
+                            </div>
+                        </div>
+                        <div class="ic-pay-breakdown">
+                            <div class="ic-pay-part" t-on-click.stop="() => this.openList('sale')">
+                                <i class="fa fa-pencil me-1"/>
+                                <span class="ic-pay-part-num" style="color:#28a745;"><t t-esc="state.kpi.sale_draft || 0"/></span>
+                                Draft
+                                <div class="ic-pay-part-amt"><t t-esc="state.amounts.currency"/>&#160;<t t-esc="fmt(state.amounts.sale||0)"/></div>
+                            </div>
+                            <div class="ic-pay-divider"/>
+                            <div class="ic-pay-part" t-on-click.stop="() => this.openList('sale')">
+                                <i class="fa fa-clock-o me-1"/>
+                                <span class="ic-pay-part-num" style="color:#f6a609;"><t t-esc="state.kpi.sale_progress || 0"/></span>
+                                In Progress
+                            </div>
+                            <div class="ic-pay-divider"/>
+                            <div class="ic-pay-part" t-on-click.stop="() => this.openList('sale')">
+                                <i class="fa fa-check-circle me-1"/>
+                                <span class="ic-pay-part-num" style="color:#155a96;"><t t-esc="state.kpi.sale_done || 0"/></span>
+                                Done
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Purchase -->
+                    <div class="ic-kpi-card ic-kpi-purple" style="cursor:pointer;" t-on-click="() => this.openList('purchase')">
+                        <div style="display:flex;align-items:flex-start;gap:8px;">
+                            <div class="ic-kpi-left">
+                                <div class="ic-kpi-label">Purchase</div>
+                                <div class="ic-kpi-value ic-text-purple"><t t-esc="state.kpi.purchase"/></div>
+                                <div class="ic-kpi-sub">
+                                    <span style="color:#198754;"><t t-esc="state.kpi.purchase_done || 0"/> Done</span>
+                                    · <t t-esc="state.kpi.purchase_draft || 0"/> Draft
+                                </div>
+                            </div>
+                            <div class="ic-kpi-icon ic-icon-purple">
+                                <i class="fa fa-truck fa-lg"/>
+                            </div>
+                        </div>
+                        <div class="ic-pay-breakdown">
+                            <div class="ic-pay-part" t-on-click.stop="() => this.openList('purchase')">
+                                <i class="fa fa-pencil me-1"/>
+                                <span class="ic-pay-part-num" style="color:#875A7B;"><t t-esc="state.kpi.purchase_draft || 0"/></span>
+                                Draft
+                                <div class="ic-pay-part-amt"><t t-esc="state.amounts.currency"/>&#160;<t t-esc="fmt(state.amounts.purchase||0)"/></div>
+                            </div>
+                            <div class="ic-pay-divider"/>
+                            <div class="ic-pay-part" t-on-click.stop="() => this.openList('purchase')">
+                                <i class="fa fa-clock-o me-1"/>
+                                <span class="ic-pay-part-num" style="color:#f6a609;"><t t-esc="state.kpi.purchase_progress || 0"/></span>
+                                In Progress
+                            </div>
+                            <div class="ic-pay-divider"/>
+                            <div class="ic-pay-part" t-on-click.stop="() => this.openList('purchase')">
+                                <i class="fa fa-check-circle me-1"/>
+                                <span class="ic-pay-part-num" style="color:#155a96;"><t t-esc="state.kpi.purchase_done || 0"/></span>
+                                Done
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Landed Cost -->
+                    <div class="ic-kpi-card ic-kpi-orange" style="cursor:pointer;" t-on-click="() => this.openList('landed_cost')">
+                        <div style="display:flex;align-items:flex-start;gap:8px;">
+                            <div class="ic-kpi-left">
+                                <div class="ic-kpi-label">Landed Costs</div>
+                                <div class="ic-kpi-value ic-text-orange"><t t-esc="state.kpi.landed_cost || 0"/></div>
+                                <div class="ic-kpi-sub">
+                                    <span style="color:#198754;"><t t-esc="state.kpi.lc_done || 0"/> Done</span>
+                                    · <t t-esc="state.kpi.lc_draft || 0"/> Draft
+                                </div>
+                            </div>
+                            <div class="ic-kpi-icon ic-icon-orange">
+                                <i class="fa fa-balance-scale fa-lg"/>
+                            </div>
+                        </div>
+                        <div class="ic-pay-breakdown">
+                            <div class="ic-pay-part" t-on-click.stop="() => this.openList('landed_cost')">
+                                <i class="fa fa-pencil me-1"/>
+                                <span class="ic-pay-part-num" style="color:#E67E22;"><t t-esc="state.kpi.lc_draft || 0"/></span>
+                                Draft
+                                <div class="ic-pay-part-amt"><t t-esc="state.amounts.currency"/>&#160;<t t-esc="fmt(state.amounts.landed_cost||0)"/></div>
+                            </div>
+                            <div class="ic-pay-divider"/>
+                            <div class="ic-pay-part" t-on-click.stop="() => this.openList('landed_cost')">
+                                <i class="fa fa-clock-o me-1"/>
+                                <span class="ic-pay-part-num" style="color:#f6a609;"><t t-esc="state.kpi.lc_progress || 0"/></span>
+                                In Progress
+                            </div>
+                            <div class="ic-pay-divider"/>
+                            <div class="ic-pay-part" t-on-click.stop="() => this.openList('landed_cost')">
+                                <i class="fa fa-check-circle me-1"/>
+                                <span class="ic-pay-part-num" style="color:#155a96;"><t t-esc="state.kpi.lc_done || 0"/></span>
+                                Done
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment: combined card (outer click opens Payment Operations; breakdown drills down) -->
+                    <div class="ic-kpi-card ic-kpi-red ic-kpi-payment" style="cursor:pointer;" t-on-click="() => this.openList('payment')">
+                        <div style="display:flex;align-items:flex-start;gap:8px;">
+                            <div class="ic-kpi-left">
+                                <div class="ic-kpi-label">Payment</div>
+                                <div class="ic-kpi-value ic-text-red">
+                                    <t t-esc="state.kpi.payment_total"/>
+                                </div>
+                                <div class="ic-kpi-sub">
+                                    <span style="color:#198754;"><t t-esc="state.kpi.payment_done || 0"/> Done</span>
+                                    · <t t-esc="state.kpi.payment_draft || 0"/> Draft
+                                </div>
+                            </div>
+                            <div class="ic-kpi-icon ic-icon-red">
+                                <i class="fa fa-money fa-lg"/>
+                            </div>
+                        </div>
+                        <!-- Breakdown row -->
+                        <div class="ic-pay-breakdown">
+                            <div class="ic-pay-part" t-on-click.stop="() => this.openList('payment')">
+                                <i class="fa fa-bolt me-1"/>
+                                <span class="ic-pay-part-num"><t t-esc="state.kpi.payment_ops"/></span>
+                                Operations
+                                <div class="ic-pay-part-amt">
+                                    <t t-esc="state.amounts.currency"/>&#160;<t t-esc="fmt(state.amounts.payment_ops||0)"/>
+                                </div>
+                            </div>
+                            <div class="ic-pay-divider"/>
+                            <div class="ic-pay-part" t-on-click.stop="() => this.openPayDist()">
+                                <i class="fa fa-sitemap me-1"/>
+                                <span class="ic-pay-part-num"><t t-esc="state.kpi.payment_dist"/></span>
+                                Distributions
+                                <div class="ic-pay-part-amt">
+                                    <t t-esc="state.amounts.currency"/>&#160;<t t-esc="fmt(state.amounts.payment_dist||0)"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Returns KPI Card -->
+                    <div class="ic-kpi-card" style="border-left:4px solid #6f42c1;cursor:pointer;" t-on-click="() => this.openReturnList('all')">
+                        <div style="display:flex;align-items:flex-start;gap:8px;">
+                            <div class="ic-kpi-left">
+                                <div class="ic-kpi-label">Returns</div>
+                                <div class="ic-kpi-value" style="color:#6f42c1;">
+                                    <t t-esc="state.kpi.ret_total || 0"/>
+                                </div>
+                                <div class="ic-kpi-sub">
+                                    <span style="color:#198754;"><t t-esc="state.kpi.ret_done || 0"/> Done</span>
+                                    ·
+                                    <span style="color:#dc3545;"><t t-esc="(state.kpi.ret_to_approve || 0)"/> Pending</span>
+                                </div>
+                            </div>
+                            <div class="ic-kpi-icon" style="background:#f3eeff;color:#6f42c1;">
+                                <i class="fa fa-undo fa-lg"/>
+                            </div>
+                        </div>
+                        <!-- Breakdown row -->
+                        <div class="ic-pay-breakdown">
+                            <div class="ic-pay-part" t-on-click.stop="() => this.openReturnList('draft')">
+                                <i class="fa fa-pencil me-1"/>
+                                <span class="ic-pay-part-num" style="color:#6c757d;"><t t-esc="state.kpi.ret_draft || 0"/></span>
+                                Draft
+                            </div>
+                            <div class="ic-pay-divider"/>
+                            <div class="ic-pay-part" t-on-click.stop="() => this.openReturnList('to_approve')">
+                                <i class="fa fa-clock-o me-1"/>
+                                <span class="ic-pay-part-num" style="color:#f6a609;"><t t-esc="state.kpi.ret_to_approve || 0"/></span>
+                                Pending
+                            </div>
+                            <div class="ic-pay-divider"/>
+                            <div class="ic-pay-part" t-on-click.stop="() => this.openReturnList('approved')">
+                                <i class="fa fa-check me-1"/>
+                                <span class="ic-pay-part-num" style="color:#155a96;"><t t-esc="state.kpi.ret_approved || 0"/></span>
+                                Approved
+                            </div>
+                            <div class="ic-pay-divider"/>
+                            <div class="ic-pay-part" t-on-click.stop="() => this.openReturnList('done')">
+                                <i class="fa fa-check-circle me-1"/>
+                                <span class="ic-pay-part-num" style="color:#198754;"><t t-esc="state.kpi.ret_done || 0"/></span>
+                                Done
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- end kpi row -->
+
+                <!-- ── BRANCHES TRANSFER: TOP SUMMARY ROW (2 cards) ── -->
+                <div class="ic-row">
+                    <!-- Picking Transfer Summary -->
+                    <div class="ic-kpi-card" style="border-left:4px solid #20a39e;cursor:pointer;flex:1;"
+                         t-on-click="() => this.openPickingTransferList('all')">
+                        <div style="display:flex;align-items:flex-start;gap:8px;">
+                            <div class="ic-kpi-left">
+                                <div class="ic-kpi-label">Branches — Picking Transfer</div>
+                                <div class="ic-kpi-value" style="color:#20a39e;">
+                                    <t t-esc="state.kpi.pt_total || 0"/>
+                                </div>
+                                <div class="ic-kpi-sub">
+                                    <span style="color:#198754;"><t t-esc="state.kpi.pt_received || 0"/> Done</span>
+                                    ·
+                                    <span style="color:#f6a609;"><t t-esc="state.kpi.pt_to_approve || 0"/> Pending</span>
+                                </div>
+                            </div>
+                            <div class="ic-kpi-icon" style="background:#e6f7f7;color:#20a39e;">
+                                <i class="fa fa-truck fa-lg"/>
+                            </div>
+                        </div>
+                        <div class="ic-pay-breakdown">
+                            <div class="ic-pay-part" t-on-click.stop="() => this.openPickingTransferList('draft')">
+                                <i class="fa fa-pencil me-1"/>
+                                <span class="ic-pay-part-num"><t t-esc="state.kpi.pt_draft || 0"/></span>
+                                Draft
+                            </div>
+                            <div class="ic-pay-divider"/>
+                            <div class="ic-pay-part" t-on-click.stop="() => this.openPickingTransferList('to_approve')">
+                                <i class="fa fa-clock-o me-1"/>
+                                <span class="ic-pay-part-num"><t t-esc="state.kpi.pt_to_approve || 0"/></span>
+                                Pending
+                            </div>
+                            <div class="ic-pay-divider"/>
+                            <div class="ic-pay-part" t-on-click.stop="() => this.openPickingTransferList('approved')">
+                                <i class="fa fa-check me-1"/>
+                                <span class="ic-pay-part-num"><t t-esc="state.kpi.pt_approved || 0"/></span>
+                                Approved
+                            </div>
+                            <div class="ic-pay-divider"/>
+                            <div class="ic-pay-part" t-on-click.stop="() => this.openPickingTransferList('received')">
+                                <i class="fa fa-check-circle me-1"/>
+                                <span class="ic-pay-part-num"><t t-esc="state.kpi.pt_received || 0"/></span>
+                                Received
+                            </div>
+                            <div class="ic-pay-divider"/>
+                            <div class="ic-pay-part" t-on-click.stop="() => this.openPickingTransferList('refused')">
+                                <i class="fa fa-ban me-1"/>
+                                <span class="ic-pay-part-num"><t t-esc="state.kpi.pt_refused || 0"/></span>
+                                Refused
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Transfer Summary -->
+                    <div class="ic-kpi-card" style="border-left:4px solid #e07a5f;cursor:pointer;flex:1;"
+                         t-on-click="() => this.openPaymentTransferList('all')">
+                        <div style="display:flex;align-items:flex-start;gap:8px;">
+                            <div class="ic-kpi-left">
+                                <div class="ic-kpi-label">Branches — Payment Transfer</div>
+                                <div class="ic-kpi-value" style="color:#e07a5f;">
+                                    <t t-esc="state.kpi.payt_total || 0"/>
+                                </div>
+                                <div class="ic-kpi-sub">
+                                    <span style="color:#198754;"><t t-esc="state.kpi.payt_posted || 0"/> Posted</span>
+                                    ·
+                                    <span style="color:#f6a609;"><t t-esc="state.kpi.payt_to_approve || 0"/> Pending</span>
+                                </div>
+                            </div>
+                            <div class="ic-kpi-icon" style="background:#fdf0ed;color:#e07a5f;">
+                                <i class="fa fa-money fa-lg"/>
+                            </div>
+                        </div>
+                        <div class="ic-pay-breakdown">
+                            <div class="ic-pay-part" t-on-click.stop="() => this.openPaymentTransferList('draft')">
+                                <i class="fa fa-pencil me-1"/>
+                                <span class="ic-pay-part-num"><t t-esc="state.kpi.payt_draft || 0"/></span>
+                                Draft
+                            </div>
+                            <div class="ic-pay-divider"/>
+                            <div class="ic-pay-part" t-on-click.stop="() => this.openPaymentTransferList('to_approve')">
+                                <i class="fa fa-clock-o me-1"/>
+                                <span class="ic-pay-part-num"><t t-esc="state.kpi.payt_to_approve || 0"/></span>
+                                Pending
+                            </div>
+                            <div class="ic-pay-divider"/>
+                            <div class="ic-pay-part" t-on-click.stop="() => this.openPaymentTransferList('approved')">
+                                <i class="fa fa-check me-1"/>
+                                <span class="ic-pay-part-num"><t t-esc="state.kpi.payt_approved || 0"/></span>
+                                Approved
+                            </div>
+                            <div class="ic-pay-divider"/>
+                            <div class="ic-pay-part" t-on-click.stop="() => this.openPaymentTransferList('posted')">
+                                <i class="fa fa-check-circle me-1"/>
+                                <span class="ic-pay-part-num"><t t-esc="state.kpi.payt_posted || 0"/></span>
+                                Posted
+                            </div>
+                            <div class="ic-pay-divider"/>
+                            <div class="ic-pay-part" t-on-click.stop="() => this.openPaymentTransferList('refused')">
+                                <i class="fa fa-ban me-1"/>
+                                <span class="ic-pay-part-num"><t t-esc="state.kpi.payt_refused || 0"/></span>
+                                Refused
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- end branches transfer top row -->
+
+                <!-- ── BRANCHES TRANSFER: PENDING APPROVALS BREAKDOWN ── -->
+                <div class="ic-row">
+                    <div class="ic-kpi-card ic-kpi-payment" style="border-left:4px solid #20a39e;cursor:pointer;flex:1;max-width:100%;"
+                         t-on-click="() => this.openPickingTransferList('to_approve')">
+                        <div class="ic-kpi-left">
+                            <div class="ic-kpi-label">Branches Transfer — Pending Approvals</div>
+                            <div class="ic-kpi-value" style="color:#20a39e;">
+                                <t t-esc="(state.kpi.pt_to_approve || 0) + (state.kpi.payt_to_approve || 0)"/>
+                            </div>
+                            <div class="ic-kpi-sub">Needs your action</div>
+                        </div>
+                        <div class="ic-kpi-icon" style="background:#e6f7f7;color:#20a39e;">
+                            <i class="fa fa-exchange fa-lg"/>
+                        </div>
+                        <!-- Breakdown row -->
+                        <div class="ic-pay-breakdown">
+                            <div class="ic-pay-part" t-on-click.stop="() => this.openOpsByState('to_approve')">
+                                <i class="fa fa-exchange me-1"/>
+                                <span class="ic-pay-part-num"><t t-esc="state.kpi.pending_ops || 0"/></span>
+                                Operation
+                            </div>
+                            <div class="ic-pay-divider"/>
+                            <div class="ic-pay-part" t-on-click.stop="() => this.openPayDistByState('to_approve')">
+                                <i class="fa fa-money me-1"/>
+                                <span class="ic-pay-part-num"><t t-esc="state.kpi.pending_pay || 0"/></span>
+                                Payment distribution
+                            </div>
+                            <div class="ic-pay-divider"/>
+                            <div class="ic-pay-part" t-on-click.stop="() => this.openReturnList('to_approve')">
+                                <i class="fa fa-undo me-1"/>
+                                <span class="ic-pay-part-num"><t t-esc="state.kpi.ret_to_approve || 0"/></span>
+                                Return
+                            </div>
+                            <div class="ic-pay-divider"/>
+                            <div class="ic-pay-part" t-on-click.stop="() => this.openPickingTransferList('to_approve')">
+                                <i class="fa fa-truck me-1"/>
+                                <span class="ic-pay-part-num"><t t-esc="state.kpi.pt_to_approve || 0"/></span>
+                                Picking Transfer
+                            </div>
+                            <div class="ic-pay-divider"/>
+                            <div class="ic-pay-part" t-on-click.stop="() => this.openPaymentTransferList('to_approve')">
+                                <i class="fa fa-credit-card me-1"/>
+                                <span class="ic-pay-part-num"><t t-esc="state.kpi.payt_to_approve || 0"/></span>
+                                Payment Transfer
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- end branches transfer pending row -->
+
+
+                <div class="ic-card ic-pipeline-card">
+                    <div class="ic-card-title">Operations Pipeline</div>
+                    <div class="ic-pipeline">
+                        <div class="ic-pipe-step ic-pipe-info" t-on-click="() => this.openOpsByState('draft')">
+                            <div class="ic-pipe-num"><t t-esc="state.kpi.draft"/></div>
+                            <div class="ic-pipe-lbl ic-pipe-lbl-draft">Draft</div>
+                        </div>
+                        <i class="fa fa-arrow-right ic-pipe-arrow"/>
+                        <div class="ic-pipe-step ic-pipe-to-approve" t-on-click="() => this.openOpsByState('to_approve')">
+                            <div class="ic-pipe-num"><t t-esc="state.kpi.to_approve"/></div>
+                            <div class="ic-pipe-lbl ic-pipe-lbl-to-approve">To Approve</div>
+                        </div>
+                        <i class="fa fa-arrow-right ic-pipe-arrow"/>
+                        <div class="ic-pipe-step" style="background:#fff3cd;border:2px solid #f6a609;" t-on-click="() => this.openOpsByState('approved')">
+                            <div class="ic-pipe-num" style="color:#664d03;"><t t-esc="state.kpi.approved"/></div>
+                            <div class="ic-pipe-lbl ic-pipe-lbl-approved">Approved</div>
+                        </div>
+                        <i class="fa fa-arrow-right ic-pipe-arrow"/>
+                        <div class="ic-pipe-step" style="background:#d0e8fa;border:2px solid #1f78c1;" t-on-click="() => this.openOpsByState('confirmed')">
+                            <div class="ic-pipe-num" style="color:#155a96;"><t t-esc="state.kpi.confirmed"/></div>
+                            <div class="ic-pipe-lbl ic-pipe-lbl-confirmed">In Progress</div>
+                        </div>
+                        <i class="fa fa-arrow-right ic-pipe-arrow"/>
+                        <div class="ic-pipe-step" style="background:#d0ecf5;border:2px solid #0d6c8e;" t-on-click="() => this.openOpsByState('pickings_confirmed')">
+                            <div class="ic-pipe-num" style="color:#095570;"><t t-esc="state.kpi.pickings_confirmed"/></div>
+                            <div class="ic-pipe-lbl ic-pipe-lbl-pickings">Stock Confirmed</div>
+                        </div>
+                        <i class="fa fa-arrow-right ic-pipe-arrow"/>
+                        <div class="ic-pipe-step ic-pipe-success" t-on-click="() => this.openOpsByState('done')">
+                            <div class="ic-pipe-num"><t t-esc="state.kpi.done"/></div>
+                            <div class="ic-pipe-lbl ic-pipe-lbl-done">Done</div>
+                        </div>
+                        <div class="ic-pipe-spacer"/>
+                        <div class="ic-pipe-step ic-pipe-danger" t-on-click="() => this.openOpsByState('refused')">
+                            <div class="ic-pipe-num"><t t-esc="state.kpi.refused || 0"/></div>
+                            <div class="ic-pipe-lbl ic-pipe-lbl-cancelled">Refused</div>
+                        </div>
+                        <div class="ic-pipe-step ic-pipe-danger" style="margin-left:4px;" t-on-click="() => this.openOpsByState('cancelled')">
+                            <div class="ic-pipe-num"><t t-esc="state.kpi.cancelled"/></div>
+                            <div class="ic-pipe-lbl ic-pipe-lbl-cancelled">Cancelled</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── ROW 2b: PAYMENT DISTRIBUTION PIPELINE ── -->
+                <div class="ic-card ic-pipeline-card">
+                    <div class="ic-card-title">Payment Distribution Pipeline</div>
+                    <div class="ic-pipeline">
+                        <div class="ic-pipe-step ic-pipe-info" t-on-click="() => this.openPayDistByState('draft')">
+                            <div class="ic-pipe-num"><t t-esc="state.kpi.pd_draft"/></div>
+                            <div class="ic-pipe-lbl ic-pipe-lbl-draft">Draft</div>
+                        </div>
+                        <i class="fa fa-arrow-right ic-pipe-arrow"/>
+                        <div class="ic-pipe-step ic-pipe-to-approve" t-on-click="() => this.openPayDistByState('to_approve')">
+                            <div class="ic-pipe-num"><t t-esc="state.kpi.pd_to_approve"/></div>
+                            <div class="ic-pipe-lbl ic-pipe-lbl-to-approve">To Approve</div>
+                        </div>
+                        <i class="fa fa-arrow-right ic-pipe-arrow"/>
+                        <div class="ic-pipe-step" style="background:#fff3cd;border:2px solid #f6a609;" t-on-click="() => this.openPayDistByState('approved')">
+                            <div class="ic-pipe-num" style="color:#664d03;"><t t-esc="state.kpi.pd_approved"/></div>
+                            <div class="ic-pipe-lbl ic-pipe-lbl-approved">Approved</div>
+                        </div>
+                        <i class="fa fa-arrow-right ic-pipe-arrow"/>
+                        <div class="ic-pipe-step ic-pipe-success" t-on-click="() => this.openPayDistByState('posted')">
+                            <div class="ic-pipe-num"><t t-esc="state.kpi.pd_posted"/></div>
+                            <div class="ic-pipe-lbl ic-pipe-lbl-done">Posted</div>
+                        </div>
+                        <div class="ic-pipe-spacer"/>
+                        <div class="ic-pipe-step ic-pipe-danger" t-on-click="() => this.openPayDistByState('refused')">
+                            <div class="ic-pipe-num"><t t-esc="state.kpi.pd_refused || 0"/></div>
+                            <div class="ic-pipe-lbl ic-pipe-lbl-cancelled">Refused</div>
+                        </div>
+                        <div class="ic-pipe-step ic-pipe-danger" style="margin-left:4px;" t-on-click="() => this.openPayDistByState('cancelled')">
+                            <div class="ic-pipe-num"><t t-esc="state.kpi.pd_cancelled"/></div>
+                            <div class="ic-pipe-lbl ic-pipe-lbl-cancelled">Cancelled</div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- ── ROW 2c: RETURNS PIPELINE ── -->
+                <div class="ic-card ic-pipeline-card" style="border-top:3px solid #6f42c1;">
+                    <div class="ic-card-title"><i class="fa fa-undo me-2" style="color:#6f42c1;"/>Returns Pipeline</div>
+                    <div class="ic-pipeline">
+                        <div class="ic-pipe-step ic-pipe-info" t-on-click="() => this.openReturnList('draft')">
+                            <div class="ic-pipe-num"><t t-esc="state.kpi.ret_draft || 0"/></div>
+                            <div class="ic-pipe-lbl ic-pipe-lbl-draft">Draft</div>
+                        </div>
+                        <i class="fa fa-arrow-right ic-pipe-arrow"/>
+                        <div class="ic-pipe-step ic-pipe-to-approve" t-on-click="() => this.openReturnList('to_approve')">
+                            <div class="ic-pipe-num"><t t-esc="state.kpi.ret_to_approve || 0"/></div>
+                            <div class="ic-pipe-lbl ic-pipe-lbl-to-approve">To Approve</div>
+                        </div>
+                        <i class="fa fa-arrow-right ic-pipe-arrow"/>
+                        <div class="ic-pipe-step" style="background:#fff3cd;border:2px solid #f6a609;" t-on-click="() => this.openReturnList('approved')">
+                            <div class="ic-pipe-num" style="color:#664d03;"><t t-esc="state.kpi.ret_approved || 0"/></div>
+                            <div class="ic-pipe-lbl ic-pipe-lbl-approved">Approved</div>
+                        </div>
+                        <i class="fa fa-arrow-right ic-pipe-arrow"/>
+                        <div class="ic-pipe-step" style="background:#d0e8fa;border:2px solid #1f78c1;" t-on-click="() => this.openReturnList('confirmed')">
+                            <div class="ic-pipe-num" style="color:#155a96;"><t t-esc="state.kpi.ret_confirmed || 0"/></div>
+                            <div class="ic-pipe-lbl ic-pipe-lbl-confirmed">Confirmed</div>
+                        </div>
+                        <i class="fa fa-arrow-right ic-pipe-arrow"/>
+                        <div class="ic-pipe-step" style="background:#d0ecf5;border:2px solid #0d6c8e;" t-on-click="() => this.openReturnList('returned')">
+                            <div class="ic-pipe-num" style="color:#095570;"><t t-esc="state.kpi.ret_returned || 0"/></div>
+                            <div class="ic-pipe-lbl">Returned</div>
+                        </div>
+                        <i class="fa fa-arrow-right ic-pipe-arrow"/>
+                        <div class="ic-pipe-step ic-pipe-success" t-on-click="() => this.openReturnList('done')">
+                            <div class="ic-pipe-num"><t t-esc="state.kpi.ret_done || 0"/></div>
+                            <div class="ic-pipe-lbl ic-pipe-lbl-done">Done</div>
+                        </div>
+                        <div class="ic-pipe-spacer"/>
+                        <div class="ic-pipe-step ic-pipe-danger" t-on-click="() => this.openReturnList('refused')">
+                            <div class="ic-pipe-num"><t t-esc="state.kpi.ret_refused || 0"/></div>
+                            <div class="ic-pipe-lbl ic-pipe-lbl-cancelled">Refused</div>
+                        </div>
+                        <div class="ic-pipe-step ic-pipe-danger" style="margin-left:4px;" t-on-click="() => this.openReturnList('cancelled')">
+                            <div class="ic-pipe-num"><t t-esc="state.kpi.ret_cancelled || 0"/></div>
+                            <div class="ic-pipe-lbl ic-pipe-lbl-cancelled">Cancelled</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── ROW 2d: BRANCHES TRANSFER — PICKING TRANSFER PIPELINE ── -->
+                <div class="ic-card ic-pipeline-card" style="border-top:3px solid #20a39e;">
+                    <div class="ic-card-title"><i class="fa fa-exchange me-2" style="color:#20a39e;"/>Branches Transfer — Picking Transfer</div>
+                    <div class="ic-pipeline">
+                        <div class="ic-pipe-step ic-pipe-info" t-on-click="() => this.openPickingTransferList('draft')">
+                            <div class="ic-pipe-num"><t t-esc="state.kpi.pt_draft || 0"/></div>
+                            <div class="ic-pipe-lbl ic-pipe-lbl-draft">Draft</div>
+                        </div>
+                        <i class="fa fa-arrow-right ic-pipe-arrow"/>
+                        <div class="ic-pipe-step ic-pipe-to-approve" t-on-click="() => this.openPickingTransferList('to_approve')">
+                            <div class="ic-pipe-num"><t t-esc="state.kpi.pt_to_approve || 0"/></div>
+                            <div class="ic-pipe-lbl ic-pipe-lbl-to-approve">To Approve</div>
+                        </div>
+                        <i class="fa fa-arrow-right ic-pipe-arrow"/>
+                        <div class="ic-pipe-step" style="background:#fff3cd;border:2px solid #f6a609;" t-on-click="() => this.openPickingTransferList('approved')">
+                            <div class="ic-pipe-num" style="color:#664d03;"><t t-esc="state.kpi.pt_approved || 0"/></div>
+                            <div class="ic-pipe-lbl ic-pipe-lbl-approved">Approved</div>
+                        </div>
+                        <i class="fa fa-arrow-right ic-pipe-arrow"/>
+                        <div class="ic-pipe-step" style="background:#d0e8fa;border:2px solid #1f78c1;" t-on-click="() => this.openPickingTransferList('send_approved')">
+                            <div class="ic-pipe-num" style="color:#155a96;"><t t-esc="state.kpi.pt_send_approved || 0"/></div>
+                            <div class="ic-pipe-lbl">Send Approved</div>
+                        </div>
+                        <i class="fa fa-arrow-right ic-pipe-arrow"/>
+                        <div class="ic-pipe-step ic-pipe-success" t-on-click="() => this.openPickingTransferList('received')">
+                            <div class="ic-pipe-num"><t t-esc="state.kpi.pt_received || 0"/></div>
+                            <div class="ic-pipe-lbl ic-pipe-lbl-done">Received</div>
+                        </div>
+                        <div class="ic-pipe-spacer"/>
+                        <div class="ic-pipe-step ic-pipe-danger" t-on-click="() => this.openPickingTransferList('refused')">
+                            <div class="ic-pipe-num"><t t-esc="state.kpi.pt_refused || 0"/></div>
+                            <div class="ic-pipe-lbl ic-pipe-lbl-cancelled">Refused</div>
+                        </div>
+                        <div class="ic-pipe-step ic-pipe-danger" style="margin-left:4px;" t-on-click="() => this.openPickingTransferList('cancelled')">
+                            <div class="ic-pipe-num"><t t-esc="state.kpi.pt_cancelled || 0"/></div>
+                            <div class="ic-pipe-lbl ic-pipe-lbl-cancelled">Cancelled</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── ROW 2e: BRANCHES TRANSFER — PAYMENT TRANSFER PIPELINE ── -->
+                <div class="ic-card ic-pipeline-card" style="border-top:3px solid #e07a5f;">
+                    <div class="ic-card-title"><i class="fa fa-money me-2" style="color:#e07a5f;"/>Branches Transfer — Payment Transfer</div>
+                    <div class="ic-pipeline">
+                        <div class="ic-pipe-step ic-pipe-info" t-on-click="() => this.openPaymentTransferList('draft')">
+                            <div class="ic-pipe-num"><t t-esc="state.kpi.payt_draft || 0"/></div>
+                            <div class="ic-pipe-lbl ic-pipe-lbl-draft">Draft</div>
+                        </div>
+                        <i class="fa fa-arrow-right ic-pipe-arrow"/>
+                        <div class="ic-pipe-step ic-pipe-to-approve" t-on-click="() => this.openPaymentTransferList('to_approve')">
+                            <div class="ic-pipe-num"><t t-esc="state.kpi.payt_to_approve || 0"/></div>
+                            <div class="ic-pipe-lbl ic-pipe-lbl-to-approve">To Approve</div>
+                        </div>
+                        <i class="fa fa-arrow-right ic-pipe-arrow"/>
+                        <div class="ic-pipe-step" style="background:#fff3cd;border:2px solid #f6a609;" t-on-click="() => this.openPaymentTransferList('approved')">
+                            <div class="ic-pipe-num" style="color:#664d03;"><t t-esc="state.kpi.payt_approved || 0"/></div>
+                            <div class="ic-pipe-lbl ic-pipe-lbl-approved">Approved</div>
+                        </div>
+                        <i class="fa fa-arrow-right ic-pipe-arrow"/>
+                        <div class="ic-pipe-step ic-pipe-success" t-on-click="() => this.openPaymentTransferList('posted')">
+                            <div class="ic-pipe-num"><t t-esc="state.kpi.payt_posted || 0"/></div>
+                            <div class="ic-pipe-lbl ic-pipe-lbl-done">Posted</div>
+                        </div>
+                        <div class="ic-pipe-spacer"/>
+                        <div class="ic-pipe-step ic-pipe-danger" t-on-click="() => this.openPaymentTransferList('refused')">
+                            <div class="ic-pipe-num"><t t-esc="state.kpi.payt_refused || 0"/></div>
+                            <div class="ic-pipe-lbl ic-pipe-lbl-cancelled">Refused</div>
+                        </div>
+                        <div class="ic-pipe-step ic-pipe-danger" style="margin-left:4px;" t-on-click="() => this.openPaymentTransferList('cancelled')">
+                            <div class="ic-pipe-num"><t t-esc="state.kpi.payt_cancelled || 0"/></div>
+                            <div class="ic-pipe-lbl ic-pipe-lbl-cancelled">Cancelled</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── ROW 3: CHART + RECENT OPS ── -->
+                <div class="ic-row">
+
+                    <div class="ic-card ic-chart-card">
+                        <div class="ic-card-title">Monthly Amount by Type (Last 6 Months)</div>
+                        <div class="ic-canvas-wrap">
+                            <canvas id="ic_monthly_chart"/>
+                        </div>
+                    </div>
+
+                    <div class="ic-card ic-recent-card">
+                        <div class="ic-card-title">Recent Operations</div>
+                        <div class="ic-recent-list">
+                            <t t-foreach="state.recent" t-as="op" t-key="op.id">
+                                <div class="ic-recent-item" t-on-click="() => this.openRecord(op.id)">
+                                    <div class="ic-recent-left">
+                                        <div class="ic-recent-name">
+                                            <t t-esc="op.name"/>
+                                            <span t-attf-class="ic-type-badge ic-type-#{op.type}">
+                                                <t t-esc="this.typeLabel(op.type)"/>
+                                            </span>
+                                        </div>
+                                        <div class="ic-recent-partner"><t t-esc="op.partner"/></div>
+                                    </div>
+                                    <div class="ic-recent-right">
+                                        <div class="ic-recent-amount">
+                                            <t t-esc="op.currency"/>&#160;<t t-esc="fmt(op.amount||0)"/>
+                                        </div>
+                                        <span t-attf-class="ic-badge #{this.stateBadge(op.state)}">
+                                            <t t-esc="this.stateLabel(op.state)"/>
+                                        </span>
+                                    </div>
+                                </div>
+                            </t>
+
+                            <!-- Payment Distributions in Recent list -->
+                            <t t-if="state.recent_pay_dist and state.recent_pay_dist.length">
+                                <div class="ic-recent-section-divider">
+                                    <i class="fa fa-sitemap me-1"/>Payment Distributions
+                                </div>
+                                <t t-foreach="state.recent_pay_dist" t-as="pd" t-key="pd.id">
+                                    <div class="ic-recent-item ic-recent-paydist" t-on-click="() => this.openPayDistRecord(pd.id)">
+                                        <div class="ic-recent-left">
+                                            <div class="ic-recent-name">
+                                                <t t-esc="pd.name"/>
+                                                <span class="ic-type-badge ic-type-payment">Dist</span>
+                                            </div>
+                                            <div class="ic-recent-partner"><t t-esc="pd.partner"/></div>
+                                        </div>
+                                        <div class="ic-recent-right">
+                                            <div class="ic-recent-amount">
+                                                <t t-esc="pd.currency"/>&#160;<t t-esc="fmt(pd.amount||0)"/>
+                                            </div>
+                                            <span t-attf-class="ic-badge #{this.payDistBadge(pd.state)}">
+                                                <t t-esc="this.payDistLabel(pd.state)"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </t>
+                            </t>
+
+                            <!-- Returns in Recent list -->
+                            <t t-if="state.recent_returns and state.recent_returns.length">
+                                <div class="ic-recent-section-divider">
+                                    <i class="fa fa-undo me-1"/>Returns
+                                </div>
+                                <t t-foreach="state.recent_returns" t-as="ret" t-key="ret.id">
+                                    <div class="ic-recent-item" t-on-click="() => this.openReturnRecord(ret.id)">
+                                        <div class="ic-recent-left">
+                                            <div class="ic-recent-name">
+                                                <t t-esc="ret.name"/>
+                                                <span t-attf-class="ic-type-badge ic-type-#{ret.type}">
+                                                    <t t-esc="this.typeLabel(ret.type)"/>
+                                                </span>
+                                            </div>
+                                            <div class="ic-recent-partner"><t t-esc="ret.partner"/></div>
+                                        </div>
+                                        <div class="ic-recent-right">
+                                            <span t-attf-class="ic-badge #{this.returnBadge(ret.state)}">
+                                                <t t-esc="this.returnLabel(ret.state)"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </t>
+                            </t>
+
+                            <!-- Branches Picking Transfer in Recent list -->
+                            <t t-if="state.recent_picking_transfer and state.recent_picking_transfer.length">
+                                <div class="ic-recent-section-divider">
+                                    <i class="fa fa-truck me-1"/>Branches Picking Transfer
+                                </div>
+                                <t t-foreach="state.recent_picking_transfer" t-as="pt" t-key="pt.id">
+                                    <div class="ic-recent-item" t-on-click="() => this.openPickingTransferRecord(pt.id)">
+                                        <div class="ic-recent-left">
+                                            <div class="ic-recent-name">
+                                                <t t-esc="pt.name"/>
+                                            </div>
+                                            <div class="ic-recent-partner">
+                                                <t t-esc="pt.from_company"/> → <t t-esc="pt.to_company"/>
+                                            </div>
+                                        </div>
+                                        <div class="ic-recent-right">
+                                            <span t-attf-class="ic-badge #{this.pickTransferBadge(pt.state)}">
+                                                <t t-esc="this.pickTransferLabel(pt.state)"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </t>
+                            </t>
+
+                            <!-- Branches Payment Transfer in Recent list -->
+                            <t t-if="state.recent_payment_transfer and state.recent_payment_transfer.length">
+                                <div class="ic-recent-section-divider">
+                                    <i class="fa fa-exchange me-1"/>Branches Payment Transfer
+                                </div>
+                                <t t-foreach="state.recent_payment_transfer" t-as="payt" t-key="payt.id">
+                                    <div class="ic-recent-item" t-on-click="() => this.openPaymentTransferRecord(payt.id)">
+                                        <div class="ic-recent-left">
+                                            <div class="ic-recent-name">
+                                                <t t-esc="payt.name"/>
+                                            </div>
+                                            <div class="ic-recent-partner">
+                                                <t t-esc="payt.from_company"/> → <t t-esc="payt.to_company"/>
+                                            </div>
+                                        </div>
+                                        <div class="ic-recent-right">
+                                            <div class="ic-recent-amount">
+                                                <t t-esc="payt.currency"/>&#160;<t t-esc="fmt(payt.amount||0)"/>
+                                            </div>
+                                            <span t-attf-class="ic-badge #{this.payDistBadge(payt.state)}">
+                                                <t t-esc="this.payDistLabel(payt.state)"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </t>
+                            </t>
+
+                            <t t-if="!state.recent.length and !(state.recent_pay_dist and state.recent_pay_dist.length)
+                                     and !(state.recent_returns and state.recent_returns.length)
+                                     and !(state.recent_picking_transfer and state.recent_picking_transfer.length)
+                                     and !(state.recent_payment_transfer and state.recent_payment_transfer.length)">
+                                <div class="ic-empty">
+                                    <i class="fa fa-inbox fa-2x mb-2"/>
+                                    <div>No operations yet</div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+            </div><!-- end ic-body -->
+        </t>
+
+    </div>
+</t>
+
+</templates>

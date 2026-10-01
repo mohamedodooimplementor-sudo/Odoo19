@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data noupdate="0">
+
+    <!-- Form View -->
+    <record id="view_intercompany_payment_form" model="ir.ui.view">
+        <field name="name">intercompany.payment.form</field>
+        <field name="model">intercompany.payment</field>
+        <field name="arch" type="xml">
+            <form string="Payment Distribution">
+                <header>
+                    <!-- Submit for Approval (non-manager) -->
+                    <button name="action_submit" string="To Approve"
+                        type="object" class="btn-info"
+                        invisible="state != 'draft'"/>
+                    <!-- Manager only: Approve (only visible once submitted) -->
+                    <button name="action_approve" string="Approve"
+                        type="object" class="btn-warning"
+                        groups="intercompany_operation_modified.group_intercompany_manager"
+                        invisible="state != 'to_approve'"/>
+                    <!-- Manager only: Reject (with reason) -->
+                    <button name="action_refuse" string="Reject"
+                        type="object" class="btn-secondary"
+                        groups="intercompany_operation_modified.group_intercompany_manager"
+                        invisible="state not in ('to_approve', 'approved')"/>
+                    <button name="action_post_payment" string="Post Payment"
+                        type="object" class="btn-primary"
+                        invisible="state != 'approved'"/>
+                    <button name="action_reset_to_draft" string="Reset to Draft"
+                        type="object" class="btn-secondary"
+                        invisible="state not in ('posted', 'approved', 'to_approve')"/>
+                    <button name="action_cancel" string="Cancel"
+                        type="object" class="btn-danger"
+                        invisible="state not in ('draft', 'to_approve')"/>
+                    <button name="%(action_report_intercompany_payment)d" string="Print"
+                        type="action" class="btn-secondary" icon="fa-print"/>
+
+                    <field name="state" widget="statusbar"
+                        statusbar_visible="draft,to_approve,approved,posted"/>
+                </header>
+                <sheet>
+                    <!-- State ribbon -->
+                    <div name="ribbon_draft"
+                        style="background:#6c757d;color:white;padding:3px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-bottom:3px solid #495057;"
+                        invisible="state != 'draft'">
+                        &#9679; Draft
+                    </div>
+                    <div name="ribbon_to_approve"
+                        style="background:#17a2b8;color:white;padding:3px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-bottom:3px solid #117a8b;"
+                        invisible="state != 'to_approve'">
+                        &#9654; Pending Approval
+                    </div>
+                    <div name="ribbon_approved"
+                        style="background:#f6a609;color:white;padding:3px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-bottom:3px solid #d48c00;"
+                        invisible="state != 'approved'">
+                        &#10003; Approved — Ready to Post
+                    </div>
+                    <div name="ribbon_posted"
+                        style="background:#3a7d0a;color:white;padding:3px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-bottom:3px solid #2a5c07;"
+                        invisible="state != 'posted'">
+                        &#10003; Posted
+                    </div>
+                    <div name="ribbon_cancelled"
+                        style="background:#c0392b;color:white;padding:3px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-bottom:3px solid #962d22;"
+                        invisible="state != 'cancelled'">
+                        &#10007; Cancelled
+                    </div>
+                    <!-- Smart Buttons -->
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_payments" type="object"
+                            class="oe_stat_button" icon="fa-university"
+                            invisible="payment_count == 0">
+                            <field name="payment_count" widget="statinfo" string="Payments"/>
+                        </button>
+                    </div>
+
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id" readonly="state != 'draft'"/>
+                            <field name="payment_type" widget="radio" readonly="state != 'draft'"/>
+                            <field name="submitted_by" readonly="1" invisible="not submitted_by"/>
+                        </group>
+                        <group>
+                            <field name="payment_date" readonly="state != 'draft'"/>
+                            <field name="currency_id" readonly="state != 'draft'"/>
+                            <field name="amount_total" widget="monetary"
+                                options="{'currency_field': 'currency_id'}"/>
+                        </group>
+                    </group>
+                    <group invisible="not reject_reason">
+                        <field name="reject_reason" readonly="1" string="Rejection Reason"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Payment Lines" name="payment_lines">
+                            <field name="line_ids" readonly="state != 'draft'">
+                                <list editable="bottom">
+                                    <field name="company_id"/>
+                                    <field name="journal_id"
+                                        domain="[('type', 'in', ['bank', 'cash']), ('company_id', '=', company_id)]"
+                                        options="{'no_create': True}"
+                                        placeholder="Auto (first available)"/>
+                                    <field name="amount" widget="monetary"
+                                        options="{'currency_field': 'currency_id'}"/>
+                                    <field name="percentage" readonly="1"
+                                        string="Percentage (%)"/>
+                                    <field name="invoice_ids" widget="many2many_tags"
+                                        options="{'no_create': True}"
+                                        string="Reconcile With"/>
+                                </list>
+                            </field>
+                            <group class="oe_subtotal_footer">
+                                <field name="amount_total" widget="monetary"
+                                    options="{'currency_field': 'currency_id'}"
+                                    string="Total"/>
+                            </group>
+                        </page>
+
+                        <page string="Related Payments" name="related_payments"
+                            invisible="not payment_ids">
+                            <field name="payment_ids">
+                                <list>
+                                    <field name="company_id"/>
+                                    <field name="name"/>
+                                    <field name="payment_type"/>
+                                    <field name="journal_id"/>
+                                    <field name="amount" widget="monetary"/>
+                                    <field name="state" widget="badge"
+                                        decoration-success="state == 'posted'"
+                                        decoration-muted="state == 'draft'"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- List View -->
+    <record id="view_intercompany_payment_list" model="ir.ui.view">
+        <field name="name">intercompany.payment.list</field>
+        <field name="model">intercompany.payment</field>
+        <field name="arch" type="xml">
+            <list string="Payment Distributions" decoration-success="state == 'posted'">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="payment_type" widget="badge"/>
+                <field name="payment_date"/>
+                <field name="amount_total" widget="monetary"
+                    options="{'currency_field': 'currency_id'}"/>
+                <field name="state" widget="badge"
+                    decoration-success="state == 'posted'"
+                    decoration-info="state == 'draft' or state == 'to_approve'"
+                    decoration-warning="state == 'approved'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_intercompany_payment_search" model="ir.ui.view">
+        <field name="name">intercompany.payment.search</field>
+        <field name="model">intercompany.payment</field>
+        <field name="arch" type="xml">
+            <search string="Search Payments">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <filter string="Inbound" name="inbound" domain="[('payment_type','=','inbound')]"/>
+                <filter string="Outbound" name="outbound" domain="[('payment_type','=','outbound')]"/>
+                <separator/>
+                <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
+                <filter string="To Approve" name="to_approve" domain="[('state','=','to_approve')]"/>
+                <filter string="Approved" name="approved" domain="[('state','=','approved')]"/>
+                <filter string="Posted" name="posted" domain="[('state','=','posted')]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_intercompany_payment" model="ir.actions.act_window">
+        <field name="name">Payment Distribution</field>
+        <field name="res_model">intercompany.payment</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_intercompany_payment_search"/>
+    </record>
+
+    <!-- Pending Approval Action: Payment Distributions waiting for manager approval -->
+    <record id="action_intercompany_payment_to_approve" model="ir.actions.act_window">
+        <field name="name">Payments — Pending Approval</field>
+        <field name="res_model">intercompany.payment</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('state', '=', 'to_approve')]</field>
+        <field name="search_view_id" ref="view_intercompany_payment_search"/>
+    </record>
+
+</data>
+</odoo>

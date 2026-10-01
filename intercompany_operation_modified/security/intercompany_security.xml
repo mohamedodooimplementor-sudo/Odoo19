@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ═══════════════════════════════════════════════════
+         MODULE ACCESS RIGHTS (Module Permission)
+         A dedicated category + group pair so this module's
+         access can be granted/revoked per user, independently
+         of generic "Internal User" / "Administrator" rights.
+    ═══════════════════════════════════════════════════ -->
+
+    <record id="module_category_intercompany" model="ir.module.category">
+        <field name="name">Intercompany Operations</field>
+        <field name="description">Manage access to the Intercompany Operation Management module.</field>
+        <field name="sequence">20</field>
+    </record>
+
+    <!-- User: can create/edit/run operations and payments, no delete -->
+    <record id="group_intercompany_user" model="res.groups">
+        <field name="name">User</field>
+        <field name="category_id" ref="module_category_intercompany"/>
+        <field name="comment">Can access the Intercompany Operation module: create and process
+            Sale / Purchase / Payment operations, view the dashboard, but cannot delete records.</field>
+    </record>
+
+    <!-- Manager: full control, including delete, implies User -->
+    <record id="group_intercompany_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="category_id" ref="module_category_intercompany"/>
+        <field name="implied_ids" eval="[(4, ref('group_intercompany_user'))]"/>
+        <field name="comment">Full access to the Intercompany Operation module, including
+            deleting Operations and Payment Distributions.</field>
+    </record>
+
+</odoo>

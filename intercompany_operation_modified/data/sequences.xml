@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="seq_intercompany_operation_sale" model="ir.sequence">
+        <field name="name">Intercompany Operation - Sale</field>
+        <field name="code">intercompany.operation.sale</field>
+        <field name="prefix">ICO/SALE/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_intercompany_operation_purchase" model="ir.sequence">
+        <field name="name">Intercompany Operation - Purchase</field>
+        <field name="code">intercompany.operation.purchase</field>
+        <field name="prefix">ICO/PUR/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_intercompany_operation_payment" model="ir.sequence">
+        <field name="name">Intercompany Operation - Payment</field>
+        <field name="code">intercompany.operation.payment</field>
+        <field name="prefix">ICO/PAY/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_intercompany_payment" model="ir.sequence">
+        <field name="name">Intercompany Payment Distribution</field>
+        <field name="code">intercompany.payment</field>
+        <field name="prefix">ICP/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+
+    <record id="seq_intercompany_operation_landed_cost" model="ir.sequence">
+        <field name="name">Intercompany Operation - Landed Cost</field>
+        <field name="code">intercompany.operation.landed.cost</field>
+        <field name="prefix">ICO/LC/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_intercompany_return_sale" model="ir.sequence">
+        <field name="name">Intercompany Return - Sale</field>
+        <field name="code">intercompany.return.sale</field>
+        <field name="prefix">ICR/SALE/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_intercompany_return_purchase" model="ir.sequence">
+        <field name="name">Intercompany Return - Purchase</field>
+        <field name="code">intercompany.return.purchase</field>
+        <field name="prefix">ICR/PUR/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_intercompany_picking_transfer" model="ir.sequence">
+        <field name="name">Intercompany Branches - Picking Transfer</field>
+        <field name="code">intercompany.picking.transfer</field>
+        <field name="prefix">BPT/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_intercompany_payment_transfer" model="ir.sequence">
+        <field name="name">Intercompany Branches - Payment Transfer</field>
+        <field name="code">intercompany.payment.transfer</field>
+        <field name="prefix">BPY/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+</odoo>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Default shared Intermediate location used as the transit bridge
+         for Branches Picking Transfer. usage='inventory' (Inventory
+         Loss type) and no company set so it can be used as the bridge
+         between any two companies. -->
+    <record id="stock_location_branches_transfer_intermediate" model="stock.location">
+        <field name="name">Branches Transfer - Intermediate</field>
+        <field name="usage">inventory</field>
+        <field name="company_id" eval="False"/>
+    </record>
+</odoo>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Default shared Intermediate (clearing) account used as the bridge
+         account for Branches Payment Transfer between two companies. -->
+    <record id="account_branches_transfer_intermediate" model="account.account">
+        <field name="name">Branches Transfer - Intermediate Clearing</field>
+        <field name="code">499900</field>
+        <field name="account_type">asset_current</field>
+        <field name="reconcile" eval="True"/>
+    </record>
+</odoo>

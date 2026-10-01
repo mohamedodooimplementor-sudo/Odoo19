@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+
+    <record id="view_intercompany_return_form" model="ir.ui.view">
+        <field name="name">intercompany.return.form</field>
+        <field name="model">intercompany.return</field>
+        <field name="arch" type="xml">
+            <form string="Intercompany Return">
+                <header>
+                    <!-- User buttons -->
+                    <button name="action_submit" string="Submit for Approval" type="object"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_confirm" string="Confirm Return" type="object"
+                            class="btn-primary" invisible="state != 'approved'"/>
+                    <button name="action_open_return_wizard" string="Process Return" type="object"
+                            class="btn-primary" invisible="state != 'confirmed'"/>
+                    <button name="action_create_return_invoices" string="Create Return Invoices" type="object"
+                            class="btn-primary" invisible="state != 'returned'"/>
+
+                    <!-- Manager-only buttons -->
+                    <button name="action_approve" string="Approve" type="object" class="btn-success"
+                            groups="intercompany_operation_modified.group_intercompany_manager"
+                            invisible="state != 'to_approve'"/>
+                    <button name="action_refuse" string="Refuse" type="object" class="btn-danger"
+                            groups="intercompany_operation_modified.group_intercompany_manager"
+                            invisible="state not in ('to_approve', 'approved')"/>
+                    <button name="action_cancel" string="Cancel" type="object" class="btn-danger"
+                            groups="intercompany_operation_modified.group_intercompany_manager"
+                            invisible="state in ('done', 'cancelled', 'refused')"/>
+                    <button name="action_draft" string="Reset to Draft" type="object"
+                            groups="intercompany_operation_modified.group_intercompany_manager"
+                            invisible="state not in ('refused', 'cancelled')"/>
+
+                    <button name="%(action_report_intercompany_return)d" string="Print"
+                        type="action" class="btn-secondary" icon="fa-print"/>
+
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,to_approve,approved,confirmed,returned,done"/>
+                </header>
+                <sheet>
+                    <!-- State ribbon — colored bar like operation -->
+                    <div name="ribbon_draft"
+                        style="background:#6c757d;color:white;padding:3px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-bottom:3px solid #495057;"
+                        invisible="state != 'draft'">
+                        &#9679; Draft
+                    </div>
+                    <div name="ribbon_to_approve"
+                        style="background:#17a2b8;color:white;padding:3px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-bottom:3px solid #117a8b;"
+                        invisible="state != 'to_approve'">
+                        &#9654; Pending Approval
+                    </div>
+                    <div name="ribbon_approved"
+                        style="background:#f6a609;color:white;padding:3px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-bottom:3px solid #d48c00;"
+                        invisible="state != 'approved'">
+                        &#10003; Approved — Ready to Process
+                    </div>
+                    <div name="ribbon_confirmed"
+                        style="background:#1f78c1;color:white;padding:3px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-bottom:3px solid #155a96;"
+                        invisible="state != 'confirmed'">
+                        &#9654; In Progress
+                    </div>
+                    <div name="ribbon_returned"
+                        style="background:#0d6c8e;color:white;padding:3px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-bottom:3px solid #095570;"
+                        invisible="state != 'returned'">
+                        &#9654; Returned — Awaiting Invoices
+                    </div>
+                    <div name="ribbon_done"
+                        style="background:#3a7d0a;color:white;padding:3px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-bottom:3px solid #2a5c07;"
+                        invisible="state != 'done'">
+                        &#10003; Done
+                    </div>
+                    <div name="ribbon_refused"
+                        style="background:#c0392b;color:white;padding:3px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-bottom:3px solid #962d22;"
+                        invisible="state != 'refused'">
+                        &#10007; Refused
+                    </div>
+                    <div name="ribbon_cancelled"
+                        style="background:#c0392b;color:white;padding:3px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-bottom:3px solid #962d22;"
+                        invisible="state != 'cancelled'">
+                        &#10007; Cancelled
+                    </div>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_order_pickings" type="object" class="oe_stat_button"
+                                icon="fa-truck" invisible="picking_count == 0">
+                            <field name="picking_count" widget="statinfo" string="Order Pickings"/>
+                        </button>
+                        <button name="action_view_return_pickings" type="object" class="oe_stat_button"
+                                icon="fa-undo" invisible="return_picking_count == 0">
+                            <field name="return_picking_count" widget="statinfo" string="Return Pickings"/>
+                        </button>
+                        <button name="action_view_invoices" type="object" class="oe_stat_button"
+                                icon="fa-file-text-o" invisible="invoice_count == 0">
+                            <field name="invoice_count" widget="statinfo" string="Invoices"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="return_type" widget="radio" options="{'horizontal': true}"
+                                   readonly="state != 'draft'"/>
+                            <field name="partner_id" readonly="state != 'draft'"/>
+
+                            <!-- Order Source Selection -->
+                            <field name="order_source" widget="radio" options="{'horizontal': true}"
+                                   readonly="state != 'draft'"/>
+                        </group>
+                        <group>
+                            <field name="company_id"/>
+                            <field name="submitted_by" readonly="1"/>
+                            <field name="reject_reason" readonly="1" invisible="not reject_reason"/>
+                        </group>
+                    </group>
+
+                    <!-- Individual Orders -->
+                    <group invisible="order_source != 'individual'">
+                        <group string="Orders to Return" colspan="2">
+                            <field name="sale_order_ids" widget="many2many_tags"
+                                   invisible="return_type != 'sale'"
+                                   readonly="state != 'draft'"
+                                   required="return_type == 'sale' and order_source == 'individual'"/>
+                            <field name="purchase_order_ids" widget="many2many_tags"
+                                   invisible="return_type != 'purchase'"
+                                   readonly="state != 'draft'"
+                                   required="return_type == 'purchase' and order_source == 'individual'"/>
+                        </group>
+                    </group>
+
+                    <!-- Grouped Operation -->
+                    <group invisible="order_source != 'operation'">
+                        <group string="Intercompany Operation" colspan="2">
+                            <field name="operation_id" readonly="state != 'draft'"
+                                   required="order_source == 'operation'"
+                                   domain="[('partner_id', '=', partner_id), ('state', '=', 'done'), ('operation_type', '=', return_type)]"/>
+                        </group>
+                    </group>
+
+                    <!-- Product Summary (readonly, computed from the original order pickings) -->
+                    <group string="Products Available to Return" invisible="not order_picking_ids">
+                        <field name="order_picking_ids" invisible="1"/>
+                        <field name="return_move_ids" nolabel="1" readonly="1">
+                            <list>
+                                <field name="picking_id" string="Picking"/>
+                                <field name="product_id"/>
+                                <field name="product_uom" string="Unit"/>
+                                <field name="quantity" string="Delivered/Received Qty"/>
+                                <field name="ic_already_returned_qty" string="Already Returned"/>
+                                <field name="ic_max_return_qty" string="Max. Returnable"
+                                       decoration-success="ic_max_return_qty &gt; 0"
+                                       decoration-muted="ic_max_return_qty == 0"/>
+                            </list>
+                        </field>
+                    </group>
+
+                    <!-- Return pickings actually created so far -->
+                    <group string="Created Return Pickings" invisible="not return_picking_ids">
+                        <field name="return_picking_ids" nolabel="1" readonly="1">
+                            <list>
+                                <field name="name"/>
+                                <field name="origin"/>
+                                <field name="state" widget="badge"/>
+                            </list>
+                        </field>
+                    </group>
+
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_intercompany_return_list" model="ir.ui.view">
+        <field name="name">intercompany.return.list</field>
+        <field name="model">intercompany.return</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="return_type"/>
+                <field name="partner_id"/>
+                <field name="order_source"/>
+                <field name="company_id"/>
+                <field name="submitted_by"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-warning="state in ('to_approve', 'approved', 'confirmed')"
+                       decoration-success="state in ('returned', 'done')"
+                       decoration-danger="state in ('cancelled', 'refused')"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Manager view: returns needing approval -->
+    <record id="view_intercompany_return_manager_list" model="ir.ui.view">
+        <field name="name">intercompany.return.manager.list</field>
+        <field name="model">intercompany.return</field>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <list decoration-warning="state == 'to_approve'">
+                <field name="name"/>
+                <field name="return_type"/>
+                <field name="partner_id"/>
+                <field name="submitted_by"/>
+                <field name="company_id"/>
+                <field name="state" widget="badge"
+                       decoration-warning="state == 'to_approve'"
+                       decoration-success="state in ('returned', 'done')"
+                       decoration-danger="state in ('cancelled', 'refused')"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_intercompany_return_sale" model="ir.actions.act_window">
+        <field name="name">Sales Return</field>
+        <field name="res_model">intercompany.return</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('return_type', '=', 'sale')]</field>
+        <field name="context">{'default_return_type': 'sale'}</field>
+    </record>
+
+    <record id="action_intercompany_return_purchase" model="ir.actions.act_window">
+        <field name="name">Purchase Return</field>
+        <field name="res_model">intercompany.return</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('return_type', '=', 'purchase')]</field>
+        <field name="context">{'default_return_type': 'purchase'}</field>
+    </record>
+
+    <!-- Manager: pending approvals action -->
+    <record id="action_intercompany_return_to_approve" model="ir.actions.act_window">
+        <field name="name">Returns Pending Approval</field>
+        <field name="res_model">intercompany.return</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('state', '=', 'to_approve')]</field>
+    </record>
+
+</data>
+</odoo>
