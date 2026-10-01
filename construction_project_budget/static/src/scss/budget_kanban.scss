@@ -1,0 +1,200 @@
+// Construction Budget dashboard card - a deliberately richer, more "branded"
+// look than a plain Odoo kanban card: a colored status accent, saturated
+// per-metric icon colors, and a pill/gradient progress bar. Every color below
+// is a fixed, intentional accent (not a light/dark "background" guess), so it
+// reads the same and stays legible in both light and dark mode.
+
+.o_construction_budget_kanban {
+    .o_construction_budget_card {
+        position: relative;
+        display: flex;
+        padding: 0;
+        min-width: 0; // required for text-truncate to work inside flex/grid children
+        overflow: hidden;
+        border-radius: 10px;
+        border: 1px solid var(--bs-border-color-translucent, rgba(0, 0, 0, 0.08));
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+        transition: box-shadow 0.15s ease-in-out, transform 0.15s ease-in-out;
+
+        &:hover {
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14);
+            transform: translateY(-1px);
+        }
+
+        // Status accent bar - color communicates budget health at a glance.
+        .o_cbk_accent {
+            width: 5px;
+            flex: 0 0 auto;
+            background: #6c757d;
+        }
+        &.o_cbk_success .o_cbk_accent { background: #17a673; }
+        &.o_cbk_warning .o_cbk_accent { background: #f0ad4e; }
+        &.o_cbk_danger .o_cbk_accent { background: #e34850; }
+
+        .o_cbk_body {
+            flex: 1 1 auto;
+            min-width: 0;
+            padding: 12px 14px;
+        }
+
+        .o_cbk_header {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .o_cbk_icon {
+            flex: 0 0 auto;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(105, 82, 224, 0.14);
+            color: #6952e0;
+            font-size: 15px;
+        }
+
+        .o_cbk_title {
+            min-width: 0;
+            flex: 1 1 auto;
+        }
+
+        .o_cbk_name {
+            font-weight: 700;
+            font-size: 14px;
+            line-height: 1.3;
+        }
+
+        .o_cbk_project {
+            font-size: 12px;
+            color: var(--bs-secondary-color, #8a8f98);
+            opacity: 0.9;
+        }
+
+        .o_cbk_status_badge {
+            flex: 0 0 auto;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            padding: 3px 8px;
+            border-radius: 999px;
+            white-space: nowrap;
+            background: rgba(108, 117, 125, 0.15);
+            color: #6c757d;
+        }
+        .o_cbk_success .o_cbk_status_badge { background: rgba(23, 166, 115, 0.15); color: #17a673; }
+        .o_cbk_warning .o_cbk_status_badge { background: rgba(240, 173, 78, 0.18); color: #b9770e; }
+        .o_cbk_danger .o_cbk_status_badge { background: rgba(227, 72, 80, 0.15); color: #e34850; }
+
+        .o_cbk_stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            row-gap: 10px;
+            column-gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .o_cbk_stat {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 0;
+        }
+
+        .o_cbk_stat_icon {
+            flex: 0 0 auto;
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            color: #fff;
+        }
+        // Distinct, saturated color per metric - a deliberate palette, not a
+        // light/dark theme fallback, so it's identical in both modes.
+        .o_cbk_stat_planned .o_cbk_stat_icon { background: #3b82f6; }
+        .o_cbk_stat_committed .o_cbk_stat_icon { background: #a855f7; }
+        .o_cbk_stat_spent .o_cbk_stat_icon { background: #f97316; }
+        .o_cbk_stat_remaining .o_cbk_stat_icon { background: #17a673; }
+        .o_cbk_stat_remaining:has(.text-danger) .o_cbk_stat_icon { background: #e34850; }
+
+        .o_cbk_stat_text {
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .o_cbk_stat_value {
+            font-weight: 700;
+            font-size: 13px;
+            line-height: 1.25;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .o_cbk_stat_label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            color: var(--bs-secondary-color, #8a8f98);
+        }
+
+        .o_cbk_progress_row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .o_cbk_progress {
+            flex: 1 1 auto;
+            height: 7px;
+            border-radius: 999px;
+            background: rgba(108, 117, 125, 0.18);
+            overflow: hidden;
+        }
+
+        .o_cbk_progress_bar {
+            height: 100%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #17a673, #17a673);
+            transition: width 0.3s ease-in-out;
+        }
+        .o_cbk_warning .o_cbk_progress_bar { background: linear-gradient(90deg, #f0ad4e, #f0ad4e); }
+        .o_cbk_danger .o_cbk_progress_bar { background: linear-gradient(90deg, #e34850, #e34850); }
+
+        .o_cbk_progress_text {
+            flex: 0 0 auto;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--bs-secondary-color, #8a8f98);
+        }
+
+        .o_cbk_footer {
+            margin-top: 12px;
+        }
+
+        .o_cbk_next_stage_btn {
+            width: 100%;
+            background: rgba(105, 82, 224, 0.1);
+            border: 1px solid rgba(105, 82, 224, 0.3);
+            color: #6952e0;
+            font-weight: 600;
+            font-size: 11px;
+            border-radius: 6px;
+            padding: 6px 10px;
+            transition: background 0.15s ease-in-out;
+
+            &:hover {
+                background: rgba(105, 82, 224, 0.18);
+                color: #6952e0;
+            }
+        }
+    }
+}

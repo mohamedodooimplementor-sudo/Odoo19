@@ -1,0 +1,192 @@
+.o_cpr_report {
+    padding: 20px 32px;
+    background-color: var(--bs-body-bg, #fff);
+    color: var(--bs-body-color, #2b2b33);
+    min-height: 100%;
+    height: 100%;
+    overflow-y: auto;
+    box-sizing: border-box;
+
+    .o_cpr_toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 14px;
+        margin-bottom: 18px;
+        border-bottom: 1px solid var(--bs-border-color, #e0e0e0);
+    }
+
+    .o_cpr_filters {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .o_cpr_filter_label {
+        font-size: 12px;
+        color: var(--bs-secondary-color, #6c757d);
+    }
+
+    .o_cpr_select, .o_cpr_date {
+        border: 1px solid var(--bs-border-color, #d7d9dc);
+        border-radius: 4px;
+        padding: 5px 8px;
+        font-size: 13px;
+        background: var(--bs-tertiary-bg, #fff);
+        color: inherit;
+    }
+
+    .o_cpr_loading {
+        padding: 48px;
+        text-align: center;
+        color: var(--bs-secondary-color, #6c757d);
+    }
+
+    .o_cpr_header {
+        text-align: center;
+        margin-bottom: 22px;
+
+        h2 {
+            margin: 0;
+            font-weight: 700;
+            color: inherit;
+        }
+
+        .o_cpr_subtitle {
+            font-size: 15px;
+            color: var(--bs-secondary-color, #495057);
+            margin-top: 2px;
+        }
+
+        .o_cpr_period {
+            font-size: 12px;
+            color: var(--bs-secondary-color, #8a8f98);
+            margin-top: 4px;
+        }
+    }
+
+    .o_cpr_table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+        color: inherit;
+
+        thead th {
+            text-align: left;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: var(--bs-secondary-color, #495057);
+            padding: 8px 10px;
+            border-top: 2px solid var(--bs-body-color, #333);
+            border-bottom: 1px solid var(--bs-body-color, #333);
+        }
+
+        tbody td, tfoot td {
+            padding: 8px 10px;
+            border-bottom: 1px solid var(--bs-border-color-translucent, #eee);
+            color: inherit;
+        }
+
+        tfoot .o_cpr_total_row td {
+            border-top: 2px solid var(--bs-body-color, #333);
+            border-bottom: none;
+            padding-top: 10px;
+        }
+    }
+
+    .o_cpr_section_row {
+        background-color: var(--bs-tertiary-bg, #fafafa);
+
+        &.o_cpr_clickable {
+            cursor: pointer;
+            &:hover { filter: brightness(0.97); }
+        }
+    }
+
+    .o_cpr_group_row {
+        background-color: var(--bs-tertiary-bg, #f0f0f0);
+        cursor: pointer;
+        font-size: 14px;
+        &:hover { filter: brightness(0.97); }
+    }
+
+    .o_cpr_subrow {
+        background-color: transparent;
+        td { border-bottom: 1px solid var(--bs-border-color-translucent, rgba(0, 0, 0, 0.06)); }
+        .o_cpr_detail_label { padding-left: 30px; }
+    }
+
+    .o_cpr_caret {
+        width: 14px;
+        display: inline-block;
+        color: var(--bs-secondary-color, #8a8f98);
+    }
+
+    .o_cpr_detail_row {
+        font-size: 12px;
+        color: var(--bs-secondary-color, #555);
+
+        .o_cpr_detail_label {
+            padding-left: 34px;
+        }
+
+        .o_cpr_detail_date {
+            color: var(--bs-secondary-color, #8a8f98);
+            margin-right: 6px;
+        }
+    }
+
+    .o_cpr_text_danger { color: var(--bs-danger, #c0392b); font-weight: 600; }
+    .o_cpr_text_success { color: var(--bs-success, #2f7d31); font-weight: 600; }
+
+    .o_cpr_income_table {
+        margin-top: 18px;
+
+        thead th {
+            background: rgba(23, 166, 115, 0.12);
+            color: #17a673;
+            font-weight: 700;
+        }
+        .o_cpr_income_row td strong { color: #17a673; }
+    }
+
+    .o_cpr_profit_summary {
+        margin-top: 18px;
+        margin-left: auto;
+        width: 320px;
+        max-width: 100%;
+        border: 1px solid var(--bs-border-color-translucent, rgba(0, 0, 0, 0.1));
+        border-radius: 8px;
+        padding: 10px 14px;
+    }
+
+    .o_cpr_profit_row {
+        display: flex;
+        justify-content: space-between;
+        padding: 4px 0;
+        font-size: 13px;
+    }
+
+    .o_cpr_profit_net {
+        border-top: 1px solid var(--bs-border-color-translucent, rgba(0, 0, 0, 0.1));
+        margin-top: 4px;
+        padding-top: 8px;
+        font-size: 15px;
+    }
+
+    .o_cpr_empty {
+        text-align: center;
+        color: var(--bs-secondary-color, #8a8f98);
+        padding: 32px 0;
+    }
+
+    .o_cpr_footnote {
+        margin-top: 14px;
+        font-size: 11px;
+        color: var(--bs-secondary-color, #8a8f98);
+        font-style: italic;
+    }
+
+    .text-end { text-align: right; }
+}

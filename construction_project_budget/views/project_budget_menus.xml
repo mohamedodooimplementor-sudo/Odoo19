@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="action_construction_budget_dashboard_client" model="ir.actions.client">
+        <field name="name">Dashboard</field>
+        <field name="tag">construction_budget_dashboard_client</field>
+    </record>
+
+    <record id="action_construction_project_profitability_report" model="ir.actions.client">
+        <field name="name">Project Profitability Report</field>
+        <field name="tag">construction_project_profitability_report</field>
+    </record>
+
+    <record id="action_construction_project_budget" model="ir.actions.act_window">
+        <field name="name">Project Budgets</field>
+        <field name="res_model">construction.project.budget</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="view_construction_project_budget_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No project budgets yet
+            </p>
+            <p>
+                Create a budget from a project to start tracking planned vs actual costs.
+            </p>
+        </field>
+    </record>
+    <record id="action_construction_budget_expense" model="ir.actions.act_window">
+        <field name="name">Actual Spending</field>
+        <field name="res_model">construction.project.budget.expense</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_construction_project_budget_expense_search"/>
+    </record>
+    <record id="action_construction_project_expense" model="ir.actions.act_window">
+        <field name="name">Manual Expenses</field>
+        <field name="res_model">construction.project.expense</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="action_construction_labor_cost" model="ir.actions.act_window">
+        <field name="name">Labor Entries</field>
+        <field name="res_model">construction.labor.cost</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="action_construction_budget_category" model="ir.actions.act_window">
+        <field name="name">Budget Categories</field>
+        <field name="res_model">construction.budget.category</field>
+        <field name="view_mode">list</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No budget categories yet
+            </p>
+            <p>
+                Create categories like Materials, Labor, or Subcontractors here first.
+                For each one, set an <b>Expense Account</b> so Manual Expenses and Labor
+                entries in that category know which account to post to - and set its
+                <b>Type</b> to Income for categories that track money coming in (e.g.
+                progress billing) rather than spending.
+            </p>
+        </field>
+    </record>
+    <record id="action_construction_budget_stage" model="ir.actions.act_window">
+        <field name="name">Budget Stages</field>
+        <field name="res_model">construction.budget.stage</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <menuitem id="menu_construction_budget_root" name="Construction Budget" sequence="25"
+        groups="construction_project_budget.group_construction_budget_user"
+        web_icon="construction_project_budget,static/description/icon.png"/>
+
+    <menuitem id="menu_construction_budget_dashboard" name="Dashboard"
+        parent="menu_construction_budget_root" action="action_construction_budget_dashboard_client"
+        sequence="1" groups="construction_project_budget.group_construction_budget_user"/>
+
+    <menuitem id="menu_construction_project_budget" name="Project Budgets"
+        parent="menu_construction_budget_root" action="action_construction_project_budget"
+        sequence="10" groups="construction_project_budget.group_construction_budget_user"/>
+
+    <!-- Spending -->
+    <menuitem id="menu_construction_budget_spending" name="Spending"
+        parent="menu_construction_budget_root" sequence="20"
+        groups="construction_project_budget.group_construction_budget_user"/>
+
+    <menuitem id="menu_construction_budget_expense" name="Actual Spending"
+        parent="menu_construction_budget_spending" action="action_construction_budget_expense"
+        sequence="1" groups="construction_project_budget.group_construction_budget_user"/>
+
+    <menuitem id="menu_construction_project_expense" name="Manual Expenses"
+        parent="menu_construction_budget_spending" action="action_construction_project_expense"
+        sequence="2" groups="construction_project_budget.group_construction_budget_user"/>
+
+    <menuitem id="menu_construction_labor_cost" name="Labor Entries"
+        parent="menu_construction_budget_spending" action="action_construction_labor_cost"
+        sequence="3" groups="construction_project_budget.group_construction_budget_user"/>
+
+    <!-- Reporting -->
+    <menuitem id="menu_construction_budget_reporting" name="Reporting"
+        parent="menu_construction_budget_root" sequence="30"
+        groups="construction_project_budget.group_construction_budget_user"/>
+
+    <menuitem id="menu_construction_budget_analysis" name="Spending Analysis"
+        parent="menu_construction_budget_reporting" action="action_construction_budget_expense_analysis"
+        sequence="1" groups="construction_project_budget.group_construction_budget_user"/>
+
+    <menuitem id="menu_construction_profitability_report" name="Project Profitability Report"
+        parent="menu_construction_budget_reporting" action="action_construction_project_profitability_report"
+        sequence="2" groups="construction_project_budget.group_construction_budget_user"/>
+
+    <!-- Configuration -->
+    <menuitem id="menu_construction_budget_configuration" name="Configuration"
+        parent="menu_construction_budget_root" sequence="40"
+        groups="construction_project_budget.group_construction_budget_manager"/>
+
+    <menuitem id="menu_construction_budget_category" name="Budget Categories"
+        parent="menu_construction_budget_configuration" action="action_construction_budget_category"
+        sequence="1" groups="construction_project_budget.group_construction_budget_manager"/>
+
+    <menuitem id="menu_construction_budget_stage" name="Budget Stages"
+        parent="menu_construction_budget_configuration" action="action_construction_budget_stage"
+        sequence="2" groups="construction_project_budget.group_construction_budget_manager"/>
+
+    <record id="action_server_bulk_confirm_expense" model="ir.actions.server">
+        <field name="name">Confirm Selected Expenses</field>
+        <field name="model_id" ref="model_construction_project_expense"/>
+        <field name="binding_model_id" ref="model_construction_project_expense"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">records.filtered(lambda r: r.state == 'draft').action_confirm()</field>
+    </record>
+
+    <record id="action_server_bulk_confirm_labor" model="ir.actions.server">
+        <field name="name">Confirm Selected Labor Entries</field>
+        <field name="model_id" ref="model_construction_labor_cost"/>
+        <field name="binding_model_id" ref="model_construction_labor_cost"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">records.filtered(lambda r: r.state == 'draft').action_confirm()</field>
+    </record>
+
+</odoo>

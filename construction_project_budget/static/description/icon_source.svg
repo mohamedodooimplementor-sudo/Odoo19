@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140" width="140" height="140">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2C4A6E"/>
+      <stop offset="1" stop-color="#1B2E45"/>
+    </linearGradient>
+    <linearGradient id="hat" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFC94A"/>
+      <stop offset="1" stop-color="#F5A623"/>
+    </linearGradient>
+  </defs>
+
+  <!-- background -->
+  <rect x="0" y="0" width="140" height="140" rx="26" fill="url(#bg)"/>
+
+  <!-- bar chart (budget) -->
+  <g opacity="0.95">
+    <rect x="24" y="88" width="14" height="30" rx="2" fill="#5B9BD5"/>
+    <rect x="44" y="74" width="14" height="44" rx="2" fill="#7FBF7F"/>
+    <rect x="64" y="60" width="14" height="58" rx="2" fill="#5B9BD5"/>
+  </g>
+
+  <!-- baseline -->
+  <rect x="20" y="118" width="62" height="4" rx="2" fill="#FFFFFF" opacity="0.5"/>
+
+  <!-- hard hat (construction) -->
+  <g transform="translate(70,30)">
+    <path d="M0 34 C0 12 18 -2 38 -2 C58 -2 76 12 76 34 Z" fill="url(#hat)"/>
+    <rect x="-6" y="30" width="88" height="10" rx="5" fill="#D98A1C"/>
+    <rect x="34" y="-8" width="8" height="14" rx="3" fill="#F5A623"/>
+  </g>
+</svg>

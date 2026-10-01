@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_construction_budget" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.construction.budget</field>
+        <field name="model">res.config.settings</field>
+        <field name="arch" type="xml">
+            <form string="Construction Budget Settings">
+                <header>
+                    <button string="Save" type="object" name="execute" class="btn-primary"/>
+                    <button string="Discard" type="object" name="cancel" class="btn-secondary"/>
+                </header>
+                <sheet>
+                    <div class="text-muted mb-3">
+                        Defaults used when a Construction Budget doesn't set its own Manual
+                        Expense Journal / Counterpart Account (Budget form, Accounting tab).
+                        A budget's own setting always takes priority over these.
+                    </div>
+                    <group string="Manual Expense &amp; Labor Cost Accounting">
+                        <field name="construction_expense_journal_id"/>
+                        <field name="construction_expense_counterpart_account_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_construction_budget_settings" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="view_id" ref="res_config_settings_view_form_construction_budget"/>
+    </record>
+
+    <menuitem id="menu_construction_budget_settings" name="Settings"
+        parent="menu_construction_budget_configuration" action="action_construction_budget_settings"
+        sequence="3" groups="construction_project_budget.group_construction_budget_manager"/>
+</odoo>

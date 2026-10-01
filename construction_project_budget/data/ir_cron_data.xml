@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="ir_cron_upgrade_estimated_stock_actuals" model="ir.cron">
+        <field name="name">Construction Budget: Upgrade Estimated Stock Actuals</field>
+        <field name="model_id" ref="model_construction_project_budget_expense"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_upgrade_estimated_stock_actuals()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active">True</field>
+    </record>
+</odoo>

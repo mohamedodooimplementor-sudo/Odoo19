@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo noupdate="1">
+    <record id="category_materials" model="construction.budget.category">
+        <field name="name">Materials</field><field name="sequence">10</field><field name="company_id" eval="False"/>
+    </record>
+    <record id="category_labor" model="construction.budget.category">
+        <field name="name">Labor</field><field name="sequence">20</field><field name="company_id" eval="False"/>
+    </record>
+    <record id="category_expenses" model="construction.budget.category">
+        <field name="name">Expenses</field><field name="sequence">30</field><field name="company_id" eval="False"/>
+    </record>
+    <record id="category_equipment" model="construction.budget.category">
+        <field name="name">Equipment</field><field name="sequence">40</field><field name="company_id" eval="False"/>
+    </record>
+    <record id="category_subcontractors" model="construction.budget.category">
+        <field name="name">Subcontractors</field><field name="sequence">50</field><field name="company_id" eval="False"/>
+    </record>
+    <record id="category_transportation" model="construction.budget.category">
+        <field name="name">Transportation</field><field name="sequence">60</field><field name="company_id" eval="False"/>
+    </record>
+</odoo>

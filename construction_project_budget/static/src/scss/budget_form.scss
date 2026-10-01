@@ -1,0 +1,75 @@
+// Construction Budget form - smart buttons row. Some third-party/OEM Odoo
+// themes apply a "glassy" look (blur, translucent gradient, heavy shadow) to
+// smart buttons app-wide; this overrides that specifically for this button
+// box with a cleaner, more polished look: a colored icon badge per button
+// (matching the saturated palette used on the budget kanban cards) instead of
+// a plain flat icon, bolder numbers, and a soft per-button tinted hover.
+// Every accent below is a fixed, intentional color (not a light/dark
+// "background" guess), so it renders identically in light and dark mode.
+.o_cbd_form_button_box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    .oe_stat_button {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: transparent !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        box-shadow: none !important;
+        border: 1px solid var(--bs-border-color-translucent, rgba(0, 0, 0, 0.1)) !important;
+        border-radius: 8px !important;
+        padding: 6px 12px 6px 8px !important;
+        margin: 0 !important;
+        color: inherit !important;
+        transition: background 0.15s ease-in-out, border-color 0.15s ease-in-out;
+
+        // Icon badge: a small colored circle behind the fa icon, one accent
+        // color per metric so the row is easy to scan at a glance.
+        .fa {
+            flex: 0 0 auto;
+            width: 26px;
+            height: 26px;
+            border-radius: 999px;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px !important;
+            color: #fff !important;
+            background: #6c757d;
+        }
+        &:has(.fa-money) .fa { background: #17a673; }
+        &:has(.fa-file-text-o) .fa { background: #3b82f6; }
+        &:has(.fa-hard-hat) .fa { background: #f97316; }
+        &:has(.fa-truck) .fa { background: #a855f7; }
+        &:has(.fa-shopping-cart) .fa { background: #0ea5e9; }
+        &:has(.fa-file-text) .fa { background: #ec4899; }
+        &:has(.fa-line-chart) .fa { background: #17a673; }
+        &:has(.fa-book) .fa { background: #6952e0; }
+
+        &:hover {
+            border-color: var(--bs-border-color, rgba(0, 0, 0, 0.2)) !important;
+            background: rgba(128, 128, 128, 0.08) !important;
+            background: color-mix(in srgb, currentColor 6%, transparent) !important;
+        }
+
+        .o_stat_info {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+
+            .o_stat_value {
+                font-weight: 700;
+                font-size: 15px;
+                color: inherit;
+            }
+            .o_stat_text {
+                font-size: 11px;
+                color: var(--bs-secondary-color, #8a8f98);
+                white-space: nowrap;
+            }
+        }
+    }
+}

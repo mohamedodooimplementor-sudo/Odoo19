@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- ============ Kanban dashboard: budgets grouped by Stage ============ -->
+    <record id="view_construction_project_budget_kanban" model="ir.ui.view">
+        <field name="name">construction.project.budget.kanban</field>
+        <field name="model">construction.project.budget</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_dashboard o_construction_budget_kanban" quick_create="false"
+                    default_group_by="stage_id" sample="1" records_draggable="true">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="stage_id"/>
+                <field name="is_closed"/>
+                <field name="planned_total"/>
+                <field name="committed_total"/>
+                <field name="actual_total"/>
+                <field name="remaining_total"/>
+                <field name="utilization"/>
+                <field name="currency_id"/>
+                <field name="next_stage_id"/>
+                <templates>
+                    <t t-name="card">
+                        <t t-set="util" t-value="record.utilization.raw_value"/>
+                        <t t-set="status_class" t-value="util > 100 ? 'o_cbk_danger' : (util > 80 ? 'o_cbk_warning' : 'o_cbk_success')"/>
+                        <div t-attf-class="oe_kanban_card oe_kanban_global_click o_construction_budget_card #{status_class}">
+                            <div class="o_cbk_accent"/>
+                            <div class="o_cbk_body">
+                                <div class="o_cbk_header">
+                                    <div class="o_cbk_icon">
+                                        <i class="fa fa-building-o" role="img" aria-label="Budget"/>
+                                    </div>
+                                    <div class="o_cbk_title">
+                                        <div class="o_cbk_name text-truncate">
+                                            <field name="name"/>
+                                        </div>
+                                        <div class="o_cbk_project text-truncate">
+                                            <i class="fa fa-folder-open-o me-1"/><field name="project_id"/>
+                                        </div>
+                                    </div>
+                                    <div class="o_cbk_status_badge">
+                                        <t t-if="util > 100">Over Budget</t>
+                                        <t t-elif="util > 80">Near Limit</t>
+                                        <t t-else="">On Track</t>
+                                    </div>
+                                </div>
+                                <div class="o_cbk_stats">
+                                    <div class="o_cbk_stat o_cbk_stat_planned">
+                                        <i class="fa fa-flag-o o_cbk_stat_icon"/>
+                                        <div class="o_cbk_stat_text">
+                                            <span class="o_cbk_stat_value"><field name="planned_total" widget="monetary"/></span>
+                                            <span class="o_cbk_stat_label">Planned</span>
+                                        </div>
+                                    </div>
+                                    <div class="o_cbk_stat o_cbk_stat_committed">
+                                        <i class="fa fa-handshake-o o_cbk_stat_icon"/>
+                                        <div class="o_cbk_stat_text">
+                                            <span class="o_cbk_stat_value"><field name="committed_total" widget="monetary"/></span>
+                                            <span class="o_cbk_stat_label">Committed</span>
+                                        </div>
+                                    </div>
+                                    <div class="o_cbk_stat o_cbk_stat_spent">
+                                        <i class="fa fa-credit-card o_cbk_stat_icon"/>
+                                        <div class="o_cbk_stat_text">
+                                            <span class="o_cbk_stat_value"><field name="actual_total" widget="monetary"/></span>
+                                            <span class="o_cbk_stat_label">Spent</span>
+                                        </div>
+                                    </div>
+                                    <div class="o_cbk_stat o_cbk_stat_remaining">
+                                        <i t-attf-class="fa fa-#{record.remaining_total.raw_value &lt; 0 ? 'exclamation-triangle' : 'check-circle'} o_cbk_stat_icon"/>
+                                        <div class="o_cbk_stat_text">
+                                            <span t-attf-class="o_cbk_stat_value #{record.remaining_total.raw_value &lt; 0 ? 'text-danger' : ''}">
+                                                <field name="remaining_total" widget="monetary"/>
+                                            </span>
+                                            <span class="o_cbk_stat_label">Remaining</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="o_cbk_progress_row">
+                                    <div class="o_cbk_progress">
+                                        <div class="o_cbk_progress_bar"
+                                            t-attf-style="width: #{Math.min(record.utilization.raw_value, 100)}%;"/>
+                                    </div>
+                                    <span class="o_cbk_progress_text">
+                                        <t t-esc="Math.round(record.utilization.raw_value)"/>% used
+                                    </span>
+                                </div>
+                                <div class="o_cbk_footer" t-if="record.next_stage_id.raw_value">
+                                    <button type="object" name="action_next_stage"
+                                            class="btn btn-sm o_cbk_next_stage_btn"
+                                            title="Move to the next stage">
+                                        Move to Next Stage <i class="fa fa-arrow-right ms-1"/>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ============ Stage management (config list) ============ -->
+    <record id="view_construction_budget_stage_list" model="ir.ui.view">
+        <field name="name">construction.budget.stage.list</field>
+        <field name="model">construction.budget.stage</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="fold"/>
+                <field name="is_closed"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ============ Graph: planned vs actual per category, across projects ============ -->
+    <record id="view_construction_project_budget_line_graph" model="ir.ui.view">
+        <field name="name">construction.project.budget.line.graph</field>
+        <field name="model">construction.project.budget.line</field>
+        <field name="arch" type="xml">
+            <graph string="Budget vs Actual" type="bar">
+                <field name="category_id"/>
+                <field name="planned_amount" type="measure"/>
+                <field name="actual_amount" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- ============ Pivot: expense breakdown ============ -->
+    <record id="view_construction_project_budget_expense_pivot" model="ir.ui.view">
+        <field name="name">construction.project.budget.expense.pivot</field>
+        <field name="model">construction.project.budget.expense</field>
+        <field name="arch" type="xml">
+            <pivot string="Actual Spending Analysis">
+                <field name="project_id" type="row"/>
+                <field name="category_id" type="col"/>
+                <field name="amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- ============ Graph: expenses over time ============ -->
+    <record id="view_construction_project_budget_expense_graph" model="ir.ui.view">
+        <field name="name">construction.project.budget.expense.graph</field>
+        <field name="model">construction.project.budget.expense</field>
+        <field name="arch" type="xml">
+            <graph string="Spending Over Time" type="line">
+                <field name="date" interval="month"/>
+                <field name="amount" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- ============ Search views (filters / group by for dashboard) ============ -->
+    <record id="view_construction_project_budget_search" model="ir.ui.view">
+        <field name="name">construction.project.budget.search</field>
+        <field name="model">construction.project.budget</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="stage_id"/>
+                <filter string="Open" name="open" domain="[('is_closed', '=', False)]"/>
+                <filter string="Closed" name="closed" domain="[('is_closed', '=', True)]"/>
+                <filter string="Over Budget" name="over_budget" domain="[('remaining_total', '&lt;', 0)]"/>
+                <group>
+                    <filter string="Stage" name="group_stage" context="{'group_by': 'stage_id'}"/>
+                    <filter string="Project" name="group_project" context="{'group_by': 'project_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_construction_project_budget_expense_search" model="ir.ui.view">
+        <field name="name">construction.project.budget.expense.search</field>
+        <field name="model">construction.project.budget.expense</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="budget_id"/>
+                <field name="category_id"/>
+                <filter name="date_filter" date="date" string="Date"/>
+                <group>
+                    <filter string="Project" name="group_project" context="{'group_by': 'project_id'}"/>
+                    <filter string="Category" name="group_category" context="{'group_by': 'category_id'}"/>
+                    <filter string="Month" name="group_month" context="{'group_by': 'date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_construction_budget_expense_analysis" model="ir.actions.act_window">
+        <field name="name">Spending Analysis</field>
+        <field name="res_model">construction.project.budget.expense</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="search_view_id" ref="view_construction_project_budget_expense_search"/>
+    </record>
+
+</odoo>

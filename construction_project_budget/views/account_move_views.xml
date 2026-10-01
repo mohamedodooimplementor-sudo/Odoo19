@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_move_form_construction_budget" model="ir.ui.view">
+        <field name="name">account.move.form.construction.budget</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Construction Budget" name="construction_budget"
+                      invisible="move_type not in ('in_invoice', 'entry', 'out_invoice')">
+                    <group>
+                        <field name="project_id"/>
+                        <field name="construction_budget_id"/>
+                        <field name="construction_category_id" invisible="not construction_budget_id"/>
+                        <field name="available_budget_category_ids" invisible="1"/>
+                        <field name="construction_budget_expense_id" readonly="1" invisible="not construction_budget_expense_id"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

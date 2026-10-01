@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_purchase_order_construction_budget" model="ir.ui.view">
+        <field name="name">purchase.order.construction.budget</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="project_id"/>
+                <field name="construction_budget_id" invisible="not project_id"/>
+                <field name="construction_category_id" invisible="not construction_budget_id"/>
+                <field name="committed_amount" invisible="not construction_budget_id" readonly="1"/>
+                <field name="available_budget_category_ids" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

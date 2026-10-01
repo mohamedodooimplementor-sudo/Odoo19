@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="construction_project_budget.ProfitabilityReport">
+        <div class="o_cpr_report">
+
+            <div class="o_cpr_toolbar">
+                <div class="o_cpr_filters">
+                    <select class="o_cpr_select" t-on-change="onProjectChange">
+                        <option value="">All Projects</option>
+                        <t t-foreach="state.projectOptions" t-as="p" t-key="p.id">
+                            <option t-att-value="p.id" t-esc="p.display_name"/>
+                        </t>
+                    </select>
+                    <span class="o_cpr_filter_label">From</span>
+                    <input type="date" class="o_cpr_date"
+                           t-on-change="(ev) => this.onDateChange('date_from', ev)"/>
+                    <span class="o_cpr_filter_label">To</span>
+                    <input type="date" class="o_cpr_date"
+                           t-on-change="(ev) => this.onDateChange('date_to', ev)"/>
+                </div>
+                <button class="btn btn-primary o_cpr_print_btn" t-on-click="printPdf">
+                    <i class="fa fa-print"/> Print PDF
+                </button>
+            </div>
+
+            <div t-if="state.loading" class="o_cpr_loading">
+                <i class="fa fa-circle-o-notch fa-spin"/> Loading...
+            </div>
+
+            <div t-else="" class="o_cpr_sheet">
+                <div class="o_cpr_header">
+                    <h2>Project Profitability Report</h2>
+                    <div class="o_cpr_subtitle" t-esc="state.data.title"/>
+                    <div class="o_cpr_period">
+                        <t t-if="state.filters.date_from or state.filters.date_to">
+                            Period: <t t-esc="state.filters.date_from || '...'"/> — <t t-esc="state.filters.date_to || '...'"/>
+                        </t>
+                        <t t-else="">All Dates</t>
+                    </div>
+                </div>
+
+                <table class="o_cpr_table">
+                    <thead>
+                        <tr>
+                            <th><t t-esc="state.data.grouped_by === 'category' ? 'Category' : 'Project'"/></th>
+                            <th class="text-end">Planned</th>
+                            <th class="text-end">Committed</th>
+                            <th class="text-end">Actual</th>
+                            <th class="text-end">Variance</th>
+                            <th class="text-end">Var %</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-if="state.data.grouped_by === 'project'">
+                            <t t-foreach="state.data.groups" t-as="group" t-key="group.label">
+                                <tr class="o_cpr_group_row o_cpr_clickable" t-on-click="() => this.toggleGroup(group.label)">
+                                    <td>
+                                        <i t-attf-class="fa #{isGroupExpanded(group.label) ? 'fa-caret-down' : 'fa-caret-right'} o_cpr_caret"/>
+                                        <strong t-esc="group.label"/>
+                                    </td>
+                                    <td class="text-end"><strong t-esc="formatMonetary(group.planned)"/></td>
+                                    <td class="text-end"><strong t-esc="formatMonetary(group.committed)"/></td>
+                                    <td class="text-end"><strong t-esc="formatMonetary(group.actual)"/></td>
+                                    <td t-attf-class="text-end #{group.variance &lt; 0 ? 'o_cpr_text_danger' : 'o_cpr_text_success'}">
+                                        <strong t-esc="formatMonetary(group.variance)"/>
+                                    </td>
+                                    <td class="text-end"><strong t-esc="formatPercent(group.variance_pct)"/>%</td>
+                                </tr>
+                                <t t-if="isGroupExpanded(group.label)">
+                                    <tr t-foreach="group.sections" t-as="section" t-key="group.label + ':' + section.label"
+                                        class="o_cpr_section_row o_cpr_subrow">
+                                        <td class="o_cpr_detail_label"><span t-esc="section.label"/></td>
+                                        <td class="text-end"><t t-esc="formatMonetary(section.planned)"/></td>
+                                        <td class="text-end"><t t-esc="formatMonetary(section.committed)"/></td>
+                                        <td class="text-end"><t t-esc="formatMonetary(section.actual)"/></td>
+                                        <td t-attf-class="text-end #{section.variance &lt; 0 ? 'o_cpr_text_danger' : 'o_cpr_text_success'}">
+                                            <t t-esc="formatMonetary(section.variance)"/>
+                                        </td>
+                                        <td class="text-end"><t t-esc="formatPercent(section.variance_pct)"/>%</td>
+                                    </tr>
+                                    <tr t-if="!group.sections.length" class="o_cpr_subrow">
+                                        <td colspan="6" class="o_cpr_detail_label text-muted">No budget categories configured.</td>
+                                    </tr>
+                                </t>
+                            </t>
+                            <tr t-if="!state.data.groups.length">
+                                <td colspan="6" class="o_cpr_empty">No data for the selected filters.</td>
+                            </tr>
+                        </t>
+                        <t t-else="">
+                        <t t-foreach="state.data.sections" t-as="section" t-key="section.label">
+                            <tr t-attf-class="o_cpr_section_row #{section.lines.length ? 'o_cpr_clickable' : ''}"
+                                t-on-click="() => this.toggleSection(section.label)">
+                                <td>
+                                    <i t-if="section.lines.length"
+                                       t-attf-class="fa #{isExpanded(section.label) ? 'fa-caret-down' : 'fa-caret-right'} o_cpr_caret"/>
+                                    <strong t-esc="section.label"/>
+                                </td>
+                                <td class="text-end"><t t-esc="formatMonetary(section.planned)"/></td>
+                                <td class="text-end"><t t-esc="formatMonetary(section.committed)"/></td>
+                                <td class="text-end"><t t-esc="formatMonetary(section.actual)"/></td>
+                                <td t-attf-class="text-end #{section.variance &lt; 0 ? 'o_cpr_text_danger' : 'o_cpr_text_success'}">
+                                    <t t-esc="formatMonetary(section.variance)"/>
+                                </td>
+                                <td class="text-end"><t t-esc="formatPercent(section.variance_pct)"/>%</td>
+                            </tr>
+                            <t t-if="isExpanded(section.label)">
+                                <tr t-foreach="section.lines" t-as="line" t-key="line.name + line.date + line_index"
+                                    class="o_cpr_detail_row">
+                                    <td class="o_cpr_detail_label">
+                                        <span class="o_cpr_detail_date" t-esc="line.date"/>
+                                        <span t-esc="line.name"/>
+                                        <span t-if="line.reference" class="text-muted" t-esc="'(' + line.reference + ')'"/>
+                                    </td>
+                                    <td/><td/>
+                                    <td class="text-end"><t t-esc="formatMonetary(line.amount)"/></td>
+                                    <td/><td/>
+                                </tr>
+                            </t>
+                        </t>
+                        <tr t-if="!state.data.sections.length">
+                            <td colspan="6" class="o_cpr_empty">No data for the selected filters.</td>
+                        </tr>
+                        </t>
+                    </tbody>
+                    <tfoot>
+                        <tr class="o_cpr_total_row">
+                            <td><strong>Total</strong></td>
+                            <td class="text-end"><strong t-esc="formatMonetary(state.data.totals.planned)"/></td>
+                            <td class="text-end"><strong t-esc="formatMonetary(state.data.totals.committed)"/></td>
+                            <td class="text-end"><strong t-esc="formatMonetary(state.data.totals.actual)"/></td>
+                            <td t-attf-class="text-end #{state.data.totals.variance &lt; 0 ? 'o_cpr_text_danger' : 'o_cpr_text_success'}">
+                                <strong t-esc="formatMonetary(state.data.totals.variance)"/>
+                            </td>
+                            <td class="text-end"><strong t-esc="formatPercent(state.data.totals.variance_pct)"/>%</td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <t t-if="state.data.income_sections.length">
+                    <table class="o_cpr_table o_cpr_income_table">
+                        <thead>
+                            <tr><th colspan="6">Income</th></tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="state.data.income_sections" t-as="section" t-key="section.label">
+                                <tr t-attf-class="o_cpr_section_row o_cpr_income_row #{section.lines.length ? 'o_cpr_clickable' : ''}"
+                                    t-on-click="() => this.toggleSection(section.label)">
+                                    <td>
+                                        <i t-if="section.lines.length"
+                                           t-attf-class="fa #{isExpanded(section.label) ? 'fa-caret-down' : 'fa-caret-right'} o_cpr_caret"/>
+                                        <strong t-esc="section.label"/>
+                                    </td>
+                                    <td/><td/>
+                                    <td class="text-end"><t t-esc="formatMonetary(section.actual)"/></td>
+                                    <td/><td/>
+                                </tr>
+                                <t t-if="isExpanded(section.label)">
+                                    <tr t-foreach="section.lines" t-as="line" t-key="line.name + line.date + line_index"
+                                        class="o_cpr_detail_row">
+                                        <td class="o_cpr_detail_label">
+                                            <span class="o_cpr_detail_date" t-esc="line.date"/>
+                                            <span t-esc="line.name"/>
+                                            <span t-if="line.reference" class="text-muted" t-esc="'(' + line.reference + ')'"/>
+                                        </td>
+                                        <td/><td/>
+                                        <td class="text-end"><t t-esc="formatMonetary(line.amount)"/></td>
+                                        <td/><td/>
+                                    </tr>
+                                </t>
+                            </t>
+                        </tbody>
+                        <tfoot>
+                            <tr class="o_cpr_total_row">
+                                <td><strong>Total Income</strong></td>
+                                <td/><td/>
+                                <td class="text-end"><strong t-esc="formatMonetary(state.data.totals.income)"/></td>
+                                <td/><td/>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </t>
+
+                <div class="o_cpr_profit_summary">
+                    <div class="o_cpr_profit_row">
+                        <span>Total Income</span>
+                        <strong t-esc="formatMonetary(state.data.totals.income)"/>
+                    </div>
+                    <div class="o_cpr_profit_row">
+                        <span>Total Cost</span>
+                        <strong t-esc="formatMonetary(state.data.totals.actual)"/>
+                    </div>
+                    <div t-attf-class="o_cpr_profit_row o_cpr_profit_net #{state.data.totals.net_profit &lt; 0 ? 'o_cpr_text_danger' : 'o_cpr_text_success'}">
+                        <span>Net Profit</span>
+                        <strong t-esc="formatMonetary(state.data.totals.net_profit)"/>
+                    </div>
+                </div>
+
+                <div class="o_cpr_footnote">
+                    Planned and Committed reflect the budget's current state; Actual is restricted to the selected period.
+                </div>
+            </div>
+        </div>
+    </t>
+
+</templates>

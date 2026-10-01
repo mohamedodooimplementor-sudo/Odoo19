@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_construction_budget_copy_categories_wizard_form" model="ir.ui.view">
+        <field name="name">construction.budget.copy.categories.wizard.form</field>
+        <field name="model">construction.budget.copy.categories.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Copy Categories From Another Budget">
+                <group>
+                    <field name="target_budget_id" invisible="1"/>
+                    <field name="source_budget_id"/>
+                    <field name="copy_planned_amounts"/>
+                </group>
+                <footer>
+                    <button name="action_copy" type="object" string="Copy" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

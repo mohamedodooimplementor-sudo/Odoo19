@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_project_form_budget_inherit" model="ir.ui.view">
+        <field name="name">project.project.form.construction.budget</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="Construction Budget">
+                    <field name="budget_id"/>
+                    <field name="budget_total" readonly="1" invisible="not budget_id"/>
+                    <field name="budget_committed" readonly="1" invisible="not budget_id"/>
+                    <field name="budget_spent" readonly="1" invisible="not budget_id"/>
+                    <field name="budget_remaining" readonly="1" invisible="not budget_id"/>
+                    <field name="budget_utilization" readonly="1" invisible="not budget_id"/>
+                    <div invisible="budget_id" class="text-muted mb-2">
+                        This project has no Construction Budget yet - create one to start
+                        tracking Planned vs Actual costs by category.
+                    </div>
+                    <button name="action_open_budget" type="object" string="Create Budget"
+                            class="btn-primary" invisible="budget_id"/>
+                    <button name="action_open_budget" type="object" string="Open Budget"
+                            class="btn-secondary" invisible="not budget_id"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

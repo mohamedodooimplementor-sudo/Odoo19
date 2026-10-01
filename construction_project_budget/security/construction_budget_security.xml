@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="module_category_construction_budget" model="ir.module.category">
+        <field name="name">Construction Budget</field>
+        <field name="sequence">25</field>
+    </record>
+
+    <!-- Odoo 19: group categorization now goes through res.groups.privilege -->
+    <record id="privilege_construction_budget" model="res.groups.privilege">
+        <field name="name">Construction Budget</field>
+        <field name="sequence">25</field>
+        <field name="category_id" ref="module_category_construction_budget"/>
+    </record>
+
+    <!-- Regular user: can manage budgets, lines and expenses on their projects,
+         but cannot approve/close budgets, manage categories, or delete records. -->
+    <record id="group_construction_budget_user" model="res.groups">
+        <field name="name">User: Own Budgets</field>
+        <field name="privilege_id" ref="privilege_construction_budget"/>
+        <field name="implied_ids" eval="[(4, ref('project.group_project_user'))]"/>
+        <field name="comment">Can create/edit project budgets, budget lines and actual spending. Cannot approve/close budgets, delete records, or manage budget categories.</field>
+    </record>
+
+    <!-- Manager: full control, including approving/closing budgets,
+         managing budget categories, and deleting records. -->
+    <record id="group_construction_budget_manager" model="res.groups">
+        <field name="name">Manager: Approve &amp; Configure</field>
+        <field name="privilege_id" ref="privilege_construction_budget"/>
+        <field name="implied_ids" eval="[(4, ref('group_construction_budget_user'))]"/>
+        <field name="comment">Full access: approve/close budgets, manage budget categories, delete records.</field>
+        <field name="user_ids" eval="[(4, ref('base.user_admin'))]"/>
+    </record>
+
+    <!-- Multi-company: users only see budgets of companies they're allowed to work in -->
+    <record id="rule_construction_project_budget_company" model="ir.rule">
+        <field name="name">Construction Budget: multi-company</field>
+        <field name="model_id" ref="model_construction_project_budget"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('group_construction_budget_user'))]"/>
+    </record>
+
+    <!-- These related models have no company_id of their own: scope through the parent budget's company,
+         otherwise a user in another company could read/write lines and actuals across companies. -->
+    <record id="rule_construction_project_budget_line_company" model="ir.rule">
+        <field name="name">Construction Budget Line: multi-company</field>
+        <field name="model_id" ref="model_construction_project_budget_line"/>
+        <field name="domain_force">['|', ('budget_id.company_id', '=', False), ('budget_id.company_id', 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('group_construction_budget_user'))]"/>
+    </record>
+
+    <record id="rule_construction_project_budget_expense_company" model="ir.rule">
+        <field name="name">Construction Budget Actual: multi-company</field>
+        <field name="model_id" ref="model_construction_project_budget_expense"/>
+        <field name="domain_force">['|', ('budget_id.company_id', '=', False), ('budget_id.company_id', 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('group_construction_budget_user'))]"/>
+    </record>
+
+    <record id="rule_construction_budget_category_company" model="ir.rule">
+        <field name="name">Construction Budget Category: multi-company</field>
+        <field name="model_id" ref="model_construction_budget_category"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('group_construction_budget_user'))]"/>
+    </record>
+
+    <record id="rule_construction_project_expense_company" model="ir.rule">
+        <field name="name">Construction Project Expense: multi-company</field>
+        <field name="model_id" ref="model_construction_project_expense"/>
+        <field name="domain_force">['|', ('budget_id.company_id', '=', False), ('budget_id.company_id', 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('group_construction_budget_user'))]"/>
+    </record>
+
+    <record id="rule_construction_labor_cost_company" model="ir.rule">
+        <field name="name">Construction Labor Cost: multi-company</field>
+        <field name="model_id" ref="model_construction_labor_cost"/>
+        <field name="domain_force">['|', ('budget_id.company_id', '=', False), ('budget_id.company_id', 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('group_construction_budget_user'))]"/>
+    </record>
+
+</odoo>

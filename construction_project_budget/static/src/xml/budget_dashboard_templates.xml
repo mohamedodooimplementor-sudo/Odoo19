@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="construction_project_budget.Dashboard">
+        <div class="o_cbd_dashboard">
+
+            <div t-if="state.loading" class="o_cbd_loading">
+                <i class="fa fa-circle-o-notch fa-spin"/>
+                <span>Loading dashboard...</span>
+            </div>
+
+            <div t-else="" class="o_cbd_content">
+
+                <div class="o_cbd_header">
+                    <div>
+                        <h2>Dashboard</h2>
+                        <p class="o_cbd_subtitle">Overview of your projects and financial performance</p>
+                    </div>
+                    <div class="o_cbd_header_actions">
+                        <select class="o_cbd_project_filter" t-on-change="onProjectFilterChange">
+                            <option value="">All Projects</option>
+                            <t t-foreach="state.projectOptions" t-as="p" t-key="p.id">
+                                <option t-att-value="p.id" t-esc="p.name"/>
+                            </t>
+                        </select>
+                        <button class="btn o_cbd_btn_all" t-on-click="openAllBudgets">
+                            View All Budgets
+                        </button>
+                    </div>
+                </div>
+
+                <div t-if="state.kpis.multi_currency" class="o_cbd_multi_currency_notice">
+                    <i class="fa fa-exclamation-triangle"/>
+                    Budgets across multiple currencies are shown converted to <t t-esc="state.kpis.currency_symbol"/>
+                    at today's rate for the totals above; each project's own row still shows its own currency.
+                </div>
+
+                <div class="o_cbd_kpi_row">
+                    <div class="o_cbd_kpi_card o_cbd_kpi_active" t-on-click="openAllBudgets">
+                        <div class="o_cbd_kpi_icon"><i class="fa fa-briefcase"/></div>
+                        <div class="o_cbd_kpi_body">
+                            <span class="o_cbd_kpi_label">Active Budgets</span>
+                            <span class="o_cbd_kpi_value"><t t-esc="state.kpis.active_budgets"/></span>
+                        </div>
+                    </div>
+                    <div class="o_cbd_kpi_card o_cbd_kpi_planned" t-on-click="openAllBudgets">
+                        <div class="o_cbd_kpi_icon"><i class="fa fa-bullseye"/></div>
+                        <div class="o_cbd_kpi_body">
+                            <span class="o_cbd_kpi_label">Total Planned</span>
+                            <span class="o_cbd_kpi_value"><t t-esc="formatMonetary(state.kpis.total_planned)"/></span>
+                        </div>
+                    </div>
+                    <div class="o_cbd_kpi_card o_cbd_kpi_committed" t-on-click="openAllBudgets">
+                        <div class="o_cbd_kpi_icon"><i class="fa fa-file-text-o"/></div>
+                        <div class="o_cbd_kpi_body">
+                            <span class="o_cbd_kpi_label">Committed</span>
+                            <span class="o_cbd_kpi_value"><t t-esc="formatMonetary(state.kpis.total_committed)"/></span>
+                        </div>
+                    </div>
+                    <div class="o_cbd_kpi_card o_cbd_kpi_spent" t-on-click="openAllBudgets">
+                        <div class="o_cbd_kpi_icon"><i class="fa fa-money"/></div>
+                        <div class="o_cbd_kpi_body">
+                            <span class="o_cbd_kpi_label">Total Spent</span>
+                            <span class="o_cbd_kpi_value"><t t-esc="formatMonetary(state.kpis.total_actual)"/></span>
+                            <span t-if="state.kpis.actual_trend_pct"
+                                  t-attf-class="o_cbd_kpi_trend #{state.kpis.actual_trend_pct > 0 ? 'o_cbd_trend_up_bad' : 'o_cbd_trend_down_good'}">
+                                <i t-attf-class="fa #{state.kpis.actual_trend_pct > 0 ? 'fa-arrow-up' : 'fa-arrow-down'}"/>
+                                <t t-esc="Math.abs(formatPercent(state.kpis.actual_trend_pct))"/>% vs last month
+                            </span>
+                        </div>
+                    </div>
+                    <div class="o_cbd_kpi_card o_cbd_kpi_income" t-on-click="() => this.openActuals([['category_id.type', '=', 'income']], 'Income')">
+                        <div class="o_cbd_kpi_icon"><i class="fa fa-line-chart"/></div>
+                        <div class="o_cbd_kpi_body">
+                            <span class="o_cbd_kpi_label">Total Income</span>
+                            <span class="o_cbd_kpi_value"><t t-esc="formatMonetary(state.kpis.total_income)"/></span>
+                        </div>
+                    </div>
+                    <div t-attf-class="o_cbd_kpi_card o_cbd_kpi_profit #{state.kpis.net_profit &lt; 0 ? 'o_cbd_kpi_card_alert' : ''}"
+                         t-on-click="openAllBudgets">
+                        <div class="o_cbd_kpi_icon"><i class="fa fa-percent"/></div>
+                        <div class="o_cbd_kpi_body">
+                            <span class="o_cbd_kpi_label">Net Profit</span>
+                            <span t-attf-class="o_cbd_kpi_value #{state.kpis.net_profit &lt; 0 ? 'o_cbd_text_danger' : 'o_cbd_text_success'}">
+                                <t t-esc="formatMonetary(state.kpis.net_profit)"/>
+                            </span>
+                        </div>
+                    </div>
+                    <div t-attf-class="o_cbd_kpi_card o_cbd_kpi_danger #{state.kpis.over_budget_count ? 'o_cbd_kpi_card_alert' : ''}"
+                         t-on-click="openOverBudget">
+                        <div class="o_cbd_kpi_icon"><i class="fa fa-exclamation-triangle"/></div>
+                        <div class="o_cbd_kpi_body">
+                            <span class="o_cbd_kpi_label">Over Budget</span>
+                            <span class="o_cbd_kpi_value"><t t-esc="state.kpis.over_budget_count"/></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="o_cbd_row">
+                    <div class="o_cbd_col_chart">
+                        <div class="o_cbd_panel">
+                            <div class="o_cbd_panel_header">
+                                <h4>Planned vs Actual by Category</h4>
+                            </div>
+                            <div class="o_cbd_chart_wrap">
+                                <canvas t-ref="categoryChart"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="o_cbd_col_donut">
+                        <div class="o_cbd_panel">
+                            <div class="o_cbd_panel_header">
+                                <h4>Actual by Source</h4>
+                            </div>
+                            <div class="o_cbd_donut_layout">
+                                <div class="o_cbd_chart_wrap o_cbd_donut_wrap">
+                                    <canvas t-ref="sourceChart"/>
+                                    <div class="o_cbd_donut_center">
+                                        <span class="o_cbd_donut_value"><t t-esc="formatMonetary(state.kpis.total_actual)"/></span>
+                                        <span class="o_cbd_donut_label">Total Spent</span>
+                                    </div>
+                                </div>
+                                <div class="o_cbd_donut_legend">
+                                    <div t-foreach="state.sources" t-as="s" t-key="s.name"
+                                         class="o_cbd_legend_row" t-on-click="() => this.openSourceActuals(s.name)">
+                                        <span class="o_cbd_legend_dot" t-attf-style="background: #{['#8b6cf7','#ec4899','#f59e0b','#3b82f6','#14b8a6','#ef4444','#22c55e'][s_index % 7]}"/>
+                                        <span class="o_cbd_legend_name"><t t-esc="sourceLabel(s.name)"/></span>
+                                        <span class="o_cbd_legend_amount"><t t-esc="formatMonetary(s.amount)"/></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="o_cbd_row">
+                    <div class="o_cbd_col_projects">
+                        <div class="o_cbd_panel">
+                            <div class="o_cbd_panel_header">
+                                <h4>Top Projects by Budget Utilization</h4>
+                            </div>
+                            <table class="o_cbd_table o_cbd_rank_table" t-if="state.projects.length">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Project</th>
+                                        <th>Planned</th>
+                                        <th>Actual</th>
+                                        <th>Profit</th>
+                                        <th>Utilization</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="state.projects.slice(0, 6)" t-as="p" t-key="p.id"
+                                        class="o_cbd_project_row" t-on-click="() => this.openBudget(p.id)">
+                                        <td><span class="o_cbd_rank_badge"><t t-esc="p_index + 1"/></span></td>
+                                        <td class="o_cbd_rank_name"><t t-esc="p.name"/></td>
+                                        <td><t t-esc="formatMonetary(p.planned, p.currency_symbol)"/></td>
+                                        <td><t t-esc="formatMonetary(p.actual, p.currency_symbol)"/></td>
+                                        <td>
+                                            <span t-if="p.income" t-attf-class="#{p.profit &lt; 0 ? 'o_cbd_text_danger' : 'o_cbd_text_success'}">
+                                                <t t-esc="formatMonetary(p.profit, p.currency_symbol)"/>
+                                            </span>
+                                            <span t-else="" class="text-muted">-</span>
+                                        </td>
+                                        <td class="o_cbd_util_cell">
+                                            <div class="o_cbd_progress">
+                                                <div class="o_cbd_progress_bar"
+                                                     t-attf-style="width: #{Math.min(p.utilization, 100)}%"
+                                                     t-attf-class="o_cbd_progress_bar #{utilizationClass(p.utilization)}"/>
+                                            </div>
+                                            <span class="o_cbd_util_text"><t t-esc="formatPercent(p.utilization)"/>%</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div t-else="" class="o_cbd_empty">No project budgets yet.</div>
+                            <button class="btn o_cbd_btn_view_all" t-on-click="openAllBudgets">View All Projects</button>
+                        </div>
+                    </div>
+
+                    <div class="o_cbd_col_trend">
+                        <div class="o_cbd_panel">
+                            <div class="o_cbd_panel_header">
+                                <h4>Spending &amp; Income Trend</h4>
+                            </div>
+                            <div class="o_cbd_chart_wrap o_cbd_trend_wrap">
+                                <canvas t-ref="trendChart"/>
+                            </div>
+                            <div class="o_cbd_profit_row">
+                                <div class="o_cbd_profit_item">
+                                    <span class="o_cbd_profit_label">Total Income</span>
+                                    <strong class="o_cbd_profit_value o_cbd_text_success"><t t-esc="formatMonetary(state.kpis.total_income)"/></strong>
+                                </div>
+                                <div class="o_cbd_profit_item">
+                                    <span class="o_cbd_profit_label">Total Cost</span>
+                                    <strong class="o_cbd_profit_value"><t t-esc="formatMonetary(state.kpis.total_actual)"/></strong>
+                                </div>
+                                <div class="o_cbd_profit_item">
+                                    <span class="o_cbd_profit_label">Net Profit</span>
+                                    <strong t-attf-class="o_cbd_profit_value #{state.kpis.net_profit &lt; 0 ? 'o_cbd_text_danger' : 'o_cbd_text_success'}">
+                                        <t t-esc="formatMonetary(state.kpis.net_profit)"/>
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="o_cbd_col_alerts">
+                        <div class="o_cbd_panel">
+                            <div class="o_cbd_panel_header">
+                                <h4>Recent Alerts</h4>
+                            </div>
+                            <div class="o_cbd_alerts_list" t-if="state.alerts.length">
+                                <div t-foreach="state.alerts" t-as="a" t-key="a_index"
+                                     t-attf-class="o_cbd_alert_row o_cbd_alert_#{a.type}">
+                                    <div class="o_cbd_alert_icon"><i t-attf-class="fa #{alertIcon(a.type)}"/></div>
+                                    <span class="o_cbd_alert_text"><t t-esc="a.text"/></span>
+                                </div>
+                            </div>
+                            <div t-else="" class="o_cbd_empty">No alerts right now.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="o_cbd_panel o_cbd_recent_panel">
+                    <div class="o_cbd_panel_header">
+                        <h4>Recent Spending</h4>
+                    </div>
+                    <table class="o_cbd_table" t-if="state.recent_expenses.length">
+                        <tbody>
+                            <tr t-foreach="state.recent_expenses" t-as="e" t-key="e.id"
+                                class="o_cbd_recent_row" t-on-click="() => this.openActualRecord(e.id)">
+                                <td class="o_cbd_recent_main">
+                                    <div class="o_cbd_recent_name"><t t-esc="e.name"/></div>
+                                    <div class="o_cbd_recent_sub">
+                                        <t t-esc="e.project"/> &#8226; <t t-esc="e.category"/>
+                                    </div>
+                                </td>
+                                <td class="o_cbd_recent_amount"><t t-esc="formatMonetary(e.amount, e.currency_symbol)"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div t-else="" class="o_cbd_empty">No spending recorded yet.</div>
+                </div>
+
+            </div>
+        </div>
+    </t>
+
+</templates>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_stock_picking_construction_budget" model="ir.ui.view">
+        <field name="name">stock.picking.construction.budget</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="construction_project_id"/>
+                <field name="construction_budget_id" invisible="not construction_project_id"/>
+                <field name="construction_category_id" invisible="not construction_budget_id"/>
+                <field name="available_budget_category_ids" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
