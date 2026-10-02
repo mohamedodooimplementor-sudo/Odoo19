@@ -2,6 +2,13 @@
 <templates xml:space="preserve">
     <t t-name="pre_production.Dashboard">
         <div class="o_pp_dashboard" t-ref="root">
+            <div class="pp_hero">
+                <div class="pp_hero_icon"><i class="fa fa-industry"/></div>
+                <div>
+                    <div class="pp_hero_title">Pre-Production Dashboard</div>
+                    <div class="pp_hero_sub">Orders, quality results and the time every stage takes</div>
+                </div>
+            </div>
             <div class="pp_filters">
                 <div class="pp_f"><label>From</label>
                     <input type="date" t-att-value="state.filters.date_from" t-on-change="(ev) => this.onFilter('date_from', ev)"/></div>

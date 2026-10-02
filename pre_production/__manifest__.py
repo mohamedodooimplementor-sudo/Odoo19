@@ -1,6 +1,6 @@
 {
     'name': 'Pre-Production Management',
-    'version': '18.0.1.4.0',
+    'version': '18.0.1.4.1',
     'category': 'Manufacturing',
     'author': 'Eng. M.Aboelmagde',
     'maintainer': 'Eng. M.Aboelmagde',
@@ -23,7 +23,7 @@
         'views/pp_menus.xml',
         'report/pp_report.xml',
     ],
-    'assets': {'web.assets_backend': ['pre_production/static/src/dashboard/*']},
+    'assets': {'web.assets_backend': ['pre_production/static/src/dashboard/*', 'pre_production/static/src/scss/*.scss']},
     'application': True,
     'license': 'LGPL-3',
 }

@@ -1,0 +1,157 @@
+// Pre-Production Management - look & feel of the standard views (scoped to our own view classes).
+// Colours follow Bootstrap variables so light and dark themes both work.
+$pp-primary: #714b67;
+$pp-accent: #0e8a8e;
+$pp-soft: rgba(113, 75, 103, .08);
+
+// ------------------------------------------------------------------ FORM
+.o_form_view.o_pp_form {
+    .o_form_sheet_bg { background: var(--bs-tertiary-bg); }
+    .o_form_sheet {
+        border-radius: 14px;
+        border: 1px solid var(--bs-border-color);
+        box-shadow: 0 8px 28px rgba(20, 35, 80, .08);
+    }
+    .oe_title h1 {
+        font-weight: 700;
+        letter-spacing: -.5px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        .o_field_badge { font-size: .8rem; }
+    }
+    // stat buttons
+    .oe_button_box .oe_stat_button {
+        border-radius: 10px;
+        border: 1px solid var(--bs-border-color);
+        transition: box-shadow .15s, transform .15s;
+        &:hover { box-shadow: 0 4px 12px rgba(20, 35, 80, .12); transform: translateY(-1px); }
+        .o_button_icon { color: $pp-primary; }
+    }
+    // labels and groups
+    .o_group .o_form_label { color: var(--bs-secondary-color); font-weight: 500; }
+    .o_horizontal_separator { color: $pp-primary; font-weight: 700; }
+    // tabs
+    .o_notebook {
+        .nav-tabs { border-bottom: 2px solid var(--bs-border-color); }
+        .nav-tabs .nav-link {
+            font-weight: 600;
+            border: 0;
+            border-bottom: 3px solid transparent;
+            color: var(--bs-secondary-color);
+            margin-bottom: -2px;
+            &:hover { color: $pp-primary; }
+            &.active {
+                color: $pp-primary;
+                border-bottom-color: $pp-primary;
+                background: transparent;
+            }
+        }
+    }
+    // lists inside the form (materials, packaging, checklist)
+    .o_list_renderer {
+        .o_list_table {
+            thead th {
+                background: var(--bs-tertiary-bg);
+                color: var(--bs-secondary-color);
+                font-size: .78rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: .4px;
+                border-bottom: 2px solid var(--bs-border-color);
+            }
+            tbody tr:hover { background: $pp-soft; }
+            tbody td { padding-top: 7px; padding-bottom: 7px; }
+        }
+    }
+    // totals
+    .oe_subtotal_footer {
+        background: var(--bs-tertiary-bg);
+        border: 1px solid var(--bs-border-color);
+        border-radius: 12px;
+        padding: 10px 16px;
+        min-width: 300px;
+        .o_td_label label, .o_form_label { color: var(--bs-secondary-color); font-weight: 500; }
+        .oe_subtotal_footer_separator {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: $pp-primary;
+            border-top: 1px solid var(--bs-border-color);
+            padding-top: 6px;
+        }
+    }
+    // header buttons
+    .o_form_statusbar .o_statusbar_buttons .btn { border-radius: 8px; font-weight: 600; }
+}
+
+// ------------------------------------------------------------------ KANBAN
+.o_kanban_view.o_pp_kanban {
+    .o_kanban_renderer { background: var(--bs-tertiary-bg); }
+    .o_kanban_header {
+        .o_column_title, .o_kanban_header_title { font-weight: 700; color: var(--bs-body-color); }
+        .o_column_title { letter-spacing: .2px; }
+    }
+    .o_kanban_group { background: transparent; }
+    .o_kanban_record {
+        border-radius: 10px;
+        border: 1px solid var(--bs-border-color);
+        background: var(--bs-body-bg);
+        box-shadow: 0 2px 6px rgba(20, 35, 80, .06);
+        transition: box-shadow .15s, transform .15s;
+        &:hover { box-shadow: 0 8px 20px rgba(20, 35, 80, .14); transform: translateY(-2px); }
+    }
+    .o_pp_card {
+        padding-top: 2px;
+        padding-bottom: 2px;
+        line-height: 1.35;
+        .o_field_badge { font-size: .7rem; }
+    }
+}
+
+// ------------------------------------------------------------------ LIST
+.o_list_view.o_pp_list {
+    .o_list_table thead th {
+        background: var(--bs-tertiary-bg);
+        color: var(--bs-secondary-color);
+        font-size: .78rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: .4px;
+    }
+    .o_list_table tbody tr:hover { background: $pp-soft; }
+    .o_data_row .o_field_badge { font-weight: 600; }
+}
+
+// ------------------------------------------------------------------ DASHBOARD (extra polish)
+.o_pp_dashboard {
+    .pp_hero {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        background: linear-gradient(120deg, #13214a 0%, #12406b 55%, $pp-accent 100%);
+        color: #fff;
+        border-radius: 14px;
+        padding: 18px 24px;
+        margin-bottom: 16px;
+        box-shadow: 0 8px 24px rgba(20, 35, 80, .2);
+        .pp_hero_icon {
+            width: 52px; height: 52px; border-radius: 14px;
+            background: rgba(255, 255, 255, .16);
+            display: flex; align-items: center; justify-content: center; font-size: 24px;
+        }
+        .pp_hero_title { font-size: 22px; font-weight: 700; line-height: 1.1; }
+        .pp_hero_sub { font-size: 13px; opacity: .85; margin-top: 2px; }
+    }
+    .pp_kpis .pp_kpi {
+        border-radius: 14px;
+        padding: 16px 18px;
+        .pp_kpi_icon { width: 48px; height: 48px; border-radius: 14px; box-shadow: 0 6px 14px rgba(0, 0, 0, .18); }
+        .pp_kpi_value { font-size: 30px; }
+    }
+    .pp_charts .pp_chart {
+        border-radius: 14px;
+        padding: 16px 18px;
+        h5 { font-weight: 700; font-size: 15px; }
+    }
+    .pp_filters { border-radius: 14px; }
+}
