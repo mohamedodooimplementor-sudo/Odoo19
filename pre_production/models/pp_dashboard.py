@@ -74,7 +74,7 @@ class PPDashboard(models.AbstractModel):
                               len(checks.filtered(lambda c: c.state == 'pending'))]}
 
         logs = self.env['pp.stage.log'].search([('order_id', 'in', orders.ids), ('date_end', '!=', False)])
-        dur_stages = stages.filtered(lambda s: s.code != 'done')
+        dur_stages = stages.filtered(lambda s: s.code not in ('done', 'draft'))
         duration = {'labels': dur_stages.mapped('name'), 'values': []}
         for st in dur_stages:
             sl = logs.filtered(lambda l: l.stage_id == st)

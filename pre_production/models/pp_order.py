@@ -55,7 +55,8 @@ class PPOrder(models.Model):
     state = fields.Selection([('draft', 'Draft'), ('in_progress', 'In Progress'), ('rejected', 'Rejected'),
                               ('done', 'Done'), ('cancel', 'Cancelled')], default='draft', tracking=True, copy=False)
     current_stage_id = fields.Many2one('pp.stage', 'Current Stage', copy=False, tracking=True,
-                                       group_expand='_read_group_stage_ids')
+                                       group_expand='_read_group_stage_ids',
+                                       default=lambda s: s.env['pp.stage'].search([('code', '=', 'draft')], limit=1))
     stage_code = fields.Selection(related='current_stage_id.code', store=True)
     components_availability = fields.Selection([
         ('issued', 'Issued'), ('available', 'Available'), ('not_available', 'Not Available'),
@@ -176,6 +177,8 @@ class PPOrder(models.Model):
         self.ensure_one()
         if stage.code == 'done' and self.product_id.tracking != 'none' and not self.lot_producing_id:
             raise ValidationError(_("Please set the Finished Product Lot on the Pre-Production Order before the last approval."))
+        if stage.code == 'done':
+            self._check_all_issued()
         self._close_stage_log()
         self.current_stage_id = stage
         self.env['pp.stage.log'].sudo().create({'order_id': self.id, 'stage_id': stage.id})
@@ -216,6 +219,32 @@ class PPOrder(models.Model):
     def action_print_final(self):
         self.ensure_one()
         return self.env.ref('pre_production.report_pp_final').report_action(self)
+
+    def pp_stage_summary(self):
+        """Rows for the approvals summary of the final report: latest check of every template of every quality stage."""
+        self.ensure_one()
+        rows = []
+        for stage in self.check_ids.mapped('stage_id').sorted('sequence'):
+            for c in self._stage_latest_checks(stage).values():
+                same = self.check_ids.filtered(lambda k: k.stage_id == stage and k.template_id == c.template_id)
+                rows.append({
+                    'stage': stage.name, 'template': c.template_id.name or '', 'state': c.state,
+                    'inspector': c.inspector_id.name or '', 'date': c.date, 'attempts': len(same),
+                    'rejections': len(same.filtered(lambda k: k.state == 'rejected')),
+                })
+        return rows
+
+    def _check_all_issued(self):
+        """Before the last stage everything must be issued and every issue transfer validated."""
+        self.ensure_one()
+        c = self.company_id
+        if not (c.pp_material_issue_required or c.pp_packaging_issue_required):
+            return  # the issue stage is switched off completely
+        if any(not l.issued for l in self.line_ids):
+            raise ValidationError(_("Issue all the materials and packaging before the last stage."))
+        pending = self.picking_ids.filtered(lambda p: p.pp_issue_type and p.state not in ('done', 'cancel'))
+        if pending:
+            raise ValidationError(_("Validate the issue transfers first: %s", ', '.join(pending.mapped('name'))))
 
     def _stage_latest_checks(self, stage):
         """Latest Quality Check of every template of the stage (several templates = several checks)."""
@@ -289,7 +318,7 @@ class PPOrder(models.Model):
             vals.append({
                 'order_id': self.id, 'product_id': bl.product_id.id, 'bom_product_id': bl.product_id.id, 'bom_line_id': bl.id,
                 'required_qty': bl.product_qty * factor, 'uom_id': bl.product_uom_id.id,
-                'line_type': 'packaging' if bl.product_id.categ_id._pp_categ().pp_is_packaging else 'material',
+                'line_type': 'material',
             })
         self.env['pp.order.line'].create(vals)
 
@@ -318,7 +347,7 @@ class PPOrder(models.Model):
                 l._pick_warehouse()
                 if not l.source_warehouse_id:
                     raise ValidationError(_("No Pre-Production warehouse is configured on the category of %s.", l.product_id.display_name))
-            first = o._stage_sequence().filtered(lambda s: s.code != 'done')[:1]
+            first = o._stage_sequence().filtered(lambda s: s.code not in ('done', 'draft'))[:1]
             o.state = 'in_progress'
             o._log(False, _('Confirmed'))
             o._enter_stage(first)
@@ -382,10 +411,16 @@ class PPOrder(models.Model):
             return
         if any(not l.issued for l in self.line_ids):
             return
+        c = self.company_id
         pickings = self.picking_ids.filtered('pp_issue_type')
-        if any(p.state not in ('done', 'cancel') for p in pickings):
+        required = pickings.filtered(lambda p: (p.pp_issue_type == 'material' and c.pp_material_issue_required)
+                                     or (p.pp_issue_type == 'packaging' and c.pp_packaging_issue_required))
+        # only the transfers of the types marked as "required" in the settings have to be validated to move on
+        if any(p.state not in ('done', 'cancel') for p in required):
             return
-        self.write({'material_issue_done': True, 'packaging_issue_done': True})
+        open_types = {p.pp_issue_type for p in pickings if p.state not in ('done', 'cancel')}
+        self.write({'material_issue_done': 'material' not in open_types,
+                    'packaging_issue_done': 'packaging' not in open_types})
         self._log(self.current_stage_id, _('Issued'), ', '.join(names or pickings.filtered(lambda p: p.state == 'done').mapped('name')))
         self._advance()
 
@@ -482,6 +517,7 @@ class PPOrder(models.Model):
         self._assert_stage('done')
         if self.mo_id:
             raise ValidationError(_("The Manufacturing Order has already been created."))
+        self._check_all_issued()
         self._finish()
 
     def _finish(self):

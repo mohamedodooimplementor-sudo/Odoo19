@@ -2,6 +2,7 @@ from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 
 STAGE_CODES = [
+    ('draft', 'Draft'),
     ('material_issue', 'Material Issue'),
     ('weight', 'Weight Confirmation'),
     ('prd_line', 'PRD Line Check'),

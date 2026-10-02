@@ -179,7 +179,7 @@
         <t t-call="web.html_container"><t t-foreach="docs" t-as="o"><t t-call="web.external_layout"><div class="page">
             <h2>Pre-Production Final Report</h2>
             <t t-call="pre_production.tpl_pp_header"/>
-            <h4>Production Result</h4>
+            <h4 style="color:#162248;border-bottom:2px solid #0e8a8e;padding-bottom:4px;margin-top:18px;">Production Result</h4>
             <table class="table table-sm table-borderless">
                 <tr><th>Planned Quantity</th><td><span t-field="o.product_qty"/> <span t-field="o.product_uom_id"/></td>
                     <th>Actual Produced</th><td><span t-field="o.actual_product_qty"/> <span t-field="o.product_uom_id"/></td></tr>
@@ -188,36 +188,54 @@
                 <tr><th>Manufacturing Order</th><td><span t-field="o.mo_id"/> <span t-if="o.mo_id" t-field="o.mo_id.state"/></td>
                     <th>Production Date</th><td><span t-field="o.production_date"/></td></tr>
             </table>
-            <h4>Materials &amp; Packaging</h4>
+            <h4 style="color:#162248;border-bottom:2px solid #0e8a8e;padding-bottom:4px;margin-top:18px;">Materials &amp; Packaging</h4>
             <table class="table table-sm">
                 <thead><tr><th>Type</th><th>Product</th><th>Lots</th><th>Required</th><th>Issued</th><th>Weight Confirmed</th></tr></thead>
                 <tbody><t t-foreach="o.line_ids" t-as="l"><tr><td><span t-field="l.line_type"/></td><td><span t-field="l.product_id"/></td><td><span t-field="l.lot_summary"/></td>
                     <td><span t-field="l.required_qty"/> <span t-field="l.uom_id"/></td><td><t t-esc="'Yes' if l.issued else 'No'"/></td>
                     <td><t t-esc="'Yes' if l.weight_confirmed else 'No'"/></td></tr></t></tbody>
             </table>
-            <h4>Quality Checks</h4>
+            <h4 style="color:#162248;border-bottom:2px solid #0e8a8e;padding-bottom:4px;margin-top:18px;">Quality Checks</h4>
             <table class="table table-sm">
                 <thead><tr><th>Stage</th><th>Result</th><th>Inspector</th><th>Date</th><th>Inspection Items / Notes</th></tr></thead>
                 <tbody><t t-foreach="o.check_ids.sorted('id')" t-as="c"><tr><td><span t-field="c.stage_id"/> #<span t-field="c.attempt"/></td>
-                    <td><span t-field="c.state"/></td><td><span t-field="c.inspector_id"/></td><td><span t-field="c.date"/></td>
+                    <td><span t-if="c.state == 'approved'" style="display:inline-block;background:#198754;color:#fff;padding:1px 10px;border-radius:10px;font-size:11px;">Approved</span><span t-elif="c.state == 'rejected'" style="display:inline-block;background:#dc3545;color:#fff;padding:1px 10px;border-radius:10px;font-size:11px;">Rejected</span><span t-else="" style="display:inline-block;background:#f0ad00;color:#fff;padding:1px 10px;border-radius:10px;font-size:11px;">Pending</span></td><td><span t-field="c.inspector_id"/></td><td><span t-field="c.date"/></td>
                     <td><small>
-                        <t t-foreach="c.line_ids" t-as="l"><div><t t-esc="'[x]' if l.checked else '[ ]'"/> <span t-field="l.name"/><t t-if="l.notes"> - <span t-field="l.notes"/></t></div></t>
+                        <t t-foreach="c.line_ids" t-as="l"><div><span t-if="l.checked" class="fa fa-check" style="color:#198754;"/><span t-else="" class="fa fa-square-o" style="color:#8b97b3;"/> <span t-field="l.name"/><t t-if="l.notes"> - <span t-field="l.notes"/></t></div></t>
                         <div t-if="c.notes"><strong>Notes:</strong> <span t-field="c.notes"/></div>
                         <div t-if="c.reject_reason"><strong>Rejected:</strong> <span t-field="c.reject_reason"/></div>
                     </small></td></tr></t></tbody>
             </table>
-            <h4>Time per Stage</h4>
+            <h4 style="color:#162248;border-bottom:2px solid #0e8a8e;padding-bottom:4px;margin-top:18px;">Time per Stage</h4>
             <table class="table table-sm">
                 <thead><tr><th>Stage</th><th>Entered</th><th>Left</th><th>Duration (hours)</th></tr></thead>
                 <tbody><t t-foreach="o.stage_log_ids" t-as="t"><tr><td><span t-field="t.stage_id"/></td><td><span t-field="t.date_start"/></td>
                     <td><span t-field="t.date_end"/></td><td><t t-if="t.date_end" t-esc="'%.2f' % t.duration_hours"/></td></tr></t></tbody>
                 <tfoot><tr><th colspan="3">Total</th><th><t t-esc="'%.2f' % sum(o.stage_log_ids.mapped('duration_hours'))"/></th></tr></tfoot>
             </table>
-            <h4>Approval History</h4>
-            <table class="table table-sm">
-                <thead><tr><th>Stage</th><th>User</th><th>Date</th><th>Result</th><th>Notes</th></tr></thead>
-                <tbody><t t-foreach="o.audit_ids" t-as="a"><tr><td><span t-field="a.stage_id"/></td><td><span t-field="a.user_id"/></td>
-                    <td><span t-field="a.date"/></td><td><span t-field="a.result"/></td><td><span t-field="a.notes"/></td></tr></t></tbody>
+            <h4 style="color:#162248;border-bottom:2px solid #0e8a8e;padding-bottom:4px;margin-top:18px;">Approvals Summary</h4>
+            <table class="table table-sm" style="border:1px solid #dfe5ef;">
+                <thead><tr style="background:#162248;color:#fff;"><th>Stage</th><th>Check</th><th>Result</th><th>Approved / Inspected by</th><th>Date</th><th class="text-center">Attempts</th></tr></thead>
+                <tbody><t t-foreach="o.pp_stage_summary()" t-as="r"><tr>
+                    <td><strong t-esc="r['stage']"/></td><td><span t-esc="r['template']"/></td>
+                    <td><span t-if="r['state'] == 'approved'" style="display:inline-block;background:#198754;color:#fff;padding:1px 10px;border-radius:10px;font-size:11px;"><span class="fa fa-check"/> Approved</span><span t-elif="r['state'] == 'rejected'" style="display:inline-block;background:#dc3545;color:#fff;padding:1px 10px;border-radius:10px;font-size:11px;"><span class="fa fa-times"/> Rejected</span><span t-else="" style="display:inline-block;background:#f0ad00;color:#fff;padding:1px 10px;border-radius:10px;font-size:11px;">Pending</span></td>
+                    <td><span t-esc="r['inspector']"/></td><td><span t-if="r['date']" t-out="r['date']" t-options="{'widget': 'datetime'}"/></td>
+                    <td class="text-center"><span t-esc="r['attempts']"/><small t-if="r['rejections']" style="color:#dc3545;"> (<t t-esc="r['rejections']"/> rejected)</small></td></tr></t></tbody>
+            </table>
+            <h4 style="color:#162248;border-bottom:2px solid #0e8a8e;padding-bottom:4px;margin-top:18px;">Approval History</h4>
+            <table class="table table-sm" style="border:1px solid #dfe5ef;">
+                <thead><tr style="background:#162248;color:#fff;"><th>Date</th><th>Stage</th><th>Action</th><th>User</th><th>Notes</th></tr></thead>
+                <tbody><t t-foreach="o.audit_ids" t-as="a"><tr>
+                    <td><span t-field="a.date"/></td><td><span t-field="a.stage_id"/></td>
+                    <td><span t-if="a.result and 'eject' in a.result" style="display:inline-block;background:#dc3545;color:#fff;padding:1px 10px;border-radius:10px;font-size:11px;"><span class="fa fa-times"/> <t t-esc="a.result"/></span><span t-elif="a.result and ('pprov' in a.result or a.result in ('Issued', 'Done', 'Confirmed'))" style="display:inline-block;background:#198754;color:#fff;padding:1px 10px;border-radius:10px;font-size:11px;"><span class="fa fa-check"/> <t t-esc="a.result"/></span><span t-else="" style="background:#6c7a99;color:#fff;display:inline-block;padding:1px 10px;border-radius:10px;font-size:11px;"><t t-esc="a.result"/></span></td>
+                    <td><span t-field="a.user_id"/></td><td><span t-field="a.notes"/></td></tr></t></tbody>
+            </table>
+            <table style="width:100%;margin-top:34px;text-align:center;">
+                <tr>
+                    <td style="width:30%;padding:0 12px;"><div style="height:50px;"/><div style="border-top:1px solid #162248;padding-top:4px;"><strong>Prepared by</strong><br/><span t-field="o.create_uid"/></div></td>
+                    <td style="width:30%;padding:0 12px;"><div style="height:50px;"/><div style="border-top:1px solid #162248;padding-top:4px;"><strong>Quality Approval</strong><br/><span t-esc="(o.check_ids.filtered(lambda c: c.state == 'approved').sorted('id')[-1:].inspector_id.name) or ''"/></div></td>
+                    <td style="width:30%;padding:0 12px;"><div style="height:50px;"/><div style="border-top:1px solid #162248;padding-top:4px;"><strong>Production Manager</strong><br/>&#160;</div></td>
+                </tr>
             </table>
         </div></t></t></t>
     </template>

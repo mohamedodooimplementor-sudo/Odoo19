@@ -14,6 +14,7 @@
             <field name="delay_count">0</field>
         </record>
 
+        <record id="stage_draft" model="pp.stage"><field name="code">draft</field><field name="name">Draft</field><field name="sequence">5</field></record>
         <record id="stage_material_issue" model="pp.stage"><field name="code">material_issue</field><field name="name">Material Issue</field><field name="sequence">10</field></record>
         <record id="stage_weight" model="pp.stage"><field name="code">weight</field><field name="name">Weight Confirmation</field><field name="sequence">20</field></record>
         <record id="stage_prd_line" model="pp.stage"><field name="code">prd_line</field><field name="name">PRD Line Check</field><field name="sequence">30</field></record>

@@ -5,7 +5,6 @@ class ProductCategory(models.Model):
     _inherit = 'product.category'
 
     pp_enabled = fields.Boolean('Pre-Production')
-    pp_is_packaging = fields.Boolean('Packaging', help="Products of this category are loaded in the Packaging tab.")
     pp_warehouse_ids = fields.Many2many('stock.warehouse', 'pp_category_warehouse_rel', 'categ_id', 'warehouse_id',
                                         string='Pre-Production Warehouses')
 

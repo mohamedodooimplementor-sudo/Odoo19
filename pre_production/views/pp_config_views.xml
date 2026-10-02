@@ -63,13 +63,13 @@
                         </setting>
                     </block>
                     <block title="Workflow Requirements" name="pp_req">
-                        <setting string="Lot Number Required" help="A lot must be selected for each lot-tracked material before issue.">
+                        <setting string="Lot Number Required" help="A lot must be selected for each lot-tracked line before issue. It is only asked for the types (material / packaging) whose Issue Required setting is enabled.">
                             <field name="pp_lot_required"/>
                         </setting>
-                        <setting string="Material Issue Required" help="Material issue must be done before leaving the issue stage.">
+                        <setting string="Material Issue Required" help="When enabled, the material issue transfers must be confirmed (validated) before the order can move to the next stage. When disabled, the order moves on after pressing Issue without waiting for them. If both material and packaging are disabled, the issue stage is skipped.">
                             <field name="pp_material_issue_required"/>
                         </setting>
-                        <setting string="Packaging Issue Required" help="Packaging issue must be done before leaving the issue stage.">
+                        <setting string="Packaging Issue Required" help="When enabled, the packaging issue transfers must be confirmed (validated) before the order can move to the next stage. When disabled, the order moves on after pressing Issue without waiting for them. If both material and packaging are disabled, the issue stage is skipped.">
                             <field name="pp_packaging_issue_required"/>
                         </setting>
                         <setting string="Weight Confirmation Required" help="Weight must be confirmed (checkbox) on all lines.">

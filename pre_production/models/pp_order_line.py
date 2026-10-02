@@ -188,7 +188,10 @@ class PPOrderLine(models.Model):
             l._pick_warehouse()
             if not l.source_warehouse_id:
                 raise ValidationError(_("No Pre-Production warehouse is configured on the category of %s.", l.product_id.display_name))
-            if l.tracking != 'none' and l.order_id.company_id.pp_lot_required and not l.lot_line_ids:
+            company = l.order_id.company_id
+            # a lot is only demanded for the types (material / packaging) marked as required in the settings
+            type_required = company.pp_material_issue_required if l.line_type == 'material' else company.pp_packaging_issue_required
+            if l.tracking != 'none' and company.pp_lot_required and type_required and not l.lot_line_ids:
                 raise ValidationError(_("Lot Number is required for this material: %s", l.product_id.display_name))
             if l.lot_line_ids and float_compare(l.selected_qty, l.required_qty, precision_rounding=prec) != 0:
                 raise ValidationError(_("Selected quantity must equal the required quantity for %s.", l.product_id.display_name))
