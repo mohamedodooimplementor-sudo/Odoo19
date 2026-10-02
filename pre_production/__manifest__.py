@@ -7,7 +7,7 @@
     'website': 'https://www.youtube.com/@odoolab',
     'images': ['static/description/banner.png', 'static/description/workflow.png',
                'static/description/quality.png', 'static/description/settings.png'],
-    'price': 149.00,
+    'price': 150.00,
     'currency': 'USD',
     'summary': 'Sales Order -> Material/Packaging Issue -> Quality Approvals -> Manufacturing Order',
     'depends': ['sale_management', 'stock', 'mrp'],
