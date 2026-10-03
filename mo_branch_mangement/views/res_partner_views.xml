@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_partner_form_vendor_type" model="ir.ui.view">
+        <field name="name">res.partner.form.vendor.type</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="category_id" position="before">
+                <field name="vendor_type"/>
+                <field name="branch_ids" widget="many2many_tags"
+                       options="{'no_create': True}"
+                       placeholder="All branches"/>
+                <field name="no_credit_limit"/>
+                <field name="partner_credit_limit" invisible="no_credit_limit"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_res_partner_filter_branch" model="ir.ui.view">
+        <field name="name">res.partner.filter.branch</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <field name="branch_ids" string="Branch"/>
+                <group>
+                    <filter string="Branch" name="group_by_branch_ids" context="{'group_by': 'branch_ids'}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_branch_purchase_dashboard" model="ir.actions.client">
+        <field name="name">Branch Purchase Performance</field>
+        <field name="tag">branch_purchase_dashboard</field>
+    </record>
+
+    <menuitem id="menu_branch_purchase_dashboard"
+              name="Purchases"
+              parent="menu_branch_reports"
+              action="action_branch_purchase_dashboard"
+              sequence="20"/>
+
+</odoo>

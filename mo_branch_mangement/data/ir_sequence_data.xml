@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="seq_res_branch_code" model="ir.sequence">
+        <field name="name">Branch Code</field>
+        <field name="code">res.branch.code</field>
+        <field name="prefix">BR-</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_inter_branch_transfer" model="ir.sequence">
+        <field name="name">Inter-Branch Transfer</field>
+        <field name="code">inter.branch.transfer</field>
+        <field name="prefix">IBT/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_purchase_order_local" model="ir.sequence">
+        <field name="name">Purchase Order - Local</field>
+        <field name="code">purchase.order.local</field>
+        <field name="prefix">PO-LOC/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_purchase_order_foreign" model="ir.sequence">
+        <field name="name">Purchase Order - Foreign</field>
+        <field name="code">purchase.order.foreign</field>
+        <field name="prefix">PO-FOR/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_purchase_order_service" model="ir.sequence">
+        <field name="name">Purchase Order - Service</field>
+        <field name="code">purchase.order.service</field>
+        <field name="prefix">PO-SRV/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+</odoo>

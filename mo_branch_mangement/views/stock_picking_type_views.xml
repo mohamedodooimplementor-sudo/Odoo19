@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_pickingtype_filter_branch" model="ir.ui.view">
+        <field name="name">stock.picking.type.filter.branch</field>
+        <field name="model">stock.picking.type</field>
+        <field name="inherit_id" ref="stock.view_pickingtype_filter"/>
+        <field name="arch" type="xml">
+            <field name="warehouse_id" position="after">
+                <field name="branch_id"/>
+            </field>
+            <filter name="groupby_warehouse_id" position="after">
+                <filter string="Branch" name="groupby_branch_id" domain="[]" context="{'group_by': 'branch_id'}"/>
+            </filter>
+        </field>
+    </record>
+
+</odoo>

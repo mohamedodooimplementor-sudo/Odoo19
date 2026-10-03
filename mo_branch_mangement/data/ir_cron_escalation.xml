@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="ir_cron_escalate_stale_transfers" model="ir.cron">
+        <field name="name">Inter-Branch Transfer: Escalate Stale Transfers</field>
+        <field name="model_id" ref="model_inter_branch_transfer"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_escalate_stale_transfers()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active">True</field>
+    </record>
+
+</odoo>

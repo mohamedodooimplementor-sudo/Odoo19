@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_inter_branch_transfer_form" model="ir.ui.view">
+        <field name="name">inter.branch.transfer.form</field>
+        <field name="model">inter.branch.transfer</field>
+        <field name="arch" type="xml">
+            <form string="Inter-Branch Transfer">
+                <header>
+                    <button name="action_confirm" string="Confirm" type="object"
+                            invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_approve_source" string="Create Picking"
+                            type="object" invisible="state != 'waiting_source_approval'"
+                            class="btn-primary"/>
+                    <button name="action_approve_destination" string="Approve Destination"
+                            type="object" invisible="state != 'in_transit'"
+                            class="btn-primary"/>
+                    <button name="action_receive_now" string="Receive Now"
+                            type="object" invisible="state != 'in_transit' or not picking_id_2"/>
+                    <button name="action_cancel" string="Cancel" type="object"
+                            invisible="state in ('done', 'cancel')"/>
+                    <button name="action_draft" string="Set to Draft" type="object"
+                            invisible="state != 'cancel'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,waiting_source_approval,in_transit,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_pickings" type="object"
+                                class="oe_stat_button" icon="fa-truck"
+                                invisible="picking_count == 0">
+                            <field name="picking_count" widget="statinfo" string="Pickings"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="date"/>
+                            <field name="expected_date"/>
+                        </group>
+                        <group>
+                            <field name="allowed_branch_ids" invisible="1"/>
+                            <field name="source_branch_id" options="{'no_create': True}"/>
+                            <field name="destination_branch_id" options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="source_warehouse_id" readonly="1"/>
+                            <field name="transit_location_id" options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="destination_warehouse_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Products" name="products">
+                            <field name="line_ids" readonly="state != 'draft'">
+                                <list editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="product_uom_qty"/>
+                                    <field name="product_uom_id"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Other Information" name="other_info">
+                            <group>
+                                <field name="picking_id_1" readonly="1"/>
+                                <field name="picking_id_2" readonly="1"/>
+                            </group>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="notes"/>
+                            <field name="cancel_reason" invisible="state != 'cancel'" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_inter_branch_transfer_list" model="ir.ui.view">
+        <field name="name">inter.branch.transfer.list</field>
+        <field name="model">inter.branch.transfer</field>
+        <field name="arch" type="xml">
+            <list string="Inter-Branch Transfers">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="source_branch_id"/>
+                <field name="destination_branch_id"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'done'"
+                       decoration-info="state == 'in_transit'"
+                       decoration-warning="state == 'waiting_source_approval'"
+                       decoration-danger="state == 'cancel'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_inter_branch_transfer_search" model="ir.ui.view">
+        <field name="name">inter.branch.transfer.search</field>
+        <field name="model">inter.branch.transfer</field>
+        <field name="arch" type="xml">
+            <search string="Inter-Branch Transfers">
+                <field name="name"/>
+                <field name="source_branch_id"/>
+                <field name="destination_branch_id"/>
+                <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Waiting Source Approval" name="waiting_source"
+                        domain="[('state', '=', 'waiting_source_approval')]"/>
+                <filter string="In Transit" name="in_transit" domain="[('state', '=', 'in_transit')]"/>
+                <filter string="Done" name="done" domain="[('state', '=', 'done')]"/>
+                <group>
+                    <filter string="Source Branch" name="group_source" context="{'group_by': 'source_branch_id'}"/>
+                    <filter string="Destination Branch" name="group_destination" context="{'group_by': 'destination_branch_id'}"/>
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_inter_branch_transfer" model="ir.actions.act_window">
+        <field name="name">Inter-Branch Transfers</field>
+        <field name="res_model">inter.branch.transfer</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'branch_selection_unrestricted': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Inter-Branch Transfer
+            </p>
+            <p>
+                Move stock between branches through a transit location,
+                with approval at both the source and destination branch.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_branch_operations"
+              name="Operations"
+              parent="menu_branch_root"
+              sequence="20"/>
+
+    <menuitem id="menu_inter_branch_transfer"
+              name="Inter-Branch Transfers"
+              parent="menu_branch_operations"
+              action="action_inter_branch_transfer"
+              sequence="10"/>
+
+    <!-- Also expose it as a top-level menu inside the Inventory app itself,
+         so warehouse users can reach it without switching to the Branch
+         Management app. -->
+    <menuitem id="menu_inter_branch_transfer_stock"
+              name="Inter-Branch Transfers"
+              parent="stock.menu_stock_root"
+              action="action_inter_branch_transfer"
+              sequence="60"/>
+
+</odoo>

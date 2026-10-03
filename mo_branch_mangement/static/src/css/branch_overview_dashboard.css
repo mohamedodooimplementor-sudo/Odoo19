@@ -1,0 +1,318 @@
+/* ==========================================================================
+   Branch Overview Dashboard
+   Theme-aware (light/dark), RTL-safe, no external assets.
+   ========================================================================== */
+
+.o_branch_overview_dashboard {
+    --bd-bg: var(--bs-tertiary-bg, #f4f5f9);
+    --bd-card: var(--bs-body-bg, #ffffff);
+    --bd-border: var(--bs-border-color, #e6e8ef);
+    --bd-muted: var(--bs-secondary-color, #6b7280);
+
+    position: relative;
+    padding: 1.25rem 1.5rem 2rem;
+    background: var(--bd-bg);
+}
+
+/* ---- loading bar ------------------------------------------------------- */
+.o_branch_overview_dashboard .o_bd_loadbar {
+    position: sticky;
+    top: -1.25rem;
+    height: 3px;
+    margin: -1.25rem -1.5rem 1.25rem;
+    z-index: 5;
+    background: linear-gradient(90deg, transparent, #4F46E5, transparent);
+    background-size: 40% 100%;
+    background-repeat: no-repeat;
+    animation: o_bd_load 1s ease-in-out infinite;
+}
+@keyframes o_bd_load {
+    from { background-position: -40% 0; }
+    to   { background-position: 140% 0; }
+}
+
+/* ---- header ------------------------------------------------------------ */
+.o_branch_overview_dashboard .o_bd_header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+.o_branch_overview_dashboard .o_bd_title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+.o_branch_overview_dashboard .o_bd_subtitle {
+    margin-top: 2px;
+    font-size: 0.85rem;
+    color: var(--bd-muted);
+}
+.o_branch_overview_dashboard .o_bd_sep { margin: 0 0.5rem; opacity: 0.5; }
+.o_branch_overview_dashboard .o_bd_filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+}
+.o_branch_overview_dashboard .o_bd_date { width: 9.25rem; }
+.o_branch_overview_dashboard .o_bd_branch { width: 11rem; }
+
+/* ---- cards ------------------------------------------------------------- */
+.o_branch_overview_dashboard .o_bd_card {
+    background: var(--bd-card);
+    border: 1px solid var(--bd-border);
+    border-radius: 14px;
+    padding: 1rem 1.15rem;
+    box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+}
+.o_branch_overview_dashboard .o_bd_card_head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+.o_branch_overview_dashboard .o_bd_card_head h5 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+/* ---- KPI cards --------------------------------------------------------- */
+.o_branch_overview_dashboard .o_bd_tone_indigo { --tone: #4F46E5; --tone-rgb: 79, 70, 229; }
+.o_branch_overview_dashboard .o_bd_tone_amber  { --tone: #D97706; --tone-rgb: 245, 158, 11; }
+.o_branch_overview_dashboard .o_bd_tone_green  { --tone: #059669; --tone-rgb: 16, 185, 129; }
+.o_branch_overview_dashboard .o_bd_tone_red    { --tone: #DC2626; --tone-rgb: 239, 68, 68; }
+.o_branch_overview_dashboard .o_bd_tone_teal   { --tone: #0D9488; --tone-rgb: 20, 184, 166; }
+.o_branch_overview_dashboard .o_bd_tone_sky    { --tone: #0284C7; --tone-rgb: 14, 165, 233; }
+
+.o_branch_overview_dashboard .o_kpi_card {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    border-inline-start: 4px solid var(--tone);
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+.o_branch_overview_dashboard .o_kpi_card:hover {
+    box-shadow: 0 6px 18px rgba(16, 24, 40, 0.09);
+    transform: translateY(-1px);
+}
+.o_branch_overview_dashboard .o_kpi_icon {
+    flex: 0 0 auto;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.05rem;
+    color: var(--tone);
+    background: rgba(var(--tone-rgb), 0.13);
+}
+.o_branch_overview_dashboard .o_kpi_body { min-width: 0; }
+.o_branch_overview_dashboard .o_kpi_label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--bd-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.o_branch_overview_dashboard .o_kpi_value {
+    margin-top: 2px;
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1.25;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+.o_branch_overview_dashboard .o_kpi_value .o_ccy {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--bd-muted);
+    margin-inline-start: 2px;
+}
+.o_branch_overview_dashboard .o_kpi_sub {
+    margin-top: 2px;
+    font-size: 0.75rem;
+    color: var(--bd-muted);
+}
+
+/* ---- charts ------------------------------------------------------------ */
+.o_branch_overview_dashboard .o_bd_legend {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.8rem;
+    color: var(--bd-muted);
+}
+.o_branch_overview_dashboard .o_legend_dot {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    margin-inline-end: 6px;
+    flex: 0 0 auto;
+}
+.o_branch_overview_dashboard .o_bd_chart_wrap { position: relative; }
+.o_branch_overview_dashboard .o_bd_bar_canvas {
+    display: block;
+    width: 100%;
+    height: 290px;
+}
+.o_branch_overview_dashboard .o_bd_tooltip {
+    display: none;
+    position: absolute;
+    z-index: 4;
+    pointer-events: none;
+    min-width: 11rem;
+    padding: 0.55rem 0.7rem;
+    border-radius: 10px;
+    font-size: 0.78rem;
+    color: #fff;
+    background: rgba(17, 24, 39, 0.94);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+.o_branch_overview_dashboard .o_bd_tip_title { font-weight: 700; margin-bottom: 4px; }
+.o_branch_overview_dashboard .o_bd_tip_row {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 1px 0;
+}
+.o_branch_overview_dashboard .o_bd_tip_row strong { margin-inline-start: auto; padding-inline-start: 1rem; }
+
+.o_branch_overview_dashboard .o_bd_donut_wrap { display: flex; justify-content: center; }
+.o_branch_overview_dashboard .o_bd_donut_canvas { width: 100%; max-width: 220px; height: 200px; }
+.o_branch_overview_dashboard .o_bd_donut_legend {
+    list-style: none;
+    margin: 0.5rem 0 0;
+    padding: 0;
+    max-height: 9.5rem;
+    overflow: auto;
+}
+.o_branch_overview_dashboard .o_bd_donut_legend li {
+    display: flex;
+    align-items: center;
+    padding: 4px 0;
+    font-size: 0.82rem;
+    border-bottom: 1px dashed var(--bd-border);
+}
+.o_branch_overview_dashboard .o_bd_donut_legend li:last-child { border-bottom: 0; }
+.o_branch_overview_dashboard .o_bd_donut_legend strong { margin-inline-start: auto; padding-inline-start: 0.5rem; }
+.o_branch_overview_dashboard .o_bd_ellipsis {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ---- table ------------------------------------------------------------- */
+.o_branch_overview_dashboard .o_bd_table { --bs-table-bg: transparent; font-variant-numeric: tabular-nums; }
+.o_branch_overview_dashboard .o_bd_table thead th {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--bd-muted);
+    border-bottom: 1px solid var(--bd-border);
+    white-space: nowrap;
+}
+.o_branch_overview_dashboard .o_bd_table tfoot td {
+    border-top: 2px solid var(--bd-border);
+    background: rgba(127, 127, 127, 0.05);
+}
+.o_branch_overview_dashboard .o_bd_row { cursor: pointer; }
+.o_branch_overview_dashboard .o_bd_rank {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #fff;
+}
+.o_branch_overview_dashboard .o_bd_bar {
+    height: 4px;
+    margin-top: 5px;
+    margin-inline-start: auto;
+    max-width: 8rem;
+    border-radius: 4px;
+    background: rgba(127, 127, 127, 0.18);
+    overflow: hidden;
+}
+.o_branch_overview_dashboard .o_bd_bar span { display: block; height: 100%; border-radius: 4px; }
+.o_branch_overview_dashboard .o_bd_meter {
+    height: 6px;
+    border-radius: 6px;
+    background: rgba(127, 127, 127, 0.18);
+    overflow: hidden;
+}
+.o_branch_overview_dashboard .o_bd_meter span { display: block; height: 100%; border-radius: 6px; }
+.o_branch_overview_dashboard .o_bd_meter .is-ok { background: #10B981; }
+.o_branch_overview_dashboard .o_bd_meter .is-warning { background: #F59E0B; }
+.o_branch_overview_dashboard .o_bd_meter .is-danger { background: #EF4444; }
+
+/* ---- empty state ------------------------------------------------------- */
+.o_branch_overview_dashboard .o_bd_empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--bd-muted);
+}
+.o_branch_overview_dashboard .o_bd_empty .fa { font-size: 2.5rem; opacity: 0.4; margin-bottom: 0.75rem; }
+.o_branch_overview_dashboard .o_bd_empty h5 { color: inherit; }
+
+@media (max-width: 767.98px) {
+    .o_branch_overview_dashboard { padding: 1rem; }
+    .o_branch_overview_dashboard .o_bd_date,
+    .o_branch_overview_dashboard .o_bd_branch { width: 100%; }
+}
+
+/* ==========================================================================
+   Dark mode (class set from JS, plus Bootstrap's data-bs-theme as a hint)
+   ========================================================================== */
+.o_branch_overview_dashboard.o_bd_dark,
+[data-bs-theme="dark"] .o_branch_overview_dashboard {
+    --bd-bg: #14161c;
+    --bd-card: #1d2029;
+    --bd-border: #2c3040;
+    --bd-muted: #9aa1b2;
+    color: #e5e7eb;
+}
+.o_branch_overview_dashboard.o_bd_dark .o_bd_card,
+[data-bs-theme="dark"] .o_branch_overview_dashboard .o_bd_card {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+.o_branch_overview_dashboard.o_bd_dark .o_kpi_card:hover { box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5); }
+.o_branch_overview_dashboard.o_bd_dark .o_bd_tone_indigo { --tone: #818CF8; }
+.o_branch_overview_dashboard.o_bd_dark .o_bd_tone_amber  { --tone: #FBBF24; }
+.o_branch_overview_dashboard.o_bd_dark .o_bd_tone_green  { --tone: #34D399; }
+.o_branch_overview_dashboard.o_bd_dark .o_bd_tone_red    { --tone: #F87171; }
+.o_branch_overview_dashboard.o_bd_dark .o_bd_tone_teal   { --tone: #2DD4BF; }
+.o_branch_overview_dashboard.o_bd_dark .o_bd_tone_sky    { --tone: #38BDF8; }
+.o_branch_overview_dashboard.o_bd_dark .o_bd_btn.btn-light {
+    background: var(--bd-card);
+    border-color: var(--bd-border);
+    color: #d1d5db;
+}
+.o_branch_overview_dashboard.o_bd_dark .form-control,
+.o_branch_overview_dashboard.o_bd_dark .form-select {
+    background-color: var(--bd-card);
+    border-color: var(--bd-border);
+    color: #e5e7eb;
+    color-scheme: dark;
+}
+.o_branch_overview_dashboard.o_bd_dark .o_bd_table { --bs-table-color: #e5e7eb; --bs-table-hover-bg: rgba(255, 255, 255, 0.04); --bs-table-hover-color: #fff; color: #e5e7eb; }
+.o_branch_overview_dashboard.o_bd_dark .o_bd_table td,
+.o_branch_overview_dashboard.o_bd_dark .o_bd_table th { border-color: var(--bd-border); }
+.o_branch_overview_dashboard.o_bd_dark .badge { background: #2c3040 !important; color: #e5e7eb !important; }
+.o_branch_overview_dashboard.o_bd_dark .text-success { color: #34D399 !important; }
+.o_branch_overview_dashboard.o_bd_dark .text-danger  { color: #F87171 !important; }
+.o_branch_overview_dashboard.o_bd_dark .o_bd_tooltip { background: #0b0d12; border: 1px solid var(--bd-border); }

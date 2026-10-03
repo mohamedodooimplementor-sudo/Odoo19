@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_purchase_order_form_branch" model="ir.ui.view">
+        <field name="name">purchase.order.form.branch</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="attributes">
+                <attribute name="domain">['|', ('branch_ids', '=', False), ('branch_ids', 'in', [branch_id])]</attribute>
+            </field>
+            <field name="partner_id" position="after">
+                <field name="branch_id" options="{'no_create': True}" readonly="state in ('purchase', 'done')"/>
+                <field name="allowed_branch_ids" invisible="1"/>
+            </field>
+            <field name="partner_ref" position="after">
+                <field name="warehouse_id" invisible="1"/>
+                <field name="purchase_journal_id" invisible="1"/>
+                <field name="branch_analytic_account_id" invisible="1"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_purchase_order_filter_branch" model="ir.ui.view">
+        <field name="name">purchase.order.filter.branch</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.view_purchase_order_filter"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="branch_id"/>
+            </field>
+            <xpath expr="//search" position="inside">
+                <group>
+                    <filter string="Branch" name="group_by_branch_id" context="{'group_by': 'branch_id'}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

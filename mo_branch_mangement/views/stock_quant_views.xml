@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="quant_search_view_branch" model="ir.ui.view">
+        <field name="name">stock.quant.search.branch</field>
+        <field name="model">stock.quant</field>
+        <field name="inherit_id" ref="stock.quant_search_view"/>
+        <field name="arch" type="xml">
+            <field name="warehouse_id" position="after">
+                <field name="branch_id"/>
+            </field>
+            <filter name="company" position="after">
+                <filter string="Branch" name="branchgroup" domain="[]" context="{'group_by': 'branch_id'}"/>
+            </filter>
+        </field>
+    </record>
+
+</odoo>
