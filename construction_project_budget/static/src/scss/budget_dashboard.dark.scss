@@ -1,0 +1,18 @@
+// Dark-mode refinements for the Construction Budget dashboard.
+// Loaded only in Odoo's dark bundle (web.assets_web_dark). The base file already
+// adapts through Bootstrap variables; this adds the touches that need a
+// different treatment on a dark canvas (stronger separation, softer shadows).
+
+.o_cbd_dashboard {
+    --cbd-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+    --cbd-shadow-hover: 0 10px 26px rgba(0, 0, 0, 0.55);
+    --cbd-hover: rgba(255, 255, 255, 0.05);
+    --cbd-track: rgba(255, 255, 255, 0.1);
+
+    .o_cbd_panel,
+    .o_cbd_kpi_card {
+        background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0));
+    }
+
+    .o_cbd_title_icon { box-shadow: 0 6px 16px rgba(139, 108, 247, 0.4); }
+}

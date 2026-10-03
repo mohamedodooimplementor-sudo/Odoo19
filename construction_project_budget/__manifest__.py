@@ -81,5 +81,9 @@ Key Features
             "construction_project_budget/static/src/js/profitability_report.js",
             "construction_project_budget/static/src/xml/profitability_report_templates.xml",
         ],
+        # Dark-mode-only refinements (Odoo's dark bundle picks up *.dark.scss files).
+        "web.assets_web_dark": [
+            "construction_project_budget/static/src/scss/*.dark.scss",
+        ],
     }
 }

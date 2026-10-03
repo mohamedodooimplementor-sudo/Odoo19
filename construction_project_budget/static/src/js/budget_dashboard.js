@@ -11,6 +11,7 @@ export class ConstructionBudgetDashboard extends Component {
     setup() {
         this.orm = useService("orm");
         this.actionService = useService("action");
+        this.rootRef = useRef("root");
         this.chartRef = useRef("categoryChart");
         this.sourceChartRef = useRef("sourceChart");
         this.trendChartRef = useRef("trendChart");
@@ -100,15 +101,39 @@ export class ConstructionBudgetDashboard extends Component {
     }
 
     /**
-     * This dashboard uses a deliberate, fixed dark theme (see budget_dashboard.scss)
-     * rather than adapting to Odoo's light/dark setting - unlike the smart
-     * buttons/kanban card elsewhere in this module, which live inside regular
-     * Odoo views and must respect whatever theme is active there, this is a
-     * dedicated full-page client action, and a fixed brand palette here is a
-     * deliberate choice, not a bug. Chart colors are fixed to match.
+     * Resolve any CSS color (including var(--bs-...)) to a concrete "rgb(r, g, b)"
+     * string by letting the browser compute it. Chart.js draws on a canvas and
+     * cannot read CSS variables itself, so this is how the charts follow
+     * whichever theme (light / dark) Odoo is currently displaying.
      */
+    resolveColor(cssValue, fallback) {
+        const host = this.rootRef.el || document.body;
+        const probe = document.createElement("span");
+        probe.style.color = cssValue;
+        probe.style.display = "none";
+        host.appendChild(probe);
+        const color = getComputedStyle(probe).color;
+        probe.remove();
+        return color || fallback;
+    }
+
+    withAlpha(color, alpha) {
+        const parts = (color || "").match(/[\d.]+/g);
+        if (!parts || parts.length < 3) {
+            return color;
+        }
+        return `rgba(${parts[0]}, ${parts[1]}, ${parts[2]}, ${alpha})`;
+    }
+
     getChartColors() {
-        return { text: "#a5a3c4", grid: "rgba(255, 255, 255, 0.08)" };
+        const text = this.resolveColor("var(--bs-secondary-color)", "#6b7280");
+        const body = this.resolveColor("var(--bs-body-color)", "#1f2430");
+        const surface = this.resolveColor("var(--bs-body-bg)", "#ffffff");
+        return {
+            text,
+            grid: this.withAlpha(body, 0.1),
+            surface,
+        };
     }
 
     renderCharts() {
@@ -198,7 +223,7 @@ export class ConstructionBudgetDashboard extends Component {
         if (!this.state.sources.length) {
             return;
         }
-        const { text: textColor } = this.getChartColors();
+        const { text: textColor, surface: surfaceColor } = this.getChartColors();
         const palette = ["#8b6cf7", "#ec4899", "#f59e0b", "#3b82f6", "#14b8a6", "#ef4444", "#22c55e"];
         const ctx = this.sourceChartRef.el.getContext("2d");
         this.sourceChart = new Chart(ctx, {
@@ -210,7 +235,7 @@ export class ConstructionBudgetDashboard extends Component {
                         data: this.state.sources.map((s) => s.amount),
                         backgroundColor: this.state.sources.map((s, i) => palette[i % palette.length]),
                         borderWidth: 3,
-                        borderColor: "#1a1533",
+                        borderColor: surfaceColor,
                     },
                 ],
             },

@@ -1,16 +1,13 @@
-// Construction Budget dashboard - a dedicated, full-page OWL client action.
-// Unlike the smart buttons/kanban card elsewhere in this module (which live
-// inside regular Odoo views and must respect the user's light/dark setting),
-// this is a standalone dashboard page with its own deliberate, fixed dark
-// "SaaS product" brand theme - matching a specific reference design - so
-// colors here are intentionally hardcoded rather than theme-variable-based.
+// Construction Budget dashboard - full-page OWL client action.
+//
+// Theme-aware: every surface/text/border color is derived from Odoo's own
+// Bootstrap variables (--bs-body-bg, --bs-body-color, ...), so the page follows
+// Light/Dark automatically. Only the brand accents (purple/pink/blue/...) are
+// fixed. Dark-only refinements live in budget_dashboard.dark.scss.
+//
+// Written with logical properties / no left-right offsets so it also renders
+// correctly in RTL languages (Arabic).
 
-$cbd-bg: #100c22;
-$cbd-card-bg: #1a1633;
-$cbd-card-bg-alt: #1e1a3a;
-$cbd-border: rgba(255, 255, 255, 0.07);
-$cbd-text: #f2f0fb;
-$cbd-text-muted: #9793b8;
 $cbd-purple: #8b6cf7;
 $cbd-pink: #ec4899;
 $cbd-blue: #3b82f6;
@@ -20,13 +17,30 @@ $cbd-green: #22c55e;
 $cbd-teal: #14b8a6;
 
 .o_cbd_dashboard {
-    background: $cbd-bg;
-    color: $cbd-text;
+    // ---- Design tokens ------------------------------------------------------
+    --cbd-page-bg: var(--bs-tertiary-bg, #f4f5f9);
+    --cbd-card-bg: var(--bs-body-bg, #ffffff);
+    --cbd-text: var(--bs-body-color, #1f2430);
+    --cbd-muted: var(--bs-secondary-color, #6b7280);
+    --cbd-border: var(--bs-border-color-translucent, rgba(0, 0, 0, 0.1));
+    --cbd-hover: color-mix(in srgb, var(--cbd-text) 5%, transparent);
+    --cbd-track: color-mix(in srgb, var(--cbd-text) 10%, transparent);
+    --cbd-shadow: 0 1px 2px rgba(16, 24, 40, 0.05), 0 1px 3px rgba(16, 24, 40, 0.08);
+    --cbd-shadow-hover: 0 10px 24px rgba(16, 24, 40, 0.14);
+    --cbd-accent: #{$cbd-purple};
+    // Accent used for text: mixed with the body color so it keeps contrast
+    // on both a white and a dark background.
+    --cbd-accent-text: color-mix(in srgb, #{$cbd-purple} 70%, var(--cbd-text));
+    --cbd-green: #{$cbd-green};
+    --cbd-red: #{$cbd-red};
+    --cbd-amber: #{$cbd-amber};
+
+    background: var(--cbd-page-bg);
+    color: var(--cbd-text);
     height: 100%;
     overflow-y: auto;
     box-sizing: border-box;
-    padding: 20px;
-    border-radius: 8px;
+    padding: 24px;
     font-size: 13px;
 
     .o_cbd_loading {
@@ -36,30 +50,46 @@ $cbd-teal: #14b8a6;
         justify-content: center;
         padding: 80px 0;
         gap: 10px;
-        color: $cbd-text-muted;
+        color: var(--cbd-muted);
         font-size: 20px;
 
         span { font-size: 13px; }
     }
 
+    // ---- Header -------------------------------------------------------------
     .o_cbd_header {
         display: flex;
         justify-content: space-between;
-        align-items: flex-start;
-        margin-bottom: 20px;
+        align-items: center;
+        margin-bottom: 22px;
         flex-wrap: wrap;
         gap: 12px;
 
         h2 {
-            color: $cbd-text;
+            color: var(--cbd-text);
             font-weight: 700;
+            font-size: 22px;
             margin: 0;
         }
         .o_cbd_subtitle {
-            color: $cbd-text-muted;
+            color: var(--cbd-muted);
             margin: 2px 0 0;
             font-size: 12px;
         }
+    }
+
+    .o_cbd_title_wrap { display: flex; align-items: center; gap: 12px; }
+    .o_cbd_title_icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 19px;
+        color: #fff;
+        background: linear-gradient(135deg, $cbd-purple, #6d4ef0);
+        box-shadow: 0 6px 14px rgba(109, 78, 240, 0.35);
     }
 
     .o_cbd_header_actions {
@@ -69,14 +99,16 @@ $cbd-teal: #14b8a6;
     }
 
     .o_cbd_project_filter {
-        background: $cbd-card-bg;
-        border: 1px solid $cbd-border;
-        color: $cbd-text;
+        background: var(--cbd-card-bg);
+        border: 1px solid var(--cbd-border);
+        color: var(--cbd-text);
         border-radius: 8px;
         padding: 7px 12px;
         font-size: 12px;
+        box-shadow: var(--cbd-shadow);
 
-        option { background: $cbd-card-bg; color: $cbd-text; }
+        &:focus { outline: none; border-color: var(--cbd-accent); }
+        option { background: var(--cbd-card-bg); color: var(--cbd-text); }
     }
 
     .o_cbd_btn_all, .o_cbd_btn_view_all {
@@ -96,59 +128,62 @@ $cbd-teal: #14b8a6;
         margin-top: 12px;
         text-align: center;
         background: transparent;
-        border: 1px solid $cbd-border;
-        color: $cbd-text-muted;
+        border: 1px solid var(--cbd-border);
+        color: var(--cbd-muted);
 
-        &:hover { border-color: $cbd-purple; color: $cbd-text; }
+        &:hover { border-color: var(--cbd-accent); color: var(--cbd-accent-text); }
     }
 
     .o_cbd_multi_currency_notice {
-        background: rgba(245, 158, 11, 0.12);
-        border: 1px solid rgba(245, 158, 11, 0.35);
-        color: #f5d090;
+        background: var(--bs-warning-bg-subtle, rgba(245, 158, 11, 0.12));
+        border: 1px solid var(--bs-warning-border-subtle, rgba(245, 158, 11, 0.35));
+        color: var(--bs-warning-text-emphasis, #8a5a00);
         border-radius: 8px;
         padding: 8px 14px;
         font-size: 12px;
         margin-bottom: 16px;
 
-        .fa { margin-right: 6px; }
+        .fa { margin-inline-end: 6px; }
     }
 
-    // ---- KPI cards ----------------------------------------------------
+    // ---- KPI cards ----------------------------------------------------------
     .o_cbd_kpi_row {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
         gap: 16px;
         margin-bottom: 20px;
-
-        @media (max-width: 1200px) {
-            grid-template-columns: repeat(2, 1fr);
-        }
     }
 
     .o_cbd_kpi_card {
-        background: $cbd-card-bg;
-        border: 1px solid $cbd-border;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        min-width: 0;
+        background: var(--cbd-card-bg);
+        border: 1px solid var(--cbd-border);
         border-radius: 14px;
-        padding: 18px;
+        padding: 16px 18px;
+        box-shadow: var(--cbd-shadow);
         cursor: pointer;
-        transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out, border-color 0.15s ease-in-out;
 
         &:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+            box-shadow: var(--cbd-shadow-hover);
         }
 
         .o_cbd_kpi_icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 11px;
+            flex: 0 0 auto;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            font-size: 17px;
             color: #fff;
-            margin-bottom: 14px;
         }
         &.o_cbd_kpi_active .o_cbd_kpi_icon { background: linear-gradient(135deg, $cbd-purple, #6d4ef0); }
         &.o_cbd_kpi_planned .o_cbd_kpi_icon { background: linear-gradient(135deg, #a855f7, #7c3aed); }
@@ -158,51 +193,73 @@ $cbd-teal: #14b8a6;
         &.o_cbd_kpi_income .o_cbd_kpi_icon { background: linear-gradient(135deg, $cbd-green, #16a34a); }
         &.o_cbd_kpi_profit .o_cbd_kpi_icon { background: linear-gradient(135deg, $cbd-teal, #0d9488); }
 
-        .o_cbd_kpi_body { display: flex; flex-direction: column; gap: 3px; }
+        .o_cbd_kpi_body { display: flex; flex-direction: column; gap: 2px; min-width: 0; width: 100%; }
         .o_cbd_kpi_label {
             font-size: 11px;
-            color: $cbd-text-muted;
+            color: var(--cbd-muted);
             text-transform: uppercase;
-            letter-spacing: 0.03em;
+            letter-spacing: 0.04em;
+            font-weight: 600;
         }
+        // Never truncate a money amount: shrink a little on narrow cards and
+        // wrap at the currency symbol if it still doesn't fit.
         .o_cbd_kpi_value {
-            font-size: 22px;
+            font-size: clamp(16px, 1.25vw, 20px);
             font-weight: 700;
-            color: $cbd-text;
+            line-height: 1.25;
+            color: var(--cbd-text);
+            overflow-wrap: anywhere;
+            font-variant-numeric: tabular-nums;
         }
         .o_cbd_kpi_trend {
             font-size: 11px;
             font-weight: 600;
             margin-top: 2px;
-            .fa { margin-right: 3px; }
+            .fa { margin-inline-end: 3px; }
         }
-        .o_cbd_trend_up_bad { color: $cbd-red; }
-        .o_cbd_trend_down_good { color: $cbd-green; }
+        .o_cbd_trend_up_bad { color: var(--cbd-red); }
+        .o_cbd_trend_down_good { color: var(--cbd-green); }
 
-        &.o_cbd_kpi_card_alert { border-color: rgba(239, 68, 68, 0.5); }
+        &.o_cbd_kpi_card_alert { border-color: rgba(239, 68, 68, 0.55); }
     }
 
-    // ---- Panels ---------------------------------------------------------
+    // ---- Layout rows ---------------------------------------------------------
     .o_cbd_row {
         display: grid;
-        grid-template-columns: 1.6fr 1fr;
+        grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
         gap: 16px;
         margin-bottom: 16px;
 
-        &:nth-of-type(3) {
-            grid-template-columns: 1.1fr 1.1fr 0.9fr;
+        > div { min-width: 0; } // lets charts shrink instead of overflowing the grid
+
+        &.o_cbd_row_3col {
+            grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr) minmax(0, 0.9fr);
         }
 
-        @media (max-width: 1200px) {
-            grid-template-columns: 1fr !important;
+        // Mid-size screens: projects table on its own line, trend + alerts below it.
+        @media (max-width: 1400px) {
+            &.o_cbd_row_3col {
+                grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+                > .o_cbd_col_projects { grid-column: 1 / -1; }
+            }
+        }
+
+        @media (max-width: 1000px) {
+            &, &.o_cbd_row_3col { grid-template-columns: minmax(0, 1fr); }
         }
     }
 
+    .o_cbd_col_chart, .o_cbd_col_donut, .o_cbd_col_projects, .o_cbd_col_trend, .o_cbd_col_alerts {
+        display: flex;
+        > .o_cbd_panel { flex: 1 1 auto; min-width: 0; }
+    }
+
     .o_cbd_panel {
-        background: $cbd-card-bg;
-        border: 1px solid $cbd-border;
+        background: var(--cbd-card-bg);
+        border: 1px solid var(--cbd-border);
         border-radius: 14px;
         padding: 18px;
+        box-shadow: var(--cbd-shadow);
     }
 
     .o_cbd_panel_header {
@@ -212,7 +269,7 @@ $cbd-teal: #14b8a6;
         margin-bottom: 14px;
 
         h4 {
-            color: $cbd-text;
+            color: var(--cbd-text);
             font-weight: 700;
             font-size: 14px;
             margin: 0;
@@ -224,57 +281,70 @@ $cbd-teal: #14b8a6;
     .o_cbd_donut_wrap { height: 180px; position: relative; }
 
     .o_cbd_donut_layout { display: flex; flex-direction: column; gap: 14px; }
+    // Centered with flex (not left:50% + translate) so it stays centered in RTL too.
     .o_cbd_donut_center {
         position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         text-align: center;
         pointer-events: none;
+        padding: 0 24%; // keep the text inside the donut hole
 
-        .o_cbd_donut_value { display: block; font-size: 16px; font-weight: 700; color: $cbd-text; }
-        .o_cbd_donut_label { display: block; font-size: 10px; color: $cbd-text-muted; }
+        .o_cbd_donut_value { display: block; font-size: 14px; font-weight: 700; color: var(--cbd-text); overflow-wrap: anywhere; line-height: 1.2; }
+        .o_cbd_donut_label { display: block; font-size: 10px; color: var(--cbd-muted); }
     }
 
-    .o_cbd_donut_legend { display: flex; flex-direction: column; gap: 8px; }
+    .o_cbd_donut_legend { display: flex; flex-direction: column; gap: 4px; }
     .o_cbd_legend_row {
         display: flex;
         align-items: center;
         gap: 8px;
         font-size: 12px;
         cursor: pointer;
-        padding: 3px 0;
+        padding: 5px 6px;
+        border-radius: 6px;
 
-        &:hover { .o_cbd_legend_name { color: $cbd-text; } }
+        &:hover { background: var(--cbd-hover); .o_cbd_legend_name { color: var(--cbd-text); } }
     }
     .o_cbd_legend_dot { width: 9px; height: 9px; border-radius: 50%; flex: 0 0 auto; }
-    .o_cbd_legend_name { flex: 1 1 auto; color: $cbd-text-muted; }
-    .o_cbd_legend_amount { color: $cbd-text; font-weight: 600; }
+    .o_cbd_legend_name { flex: 1 1 auto; color: var(--cbd-muted); }
+    .o_cbd_legend_amount { color: var(--cbd-text); font-weight: 600; }
 
-    // ---- Tables -----------------------------------------------------------
+    // ---- Tables ---------------------------------------------------------------
+    .o_cbd_table_scroll { overflow-x: auto; }
     .o_cbd_table {
         width: 100%;
         border-collapse: collapse;
 
         th {
-            text-align: left;
+            text-align: start;
             font-size: 10px;
             text-transform: uppercase;
-            letter-spacing: 0.03em;
-            color: $cbd-text-muted;
+            letter-spacing: 0.04em;
+            color: var(--cbd-muted);
             padding: 6px 8px;
-            border-bottom: 1px solid $cbd-border;
+            border-bottom: 1px solid var(--cbd-border);
+            white-space: nowrap;
         }
         td {
             padding: 10px 8px;
-            border-bottom: 1px solid $cbd-border;
-            color: $cbd-text;
+            border-bottom: 1px solid var(--cbd-border);
+            color: var(--cbd-text);
             font-size: 12px;
+            background: transparent;
         }
         tr:last-child td { border-bottom: none; }
+        .o_cbd_num { text-align: end; white-space: nowrap; font-variant-numeric: tabular-nums; }
     }
 
-    .o_cbd_project_row, .o_cbd_recent_row { cursor: pointer; &:hover { background: rgba(255, 255, 255, 0.03); } }
+    .o_cbd_project_row, .o_cbd_recent_row {
+        cursor: pointer;
+        transition: background 0.12s ease-in-out;
+        &:hover { background: var(--cbd-hover); }
+    }
 
     .o_cbd_rank_badge {
         display: inline-flex;
@@ -283,56 +353,60 @@ $cbd-teal: #14b8a6;
         width: 22px;
         height: 22px;
         border-radius: 50%;
-        background: rgba(139, 108, 247, 0.18);
-        color: $cbd-purple;
+        background: color-mix(in srgb, #{$cbd-purple} 18%, transparent);
+        color: var(--cbd-accent-text);
         font-weight: 700;
         font-size: 11px;
     }
     .o_cbd_rank_name { font-weight: 600; }
 
-    .o_cbd_util_cell { display: flex; align-items: center; gap: 8px; min-width: 90px; }
+    .o_cbd_util_cell { display: flex; align-items: center; gap: 8px; min-width: 110px; border-bottom: none; }
     .o_cbd_progress {
         flex: 1 1 auto;
         height: 6px;
         border-radius: 999px;
-        background: rgba(255, 255, 255, 0.08);
+        background: var(--cbd-track);
         overflow: hidden;
     }
-    .o_cbd_progress_bar { height: 100%; border-radius: 999px; }
+    .o_cbd_progress_bar { height: 100%; border-radius: 999px; transition: width 0.3s ease-in-out; }
     .o_cbd_bar_success { background: $cbd-green; }
     .o_cbd_bar_warning { background: $cbd-amber; }
     .o_cbd_bar_danger { background: $cbd-red; }
-    .o_cbd_util_text { font-size: 11px; color: $cbd-text-muted; white-space: nowrap; }
+    .o_cbd_util_text { font-size: 11px; color: var(--cbd-muted); white-space: nowrap; min-width: 34px; text-align: end; }
 
     .o_cbd_state_badge {
         font-size: 10px;
         padding: 3px 8px;
         border-radius: 999px;
     }
-    .o_cbd_state_active { background: rgba(34, 197, 94, 0.15); color: $cbd-green; }
-    .o_cbd_state_closed { background: rgba(255, 255, 255, 0.08); color: $cbd-text-muted; }
+    .o_cbd_state_active { background: color-mix(in srgb, #{$cbd-green} 15%, transparent); color: var(--cbd-green); }
+    .o_cbd_state_closed { background: var(--cbd-track); color: var(--cbd-muted); }
 
-    .o_cbd_text_success { color: $cbd-green; }
-    .o_cbd_text_danger { color: $cbd-red; }
+    .o_cbd_text_success { color: var(--cbd-green); }
+    .o_cbd_text_danger { color: var(--cbd-red); }
 
-    // ---- Profit summary row (Spending Trend panel) ------------------------
+    // ---- Profit summary row (Spending Trend panel) -----------------------------
     .o_cbd_profit_row {
         display: flex;
         justify-content: space-between;
-        border-top: 1px solid $cbd-border;
+        gap: 8px;
+        border-top: 1px solid var(--cbd-border);
         padding-top: 12px;
     }
-    .o_cbd_profit_item { display: flex; flex-direction: column; gap: 2px; }
-    .o_cbd_profit_label { font-size: 10px; color: $cbd-text-muted; text-transform: uppercase; }
-    .o_cbd_profit_value { font-size: 14px; color: $cbd-text; }
+    .o_cbd_profit_item { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .o_cbd_profit_label { font-size: 10px; color: var(--cbd-muted); text-transform: uppercase; letter-spacing: 0.03em; }
+    .o_cbd_profit_value { font-size: 14px; color: var(--cbd-text); }
 
-    // ---- Alerts -------------------------------------------------------------
+    // ---- Alerts ---------------------------------------------------------------
     .o_cbd_alerts_list { display: flex; flex-direction: column; gap: 10px; max-height: 260px; overflow-y: auto; }
     .o_cbd_alert_row {
         display: flex;
         gap: 10px;
         align-items: flex-start;
         font-size: 12px;
+        padding: 8px 10px;
+        border-radius: 10px;
+        background: var(--cbd-hover);
     }
     .o_cbd_alert_icon {
         width: 26px;
@@ -348,18 +422,18 @@ $cbd-teal: #14b8a6;
     .o_cbd_alert_danger .o_cbd_alert_icon { background: $cbd-red; }
     .o_cbd_alert_warning .o_cbd_alert_icon { background: $cbd-amber; }
     .o_cbd_alert_info .o_cbd_alert_icon { background: $cbd-blue; }
-    .o_cbd_alert_text { color: $cbd-text; line-height: 1.4; padding-top: 4px; }
+    .o_cbd_alert_text { color: var(--cbd-text); line-height: 1.4; padding-top: 4px; }
 
-    // ---- Recent spending (kept as its own full-width panel) ---------------
+    // ---- Recent spending --------------------------------------------------------
     .o_cbd_recent_panel { margin-bottom: 0; }
     .o_cbd_recent_main { display: flex; flex-direction: column; gap: 2px; }
     .o_cbd_recent_name { font-weight: 600; }
-    .o_cbd_recent_sub { font-size: 11px; color: $cbd-text-muted; }
-    .o_cbd_recent_amount { text-align: right; font-weight: 700; white-space: nowrap; }
+    .o_cbd_recent_sub { font-size: 11px; color: var(--cbd-muted); }
+    .o_cbd_recent_amount { text-align: end; font-weight: 700; white-space: nowrap; }
 
     .o_cbd_empty {
         text-align: center;
-        color: $cbd-text-muted;
+        color: var(--cbd-muted);
         padding: 30px 0;
         font-size: 12px;
     }

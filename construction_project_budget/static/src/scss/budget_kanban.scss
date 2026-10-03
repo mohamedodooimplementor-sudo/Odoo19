@@ -17,7 +17,7 @@
         transition: box-shadow 0.15s ease-in-out, transform 0.15s ease-in-out;
 
         &:hover {
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
             transform: translateY(-1px);
         }
 
@@ -53,7 +53,7 @@
             align-items: center;
             justify-content: center;
             background: rgba(105, 82, 224, 0.14);
-            color: #6952e0;
+            color: color-mix(in srgb, #6952e0 70%, var(--bs-body-color));
             font-size: 15px;
         }
 
@@ -87,7 +87,7 @@
             color: #6c757d;
         }
         .o_cbk_success .o_cbk_status_badge { background: rgba(23, 166, 115, 0.15); color: #17a673; }
-        .o_cbk_warning .o_cbk_status_badge { background: rgba(240, 173, 78, 0.18); color: #b9770e; }
+        .o_cbk_warning .o_cbk_status_badge { background: rgba(240, 173, 78, 0.18); color: color-mix(in srgb, #d98200 75%, var(--bs-body-color)); }
         .o_cbk_danger .o_cbk_status_badge { background: rgba(227, 72, 80, 0.15); color: #e34850; }
 
         .o_cbk_stats {
@@ -184,7 +184,7 @@
             width: 100%;
             background: rgba(105, 82, 224, 0.1);
             border: 1px solid rgba(105, 82, 224, 0.3);
-            color: #6952e0;
+            color: color-mix(in srgb, #6952e0 70%, var(--bs-body-color));
             font-weight: 600;
             font-size: 11px;
             border-radius: 6px;
@@ -193,7 +193,7 @@
 
             &:hover {
                 background: rgba(105, 82, 224, 0.18);
-                color: #6952e0;
+                color: color-mix(in srgb, #6952e0 70%, var(--bs-body-color));
             }
         }
     }

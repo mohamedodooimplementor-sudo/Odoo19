@@ -2,7 +2,7 @@
 <templates xml:space="preserve">
 
     <t t-name="construction_project_budget.Dashboard">
-        <div class="o_cbd_dashboard">
+        <div class="o_cbd_dashboard" t-ref="root">
 
             <div t-if="state.loading" class="o_cbd_loading">
                 <i class="fa fa-circle-o-notch fa-spin"/>
@@ -12,9 +12,12 @@
             <div t-else="" class="o_cbd_content">
 
                 <div class="o_cbd_header">
-                    <div>
-                        <h2>Dashboard</h2>
-                        <p class="o_cbd_subtitle">Overview of your projects and financial performance</p>
+                    <div class="o_cbd_title_wrap">
+                        <span class="o_cbd_title_icon"><i class="fa fa-building-o"/></span>
+                        <div>
+                            <h2>Dashboard</h2>
+                            <p class="o_cbd_subtitle">Overview of your projects and financial performance</p>
+                        </div>
                     </div>
                     <div class="o_cbd_header_actions">
                         <select class="o_cbd_project_filter" t-on-change="onProjectFilterChange">
@@ -134,20 +137,21 @@
                     </div>
                 </div>
 
-                <div class="o_cbd_row">
+                <div class="o_cbd_row o_cbd_row_3col">
                     <div class="o_cbd_col_projects">
                         <div class="o_cbd_panel">
                             <div class="o_cbd_panel_header">
                                 <h4>Top Projects by Budget Utilization</h4>
                             </div>
-                            <table class="o_cbd_table o_cbd_rank_table" t-if="state.projects.length">
+                            <div class="o_cbd_table_scroll" t-if="state.projects.length">
+                            <table class="o_cbd_table o_cbd_rank_table">
                                 <thead>
                                     <tr>
                                         <th>#</th>
                                         <th>Project</th>
-                                        <th>Planned</th>
-                                        <th>Actual</th>
-                                        <th>Profit</th>
+                                        <th class="o_cbd_num">Planned</th>
+                                        <th class="o_cbd_num">Actual</th>
+                                        <th class="o_cbd_num">Profit</th>
                                         <th>Utilization</th>
                                     </tr>
                                 </thead>
@@ -156,25 +160,28 @@
                                         class="o_cbd_project_row" t-on-click="() => this.openBudget(p.id)">
                                         <td><span class="o_cbd_rank_badge"><t t-esc="p_index + 1"/></span></td>
                                         <td class="o_cbd_rank_name"><t t-esc="p.name"/></td>
-                                        <td><t t-esc="formatMonetary(p.planned, p.currency_symbol)"/></td>
-                                        <td><t t-esc="formatMonetary(p.actual, p.currency_symbol)"/></td>
-                                        <td>
+                                        <td class="o_cbd_num"><t t-esc="formatMonetary(p.planned, p.currency_symbol)"/></td>
+                                        <td class="o_cbd_num"><t t-esc="formatMonetary(p.actual, p.currency_symbol)"/></td>
+                                        <td class="o_cbd_num">
                                             <span t-if="p.income" t-attf-class="#{p.profit &lt; 0 ? 'o_cbd_text_danger' : 'o_cbd_text_success'}">
                                                 <t t-esc="formatMonetary(p.profit, p.currency_symbol)"/>
                                             </span>
                                             <span t-else="" class="text-muted">-</span>
                                         </td>
-                                        <td class="o_cbd_util_cell">
-                                            <div class="o_cbd_progress">
-                                                <div class="o_cbd_progress_bar"
-                                                     t-attf-style="width: #{Math.min(p.utilization, 100)}%"
-                                                     t-attf-class="o_cbd_progress_bar #{utilizationClass(p.utilization)}"/>
+                                        <td>
+                                            <div class="o_cbd_util_cell">
+                                                <div class="o_cbd_progress">
+                                                    <div class="o_cbd_progress_bar"
+                                                         t-attf-style="width: #{Math.min(p.utilization, 100)}%"
+                                                         t-attf-class="o_cbd_progress_bar #{utilizationClass(p.utilization)}"/>
+                                                </div>
+                                                <span class="o_cbd_util_text"><t t-esc="formatPercent(p.utilization)"/>%</span>
                                             </div>
-                                            <span class="o_cbd_util_text"><t t-esc="formatPercent(p.utilization)"/>%</span>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
+                            </div>
                             <div t-else="" class="o_cbd_empty">No project budgets yet.</div>
                             <button class="btn o_cbd_btn_view_all" t-on-click="openAllBudgets">View All Projects</button>
                         </div>

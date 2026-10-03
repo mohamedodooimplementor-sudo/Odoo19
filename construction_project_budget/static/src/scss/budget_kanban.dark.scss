@@ -1,0 +1,9 @@
+// Dark-mode refinements for the budget kanban card.
+.o_construction_budget_kanban .o_construction_budget_card {
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+
+    &:hover { box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); }
+
+    .o_cbk_progress { background: rgba(255, 255, 255, 0.12); }
+}

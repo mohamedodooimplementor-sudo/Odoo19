@@ -1,15 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <record id="view_construction_budget_category_list" model="ir.ui.view">
-        <field name="name">construction.budget.category.list</field><field name="model">construction.budget.category</field>
-        <field name="arch" type="xml"><list editable="bottom"><field name="sequence" widget="handle"/><field name="name"/><field name="type"/><field name="expense_account_id"/><field name="allowed_company_ids" column_invisible="True"/><field name="company_id"/><field name="active"/></list></field>
+        <field name="name">construction.budget.category.list</field>
+        <field name="model">construction.budget.category</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="type"/>
+                <field name="expense_account_id"/>
+                <field name="allowed_company_ids" column_invisible="True"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="active" optional="hide"/>
+            </list>
+        </field>
     </record>
     <record id="view_construction_project_budget_list" model="ir.ui.view">
-        <field name="name">construction.project.budget.list</field><field name="model">construction.project.budget</field>
-        <field name="arch" type="xml"><list decoration-danger="utilization &gt; 100" decoration-warning="utilization &gt;= 80 and utilization &lt;= 100"><field name="name"/><field name="project_id"/><field name="stage_id"/><field name="planned_total"/><field name="committed_total"/><field name="actual_total"/><field name="remaining_total"/><field name="income_total"/><field name="profit_total"/><field name="utilization"/><field name="currency_id" column_invisible="True"/></list></field>
+        <field name="name">construction.project.budget.list</field>
+        <field name="model">construction.project.budget</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="utilization &gt; 100"
+                  decoration-warning="utilization &gt;= 80 and utilization &lt;= 100">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="stage_id"/>
+                <field name="planned_total"/>
+                <field name="committed_total" optional="show"/>
+                <field name="actual_total"/>
+                <field name="remaining_total"/>
+                <field name="utilization"/>
+                <field name="income_total" optional="hide"/>
+                <field name="profit_total" optional="hide"
+                       decoration-danger="profit_total &lt; 0" decoration-success="profit_total &gt;= 0"/>
+                <field name="currency_id" column_invisible="True"/>
+            </list>
+        </field>
     </record>
     <record id="view_construction_project_budget_form" model="ir.ui.view">
-        <field name="name">construction.project.budget.form</field><field name="model">construction.project.budget</field>
+        <field name="name">construction.project.budget.form</field>
+        <field name="model">construction.project.budget</field>
         <field name="arch" type="xml">
             <form>
                 <header>
@@ -24,29 +53,49 @@
                     <field name="previous_stage_id" invisible="1"/>
                 </header>
                 <sheet>
-                    <div class="oe_button_box o_cbd_form_button_box">
+                    <!-- 1. Smart buttons: where the money came from -->
+                    <div class="oe_button_box o_cbd_form_button_box" name="button_box">
                         <button name="action_view_expenses" type="object" class="oe_stat_button" icon="fa-money"><field name="expense_count" widget="statinfo" string="Actual Spending"/></button>
                         <button name="action_view_project_expenses" type="object" class="oe_stat_button" icon="fa-file-text-o"><field name="project_expense_count" widget="statinfo" string="Manual Expenses"/></button>
-                        <button name="action_view_labor_costs" type="object" class="oe_stat_button" icon="fa-hard-hat"><field name="labor_cost_count" widget="statinfo" string="Labor Entries"/></button>
+                        <button name="action_view_labor_costs" type="object" class="oe_stat_button" icon="fa-users"><field name="labor_cost_count" widget="statinfo" string="Labor Entries"/></button>
                         <button name="action_view_stock_pickings" type="object" class="oe_stat_button" icon="fa-truck" invisible="not picking_count"><field name="picking_count" widget="statinfo" string="Stock Transfers"/></button>
                         <button name="action_view_purchase_orders" type="object" class="oe_stat_button" icon="fa-shopping-cart" invisible="not purchase_count"><field name="purchase_count" widget="statinfo" string="Purchase Orders"/></button>
                         <button name="action_view_vendor_bills" type="object" class="oe_stat_button" icon="fa-file-text" invisible="not vendor_bill_count"><field name="vendor_bill_count" widget="statinfo" string="Vendor Bills"/></button>
                         <button name="action_view_customer_invoices" type="object" class="oe_stat_button" icon="fa-line-chart" invisible="not customer_invoice_count"><field name="customer_invoice_count" widget="statinfo" string="Customer Invoices"/></button>
                         <button name="action_view_journal_entries" type="object" class="oe_stat_button" icon="fa-book" invisible="not journal_entry_count"><field name="journal_entry_count" widget="statinfo" string="Journal Entries"/></button>
                     </div>
-                    <div class="oe_title"><label for="name"/><h1><field name="name"/></h1></div>
-                    <group>
-                        <group><field name="project_id"/><field name="company_id"/><field name="currency_id"/><field name="analytic_account_id"/></group>
-                        <group>
+
+                    <!-- 2. Identity -->
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="e.g. Tower A - Construction Budget"/></h1>
+                    </div>
+
+                    <!-- 3. Left: what this budget belongs to. Right: how it is performing -->
+                    <group name="main">
+                        <group name="general" string="General">
+                            <field name="project_id"/>
+                            <field name="analytic_account_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="currency_id"/>
+                        </group>
+                        <group name="summary" string="Financial Summary">
                             <field name="planned_total" readonly="1"/>
                             <field name="committed_total" readonly="1"/>
                             <field name="actual_total" readonly="1"/>
-                            <field name="remaining_total" readonly="1"/>
-                            <field name="utilization" readonly="1"/>
+                            <field name="remaining_total" readonly="1"
+                                   decoration-danger="remaining_total &lt; 0"/>
+                            <field name="utilization" readonly="1"
+                                   decoration-danger="utilization &gt; 100"
+                                   decoration-warning="utilization &gt;= 80 and utilization &lt;= 100"
+                                   decoration-success="utilization &lt; 80"/>
+                            <separator string="Profitability"/>
                             <field name="income_total" readonly="1"/>
-                            <field name="profit_total" readonly="1" decoration-danger="profit_total &lt; 0" decoration-success="profit_total &gt;= 0"/>
+                            <field name="profit_total" readonly="1"
+                                   decoration-danger="profit_total &lt; 0" decoration-success="profit_total &gt;= 0"/>
                         </group>
                     </group>
+
                     <notebook>
                         <page string="Budget" name="budget_lines">
                             <div class="mb-2">
@@ -54,13 +103,39 @@
                                         string="Copy Categories From..." class="btn-secondary"
                                         invisible="line_ids"/>
                             </div>
-                            <field name="line_ids"><list editable="bottom"><field name="sequence" widget="handle"/><field name="category_id"/><field name="planned_amount"/><field name="committed_amount" readonly="1"/><field name="actual_amount" readonly="1"/><field name="remaining_amount" readonly="1"/><field name="utilization" readonly="1"/><field name="currency_id" column_invisible="True"/></list></field>
+                            <field name="line_ids">
+                                <list editable="bottom"
+                                      decoration-danger="utilization &gt; 100"
+                                      decoration-warning="utilization &gt;= 80 and utilization &lt;= 100">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="category_id"/>
+                                    <field name="planned_amount" sum="Planned"/>
+                                    <field name="committed_amount" readonly="1" sum="Committed"/>
+                                    <field name="actual_amount" readonly="1" sum="Actual"/>
+                                    <field name="remaining_amount" readonly="1" sum="Remaining"/>
+                                    <field name="utilization" readonly="1"/>
+                                    <field name="currency_id" column_invisible="True"/>
+                                </list>
+                            </field>
                         </page>
                         <page string="Actual Spending" name="actual_spending">
-                            <field name="expense_ids"><list editable="bottom"><field name="date"/><field name="name"/><field name="category_id"/><field name="amount"/><field name="source_type"/><field name="product_id"/><field name="quantity"/><field name="uom_id"/><field name="reference"/><field name="currency_id" column_invisible="True"/></list></field>
+                            <field name="expense_ids">
+                                <list editable="bottom">
+                                    <field name="date"/>
+                                    <field name="name"/>
+                                    <field name="category_id"/>
+                                    <field name="source_type"/>
+                                    <field name="reference" optional="show"/>
+                                    <field name="product_id" optional="hide"/>
+                                    <field name="quantity" optional="hide"/>
+                                    <field name="uom_id" optional="hide"/>
+                                    <field name="amount" sum="Total"/>
+                                    <field name="currency_id" column_invisible="True"/>
+                                </list>
+                            </field>
                         </page>
                         <page string="Accounting" name="accounting">
-                            <group>
+                            <group string="Defaults for Manual Expenses &amp; Labor Entries">
                                 <field name="expense_journal_id"/>
                                 <field name="expense_counterpart_account_id"/>
                             </group>
@@ -71,11 +146,27 @@
         </field>
     </record>
     <record id="view_construction_project_budget_expense_list" model="ir.ui.view">
-        <field name="name">construction.project.budget.expense.list</field><field name="model">construction.project.budget.expense</field>
-        <field name="arch" type="xml"><list decoration-muted="cost_is_estimated" decoration-danger="amount &lt; 0"><field name="date"/><field name="name"/><field name="project_id"/><field name="budget_id"/><field name="category_id"/><field name="amount"/><field name="cost_is_estimated" readonly="1" optional="show"/><field name="source_type"/><field name="product_id"/><field name="quantity"/><field name="reference"/></list></field>
+        <field name="name">construction.project.budget.expense.list</field>
+        <field name="model">construction.project.budget.expense</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="cost_is_estimated" decoration-danger="amount &lt; 0">
+                <field name="date"/>
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="budget_id" optional="hide"/>
+                <field name="category_id"/>
+                <field name="source_type"/>
+                <field name="reference" optional="show"/>
+                <field name="product_id" optional="hide"/>
+                <field name="quantity" optional="hide"/>
+                <field name="cost_is_estimated" readonly="1" optional="hide"/>
+                <field name="amount" sum="Total"/>
+            </list>
+        </field>
     </record>
     <record id="view_construction_project_budget_expense_form" model="ir.ui.view">
-        <field name="name">construction.project.budget.expense.form</field><field name="model">construction.project.budget.expense</field>
+        <field name="name">construction.project.budget.expense.form</field>
+        <field name="model">construction.project.budget.expense</field>
         <field name="arch" type="xml">
             <form>
                 <header>
@@ -87,16 +178,36 @@
                         accounting valuation was available when it was posted (e.g. manual/periodic
                         inventory valuation is configured for this product).
                     </div>
-                    <group>
-                        <field name="name"/><field name="date"/><field name="budget_id"/><field name="project_id" readonly="1"/>
-                        <field name="category_id"/><field name="amount"/><field name="source_type" readonly="1"/>
-                        <field name="cost_is_estimated" readonly="1" invisible="not source_model"/>
-                        <field name="product_id" readonly="1" invisible="not product_id"/>
-                        <field name="quantity" readonly="1" invisible="not product_id"/>
-                        <field name="uom_id" readonly="1" invisible="not product_id"/>
-                        <field name="reference"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="What was this cost for?"/></h1>
+                    </div>
+                    <group name="main">
+                        <group name="allocation" string="Allocation">
+                            <field name="budget_id"/>
+                            <field name="project_id" readonly="1"/>
+                            <field name="category_id"/>
+                        </group>
+                        <group name="entry" string="Entry">
+                            <field name="date"/>
+                            <field name="amount"/>
+                            <field name="reference"/>
+                        </group>
                     </group>
-                    <field name="notes"/>
+                    <group name="source" string="Source">
+                        <group>
+                            <field name="source_type" readonly="1"/>
+                            <field name="cost_is_estimated" readonly="1" invisible="not source_model"/>
+                        </group>
+                        <group invisible="not product_id">
+                            <field name="product_id" readonly="1"/>
+                            <field name="quantity" readonly="1"/>
+                            <field name="uom_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Notes">
+                        <field name="notes" nolabel="1" colspan="2" placeholder="Internal notes..."/>
+                    </group>
                 </sheet>
             </form>
         </field>
@@ -104,8 +215,23 @@
 
     <!-- ============ Manual Project Expense ============ -->
     <record id="view_construction_project_expense_list" model="ir.ui.view">
-        <field name="name">construction.project.expense.list</field><field name="model">construction.project.expense</field>
-        <field name="arch" type="xml"><list decoration-muted="state == 'cancelled'" decoration-success="state == 'confirmed'"><field name="date"/><field name="name"/><field name="project_id"/><field name="budget_id"/><field name="category_id"/><field name="amount"/><field name="employee_id"/><field name="state"/></list></field>
+        <field name="name">construction.project.expense.list</field>
+        <field name="model">construction.project.expense</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="state == 'cancelled'">
+                <field name="date"/>
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="budget_id" optional="hide"/>
+                <field name="category_id"/>
+                <field name="employee_id" optional="show"/>
+                <field name="amount" sum="Total"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-success="state == 'confirmed'"
+                       decoration-muted="state == 'cancelled'"/>
+            </list>
+        </field>
     </record>
     <record id="view_construction_project_expense_search" model="ir.ui.view">
         <field name="name">construction.project.expense.search</field><field name="model">construction.project.expense</field>
@@ -132,7 +258,8 @@
         </field>
     </record>
     <record id="view_construction_project_expense_form" model="ir.ui.view">
-        <field name="name">construction.project.expense.form</field><field name="model">construction.project.expense</field>
+        <field name="name">construction.project.expense.form</field>
+        <field name="model">construction.project.expense</field>
         <field name="arch" type="xml">
             <form>
                 <header>
@@ -148,27 +275,38 @@
                             <div class="o_stat_info"><span class="o_stat_text">Journal Entry</span></div>
                         </button>
                     </div>
-                    <div class="oe_title"><label for="name"/><h1><field name="name"/></h1></div>
-                    <group>
-                        <group>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="What was this expense for?"/></h1>
+                    </div>
+                    <group name="main">
+                        <group name="allocation" string="Allocation">
                             <field name="project_id"/>
                             <field name="budget_id"/>
                             <field name="category_id"/>
-                            <field name="move_id" invisible="1"/>
-                            <field name="available_budget_category_ids" invisible="1"/>
                         </group>
-                        <group>
+                        <group name="details" string="Details">
                             <field name="date"/>
                             <field name="amount"/>
-                            <field name="currency_id" invisible="1"/>
                             <field name="employee_id"/>
                             <field name="reference"/>
-                            <field name="expense_account_id"/>
-                            <field name="counterpart_account_id"/>
-                            <field name="allowed_company_ids" invisible="1"/>
                         </group>
                     </group>
-                    <field name="notes"/>
+                    <field name="move_id" invisible="1"/>
+                    <field name="available_budget_category_ids" invisible="1"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="allowed_company_ids" invisible="1"/>
+                    <notebook>
+                        <page string="Accounting" name="accounting">
+                            <group>
+                                <field name="expense_account_id"/>
+                                <field name="counterpart_account_id"/>
+                            </group>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="notes" placeholder="Internal notes..."/>
+                        </page>
+                    </notebook>
                 </sheet>
                 <chatter/>
             </form>
@@ -177,8 +315,24 @@
 
     <!-- ============ Labor Cost Entry ============ -->
     <record id="view_construction_labor_cost_list" model="ir.ui.view">
-        <field name="name">construction.labor.cost.list</field><field name="model">construction.labor.cost</field>
-        <field name="arch" type="xml"><list decoration-muted="state == 'cancelled'" decoration-success="state == 'confirmed'"><field name="date"/><field name="employee_id"/><field name="project_id"/><field name="budget_id"/><field name="category_id"/><field name="hours"/><field name="hourly_rate"/><field name="total_cost"/><field name="state"/></list></field>
+        <field name="name">construction.labor.cost.list</field>
+        <field name="model">construction.labor.cost</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="state == 'cancelled'">
+                <field name="date"/>
+                <field name="employee_id"/>
+                <field name="project_id"/>
+                <field name="budget_id" optional="hide"/>
+                <field name="category_id" optional="show"/>
+                <field name="hours" sum="Hours"/>
+                <field name="hourly_rate"/>
+                <field name="total_cost" sum="Total"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-success="state == 'confirmed'"
+                       decoration-muted="state == 'cancelled'"/>
+            </list>
+        </field>
     </record>
     <record id="view_construction_labor_cost_search" model="ir.ui.view">
         <field name="name">construction.labor.cost.search</field><field name="model">construction.labor.cost</field>
@@ -205,7 +359,8 @@
         </field>
     </record>
     <record id="view_construction_labor_cost_form" model="ir.ui.view">
-        <field name="name">construction.labor.cost.form</field><field name="model">construction.labor.cost</field>
+        <field name="name">construction.labor.cost.form</field>
+        <field name="model">construction.labor.cost</field>
         <field name="arch" type="xml">
             <form>
                 <header>
@@ -221,29 +376,40 @@
                             <div class="o_stat_info"><span class="o_stat_text">Journal Entry</span></div>
                         </button>
                     </div>
-                    <div class="oe_title"><label for="name"/><h1><field name="name"/></h1></div>
-                    <group>
-                        <group>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="Description (auto-filled from the employee and date)"/></h1>
+                    </div>
+                    <group name="main">
+                        <group name="allocation" string="Who &amp; Where">
                             <field name="employee_id"/>
                             <field name="project_id"/>
                             <field name="budget_id"/>
                             <field name="category_id"/>
-                            <field name="move_id" invisible="1"/>
-                            <field name="available_budget_category_ids" invisible="1"/>
                         </group>
-                        <group>
+                        <group name="cost" string="Time &amp; Cost">
                             <field name="date"/>
                             <field name="hours"/>
                             <field name="hourly_rate"/>
-                            <field name="total_cost" readonly="1"/>
-                            <field name="currency_id" invisible="1"/>
+                            <field name="total_cost" readonly="1" class="fw-bold"/>
                             <field name="reference"/>
-                            <field name="expense_account_id"/>
-                            <field name="counterpart_account_id"/>
-                            <field name="allowed_company_ids" invisible="1"/>
                         </group>
                     </group>
-                    <field name="notes"/>
+                    <field name="move_id" invisible="1"/>
+                    <field name="available_budget_category_ids" invisible="1"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="allowed_company_ids" invisible="1"/>
+                    <notebook>
+                        <page string="Accounting" name="accounting">
+                            <group>
+                                <field name="expense_account_id"/>
+                                <field name="counterpart_account_id"/>
+                            </group>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="notes" placeholder="Internal notes..."/>
+                        </page>
+                    </notebook>
                 </sheet>
                 <chatter/>
             </form>

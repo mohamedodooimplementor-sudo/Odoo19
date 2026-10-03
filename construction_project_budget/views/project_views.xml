@@ -6,21 +6,30 @@
         <field name="inherit_id" ref="project.edit_project"/>
         <field name="arch" type="xml">
             <xpath expr="//sheet" position="inside">
-                <group string="Construction Budget">
-                    <field name="budget_id"/>
-                    <field name="budget_total" readonly="1" invisible="not budget_id"/>
-                    <field name="budget_committed" readonly="1" invisible="not budget_id"/>
-                    <field name="budget_spent" readonly="1" invisible="not budget_id"/>
-                    <field name="budget_remaining" readonly="1" invisible="not budget_id"/>
-                    <field name="budget_utilization" readonly="1" invisible="not budget_id"/>
-                    <div invisible="budget_id" class="text-muted mb-2">
-                        This project has no Construction Budget yet - create one to start
-                        tracking Planned vs Actual costs by category.
-                    </div>
-                    <button name="action_open_budget" type="object" string="Create Budget"
-                            class="btn-primary" invisible="budget_id"/>
-                    <button name="action_open_budget" type="object" string="Open Budget"
-                            class="btn-secondary" invisible="not budget_id"/>
+                <group string="Construction Budget" name="construction_budget">
+                    <group name="construction_budget_link">
+                        <field name="budget_id"/>
+                        <div invisible="budget_id" class="text-muted mb-2" colspan="2">
+                            This project has no Construction Budget yet - create one to start
+                            tracking Planned vs Actual costs by category.
+                        </div>
+                        <div colspan="2">
+                            <button name="action_open_budget" type="object" string="Create Budget"
+                                    class="btn-primary" invisible="budget_id"/>
+                            <button name="action_open_budget" type="object" string="Open Budget"
+                                    class="btn-secondary" invisible="not budget_id"/>
+                        </div>
+                    </group>
+                    <group name="construction_budget_numbers" invisible="not budget_id">
+                        <field name="budget_total" readonly="1"/>
+                        <field name="budget_committed" readonly="1"/>
+                        <field name="budget_spent" readonly="1"/>
+                        <field name="budget_remaining" readonly="1"
+                               decoration-danger="budget_remaining &lt; 0"/>
+                        <field name="budget_utilization" readonly="1"
+                               decoration-danger="budget_utilization &gt; 100"
+                               decoration-warning="budget_utilization &gt;= 80 and budget_utilization &lt;= 100"/>
+                    </group>
                 </group>
             </xpath>
         </field>
