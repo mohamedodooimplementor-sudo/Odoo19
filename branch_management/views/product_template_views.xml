@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_product_template_form_branch" model="ir.ui.view">
+        <field name="name">product.template.form.branch</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <field name="categ_id" position="after">
+                <field name="branch_ids" widget="many2many_tags"
+                       options="{'no_create': True}"
+                       placeholder="All branches"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_product_template_filter_branch" model="ir.ui.view">
+        <field name="name">product.template.filter.branch</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_search_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <field name="branch_ids" string="Branch"/>
+                <group>
+                    <filter string="Branch" name="group_by_branch_ids" context="{'group_by': 'branch_ids'}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

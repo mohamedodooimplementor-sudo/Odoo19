@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_users_form_branch" model="ir.ui.view">
+        <field name="name">res.users.form.branch</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='access_rights']" position="after">
+                <page string="Branch Access" name="branch_access">
+                    <group string="Branches" name="branch_group">
+                        <field name="branch_id"
+                               options="{'no_create': True}"/>
+                        <field name="branch_access_mode" widget="radio"
+                               groups="branch_management.group_branch_manager,base.group_system"/>
+                        <field name="branch_ids"
+                               widget="many2many_checkboxes"
+                               invisible="branch_access_mode == 'all'"
+                               groups="branch_management.group_branch_manager,base.group_system"
+                               options="{'no_create': True}"/>
+                        <field name="is_branch_manager" widget="boolean_toggle"
+                               groups="base.group_system"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

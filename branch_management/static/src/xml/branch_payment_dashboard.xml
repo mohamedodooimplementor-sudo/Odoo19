@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="branch_management.BranchPaymentDashboard">
+        <div class="o_branch_payment_dashboard p-3" t-ref="root">
+            <div class="d-flex flex-wrap align-items-end gap-3 mb-3">
+                <div>
+                    <label class="form-label mb-0 small">Date From</label>
+                    <input type="date" class="form-control"
+                           t-on-change="(ev) => this.onFilterChange('date_from', ev)"/>
+                </div>
+                <div>
+                    <label class="form-label mb-0 small">Date To</label>
+                    <input type="date" class="form-control"
+                           t-on-change="(ev) => this.onFilterChange('date_to', ev)"/>
+                </div>
+                <div>
+                    <label class="form-label mb-0 small">Branch</label>
+                    <select class="form-select" t-on-change="(ev) => this.onFilterChange('branch_id', ev)">
+                        <option value="">All</option>
+                        <t t-foreach="state.branches" t-as="branch" t-key="branch.id">
+                            <option t-att-value="branch.id"><t t-esc="branch.name"/></option>
+                        </t>
+                    </select>
+                </div>
+                <button class="btn btn-primary" t-on-click="onApply">Apply</button>
+                <button class="btn btn-outline-success" t-on-click="onExportExcel">
+                    <i class="fa fa-file-excel-o me-1"/> Export Excel
+                </button>
+                <button class="btn btn-outline-danger" t-on-click="onExportPdf">
+                    <i class="fa fa-file-pdf-o me-1"/> Print PDF
+                </button>
+            </div>
+
+            <div class="row mb-3 g-2">
+                <div class="col">
+                    <div class="card p-3 text-center h-100">
+                        <div class="text-muted small">Total Received</div>
+                        <h4 class="text-success"><t t-esc="formatMoney(state.data.totals.inbound_amount)"/></h4>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card p-3 text-center h-100">
+                        <div class="text-muted small">Total Paid Out</div>
+                        <h4 class="text-danger"><t t-esc="formatMoney(state.data.totals.outbound_amount)"/></h4>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card p-3 text-center h-100">
+                        <div class="text-muted small">Net Cash Flow</div>
+                        <h4><t t-esc="formatMoney(state.data.totals.net_amount)"/></h4>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card p-3 text-center h-100">
+                        <div class="text-muted small">Payments Count</div>
+                        <h4><t t-esc="state.data.totals.payments_count"/></h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card p-3 mb-3">
+                <h5>Received vs Paid Out by Branch</h5>
+                <div class="d-flex align-items-center gap-3 mb-2 small">
+                    <span><span class="o_legend_dot" style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#00B894;margin-inline-end:4px;"/> Received</span>
+                    <span><span class="o_legend_dot" style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#FF3D71;margin-inline-end:4px;"/> Paid Out</span>
+                </div>
+                <canvas class="branch_payment_bar_chart" width="900" height="260"/>
+            </div>
+
+            <table class="table table-striped table-sm">
+                <thead>
+                    <tr>
+                        <th>Branch</th>
+                        <th class="text-end">Received</th>
+                        <th class="text-end">Paid Out</th>
+                        <th class="text-end">Net</th>
+                        <th class="text-end">Payments Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="state.data.lines" t-as="line" t-key="line.branch_id">
+                        <tr>
+                            <td><t t-esc="line.branch_name"/></td>
+                            <td class="text-end"><t t-esc="formatMoney(line.inbound_amount)"/></td>
+                            <td class="text-end"><t t-esc="formatMoney(line.outbound_amount)"/></td>
+                            <td class="text-end"><t t-esc="formatMoney(line.net_amount)"/></td>
+                            <td class="text-end"><t t-esc="line.payments_count"/></td>
+                        </tr>
+                    </t>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td><strong>Total</strong></td>
+                        <td class="text-end"><strong t-esc="formatMoney(state.data.totals.inbound_amount)"/></td>
+                        <td class="text-end"><strong t-esc="formatMoney(state.data.totals.outbound_amount)"/></td>
+                        <td class="text-end"><strong t-esc="formatMoney(state.data.totals.net_amount)"/></td>
+                        <td class="text-end"><strong t-esc="state.data.totals.payments_count"/></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </t>
+
+</templates>

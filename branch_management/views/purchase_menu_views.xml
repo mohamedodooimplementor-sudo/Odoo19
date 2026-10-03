@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_purchase_orders_local" model="ir.actions.act_window">
+        <field name="name">Local Purchases</field>
+        <field name="res_model">purchase.order</field>
+        <field name="view_mode">list,kanban,form,calendar,pivot,graph,activity</field>
+        <field name="domain">[('vendor_type', '=', 'local')]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a purchase order from a local supplier
+            </p>
+        </field>
+    </record>
+
+    <record id="action_purchase_orders_foreign" model="ir.actions.act_window">
+        <field name="name">Foreign Purchases</field>
+        <field name="res_model">purchase.order</field>
+        <field name="view_mode">list,kanban,form,calendar,pivot,graph,activity</field>
+        <field name="domain">[('vendor_type', '=', 'foreign')]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a purchase order from a foreign supplier
+            </p>
+        </field>
+    </record>
+
+    <record id="action_purchase_orders_service" model="ir.actions.act_window">
+        <field name="name">Service Purchases</field>
+        <field name="res_model">purchase.order</field>
+        <field name="view_mode">list,kanban,form,calendar,pivot,graph,activity</field>
+        <field name="domain">[('vendor_type', '=', 'service')]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a purchase order for a service
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_purchase_orders_local"
+              name="Local Purchases"
+              action="action_purchase_orders_local"
+              parent="purchase.menu_procurement_management"
+              sequence="11"/>
+
+    <menuitem id="menu_purchase_orders_foreign"
+              name="Foreign Purchases"
+              action="action_purchase_orders_foreign"
+              parent="purchase.menu_procurement_management"
+              sequence="12"/>
+
+    <menuitem id="menu_purchase_orders_service"
+              name="Service Purchases"
+              action="action_purchase_orders_service"
+              parent="purchase.menu_procurement_management"
+              sequence="13"/>
+
+</odoo>

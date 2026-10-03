@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_res_branch_user,res.branch.user,model_res_branch,base.group_user,1,0,0,0
+access_res_branch_manager,res.branch.manager,model_res_branch,base.group_system,1,1,1,1
+access_res_branch_branch_manager,res.branch.branch.manager,model_res_branch,branch_management.group_branch_manager,1,1,1,1
+access_inter_branch_transfer_user,inter.branch.transfer.user,model_inter_branch_transfer,base.group_user,1,1,1,0
+access_inter_branch_transfer_manager,inter.branch.transfer.manager,model_inter_branch_transfer,base.group_system,1,1,1,1
+access_inter_branch_transfer_line_user,inter.branch.transfer.line.user,model_inter_branch_transfer_line,base.group_user,1,1,1,1
+access_branch_credit_limit_warning,branch.credit.limit.warning,model_branch_credit_limit_warning,base.group_user,1,1,1,1
+access_inter_branch_transfer_cancel_wizard,inter.branch.transfer.cancel.wizard.user,model_inter_branch_transfer_cancel_wizard,base.group_user,1,1,1,1

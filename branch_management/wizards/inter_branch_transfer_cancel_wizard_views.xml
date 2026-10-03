@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_inter_branch_transfer_cancel_wizard_form" model="ir.ui.view">
+        <field name="name">inter.branch.transfer.cancel.wizard.form</field>
+        <field name="model">inter.branch.transfer.cancel.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Cancel Transfer">
+                <field name="transfer_id" invisible="1"/>
+                <group>
+                    <field name="reason" placeholder="Why is this transfer being cancelled?"/>
+                </group>
+                <footer>
+                    <button name="action_confirm_cancel" string="Cancel Transfer"
+                            type="object" class="btn-danger"/>
+                    <button string="Discard" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Module security category + permission group.
+         Regular internal users only get read access to res.branch (see
+         access_res_branch_user below) and cannot see/change the "Branch
+         Access Mode" or "Allowed Branches" fields on a user's profile.
+         Only members of this group (or Settings Administrators) can. -->
+    <record id="module_category_branch_management" model="ir.module.category">
+        <field name="name">Branch Management</field>
+        <field name="sequence">20</field>
+    </record>
+
+    <record id="group_branch_manager" model="res.groups">
+        <field name="name">Branch Management / Branch Manager</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="comment">Can create/edit Branches, assign Default Branch,
+Branch Access Mode and Allowed Branches to users, and always sees every
+branch regardless of the "Restricted to Selected Branches" setting.</field>
+    </record>
+
+    <!-- ==================================================================
+         IMPORTANT — why every rule below is GLOBAL (no "groups" field):
+
+         Odoo core ships its own permissive record rules on several models
+         (for example "All Journal Entries" / "All Journal Items" on
+         account.move / account.move.line, tied to the Invoicing/Accounting
+         group) with domain [(1,'=',1)]. In Odoo, rules that are attached to
+         a security group are combined with OR across all such rules that
+         apply to the user. A branch rule attached to base.group_user would
+         therefore be OR-ed with core's own permissive rule, and since ANY
+         accounting/sales/purchase/stock user is necessarily a member of the
+         matching functional group, the restrictive branch condition would
+         be silently bypassed (OR true = true) — the user would see every
+         branch's data despite being "Restricted to Selected Branches".
+
+         Making a rule GLOBAL (i.e. not tied to any group) changes how it
+         combines: global rules are AND-ed with the result of all other
+         rules (including any permissive group rule from core or from other
+         apps). This guarantees the branch condition can never be bypassed,
+         no matter which other groups/modules also define rules on the same
+         model. The "escape hatch" for Branch Managers / Settings
+         Administrators / "All Branches" access mode is therefore written
+         directly inside each domain_force expression instead of being a
+         separate OR-ed rule. -->
+
+    <!-- Row-level rule: a regular internal user only sees branches
+         they are allowed to use, unless their Access Mode is "All Branches".
+         This applies to READ too (not just write/create/unlink): as a
+         direct consequence, any branch-picking field elsewhere in the
+         system (including Destination Branch on Inter-Branch Transfer)
+         will also only offer this user's own Allowed Branches, since it's
+         not possible to hide other branches from a user everywhere while
+         also letting the same user pick from among them in one specific
+         field. -->
+    <record id="res_branch_rule_own_branches" model="ir.rule">
+        <field name="name">Branch: Restricted to Allowed Branches (Write/Create/Unlink only)</field>
+        <field name="model_id" ref="model_res_branch"/>
+        <field name="domain_force">
+            (
+                [(1, '=', 1)] if (
+                    user.has_group('base.group_system')
+                    or user.has_group('branch_management.group_branch_manager')
+                    or user.branch_access_mode == 'all'
+                ) else [('id', 'in', user.branch_ids.ids)]
+            )
+        </field>
+        <field name="perm_read" eval="False"/>
+    </record>
+
+    <!-- Every internal user can READ (see/select) all branches, even ones
+         outside their Allowed Branches. This is needed so fields like
+         Destination Branch on an Inter-Branch Transfer let the user pick
+         any branch to send stock to, not only branches they are restricted
+         to. Actual document-level access (which Sale Orders, Invoices,
+         Pickings, Transfers... a user can see/edit) is still governed
+         separately by each document's own branch rule below. -->
+    <record id="res_branch_rule_read_all" model="ir.rule">
+        <field name="name">Branch: Read Access for All Users</field>
+        <field name="model_id" ref="model_res_branch"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Multi-company safety net: never show a branch of a company the
+         user does not have access to -->
+    <record id="res_branch_rule_multicompany" model="ir.rule">
+        <field name="name">Branch: Multi-company</field>
+        <field name="model_id" ref="model_res_branch"/>
+        <field name="domain_force">
+            ['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]
+        </field>
+        <field name="global" eval="True"/>
+    </record>
+
+    <!-- ==================================================================
+         Row-level branch isolation on business documents.
+         A "restricted" user only sees documents whose Branch is one of
+         their Allowed Branches. Documents with no branch set are NOT
+         shown to restricted users (only to Access Mode "All Branches",
+         Branch Managers and Settings Administrators). This avoids any
+         accidental cross-branch leak through a document that ended up
+         without a branch assigned.
+
+         All rules below are GLOBAL — see the long comment above for why
+         this is required to make the restriction actually unbypassable. -->
+
+    <record id="sale_order_rule_own_branches" model="ir.rule">
+        <field name="name">Sale Order: Restricted to Allowed Branches</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="domain_force">
+            (
+                [(1, '=', 1)] if (
+                    user.has_group('base.group_system')
+                    or user.has_group('branch_management.group_branch_manager')
+                    or user.branch_access_mode == 'all'
+                ) else [('branch_id', 'in', user.branch_ids.ids)]
+            )
+        </field>
+    </record>
+
+    <record id="purchase_order_rule_own_branches" model="ir.rule">
+        <field name="name">Purchase Order: Restricted to Allowed Branches</field>
+        <field name="model_id" ref="purchase.model_purchase_order"/>
+        <field name="domain_force">
+            (
+                [(1, '=', 1)] if (
+                    user.has_group('base.group_system')
+                    or user.has_group('branch_management.group_branch_manager')
+                    or user.branch_access_mode == 'all'
+                ) else [('branch_id', 'in', user.branch_ids.ids)]
+            )
+        </field>
+    </record>
+
+    <record id="account_move_rule_own_branches" model="ir.rule">
+        <field name="name">Journal Entry: Restricted to Allowed Branches</field>
+        <field name="model_id" ref="account.model_account_move"/>
+        <field name="domain_force">
+            (
+                [(1, '=', 1)] if (
+                    user.has_group('base.group_system')
+                    or user.has_group('branch_management.group_branch_manager')
+                    or user.branch_access_mode == 'all'
+                ) else [('branch_id', 'in', user.branch_ids.ids)]
+            )
+        </field>
+    </record>
+
+    <!-- Journal Items (account.move.line) are queried directly by the
+         "Journal Items" menu and by ledger/report views, bypassing the
+         account.move rule above. Without a rule here, a branch-restricted
+         user could still see individual lines (accounts, partners,
+         amounts, analytic tags...) belonging to another branch's journal
+         entries/invoices even though the parent Journal Entry itself is
+         hidden. This rule closes that gap by mirroring the same branch
+         condition through the line's parent move. -->
+    <record id="account_move_line_rule_own_branches" model="ir.rule">
+        <field name="name">Journal Item: Restricted to Allowed Branches</field>
+        <field name="model_id" ref="account.model_account_move_line"/>
+        <field name="domain_force">
+            (
+                [(1, '=', 1)] if (
+                    user.has_group('base.group_system')
+                    or user.has_group('branch_management.group_branch_manager')
+                    or user.branch_access_mode == 'all'
+                ) else [('move_id.branch_id', 'in', user.branch_ids.ids)]
+            )
+        </field>
+    </record>
+
+    <record id="account_payment_rule_own_branches" model="ir.rule">
+        <field name="name">Payment: Restricted to Allowed Branches</field>
+        <field name="model_id" ref="account.model_account_payment"/>
+        <field name="domain_force">
+            (
+                [(1, '=', 1)] if (
+                    user.has_group('base.group_system')
+                    or user.has_group('branch_management.group_branch_manager')
+                    or user.branch_access_mode == 'all'
+                ) else [('branch_id', 'in', user.branch_ids.ids)]
+            )
+        </field>
+    </record>
+
+    <record id="inter_branch_transfer_rule_own_branches" model="ir.rule">
+        <field name="name">Inter-Branch Transfer: Restricted to Allowed Branches</field>
+        <field name="model_id" ref="model_inter_branch_transfer"/>
+        <field name="domain_force">
+            (
+                [(1, '=', 1)] if (
+                    user.has_group('base.group_system')
+                    or user.has_group('branch_management.group_branch_manager')
+                    or user.branch_access_mode == 'all'
+                ) else [('source_branch_id', 'in', user.branch_ids.ids)]
+            )
+        </field>
+    </record>
+
+    <record id="stock_picking_rule_own_branches" model="ir.rule">
+        <field name="name">Stock Picking: Restricted to Allowed Branches</field>
+        <field name="model_id" ref="stock.model_stock_picking"/>
+        <field name="domain_force">
+            (
+                [(1, '=', 1)] if (
+                    user.has_group('base.group_system')
+                    or user.has_group('branch_management.group_branch_manager')
+                    or user.branch_access_mode == 'all'
+                ) else [('branch_id', 'in', user.branch_ids.ids)]
+            )
+        </field>
+    </record>
+
+    <!-- ==================================================================
+         Journals / Warehouses / Operation Types / Inventory Quants.
+
+         Unlike the transactional documents above (Sale/Purchase Orders,
+         Journal Entries, Payments, Pickings...) these are shared MASTER
+         DATA: a Journal, Warehouse, Operation Type or quant with no Branch
+         set (branch_id = False) is meant to stay usable by every branch,
+         so the fallback here is '|' branch_id = False, not a hard
+         "documents with no branch are hidden" rule like above. Once a
+         Journal/Warehouse/Operation Type IS assigned to a specific branch,
+         it becomes exclusive to that branch: other branches' users won't
+         even see it (matching how Sales/Purchase/Payment Journals and
+         Warehouses are picked on business documents throughout this
+         module). Still GLOBAL for the same OR-bypass reason explained
+         above. -->
+
+    <record id="account_journal_rule_own_branches" model="ir.rule">
+        <field name="name">Journal: Restricted to Allowed Branches (or unbranded)</field>
+        <field name="model_id" ref="account.model_account_journal"/>
+        <field name="domain_force">
+            (
+                [(1, '=', 1)] if (
+                    user.has_group('base.group_system')
+                    or user.has_group('branch_management.group_branch_manager')
+                    or user.branch_access_mode == 'all'
+                ) else ['|', ('branch_id', '=', False), ('branch_id', 'in', user.branch_ids.ids)]
+            )
+        </field>
+    </record>
+
+    <record id="stock_warehouse_rule_own_branches" model="ir.rule">
+        <field name="name">Warehouse: Restricted to Allowed Branches (or unbranded)</field>
+        <field name="model_id" ref="stock.model_stock_warehouse"/>
+        <field name="domain_force">
+            (
+                [(1, '=', 1)] if (
+                    user.has_group('base.group_system')
+                    or user.has_group('branch_management.group_branch_manager')
+                    or user.branch_access_mode == 'all'
+                ) else ['|', ('branch_id', '=', False), ('branch_id', 'in', user.branch_ids.ids)]
+            )
+        </field>
+    </record>
+
+    <!-- Operation Types (Receipts, Deliveries, Internal Transfers...) are
+         what a user actually picks to create/see stock operations. Without
+         this, a branch-restricted user could still select/see another
+         branch's Operation Types even though its Warehouse is hidden. -->
+    <record id="stock_picking_type_rule_own_branches" model="ir.rule">
+        <field name="name">Operation Type: Restricted to Allowed Branches (or unbranded)</field>
+        <field name="model_id" ref="stock.model_stock_picking_type"/>
+        <field name="domain_force">
+            (
+                [(1, '=', 1)] if (
+                    user.has_group('base.group_system')
+                    or user.has_group('branch_management.group_branch_manager')
+                    or user.branch_access_mode == 'all'
+                ) else ['|', ('branch_id', '=', False), ('branch_id', 'in', user.branch_ids.ids)]
+            )
+        </field>
+    </record>
+
+    <!-- Physical Inventory / Inventory Adjustments (stock.quant). Quants
+         sitting in locations with no Warehouse (and therefore no Branch) -
+         e.g. Vendor, Customer, transit or other virtual locations used
+         internally by stock moves - are left visible to everyone so this
+         rule never breaks normal stock operations; only quants inside a
+         branch-owned Warehouse are actually restricted. -->
+    <record id="stock_quant_rule_own_branches" model="ir.rule">
+        <field name="name">Inventory Quant: Restricted to Allowed Branches (or unbranded)</field>
+        <field name="model_id" ref="stock.model_stock_quant"/>
+        <field name="domain_force">
+            (
+                [(1, '=', 1)] if (
+                    user.has_group('base.group_system')
+                    or user.has_group('branch_management.group_branch_manager')
+                    or user.branch_access_mode == 'all'
+                ) else ['|', ('branch_id', '=', False), ('branch_id', 'in', user.branch_ids.ids)]
+            )
+        </field>
+    </record>
+
+</odoo>

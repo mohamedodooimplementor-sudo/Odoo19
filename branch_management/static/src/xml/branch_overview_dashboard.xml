@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="branch_management.BranchOverviewDashboard">
+        <div class="o_branch_overview_dashboard h-100 overflow-auto" t-att-class="state.dark ? 'o_bd_dark' : ''" t-ref="root">
+
+            <div class="o_bd_loadbar" t-if="state.loading"/>
+
+            <!-- Header + filters -->
+            <div class="o_bd_header">
+                <div class="o_bd_heading">
+                    <h2 class="o_bd_title">Branch Overview</h2>
+                    <div class="o_bd_subtitle">
+                        <i class="fa fa-calendar-o me-1"/>
+                        <t t-esc="state.filters.date_from"/> – <t t-esc="state.filters.date_to"/>
+                        <span class="o_bd_sep">•</span>
+                        <i class="fa fa-sitemap me-1"/><t t-esc="branchLabel"/>
+                        <t t-if="state.updatedAt">
+                            <span class="o_bd_sep">•</span>
+                            <span>Updated <t t-esc="state.updatedAt"/></span>
+                        </t>
+                    </div>
+                </div>
+
+                <div class="o_bd_filters">
+                    <div class="btn-group o_bd_presets" role="group">
+                        <t t-foreach="presets" t-as="p" t-key="p.key">
+                            <button type="button" class="btn btn-sm"
+                                    t-att-class="state.preset === p.key ? 'btn-primary' : 'btn-light o_bd_btn'"
+                                    t-on-click="() => this.setPreset(p.key)">
+                                <t t-esc="p.label"/>
+                            </button>
+                        </t>
+                    </div>
+                    <input type="date" class="form-control form-control-sm o_bd_date"
+                           t-model="state.filters.date_from" t-on-change="onDateChange"/>
+                    <input type="date" class="form-control form-control-sm o_bd_date"
+                           t-model="state.filters.date_to" t-on-change="onDateChange"/>
+                    <select class="form-select form-select-sm o_bd_branch"
+                            t-model="state.filters.branch_id" t-on-change="onBranchChange">
+                        <option value="">All branches</option>
+                        <t t-foreach="state.branches" t-as="branch" t-key="branch.id">
+                            <option t-att-value="branch.id"><t t-esc="branch.name"/></option>
+                        </t>
+                    </select>
+                    <button class="btn btn-sm btn-light" title="Refresh" t-on-click="loadData">
+                        <i class="fa fa-refresh" t-att-class="state.loading ? 'fa-spin' : ''"/>
+                    </button>
+                </div>
+            </div>
+
+            <!-- KPI cards -->
+            <div class="row g-3 mb-3">
+                <t t-foreach="kpis" t-as="kpi" t-key="kpi.key">
+                    <div class="col-6 col-md-4 col-xl-2">
+                        <div class="o_bd_card o_kpi_card h-100" t-att-class="'o_bd_tone_' + kpi.tone">
+                            <div class="o_kpi_icon"><i class="fa" t-att-class="kpi.icon"/></div>
+                            <div class="o_kpi_body">
+                                <div class="o_kpi_label"><t t-esc="kpi.label"/></div>
+                                <div class="o_kpi_value" t-att-title="kpi.value">
+                                    <t t-esc="kpi.value"/>
+                                    <small class="o_ccy" t-if="!kpi.plain"><t t-esc="symbol"/></small>
+                                </div>
+                                <div class="o_kpi_sub"><t t-esc="kpi.sub"/></div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </div>
+
+            <!-- Empty state -->
+            <div class="o_bd_card o_bd_empty" t-if="!state.loading and !hasData">
+                <i class="fa fa-bar-chart"/>
+                <h5>No activity for this selection</h5>
+                <p>Try a wider date range or select all branches.</p>
+            </div>
+
+            <t t-if="hasData">
+                <!-- Charts -->
+                <div class="row g-3 mb-3">
+                    <div class="col-12 col-xl-8">
+                        <div class="o_bd_card h-100">
+                            <div class="o_bd_card_head">
+                                <h5>Sales vs Purchases by Branch</h5>
+                                <div class="o_bd_legend">
+                                    <span><span class="o_legend_dot" style="background:#4F46E5;"/>Sales</span>
+                                    <span><span class="o_legend_dot" style="background:#F59E0B;"/>Purchases</span>
+                                </div>
+                            </div>
+                            <div class="o_bd_chart_wrap">
+                                <canvas class="o_bd_bar_canvas" t-ref="barChart"
+                                        t-on-mousemove="onBarMove" t-on-mouseleave="onBarLeave"/>
+                                <div class="o_bd_tooltip" t-ref="tooltip"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-xl-4">
+                        <div class="o_bd_card h-100">
+                            <div class="o_bd_card_head"><h5>Sales Share</h5></div>
+                            <div class="o_bd_donut_wrap">
+                                <canvas class="o_bd_donut_canvas" t-ref="donutChart"/>
+                            </div>
+                            <ul class="o_bd_donut_legend">
+                                <t t-foreach="rows" t-as="r" t-key="r.branch_id">
+                                    <li>
+                                        <span class="o_legend_dot" t-att-style="'background:' + r.color"/>
+                                        <span class="o_bd_ellipsis"><t t-esc="r.branch_name"/></span>
+                                        <strong><t t-esc="formatMoney(r.share, 1)"/>%</strong>
+                                    </li>
+                                </t>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Branch performance table -->
+                <div class="o_bd_card">
+                    <div class="o_bd_card_head">
+                        <h5>Branch Performance</h5>
+                        <button class="btn btn-sm btn-link p-0" t-if="state.filters.branch_id" t-on-click="clearBranch">
+                            <i class="fa fa-times me-1"/>Show all branches
+                        </button>
+                        <span class="text-muted small" t-else="">Click a branch to focus on it</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0 o_bd_table">
+                            <thead>
+                                <tr>
+                                    <th style="width:44px;">#</th>
+                                    <th>Branch</th>
+                                    <th class="text-end">Sales</th>
+                                    <th class="text-end">Purchases</th>
+                                    <th class="text-end">Net</th>
+                                    <th class="text-end">Outstanding</th>
+                                    <th style="min-width:130px;">Collection</th>
+                                    <th style="min-width:130px;">Credit Usage</th>
+                                    <th class="text-center">SO / PO</th>
+                                    <th class="text-center">Transfers</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="rows" t-as="r" t-key="r.branch_id">
+                                    <tr class="o_bd_row" t-on-click="() => this.onRowClick(r.branch_id)">
+                                        <td><span class="o_bd_rank" t-att-style="'background:' + r.color"><t t-esc="r.rank"/></span></td>
+                                        <td>
+                                            <div class="fw-semibold"><t t-esc="r.branch_name"/></div>
+                                            <div class="text-muted small"><i class="fa fa-user-o me-1"/><t t-esc="r.users_count"/> users</div>
+                                        </td>
+                                        <td class="text-end">
+                                            <div class="fw-semibold"><t t-esc="formatMoney(r.sales_amount)"/></div>
+                                            <div class="o_bd_bar"><span t-att-style="'width:' + r.share + '%; background:' + r.color"/></div>
+                                        </td>
+                                        <td class="text-end"><t t-esc="formatMoney(r.purchase_amount)"/></td>
+                                        <td class="text-end fw-semibold" t-att-class="signClass(r.net_amount)"><t t-esc="formatMoney(r.net_amount)"/></td>
+                                        <td class="text-end"><t t-esc="formatMoney(r.outstanding_amount)"/></td>
+                                        <td>
+                                            <t t-if="r.collection !== null">
+                                                <div class="o_bd_meter"><span class="is-ok" t-att-style="'width:' + r.collection + '%'"/></div>
+                                                <div class="small text-muted"><t t-esc="formatMoney(r.collection, 0)"/>%</div>
+                                            </t>
+                                            <span class="text-muted" t-else="">—</span>
+                                        </td>
+                                        <td>
+                                            <t t-if="r.creditUsage !== null">
+                                                <div class="o_bd_meter"><span t-att-class="usageClass(r.creditUsage)" t-att-style="'width:' + r.creditBar + '%'"/></div>
+                                                <div class="small text-muted">
+                                                    <t t-esc="formatMoney(r.creditUsage, 0)"/>% of <t t-esc="formatMoney(r.credit_limit, 0)"/>
+                                                </div>
+                                            </t>
+                                            <span class="text-muted small" t-else="">No limit</span>
+                                        </td>
+                                        <td class="text-center"><t t-esc="r.so_count"/> / <t t-esc="r.po_count"/></td>
+                                        <td class="text-center"><span class="badge text-bg-light"><t t-esc="r.transfers_count"/></span></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td/>
+                                    <td class="fw-bold">Total</td>
+                                    <td class="text-end fw-bold"><t t-esc="formatMoney(totals.sales_amount)"/></td>
+                                    <td class="text-end fw-bold"><t t-esc="formatMoney(totals.purchase_amount)"/></td>
+                                    <td class="text-end fw-bold" t-att-class="signClass(totals.net_amount)"><t t-esc="formatMoney(totals.net_amount)"/></td>
+                                    <td class="text-end fw-bold"><t t-esc="formatMoney(totals.outstanding_amount)"/></td>
+                                    <td colspan="2"/>
+                                    <td class="text-center fw-bold"><t t-esc="totals.so_count"/> / <t t-esc="totals.po_count"/></td>
+                                    <td class="text-center fw-bold"><t t-esc="totals.transfers_count"/></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </t>
+
+        </div>
+    </t>
+
+</templates>

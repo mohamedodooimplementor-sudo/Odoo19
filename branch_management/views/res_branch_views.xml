@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_res_branch_form" model="ir.ui.view">
+        <field name="name">res.branch.form</field>
+        <field name="model">res.branch</field>
+        <field name="arch" type="xml">
+            <form string="Branch">
+                <sheet>
+                    <field name="image_1920" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <label for="name" string="Branch Name"/>
+                        <h1><field name="name" placeholder="e.g. Alexandria Branch"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="company_id"/>
+                            <field name="code"/>
+                            <field name="warehouse_id"/>
+                            <field name="sale_journal_id"/>
+                            <field name="purchase_journal_id"/>
+                            <field name="payment_journal_ids" widget="many2many_tags"
+                                   options="{'no_create': True}"/>
+                            <field name="analytic_account_id"/>
+                        </group>
+                        <group>
+                            <field name="manager_id"/>
+                            <field name="phone"/>
+                            <field name="email"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group string="Credit Limit">
+                        <group>
+                            <field name="no_credit_limit"/>
+                            <field name="credit_limit" invisible="no_credit_limit"/>
+                        </group>
+                        <group>
+                            <field name="branch_exposure"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Users" name="users">
+                            <field name="user_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="login"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="notes" placeholder="Internal notes about this branch..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_res_branch_list" model="ir.ui.view">
+        <field name="name">res.branch.list</field>
+        <field name="model">res.branch</field>
+        <field name="arch" type="xml">
+            <list string="Branches">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="company_id"/>
+                <field name="warehouse_id"/>
+                <field name="manager_id"/>
+                <field name="active" column_invisible="True"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_res_branch_search" model="ir.ui.view">
+        <field name="name">res.branch.search</field>
+        <field name="model">res.branch</field>
+        <field name="arch" type="xml">
+            <search string="Branches">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="manager_id"/>
+                <field name="company_id"/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter string="Company" name="group_company" context="{'group_by': 'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_res_branch" model="ir.actions.act_window">
+        <field name="name">Branches</field>
+        <field name="res_model">res.branch</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Branch
+            </p>
+            <p>
+                Branches let you split operations (sales, purchases, stock)
+                per physical location while keeping a single company.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_branch_root"
+              name="Branches"
+              web_icon="branch_management,static/description/icon.png"
+              groups="branch_management.group_branch_manager"
+              sequence="60"/>
+
+    <menuitem id="menu_res_branch"
+              name="Branches"
+              parent="menu_branch_root"
+              action="action_res_branch"
+              sequence="10"/>
+
+</odoo>

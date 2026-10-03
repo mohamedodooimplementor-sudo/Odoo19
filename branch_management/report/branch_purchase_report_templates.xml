@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_branch_purchase_dashboard">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2>Branch Purchase Performance Report</h2>
+                    <p>
+                        Period:
+                        <span t-esc="data['dashboard']['date_from'] or 'N/A'"/>
+                        -
+                        <span t-esc="data['dashboard']['date_to'] or 'N/A'"/>
+                    </p>
+                    <table class="table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Branch</th>
+                                <th class="text-end">Purchase Amount</th>
+                                <th class="text-end">Paid Amount</th>
+                                <th class="text-end">Outstanding Amount</th>
+                                <th class="text-end">Orders Count</th>
+                                <th class="text-end">Vendors Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="data['dashboard']['lines']" t-as="line">
+                                <td><span t-esc="line['branch_name']"/></td>
+                                <td class="text-end"><span t-esc="'%.2f' % line['purchase_amount']"/></td>
+                                <td class="text-end"><span t-esc="'%.2f' % line['paid_amount']"/></td>
+                                <td class="text-end"><span t-esc="'%.2f' % line['outstanding_amount']"/></td>
+                                <td class="text-end"><span t-esc="line['orders_count']"/></td>
+                                <td class="text-end"><span t-esc="line['vendors_count']"/></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td><strong>Total</strong></td>
+                                <td class="text-end"><strong t-esc="'%.2f' % data['dashboard']['totals']['purchase_amount']"/></td>
+                                <td class="text-end"><strong t-esc="'%.2f' % data['dashboard']['totals']['paid_amount']"/></td>
+                                <td class="text-end"><strong t-esc="'%.2f' % data['dashboard']['totals']['outstanding_amount']"/></td>
+                                <td class="text-end"><strong t-esc="data['dashboard']['totals']['orders_count']"/></td>
+                                <td class="text-end"><strong t-esc="data['dashboard']['totals']['vendors_count']"/></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_branch_purchase_dashboard" model="ir.actions.report">
+        <field name="name">Branch Purchase Performance</field>
+        <field name="model">res.company</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">branch_management.report_branch_purchase_dashboard</field>
+        <field name="print_report_name">'Branch Purchase Performance Report'</field>
+    </record>
+
+</odoo>

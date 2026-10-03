@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_branch_payment_dashboard">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2>Branch Payments Report</h2>
+                    <p>
+                        Period:
+                        <span t-esc="data['dashboard']['date_from'] or 'N/A'"/>
+                        -
+                        <span t-esc="data['dashboard']['date_to'] or 'N/A'"/>
+                    </p>
+                    <table class="table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Branch</th>
+                                <th class="text-end">Received</th>
+                                <th class="text-end">Paid Out</th>
+                                <th class="text-end">Net</th>
+                                <th class="text-end">Payments Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="data['dashboard']['lines']" t-as="line">
+                                <td><span t-esc="line['branch_name']"/></td>
+                                <td class="text-end"><span t-esc="'%.2f' % line['inbound_amount']"/></td>
+                                <td class="text-end"><span t-esc="'%.2f' % line['outbound_amount']"/></td>
+                                <td class="text-end"><span t-esc="'%.2f' % line['net_amount']"/></td>
+                                <td class="text-end"><span t-esc="line['payments_count']"/></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td><strong>Total</strong></td>
+                                <td class="text-end"><strong t-esc="'%.2f' % data['dashboard']['totals']['inbound_amount']"/></td>
+                                <td class="text-end"><strong t-esc="'%.2f' % data['dashboard']['totals']['outbound_amount']"/></td>
+                                <td class="text-end"><strong t-esc="'%.2f' % data['dashboard']['totals']['net_amount']"/></td>
+                                <td class="text-end"><strong t-esc="data['dashboard']['totals']['payments_count']"/></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_branch_payment_dashboard" model="ir.actions.report">
+        <field name="name">Branch Payments</field>
+        <field name="model">res.company</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">branch_management.report_branch_payment_dashboard</field>
+        <field name="print_report_name">'Branch Payments Report'</field>
+    </record>
+
+</odoo>

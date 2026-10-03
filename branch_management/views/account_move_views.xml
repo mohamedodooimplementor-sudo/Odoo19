@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Journal Entries (account.move, move_type = 'entry') -->
+    <record id="view_move_form_branch" model="ir.ui.view">
+        <field name="name">account.move.form.branch</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <!-- Placed right after the smart-buttons box (button_box), which
+                 exists identically for every move_type (invoice, bill,
+                 journal entry...). Positioning after journal_id instead was
+                 unreliable: that field sits inside a block whose visibility
+                 depends on move_type, so anything added right next to it
+                 could inherit that same "invisible for entries" behaviour. -->
+            <xpath expr="//div[@name='button_box']" position="after">
+                <group>
+                    <field name="branch_id" options="{'no_create': True}"
+                           required="1" readonly="state == 'posted'"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Payments (account.payment) -->
+    <record id="view_account_payment_form_branch" model="ir.ui.view">
+        <field name="name">account.payment.form.branch</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+            <field name="journal_id" position="after">
+                <field name="branch_id" options="{'no_create': True}"
+                       required="1" readonly="state != 'draft'"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Journal Entries search/filter -->
+    <record id="view_account_move_filter_branch" model="ir.ui.view">
+        <field name="name">account.move.filter.branch</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_move_filter"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="branch_id"/>
+            </field>
+            <xpath expr="//search" position="inside">
+                <group>
+                    <filter string="Branch" name="group_by_branch_id" context="{'group_by': 'branch_id'}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Customer Invoices / Vendor Bills search/filter -->
+    <record id="view_account_invoice_filter_branch" model="ir.ui.view">
+        <field name="name">account.invoice.filter.branch</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="branch_id"/>
+            </field>
+            <xpath expr="//search" position="inside">
+                <group>
+                    <filter string="Branch" name="group_by_branch_id" context="{'group_by': 'branch_id'}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Payments search/filter -->
+    <record id="view_account_payment_search_branch" model="ir.ui.view">
+        <field name="name">account.payment.search.branch</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_search"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="branch_id"/>
+            </field>
+            <xpath expr="//search" position="inside">
+                <group>
+                    <filter string="Branch" name="group_by_branch_id" context="{'group_by': 'branch_id'}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

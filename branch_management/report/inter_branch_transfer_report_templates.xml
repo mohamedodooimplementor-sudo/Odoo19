@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_inter_branch_transfer_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Inter-Branch Transfer <span t-field="doc.name"/></h2>
+                        <div class="row mt-3">
+                            <div class="col-6">
+                                <strong>Source Branch:</strong>
+                                <span t-field="doc.source_branch_id"/><br/>
+                                <strong>Source Warehouse:</strong>
+                                <span t-field="doc.source_warehouse_id"/>
+                            </div>
+                            <div class="col-6">
+                                <strong>Destination Branch:</strong>
+                                <span t-field="doc.destination_branch_id"/><br/>
+                                <strong>Destination Warehouse:</strong>
+                                <span t-field="doc.destination_warehouse_id"/>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-4">
+                                <strong>Date:</strong> <span t-field="doc.date"/>
+                            </div>
+                            <div class="col-4">
+                                <strong>Expected Date:</strong>
+                                <span t-field="doc.expected_date"/>
+                            </div>
+                            <div class="col-4">
+                                <strong>Status:</strong>
+                                <span t-field="doc.state"/>
+                            </div>
+                        </div>
+
+                        <table class="table table-sm table-bordered mt-4">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th class="text-end">Quantity</th>
+                                    <th>UoM</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="doc.line_ids" t-as="line">
+                                    <td><span t-field="line.product_id"/></td>
+                                    <td class="text-end">
+                                        <span t-field="line.product_uom_qty"/>
+                                    </td>
+                                    <td><span t-field="line.product_uom_id"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <p t-if="doc.notes">
+                            <strong>Notes:</strong><br/>
+                            <span t-field="doc.notes"/>
+                        </p>
+                        <p t-if="doc.cancel_reason">
+                            <strong>Cancellation Reason:</strong><br/>
+                            <span t-field="doc.cancel_reason"/>
+                        </p>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_inter_branch_transfer" model="ir.actions.report">
+        <field name="name">Inter-Branch Transfer</field>
+        <field name="model">inter.branch.transfer</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">branch_management.report_inter_branch_transfer_document</field>
+        <field name="report_file">branch_management.report_inter_branch_transfer_document</field>
+        <field name="print_report_name">'Transfer - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="model_inter_branch_transfer"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>

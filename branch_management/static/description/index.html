@@ -1,0 +1,144 @@
+<section class="bm_wrap">
+<style>
+.bm_wrap{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:#1f2937;line-height:1.6;max-width:980px;margin:0 auto;padding:8px 0 40px}
+.bm_wrap h2{font-size:28px;font-weight:800;margin:46px 0 6px;color:#312E81;letter-spacing:-.01em}
+.bm_wrap h3{font-size:18px;font-weight:700;margin:22px 0 6px;color:#111827}
+.bm_wrap p.bm_lead{font-size:16px;color:#4b5563;margin:0 0 18px}
+.bm_wrap img.bm_img{width:100%;height:auto;border-radius:14px;border:1px solid #e5e7eb;box-shadow:0 8px 28px rgba(16,24,40,.10);margin:14px 0 6px}
+.bm_grid{display:flex;flex-wrap:wrap;gap:14px;margin:18px -7px}
+.bm_card{flex:1 1 280px;margin:0 7px;background:#fff;border:1px solid #e5e7eb;border-top:4px solid #4F46E5;border-radius:12px;padding:16px 18px}
+.bm_card b{display:block;font-size:16px;margin-bottom:4px;color:#312E81}
+.bm_card span{font-size:14px;color:#4b5563}
+.bm_wrap table{width:100%;border-collapse:collapse;margin:12px 0 20px;font-size:14px}
+.bm_wrap th{background:#EEF2FF;color:#312E81;text-align:left;padding:9px 12px;border-bottom:2px solid #c7d2fe}
+.bm_wrap td{padding:9px 12px;border-bottom:1px solid #e5e7eb;vertical-align:top}
+.bm_wrap td:first-child{font-weight:600;white-space:nowrap}
+.bm_steps{counter-reset:s;list-style:none;padding:0;margin:14px 0}
+.bm_steps li{counter-increment:s;position:relative;padding:12px 16px 12px 58px;margin:10px 0;background:#F8FAFC;border:1px solid #e5e7eb;border-radius:12px}
+.bm_steps li:before{content:counter(s);position:absolute;left:14px;top:12px;width:30px;height:30px;border-radius:50%;background:#4F46E5;color:#fff;font-weight:700;text-align:center;line-height:30px}
+.bm_note{background:#FFFBEB;border:1px solid #FDE68A;border-radius:12px;padding:12px 16px;font-size:14px;margin:16px 0}
+.bm_tag{display:inline-block;background:#EEF2FF;color:#3730A3;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:600;margin:2px 4px 2px 0}
+.bm_faq b{display:block;margin-top:14px}
+</style>
+
+<img class="bm_img" src="img/banner.png" alt="Multi-Branch Management Suite for Odoo 19"/>
+
+<h2>Run every branch from one Odoo company, without mixing their data</h2>
+<p class="bm_lead">Multi-Branch Management Suite gives retail chains, distributors and multi-site businesses a clean branch layer on top of a single company: every sale, purchase, invoice, payment and stock move belongs to a branch, every user sees only what they should, and head office gets a live view of all of it.</p>
+
+<div class="bm_grid">
+ <div class="bm_card"><b>Strict branch isolation</b><span>Record rules protect Sales, Purchases, Accounting, Payments, Stock and Transfers at database level.</span></div>
+ <div class="bm_card" style="border-top-color:#0EA5E9"><b>Inter-branch transfers</b><span>Approval workflow with transit location, automatic pickings, notifications and escalation.</span></div>
+ <div class="bm_card" style="border-top-color:#F59E0B"><b>Credit control</b><span>Credit limits per branch and per customer, checked when an order is confirmed.</span></div>
+ <div class="bm_card" style="border-top-color:#10B981"><b>Live dashboards</b><span>Overview, Sales, Purchases and Payments dashboards with Excel and PDF export.</span></div>
+ <div class="bm_card" style="border-top-color:#8B5CF6"><b>Smart defaults</b><span>Branch, warehouse, journals and analytic account fill themselves from the user's branch.</span></div>
+ <div class="bm_card" style="border-top-color:#EF4444"><b>Ready in minutes</b><span>One form per branch, one tab per user. No code, no technical settings.</span></div>
+</div>
+
+<h2>Executive dashboard</h2>
+<p class="bm_lead">Branch Overview puts the numbers a head office asks for every morning on one screen: sales, purchases, net result, outstanding receivables, payments and transfers, compared branch by branch.</p>
+<img class="bm_img" src="img/dashboard.png" alt="Branch Overview dashboard"/>
+<img class="bm_img" src="img/dashboard_dark.png" alt="Branch Overview dashboard in dark mode"/>
+<ul>
+ <li>Quick period buttons (this month, last 30 days, quarter, 6 months, year) or any custom date range.</li>
+ <li>Grouped bar chart with hover details and a sales-share donut.</li>
+ <li>Ranking table with collection rate and credit usage bars. Click a branch to focus on it.</li>
+ <li>Works in light and dark mode, on desktop and tablet, and in right-to-left languages.</li>
+</ul>
+
+<h2>Security that follows the organization</h2>
+<p class="bm_lead">Give each user a default branch and the branches they may work with, or switch them to All Branches. Branch Managers see everything.</p>
+<img class="bm_img" src="img/security.png" alt="Branch access levels"/>
+
+<h2>Inter-branch transfers with approval</h2>
+<p class="bm_lead">Move goods between branches with a clear paper trail. Stock leaves the source warehouse, sits in a transit location and lands in the destination warehouse only when the receiving team validates it.</p>
+<img class="bm_img" src="img/workflow.png" alt="Inter-branch transfer workflow"/>
+<ul>
+ <li>Source availability is checked before any picking is created.</li>
+ <li>Destination users are notified and the destination manager gets a To-Do activity.</li>
+ <li>Transfers stuck in transit trigger an automatic reminder.</li>
+ <li>Cancellation needs a reason and cancels the open pickings. A printable transfer report is included.</li>
+</ul>
+
+<h2>Credit limits per branch and per customer</h2>
+<img class="bm_img" src="img/credit.png" alt="Credit limit check"/>
+
+<h2>Configuration guide</h2>
+<p class="bm_lead">Five steps from installation to the first branch order.</p>
+<ol class="bm_steps">
+ <li><b>Prepare the building blocks.</b> For each branch, make sure you have a warehouse, and optionally a sales journal, a purchase journal, cash/bank journals and an analytic account.</li>
+ <li><b>Create the branches.</b> Go to <i>Branches &gt; Branches</i> and create one record per branch (see the field reference below). The code is generated automatically.</li>
+ <li><b>Assign users.</b> Open a user, go to the <i>Branch Access</i> tab, pick the Default Branch and the Allowed Branches, or set the Access Mode to All Branches. Tick <i>Branch Manager</i> for head-office staff.</li>
+ <li><b>Optional: restrict journals, contacts and products.</b> Set the Branch field on a journal to reserve it for one branch. Use the Branches field on contacts and products to limit where they can be selected.</li>
+ <li><b>Optional: set credit limits.</b> Enter a Credit Limit on each branch and on key customers, or tick Unlimited Credit.</li>
+</ol>
+
+<h3>Branch form</h3>
+<table>
+ <tr><th>Field</th><th>What it does</th></tr>
+ <tr><td>Branch Name / Code</td><td>The code is generated from a sequence (BR-0001, BR-0002...) and must be unique per company. You may edit it.</td></tr>
+ <tr><td>Company</td><td>The company the branch belongs to. Its warehouse must belong to the same company.</td></tr>
+ <tr><td>Warehouse</td><td>Used by default on the branch's orders and as the source or destination of inter-branch transfers. One warehouse belongs to one branch, and the link is kept in sync with the warehouse form.</td></tr>
+ <tr><td>Sales Journal</td><td>Applied to the branch's Sales Orders and the invoices created from them.</td></tr>
+ <tr><td>Purchase Journal</td><td>Applied to the branch's Purchase Orders and the vendor bills created from them.</td></tr>
+ <tr><td>Payment Journals</td><td>Cash and bank journals this branch can register payments with.</td></tr>
+ <tr><td>Analytic Account</td><td>Added automatically to order lines and posted journal items, so branch profitability is available in your analytic reports.</td></tr>
+ <tr><td>Branch Manager</td><td>Receives destination-side notifications for inter-branch transfers.</td></tr>
+ <tr><td>Unlimited Credit / Credit Limit</td><td>Maximum unpaid customer invoices allowed for the branch. Leave at 0 or tick Unlimited Credit to disable the check.</td></tr>
+ <tr><td>Current Exposure</td><td>Read-only. Unpaid balance of the branch's posted customer invoices.</td></tr>
+ <tr><td>Users tab</td><td>Lists the users allowed on this branch.</td></tr>
+</table>
+
+<h3>User form, Branch Access tab</h3>
+<table>
+ <tr><th>Field</th><th>What it does</th></tr>
+ <tr><td>Default Branch</td><td>Pre-fills the branch on every new document. Must be one of the Allowed Branches.</td></tr>
+ <tr><td>Allowed Branches</td><td>The branches the user can see and work with.</td></tr>
+ <tr><td>Branch Access Mode</td><td><i>Restricted to Selected Branches</i> or <i>All Branches</i>. With All Branches the allowed list covers every branch of the user's companies.</td></tr>
+ <tr><td>Branch Manager</td><td>Sees and manages every branch and its documents, and gets the Branches app menu with dashboards and reports.</td></tr>
+</table>
+
+<h3>Other places where the branch appears</h3>
+<table>
+ <tr><th>Where</th><th>Setting</th></tr>
+ <tr><td>Contacts</td><td>Branches (limit where the contact can be selected), Vendor Type (Local, Foreign, Service), Credit Limit, Unlimited Credit.</td></tr>
+ <tr><td>Products</td><td>Branches: limit the branches where the product can be sold or purchased. Empty means every branch.</td></tr>
+ <tr><td>Journals</td><td>Branch: reserve a journal for one branch. Empty means shared by all.</td></tr>
+ <tr><td>Warehouses</td><td>Branch: kept in sync with the Warehouse field of the branch.</td></tr>
+ <tr><td>Sales and Purchase Orders</td><td>Branch is required and fills the warehouse, journal and analytic account.</td></tr>
+ <tr><td>Purchase menu</td><td>Local, Foreign and Service Purchases, each with its own numbering (PO-LOC/, PO-FOR/, PO-SRV/) based on the vendor type.</td></tr>
+ <tr><td>Invoices and Payments</td><td>Branch is inherited from the order. When registering a payment, only journals of that branch (or shared journals) are offered.</td></tr>
+</table>
+
+<h3>Technical settings</h3>
+<table>
+ <tr><th>Setting</th><th>Where / default</th></tr>
+ <tr><td>Transfer escalation delay</td><td>System Parameter <code>branch_management.transfer_escalation_days</code>. Default is 3 days. Create the parameter in <i>Settings &gt; Technical &gt; System Parameters</i> to change it (developer mode).</td></tr>
+ <tr><td>Escalation job</td><td>Scheduled action "Inter-Branch Transfer: Escalate Stale Transfers", runs daily. Each transfer is reminded only once.</td></tr>
+ <tr><td>Sequences</td><td>Branch Code (BR-), Inter-Branch Transfer (IBT/), Purchase Order Local, Foreign and Service. Editable in <i>Settings &gt; Technical &gt; Sequences</i>.</td></tr>
+</table>
+
+<h2>Reports and exports</h2>
+<p class="bm_lead">The Sales, Purchases and Payments dashboards under <i>Branches &gt; Reports</i> have their own filters (dates, branch, customer or vendor, salesperson) and export the current view to <b>Excel</b> or <b>PDF</b> in one click.</p>
+
+<h2>Compatibility</h2>
+<span class="bm_tag">Odoo 19.0</span><span class="bm_tag">Community</span><span class="bm_tag">Enterprise</span><span class="bm_tag">Odoo.sh</span><span class="bm_tag">On-premise</span>
+<p>Depends only on standard apps: Discuss, Contacts, Sales, Purchase, Inventory and Invoicing. No external Python libraries.</p>
+
+<h2>Frequently asked questions</h2>
+<div class="bm_faq">
+ <b>Is this the same as multi-company?</b>
+ <span>No. It keeps one company, one chart of accounts and one set of contacts, while separating operations by branch.</span>
+ <b>Can a user work in several branches?</b>
+ <span>Yes. Add several Allowed Branches and choose the branch on each document. The Default Branch is only a starting point.</span>
+ <b>Can I send stock to a branch I cannot access?</b>
+ <span>Yes. Any user can select any branch as the destination of a transfer, without gaining access to that branch's other data.</span>
+ <b>What happens to documents created before installation?</b>
+ <span>Sales and purchase orders require a branch, so assign branches to existing open documents as part of your rollout. Test on a copy of your database first.</span>
+ <b>Does it work with my custom modules?</b>
+ <span>Branch records are standard Odoo fields and record rules, so custom models can reuse them. Contact support for integration help.</span>
+</div>
+
+<h2>Support</h2>
+<p>Free bug-fix support is included. Contact: <b>YOUR-SUPPORT-EMAIL</b></p>
+</section>
