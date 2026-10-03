@@ -121,7 +121,7 @@ See the full illustrated description below for screenshots of every module.
     'post_init_hook': '_post_init_hook',
     'auto_install': False,
     'license': 'OPL-1',
-    'price': 299.00,
+    'price': 999.00,
     'currency': 'USD',
     'support': 'odoolabtech.offical',
     'images': ['static/description/banner.png', 'static/description/dashboard_preview.png', 'static/description/gantt_preview.png', 'static/description/module_map.png'],
