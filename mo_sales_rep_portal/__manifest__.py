@@ -12,7 +12,7 @@ Portal interface + Route/Visit management + integration layer over standard Odoo
     'author': 'Eng. M.Aboelmagde',
     'website': 'https://www.youtube.com/@odoolab',
     'license': 'OPL-1',
-    'price': 299.0,
+    'price': 649.0,
     'currency': 'USD',
     'images': [
         'static/description/banner.png',
