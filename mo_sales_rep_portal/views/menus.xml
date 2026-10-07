@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_rep_dashboard" model="ir.actions.client">
+        <field name="name">Management Dashboard</field>
+        <field name="tag">mo_sales_rep_dashboard</field>
+    </record>
+
+    <!-- ===== Root app ===== -->
+    <menuitem id="menu_rep_root" name="Sales Representative" sequence="45"
+              web_icon="mo_sales_rep_portal,static/description/icon.png" groups="mo_sales_rep_portal.group_mo_rep_user,mo_sales_rep_portal.group_mo_rep_accountant"/>
+
+    <menuitem id="menu_rep_dashboard" name="Dashboard" parent="menu_rep_root" action="action_rep_dashboard"
+              sequence="1" groups="mo_sales_rep_portal.group_mo_rep_manager"/>
+
+    <!-- ===== Team ===== -->
+    <menuitem id="menu_rep_team" name="Team" parent="menu_rep_root" sequence="10" groups="mo_sales_rep_portal.group_mo_rep_user,mo_sales_rep_portal.group_mo_rep_accountant"/>
+    <menuitem id="menu_rep_reps" name="Sales Representatives" parent="menu_rep_team" action="action_rep" sequence="1" groups="mo_sales_rep_portal.group_mo_rep_user"/>
+    <menuitem id="menu_rep_targets" name="Targets" parent="menu_rep_team" action="action_target" sequence="2" groups="mo_sales_rep_portal.group_mo_rep_user"/>
+    <menuitem id="menu_rep_expenses" name="Expenses" parent="menu_rep_team" action="action_expense" sequence="3" groups="mo_sales_rep_portal.group_mo_rep_user,mo_sales_rep_portal.group_mo_rep_accountant"/>
+
+    <!-- ===== Field Work ===== -->
+    <menuitem id="menu_rep_field" name="Field Work" parent="menu_rep_root" sequence="20" groups="mo_sales_rep_portal.group_mo_rep_user"/>
+    <menuitem id="menu_rep_routes" name="Routes" parent="menu_rep_field" action="action_route" sequence="1" groups="mo_sales_rep_portal.group_mo_rep_user"/>
+    <menuitem id="menu_rep_visits" name="Visits" parent="menu_rep_field" action="action_visit" sequence="2" groups="mo_sales_rep_portal.group_mo_rep_user"/>
+    <menuitem id="menu_rep_followups" name="Follow-ups" parent="menu_rep_field" action="action_followup" sequence="3" groups="mo_sales_rep_portal.group_mo_rep_user"/>
+
+    <!-- ===== Customers ===== -->
+    <menuitem id="menu_rep_customers_root" name="Customers" parent="menu_rep_root" sequence="30" groups="mo_sales_rep_portal.group_mo_rep_user"/>
+    <menuitem id="menu_rep_customers" name="Customers" parent="menu_rep_customers_root" action="action_rep_customers" sequence="1" groups="mo_sales_rep_portal.group_mo_rep_user"/>
+    <menuitem id="menu_rep_new_customers" name="New Customers" parent="menu_rep_customers_root" action="action_rep_new_customers" sequence="2" groups="mo_sales_rep_portal.group_mo_rep_user"/>
+
+    <!-- ===== Sales ===== -->
+    <menuitem id="menu_rep_sales" name="Sales" parent="menu_rep_root" sequence="40" groups="mo_sales_rep_portal.group_mo_rep_user,mo_sales_rep_portal.group_mo_rep_accountant"/>
+    <menuitem id="menu_rep_orders" name="Sales Orders" parent="menu_rep_sales" action="action_rep_orders" sequence="1" groups="mo_sales_rep_portal.group_mo_rep_user"/>
+    <menuitem id="menu_rep_invoices" name="Invoices" parent="menu_rep_sales" action="action_rep_invoices" sequence="2" groups="mo_sales_rep_portal.group_mo_rep_user,mo_sales_rep_portal.group_mo_rep_accountant"/>
+    <menuitem id="menu_rep_returns" name="Customer Returns" parent="menu_rep_sales" action="action_rep_returns" sequence="3" groups="mo_sales_rep_portal.group_mo_rep_user"/>
+    <menuitem id="menu_rep_stock" name="Stock Operations" parent="menu_rep_sales" action="action_rep_pickings" sequence="4" groups="mo_sales_rep_portal.group_mo_rep_user"/>
+
+    <!-- ===== Collections ===== -->
+    <menuitem id="menu_rep_collections" name="Collections" parent="menu_rep_root" sequence="50" groups="mo_sales_rep_portal.group_mo_rep_user,mo_sales_rep_portal.group_mo_rep_accountant"/>
+    <menuitem id="menu_rep_payments" name="Payments" parent="menu_rep_collections" action="action_rep_payments" sequence="1" groups="mo_sales_rep_portal.group_mo_rep_user,mo_sales_rep_portal.group_mo_rep_accountant"/>
+    <menuitem id="menu_rep_cheques" name="Cheques" parent="menu_rep_collections" action="action_cheque" sequence="2" groups="mo_sales_rep_portal.group_mo_rep_user,mo_sales_rep_portal.group_mo_rep_accountant"/>
+
+    <!-- ===== Configuration ===== -->
+    <menuitem id="menu_rep_config" name="Configuration" parent="menu_rep_root" sequence="90"
+              groups="mo_sales_rep_portal.group_mo_rep_manager"/>
+    <menuitem id="menu_rep_settings" name="Settings" parent="menu_rep_config" action="action_settings_open" sequence="1"/>
+    <menuitem id="menu_rep_methods" name="Payment Methods" parent="menu_rep_config" action="action_payment_method" sequence="2"/>
+    <menuitem id="menu_rep_locations" name="Location Log" parent="menu_rep_config" action="action_location" sequence="3"/>
+    <menuitem id="menu_rep_reasons" name="Return Reasons" parent="menu_rep_config" action="action_return_reason" sequence="4"/>
+</odoo>

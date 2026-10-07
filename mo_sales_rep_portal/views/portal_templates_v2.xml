@@ -1,0 +1,413 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <!-- ======================================================== shared: customer card -->
+    <template id="tpl_partner_card" name="Sales Rep - customer card">
+        <div class="mo-card">
+            <div class="mo-row">
+                <h3><a t-attf-href="/rep/customer/#{info['p'].id}" t-esc="info['p'].display_name"/></h3>
+                <span t-if="info['p'].mo_approval_state != 'approved'" class="mo-chip high"><t t-esc="sel(info['p'], 'mo_approval_state')"/></span>
+                <span class="mo-chip" t-elif="info['outstanding']"><t t-esc="T('Due')"/> <t t-esc="money(info['outstanding'])"/> <t t-esc="cur"/></span>
+            </div>
+            <div class="mo-muted" t-if="info['p'].ref"><t t-esc="T('Code:')"/> <t t-esc="info['p'].ref"/></div>
+            <div class="mo-muted" t-if="info['mobile']"><t t-esc="info['mobile']"/></div>
+            <div class="mo-muted" t-if="info['address']"><t t-esc="info['address']"/></div>
+            <div class="mo-muted" t-if="info['last_visit']"><t t-esc="T('Last visit:')"/> <t t-esc="dt(info['last_visit'].end_time)"/></div>
+            <div class="mo-muted" t-if="info['last_order']"><t t-esc="T('Last order:')"/> <t t-esc="info['last_order'].name"/> · <t t-esc="dt(info['last_order'].date_order)"/></div>
+            <div class="mo-btns">
+                <a t-if="info['mobile']" class="mo-btn small" t-attf-href="tel:#{info['mobile']}"><t t-esc="T('Call')"/></a>
+                <a t-if="S.enable_whatsapp and info['wa']" class="mo-btn small" t-attf-href="https://wa.me/#{info['wa']}" target="_blank" rel="noopener"><t t-esc="T('WhatsApp')"/></a>
+                <a t-if="info['maps']" class="mo-btn small" t-att-href="info['maps']" target="_blank" rel="noopener"><t t-esc="T('Open location')"/></a>
+            </div>
+            <div class="mo-btns">
+                <a class="mo-btn small primary" t-attf-href="/rep/visit/new?partner_id=#{info['p'].id}"><t t-esc="T('New visit')"/></a>
+                <a t-if="(S.allow_quotation or S.allow_sales_order) and info['p'].mo_approval_state == 'approved'" class="mo-btn small" t-attf-href="/rep/order/new?partner_id=#{info['p'].id}"><t t-esc="T('New order')"/></a>
+                <a t-if="S.allow_payment and info['p'].mo_approval_state == 'approved'" class="mo-btn small" t-attf-href="/rep/payment/new?partner_id=#{info['p'].id}"><t t-esc="T('Collect payment')"/></a>
+            </div>
+        </div>
+    </template>
+
+    <!-- ======================================================== dashboard -->
+    <template id="tpl_dashboard" name="Sales Rep - Home">
+        <t t-call="mo_sales_rep_portal.tpl_layout">
+            <div id="mo-dash" t-att-data-dash="dash_json" data-live="1">
+                <div class="mo-hello">
+                    <div>
+                        <h2><t t-esc="greeting"/>, <t t-esc="rep.name"/></h2>
+                        <div class="mo-sub" t-esc="today_label"/>
+                    </div>
+                    <span class="mo-live" id="mo-live"><i/><span><t t-esc="T('Live')"/></span> <small id="mo-updated"/></span>
+                </div>
+
+                <div class="mo-kpis mo-rise">
+                    <a class="mo-kpi hero" href="/rep/orders">
+                        <span class="lbl"><t t-esc="T('Today\'s Sales')"/></span>
+                        <b><span data-stat="sales_today" data-fmt="money" t-esc="money(stats['sales'])"/> <small t-esc="cur"/></b>
+                        <span class="delta" id="delta-sales" hidden="hidden"/>
+                        <svg class="spark" id="spark-sales" viewBox="0 0 100 34" preserveAspectRatio="none"/>
+                    </a>
+                    <a class="mo-kpi" href="/rep/route"><span class="lbl"><t t-esc="T('Today\'s Visits')"/></span><b data-stat="visits" data-fmt="int" t-esc="stats['visits']"/></a>
+                    <a class="mo-kpi" href="/rep/route"><span class="lbl"><t t-esc="T('Completed / Pending')"/></span><b><span data-stat="done" data-fmt="int" t-esc="stats['done']"/> / <span data-stat="remaining" data-fmt="int" t-esc="stats['remaining']"/></b></a>
+                    <a class="mo-kpi" href="/rep/orders"><span class="lbl"><t t-esc="T('Today\'s Orders')"/></span><b data-stat="orders" data-fmt="int" t-esc="stats['orders']"/></a>
+                    <a class="mo-kpi" href="/rep/collections">
+                        <span class="lbl"><t t-esc="T('Today\'s Collections')"/></span><b data-stat="collected" data-fmt="money" t-esc="money(stats['collected'])"/>
+                        <span class="delta" id="delta-coll" hidden="hidden"/>
+                        <svg class="spark" id="spark-coll" viewBox="0 0 100 34" preserveAspectRatio="none"/>
+                    </a>
+                    <a class="mo-kpi" href="/rep/outstanding"><span class="lbl"><t t-esc="T('Outstanding')"/></span><b data-stat="outstanding" data-fmt="money" t-esc="money(stats['outstanding'])"/></a>
+                    <a class="mo-kpi" href="/rep/outstanding"><span class="lbl"><t t-esc="T('Overdue')"/></span><b data-stat="overdue" data-fmt="money" t-attf-class="#{'mo-bad' if stats['overdue'] else ''}" t-esc="money(stats['overdue'])"/></a>
+                    <a class="mo-kpi" href="/rep/orders"><span class="lbl"><t t-esc="T('Monthly Sales')"/></span><b data-stat="month_sales" data-fmt="money" t-esc="money(stats['month_sales'])"/></a>
+                    <a class="mo-kpi" href="/rep/collections"><span class="lbl"><t t-esc="T('Monthly Collection')"/></span><b data-stat="month_collection" data-fmt="money" t-esc="money(stats['month_collection'])"/></a>
+                    <a class="mo-kpi" href="/rep/targets"><span class="lbl"><t t-esc="T('Target Achievement')"/></span>
+                        <b><t t-if="stats['achievement'] is not None"><span data-stat="achievement" data-fmt="pct" t-esc="stats['achievement']"/>%</t><t t-else="">—</t></b></a>
+                    <a class="mo-kpi" href="/rep/customers"><span class="lbl"><t t-esc="T('New Customers (month)')"/></span><b data-stat="new_customers" data-fmt="int" t-esc="stats['new_customers']"/></a>
+                </div>
+
+                <div class="mo-panels">
+                    <div class="mo-panel mo-chart span-8">
+                        <h3><t t-esc="T('Last 14 days')"/></h3>
+                        <div id="chart-trend"/>
+                    </div>
+                    <div class="mo-panel span-4">
+                        <h3><t t-esc="T('Today\'s Visits')"/></h3>
+                        <div id="chart-visits"/>
+                    </div>
+                    <div class="mo-panel span-6" t-if="targets">
+                        <h3><t t-esc="T('My Targets')"/> <a href="/rep/targets" style="font-weight:400;font-size:.85rem"><t t-esc="T('Details')"/></a></h3>
+                        <div id="chart-targets"/>
+                    </div>
+                    <div class="mo-panel span-6">
+                        <h3><t t-esc="T('Outstanding &amp; Aging')"/> <a href="/rep/outstanding" style="font-weight:400;font-size:.85rem"><t t-esc="T('Details')"/></a></h3>
+                        <div id="chart-aging"/>
+                    </div>
+                    <div class="mo-panel span-6">
+                        <h3><t t-esc="T('Top customers this month')"/></h3>
+                        <div id="chart-top"/>
+                    </div>
+                    <div class="mo-panel span-6" t-if="suggestions">
+                        <h3><t t-esc="T('Customers to Visit Today')"/></h3>
+                        <t t-foreach="suggestions" t-as="s">
+                            <a class="mo-list-link" t-attf-href="/rep/customer/#{s['partner'].id}">
+                                <span><t t-esc="s['partner'].display_name"/>
+                                    <t t-foreach="s['reasons']" t-as="r"><br/><span class="mo-muted"><t t-esc="reason(r[0], r[1])"/></span></t></span>
+                                <span>›</span>
+                            </a>
+                        </t>
+                    </div>
+                    <div class="mo-panel span-6" t-if="follow['today'] or follow['overdue'] or follow['upcoming']">
+                        <h3><t t-esc="T('Follow-ups')"/> <a href="/rep/followups" style="font-weight:400;font-size:.85rem"><t t-esc="T('Open')"/></a></h3>
+                        <div class="mo-btns">
+                            <a class="mo-btn small" href="/rep/followups"><t t-esc="T('Today:')"/> <span data-stat="follow_today" data-fmt="int" t-esc="follow['today']"/></a>
+                            <a t-attf-class="mo-btn small #{'danger' if follow['overdue'] else ''}" href="/rep/followups"><t t-esc="T('Overdue:')"/> <span data-stat="follow_overdue" data-fmt="int" t-esc="follow['overdue']"/></a>
+                            <a class="mo-btn small" href="/rep/followups"><t t-esc="T('Upcoming:')"/> <span data-stat="follow_upcoming" data-fmt="int" t-esc="follow['upcoming']"/></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mo-actions" style="margin-top:14px">
+                <a t-if="S.allow_quotation or S.allow_sales_order" class="mo-btn primary" href="/rep/order/new"><t t-esc="T('New Order')"/></a>
+                <a t-if="S.allow_new_customer" class="mo-btn primary" href="/rep/customer/new"><t t-esc="T('New Customer')"/></a>
+                <a t-if="S.allow_payment" class="mo-btn accent" href="/rep/payment/new"><t t-esc="T('Collect Payment')"/></a>
+                <a class="mo-btn primary" href="/rep/visit/new"><t t-esc="T('Start Visit')"/></a>
+                <a t-if="S.allow_expense" class="mo-btn" href="/rep/expense/new"><t t-esc="T('New Expense')"/></a>
+                <a class="mo-btn" href="/rep/customers"><t t-esc="T('Customer Search')"/></a>
+                <a class="mo-btn" href="/rep/route"><t t-esc="T('My Route')"/></a>
+                <a class="mo-btn" href="/rep/invoices"><t t-esc="T('My Invoices')"/></a>
+            </div>
+        </t>
+    </template>
+
+    <template id="tpl_more" name="Sales Rep - More">
+        <t t-call="mo_sales_rep_portal.tpl_layout">
+            <a class="mo-list-link" href="/rep/followups"><t t-esc="T('Follow-ups')"/> <span>›</span></a>
+            <a class="mo-list-link" href="/rep/outstanding"><t t-esc="T('Outstanding &amp; Aging')"/> <span>›</span></a>
+            <a class="mo-list-link" href="/rep/targets"><t t-esc="T('My Targets')"/> <span>›</span></a>
+            <a t-if="S.allow_ranking" class="mo-list-link" href="/rep/ranking"><t t-esc="T('Ranking')"/> <span>›</span></a>
+            <a class="mo-list-link" href="/rep/visits"><t t-esc="T('Visits')"/> <span>›</span></a>
+            <a class="mo-list-link" href="/rep/invoices"><t t-esc="T('My Invoices')"/> <span>›</span></a>
+            <a class="mo-list-link" href="/rep/payments"><t t-esc="T('My Payments')"/> <span>›</span></a>
+            <a class="mo-list-link" href="/rep/collections"><t t-esc="T('My Collections')"/> <span>›</span></a>
+            <a class="mo-list-link" href="/rep/cheques"><t t-esc="T('My Cheques')"/> <span>›</span></a>
+            <a t-if="S.allow_expense" class="mo-list-link" href="/rep/expenses"><t t-esc="T('Expenses')"/> <span>›</span></a>
+            <a t-if="S.allow_customer_return" class="mo-list-link" href="/rep/return/new"><t t-esc="T('Customer Return')"/> <span>›</span></a>
+            <a t-if="S.allow_stock_view" class="mo-list-link" href="/rep/stock"><t t-esc="T('My Stock')"/> <span>›</span></a>
+            <a t-if="S.allow_internal_transfer or S.allow_return" class="mo-list-link" href="/rep/stock/operation"><t t-esc="T('Stock Operation')"/> <span>›</span></a>
+            <a class="mo-list-link" href="/rep/transfers"><t t-esc="T('Transfers &amp; Deliveries')"/> <span>›</span></a>
+            <a class="mo-list-link" href="/rep/notifications"><t t-esc="T('Notifications')"/> <span><t t-if="unread" t-esc="unread"/> ›</span></a>
+        </t>
+    </template>
+
+    <!-- ======================================================== customers -->
+    <template id="tpl_customers" name="Sales Rep - Customers">
+        <t t-call="mo_sales_rep_portal.tpl_layout">
+            <form method="get" action="/rep/customers" class="mo-form">
+                <input type="search" name="q" class="mo-input" t-att-value="q" t-att-placeholder="T('Search name, mobile, code or address')"/>
+                <input type="hidden" name="flt" t-att-value="flt"/>
+            </form>
+            <div class="mo-filters">
+                <a href="/rep/customers" t-attf-class="#{'on' if not flt else ''}"><t t-esc="T('All')"/></a>
+                <a t-attf-href="/rep/customers?flt=route_today&amp;q=#{q}" t-attf-class="#{'on' if flt == 'route_today' else ''}"><t t-esc="T('On today\'s route')"/></a>
+                <a t-attf-href="/rep/customers?flt=visited_today&amp;q=#{q}" t-attf-class="#{'on' if flt == 'visited_today' else ''}"><t t-esc="T('Visited today')"/></a>
+                <a t-attf-href="/rep/customers?flt=not_visited&amp;q=#{q}" t-attf-class="#{'on' if flt == 'not_visited' else ''}"><t t-esc="T('Not visited')"/></a>
+                <a t-attf-href="/rep/customers?flt=outstanding&amp;q=#{q}" t-attf-class="#{'on' if flt == 'outstanding' else ''}"><t t-esc="T('With outstanding')"/></a>
+                <a t-attf-href="/rep/customers?flt=overdue&amp;q=#{q}" t-attf-class="#{'on' if flt == 'overdue' else ''}"><t t-esc="T('Overdue')"/></a>
+                <a t-attf-href="/rep/customers?flt=no_order&amp;q=#{q}" t-attf-class="#{'on' if flt == 'no_order' else ''}"><t t-esc="T('No recent order')"/></a>
+            </div>
+            <a t-if="S.allow_new_customer" class="mo-btn primary" href="/rep/customer/new" style="margin-bottom:12px"><t t-esc="T('+ New Customer')"/></a>
+            <div t-if="not infos" class="mo-empty"><t t-esc="T('No customers found. Ask your manager to assign customers to you.')"/></div>
+            <div class="mo-cols"><t t-foreach="infos" t-as="info"><t t-call="mo_sales_rep_portal.tpl_partner_card"/></t></div>
+        </t>
+    </template>
+
+    <template id="tpl_customer_form" name="Sales Rep - New customer">
+        <t t-call="mo_sales_rep_portal.tpl_layout">
+            <form method="post" action="/rep/customer/create" enctype="multipart/form-data" data-geo="1" data-queue="1" class="mo-form mo-card">
+                <input type="hidden" name="csrf_token" t-att-value="csrf"/>
+                <input type="hidden" name="lat"/><input type="hidden" name="lng"/>
+                <p class="mo-muted" t-if="needs_approval"><t t-esc="T('New customers wait for your manager\'s approval before you can sell to them.')"/></p>
+                <label for="c_name"><t t-esc="T('Customer Name')"/></label>
+                <input id="c_name" name="name" class="mo-input" required="required" autocomplete="off"/>
+                <label for="c_type"><t t-esc="T('Customer Type')"/></label>
+                <select id="c_type" name="company_type" class="mo-input">
+                    <option value="company"><t t-esc="T('Company')"/></option>
+                    <option value="person"><t t-esc="T('Individual')"/></option>
+                </select>
+                <label for="c_mobile"><t t-esc="T('Mobile')"/></label>
+                <input id="c_mobile" name="mobile" type="tel" class="mo-input" inputmode="tel"/>
+                <label for="c_phone"><t t-esc="T('Phone')"/></label>
+                <input id="c_phone" name="phone" type="tel" class="mo-input" inputmode="tel"/>
+                <label for="c_wa"><t t-esc="T('WhatsApp')"/></label>
+                <input id="c_wa" name="whatsapp" type="tel" class="mo-input" inputmode="tel"/>
+                <label for="c_street"><t t-esc="T('Address')"/></label>
+                <input id="c_street" name="street" class="mo-input"/>
+                <label for="c_city"><t t-esc="T('City')"/></label>
+                <input id="c_city" name="city" class="mo-input"/>
+                <p class="mo-muted"><t t-esc="T('Your GPS location is saved with the customer when you save.')"/></p>
+                <label><t t-esc="T('Sales Representative')"/></label>
+                <input class="mo-input" t-att-value="rep.name" readonly="readonly"/>
+                <label for="c_pl"><t t-esc="T('Price List')"/></label>
+                <select id="c_pl" name="pricelist_id" class="mo-input">
+                    <option value=""><t t-esc="T('Default')"/></option>
+                    <t t-foreach="pricelists" t-as="pl"><option t-att-value="pl.id"><t t-esc="pl.display_name"/></option></t>
+                </select>
+                <label for="c_pt"><t t-esc="T('Payment Terms')"/></label>
+                <select id="c_pt" name="payment_term_id" class="mo-input">
+                    <option value=""><t t-esc="T('Default')"/></option>
+                    <t t-foreach="terms" t-as="pt"><option t-att-value="pt.id"><t t-esc="pt.name"/></option></t>
+                </select>
+                <label for="c_notes"><t t-esc="T('Notes')"/></label>
+                <textarea id="c_notes" name="notes" class="mo-input"/>
+                <t t-if="S.enable_attachments">
+                    <label for="c_att"><t t-esc="T('Photos or documents')"/></label>
+                    <input id="c_att" type="file" name="attachments" class="mo-input" multiple="multiple" accept="image/*,application/pdf"/>
+                </t>
+                <button type="submit" class="mo-btn primary" style="margin-top:14px"><t t-esc="T('Save Customer')"/></button>
+            </form>
+        </t>
+    </template>
+
+    <!-- ======================================================== customer 360 -->
+    <template id="tpl_customer" name="Sales Rep - Customer 360">
+        <t t-call="mo_sales_rep_portal.tpl_layout">
+            <div class="mo-card">
+                <div class="mo-row"><h2 t-esc="d['partner'].display_name"/>
+                    <span t-if="not approved" class="mo-chip high"><t t-esc="sel(d['partner'], 'mo_approval_state')"/></span></div>
+                <div class="mo-muted" t-if="d['partner'].ref"><t t-esc="T('Code:')"/> <t t-esc="d['partner'].ref"/></div>
+                <div class="mo-muted" t-if="info['mobile']"><t t-esc="info['mobile']"/></div>
+                <div class="mo-muted" t-if="info['address']"><t t-esc="info['address']"/></div>
+                <div class="mo-muted" t-if="d['partner'].property_payment_term_id"><t t-esc="T('Payment Terms:')"/> <t t-esc="d['partner'].property_payment_term_id.name"/></div>
+                <div class="mo-btns">
+                    <a t-if="info['mobile']" class="mo-btn small" t-attf-href="tel:#{info['mobile']}"><t t-esc="T('Call')"/></a>
+                    <a t-if="S.enable_whatsapp and info['wa']" class="mo-btn small" t-attf-href="https://wa.me/#{info['wa']}" target="_blank" rel="noopener"><t t-esc="T('WhatsApp')"/></a>
+                    <a t-if="info['maps']" class="mo-btn small" t-att-href="info['maps']" target="_blank" rel="noopener"><t t-esc="T('Open location')"/></a>
+                </div>
+                <form t-if="S.enable_customer_location" method="post" t-attf-action="/rep/customer/#{d['partner'].id}/location" data-geo="1" data-queue="1">
+                    <input type="hidden" name="csrf_token" t-att-value="csrf"/>
+                    <input type="hidden" name="lat"/><input type="hidden" name="lng"/>
+                    <button type="submit" class="mo-btn small" style="margin-top:8px"><t t-esc="T('Save current location')"/></button>
+                </form>
+            </div>
+
+            <div class="mo-btns" style="margin-bottom:12px">
+                <a class="mo-btn primary" t-attf-href="/rep/visit/new?partner_id=#{d['partner'].id}"><t t-esc="T('Start Visit')"/></a>
+                <a t-if="approved and (S.allow_quotation or S.allow_sales_order)" class="mo-btn" t-attf-href="/rep/order/new?partner_id=#{d['partner'].id}"><t t-esc="T('New Order')"/></a>
+                <a t-if="approved and S.allow_payment" class="mo-btn accent" t-attf-href="/rep/payment/new?partner_id=#{d['partner'].id}"><t t-esc="T('Collect Payment')"/></a>
+                <a t-if="approved and S.allow_customer_return" class="mo-btn" t-attf-href="/rep/return/new?partner_id=#{d['partner'].id}"><t t-esc="T('Return')"/></a>
+                <a class="mo-btn" t-attf-href="/rep/followup/new?partner_id=#{d['partner'].id}"><t t-esc="T('Follow-up')"/></a>
+            </div>
+
+            <div class="mo-grid">
+                <div class="mo-stat"><span class="mo-muted"><t t-esc="T('Outstanding')"/></span><b t-esc="money(d['outstanding'])"/></div>
+                <div class="mo-stat"><span class="mo-muted"><t t-esc="T('Overdue')"/></span><b t-attf-class="#{'mo-bad' if d['overdue'] else ''}" t-esc="money(d['overdue'])"/></div>
+                <div class="mo-stat"><span class="mo-muted"><t t-esc="T('Total Sales')"/></span><b t-esc="money(d['total_sales'])"/></div>
+                <div class="mo-stat"><span class="mo-muted"><t t-esc="T('Total Collected')"/></span><b t-esc="money(d['total_collected'])"/></div>
+                <div class="mo-stat"><span class="mo-muted"><t t-esc="T('Last Order')"/></span><b class="mo-sm"><t t-if="d['last_order']" t-esc="dt(d['last_order'].date_order)[:10]"/><t t-else="">—</t></b></div>
+                <div class="mo-stat"><span class="mo-muted"><t t-esc="T('Last Visit')"/></span><b class="mo-sm"><t t-if="d['last_visit']" t-esc="dt(d['last_visit'].end_time)[:10]"/><t t-else="">—</t></b></div>
+            </div>
+
+            <div class="mo-card" t-if="d['outstanding']" style="margin-top:12px">
+                <h3><t t-esc="T('Outstanding &amp; Aging')"/></h3>
+                <div class="mo-scroll"><table class="mo-table">
+                    <tbody>
+                        <t t-foreach="buckets" t-as="b"><tr><td t-esc="bucket_label(b)"/><td class="mo-num" t-esc="money(d['aging'][b])"/></tr></t>
+                        <tr><th><t t-esc="T('Total Overdue')"/></th><th class="mo-num" t-esc="money(d['aging']['overdue'])"/></tr>
+                    </tbody></table></div>
+                <t t-foreach="buckets" t-as="b"><t t-foreach="d['aging']['invoices'].get(b, [])" t-as="it">
+                    <div class="mo-row" style="margin-top:6px">
+                        <a t-attf-href="/rep/invoice/#{it[0].id}"><t t-esc="it[0].name"/></a>
+                        <span><t t-esc="money(it[0].amount_residual)"/> <span t-if="it[1] &gt; 0" class="mo-chip cancel"><t t-esc="it[1]"/><t t-esc="T('d')"/></span></span>
+                    </div>
+                    <a t-if="S.allow_payment and approved" class="mo-btn small accent" t-attf-href="/rep/payment/new?invoice_id=#{it[0].id}"><t t-esc="T('Collect Payment')"/></a>
+                </t></t>
+            </div>
+
+            <div class="mo-card" t-if="d['quotations']"><h3><t t-esc="T('Quotations')"/></h3>
+                <t t-foreach="d['quotations']" t-as="o"><div class="mo-row"><a t-attf-href="/rep/order/#{o.id}" t-esc="o.name"/>
+                    <span><t t-esc="money(o.amount_total)"/> <t t-esc="cur"/></span></div></t></div>
+            <div class="mo-card" t-if="d['confirmed']"><h3><t t-esc="T('Sales orders')"/></h3>
+                <t t-foreach="d['confirmed']" t-as="o"><div class="mo-row"><a t-attf-href="/rep/order/#{o.id}" t-esc="o.name"/>
+                    <span><t t-esc="money(o.amount_total)"/> <t t-esc="cur"/> · <t t-esc="ostatus(o)[0]"/></span></div></t></div>
+            <div class="mo-card" t-if="d['invoices']"><h3><t t-esc="T('Invoices')"/></h3>
+                <t t-foreach="d['invoices']" t-as="m"><div class="mo-row"><a t-attf-href="/rep/invoice/#{m.id}" t-esc="m.name"/>
+                    <span><t t-esc="money(m.amount_total)"/> · <t t-esc="T('due')"/> <t t-esc="money(m.amount_residual)"/></span></div></t></div>
+            <div class="mo-card" t-if="d['payments']"><h3><t t-esc="T('Payments')"/></h3>
+                <t t-foreach="d['payments']" t-as="p"><div class="mo-row"><a t-attf-href="/rep/payment/#{p.id}/receipt" t-esc="p.date"/>
+                    <span><t t-esc="money(p.amount)"/> <t t-esc="cur"/></span></div></t></div>
+
+            <div class="mo-card" t-if="d['products']"><h3><t t-esc="T('Products bought before')"/></h3>
+                <div class="mo-scroll"><table class="mo-table">
+                    <thead><tr><th><t t-esc="T('Product')"/></th><th><t t-esc="T('Qty')"/></th><th><t t-esc="T('Last price')"/></th></tr></thead>
+                    <tbody><t t-foreach="d['products']" t-as="r"><tr><td t-esc="r['product'].display_name"/><td class="mo-num" t-esc="r['qty']"/><td class="mo-num" t-esc="money(r['last_price'])"/></tr></t></tbody>
+                </table></div></div>
+
+            <div class="mo-card" t-if="d['visits']"><h3><t t-esc="T('Visits')"/></h3>
+                <t t-foreach="d['visits']" t-as="v">
+                    <div class="mo-row"><a t-attf-href="/rep/visit/#{v.id}"><t t-esc="v.name"/> · <t t-esc="v.visit_date"/></a>
+                        <span t-attf-class="mo-chip #{v.state}"><t t-esc="sel(v, 'state')"/></span></div>
+                    <div class="mo-muted" t-if="v.result"><t t-esc="sel(v, 'result')"/></div>
+                    <div class="mo-muted" t-if="v.notes"><t t-esc="v.notes"/></div>
+                </t></div>
+            <div class="mo-card" t-if="d['followups']"><h3><t t-esc="T('Follow-ups')"/></h3>
+                <t t-foreach="d['followups']" t-as="f"><div class="mo-row"><span t-esc="f.name"/><span class="mo-muted" t-esc="f.due_date"/></div></t></div>
+            <div class="mo-card" t-if="d['deliveries'] or d['returns']"><h3><t t-esc="T('Deliveries &amp; Returns')"/></h3>
+                <t t-foreach="d['deliveries']" t-as="x"><div class="mo-row"><a t-attf-href="/rep/picking/#{x.id}" t-esc="x.name"/><span class="mo-muted"><t t-esc="sel(x, 'state')"/></span></div></t>
+                <t t-foreach="d['returns']" t-as="x"><div class="mo-row"><a t-attf-href="/rep/picking/#{x.id}" t-esc="x.name"/><span class="mo-muted"><t t-esc="sel(x, 'state')"/></span></div></t></div>
+        </t>
+    </template>
+
+    <!-- ======================================================== visit -->
+    <template id="tpl_visit" name="Sales Rep - Visit">
+        <t t-call="mo_sales_rep_portal.tpl_layout">
+            <t t-set="vq" t-value="'&amp;visit_id=%s&amp;partner_id=%s' % (visit.id, visit.partner_id.id)"/>
+            <div class="mo-card">
+                <div class="mo-row">
+                    <h2><a t-attf-href="/rep/customer/#{visit.partner_id.id}" t-esc="visit.partner_id.display_name"/></h2>
+                    <span t-attf-class="mo-chip #{visit.state}"><t t-esc="sel(visit, 'state')"/></span>
+                </div>
+                <div class="mo-muted"><t t-esc="sel(visit, 'visit_type')"/> · <t t-esc="visit.visit_date"/></div>
+                <div class="mo-muted" t-if="visit.purpose"><t t-esc="T('Purpose:')"/> <t t-esc="visit.purpose"/></div>
+                <div class="mo-muted" t-if="info['mobile']"><t t-esc="info['mobile']"/></div>
+                <div class="mo-muted"><t t-esc="T('Balance:')"/> <t t-esc="money(aging['total'])"/> <t t-esc="cur"/><t t-if="aging['overdue']"> · <t t-esc="T('overdue')"/> <t t-esc="money(aging['overdue'])"/></t></div>
+                <div class="mo-muted" t-if="info['last_order']"><t t-esc="T('Last order:')"/> <t t-esc="info['last_order'].name"/> · <t t-esc="dt(info['last_order'].date_order)"/></div>
+                <div class="mo-muted" t-if="info['last_visit']"><t t-esc="T('Last visit:')"/> <t t-esc="dt(info['last_visit'].end_time)"/></div>
+                <div class="mo-muted" t-if="visit.start_time"><t t-esc="T('Started:')"/> <t t-esc="dt(visit.start_time)"/></div>
+                <div class="mo-muted" t-if="visit.end_time"><t t-esc="T('Ended:')"/> <t t-esc="dt(visit.end_time)"/></div>
+                <div class="mo-muted" t-if="visit.result"><t t-esc="T('Result:')"/> <t t-esc="sel(visit, 'result')"/></div>
+                <div class="mo-muted" t-if="visit.notes" style="white-space:pre-line"><t t-esc="visit.notes"/></div>
+                <div class="mo-btns">
+                    <a t-if="info['mobile']" class="mo-btn small" t-attf-href="tel:#{info['mobile']}"><t t-esc="T('Call')"/></a>
+                    <a t-if="S.enable_whatsapp and info['wa']" class="mo-btn small" t-attf-href="https://wa.me/#{info['wa']}" target="_blank" rel="noopener"><t t-esc="T('WhatsApp')"/></a>
+                    <a t-if="info['maps']" class="mo-btn small" t-att-href="info['maps']" target="_blank" rel="noopener"><t t-esc="T('Open location')"/></a>
+                </div>
+            </div>
+
+            <form t-if="visit.state in ('planned', 'missed')" method="post" action="/rep/visit/start" data-geo="1" data-queue="1">
+                <input type="hidden" name="csrf_token" t-att-value="csrf"/>
+                <input type="hidden" name="visit_id" t-att-value="visit.id"/>
+                <input type="hidden" name="lat"/><input type="hidden" name="lng"/>
+                <button type="submit" class="mo-btn primary"><t t-esc="T('Start Visit')"/></button>
+            </form>
+
+            <t t-if="visit.state == 'started'">
+                <div class="mo-actions">
+                    <a t-if="S.allow_quotation" class="mo-btn" t-attf-href="/rep/order/new?order_mode=quotation#{vq}"><t t-esc="T('New Quotation')"/></a>
+                    <a t-if="S.allow_sales_order" class="mo-btn" t-attf-href="/rep/order/new?order_mode=order#{vq}"><t t-esc="T('New Sales Order')"/></a>
+                    <a t-if="S.allow_payment" class="mo-btn accent" t-attf-href="/rep/payment/new?x=1#{vq}"><t t-esc="T('Collect Payment')"/></a>
+                    <a t-if="S.allow_customer_return" class="mo-btn" t-attf-href="/rep/return/new?x=1#{vq}"><t t-esc="T('Customer Return')"/></a>
+                    <a class="mo-btn" t-attf-href="/rep/followup/new?x=1#{vq}"><t t-esc="T('Add Follow-up')"/></a>
+                    <a t-if="S.allow_expense" class="mo-btn" t-attf-href="/rep/expense/new?x=1#{vq}"><t t-esc="T('New Expense')"/></a>
+                    <a t-if="S.allow_invoice_creation and S.allow_direct_invoice" class="mo-btn" t-attf-href="/rep/invoice/new?x=1#{vq}"><t t-esc="T('New Invoice')"/></a>
+                </div>
+
+                <div class="mo-card" t-if="aging['invoices']">
+                    <h3><t t-esc="T('Outstanding invoices')"/></h3>
+                    <t t-foreach="buckets" t-as="b"><t t-foreach="aging['invoices'].get(b, [])" t-as="it">
+                        <div class="mo-row" style="margin-bottom:6px">
+                            <a t-attf-href="/rep/invoice/#{it[0].id}" t-esc="it[0].name"/>
+                            <span><t t-esc="money(it[0].amount_residual)"/>
+                                <a t-if="S.allow_payment" class="mo-btn small accent" style="margin-inline-start:6px" t-attf-href="/rep/payment/new?invoice_id=#{it[0].id}#{vq}"><t t-esc="T('Collect')"/></a></span>
+                        </div>
+                    </t></t>
+                </div>
+
+                <form method="post" t-attf-action="/rep/visit/#{visit.id}/note" data-queue="1" class="mo-form mo-card">
+                    <input type="hidden" name="csrf_token" t-att-value="csrf"/>
+                    <label for="vnote"><t t-esc="T('Add a note')"/></label>
+                    <textarea id="vnote" name="text" class="mo-input" required="required"/>
+                    <button type="submit" class="mo-btn small" style="margin-top:8px"><t t-esc="T('Add Note')"/></button>
+                </form>
+
+                <form method="post" t-attf-action="/rep/visit/#{visit.id}/end" data-geo="1" data-queue="1" enctype="multipart/form-data" class="mo-form mo-card">
+                    <input type="hidden" name="csrf_token" t-att-value="csrf"/>
+                    <input type="hidden" name="lat"/><input type="hidden" name="lng"/>
+                    <h3><t t-esc="T('Finish Visit')"/></h3>
+                    <label for="result"><t t-esc="T('Visit Result')"/></label>
+                    <select id="result" name="result" class="mo-input" required="required">
+                        <option value=""><t t-esc="T('Choose the result')"/></option>
+                        <t t-foreach="results" t-as="r"><option t-att-value="r[0]"><t t-esc="T(r[1])"/></option></t>
+                    </select>
+                    <label for="notes"><t t-esc="T('Visit Notes')"/></label>
+                    <textarea id="notes" name="notes" class="mo-input"/>
+                    <label for="next_followup_date"><t t-esc="T('Next Follow-up Date')"/></label>
+                    <input id="next_followup_date" type="date" name="next_followup_date" class="mo-input"/>
+                    <label for="next_visit_date"><t t-esc="T('Next Visit Date')"/></label>
+                    <input id="next_visit_date" type="date" name="next_visit_date" class="mo-input"/>
+                    <t t-if="S.enable_attachments">
+                        <label for="att_end"><t t-esc="T('Photos or documents')"/></label>
+                        <input id="att_end" type="file" name="attachments" class="mo-input" multiple="multiple" accept="image/*,application/pdf"/>
+                    </t>
+                    <button type="submit" class="mo-btn primary" style="margin-top:12px"><t t-esc="T('Finish Visit')"/></button>
+                </form>
+            </t>
+
+            <t t-if="visit.state == 'completed' and next_visit">
+                <a class="mo-btn primary" t-attf-href="/rep/visit/#{next_visit.id}" style="margin-top:8px"><t t-esc="T('Next customer:')"/> <t t-esc="next_visit.partner_id.display_name"/></a>
+            </t>
+
+            <form t-if="visit.state in ('planned', 'missed')" method="post" t-attf-action="/rep/visit/#{visit.id}/cancel">
+                <input type="hidden" name="csrf_token" t-att-value="csrf"/>
+                <button type="submit" class="mo-btn danger" style="margin-top:8px"><t t-esc="T('Cancel visit')"/></button>
+            </form>
+
+            <div class="mo-card" t-if="visit.sale_order_ids or visit.invoice_ids or visit.payment_ids or visit.expense_ids or followups">
+                <h3><t t-esc="T('From this visit')"/></h3>
+                <t t-foreach="visit.sale_order_ids" t-as="o"><div class="mo-row"><a t-attf-href="/rep/order/#{o.id}" t-esc="o.name"/><span><t t-esc="money(o.amount_total)"/> <t t-esc="cur"/></span></div></t>
+                <t t-foreach="visit.invoice_ids" t-as="m"><div class="mo-row"><a t-attf-href="/rep/invoice/#{m.id}" t-esc="m.name or T('Draft invoice')"/><span><t t-esc="money(m.amount_total)"/> <t t-esc="cur"/></span></div></t>
+                <t t-foreach="visit.payment_ids" t-as="p"><div class="mo-row"><a t-attf-href="/rep/payment/#{p.id}/receipt" t-esc="p.name or T('Payment')"/><span><t t-esc="money(p.amount)"/> <t t-esc="cur"/></span></div></t>
+                <t t-foreach="visit.expense_ids" t-as="e"><div class="mo-row"><a t-attf-href="/rep/expense/#{e.id}" t-esc="e.name"/><span><t t-esc="money(e.amount)"/> <t t-esc="cur"/></span></div></t>
+                <t t-foreach="followups" t-as="f"><div class="mo-row"><span t-esc="f.name"/><span class="mo-muted" t-esc="f.due_date"/></div></t>
+            </div>
+
+            <div class="mo-card" t-if="S.enable_attachments and visit.state != 'cancelled'">
+                <h3><t t-esc="T('Attachments')"/></h3>
+                <t t-foreach="attachments" t-as="a"><div class="mo-muted"><a t-attf-href="/web/content/#{a.id}?download=true&amp;access_token=#{a.generate_access_token()[0]}" t-esc="a.name"/></div></t>
+                <div t-if="not attachments" class="mo-muted"><t t-esc="T('No files yet.')"/></div>
+                <form method="post" t-attf-action="/rep/visit/#{visit.id}/attach" enctype="multipart/form-data" class="mo-form">
+                    <input type="hidden" name="csrf_token" t-att-value="csrf"/>
+                    <input type="file" name="attachments" class="mo-input" multiple="multiple" accept="image/*,application/pdf" capture="environment" required="required"/>
+                    <button type="submit" class="mo-btn small" style="margin-top:8px"><t t-esc="T('Upload')"/></button>
+                </form>
+            </div>
+        </t>
+    </template>
+</odoo>

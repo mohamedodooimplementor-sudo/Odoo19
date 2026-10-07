@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="mo_sales_rep_portal.Dashboard">
+        <div class="o_mo_rep_dash o_action">
+            <div class="mo_dash_head">
+                <h2>Sales Representatives
+                    <span class="mo_live" t-att-class="state.live ? '' : 'off'" t-on-click="toggleLive" title="Auto refresh every minute">
+                        <i/> Live <small t-if="state.updated" t-esc="state.updated"/>
+                    </span>
+                </h2>
+                <div class="mo_dash_filters">
+                    <input type="date" class="form-control" t-att-value="state.dateFrom" t-on-change="(ev) => this.onDate(ev, 'dateFrom')"/>
+                    <input type="date" class="form-control" t-att-value="state.dateTo" t-on-change="(ev) => this.onDate(ev, 'dateTo')"/>
+                    <button class="btn btn-primary" t-on-click="load">Apply</button>
+                    <button class="btn btn-secondary" t-on-click="() => this.setPeriod('today')">Today</button>
+                    <button class="btn btn-secondary" t-on-click="() => this.setPeriod('week')">This Week</button>
+                    <button class="btn btn-secondary" t-on-click="() => this.setPeriod('month')">This Month</button>
+                </div>
+            </div>
+            <div class="mo_dash_filters mo_dash_filters2" t-if="state.data">
+                <select class="form-select" t-on-change="(ev) => this.onFilter(ev, 'repId')">
+                    <option value="">All representatives</option>
+                    <option t-foreach="state.data.options.reps" t-as="r" t-key="r.id" t-att-value="r.id" t-att-selected="isSel(r.id, state.repId)" t-esc="r.name"/>
+                </select>
+                <select class="form-select" t-on-change="(ev) => this.onFilter(ev, 'teamId')">
+                    <option value="">All teams</option>
+                    <option t-foreach="state.data.options.teams" t-as="t" t-key="t.id" t-att-value="t.id" t-att-selected="isSel(t.id, state.teamId)" t-esc="t.name"/>
+                </select>
+                <select class="form-select" t-on-change="(ev) => this.onFilter(ev, 'routeId')">
+                    <option value="">All routes</option>
+                    <option t-foreach="state.data.options.routes" t-as="r" t-key="r.id" t-att-value="r.id" t-att-selected="isSel(r.id, state.routeId)" t-esc="r.name"/>
+                </select>
+                <input type="search" class="form-control" placeholder="Customer" t-att-value="state.partnerName"
+                       t-on-input="(ev) => this.onFilter(ev, 'partnerName')" t-on-keydown="onSearchKey"/>
+            </div>
+            <t t-if="state.data">
+                <t t-set="d" t-value="state.data"/>
+                <div class="mo_kpis mo_rise">
+                    <div class="mo_kpi hero mo_click" t-on-click="() => this.openSalesPeriod('today')"><span>Sales today</span><b t-esc="fmt(d.kpi.sales_today)"/>
+                        <svg class="mo_spark" viewBox="0 0 100 34" preserveAspectRatio="none"><polyline fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" vector-effect="non-scaling-stroke" t-att-points="sparkPoints('sales')"/></svg></div>
+                    <div class="mo_kpi mo_click" t-on-click="() => this.openSalesPeriod('week')"><span>Sales this week</span><b t-esc="fmt(d.kpi.sales_week)"/></div>
+                    <div class="mo_kpi mo_click" t-on-click="() => this.openSalesPeriod('month')"><span>Sales this month</span><b t-esc="fmt(d.kpi.sales_month)"/></div>
+                    <div class="mo_kpi">
+                        <span>Visits: completed / planned / missed</span>
+                        <b>
+                            <a class="mo_link" t-on-click="() => this.openVisits(null, ['completed'])" t-esc="d.totals.completed"/> /
+                            <a class="mo_link" t-on-click="() => this.openVisits(null, ['planned', 'started'])" t-esc="d.totals.planned"/> /
+                            <a class="mo_link" t-on-click="() => this.openVisits(null, ['missed'])" t-esc="d.totals.missed"/>
+                        </b>
+                    </div>
+                    <div class="mo_kpi">
+                        <span>Collection: cash / bank / cheque</span>
+                        <b>
+                            <a class="mo_link" t-on-click="() => this.openPayments(null, 'cash')" t-esc="fmt(d.totals.cash)"/> /
+                            <a class="mo_link" t-on-click="() => this.openPayments(null, 'bank')" t-esc="fmt(d.totals.bank)"/> /
+                            <a class="mo_link" t-on-click="() => this.openPayments(null, 'cheque')" t-esc="fmt(d.totals.cheque)"/>
+                        </b>
+                    </div>
+                    <div class="mo_kpi">
+                        <span>Customers: total / visited / not visited</span>
+                        <b>
+                            <a class="mo_link" t-on-click="() => this.openCustomers(d.all_customer_ids)" t-esc="d.totals.customers"/> /
+                            <a class="mo_link" t-on-click="() => this.openCustomers(d.all_active_ids)" t-esc="d.totals.active_customers"/> /
+                            <a class="mo_link" t-on-click="() => this.openCustomers(d.all_not_visited_ids)" t-esc="d.totals.not_visited"/>
+                        </b>
+                    </div>
+                </div>
+                <div class="mo_kpis">
+                    <div class="mo_kpi mo_click" t-on-click="() => this.openVisits(null, ['completed'])"><span>Visit-to-order conversion</span><b><t t-esc="d.totals.conversion"/>%</b></div>
+                    <div class="mo_kpi mo_click" t-on-click="() => this.openVisits(null, ['completed'])"><span>Average visit duration</span><b><t t-esc="d.totals.avg_minutes"/> min</b></div>
+                    <div class="mo_kpi mo_click" t-on-click="() => this.openOrders()"><span>Average order value</span><b t-esc="fmt(d.totals.avg_order)"/></div>
+                    <div class="mo_kpi mo_click" t-on-click="() => this.openPayments()"><span>Collection / sales</span><b><t t-esc="d.totals.collection_ratio"/>%</b></div>
+                </div>
+                <div class="mo_kpis">
+                    <div class="mo_kpi mo_click" t-on-click="() => this.openNewCustomers()"><span>New customers</span><b t-esc="d.totals.new_customers"/></div>
+                    <div class="mo_kpi mo_click" t-on-click="() => this.openInvoices(false)"><span>Outstanding</span><b t-esc="fmt(d.totals.outstanding)"/></div>
+                    <div class="mo_kpi mo_click" t-on-click="() => this.openInvoices(true)"><span>Overdue</span><b t-esc="fmt(d.totals.overdue)"/></div>
+                    <div class="mo_kpi mo_click" t-on-click="() => this.openTargets()"><span>Target achievement</span><b><t t-if="d.totals.target_pct !== null"><t t-esc="d.totals.target_pct"/>%</t><t t-else="">—</t></b></div>
+                    <div class="mo_kpi mo_click" t-on-click="() => this.openExpenses()"><span>Expenses (pending: <t t-esc="d.totals.expenses_pending"/>)</span><b t-esc="fmt(d.totals.expenses)"/></div>
+                    <div class="mo_kpi mo_click" t-on-click="() => this.openReturns()"><span>Returns</span><b t-esc="d.totals.returns"/></div>
+                </div>
+                <div class="mo_widgets">
+                    <div class="mo_chart mo_widget">
+                        <div class="mo_legend"><b>Visits</b></div>
+                        <t t-set="dn" t-value="donutSegments()"/>
+                        <div class="mo_donut">
+                            <svg viewBox="0 0 140 140">
+                                <circle cx="70" cy="70" r="52" fill="none" stroke="rgba(128,128,128,.2)" stroke-width="18"/>
+                                <circle t-foreach="dn.items" t-as="s" t-key="s.label" cx="70" cy="70" r="52" fill="none" t-att-stroke="s.color" stroke-width="18"
+                                        t-att-stroke-dasharray="s.dash" t-att-stroke-dashoffset="s.offset" transform="rotate(-90 70 70)"/>
+                                <text x="70" y="77" text-anchor="middle" class="mo_donut_total" t-esc="cnt(dn.total)"/>
+                            </svg>
+                            <ul>
+                                <li t-foreach="dn.items" t-as="s" t-key="s.label"><span><i t-att-style="'background:' + s.color"/><t t-esc="s.label"/></span><b t-esc="s.value"/></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mo_chart mo_widget">
+                        <div class="mo_legend"><b>Outstanding by age</b></div>
+                        <t t-set="ag" t-value="agingSegments()"/>
+                        <div class="mo_stack"><i t-foreach="ag.items" t-as="s" t-key="s.label" t-att-style="'background:' + s.color + ';flex-grow:' + (s.pct * state.t)" t-att-title="s.label + ': ' + fmt(s.value)"/></div>
+                        <div class="mo_stack_legend"><span t-foreach="ag.items" t-as="s" t-key="s.label"><i t-att-style="'background:' + s.color"/><t t-esc="s.label"/> · <t t-esc="fmt(s.value)"/></span></div>
+                        <div class="mo_legend" style="margin-top:14px"><b>Top customers</b></div>
+                        <div t-foreach="d.top_customers" t-as="c" t-key="c.id" class="mo_hbar mo_click" t-on-click="() => this.openCustomerOrders(c)">
+                            <div class="mo_hbar_top"><span t-esc="c.name"/><b t-esc="fmt(c.sales)"/></div>
+                            <div class="mo_hbar_track"><i t-att-style="'width:' + (100 * c.sales / Math.max(1, d.top_customers[0].sales) * state.t) + '%'"/></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mo_chart">
+                    <div class="mo_legend"><span class="s">Sales</span><span class="c">Collection</span><small class="text-muted">Click a bar to open its documents</small></div>
+                    <canvas t-ref="canvas" style="width:100%;height:220px" t-on-click="onBarClick" t-on-mousemove="onBarMove"/>
+                </div>
+                <div class="mo_chart">
+                    <div class="mo_legend"><span class="s">Daily sales</span><span class="c">Daily collection</span><small class="text-muted">Click a point to open that day</small></div>
+                    <canvas t-ref="trend" style="width:100%;height:200px" t-on-click="onTrendClick" t-on-mousemove="onTrendMove"/>
+                </div>
+                <div class="mo_cards">
+                    <div t-foreach="d.rows" t-as="row" t-key="row.id" class="mo_repcard mo_click" t-on-click="() => this.openRep(row)">
+                        <div class="mo_repcard_head">
+                            <span class="mo_avatar" t-esc="initial(row.name)"/>
+                            <div><b t-esc="row.name"/><div class="text-muted small"><t t-esc="row.completed"/> / <t t-esc="row.completed + row.planned + row.missed"/> visits</div></div>
+                            <svg class="mo_ring" viewBox="0 0 90 90">
+                                <circle cx="45" cy="45" r="36" fill="none" stroke="rgba(128,128,128,.22)" stroke-width="9"/>
+                                <circle cx="45" cy="45" r="36" fill="none" stroke="#0e6b5c" stroke-width="9" stroke-linecap="round" transform="rotate(-90 45 45)"
+                                        t-att-stroke-dasharray="ringDash(row.target_pct)"/>
+                                <text x="45" y="50" text-anchor="middle" class="mo_ring_text"><t t-if="row.target_pct !== null" t-esc="Math.round(row.target_pct) + '%'"/><t t-else="">—</t></text>
+                            </svg>
+                        </div>
+                        <div class="mo_bar_row"><span>Sales</span><div class="mo_hbar_track"><i class="s" t-att-style="'width:' + barPct(row.sales, 'sales') + '%'"/></div><b t-esc="fmt(row.sales)"/></div>
+                        <div class="mo_bar_row"><span>Collection</span><div class="mo_hbar_track"><i class="c" t-att-style="'width:' + barPct(row.collection, 'collection') + '%'"/></div><b t-esc="fmt(row.collection)"/></div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-sm mo_table">
+                        <thead>
+                            <tr>
+                                <th>Salesperson</th><th class="text-end">Visits</th><th class="text-end">Missed</th>
+                                <th class="text-end">Sales</th><th class="text-end">Collection</th>
+                                <th class="text-end">Conversion</th><th class="text-end">Avg visit (min)</th>
+                                <th class="text-end">Collection / sales</th>
+                                <th class="text-end">Customers not visited</th>
+                                <th class="text-end">New customers</th><th class="text-end">Outstanding</th>
+                                <th class="text-end">Overdue</th><th class="text-end">Target %</th>
+                                <th class="text-end">Expenses</th><th class="text-end">Returns</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="d.rows" t-as="row" t-key="row.id">
+                                <td><a class="mo_link fw-bold" t-on-click="() => this.openRep(row)" t-esc="row.name"/></td>
+                                <td class="text-end"><a class="mo_link" t-on-click="() => this.openVisits(row)"><t t-esc="row.completed"/> / <t t-esc="row.completed + row.planned + row.missed"/></a></td>
+                                <td class="text-end"><a class="mo_link" t-on-click="() => this.openVisits(row, ['missed'])" t-esc="row.missed"/></td>
+                                <td class="text-end"><a class="mo_link" t-on-click="() => this.openOrders(row)" t-esc="fmt(row.sales)"/></td>
+                                <td class="text-end"><a class="mo_link" t-on-click="() => this.openPayments(row)" t-esc="fmt(row.collection)"/></td>
+                                <td class="text-end"><a class="mo_link" t-on-click="() => this.openVisits(row, ['completed'])"><t t-esc="row.conversion"/>%</a></td>
+                                <td class="text-end"><a class="mo_link" t-on-click="() => this.openVisits(row, ['completed'])" t-esc="row.avg_minutes"/></td>
+                                <td class="text-end"><a class="mo_link" t-on-click="() => this.openPayments(row)"><t t-esc="row.collection_ratio"/>%</a></td>
+                                <td class="text-end"><a class="mo_link" t-on-click="() => this.openCustomers(row.not_visited_ids)" t-esc="row.not_visited"/></td>
+                                <td class="text-end"><a class="mo_link" t-on-click="() => this.openNewCustomers(row)" t-esc="row.new_customers"/></td>
+                                <td class="text-end" t-esc="fmt(row.outstanding)"/>
+                                <td class="text-end" t-esc="fmt(row.overdue)"/>
+                                <td class="text-end"><t t-if="row.target_pct !== null"><t t-esc="row.target_pct"/>%</t><t t-else="">—</t></td>
+                                <td class="text-end"><a class="mo_link" t-on-click="() => this.openExpenses(row)" t-esc="fmt(row.expenses)"/></td>
+                                <td class="text-end"><a class="mo_link" t-on-click="() => this.openReturns(row)" t-esc="row.returns"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h4 class="mt-4">Top customers</h4>
+                <table class="table table-sm mo_table" t-if="d.top_customers.length">
+                    <tbody>
+                        <tr t-foreach="d.top_customers" t-as="c" t-key="c.id">
+                            <td><a class="mo_link" t-on-click="() => this.openCustomerOrders(c)" t-esc="c.name"/></td>
+                            <td class="text-end"><a class="mo_link" t-on-click="() => this.openCustomerOrders(c)" t-esc="fmt(c.sales)"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div t-else="" class="text-muted">No sales in this period.</div>
+            </t>
+            <div t-else="" class="p-4 text-muted">Loading…</div>
+        </div>
+    </t>
+</templates>

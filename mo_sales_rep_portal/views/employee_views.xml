@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_rep_form_employee" model="ir.ui.view">
+        <field name="name">mo.sales.rep.form.employee</field>
+        <field name="model">mo.sales.rep</field>
+        <field name="inherit_id" ref="mo_sales_rep_portal.view_rep_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="employee_id" options="{'no_create': True}"/>
+                <field name="department_id"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_rep_list_employee" model="ir.ui.view">
+        <field name="name">mo.sales.rep.list.employee</field>
+        <field name="model">mo.sales.rep</field>
+        <field name="inherit_id" ref="mo_sales_rep_portal.view_rep_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="employee_id" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_payment_receipt" model="ir.actions.report">
+        <field name="name">Payment Receipt (Sales Rep)</field>
+        <field name="model">account.payment</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mo_sales_rep_portal.report_payment_receipt</field>
+        <field name="report_file">mo_sales_rep_portal.report_payment_receipt</field>
+        <field name="print_report_name">'Receipt - %s' % (object.name or 'payment')</field>
+        <field name="binding_model_id" ref="account.model_account_payment"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_payment_receipt">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <t t-set="company" t-value="o.company_id"/>
+                    <div class="page" style="font-size:14px">
+                        <h2 style="text-align:center">Payment Receipt</h2>
+                        <p style="text-align:center" t-esc="o.name"/>
+                        <h1 style="text-align:center">
+                            <span t-field="o.amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                        </h1>
+                        <table class="table table-sm">
+                            <tbody>
+                                <tr><td><strong>Customer</strong></td><td><span t-field="o.partner_id"/></td></tr>
+                                <tr><td><strong>Payment Date</strong></td><td><span t-field="o.date"/></td></tr>
+                                <tr><td><strong>Payment Method</strong></td><td><span t-esc="o.mo_method_id.name or o.journal_id.name"/></td></tr>
+                                <tr t-if="o.reconciled_invoice_ids"><td><strong>Invoice(s)</strong></td>
+                                    <td><t t-foreach="o.reconciled_invoice_ids" t-as="inv"><div t-esc="inv.name"/></t></td></tr>
+                                <tr t-if="o.mo_rep_id"><td><strong>Sales Representative</strong></td><td><span t-field="o.mo_rep_id.name"/></td></tr>
+                            </tbody>
+                        </table>
+                        <p style="margin-top:40px">Received by: ______________________</p>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,1724 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* mo_sales_rep_portal
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model,name:mo_sales_rep_portal.model_mo_sales_expense
+msgid "Sales Representative Expense"
+msgstr "مصروف مندوب مبيعات"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_expense__name
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_return_reason__name
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_cheque__name
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__name
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_payment_method__name
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__name
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__name
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_target__name
+msgid "Name"
+msgstr "الاسم"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_expense__rep_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_cheque__rep_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_followup__rep_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__rep_id
+#: model:ir.model,name:mo_sales_rep_portal.model_mo_sales_rep
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_target__rep_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_portal_source_mixin__mo_rep_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_sale_order__mo_rep_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_account_move__mo_rep_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_account_payment__mo_rep_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_stock_picking__mo_rep_id
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_root
+msgid "Sales Representative"
+msgstr "مندوب المبيعات"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_expense__date
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_search
+msgid "Date"
+msgstr "التاريخ"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_expense__expense_type
+msgid "Expense Type"
+msgstr "نوع المصروف"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_expense__expense_type__transport
+msgid "Transportation"
+msgstr "مواصلات"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_expense__expense_type__fuel
+msgid "Fuel"
+msgstr "وقود"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_expense__expense_type__parking
+msgid "Parking"
+msgstr "انتظار سيارات"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_expense__expense_type__visit
+msgid "Customer Visit Expenses"
+msgstr "مصروفات زيارة عميل"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_expense__expense_type__meals
+msgid "Meals"
+msgstr "وجبات"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_expense__expense_type__other
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__visit_type__other
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__result__other
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep_payment_method__method_type__other
+msgid "Other"
+msgstr "أخرى"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_expense__amount
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_cheque__amount
+msgid "Amount"
+msgstr "المبلغ"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_expense__currency_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_cheque__currency_id
+msgid "Currency"
+msgstr "العملة"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_expense__company_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_cheque__company_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_followup__company_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__company_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_payment_method__company_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__company_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_route__company_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_target__company_id
+msgid "Company"
+msgstr "الشركة"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_expense__partner_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_cheque__partner_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_followup__partner_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__partner_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_route_line__partner_id
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_search
+msgid "Customer"
+msgstr "العميل"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_expense__visit_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_location__visit_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_portal_source_mixin__mo_visit_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_sale_order__mo_visit_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_account_move__mo_visit_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_account_payment__mo_visit_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_stock_picking__mo_visit_id
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_form
+msgid "Visit"
+msgstr "الزيارة"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_expense__notes
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_cheque__notes
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_followup__notes
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__notes
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_expense_form
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_followup_form
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_cheque_form
+msgid "Notes"
+msgstr "ملاحظات"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_expense__state
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_cheque__state
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_followup__state
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__state
+msgid "State"
+msgstr "الحالة"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_expense__state__draft
+msgid "Draft"
+msgstr "مسودة"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_expense__state__submitted
+msgid "Submitted"
+msgstr "تم الإرسال"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_expense__state__approved
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__res_partner__mo_approval_state__approved
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_expense_search
+msgid "Approved"
+msgstr "معتمد"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_expense__state__refused
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__res_partner__mo_approval_state__refused
+msgid "Refused"
+msgstr "مرفوض"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_expense__approved_by_id
+msgid "Decided By"
+msgstr "قرار بواسطة"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_expense__approved_date
+msgid "Decision Date"
+msgstr "تاريخ القرار"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_expense__refuse_reason
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_res_partner__mo_refuse_reason
+msgid "Refusal Reason"
+msgstr "سبب الرفض"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model,name:mo_sales_rep_portal.model_mo_return_reason
+msgid "Customer Return Reason"
+msgstr "سبب مرتجع العميل"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_return_reason__sequence
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_route_line__sequence
+msgid "Sequence"
+msgstr "التسلسل"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_return_reason__active
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_payment_method__active
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__active
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_route__active
+msgid "Active"
+msgstr "نشط"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model,name:mo_sales_rep_portal.model_mo_sales_cheque
+msgid "Cheque Received by a Sales Representative"
+msgstr "شيك مستلم بواسطة مندوب"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_cheque__payment_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__payment_ids
+msgid "Payment"
+msgstr "دفعة"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_cheque__cheque_number
+msgid "Cheque Number"
+msgstr "رقم الشيك"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_cheque__bank_name
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep_payment_method__method_type__bank
+msgid "Bank"
+msgstr "بنك"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_cheque__cheque_date
+msgid "Cheque Date"
+msgstr "تاريخ الشيك"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_cheque__due_date
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_followup__due_date
+msgid "Due Date"
+msgstr "تاريخ الاستحقاق"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_cheque__state__received
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_cheque_search
+msgid "Received"
+msgstr "تم الاستلام"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_cheque__state__deposited
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_cheque_search
+msgid "Deposited"
+msgstr "تم الإيداع"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_cheque__state__cleared
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_cheque_form
+msgid "Cleared"
+msgstr "تم التحصيل"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_cheque__state__returned
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_cheque_form
+msgid "Returned"
+msgstr "مرتجع"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model,name:mo_sales_rep_portal.model_mo_sales_followup
+msgid "Sales Follow-up"
+msgstr "متابعة مبيعات"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_followup__name
+msgid "Task"
+msgstr "المهمة"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_followup__priority
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_route_line__priority
+msgid "Priority"
+msgstr "الأولوية"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_followup__priority__0
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_route_line__priority__0
+msgid "Normal"
+msgstr "عادية"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_followup__priority__1
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_route_line__priority__1
+msgid "High"
+msgstr "عالية"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_followup__priority__2
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_route_line__priority__2
+msgid "Urgent"
+msgstr "عاجلة"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_followup__visit_id
+msgid "Related Visit"
+msgstr "الزيارة المرتبطة"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_followup__order_id
+msgid "Related Order"
+msgstr "الطلب المرتبط"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_followup__state__open
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_followup_search
+msgid "Open"
+msgstr "مفتوح"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_followup__state__done
+msgid "Done"
+msgstr "تم"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_followup__state__cancelled
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__state__cancelled
+msgid "Cancelled"
+msgstr "ملغي"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_followup__done_date
+msgid "Done Date"
+msgstr "تاريخ التنفيذ"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model,name:mo_sales_rep_portal.model_mo_sales_visit
+msgid "Customer Visit"
+msgstr "زيارة عميل"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__route_line_id
+msgid "Route Stop"
+msgstr "محطة خط السير"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__route_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__route_ids
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_route_line__route_id
+msgid "Route"
+msgstr "خط السير"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__day_sequence
+msgid "Optimized Order"
+msgstr "الترتيب المحسّن"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__visit_date
+msgid "Visit Date"
+msgstr "تاريخ الزيارة"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__visit_type
+msgid "Visit Type"
+msgstr "نوع الزيارة"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__visit_type__sales
+msgid "Sales Visit"
+msgstr "زيارة مبيعات"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__visit_type__collection
+msgid "Collection Visit"
+msgstr "زيارة تحصيل"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__visit_type__delivery
+msgid "Delivery Visit"
+msgstr "زيارة تسليم"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__visit_type__follow_up
+msgid "Follow Up"
+msgstr "متابعة"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__visit_type__complaint
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__result__complaint
+msgid "Complaint"
+msgstr "شكوى"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__state__planned
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_search
+msgid "Planned"
+msgstr "مخططة"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__state__started
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_search
+msgid "Started"
+msgstr "بدأت"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__state__completed
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_search
+msgid "Completed"
+msgstr "مكتملة"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__state__missed
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_search
+msgid "Missed"
+msgstr "فائتة"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__start_time
+msgid "Start Time"
+msgstr "وقت البدء"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__end_time
+msgid "End Time"
+msgstr "وقت الانتهاء"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__start_latitude
+msgid "Start Latitude"
+msgstr "خط عرض البدء"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__start_longitude
+msgid "Start Longitude"
+msgstr "خط طول البدء"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__end_latitude
+msgid "End Latitude"
+msgstr "خط عرض الانتهاء"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__end_longitude
+msgid "End Longitude"
+msgstr "خط طول الانتهاء"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__result
+msgid "Visit Result"
+msgstr "نتيجة الزيارة"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__result__order
+msgid "Order Created"
+msgstr "تم إنشاء طلب"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__result__collected
+msgid "Payment Collected"
+msgstr "تم تحصيل دفعة"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__result__not_available
+msgid "Customer Not Available"
+msgstr "العميل غير متاح"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__result__no_order
+msgid "No Order"
+msgstr "بدون طلب"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__result__follow_up
+msgid "Follow-up Required"
+msgstr "تحتاج متابعة"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__result__opportunity
+msgid "New Customer Opportunity"
+msgstr "فرصة عميل جديد"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__next_visit_date
+msgid "Next Visit Date"
+msgstr "تاريخ الزيارة القادمة"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__next_followup_date
+msgid "Next Follow-up Date"
+msgstr "تاريخ المتابعة القادمة"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__purpose
+msgid "Planned Purpose"
+msgstr "الغرض المخطط"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__expense_ids
+msgid "Expense"
+msgstr "مصروف"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__duration
+msgid "Duration (h)"
+msgstr "المدة (ساعة)"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__source
+msgid "Source"
+msgstr "المصدر"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__source__backend
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_portal_source_mixin__mo_source__backend
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__sale_order__mo_source__backend
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__account_move__mo_source__backend
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__account_payment__mo_source__backend
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__stock_picking__mo_source__backend
+msgid "Backend"
+msgstr "النظام الخلفي"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__invoice_ids
+msgid "Invoice"
+msgstr "فاتورة"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model,name:mo_sales_rep_portal.model_mo_sales_rep_location
+msgid "Sales Representative Location Log"
+msgstr "سجل مواقع المندوب"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_location__latitude
+msgid "Latitude"
+msgstr "خط العرض"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_location__longitude
+msgid "Longitude"
+msgstr "خط الطول"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_location__timestamp
+msgid "Timestamp"
+msgstr "الوقت"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model,name:mo_sales_rep_portal.model_mo_sales_rep_payment_method
+msgid "Sales Representative Payment Method"
+msgstr "طريقة دفع المندوب"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_payment_method__method_type
+msgid "Method Type"
+msgstr "نوع الطريقة"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep_payment_method__method_type__cash
+msgid "Cash"
+msgstr "نقدي"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep_payment_method__method_type__cheque
+msgid "Cheque"
+msgstr "شيك"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_payment_method__journal_id
+msgid "Journal"
+msgstr "دفتر اليومية"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__user_id
+msgid "Portal User"
+msgstr "مستخدم البوابة"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__partner_id
+msgid "Partner"
+msgstr "الشريك"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__customer_ids
+msgid "Assigned Customers"
+msgstr "العملاء المخصصون"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__can_view_all_customers
+msgid "Can See All Customers"
+msgstr "يرى كل العملاء"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__warehouse_id
+msgid "Sales Representative Warehouse (Van)"
+msgstr "مخزن المندوب (السيارة)"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__payment_method_ids
+msgid "Allowed Payment Methods"
+msgstr "طرق الدفع المسموحة"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__max_discount
+msgid "Max Discount % (0 = use the global maximum)"
+msgstr "أقصى خصم % (0 = استخدام الحد العام)"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__perm_allow_quotation
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__allow_quotation
+msgid "Allow Quotation"
+msgstr "السماح بعروض الأسعار"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_quotation__default
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_sales_order__default
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_discount__default
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_price_change__default
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_invoice_creation__default
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_direct_invoice__default
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_payment__default
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_stock_view__default
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_internal_transfer__default
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_return__default
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_delivery_validation__default
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_auto_validate__default
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_new_customer__default
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_expense__default
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_customer_return__default
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_ranking__default
+msgid "Use global setting"
+msgstr "استخدام الإعداد العام"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_quotation__yes
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_sales_order__yes
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_discount__yes
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_price_change__yes
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_invoice_creation__yes
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_direct_invoice__yes
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_payment__yes
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_stock_view__yes
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_internal_transfer__yes
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_return__yes
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_delivery_validation__yes
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_auto_validate__yes
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_new_customer__yes
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_expense__yes
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_customer_return__yes
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_ranking__yes
+msgid "Allowed"
+msgstr "مسموح"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_quotation__no
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_sales_order__no
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_discount__no
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_price_change__no
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_invoice_creation__no
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_direct_invoice__no
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_payment__no
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_stock_view__no
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_internal_transfer__no
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_return__no
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_delivery_validation__no
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_auto_validate__no
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_new_customer__no
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_expense__no
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_customer_return__no
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_ranking__no
+msgid "Not allowed"
+msgstr "غير مسموح"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__perm_allow_sales_order
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__allow_sales_order
+msgid "Allow Sales Order"
+msgstr "السماح بأوامر البيع"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__perm_allow_discount
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__allow_discount
+msgid "Allow Discount"
+msgstr "السماح بالخصم"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__perm_allow_price_change
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__allow_price_change
+msgid "Allow Price Change"
+msgstr "السماح بتغيير السعر"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__perm_allow_invoice_creation
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__allow_invoice_creation
+msgid "Allow Invoice Creation"
+msgstr "السماح بإنشاء الفواتير"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__perm_allow_direct_invoice
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__allow_direct_invoice
+msgid "Allow Invoice without Sales Order"
+msgstr "السماح بفاتورة بدون أمر بيع"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__perm_allow_payment
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__allow_payment
+msgid "Allow Payment Registration"
+msgstr "السماح بتسجيل الدفعات"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__perm_allow_stock_view
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__allow_stock_view
+msgid "Allow Stock View"
+msgstr "السماح بعرض المخزون"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__perm_allow_internal_transfer
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__allow_internal_transfer
+msgid "Allow Internal Transfer"
+msgstr "السماح بالتحويل الداخلي"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__perm_allow_return
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__allow_return
+msgid "Allow Return"
+msgstr "السماح بالمرتجعات"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__perm_allow_delivery_validation
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__allow_delivery_validation
+msgid "Allow Delivery Validation"
+msgstr "السماح بتأكيد التسليم"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__perm_allow_auto_validate
+msgid "Auto-validate Stock Operations"
+msgstr "تأكيد عمليات المخزون تلقائيًا"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__perm_allow_new_customer
+msgid "Allow Creating Customers"
+msgstr "السماح بإنشاء العملاء"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__perm_allow_expense
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__allow_expense
+msgid "Allow Expenses"
+msgstr "السماح بالمصروفات"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__perm_allow_customer_return
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__allow_customer_return
+msgid "Allow Customer Returns"
+msgstr "السماح بمرتجعات العملاء"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__perm_allow_ranking
+msgid "Can See the Ranking"
+msgstr "يستطيع رؤية الترتيب"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__team_id
+msgid "Sales Team"
+msgstr "فريق المبيعات"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__target_ids
+msgid "Target"
+msgstr "الهدف"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__visit_count
+msgid "Visit Count"
+msgstr "عدد الزيارات"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__route_count
+msgid "Route Count"
+msgstr "عدد الخطوط"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__employee_id
+msgid "Employee"
+msgstr "الموظف"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__department_id
+msgid "Department"
+msgstr "القسم"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model,name:mo_sales_rep_portal.model_mo_sales_route
+msgid "Sales Route"
+msgstr "خط سير"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_route__name
+msgid "Route Name"
+msgstr "اسم خط السير"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_route__rep_id
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_route_search
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_search
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_target_search
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_expense_search
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_followup_search
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_cheque_search
+msgid "Salesperson"
+msgstr "المندوب"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_route__weekday
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_route_search
+msgid "Day"
+msgstr "اليوم"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_route__weekday__6
+msgid "Sunday"
+msgstr "الأحد"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_route__weekday__0
+msgid "Monday"
+msgstr "الاثنين"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_route__weekday__1
+msgid "Tuesday"
+msgstr "الثلاثاء"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_route__weekday__2
+msgid "Wednesday"
+msgstr "الأربعاء"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_route__weekday__3
+msgid "Thursday"
+msgstr "الخميس"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_route__weekday__4
+msgid "Friday"
+msgstr "الجمعة"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_route__weekday__5
+msgid "Saturday"
+msgstr "السبت"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_route__area
+msgid "Area"
+msgstr "المنطقة"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model,name:mo_sales_rep_portal.model_mo_sales_route_line
+msgid "Sales Route Customer"
+msgstr "عميل خط السير"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_route_line__expected_time
+msgid "Expected Visit Time"
+msgstr "وقت الزيارة المتوقع"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_route_line__note
+msgid "Visit Purpose / Note"
+msgstr "غرض الزيارة / ملاحظة"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_route_line__frequency
+msgid "Frequency"
+msgstr "التكرار"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_route_line__frequency__daily
+msgid "Daily"
+msgstr "يوميًا"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_route_line__frequency__weekly
+msgid "Weekly"
+msgstr "أسبوعيًا"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_route_line__frequency__biweekly
+msgid "Every 2 Weeks"
+msgstr "كل أسبوعين"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_route_line__frequency__monthly
+msgid "Monthly"
+msgstr "شهريًا"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_route_line__frequency__custom
+msgid "Custom (every N days)"
+msgstr "مخصص (كل N يوم)"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_route_line__start_date
+msgid "Starts On"
+msgstr "يبدأ في"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_route_line__interval_days
+msgid "Every (days)"
+msgstr "كل (أيام)"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model,name:mo_sales_rep_portal.model_mo_sales_rep_settings
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_settings_form
+#: code:addons/mo_sales_rep_portal/models/settings.py:0
+msgid "Sales Representative Portal Settings"
+msgstr "إعدادات بوابة مندوب المبيعات"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__enable_gps
+msgid "Enable GPS"
+msgstr "تفعيل GPS"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__enable_tracking
+msgid "Enable Visit Tracking (periodic location while a visit is open)"
+msgstr "تفعيل تتبع الزيارة (موقع دوري أثناء الزيارة)"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__tracking_interval
+msgid "Tracking Interval (seconds)"
+msgstr "فترة التتبع (ثواني)"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__enable_attachments
+msgid "Enable Attachments"
+msgstr "تفعيل المرفقات"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__enable_whatsapp
+msgid "Enable WhatsApp"
+msgstr "تفعيل واتساب"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__enable_customer_location
+msgid "Enable Customer Location"
+msgstr "تفعيل موقع العميل"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__notify_by_email
+msgid "Send Notifications by Email"
+msgstr "إرسال الإشعارات بالبريد"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__customer_approval
+msgid "Require Approval for New Customers"
+msgstr "اشتراط اعتماد العملاء الجدد"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__allow_new_customer
+msgid "Allow Creating Customers from the Portal"
+msgstr "السماح بإنشاء العملاء من البوابة"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__allow_ranking
+msgid "Show Ranking to Representatives"
+msgstr "إظهار الترتيب للمناديب"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__ranking_metric
+msgid "Ranking Based On"
+msgstr "الترتيب حسب"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep_settings__ranking_metric__target
+msgid "Target Achievement"
+msgstr "تحقيق الهدف"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep_settings__ranking_metric__sales
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_rep_form
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_settings_form
+msgid "Sales"
+msgstr "المبيعات"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep_settings__ranking_metric__collection
+msgid "Collection"
+msgstr "التحصيل"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep_settings__ranking_metric__visits
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_rep_form
+#: model:ir.actions.act_window,name:mo_sales_rep_portal.action_visit
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_visits
+#: code:addons/mo_sales_rep_portal/models/sales_rep.py:0
+msgid "Visits"
+msgstr "الزيارات"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep_settings__ranking_metric__new_customers
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_new_customers
+#: model:ir.actions.act_window,name:mo_sales_rep_portal.action_rep_new_customers
+msgid "New Customers"
+msgstr "عملاء جدد"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__ranking_show_values
+msgid "Show Amounts in the Ranking"
+msgstr "إظهار المبالغ في الترتيب"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__suggest_no_visit_days
+msgid "Suggest Customers Not Visited For (days)"
+msgstr "اقتراح العملاء غير المزارين منذ (أيام)"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__suggest_no_order_days
+msgid "Suggest Customers Without Order For (days)"
+msgstr "اقتراح العملاء بدون طلب منذ (أيام)"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__suggest_outstanding_min
+msgid "Suggest Customers Owing At Least"
+msgstr "اقتراح العملاء المدينين بما لا يقل عن"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__max_discount
+msgid "Maximum Discount %"
+msgstr "الحد الأقصى للخصم %"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__auto_post_invoice
+msgid "Post Invoice Automatically"
+msgstr "ترحيل الفاتورة تلقائيًا"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__allow_auto_validate
+msgid "Allow Automatic Validation of Stock Operations"
+msgstr "السماح بالتأكيد التلقائي لعمليات المخزون"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__main_warehouse_id
+msgid "Main Warehouse (source for Receive / target for Return)"
+msgstr "المخزن الرئيسي (مصدر الاستلام / وجهة المرتجع)"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model,name:mo_sales_rep_portal.model_mo_sales_target
+msgid "Sales Representative Target"
+msgstr "هدف مندوب المبيعات"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_target__date_from
+msgid "From"
+msgstr "من"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_target__date_to
+msgid "To"
+msgstr "إلى"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_target__sales_target
+msgid "Sales Target"
+msgstr "هدف المبيعات"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_target__collection_target
+msgid "Collection Target"
+msgstr "هدف التحصيل"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_target__orders_target
+msgid "Orders Target"
+msgstr "هدف الطلبات"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_target__visits_target
+msgid "Visits Target"
+msgstr "هدف الزيارات"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_target__new_customers_target
+msgid "New Customers Target"
+msgstr "هدف العملاء الجدد"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_target__sales_actual
+msgid "Sales Actual"
+msgstr "المبيعات الفعلية"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_target__collection_actual
+msgid "Collection Actual"
+msgstr "التحصيل الفعلي"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_target__orders_actual
+msgid "Orders Actual"
+msgstr "الطلبات الفعلية"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_target__visits_actual
+msgid "Visits Actual"
+msgstr "الزيارات الفعلية"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_target__new_customers_actual
+msgid "New Customers Actual"
+msgstr "العملاء الجدد الفعلي"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_target__achievement
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_rep_form
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_target_list
+msgid "Achievement %"
+msgstr "نسبة التحقيق %"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model,name:mo_sales_rep_portal.model_mo_portal_source_mixin
+msgid "Sales Rep Portal Audit Fields"
+msgstr "حقول تتبع بوابة المندوب"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_portal_source_mixin__mo_source
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_sale_order__mo_source
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_account_move__mo_source
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_account_payment__mo_source
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_stock_picking__mo_source
+msgid "Created From"
+msgstr "أُنشئ من"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_portal_source_mixin__mo_source__portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__sale_order__mo_source__portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__account_move__mo_source__portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__account_payment__mo_source__portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__stock_picking__mo_source__portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_partner_form_rep
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_order_form_rep
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_move_form_rep
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_payment_form_rep
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_picking_form_rep
+msgid "Sales Representative Portal"
+msgstr "بوابة مندوب المبيعات"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_portal_source_mixin__mo_client_uid
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_sale_order__mo_client_uid
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_account_move__mo_client_uid
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_account_payment__mo_client_uid
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_stock_picking__mo_client_uid
+msgid "Device Reference"
+msgstr "مرجع الجهاز"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_account_payment__mo_method_id
+msgid "Rep Payment Method"
+msgstr "طريقة دفع المندوب"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_stock_picking__mo_operation
+msgid "Rep Operation"
+msgstr "عملية المندوب"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__stock_picking__mo_operation__receive
+msgid "Receive Stock"
+msgstr "استلام مخزون"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__stock_picking__mo_operation__return
+msgid "Return Stock"
+msgstr "إرجاع مخزون"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__stock_picking__mo_operation__transfer
+msgid "Internal Transfer"
+msgstr "تحويل داخلي"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__stock_picking__mo_operation__customer_return
+msgid "Customer Return"
+msgstr "مرتجع عميل"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_stock_picking__mo_return_reason_id
+msgid "Return Reason"
+msgstr "سبب الإرجاع"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_res_users__mo_rep_ids
+msgid "Sales Representative Profiles"
+msgstr "ملفات مندوب المبيعات"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_res_partner__mo_rep_ids
+#: model:ir.actions.act_window,name:mo_sales_rep_portal.action_rep
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_reps
+msgid "Sales Representatives"
+msgstr "مناديب المبيعات"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_res_partner__mo_whatsapp
+msgid "WhatsApp"
+msgstr "واتساب"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_res_partner__mo_approval_state
+msgid "Rep Approval"
+msgstr "اعتماد المندوب"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__res_partner__mo_approval_state__waiting
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_partner_search_rep
+msgid "Waiting Approval"
+msgstr "في انتظار الاعتماد"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_res_partner__mo_created_by_rep_id
+msgid "Created by Representative"
+msgstr "أنشأه المندوب"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model,name:mo_sales_rep_portal.model_mo_sales_rep_notification
+msgid "Sales Representative Notification"
+msgstr "إشعار المندوب"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_notification__name
+msgid "Title"
+msgstr "العنوان"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_notification__body
+msgid "Body"
+msgstr "المحتوى"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_notification__is_read
+msgid "Is Read"
+msgstr "مقروء"
+
+#. module: mo_sales_rep_portal
+#: model:ir.actions.act_window,name:mo_sales_rep_portal.action_payment_method
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_methods
+msgid "Payment Methods"
+msgstr "طرق الدفع"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_rep_form
+#: model:ir.actions.act_window,name:mo_sales_rep_portal.action_route
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_routes
+#: code:addons/mo_sales_rep_portal/models/sales_rep.py:0
+msgid "Routes"
+msgstr "خطوط السير"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_rep_form
+msgid "Archived"
+msgstr "مؤرشف"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_rep_form
+msgid "Representative"
+msgstr "المندوب"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_rep_form
+msgid "Access"
+msgstr "الوصول"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_rep_form
+#: model:ir.actions.act_window,name:mo_sales_rep_portal.action_rep_customers
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_customers
+msgid "Customers"
+msgstr "العملاء"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_rep_form
+msgid "Permissions"
+msgstr "الصلاحيات"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_rep_form
+msgid "Each permission follows the global setting (Configuration > Settings) unless it is overridden here, so every representative can have different permissions."
+msgstr "كل صلاحية تتبع الإعداد العام (الإعدادات > Settings) إلا لو تم تغييرها هنا، فيمكن لكل مندوب أن يكون له صلاحيات مختلفة."
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_rep_form
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_settings_form
+msgid "Accounting"
+msgstr "المحاسبة"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_rep_form
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_settings_form
+msgid "Inventory"
+msgstr "المخزون"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_rep_form
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_targets
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_target_form
+#: model:ir.actions.act_window,name:mo_sales_rep_portal.action_target
+#: code:addons/mo_sales_rep_portal/models/target.py:0
+msgid "Targets"
+msgstr "الأهداف"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_rep_form
+msgid "Warehouse & Payments"
+msgstr "المخزن والدفعات"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_route_form
+msgid "Optimize Order"
+msgstr "ترتيب حسب الأقرب"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_form
+msgid "Start Visit"
+msgstr "بدء الزيارة"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_form
+msgid "End Visit"
+msgstr "إنهاء الزيارة"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_form
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_followup_form
+msgid "Cancel"
+msgstr "إلغاء"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_form
+msgid "Reset to Planned"
+msgstr "إعادة للمخطط"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_form
+#: code:addons/mo_sales_rep_portal/models/visit.py:0
+msgid "Attachments"
+msgstr "المرفقات"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_form
+msgid "Time & Location"
+msgstr "الوقت والموقع"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_form
+msgid "Start GPS"
+msgstr "موقع البدء"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_form
+msgid "End GPS"
+msgstr "موقع الانتهاء"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_form
+msgid "Result"
+msgstr "النتيجة"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_form
+#: model:ir.actions.act_window,name:mo_sales_rep_portal.action_rep_orders
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_orders
+msgid "Sales Orders"
+msgstr "أوامر البيع"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_form
+#: model:ir.actions.act_window,name:mo_sales_rep_portal.action_rep_invoices
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_invoices
+msgid "Invoices"
+msgstr "الفواتير"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_form
+#: model:ir.actions.act_window,name:mo_sales_rep_portal.action_rep_payments
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_payments
+msgid "Payments"
+msgstr "الدفعات"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_search
+msgid "Today"
+msgstr "اليوم"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_search
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_expense_search
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_followup_search
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_cheque_search
+msgid "Status"
+msgstr "الحالة"
+
+#. module: mo_sales_rep_portal
+#: model:ir.actions.act_window,name:mo_sales_rep_portal.action_location
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_locations
+msgid "Location Log"
+msgstr "سجل المواقع"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_settings_form
+msgid "The permissions below are the defaults for every representative. Open a representative and use the Permissions tab to give one person more or less than the others."
+msgstr "الصلاحيات التالية هي الافتراضية لكل المناديب. افتح المندوب واستخدم تبويب الصلاحيات لإعطاء شخص صلاحيات أكثر أو أقل من الباقي."
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_settings_form
+msgid "General"
+msgstr "عام"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_settings_form
+msgid "Customers & Performance"
+msgstr "العملاء والأداء"
+
+#. module: mo_sales_rep_portal
+#: model:ir.actions.server,name:mo_sales_rep_portal.action_settings_open
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_settings
+msgid "Settings"
+msgstr "الإعدادات"
+
+#. module: mo_sales_rep_portal
+#: model:ir.actions.act_window,name:mo_sales_rep_portal.action_rep_pickings
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_stock
+msgid "Stock Operations"
+msgstr "عمليات المخزون"
+
+#. module: mo_sales_rep_portal
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_dashboard
+msgid "Dashboard"
+msgstr "لوحة المتابعة"
+
+#. module: mo_sales_rep_portal
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_followups
+#: model:ir.actions.act_window,name:mo_sales_rep_portal.action_followup
+msgid "Follow-ups"
+msgstr "المتابعات"
+
+#. module: mo_sales_rep_portal
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_expenses
+#: model:ir.actions.act_window,name:mo_sales_rep_portal.action_expense
+msgid "Expenses"
+msgstr "المصروفات"
+
+#. module: mo_sales_rep_portal
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_cheques
+#: model:ir.actions.act_window,name:mo_sales_rep_portal.action_cheque
+msgid "Cheques"
+msgstr "الشيكات"
+
+#. module: mo_sales_rep_portal
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_returns
+#: model:ir.actions.act_window,name:mo_sales_rep_portal.action_rep_returns
+msgid "Customer Returns"
+msgstr "مرتجعات العملاء"
+
+#. module: mo_sales_rep_portal
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_config
+msgid "Configuration"
+msgstr "الإعدادات"
+
+#. module: mo_sales_rep_portal
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_reasons
+#: model:ir.actions.act_window,name:mo_sales_rep_portal.action_return_reason
+msgid "Return Reasons"
+msgstr "أسباب الإرجاع"
+
+#. module: mo_sales_rep_portal
+#: model:ir.actions.client,name:mo_sales_rep_portal.action_rep_dashboard
+msgid "Management Dashboard"
+msgstr "لوحة الإدارة"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_target_form
+msgid "Copy to Next Month"
+msgstr "نسخ للشهر القادم"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_expense_form
+msgid "Submit"
+msgstr "إرسال"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_expense_form
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_partner_form_rep
+msgid "Approve"
+msgstr "اعتماد"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_expense_form
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_partner_form_rep
+msgid "Refuse"
+msgstr "رفض"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_expense_form
+msgid "Reset to Draft"
+msgstr "إعادة لمسودة"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_followup_form
+msgid "Mark Done"
+msgstr "تم التنفيذ"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_followup_form
+msgid "Reopen"
+msgstr "إعادة فتح"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_followup_search
+msgid "Overdue"
+msgstr "متأخر"
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_cheque_form
+msgid "Deposit"
+msgstr "إيداع"
+
+#. module: mo_sales_rep_portal
+#: model:ir.actions.server,name:mo_sales_rep_portal.server_action_approve_customers
+msgid "Approve (Sales Rep Portal)"
+msgstr "اعتماد (بوابة المندوب)"
+
+#. module: mo_sales_rep_portal
+#: model:ir.actions.server,name:mo_sales_rep_portal.server_action_refuse_customers
+msgid "Refuse (Sales Rep Portal)"
+msgstr "رفض (بوابة المندوب)"
+
+#. module: mo_sales_rep_portal
+#: code:addons/mo_sales_rep_portal/models/expense.py:0
+msgid "The expense amount must be greater than zero."
+msgstr "مبلغ المصروف يجب أن يكون أكبر من صفر."
+
+#. module: mo_sales_rep_portal
+#: code:addons/mo_sales_rep_portal/models/visit.py:0
+msgid "Only a planned visit can be started."
+msgstr "يمكن بدء الزيارة المخططة فقط."
+
+#. module: mo_sales_rep_portal
+#: code:addons/mo_sales_rep_portal/models/visit.py:0
+msgid "Only a started visit can be ended."
+msgstr "يمكن إنهاء الزيارة التي بدأت فقط."
+
+#. module: mo_sales_rep_portal
+#: code:addons/mo_sales_rep_portal/models/visit.py:0
+msgid "A completed visit cannot be cancelled."
+msgstr "لا يمكن إلغاء زيارة مكتملة."
+
+#. module: mo_sales_rep_portal
+#: code:addons/mo_sales_rep_portal/models/visit.py:0
+msgid "New visit"
+msgstr "زيارة جديدة"
+
+#. module: mo_sales_rep_portal
+#: code:addons/mo_sales_rep_portal/models/route.py:0
+msgid "Route changed"
+msgstr "تم تغيير خط السير"
+
+#. module: mo_sales_rep_portal
+#: code:addons/mo_sales_rep_portal/models/route.py:0
+msgid "Route \"%s\" was re-ordered by distance."
+msgstr "تم ترتيب خط السير \"%s\" حسب المسافة."
+
+#. module: mo_sales_rep_portal
+#: code:addons/mo_sales_rep_portal/models/route.py:0
+msgid "New route"
+msgstr "خط سير جديد"
+
+#. module: mo_sales_rep_portal
+#: code:addons/mo_sales_rep_portal/models/route.py:0
+msgid "At least two customers with a saved location are needed to optimize \"%s\"."
+msgstr "لازم عميلين على الأقل بموقع محفوظ لترتيب \"%s\"."
+
+#. module: mo_sales_rep_portal
+#: code:addons/mo_sales_rep_portal/models/inherits.py:0
+msgid "Order confirmed"
+msgstr "تم تأكيد الطلب"
+
+#. module: mo_sales_rep_portal
+#: code:addons/mo_sales_rep_portal/models/inherits.py:0
+msgid "Delivery not validated"
+msgstr "لم يتم تأكيد التسليم"
+
+#. module: mo_sales_rep_portal
+#: code:addons/mo_sales_rep_portal/models/inherits.py:0
+msgid "%s is waiting: not enough stock or it needs manual processing."
+msgstr "%s في الانتظار: المخزون لا يكفي أو يحتاج معالجة يدوية."
+
+#. module: mo_sales_rep_portal
+#: code:addons/mo_sales_rep_portal/models/inherits.py:0
+msgid "Order cancelled"
+msgstr "تم إلغاء الطلب"
+
+#. module: mo_sales_rep_portal
+#: code:addons/mo_sales_rep_portal/models/inherits.py:0
+msgid "Invoice issued"
+msgstr "تم إصدار فاتورة"
+
+#. module: mo_sales_rep_portal
+#: code:addons/mo_sales_rep_portal/models/inherits.py:0
+msgid "Payment registered"
+msgstr "تم تسجيل دفعة"
+
+#. module: mo_sales_rep_portal
+#: code:addons/mo_sales_rep_portal/models/inherits.py:0
+msgid "Delivery validated"
+msgstr "تم تأكيد التسليم"
+
+#. module: mo_sales_rep_portal
+#: code:addons/mo_sales_rep_portal/models/inherits.py:0
+msgid "This transfer needs manual processing."
+msgstr "هذا التحويل يحتاج معالجة يدوية."
+
+
+#. module: mo_sales_rep_portal
+msgid "Team"
+msgstr "الفريق"
+
+#. module: mo_sales_rep_portal
+msgid "Field Work"
+msgstr "العمل الميداني"
+
+#. module: mo_sales_rep_portal
+msgid "Collections"
+msgstr "التحصيل"
+
+#. module: mo_sales_rep_portal
+msgid "User"
+msgstr "مستخدم"
+
+#. module: mo_sales_rep_portal
+msgid "Manager"
+msgstr "مدير"
+
+#. module: mo_sales_rep_portal
+msgid "My Visits"
+msgstr "زياراتي"
+
+#. module: mo_sales_rep_portal
+msgid "This Week"
+msgstr "هذا الأسبوع"
+
+#. module: mo_sales_rep_portal
+msgid "Month"
+msgstr "الشهر"
+
+#. module: mo_sales_rep_portal
+msgid "My Follow-ups"
+msgstr "متابعاتي"
+
+#. module: mo_sales_rep_portal
+msgid "Due Today"
+msgstr "مستحقة اليوم"
+
+#. module: mo_sales_rep_portal
+msgid "Due in 7 Days"
+msgstr "مستحقة خلال 7 أيام"
+
+#. module: mo_sales_rep_portal
+msgid "High / Urgent"
+msgstr "عالية / عاجلة"
+
+#. module: mo_sales_rep_portal
+msgid "Due Month"
+msgstr "شهر الاستحقاق"
+
+#. module: mo_sales_rep_portal
+msgid "My Cheques"
+msgstr "شيكاتي"
+
+#. module: mo_sales_rep_portal
+msgid "My Expenses"
+msgstr "مصروفاتي"
+
+#. module: mo_sales_rep_portal
+msgid "This Month"
+msgstr "هذا الشهر"
+
+#. module: mo_sales_rep_portal
+msgid "Due:"
+msgstr "الاستحقاق:"
+
+#. module: mo_sales_rep_portal
+msgid "Type"
+msgstr "النوع"
+
+#. module: mo_sales_rep_portal
+msgid "Accountant"
+msgstr "محاسب"
+
+#. module: mo_sales_rep_portal
+msgid "Sales Rep Finance"
+msgstr "مالية المناديب"
+
+#. module: mo_sales_rep_portal
+msgid "Cheque due soon: %s"
+msgstr "شيك يستحق قريباً: %s"
+
+#. module: mo_sales_rep_portal
+msgid "Cheque overdue: %s"
+msgstr "شيك متأخر: %s"
+
+#. module: mo_sales_rep_portal
+msgid "Expense awaiting approval: %s"
+msgstr "مصروف ينتظر الموافقة: %s"
+
+#. module: mo_sales_rep_portal
+msgid "Only sales managers or accountants can approve or refuse expenses."
+msgstr "فقط مديرو المبيعات أو المحاسبون يمكنهم الموافقة على المصروفات أو رفضها."
+
+#. module: mo_sales_rep_portal
+msgid "Only sales managers or accountants can change the cheque status."
+msgstr "فقط مديرو المبيعات أو المحاسبون يمكنهم تغيير حالة الشيك."

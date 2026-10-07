@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ================================ targets -->
+    <record id="view_target_list" model="ir.ui.view">
+        <field name="name">mo.sales.target.list</field>
+        <field name="model">mo.sales.target</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="rep_id"/>
+                <field name="date_from"/><field name="date_to"/>
+                <field name="sales_target"/><field name="sales_actual"/>
+                <field name="collection_target"/><field name="collection_actual"/>
+                <field name="orders_target" optional="show"/><field name="orders_actual" optional="show"/>
+                <field name="visits_target" optional="show"/><field name="visits_actual" optional="show"/>
+                <field name="new_customers_target" optional="hide"/><field name="new_customers_actual" optional="hide"/>
+                <field name="achievement" widget="progressbar" string="Achievement %"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_target_form" model="ir.ui.view">
+        <field name="name">mo.sales.target.form</field>
+        <field name="model">mo.sales.target</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_copy_next_period" type="object" string="Copy to Next Month"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="rep_id"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
+                        <group>
+                            <field name="achievement" widget="progressbar"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Targets">
+                            <field name="sales_target"/>
+                            <field name="collection_target"/>
+                            <field name="orders_target"/>
+                            <field name="visits_target"/>
+                            <field name="new_customers_target"/>
+                        </group>
+                        <group string="Actual">
+                            <field name="sales_actual"/>
+                            <field name="collection_actual"/>
+                            <field name="orders_actual"/>
+                            <field name="visits_actual"/>
+                            <field name="new_customers_actual"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter"><field name="message_follower_ids"/><field name="message_ids"/></div>
+            </form>
+        </field>
+    </record>
+    <record id="view_target_search" model="ir.ui.view">
+        <field name="name">mo.sales.target.search</field>
+        <field name="model">mo.sales.target</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="rep_id"/>
+                <filter name="current" string="Current Period"
+                        domain="[('date_from', '&lt;=', context_today().strftime('%Y-%m-%d')), ('date_to', '&gt;=', context_today().strftime('%Y-%m-%d'))]"/>
+                <group><filter name="group_rep" string="Salesperson" context="{'group_by': 'rep_id'}"/></group>
+            </search>
+        </field>
+    </record>
+    <record id="action_target" model="ir.actions.act_window">
+        <field name="name">Targets</field>
+        <field name="res_model">mo.sales.target</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_current': 1}</field>
+    </record>
+
+    <!-- ================================ expenses -->
+    <record id="view_expense_list" model="ir.ui.view">
+        <field name="name">mo.sales.expense.list</field>
+        <field name="model">mo.sales.expense</field>
+        <field name="arch" type="xml">
+            <list decoration-success="state == 'approved'" decoration-danger="state == 'refused'" decoration-info="state == 'submitted'">
+                <field name="name"/><field name="date"/><field name="rep_id"/><field name="expense_type"/>
+                <field name="partner_id" optional="show"/><field name="amount" sum="Total"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_expense_form" model="ir.ui.view">
+        <field name="name">mo.sales.expense.form</field>
+        <field name="model">mo.sales.expense</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_submit" type="object" string="Submit" invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_approve" type="object" string="Approve" invisible="state != 'submitted'" class="btn-primary"
+                            groups="mo_sales_rep_portal.group_mo_rep_manager,mo_sales_rep_portal.group_mo_rep_accountant"/>
+                    <button name="action_refuse" type="object" string="Refuse" invisible="state != 'submitted'"
+                            groups="mo_sales_rep_portal.group_mo_rep_manager,mo_sales_rep_portal.group_mo_rep_accountant"/>
+                    <button name="action_reset_draft" type="object" string="Reset to Draft" invisible="state not in ('submitted', 'refused')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" icon="fa-paperclip" disabled="1">
+                            <field name="attachment_count" widget="statinfo" string="Receipts"/>
+                        </button>
+                    </div>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group>
+                            <field name="rep_id"/>
+                            <field name="date"/>
+                            <field name="expense_type"/>
+                            <field name="amount"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="visit_id"/>
+                            <field name="approved_by_id"/>
+                            <field name="approved_date"/>
+                            <field name="refuse_reason"/>
+                        </group>
+                    </group>
+                    <field name="notes" placeholder="Notes"/>
+                </sheet>
+                <div class="oe_chatter"><field name="message_follower_ids"/><field name="message_ids"/></div>
+            </form>
+        </field>
+    </record>
+    <record id="view_expense_search" model="ir.ui.view">
+        <field name="name">mo.sales.expense.search</field>
+        <field name="model">mo.sales.expense</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/><field name="rep_id"/><field name="partner_id"/>
+                <filter name="to_approve" string="To Approve" domain="[('state', '=', 'submitted')]"/>
+                <filter name="approved" string="Approved" domain="[('state', '=', 'approved')]"/>
+                <group>
+                    <filter name="group_rep" string="Salesperson" context="{'group_by': 'rep_id'}"/>
+                    <filter name="group_type" string="Type" context="{'group_by': 'expense_type'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_expense" model="ir.actions.act_window">
+        <field name="name">Expenses</field>
+        <field name="res_model">mo.sales.expense</field>
+        <field name="view_mode">list,form,pivot,graph</field>
+        <field name="context">{'search_default_to_approve': 1}</field>
+    </record>
+
+    <!-- ================================ follow-ups -->
+    <record id="view_followup_list" model="ir.ui.view">
+        <field name="name">mo.sales.followup.list</field>
+        <field name="model">mo.sales.followup</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="state == 'open' and due_date &lt; context_today().strftime('%Y-%m-%d')" decoration-muted="state != 'open'">
+                <field name="due_date"/><field name="name"/><field name="partner_id"/><field name="rep_id"/>
+                <field name="priority"/><field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_followup_form" model="ir.ui.view">
+        <field name="name">mo.sales.followup.form</field>
+        <field name="model">mo.sales.followup</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_done" type="object" string="Mark Done" invisible="state != 'open'" class="btn-primary"/>
+                    <button name="action_cancel" type="object" string="Cancel" invisible="state != 'open'"/>
+                    <button name="action_reopen" type="object" string="Reopen" invisible="state == 'open'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/><field name="rep_id"/><field name="partner_id"/>
+                        </group>
+                        <group>
+                            <field name="due_date"/><field name="priority"/>
+                            <field name="visit_id"/><field name="order_id"/><field name="done_date"/>
+                        </group>
+                    </group>
+                    <field name="notes" placeholder="Notes"/>
+                </sheet>
+                <div class="oe_chatter"><field name="message_follower_ids"/><field name="message_ids"/></div>
+            </form>
+        </field>
+    </record>
+    <record id="view_followup_search" model="ir.ui.view">
+        <field name="name">mo.sales.followup.search</field>
+        <field name="model">mo.sales.followup</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/><field name="partner_id"/><field name="rep_id"/>
+                <filter name="open" string="Open" domain="[('state', '=', 'open')]"/>
+                <filter name="overdue" string="Overdue" domain="[('state', '=', 'open'), ('due_date', '&lt;', context_today().strftime('%Y-%m-%d'))]"/>
+                <group>
+                    <filter name="group_rep" string="Salesperson" context="{'group_by': 'rep_id'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_followup" model="ir.actions.act_window">
+        <field name="name">Follow-ups</field>
+        <field name="res_model">mo.sales.followup</field>
+        <field name="view_mode">list,kanban,calendar,form</field>
+        <field name="context">{'search_default_open': 1}</field>
+    </record>
+
+    <!-- ================================ cheques -->
+    <record id="view_cheque_list" model="ir.ui.view">
+        <field name="name">mo.sales.cheque.list</field>
+        <field name="model">mo.sales.cheque</field>
+        <field name="arch" type="xml">
+            <list decoration-success="state == 'cleared'" decoration-danger="state == 'returned'" decoration-info="state == 'deposited'">
+                <field name="name"/><field name="cheque_number"/><field name="partner_id"/><field name="rep_id"/>
+                <field name="bank_name"/><field name="due_date"/><field name="amount" sum="Total"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_cheque_form" model="ir.ui.view">
+        <field name="name">mo.sales.cheque.form</field>
+        <field name="model">mo.sales.cheque</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_deposit" type="object" string="Deposit" invisible="state != 'received'" class="btn-primary"
+                            groups="mo_sales_rep_portal.group_mo_rep_manager,mo_sales_rep_portal.group_mo_rep_accountant"/>
+                    <button name="action_clear" type="object" string="Cleared" invisible="state != 'deposited'" class="btn-primary"
+                            groups="mo_sales_rep_portal.group_mo_rep_manager,mo_sales_rep_portal.group_mo_rep_accountant"/>
+                    <button name="action_return" type="object" string="Returned" invisible="state not in ('received', 'deposited')"
+                            groups="mo_sales_rep_portal.group_mo_rep_manager,mo_sales_rep_portal.group_mo_rep_accountant"/>
+                    <field name="state" widget="statusbar" statusbar_visible="received,deposited,cleared"/>
+                </header>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group>
+                            <field name="cheque_number"/><field name="bank_name"/>
+                            <field name="cheque_date"/><field name="due_date"/>
+                        </group>
+                        <group>
+                            <field name="partner_id"/><field name="rep_id"/><field name="payment_id"/>
+                            <field name="amount"/><field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <field name="notes" placeholder="Notes"/>
+                </sheet>
+                <div class="oe_chatter"><field name="message_follower_ids"/><field name="message_ids"/></div>
+            </form>
+        </field>
+    </record>
+    <record id="view_cheque_search" model="ir.ui.view">
+        <field name="name">mo.sales.cheque.search</field>
+        <field name="model">mo.sales.cheque</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="cheque_number"/><field name="partner_id"/><field name="rep_id"/><field name="bank_name"/>
+                <filter name="received" string="Received" domain="[('state', '=', 'received')]"/>
+                <filter name="deposited" string="Deposited" domain="[('state', '=', 'deposited')]"/>
+                <group>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_rep" string="Salesperson" context="{'group_by': 'rep_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_cheque" model="ir.actions.act_window">
+        <field name="name">Cheques</field>
+        <field name="res_model">mo.sales.cheque</field>
+        <field name="view_mode">list,kanban,calendar,form,pivot,graph</field>
+    </record>
+
+    <!-- ================================ return reasons -->
+    <record id="view_return_reason_list" model="ir.ui.view">
+        <field name="name">mo.return.reason.list</field>
+        <field name="model">mo.return.reason</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle"/><field name="name"/><field name="active"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_return_reason" model="ir.actions.act_window">
+        <field name="name">Return Reasons</field>
+        <field name="res_model">mo.return.reason</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- ================================ customers created from the portal / approval -->
+    <record id="action_rep_new_customers" model="ir.actions.act_window">
+        <field name="name">New Customers</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('mo_created_by_rep_id', '!=', False)]</field>
+        <field name="context">{'search_default_waiting': 1}</field>
+    </record>
+    <record id="view_partner_search_rep" model="ir.ui.view">
+        <field name="name">res.partner.search.rep</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <filter name="waiting" string="Waiting Approval" domain="[('mo_approval_state', '=', 'waiting')]"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_partner_form_rep" model="ir.ui.view">
+        <field name="name">res.partner.form.rep</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="Sales Representative Portal" invisible="not mo_created_by_rep_id and mo_approval_state == 'approved'">
+                    <field name="mo_created_by_rep_id"/>
+                    <field name="mo_approval_state"/>
+                    <field name="mo_refuse_reason" invisible="mo_approval_state != 'refused'"/>
+                    <field name="mo_whatsapp"/>
+                    <div colspan="2" groups="mo_sales_rep_portal.group_mo_rep_manager">
+                        <button name="action_mo_approve" type="object" string="Approve" class="btn-primary"
+                                invisible="mo_approval_state == 'approved'"/>
+                        <button name="action_mo_refuse" type="object" string="Refuse" invisible="mo_approval_state == 'refused'"/>
+                    </div>
+                </group>
+            </xpath>
+        </field>
+    </record>
+    <record id="server_action_approve_customers" model="ir.actions.server">
+        <field name="name">Approve (Sales Rep Portal)</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="binding_model_id" ref="base.model_res_partner"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">records.action_mo_approve()</field>
+    </record>
+    <record id="server_action_refuse_customers" model="ir.actions.server">
+        <field name="name">Refuse (Sales Rep Portal)</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="binding_model_id" ref="base.model_res_partner"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">records.action_mo_refuse()</field>
+    </record>
+
+    <!-- ================================ returns made by reps -->
+    <record id="action_rep_returns" model="ir.actions.act_window">
+        <field name="name">Customer Returns</field>
+        <field name="res_model">stock.picking</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('mo_operation', '=', 'customer_return')]</field>
+    </record>
+</odoo>

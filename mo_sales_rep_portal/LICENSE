@@ -1,0 +1,19 @@
+Odoo Proprietary License v1.0 (OPL-1)
+
+Copyright (c) Eng. M.Aboelmagde - Odoo Lab. All rights reserved.
+
+This software and associated files (the "Software") may only be used (executed, modified,
+executed after modifications) if you have purchased a valid license from the authors,
+typically via Odoo Apps, or if you have received a written agreement from the authors of the
+Software (see the "author" key of the module manifest).
+
+The above permissions are granted for a single database per purchased license. Furthermore
+with a valid license you may use the Software on one Odoo instance and modify it for your own
+needs. You may not redistribute, sublicense or resell the Software, modified or not.
+
+The Software is provided "as is", without warranty of any kind. In no event shall the authors
+be liable for any claim, damages or other liability arising from the use of the Software.
+
+The full text of the Odoo Proprietary License v1.0 is published by Odoo S.A. at
+https://www.odoo.com/documentation/master/legal/licenses.html#odoo-proprietary-license
+and prevails over this summary.

@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ======================= VISITS ======================= -->
+    <record id="view_visit_kanban" model="ir.ui.view">
+        <field name="name">mo.sales.visit.kanban</field>
+        <field name="model">mo.sales.visit</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" records_draggable="false" quick_create="false"
+                    group_create="false" group_edit="false" group_delete="false">
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex justify-content-between">
+                            <field name="partner_id" class="fw-bold"/>
+                            <field name="visit_date" class="text-muted"/>
+                        </div>
+                        <div><field name="rep_id"/></div>
+                        <div class="text-muted"><field name="visit_type"/></div>
+                        <div t-if="record.result.raw_value"><field name="result" widget="badge"/></div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="view_visit_calendar" model="ir.ui.view">
+        <field name="name">mo.sales.visit.calendar</field>
+        <field name="model">mo.sales.visit</field>
+        <field name="arch" type="xml">
+            <calendar string="Visits" date_start="visit_date" color="rep_id" mode="month" quick_create="0">
+                <field name="partner_id"/>
+                <field name="rep_id"/>
+                <field name="state"/>
+            </calendar>
+        </field>
+    </record>
+    <record id="view_visit_graph" model="ir.ui.view">
+        <field name="name">mo.sales.visit.graph</field>
+        <field name="model">mo.sales.visit</field>
+        <field name="arch" type="xml">
+            <graph string="Visits" type="bar" stacked="1">
+                <field name="rep_id"/>
+                <field name="state"/>
+            </graph>
+        </field>
+    </record>
+    <record id="view_visit_search_ext" model="ir.ui.view">
+        <field name="name">mo.sales.visit.search.ext</field>
+        <field name="model">mo.sales.visit</field>
+        <field name="inherit_id" ref="view_visit_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='missed']" position="after">
+                <separator/>
+                <filter name="my_visits" string="My Visits" domain="[('rep_id.user_id', '=', uid)]"/>
+                <filter name="overdue" string="Overdue"
+                        domain="[('state', 'in', ('planned', 'started')), ('visit_date', '&lt;', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter name="this_week" string="This Week"
+                        domain="[('visit_date', '&gt;=', (context_today() - relativedelta(days=context_today().weekday())).strftime('%Y-%m-%d')),
+                                 ('visit_date', '&lt;=', (context_today() + relativedelta(days=6 - context_today().weekday())).strftime('%Y-%m-%d'))]"/>
+            </xpath>
+            <xpath expr="//filter[@name='group_customer']" position="after">
+                <filter name="group_type" string="Visit Type" context="{'group_by': 'visit_type'}"/>
+                <filter name="group_result" string="Result" context="{'group_by': 'result'}"/>
+                <filter name="group_route" string="Route" context="{'group_by': 'route_id'}"/>
+                <filter name="group_month" string="Month" context="{'group_by': 'visit_date:month'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ======================= FOLLOW-UPS ======================= -->
+    <record id="view_followup_kanban" model="ir.ui.view">
+        <field name="name">mo.sales.followup.kanban</field>
+        <field name="model">mo.sales.followup</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" records_draggable="false" quick_create="false"
+                    group_create="false" group_edit="false" group_delete="false">
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex justify-content-between">
+                            <field name="name" class="fw-bold"/>
+                            <field name="priority" widget="priority"/>
+                        </div>
+                        <div><field name="partner_id"/></div>
+                        <div class="text-muted d-flex justify-content-between">
+                            <field name="rep_id"/>
+                            <field name="due_date"/>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="view_followup_calendar" model="ir.ui.view">
+        <field name="name">mo.sales.followup.calendar</field>
+        <field name="model">mo.sales.followup</field>
+        <field name="arch" type="xml">
+            <calendar string="Follow-ups" date_start="due_date" color="rep_id" mode="month" quick_create="0">
+                <field name="partner_id"/>
+                <field name="rep_id"/>
+                <field name="state"/>
+            </calendar>
+        </field>
+    </record>
+    <record id="view_followup_search_ext" model="ir.ui.view">
+        <field name="name">mo.sales.followup.search.ext</field>
+        <field name="model">mo.sales.followup</field>
+        <field name="inherit_id" ref="view_followup_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='overdue']" position="after">
+                <separator/>
+                <filter name="my_followups" string="My Follow-ups" domain="[('rep_id.user_id', '=', uid)]"/>
+                <filter name="due_today" string="Due Today"
+                        domain="[('state', '=', 'open'), ('due_date', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter name="due_week" string="Due in 7 Days"
+                        domain="[('state', '=', 'open'), ('due_date', '&gt;=', context_today().strftime('%Y-%m-%d')),
+                                 ('due_date', '&lt;=', (context_today() + relativedelta(days=7)).strftime('%Y-%m-%d'))]"/>
+                <filter name="high_priority" string="High / Urgent" domain="[('priority', 'in', ('1', '2'))]"/>
+            </xpath>
+            <xpath expr="//filter[@name='group_state']" position="after">
+                <filter name="group_priority" string="Priority" context="{'group_by': 'priority'}"/>
+                <filter name="group_customer" string="Customer" context="{'group_by': 'partner_id'}"/>
+                <filter name="group_due_month" string="Due Month" context="{'group_by': 'due_date:month'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ======================= CHEQUES ======================= -->
+    <record id="view_cheque_kanban" model="ir.ui.view">
+        <field name="name">mo.sales.cheque.kanban</field>
+        <field name="model">mo.sales.cheque</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" records_draggable="false" quick_create="false"
+                    group_create="false" group_edit="false" group_delete="false">
+                <field name="currency_id"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex justify-content-between">
+                            <field name="partner_id" class="fw-bold"/>
+                            <field name="amount" widget="monetary"/>
+                        </div>
+                        <div class="text-muted"><field name="cheque_number"/> · <field name="bank_name"/></div>
+                        <div class="d-flex justify-content-between">
+                            <field name="rep_id"/>
+                            <span>Due: <field name="due_date"/></span>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="view_cheque_calendar" model="ir.ui.view">
+        <field name="name">mo.sales.cheque.calendar</field>
+        <field name="model">mo.sales.cheque</field>
+        <field name="arch" type="xml">
+            <calendar string="Cheques" date_start="due_date" color="rep_id" mode="month" quick_create="0">
+                <field name="partner_id"/>
+                <field name="amount"/>
+                <field name="state"/>
+            </calendar>
+        </field>
+    </record>
+    <record id="view_cheque_pivot" model="ir.ui.view">
+        <field name="name">mo.sales.cheque.pivot</field>
+        <field name="model">mo.sales.cheque</field>
+        <field name="arch" type="xml">
+            <pivot string="Cheques">
+                <field name="rep_id" type="row"/>
+                <field name="state" type="col"/>
+                <field name="amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+    <record id="view_cheque_graph" model="ir.ui.view">
+        <field name="name">mo.sales.cheque.graph</field>
+        <field name="model">mo.sales.cheque</field>
+        <field name="arch" type="xml">
+            <graph string="Cheques" type="bar" stacked="1">
+                <field name="due_date" interval="week"/>
+                <field name="state"/>
+                <field name="amount" type="measure"/>
+            </graph>
+        </field>
+    </record>
+    <record id="view_cheque_search_ext" model="ir.ui.view">
+        <field name="name">mo.sales.cheque.search.ext</field>
+        <field name="model">mo.sales.cheque</field>
+        <field name="inherit_id" ref="view_cheque_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='deposited']" position="after">
+                <filter name="cleared" string="Cleared" domain="[('state', '=', 'cleared')]"/>
+                <filter name="returned" string="Returned" domain="[('state', '=', 'returned')]"/>
+                <separator/>
+                <filter name="my_cheques" string="My Cheques" domain="[('rep_id.user_id', '=', uid)]"/>
+                <filter name="overdue" string="Overdue"
+                        domain="[('state', 'in', ('received', 'deposited')), ('due_date', '&lt;', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter name="due_week" string="Due in 7 Days"
+                        domain="[('state', 'in', ('received', 'deposited')), ('due_date', '&gt;=', context_today().strftime('%Y-%m-%d')),
+                                 ('due_date', '&lt;=', (context_today() + relativedelta(days=7)).strftime('%Y-%m-%d'))]"/>
+            </xpath>
+            <xpath expr="//filter[@name='group_rep']" position="after">
+                <filter name="group_bank" string="Bank" context="{'group_by': 'bank_name'}"/>
+                <filter name="group_customer" string="Customer" context="{'group_by': 'partner_id'}"/>
+                <filter name="group_due_month" string="Due Month" context="{'group_by': 'due_date:month'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ======================= EXPENSES ======================= -->
+    <record id="view_expense_pivot" model="ir.ui.view">
+        <field name="name">mo.sales.expense.pivot</field>
+        <field name="model">mo.sales.expense</field>
+        <field name="arch" type="xml">
+            <pivot string="Expenses">
+                <field name="rep_id" type="row"/>
+                <field name="expense_type" type="col"/>
+                <field name="amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+    <record id="view_expense_graph" model="ir.ui.view">
+        <field name="name">mo.sales.expense.graph</field>
+        <field name="model">mo.sales.expense</field>
+        <field name="arch" type="xml">
+            <graph string="Expenses" type="bar" stacked="1">
+                <field name="rep_id"/>
+                <field name="expense_type"/>
+                <field name="amount" type="measure"/>
+            </graph>
+        </field>
+    </record>
+    <record id="view_expense_search_ext" model="ir.ui.view">
+        <field name="name">mo.sales.expense.search.ext</field>
+        <field name="model">mo.sales.expense</field>
+        <field name="inherit_id" ref="view_expense_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='approved']" position="after">
+                <filter name="refused" string="Refused" domain="[('state', '=', 'refused')]"/>
+                <separator/>
+                <filter name="my_expenses" string="My Expenses" domain="[('rep_id.user_id', '=', uid)]"/>
+                <filter name="this_month" string="This Month"
+                        domain="[('date', '&gt;=', context_today().strftime('%Y-%m-01')),
+                                 ('date', '&lt;=', (context_today() + relativedelta(day=31)).strftime('%Y-%m-%d'))]"/>
+            </xpath>
+            <xpath expr="//filter[@name='group_state']" position="after">
+                <filter name="group_month" string="Month" context="{'group_by': 'date:month'}"/>
+                <filter name="group_customer" string="Customer" context="{'group_by': 'partner_id'}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

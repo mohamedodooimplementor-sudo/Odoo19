@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Payment methods -->
+    <record id="view_payment_method_list" model="ir.ui.view">
+        <field name="name">mo.sales.rep.payment.method.list</field>
+        <field name="model">mo.sales.rep.payment.method</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="method_type"/>
+                <field name="journal_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_payment_method" model="ir.actions.act_window">
+        <field name="name">Payment Methods</field>
+        <field name="res_model">mo.sales.rep.payment.method</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- Sales Representative -->
+    <record id="view_rep_list" model="ir.ui.view">
+        <field name="name">mo.sales.rep.list</field>
+        <field name="model">mo.sales.rep</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="warehouse_id"/>
+                <field name="route_count"/>
+                <field name="visit_count"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_rep_form" model="ir.ui.view">
+        <field name="name">mo.sales.rep.form</field>
+        <field name="model">mo.sales.rep</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_routes" type="object" class="oe_stat_button" icon="fa-road">
+                            <field name="route_count" widget="statinfo" string="Routes"/>
+                        </button>
+                        <button name="action_open_visits" type="object" class="oe_stat_button" icon="fa-map-marker">
+                            <field name="visit_count" widget="statinfo" string="Visits"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <field name="active" invisible="1"/>
+                    <group>
+                        <group string="Representative">
+                            <field name="name"/>
+                            <field name="user_id" options="{'no_create': True}"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group string="Access">
+                            <field name="can_view_all_customers"/>
+                            <field name="team_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Customers" name="customers">
+                            <field name="customer_ids" widget="many2many" options="{'no_create': True}">
+                                <list>
+                                    <field name="display_name"/>
+                                    <field name="phone"/>
+                                    <field name="city"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Permissions" name="permissions">
+                            <div class="alert alert-info" role="alert">
+                                Each permission follows the global setting (Configuration &gt; Settings) unless it is
+                                overridden here, so every representative can have different permissions.
+                            </div>
+                            <group>
+                                <group string="Sales">
+                                    <field name="perm_allow_quotation" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="perm_allow_sales_order" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="perm_allow_discount" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="max_discount"/>
+                                    <field name="perm_allow_price_change" widget="radio" options="{'horizontal': true}"/>
+                                </group>
+                                <group string="Accounting">
+                                    <field name="perm_allow_invoice_creation" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="perm_allow_direct_invoice" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="perm_allow_payment" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="perm_allow_expense" widget="radio" options="{'horizontal': true}"/>
+                                </group>
+                                <group string="Customers">
+                                    <field name="perm_allow_new_customer" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="perm_allow_customer_return" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="perm_allow_ranking" widget="radio" options="{'horizontal': true}"/>
+                                </group>
+                                <group string="Inventory">
+                                    <field name="perm_allow_stock_view" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="perm_allow_internal_transfer" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="perm_allow_return" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="perm_allow_delivery_validation" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="perm_allow_auto_validate" widget="radio" options="{'horizontal': true}"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Targets" name="targets">
+                            <field name="target_ids">
+                                <list>
+                                    <field name="date_from"/><field name="date_to"/>
+                                    <field name="sales_target"/><field name="collection_target"/>
+                                    <field name="orders_target"/><field name="visits_target"/><field name="new_customers_target"/>
+                                    <field name="achievement" widget="progressbar" string="Achievement %"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Warehouse &amp; Payments" name="stock_pay">
+                            <group>
+                                <field name="warehouse_id"/>
+                                <field name="payment_method_ids" widget="many2many_tags"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="action_rep" model="ir.actions.act_window">
+        <field name="name">Sales Representatives</field>
+        <field name="res_model">mo.sales.rep</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Routes -->
+    <record id="view_route_list" model="ir.ui.view">
+        <field name="name">mo.sales.route.list</field>
+        <field name="model">mo.sales.route</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="rep_id"/>
+                <field name="weekday"/>
+                <field name="area"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_route_form" model="ir.ui.view">
+        <field name="name">mo.sales.route.form</field>
+        <field name="model">mo.sales.route</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_optimize" type="object" string="Optimize Order"
+                            help="Re-order the stops by distance using the customers' saved locations."/>
+                </header>
+                <sheet>
+                    <field name="active" invisible="1"/>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="rep_id"/>
+                        </group>
+                        <group>
+                            <field name="weekday"/>
+                            <field name="area"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <field name="line_ids">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="partner_id"/>
+                            <field name="expected_time" widget="float_time"/>
+                            <field name="priority"/>
+                            <field name="frequency"/>
+                            <field name="start_date" optional="show"/>
+                            <field name="interval_days" optional="hide" invisible="frequency != 'custom'"/>
+                            <field name="note"/>
+                        </list>
+                    </field>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="view_route_search" model="ir.ui.view">
+        <field name="name">mo.sales.route.search</field>
+        <field name="model">mo.sales.route</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="rep_id"/>
+                <field name="area"/>
+                <group>
+                    <filter name="group_rep" string="Salesperson" context="{'group_by': 'rep_id'}"/>
+                    <filter name="group_day" string="Day" context="{'group_by': 'weekday'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_route" model="ir.actions.act_window">
+        <field name="name">Routes</field>
+        <field name="res_model">mo.sales.route</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Visits -->
+    <record id="view_visit_list" model="ir.ui.view">
+        <field name="name">mo.sales.visit.list</field>
+        <field name="model">mo.sales.visit</field>
+        <field name="arch" type="xml">
+            <list decoration-success="state == 'completed'" decoration-danger="state == 'missed'"
+                  decoration-muted="state == 'cancelled'" decoration-info="state == 'started'">
+                <field name="name"/>
+                <field name="visit_date"/>
+                <field name="rep_id"/>
+                <field name="partner_id"/>
+                <field name="visit_type"/>
+                <field name="start_time" optional="show"/>
+                <field name="end_time" optional="show"/>
+                <field name="duration" optional="hide"/>
+                <field name="result" optional="show"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_visit_form" model="ir.ui.view">
+        <field name="name">mo.sales.visit.form</field>
+        <field name="model">mo.sales.visit</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_start" type="object" string="Start Visit" class="btn-primary"
+                            invisible="state not in ('planned', 'missed')"/>
+                    <button name="action_end" type="object" string="End Visit" class="btn-primary"
+                            invisible="state != 'started'"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            invisible="state in ('completed', 'cancelled')"/>
+                    <button name="action_reset" type="object" string="Reset to Planned"
+                            invisible="state not in ('cancelled', 'missed')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="planned,started,completed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_attachments" type="object" class="oe_stat_button" icon="fa-paperclip">
+                            <field name="attachment_count" widget="statinfo" string="Attachments"/>
+                        </button>
+                    </div>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group string="Visit">
+                            <field name="rep_id"/>
+                            <field name="partner_id"/>
+                            <field name="visit_type"/>
+                            <field name="visit_date"/>
+                            <field name="route_line_id" readonly="1" invisible="not route_line_id"/>
+                            <field name="source" readonly="1"/>
+                        </group>
+                        <group string="Time &amp; Location">
+                            <field name="start_time"/>
+                            <field name="end_time"/>
+                            <field name="duration" widget="float_time"/>
+                            <label for="start_latitude" string="Start GPS"/>
+                            <div class="o_row">
+                                <field name="start_latitude"/> / <field name="start_longitude"/>
+                            </div>
+                            <label for="end_latitude" string="End GPS"/>
+                            <div class="o_row">
+                                <field name="end_latitude"/> / <field name="end_longitude"/>
+                            </div>
+                            <field name="start_map_url" widget="url" invisible="not start_map_url"/>
+                        </group>
+                    </group>
+                    <group string="Result">
+                        <group>
+                            <field name="result"/>
+                            <field name="purpose"/>
+                            <field name="next_visit_date"/>
+                            <field name="next_followup_date"/>
+                        </group>
+                        <group>
+                            <field name="notes"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Sales Orders" name="orders">
+                            <field name="sale_order_ids" readonly="1">
+                                <list><field name="name"/><field name="date_order"/><field name="amount_total"/><field name="state"/></list>
+                            </field>
+                        </page>
+                        <page string="Invoices" name="invoices">
+                            <field name="invoice_ids" readonly="1">
+                                <list><field name="name"/><field name="invoice_date"/><field name="amount_total"/><field name="amount_residual"/><field name="state"/></list>
+                            </field>
+                        </page>
+                        <page string="Payments" name="payments">
+                            <field name="payment_ids" readonly="1">
+                                <list><field name="name"/><field name="date"/><field name="amount"/><field name="state"/></list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="view_visit_search" model="ir.ui.view">
+        <field name="name">mo.sales.visit.search</field>
+        <field name="model">mo.sales.visit</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="rep_id"/>
+                <filter name="today" string="Today" domain="[('visit_date', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter name="planned" string="Planned" domain="[('state', '=', 'planned')]"/>
+                <filter name="started" string="Started" domain="[('state', '=', 'started')]"/>
+                <filter name="completed" string="Completed" domain="[('state', '=', 'completed')]"/>
+                <filter name="missed" string="Missed" domain="[('state', '=', 'missed')]"/>
+                <group>
+                    <filter name="group_rep" string="Salesperson" context="{'group_by': 'rep_id'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_date" string="Date" context="{'group_by': 'visit_date:day'}"/>
+                    <filter name="group_customer" string="Customer" context="{'group_by': 'partner_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="view_visit_pivot" model="ir.ui.view">
+        <field name="name">mo.sales.visit.pivot</field>
+        <field name="model">mo.sales.visit</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="rep_id" type="row"/>
+                <field name="state" type="col"/>
+                <field name="duration" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+    <record id="action_visit" model="ir.actions.act_window">
+        <field name="name">Visits</field>
+        <field name="res_model">mo.sales.visit</field>
+        <field name="view_mode">list,kanban,calendar,form,pivot,graph</field>
+    </record>
+
+    <!-- Location log -->
+    <record id="view_location_list" model="ir.ui.view">
+        <field name="name">mo.sales.rep.location.list</field>
+        <field name="model">mo.sales.rep.location</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0">
+                <field name="timestamp"/>
+                <field name="rep_id"/>
+                <field name="visit_id"/>
+                <field name="latitude"/>
+                <field name="longitude"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_location" model="ir.actions.act_window">
+        <field name="name">Location Log</field>
+        <field name="res_model">mo.sales.rep.location</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- Settings -->
+    <record id="view_settings_form" model="ir.ui.view">
+        <field name="name">mo.sales.rep.settings.form</field>
+        <field name="model">mo.sales.rep.settings</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0">
+                <sheet>
+                    <h1>Sales Representative Portal Settings</h1>
+                    <p class="text-muted">
+                        The permissions below are the defaults for every representative. Open a representative and use
+                        the Permissions tab to give one person more or less than the others.
+                    </p>
+                    <group>
+                        <group string="General">
+                            <field name="enable_gps"/>
+                            <field name="enable_tracking"/>
+                            <field name="tracking_interval" invisible="not enable_tracking"/>
+                            <field name="enable_attachments"/>
+                            <field name="enable_whatsapp"/>
+                            <field name="enable_customer_location"/>
+                            <field name="notify_by_email"/>
+                        </group>
+                        <group string="Customers &amp; Performance">
+                            <field name="allow_new_customer"/>
+                            <field name="customer_approval"/>
+                            <field name="allow_expense"/>
+                            <field name="allow_customer_return"/>
+                            <field name="allow_ranking"/>
+                            <field name="ranking_metric" invisible="not allow_ranking"/>
+                            <field name="ranking_show_values" invisible="not allow_ranking"/>
+                            <field name="suggest_no_visit_days"/>
+                            <field name="suggest_no_order_days"/>
+                            <field name="suggest_outstanding_min"/>
+                        </group>
+                        <group string="Sales">
+                            <field name="allow_quotation"/>
+                            <field name="allow_sales_order"/>
+                            <field name="allow_discount"/>
+                            <field name="max_discount" invisible="not allow_discount"/>
+                            <field name="allow_price_change"/>
+                        </group>
+                        <group string="Accounting">
+                            <field name="allow_invoice_creation"/>
+                            <field name="allow_direct_invoice" invisible="not allow_invoice_creation"/>
+                            <field name="auto_post_invoice" invisible="not allow_invoice_creation"/>
+                            <field name="allow_payment"/>
+                        </group>
+                        <group string="Inventory">
+                            <field name="allow_stock_view"/>
+                            <field name="allow_internal_transfer"/>
+                            <field name="allow_return"/>
+                            <field name="allow_delivery_validation"/>
+                            <field name="allow_auto_validate"/>
+                            <field name="main_warehouse_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_settings_open" model="ir.actions.server">
+        <field name="name">Settings</field>
+        <field name="model_id" ref="model_mo_sales_rep_settings"/>
+        <field name="state">code</field>
+        <field name="code">action = model.action_open_settings()</field>
+    </record>
+
+    <!-- Standard documents created by reps -->
+    <record id="action_rep_orders" model="ir.actions.act_window">
+        <field name="name">Sales Orders</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">['|', ('mo_rep_id', '!=', False), ('create_uid.mo_rep_ids', '!=', False)]</field>
+    </record>
+    <record id="action_rep_invoices" model="ir.actions.act_window">
+        <field name="name">Invoices</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('mo_rep_id', '!=', False), ('move_type', '=', 'out_invoice')]</field>
+        <field name="context">{'default_move_type': 'out_invoice'}</field>
+    </record>
+    <record id="action_rep_payments" model="ir.actions.act_window">
+        <field name="name">Payments</field>
+        <field name="res_model">account.payment</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">['|', ('mo_rep_id', '!=', False), ('create_uid.mo_rep_ids', '!=', False)]</field>
+    </record>
+    <record id="action_rep_pickings" model="ir.actions.act_window">
+        <field name="name">Stock Operations</field>
+        <field name="res_model">stock.picking</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">['|', '|', ('mo_rep_id', '!=', False), ('sale_id.mo_rep_id', '!=', False), ('create_uid.mo_rep_ids', '!=', False)]</field>
+    </record>
+    <record id="action_rep_customers" model="ir.actions.act_window">
+        <field name="name">Customers</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('mo_rep_ids', '!=', False)]</field>
+    </record>
+</odoo>

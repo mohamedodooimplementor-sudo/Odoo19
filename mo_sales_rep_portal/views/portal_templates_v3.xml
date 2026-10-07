@@ -1,0 +1,289 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <!-- ======================================================== outstanding & aging -->
+    <template id="tpl_outstanding" name="Sales Rep - Outstanding">
+        <t t-call="mo_sales_rep_portal.tpl_layout">
+            <div class="mo-grid">
+                <div class="mo-stat hero"><span><t t-esc="T('Total Outstanding')"/></span><b><t t-esc="money(ag['total'])"/> <t t-esc="cur"/></b></div>
+                <t t-foreach="bucket_order" t-as="b">
+                    <div class="mo-stat"><span class="mo-muted" t-esc="bucket_label(b)"/><b t-esc="money(ag[b])"/></div>
+                </t>
+                <div class="mo-stat"><span class="mo-muted"><t t-esc="T('Total Overdue')"/></span><b t-attf-class="#{'mo-bad' if ag['overdue'] else ''}" t-esc="money(ag['overdue'])"/></div>
+            </div>
+            <h3 style="margin-top:16px"><t t-esc="T('Customers owing money')"/></h3>
+            <div t-if="not customers" class="mo-empty"><t t-esc="T('Nothing is outstanding.')"/></div>
+            <div class="mo-cols"><t t-foreach="customers" t-as="c">
+                <div class="mo-card">
+                    <div class="mo-row"><h3><a t-attf-href="/rep/customer/#{c[0].id}" t-esc="c[0].display_name"/></h3>
+                        <b><t t-esc="money(c[1]['total'])"/> <t t-esc="cur"/></b></div>
+                    <div class="mo-muted"><t t-esc="c[1]['count']"/> <t t-esc="T('open invoices')"/><t t-if="c[1]['overdue']"> · <t t-esc="T('overdue')"/> <t t-esc="money(c[1]['overdue'])"/></t></div>
+                    <div class="mo-btns">
+                        <a class="mo-btn small" t-attf-href="/rep/customer/#{c[0].id}"><t t-esc="T('Open Customer')"/></a>
+                        <a t-if="S.allow_payment" class="mo-btn small accent" t-attf-href="/rep/payment/new?partner_id=#{c[0].id}"><t t-esc="T('Collect Payment')"/></a>
+                    </div>
+                </div>
+            </t></div>
+        </t>
+    </template>
+
+    <!-- ======================================================== targets / ranking -->
+    <template id="tpl_targets" name="Sales Rep - Targets">
+        <t t-call="mo_sales_rep_portal.tpl_layout">
+            <div t-if="not target" class="mo-empty"><t t-esc="T('No target is set for this period. Ask your manager.')"/></div>
+            <t t-if="target">
+                <div class="mo-card"><h3><t t-esc="target.date_from"/> → <t t-esc="target.date_to"/></h3></div>
+                <t t-foreach="rows" t-as="row">
+                    <div class="mo-card">
+                        <div class="mo-row"><h3 t-esc="T(row['label'])"/><b><t t-esc="row['pct']"/>%</b></div>
+                        <div class="mo-bar"><i t-attf-style="width:#{row['bar']}%"/></div>
+                        <div class="mo-row mo-muted" style="margin-top:6px"><span><t t-esc="T('Target')"/></span><span t-esc="money(row['target']) if row['money'] else int(row['target'])"/></div>
+                        <div class="mo-row mo-muted"><span><t t-esc="T('Achieved')"/></span><span t-esc="money(row['actual']) if row['money'] else int(row['actual'])"/></div>
+                        <div class="mo-row"><span><t t-esc="T('Remaining')"/></span><b t-esc="money(row['remaining']) if row['money'] else int(row['remaining'])"/></div>
+                    </div>
+                </t>
+            </t>
+            <div class="mo-card" t-if="history"><h3><t t-esc="T('Previous periods')"/></h3>
+                <t t-foreach="history" t-as="h"><div class="mo-row mo-muted"><span><t t-esc="h.date_from"/> → <t t-esc="h.date_to"/></span><b><t t-esc="h.achievement"/>%</b></div></t></div>
+        </t>
+    </template>
+
+    <template id="tpl_ranking" name="Sales Rep - Ranking">
+        <t t-call="mo_sales_rep_portal.tpl_layout">
+            <p class="mo-muted"><t t-esc="T('This month')"/></p>
+            <t t-foreach="rows" t-as="r">
+                <div t-attf-class="mo-card #{'mo-me' if r['rep'].id == rep.id else ''}">
+                    <div class="mo-row">
+                        <span><b><t t-esc="r['rank']"/>.</b> <t t-esc="r['rep'].name"/></span>
+                        <b><t t-esc="r['score']"/>%</b>
+                    </div>
+                    <div class="mo-bar"><i t-attf-style="width:#{min(r['score'], 100)}%"/></div>
+                    <div class="mo-muted" t-if="show_values and metric != 'target'" style="margin-top:4px">
+                        <t t-if="metric in ('sales', 'collection')" t-esc="money(r['value'])"/><t t-else="" t-esc="int(r['value'])"/>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- ======================================================== expenses -->
+    <template id="tpl_expenses" name="Sales Rep - Expenses">
+        <t t-call="mo_sales_rep_portal.tpl_layout">
+            <div class="mo-filters">
+                <a href="/rep/expenses" t-attf-class="#{'on' if not state else ''}"><t t-esc="T('All')"/></a>
+                <a href="/rep/expenses?state=draft" t-attf-class="#{'on' if state == 'draft' else ''}"><t t-esc="T('Draft')"/></a>
+                <a href="/rep/expenses?state=submitted" t-attf-class="#{'on' if state == 'submitted' else ''}"><t t-esc="T('Submitted')"/></a>
+                <a href="/rep/expenses?state=approved" t-attf-class="#{'on' if state == 'approved' else ''}"><t t-esc="T('Approved')"/></a>
+                <a href="/rep/expenses?state=refused" t-attf-class="#{'on' if state == 'refused' else ''}"><t t-esc="T('Refused')"/></a>
+            </div>
+            <a class="mo-btn primary" href="/rep/expense/new" style="margin-bottom:12px"><t t-esc="T('+ New Expense')"/></a>
+            <div class="mo-muted" t-if="recs" style="margin-bottom:8px"><t t-esc="T('Total:')"/> <t t-esc="money(total)"/> <t t-esc="cur"/></div>
+            <div t-if="not recs" class="mo-empty"><t t-esc="T('No expenses here yet.')"/></div>
+            <div class="mo-cols"><t t-foreach="recs" t-as="e">
+                <a class="mo-list-link" t-attf-href="/rep/expense/#{e.id}">
+                    <span><t t-esc="sel(e, 'expense_type')"/><br/><span class="mo-muted"><t t-esc="e.date"/> · <t t-esc="money(e.amount)"/> <t t-esc="cur"/></span></span>
+                    <span t-attf-class="mo-chip #{'confirmed' if e.state == 'approved' else ('cancel' if e.state == 'refused' else ('sent' if e.state == 'submitted' else 'draft'))}"><t t-esc="sel(e, 'state')"/></span>
+                </a>
+            </t></div>
+        </t>
+    </template>
+
+    <template id="tpl_expense_form" name="Sales Rep - New expense">
+        <t t-call="mo_sales_rep_portal.tpl_layout">
+            <form method="post" action="/rep/expense/create" enctype="multipart/form-data" data-queue="1" class="mo-form mo-card">
+                <input type="hidden" name="csrf_token" t-att-value="csrf"/>
+                <input type="hidden" name="client_uid"/>
+                <label for="e_type"><t t-esc="T('Expense Type')"/></label>
+                <select id="e_type" name="expense_type" class="mo-input" required="required">
+                    <t t-foreach="types" t-as="t_"><option t-att-value="t_[0]"><t t-esc="T(t_[1])"/></option></t>
+                </select>
+                <label for="e_amount"><t t-esc="T('Amount')"/></label>
+                <input id="e_amount" type="number" name="amount" step="any" min="0" class="mo-input" inputmode="decimal" required="required"/>
+                <label for="e_date"><t t-esc="T('Date')"/></label>
+                <input id="e_date" type="date" name="date" class="mo-input" t-att-value="today"/>
+                <label for="e_visit"><t t-esc="T('Visit')"/></label>
+                <select id="e_visit" name="visit_id" class="mo-input">
+                    <option value=""><t t-esc="T('No visit')"/></option>
+                    <t t-foreach="visits" t-as="v"><option t-att-value="v.id" t-att-selected="'selected' if v.id == visit_id else None"><t t-esc="v.partner_id.display_name"/> · <t t-esc="v.visit_date"/></option></t>
+                </select>
+                <label for="e_partner"><t t-esc="T('Customer')"/></label>
+                <select id="e_partner" name="partner_id" class="mo-input">
+                    <option value=""><t t-esc="T('No customer')"/></option>
+                    <t t-foreach="customers" t-as="c"><option t-att-value="c.id" t-att-selected="'selected' if c.id == partner_id else None"><t t-esc="c.display_name"/></option></t>
+                </select>
+                <label for="e_notes"><t t-esc="T('Notes')"/></label>
+                <textarea id="e_notes" name="notes" class="mo-input"/>
+                <t t-if="S.enable_attachments">
+                    <label for="e_att"><t t-esc="T('Receipt photo')"/></label>
+                    <input id="e_att" type="file" name="attachments" class="mo-input" accept="image/*,application/pdf" capture="environment"/>
+                </t>
+                <div class="mo-btns" style="margin-top:14px">
+                    <button type="submit" name="action" value="draft" class="mo-btn"><t t-esc="T('Save Draft')"/></button>
+                    <button type="submit" name="action" value="submit" class="mo-btn primary"><t t-esc="T('Submit')"/></button>
+                </div>
+            </form>
+        </t>
+    </template>
+
+    <template id="tpl_expense" name="Sales Rep - Expense">
+        <t t-call="mo_sales_rep_portal.tpl_layout">
+            <div class="mo-card">
+                <div class="mo-row"><h2 t-esc="exp.name"/><span t-attf-class="mo-chip #{'confirmed' if exp.state == 'approved' else ('cancel' if exp.state == 'refused' else ('sent' if exp.state == 'submitted' else 'draft'))}"><t t-esc="sel(exp, 'state')"/></span></div>
+                <div><t t-esc="sel(exp, 'expense_type')"/></div>
+                <div class="mo-row" style="margin-top:6px"><span><t t-esc="T('Amount')"/></span><b><t t-esc="money(exp.amount)"/> <t t-esc="cur"/></b></div>
+                <div class="mo-muted"><t t-esc="exp.date"/></div>
+                <div class="mo-muted" t-if="exp.partner_id"><t t-esc="exp.partner_id.display_name"/></div>
+                <div class="mo-muted" t-if="exp.visit_id"><a t-attf-href="/rep/visit/#{exp.visit_id.id}" t-esc="exp.visit_id.name"/></div>
+                <div class="mo-muted" t-if="exp.notes" style="white-space:pre-line"><t t-esc="exp.notes"/></div>
+                <div class="mo-muted" t-if="exp.refuse_reason"><t t-esc="T('Refusal Reason:')"/> <t t-esc="exp.refuse_reason"/></div>
+                <t t-foreach="attachments" t-as="a"><div class="mo-muted"><a t-attf-href="/web/content/#{a.id}?download=true&amp;access_token=#{a.generate_access_token()[0]}" t-esc="a.name"/></div></t>
+            </div>
+            <div class="mo-btns" t-if="exp.state == 'draft'">
+                <form method="post" t-attf-action="/rep/expense/#{exp.id}/submit"><input type="hidden" name="csrf_token" t-att-value="csrf"/>
+                    <button type="submit" class="mo-btn primary"><t t-esc="T('Submit')"/></button></form>
+                <form method="post" t-attf-action="/rep/expense/#{exp.id}/delete"><input type="hidden" name="csrf_token" t-att-value="csrf"/>
+                    <button type="submit" class="mo-btn danger"><t t-esc="T('Delete')"/></button></form>
+            </div>
+        </t>
+    </template>
+
+    <!-- ======================================================== receipt -->
+    <template id="tpl_receipt" name="Sales Rep - Payment receipt">
+        <t t-call="mo_sales_rep_portal.tpl_layout">
+            <div class="mo-card mo-receipt" id="receipt">
+                <div class="mo-center">
+                    <h2 t-esc="company.name"/>
+                    <div class="mo-muted"><t t-esc="company.street"/> <t t-esc="company.city"/></div>
+                    <div class="mo-muted"><t t-esc="company.phone"/> <t t-esc="company.vat"/></div>
+                    <h3 style="margin-top:12px"><t t-esc="T('Payment Receipt')"/></h3>
+                    <div class="mo-muted" t-esc="pay.name"/>
+                </div>
+                <div class="mo-total big"><t t-esc="money(pay.amount)"/> <t t-esc="cur"/></div>
+                <table class="mo-table">
+                    <tbody>
+                        <tr><td><t t-esc="T('Customer')"/></td><td t-esc="pay.partner_id.display_name"/></tr>
+                        <tr><td><t t-esc="T('Payment Date')"/></td><td t-esc="pay.date"/></tr>
+                        <tr><td><t t-esc="T('Payment Method')"/></td><td t-esc="pay.mo_method_id.name or pay.journal_id.name"/></tr>
+                        <tr t-if="invoices"><td><t t-esc="T('Invoice(s)')"/></td><td><t t-foreach="invoices" t-as="i"><div t-esc="i.name"/></t></td></tr>
+                        <tr t-if="memo"><td><t t-esc="T('Reference')"/></td><td t-esc="memo"/></tr>
+                        <tr t-if="cheque"><td><t t-esc="T('Cheque Number')"/></td><td t-esc="cheque.cheque_number"/></tr>
+                        <tr t-if="cheque"><td><t t-esc="T('Bank')"/></td><td t-esc="cheque.bank_name"/></tr>
+                        <tr t-if="cheque"><td><t t-esc="T('Due Date')"/></td><td t-esc="cheque.due_date"/></tr>
+                        <tr><td><t t-esc="T('Sales Representative')"/></td><td t-esc="rep.name"/></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="mo-btns mo-noprint">
+                <button type="button" class="mo-btn primary" onclick="window.print()"><t t-esc="T('Print Receipt')"/></button>
+                <a class="mo-btn" t-attf-href="/rep/payment/#{pay.id}/receipt.pdf" target="_blank" rel="noopener"><t t-esc="T('Download PDF')"/></a>
+                <a t-if="visit" class="mo-btn accent" t-attf-href="/rep/visit/#{visit.id}"><t t-esc="T('Back to the visit')"/></a>
+                <a t-else="" class="mo-btn" href="/rep"><t t-esc="T('Back to home')"/></a>
+            </div>
+        </t>
+    </template>
+
+    <!-- ======================================================== cheques -->
+    <template id="tpl_cheques" name="Sales Rep - Cheques">
+        <t t-call="mo_sales_rep_portal.tpl_layout">
+            <div class="mo-filters">
+                <a href="/rep/cheques" t-attf-class="#{'on' if not state else ''}"><t t-esc="T('All')"/></a>
+                <a href="/rep/cheques?state=received" t-attf-class="#{'on' if state == 'received' else ''}"><t t-esc="T('Received')"/></a>
+                <a href="/rep/cheques?state=deposited" t-attf-class="#{'on' if state == 'deposited' else ''}"><t t-esc="T('Deposited')"/></a>
+                <a href="/rep/cheques?state=cleared" t-attf-class="#{'on' if state == 'cleared' else ''}"><t t-esc="T('Cleared')"/></a>
+                <a href="/rep/cheques?state=returned" t-attf-class="#{'on' if state == 'returned' else ''}"><t t-esc="T('Returned')"/></a>
+            </div>
+            <div class="mo-muted" t-if="recs" style="margin-bottom:8px"><t t-esc="T('Total:')"/> <t t-esc="money(total)"/> <t t-esc="cur"/></div>
+            <div t-if="not recs" class="mo-empty"><t t-esc="T('No cheques here yet.')"/></div>
+            <div class="mo-cols"><t t-foreach="recs" t-as="c">
+                <div class="mo-card">
+                    <div class="mo-row"><h3 t-esc="c.cheque_number"/>
+                        <span t-attf-class="mo-chip #{'confirmed' if c.state == 'cleared' else ('cancel' if c.state == 'returned' else ('sent' if c.state == 'deposited' else 'draft'))}"><t t-esc="sel(c, 'state')"/></span></div>
+                    <div><t t-esc="c.partner_id.display_name"/></div>
+                    <div class="mo-muted"><t t-esc="c.bank_name"/> · <t t-esc="T('Due Date:')"/> <t t-esc="c.due_date"/></div>
+                    <div class="mo-row"><span class="mo-muted"><t t-esc="c.name"/></span><b><t t-esc="money(c.amount)"/> <t t-esc="cur"/></b></div>
+                    <a t-if="c.payment_id" class="mo-btn small" t-attf-href="/rep/payment/#{c.payment_id.id}/receipt"><t t-esc="T('Print Receipt')"/></a>
+                </div>
+            </t></div>
+        </t>
+    </template>
+
+    <!-- ======================================================== returns -->
+    <template id="tpl_return_form" name="Sales Rep - Customer return">
+        <t t-call="mo_sales_rep_portal.tpl_layout">
+            <form method="post" action="/rep/return/create" class="mo-form mo-card" id="return-form" data-return="1">
+                <input type="hidden" name="csrf_token" t-att-value="csrf"/>
+                <input type="hidden" name="client_uid"/>
+                <input type="hidden" name="visit_id" t-att-value="visit_id or ''"/>
+                <label for="r_partner"><t t-esc="T('Customer')"/></label>
+                <select id="r_partner" name="partner_id" class="mo-input" required="required">
+                    <option value=""><t t-esc="T('Choose a customer')"/></option>
+                    <t t-foreach="customers" t-as="c"><option t-att-value="c.id" t-att-selected="'selected' if c.id == partner_id else None"><t t-esc="c.display_name"/></option></t>
+                </select>
+                <label for="r_order"><t t-esc="T('Invoice / Sales Order')"/></label>
+                <select id="r_order" name="order_id" class="mo-input" required="required" t-att-data-choose="T('Choose the invoice or sales order')" t-att-data-none="T('Nothing can be returned for this customer')"/>
+                <div id="r_lines" t-att-data-max="T('Max')" t-att-data-reason="T('Return Reason')" t-att-data-qty="T('Quantity')"/>
+                <label for="r_note"><t t-esc="T('Notes')"/></label>
+                <textarea id="r_note" name="note" class="mo-input"/>
+                <button type="submit" class="mo-btn primary" style="margin-top:14px"><t t-esc="T('Create Return')"/></button>
+                <select id="r_reasons" hidden="hidden" disabled="disabled">
+                    <option value=""><t t-esc="T('Choose the reason')"/></option>
+                    <t t-foreach="reasons" t-as="r"><option t-att-value="r.id"><t t-esc="r.name"/></option></t>
+                </select>
+            </form>
+        </t>
+    </template>
+
+    <!-- ======================================================== follow-ups -->
+    <template id="tpl_followups" name="Sales Rep - Follow-ups">
+        <t t-call="mo_sales_rep_portal.tpl_layout">
+            <a class="mo-btn primary" href="/rep/followup/new" style="margin-bottom:12px"><t t-esc="T('+ New Follow-up')"/></a>
+            <t t-set="groups" t-value="[(T('Overdue Follow-ups'), overdue), (T('Today\'s Follow-ups'), today_list), (T('Upcoming Follow-ups'), upcoming)]"/>
+            <div t-if="not (overdue or today_list or upcoming)" class="mo-empty"><t t-esc="T('No open follow-ups.')"/></div>
+            <t t-foreach="groups" t-as="g">
+                <t t-if="g[1]"><h3 t-esc="g[0]" style="margin:14px 0 6px"/>
+                    <t t-foreach="g[1]" t-as="f">
+                        <div class="mo-card">
+                            <div class="mo-row"><b t-esc="f.name"/>
+                                <span t-if="f.priority != '0'" t-attf-class="mo-chip #{'urgent' if f.priority == '2' else 'high'}"><t t-esc="sel(f, 'priority')"/></span></div>
+                            <div><a t-attf-href="/rep/customer/#{f.partner_id.id}" t-esc="f.partner_id.display_name"/></div>
+                            <div class="mo-muted"><t t-esc="f.due_date"/></div>
+                            <div class="mo-muted" t-if="f.notes" t-esc="f.notes"/>
+                            <div class="mo-btns">
+                                <form method="post" t-attf-action="/rep/followup/#{f.id}/done" data-queue="1"><input type="hidden" name="csrf_token" t-att-value="csrf"/>
+                                    <button type="submit" class="mo-btn small primary" style="width:100%"><t t-esc="T('Mark Done')"/></button></form>
+                                <form method="post" t-attf-action="/rep/followup/#{f.id}/cancel"><input type="hidden" name="csrf_token" t-att-value="csrf"/>
+                                    <button type="submit" class="mo-btn small" style="width:100%"><t t-esc="T('Cancel')"/></button></form>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="tpl_followup_form" name="Sales Rep - New follow-up">
+        <t t-call="mo_sales_rep_portal.tpl_layout">
+            <form method="post" action="/rep/followup/create" data-queue="1" class="mo-form mo-card">
+                <input type="hidden" name="csrf_token" t-att-value="csrf"/>
+                <input type="hidden" name="client_uid"/>
+                <input type="hidden" name="visit_id" t-att-value="visit_id or ''"/>
+                <input type="hidden" name="order_id" t-att-value="order_id or ''"/>
+                <label for="f_partner"><t t-esc="T('Customer')"/></label>
+                <select id="f_partner" name="partner_id" class="mo-input" required="required">
+                    <option value=""><t t-esc="T('Choose a customer')"/></option>
+                    <t t-foreach="customers" t-as="c"><option t-att-value="c.id" t-att-selected="'selected' if c.id == partner_id else None"><t t-esc="c.display_name"/></option></t>
+                </select>
+                <label for="f_name"><t t-esc="T('Task')"/></label>
+                <input id="f_name" name="name" class="mo-input" required="required"/>
+                <label for="f_due"><t t-esc="T('Due Date')"/></label>
+                <input id="f_due" type="date" name="due_date" class="mo-input" t-att-value="today" required="required"/>
+                <label for="f_prio"><t t-esc="T('Priority')"/></label>
+                <select id="f_prio" name="priority" class="mo-input">
+                    <option value="0"><t t-esc="T('Normal')"/></option><option value="1"><t t-esc="T('High')"/></option><option value="2"><t t-esc="T('Urgent')"/></option>
+                </select>
+                <label for="f_notes"><t t-esc="T('Notes')"/></label>
+                <textarea id="f_notes" name="notes" class="mo-input"/>
+                <button type="submit" class="mo-btn primary" style="margin-top:14px"><t t-esc="T('Save Follow-up')"/></button>
+            </form>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,46 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_rep_manager,mo.sales.rep manager,model_mo_sales_rep,group_mo_rep_manager,1,1,1,1
+access_rep_salesman,mo.sales.rep salesman,model_mo_sales_rep,group_mo_rep_user,1,0,0,0
+access_rep_portal,mo.sales.rep portal,model_mo_sales_rep,group_sales_rep_portal,1,0,0,0
+access_route_manager,mo.sales.route manager,model_mo_sales_route,group_mo_rep_manager,1,1,1,1
+access_route_salesman,mo.sales.route salesman,model_mo_sales_route,group_mo_rep_user,1,0,0,0
+access_route_portal,mo.sales.route portal,model_mo_sales_route,group_sales_rep_portal,1,0,0,0
+access_route_line_manager,mo.sales.route.line manager,model_mo_sales_route_line,group_mo_rep_manager,1,1,1,1
+access_route_line_salesman,mo.sales.route.line salesman,model_mo_sales_route_line,group_mo_rep_user,1,0,0,0
+access_route_line_portal,mo.sales.route.line portal,model_mo_sales_route_line,group_sales_rep_portal,1,0,0,0
+access_visit_manager,mo.sales.visit manager,model_mo_sales_visit,group_mo_rep_manager,1,1,1,1
+access_visit_salesman,mo.sales.visit salesman,model_mo_sales_visit,group_mo_rep_user,1,1,1,0
+access_visit_portal,mo.sales.visit portal,model_mo_sales_visit,group_sales_rep_portal,1,1,1,0
+access_method_manager,mo.sales.rep.payment.method manager,model_mo_sales_rep_payment_method,group_mo_rep_manager,1,1,1,1
+access_method_salesman,mo.sales.rep.payment.method salesman,model_mo_sales_rep_payment_method,group_mo_rep_user,1,0,0,0
+access_notification_manager,mo.sales.rep.notification manager,model_mo_sales_rep_notification,group_mo_rep_manager,1,1,1,1
+access_notification_portal,mo.sales.rep.notification portal,model_mo_sales_rep_notification,group_sales_rep_portal,1,1,0,0
+access_location_manager,mo.sales.rep.location manager,model_mo_sales_rep_location,group_mo_rep_manager,1,1,1,1
+access_location_salesman,mo.sales.rep.location salesman,model_mo_sales_rep_location,group_mo_rep_user,1,0,0,0
+access_settings_manager,mo.sales.rep.settings manager,model_mo_sales_rep_settings,group_mo_rep_manager,1,1,1,1
+access_settings_salesman,mo.sales.rep.settings salesman,model_mo_sales_rep_settings,group_mo_rep_user,1,0,0,0
+access_so_portal_rep,sale.order rep read,sale.model_sale_order,group_sales_rep_portal,1,0,0,0
+access_move_portal_rep,account.move rep read,account.model_account_move,group_sales_rep_portal,1,0,0,0
+access_payment_portal_rep,account.payment rep read,account.model_account_payment,group_sales_rep_portal,1,0,0,0
+access_picking_portal_rep,stock.picking rep read,stock.model_stock_picking,group_sales_rep_portal,1,0,0,0
+access_target_manager,target manager,model_mo_sales_target,group_mo_rep_manager,1,1,1,1
+access_target_salesman,target salesman,model_mo_sales_target,group_mo_rep_user,1,0,0,0
+access_target_portal,target portal,model_mo_sales_target,group_sales_rep_portal,1,0,0,0
+access_expense_manager,expense manager,model_mo_sales_expense,group_mo_rep_manager,1,1,1,1
+access_expense_salesman,expense salesman,model_mo_sales_expense,group_mo_rep_user,1,1,1,0
+access_expense_portal,expense portal,model_mo_sales_expense,group_sales_rep_portal,1,0,0,0
+access_followup_manager,followup manager,model_mo_sales_followup,group_mo_rep_manager,1,1,1,1
+access_followup_salesman,followup salesman,model_mo_sales_followup,group_mo_rep_user,1,1,1,0
+access_followup_portal,followup portal,model_mo_sales_followup,group_sales_rep_portal,1,0,0,0
+access_cheque_manager,cheque manager,model_mo_sales_cheque,group_mo_rep_manager,1,1,1,1
+access_cheque_salesman,cheque salesman,model_mo_sales_cheque,group_mo_rep_user,1,0,0,0
+access_cheque_portal,cheque portal,model_mo_sales_cheque,group_sales_rep_portal,1,0,0,0
+access_reason_manager,return reason manager,model_mo_return_reason,group_mo_rep_manager,1,1,1,1
+access_reason_salesman,return reason salesman,model_mo_return_reason,group_mo_rep_user,1,0,0,0
+access_reason_portal,return reason portal,model_mo_return_reason,group_sales_rep_portal,1,0,0,0
+access_rep_accountant,mo.sales.rep accountant,model_mo_sales_rep,group_mo_rep_accountant,1,0,0,0
+access_cheque_accountant,cheque accountant,model_mo_sales_cheque,group_mo_rep_accountant,1,1,1,0
+access_expense_accountant,expense accountant,model_mo_sales_expense,group_mo_rep_accountant,1,1,0,0
+access_method_accountant,payment method accountant,model_mo_sales_rep_payment_method,group_mo_rep_accountant,1,0,0,0
+access_settings_accountant,settings accountant,model_mo_sales_rep_settings,group_mo_rep_accountant,1,0,0,0
+access_notification_accountant,notification accountant,model_mo_sales_rep_notification,group_mo_rep_accountant,1,0,0,0

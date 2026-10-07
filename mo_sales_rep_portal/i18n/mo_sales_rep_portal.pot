@@ -1,0 +1,1624 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* mo_sales_rep_portal
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+
+#. module: mo_sales_rep_portal
+#: model:ir.model,name:mo_sales_rep_portal.model_mo_sales_expense
+msgid "Sales Representative Expense"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_expense__name
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_return_reason__name
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_cheque__name
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__name
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_payment_method__name
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__name
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__name
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_target__name
+msgid "Name"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_expense__rep_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_cheque__rep_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_followup__rep_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__rep_id
+#: model:ir.model,name:mo_sales_rep_portal.model_mo_sales_rep
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_target__rep_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_portal_source_mixin__mo_rep_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_sale_order__mo_rep_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_account_move__mo_rep_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_account_payment__mo_rep_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_stock_picking__mo_rep_id
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_root
+msgid "Sales Representative"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_expense__date
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_search
+msgid "Date"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_expense__expense_type
+msgid "Expense Type"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_expense__expense_type__transport
+msgid "Transportation"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_expense__expense_type__fuel
+msgid "Fuel"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_expense__expense_type__parking
+msgid "Parking"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_expense__expense_type__visit
+msgid "Customer Visit Expenses"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_expense__expense_type__meals
+msgid "Meals"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_expense__expense_type__other
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__visit_type__other
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__result__other
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep_payment_method__method_type__other
+msgid "Other"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_expense__amount
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_cheque__amount
+msgid "Amount"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_expense__currency_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_cheque__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_expense__company_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_cheque__company_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_followup__company_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__company_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_payment_method__company_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__company_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_route__company_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_target__company_id
+msgid "Company"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_expense__partner_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_cheque__partner_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_followup__partner_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__partner_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_route_line__partner_id
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_search
+msgid "Customer"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_expense__visit_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_location__visit_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_portal_source_mixin__mo_visit_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_sale_order__mo_visit_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_account_move__mo_visit_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_account_payment__mo_visit_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_stock_picking__mo_visit_id
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_form
+msgid "Visit"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_expense__notes
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_cheque__notes
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_followup__notes
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__notes
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_expense_form
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_followup_form
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_cheque_form
+msgid "Notes"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_expense__state
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_cheque__state
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_followup__state
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__state
+msgid "State"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_expense__state__draft
+msgid "Draft"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_expense__state__submitted
+msgid "Submitted"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_expense__state__approved
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__res_partner__mo_approval_state__approved
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_expense_search
+msgid "Approved"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_expense__state__refused
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__res_partner__mo_approval_state__refused
+msgid "Refused"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_expense__approved_by_id
+msgid "Decided By"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_expense__approved_date
+msgid "Decision Date"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_expense__refuse_reason
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_res_partner__mo_refuse_reason
+msgid "Refusal Reason"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model,name:mo_sales_rep_portal.model_mo_return_reason
+msgid "Customer Return Reason"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_return_reason__sequence
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_route_line__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_return_reason__active
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_payment_method__active
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__active
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_route__active
+msgid "Active"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model,name:mo_sales_rep_portal.model_mo_sales_cheque
+msgid "Cheque Received by a Sales Representative"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_cheque__payment_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__payment_ids
+msgid "Payment"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_cheque__cheque_number
+msgid "Cheque Number"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_cheque__bank_name
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep_payment_method__method_type__bank
+msgid "Bank"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_cheque__cheque_date
+msgid "Cheque Date"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_cheque__due_date
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_followup__due_date
+msgid "Due Date"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_cheque__state__received
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_cheque_search
+msgid "Received"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_cheque__state__deposited
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_cheque_search
+msgid "Deposited"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_cheque__state__cleared
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_cheque_form
+msgid "Cleared"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_cheque__state__returned
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_cheque_form
+msgid "Returned"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model,name:mo_sales_rep_portal.model_mo_sales_followup
+msgid "Sales Follow-up"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_followup__name
+msgid "Task"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_followup__priority
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_route_line__priority
+msgid "Priority"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_followup__priority__0
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_route_line__priority__0
+msgid "Normal"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_followup__priority__1
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_route_line__priority__1
+msgid "High"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_followup__priority__2
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_route_line__priority__2
+msgid "Urgent"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_followup__visit_id
+msgid "Related Visit"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_followup__order_id
+msgid "Related Order"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_followup__state__open
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_followup_search
+msgid "Open"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_followup__state__done
+msgid "Done"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_followup__state__cancelled
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__state__cancelled
+msgid "Cancelled"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_followup__done_date
+msgid "Done Date"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model,name:mo_sales_rep_portal.model_mo_sales_visit
+msgid "Customer Visit"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__route_line_id
+msgid "Route Stop"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__route_id
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__route_ids
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_route_line__route_id
+msgid "Route"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__day_sequence
+msgid "Optimized Order"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__visit_date
+msgid "Visit Date"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__visit_type
+msgid "Visit Type"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__visit_type__sales
+msgid "Sales Visit"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__visit_type__collection
+msgid "Collection Visit"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__visit_type__delivery
+msgid "Delivery Visit"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__visit_type__follow_up
+msgid "Follow Up"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__visit_type__complaint
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__result__complaint
+msgid "Complaint"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__state__planned
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_search
+msgid "Planned"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__state__started
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_search
+msgid "Started"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__state__completed
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_search
+msgid "Completed"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__state__missed
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_search
+msgid "Missed"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__start_time
+msgid "Start Time"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__end_time
+msgid "End Time"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__start_latitude
+msgid "Start Latitude"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__start_longitude
+msgid "Start Longitude"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__end_latitude
+msgid "End Latitude"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__end_longitude
+msgid "End Longitude"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__result
+msgid "Visit Result"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__result__order
+msgid "Order Created"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__result__collected
+msgid "Payment Collected"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__result__not_available
+msgid "Customer Not Available"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__result__no_order
+msgid "No Order"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__result__follow_up
+msgid "Follow-up Required"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__result__opportunity
+msgid "New Customer Opportunity"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__next_visit_date
+msgid "Next Visit Date"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__next_followup_date
+msgid "Next Follow-up Date"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__purpose
+msgid "Planned Purpose"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__expense_ids
+msgid "Expense"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__duration
+msgid "Duration (h)"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__source
+msgid "Source"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_visit__source__backend
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_portal_source_mixin__mo_source__backend
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__sale_order__mo_source__backend
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__account_move__mo_source__backend
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__account_payment__mo_source__backend
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__stock_picking__mo_source__backend
+msgid "Backend"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_visit__invoice_ids
+msgid "Invoice"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model,name:mo_sales_rep_portal.model_mo_sales_rep_location
+msgid "Sales Representative Location Log"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_location__latitude
+msgid "Latitude"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_location__longitude
+msgid "Longitude"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_location__timestamp
+msgid "Timestamp"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model,name:mo_sales_rep_portal.model_mo_sales_rep_payment_method
+msgid "Sales Representative Payment Method"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_payment_method__method_type
+msgid "Method Type"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep_payment_method__method_type__cash
+msgid "Cash"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep_payment_method__method_type__cheque
+msgid "Cheque"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_payment_method__journal_id
+msgid "Journal"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__user_id
+msgid "Portal User"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__partner_id
+msgid "Partner"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__customer_ids
+msgid "Assigned Customers"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__can_view_all_customers
+msgid "Can See All Customers"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__warehouse_id
+msgid "Sales Representative Warehouse (Van)"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__payment_method_ids
+msgid "Allowed Payment Methods"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__max_discount
+msgid "Max Discount % (0 = use the global maximum)"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__perm_allow_quotation
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__allow_quotation
+msgid "Allow Quotation"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_quotation__default
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_sales_order__default
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_discount__default
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_price_change__default
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_invoice_creation__default
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_direct_invoice__default
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_payment__default
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_stock_view__default
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_internal_transfer__default
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_return__default
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_delivery_validation__default
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_auto_validate__default
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_new_customer__default
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_expense__default
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_customer_return__default
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_ranking__default
+msgid "Use global setting"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_quotation__yes
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_sales_order__yes
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_discount__yes
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_price_change__yes
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_invoice_creation__yes
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_direct_invoice__yes
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_payment__yes
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_stock_view__yes
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_internal_transfer__yes
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_return__yes
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_delivery_validation__yes
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_auto_validate__yes
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_new_customer__yes
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_expense__yes
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_customer_return__yes
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_ranking__yes
+msgid "Allowed"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_quotation__no
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_sales_order__no
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_discount__no
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_price_change__no
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_invoice_creation__no
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_direct_invoice__no
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_payment__no
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_stock_view__no
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_internal_transfer__no
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_return__no
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_delivery_validation__no
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_auto_validate__no
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_new_customer__no
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_expense__no
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_customer_return__no
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep__perm_allow_ranking__no
+msgid "Not allowed"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__perm_allow_sales_order
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__allow_sales_order
+msgid "Allow Sales Order"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__perm_allow_discount
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__allow_discount
+msgid "Allow Discount"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__perm_allow_price_change
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__allow_price_change
+msgid "Allow Price Change"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__perm_allow_invoice_creation
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__allow_invoice_creation
+msgid "Allow Invoice Creation"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__perm_allow_direct_invoice
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__allow_direct_invoice
+msgid "Allow Invoice without Sales Order"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__perm_allow_payment
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__allow_payment
+msgid "Allow Payment Registration"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__perm_allow_stock_view
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__allow_stock_view
+msgid "Allow Stock View"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__perm_allow_internal_transfer
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__allow_internal_transfer
+msgid "Allow Internal Transfer"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__perm_allow_return
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__allow_return
+msgid "Allow Return"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__perm_allow_delivery_validation
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__allow_delivery_validation
+msgid "Allow Delivery Validation"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__perm_allow_auto_validate
+msgid "Auto-validate Stock Operations"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__perm_allow_new_customer
+msgid "Allow Creating Customers"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__perm_allow_expense
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__allow_expense
+msgid "Allow Expenses"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__perm_allow_customer_return
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__allow_customer_return
+msgid "Allow Customer Returns"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__perm_allow_ranking
+msgid "Can See the Ranking"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__team_id
+msgid "Sales Team"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__target_ids
+msgid "Target"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__visit_count
+msgid "Visit Count"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__route_count
+msgid "Route Count"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__employee_id
+msgid "Employee"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep__department_id
+msgid "Department"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model,name:mo_sales_rep_portal.model_mo_sales_route
+msgid "Sales Route"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_route__name
+msgid "Route Name"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_route__rep_id
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_route_search
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_search
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_target_search
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_expense_search
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_followup_search
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_cheque_search
+msgid "Salesperson"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_route__weekday
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_route_search
+msgid "Day"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_route__weekday__6
+msgid "Sunday"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_route__weekday__0
+msgid "Monday"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_route__weekday__1
+msgid "Tuesday"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_route__weekday__2
+msgid "Wednesday"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_route__weekday__3
+msgid "Thursday"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_route__weekday__4
+msgid "Friday"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_route__weekday__5
+msgid "Saturday"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_route__area
+msgid "Area"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model,name:mo_sales_rep_portal.model_mo_sales_route_line
+msgid "Sales Route Customer"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_route_line__expected_time
+msgid "Expected Visit Time"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_route_line__note
+msgid "Visit Purpose / Note"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_route_line__frequency
+msgid "Frequency"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_route_line__frequency__daily
+msgid "Daily"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_route_line__frequency__weekly
+msgid "Weekly"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_route_line__frequency__biweekly
+msgid "Every 2 Weeks"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_route_line__frequency__monthly
+msgid "Monthly"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_route_line__frequency__custom
+msgid "Custom (every N days)"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_route_line__start_date
+msgid "Starts On"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_route_line__interval_days
+msgid "Every (days)"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model,name:mo_sales_rep_portal.model_mo_sales_rep_settings
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_settings_form
+#: code:addons/mo_sales_rep_portal/models/settings.py:0
+msgid "Sales Representative Portal Settings"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__enable_gps
+msgid "Enable GPS"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__enable_tracking
+msgid "Enable Visit Tracking (periodic location while a visit is open)"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__tracking_interval
+msgid "Tracking Interval (seconds)"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__enable_attachments
+msgid "Enable Attachments"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__enable_whatsapp
+msgid "Enable WhatsApp"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__enable_customer_location
+msgid "Enable Customer Location"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__notify_by_email
+msgid "Send Notifications by Email"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__customer_approval
+msgid "Require Approval for New Customers"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__allow_new_customer
+msgid "Allow Creating Customers from the Portal"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__allow_ranking
+msgid "Show Ranking to Representatives"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__ranking_metric
+msgid "Ranking Based On"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep_settings__ranking_metric__target
+msgid "Target Achievement"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep_settings__ranking_metric__sales
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_rep_form
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_settings_form
+msgid "Sales"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep_settings__ranking_metric__collection
+msgid "Collection"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep_settings__ranking_metric__visits
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_rep_form
+#: model:ir.actions.act_window,name:mo_sales_rep_portal.action_visit
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_visits
+#: code:addons/mo_sales_rep_portal/models/sales_rep.py:0
+msgid "Visits"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_sales_rep_settings__ranking_metric__new_customers
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_new_customers
+#: model:ir.actions.act_window,name:mo_sales_rep_portal.action_rep_new_customers
+msgid "New Customers"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__ranking_show_values
+msgid "Show Amounts in the Ranking"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__suggest_no_visit_days
+msgid "Suggest Customers Not Visited For (days)"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__suggest_no_order_days
+msgid "Suggest Customers Without Order For (days)"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__suggest_outstanding_min
+msgid "Suggest Customers Owing At Least"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__max_discount
+msgid "Maximum Discount %"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__auto_post_invoice
+msgid "Post Invoice Automatically"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__allow_auto_validate
+msgid "Allow Automatic Validation of Stock Operations"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_settings__main_warehouse_id
+msgid "Main Warehouse (source for Receive / target for Return)"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model,name:mo_sales_rep_portal.model_mo_sales_target
+msgid "Sales Representative Target"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_target__date_from
+msgid "From"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_target__date_to
+msgid "To"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_target__sales_target
+msgid "Sales Target"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_target__collection_target
+msgid "Collection Target"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_target__orders_target
+msgid "Orders Target"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_target__visits_target
+msgid "Visits Target"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_target__new_customers_target
+msgid "New Customers Target"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_target__sales_actual
+msgid "Sales Actual"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_target__collection_actual
+msgid "Collection Actual"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_target__orders_actual
+msgid "Orders Actual"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_target__visits_actual
+msgid "Visits Actual"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_target__new_customers_actual
+msgid "New Customers Actual"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_target__achievement
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_rep_form
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_target_list
+msgid "Achievement %"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model,name:mo_sales_rep_portal.model_mo_portal_source_mixin
+msgid "Sales Rep Portal Audit Fields"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_portal_source_mixin__mo_source
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_sale_order__mo_source
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_account_move__mo_source
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_account_payment__mo_source
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_stock_picking__mo_source
+msgid "Created From"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__mo_portal_source_mixin__mo_source__portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__sale_order__mo_source__portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__account_move__mo_source__portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__account_payment__mo_source__portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__stock_picking__mo_source__portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_partner_form_rep
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_order_form_rep
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_move_form_rep
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_payment_form_rep
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_picking_form_rep
+msgid "Sales Representative Portal"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_portal_source_mixin__mo_client_uid
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_sale_order__mo_client_uid
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_account_move__mo_client_uid
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_account_payment__mo_client_uid
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_stock_picking__mo_client_uid
+msgid "Device Reference"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_account_payment__mo_method_id
+msgid "Rep Payment Method"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_stock_picking__mo_operation
+msgid "Rep Operation"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__stock_picking__mo_operation__receive
+msgid "Receive Stock"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__stock_picking__mo_operation__return
+msgid "Return Stock"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__stock_picking__mo_operation__transfer
+msgid "Internal Transfer"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__stock_picking__mo_operation__customer_return
+msgid "Customer Return"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_stock_picking__mo_return_reason_id
+msgid "Return Reason"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_res_users__mo_rep_ids
+msgid "Sales Representative Profiles"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_res_partner__mo_rep_ids
+#: model:ir.actions.act_window,name:mo_sales_rep_portal.action_rep
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_reps
+msgid "Sales Representatives"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_res_partner__mo_whatsapp
+msgid "WhatsApp"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_res_partner__mo_approval_state
+msgid "Rep Approval"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields.selection,name:mo_sales_rep_portal.selection__res_partner__mo_approval_state__waiting
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_partner_search_rep
+msgid "Waiting Approval"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_res_partner__mo_created_by_rep_id
+msgid "Created by Representative"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model,name:mo_sales_rep_portal.model_mo_sales_rep_notification
+msgid "Sales Representative Notification"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_notification__name
+msgid "Title"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_notification__body
+msgid "Body"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.model.fields,field_description:mo_sales_rep_portal.field_mo_sales_rep_notification__is_read
+msgid "Is Read"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.actions.act_window,name:mo_sales_rep_portal.action_payment_method
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_methods
+msgid "Payment Methods"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_rep_form
+#: model:ir.actions.act_window,name:mo_sales_rep_portal.action_route
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_routes
+#: code:addons/mo_sales_rep_portal/models/sales_rep.py:0
+msgid "Routes"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_rep_form
+msgid "Archived"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_rep_form
+msgid "Representative"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_rep_form
+msgid "Access"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_rep_form
+#: model:ir.actions.act_window,name:mo_sales_rep_portal.action_rep_customers
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_customers
+msgid "Customers"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_rep_form
+msgid "Permissions"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_rep_form
+msgid "Each permission follows the global setting (Configuration > Settings) unless it is overridden here, so every representative can have different permissions."
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_rep_form
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_settings_form
+msgid "Accounting"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_rep_form
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_settings_form
+msgid "Inventory"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_rep_form
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_targets
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_target_form
+#: model:ir.actions.act_window,name:mo_sales_rep_portal.action_target
+#: code:addons/mo_sales_rep_portal/models/target.py:0
+msgid "Targets"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_rep_form
+msgid "Warehouse & Payments"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_route_form
+msgid "Optimize Order"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_form
+msgid "Start Visit"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_form
+msgid "End Visit"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_form
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_followup_form
+msgid "Cancel"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_form
+msgid "Reset to Planned"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_form
+#: code:addons/mo_sales_rep_portal/models/visit.py:0
+msgid "Attachments"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_form
+msgid "Time & Location"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_form
+msgid "Start GPS"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_form
+msgid "End GPS"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_form
+msgid "Result"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_form
+#: model:ir.actions.act_window,name:mo_sales_rep_portal.action_rep_orders
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_orders
+msgid "Sales Orders"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_form
+#: model:ir.actions.act_window,name:mo_sales_rep_portal.action_rep_invoices
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_invoices
+msgid "Invoices"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_form
+#: model:ir.actions.act_window,name:mo_sales_rep_portal.action_rep_payments
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_payments
+msgid "Payments"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_search
+msgid "Today"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_visit_search
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_expense_search
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_followup_search
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_cheque_search
+msgid "Status"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.actions.act_window,name:mo_sales_rep_portal.action_location
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_locations
+msgid "Location Log"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_settings_form
+msgid "The permissions below are the defaults for every representative. Open a representative and use the Permissions tab to give one person more or less than the others."
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_settings_form
+msgid "General"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_settings_form
+msgid "Customers & Performance"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.actions.server,name:mo_sales_rep_portal.action_settings_open
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_settings
+msgid "Settings"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.actions.act_window,name:mo_sales_rep_portal.action_rep_pickings
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_stock
+msgid "Stock Operations"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_dashboard
+msgid "Dashboard"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_followups
+#: model:ir.actions.act_window,name:mo_sales_rep_portal.action_followup
+msgid "Follow-ups"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_expenses
+#: model:ir.actions.act_window,name:mo_sales_rep_portal.action_expense
+msgid "Expenses"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_cheques
+#: model:ir.actions.act_window,name:mo_sales_rep_portal.action_cheque
+msgid "Cheques"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_returns
+#: model:ir.actions.act_window,name:mo_sales_rep_portal.action_rep_returns
+msgid "Customer Returns"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_config
+msgid "Configuration"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.ui.menu,name:mo_sales_rep_portal.menu_rep_reasons
+#: model:ir.actions.act_window,name:mo_sales_rep_portal.action_return_reason
+msgid "Return Reasons"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.actions.client,name:mo_sales_rep_portal.action_rep_dashboard
+msgid "Management Dashboard"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_target_form
+msgid "Copy to Next Month"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_expense_form
+msgid "Submit"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_expense_form
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_partner_form_rep
+msgid "Approve"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_expense_form
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_partner_form_rep
+msgid "Refuse"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_expense_form
+msgid "Reset to Draft"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_followup_form
+msgid "Mark Done"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_followup_form
+msgid "Reopen"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_followup_search
+msgid "Overdue"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model_terms:ir.ui.view,arch_db:mo_sales_rep_portal.view_cheque_form
+msgid "Deposit"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.actions.server,name:mo_sales_rep_portal.server_action_approve_customers
+msgid "Approve (Sales Rep Portal)"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: model:ir.actions.server,name:mo_sales_rep_portal.server_action_refuse_customers
+msgid "Refuse (Sales Rep Portal)"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: code:addons/mo_sales_rep_portal/models/expense.py:0
+msgid "The expense amount must be greater than zero."
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: code:addons/mo_sales_rep_portal/models/visit.py:0
+msgid "Only a planned visit can be started."
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: code:addons/mo_sales_rep_portal/models/visit.py:0
+msgid "Only a started visit can be ended."
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: code:addons/mo_sales_rep_portal/models/visit.py:0
+msgid "A completed visit cannot be cancelled."
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: code:addons/mo_sales_rep_portal/models/visit.py:0
+msgid "New visit"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: code:addons/mo_sales_rep_portal/models/route.py:0
+msgid "Route changed"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: code:addons/mo_sales_rep_portal/models/route.py:0
+msgid "Route \"%s\" was re-ordered by distance."
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: code:addons/mo_sales_rep_portal/models/route.py:0
+msgid "New route"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: code:addons/mo_sales_rep_portal/models/route.py:0
+msgid "At least two customers with a saved location are needed to optimize \"%s\"."
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: code:addons/mo_sales_rep_portal/models/inherits.py:0
+msgid "Order confirmed"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: code:addons/mo_sales_rep_portal/models/inherits.py:0
+msgid "Delivery not validated"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: code:addons/mo_sales_rep_portal/models/inherits.py:0
+msgid "%s is waiting: not enough stock or it needs manual processing."
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: code:addons/mo_sales_rep_portal/models/inherits.py:0
+msgid "Order cancelled"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: code:addons/mo_sales_rep_portal/models/inherits.py:0
+msgid "Invoice issued"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: code:addons/mo_sales_rep_portal/models/inherits.py:0
+msgid "Payment registered"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: code:addons/mo_sales_rep_portal/models/inherits.py:0
+msgid "Delivery validated"
+msgstr ""
+
+#. module: mo_sales_rep_portal
+#: code:addons/mo_sales_rep_portal/models/inherits.py:0
+msgid "This transfer needs manual processing."
+msgstr ""
+
