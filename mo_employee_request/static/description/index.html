@@ -1,0 +1,100 @@
+<section style="font-family:Arial,Helvetica,sans-serif;max-width:960px;margin:auto;padding:24px;color:#333;line-height:1.55">
+
+  <img src="banner.png" alt="Employee Requests" style="width:100%;border-radius:8px"/>
+
+  <table style="width:100%;margin:18px 0 6px 0;border-collapse:collapse"><tr>
+    <td style="vertical-align:middle">
+      <h1 style="color:#714B67;margin:0;font-size:30px">Employee Purchase &amp; Material Request</h1>
+      <p style="margin:6px 0 0 0;color:#666;font-size:16px">Request &rarr; approve &rarr; issue from stock or buy &rarr; receive &rarr; bill. One flow, standard Odoo documents.</p>
+    </td>
+    <td style="vertical-align:middle;text-align:right;width:230px">
+      <div style="display:inline-block;background:#714B67;color:#fff;padding:12px 22px;border-radius:10px;text-align:center">
+        <div style="font-size:12px;letter-spacing:1px;opacity:.85">PRICE</div>
+        <div style="font-size:34px;font-weight:bold;line-height:1.1">149 USD</div>
+        <div style="font-size:12px;opacity:.85">one-time &middot; Odoo 19</div>
+      </div>
+    </td>
+  </tr></table>
+  <p style="color:#777;margin-top:0">Odoo 19 &middot; LGPL-3 &middot; Author: Eng. M.Aboelmagde &middot; Odoo Lab (@odoolab)</p>
+
+  <h2 style="color:#714B67">What it does</h2>
+  <p>Employees ask for materials. The system checks every warehouse, issues what is in stock through standard
+     Odoo transfers and sends the missing quantities to purchasing, where they become Employee Purchase Orders
+     with their own approvals. Approved orders create a real Odoo purchase order, receipts and vendor bills.
+     Nothing in Odoo core is modified.</p>
+
+  <h2 style="color:#714B67">Workflow</h2>
+  <img src="workflow.png" alt="Workflow" style="width:100%;border:1px solid #e3e6ec;border-radius:8px"/>
+  <ol>
+    <li><b>Employee Request</b>: Draft &rarr; Department &rarr; Warehouse &rarr; Budget &rarr; Approved.</li>
+    <li><b>Split</b>: automatic or manual, into Stock Transfers (what is available) and Employee Purchase Orders (what is missing). Duplicate processing is blocked and partial processing is supported.</li>
+    <li><b>Employee Purchase Order</b>: starts as an <b>RFQ</b>. Print it or email it to the vendor, then press <b>To Approve</b> &rarr; Manager Approval &rarr; Budget Approval &rarr; Open.</li>
+    <li><b>Budget rejection</b>: the order goes to Budget Control, is edited and resubmitted straight back to Budget Approval.</li>
+    <li><b>Execution</b>: a real Odoo purchase order is created and confirmed, then receipts (with optional inspection approval) and vendor bills. The order moves to Closed and Invoiced, and the request follows: Processing, Partially Done, Closed.</li>
+  </ol>
+
+  <h2 style="color:#714B67">Purchasing, at a glance</h2>
+  <h3 style="color:#333">Kanban view for purchase orders</h3>
+  <p>Purchase orders can be switched to a kanban board grouped by stage, with the total amount of each column, the vendor,
+     amount, discount, employee, source request, number of lines, activities, and a tick once the Odoo purchase
+     order exists. List and form views are one click away.</p>
+  <img src="kanban.png" alt="Purchase order kanban" style="width:100%;border:1px solid #e3e6ec;border-radius:8px"/>
+
+  <h3 style="color:#333">RFQ first, then approval</h3>
+  <ul>
+    <li>The order is an <b>RFQ</b> until you press <b>To Approve</b>: print it (<i>Print RFQ</i>) or send it by email to the vendor first.</li>
+    <li>The printout and the email say "Request for Quotation" while it is an RFQ and "Purchase Order" afterwards.</li>
+    <li><b>Discount</b> button, same idea as in Sales: <i>On All Order Lines</i>, <i>Global Discount</i> (a negative line per tax group) or <i>Fixed Amount</i>.</li>
+    <li>Per-line price, discount and taxes, agreements, project and analytic account, stage ribbons and approval history.</li>
+  </ul>
+  <img src="rfq_form.png" alt="RFQ form" style="width:100%;border:1px solid #e3e6ec;border-radius:8px"/>
+
+  <h2 style="color:#714B67">Configuration</h2>
+  <p>Everything is set in <b>Settings &rarr; Employee Requests</b> (administrators only). Users picked in the
+     settings automatically receive the matching access group, so nobody has to tick groups on the user form.</p>
+  <img src="settings.png" alt="Settings" style="width:100%;border:1px solid #e3e6ec;border-radius:8px"/>
+
+  <table style="width:100%;border-collapse:collapse;margin-top:16px;font-size:14px">
+    <tr style="background:#714B67;color:#fff"><th style="text-align:left;padding:8px">Setting</th><th style="text-align:left;padding:8px">What it does</th></tr>
+    <tr><td style="padding:8px;border-bottom:1px solid #e3e6ec"><b>Department Approval</b></td><td style="padding:8px;border-bottom:1px solid #e3e6ec">First step of a request: the employee's department manager, or specific users.</td></tr>
+    <tr><td style="padding:8px;border-bottom:1px solid #e3e6ec"><b>Approval Mode</b></td><td style="padding:8px;border-bottom:1px solid #e3e6ec">Any one approver is enough, or all of them must approve each step.</td></tr>
+    <tr><td style="padding:8px;border-bottom:1px solid #e3e6ec"><b>Warehouse / Budget Approval Users</b></td><td style="padding:8px;border-bottom:1px solid #e3e6ec">Who checks stock and who gives the budget approval of a request.</td></tr>
+    <tr><td style="padding:8px;border-bottom:1px solid #e3e6ec"><b>Purchase Manager Approval</b></td><td style="padding:8px;border-bottom:1px solid #e3e6ec">First approval of a purchase order: the requester's direct manager, or specific users.</td></tr>
+    <tr><td style="padding:8px;border-bottom:1px solid #e3e6ec"><b>Purchase Budget Approval Users</b></td><td style="padding:8px;border-bottom:1px solid #e3e6ec">Second approval of a purchase order.</td></tr>
+    <tr><td style="padding:8px;border-bottom:1px solid #e3e6ec"><b>Budget Control Users</b></td><td style="padding:8px;border-bottom:1px solid #e3e6ec">Can edit and resubmit budget-rejected orders.</td></tr>
+    <tr><td style="padding:8px;border-bottom:1px solid #e3e6ec"><b>Receipt Inspection Approval</b></td><td style="padding:8px;border-bottom:1px solid #e3e6ec">Receipts must be approved by an inspector (the requester, or specific users) before they can be validated.</td></tr>
+    <tr><td style="padding:8px;border-bottom:1px solid #e3e6ec"><b>Automation</b></td><td style="padding:8px;border-bottom:1px solid #e3e6ec">Automatically create stock transfers, purchase orders and Odoo purchase orders; automatic bills are optional and off by default.</td></tr>
+  </table>
+
+  <h3 style="color:#333">Access groups</h3>
+  <table style="width:100%;border-collapse:collapse;font-size:14px">
+    <tr style="background:#f3f4f7"><th style="text-align:left;padding:8px">Group</th><th style="text-align:left;padding:8px">Can</th></tr>
+    <tr><td style="padding:8px;border-bottom:1px solid #e3e6ec">Employee Request User</td><td style="padding:8px;border-bottom:1px solid #e3e6ec">Create, read and edit own requests; sees the app.</td></tr>
+    <tr><td style="padding:8px;border-bottom:1px solid #e3e6ec">Create for Employees</td><td style="padding:8px;border-bottom:1px solid #e3e6ec">Create requests on behalf of other employees.</td></tr>
+    <tr><td style="padding:8px;border-bottom:1px solid #e3e6ec">All Documents</td><td style="padding:8px;border-bottom:1px solid #e3e6ec">Read all requests, stock transfers and purchase orders.</td></tr>
+    <tr><td style="padding:8px;border-bottom:1px solid #e3e6ec">Dashboard</td><td style="padding:8px;border-bottom:1px solid #e3e6ec">Open the dashboard.</td></tr>
+    <tr><td style="padding:8px;border-bottom:1px solid #e3e6ec">Warehouse Approver / Budget Approver</td><td style="padding:8px;border-bottom:1px solid #e3e6ec">Approve their step of a request.</td></tr>
+    <tr><td style="padding:8px;border-bottom:1px solid #e3e6ec">Employee Purchase User / Manager</td><td style="padding:8px;border-bottom:1px solid #e3e6ec">Create and edit employee purchase orders.</td></tr>
+    <tr><td style="padding:8px;border-bottom:1px solid #e3e6ec">Budget Control User</td><td style="padding:8px;border-bottom:1px solid #e3e6ec">Edit and resubmit budget-rejected purchase orders.</td></tr>
+    <tr><td style="padding:8px;border-bottom:1px solid #e3e6ec">Employee Request Manager</td><td style="padding:8px;border-bottom:1px solid #e3e6ec">Read everything, reset and cancel requests.</td></tr>
+  </table>
+
+  <h2 style="color:#714B67">More features</h2>
+  <ul>
+    <li>Employee and department filled in automatically; project and analytic account per line</li>
+    <li>One compact Stock field per line (available &rarr; forecast, colour-coded by status) with a small click-through popover: on hand, reserved, incoming, outgoing, locations and related transfers</li>
+    <li>Product catalog with images, UoM, stock and one-click add / remove</li>
+    <li>Stock Orders create standard Odoo transfers and keep the analytic account of each request line</li>
+    <li>Reject with a reason, reset to draft, cancel; approval history, chatter and activities on every document</li>
+    <li>Smart buttons link the request, purchase order, receipts and bills</li>
+    <li>Clickable dashboard that starts with <b>Needs my action</b>: requests and purchase orders waiting for your approval, budget-rejected orders to fix, approved requests to process and your own rejected requests, with the oldest documents listed so you can open them in one tap</li>
+    <li>Phone-friendly forms and kanban boards: large buttons, bigger inputs, a single full-width main action and fewer fields on small screens</li>
+    <li>Plus Employee Request, Purchase and Stock Consumption reports</li>
+    <li>Dark mode support for the dashboard</li>
+  </ul>
+
+  <h2 style="color:#714B67">Technical</h2>
+  <p>Technical name: <code>mo_employee_request</code> &middot; Odoo 19 &middot; depends on Contacts/HR, Project, Inventory (stock, stock_account), Purchase (purchase, purchase_stock, purchase_requisition), Accounting and Analytic &middot; no core files edited &middot; demo data included &middot; LGPL-3.</p>
+
+  <p style="margin-top:32px;color:#777">Author: Eng. M.Aboelmagde &middot; Odoo Lab (@odoolab)</p>
+</section>

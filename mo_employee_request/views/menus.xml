@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ===== Root (App) ===== -->
+    <menuitem id="menu_employee_request_root" name="Employee Requests"
+              web_icon="mo_employee_request,static/description/icon.png"
+              groups="group_employee_request_user" sequence="45"/>
+
+    <!-- ===== Dashboard (direct) ===== -->
+    <menuitem id="menu_er_dashboard" name="Dashboard" parent="menu_employee_request_root"
+              action="action_er_dashboard" groups="group_er_dashboard"
+              sequence="5"/>
+
+    <!-- ===== Requests ===== -->
+    <menuitem id="menu_er_requests" name="Requests" parent="menu_employee_request_root"
+              sequence="10"/>
+    <menuitem id="menu_employee_request_all" name="All Requests" parent="menu_er_requests"
+              action="action_employee_request" groups="group_employee_request_all_documents"
+              sequence="10"/>
+    <menuitem id="menu_employee_request_my" name="My Requests" parent="menu_er_requests"
+              action="action_employee_request_my" sequence="20"/>
+    <menuitem id="menu_employee_request_to_approve" name="Requests to Approve"
+              parent="menu_er_requests"
+              action="action_employee_request_to_approve" sequence="30"/>
+
+    <!-- ===== Orders ===== -->
+    <menuitem id="menu_er_orders" name="Orders" parent="menu_employee_request_root"
+              sequence="20"/>
+    <menuitem id="menu_er_stock_orders" name="Stock Transfers" parent="menu_er_orders"
+              action="action_er_stock_transfers"
+              groups="group_warehouse_approver,group_employee_request_all_documents"
+              sequence="10"/>
+    <menuitem id="menu_er_purchase_requests" name="Requests Purchase Orders"
+              parent="menu_er_orders" action="action_epo_requests"
+              groups="group_purchase_user,group_budget_approver,group_budget_control,group_employee_request_all_documents"
+              sequence="30"/>
+    <menuitem id="menu_er_purchase_all" name="All Purchase Orders" parent="menu_er_orders"
+              action="action_epo_all"
+              groups="group_purchase_user,group_budget_approver,group_budget_control,group_employee_request_all_documents"
+              sequence="40"/>
+    <menuitem id="menu_er_agreements" name="Agreements" parent="menu_er_orders"
+              action="action_er_agreements" groups="group_purchase_user" sequence="50"/>
+
+    <!-- ===== Reports ===== -->
+    <menuitem id="menu_er_reports" name="Reports" parent="menu_employee_request_root"
+              groups="group_employee_request_manager,group_purchase_user" sequence="30"/>
+    <menuitem id="menu_er_report_request" name="Employee Request Report" parent="menu_er_reports"
+              action="action_er_report_request" sequence="10"/>
+    <menuitem id="menu_er_report_purchase" name="Purchase Report" parent="menu_er_reports"
+              action="action_er_report_purchase" sequence="20"/>
+    <menuitem id="menu_er_report_stock" name="Stock Consumption Report" parent="menu_er_reports"
+              action="action_er_report_stock" sequence="30"/>
+
+    <!-- ===== Configuration ===== -->
+    <menuitem id="menu_employee_request_config" name="Configuration"
+              parent="menu_employee_request_root" groups="base.group_system" sequence="90"/>
+    <menuitem id="menu_employee_request_settings" name="Settings"
+              parent="menu_employee_request_config" action="action_employee_request_settings"
+              groups="base.group_system" sequence="10"/>
+    <menuitem id="menu_er_required_field" name="Required Field"
+              parent="menu_employee_request_config" action="action_er_required_field"
+              groups="base.group_system" sequence="20"/>
+</odoo>

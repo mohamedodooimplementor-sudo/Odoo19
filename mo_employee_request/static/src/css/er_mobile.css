@@ -1,0 +1,20 @@
+/* Mobile-friendly Employee Request / Purchase Order forms and kanbans.
+   Scoped with the er-mobile-form / er-mobile-kanban classes set in the views. */
+@media (max-width: 767.98px) {
+    .er-mobile-form .o_form_statusbar .o_statusbar_buttons,
+    .er-mobile-form .o_statusbar_buttons { display: flex; flex-wrap: wrap; gap: .5rem; width: 100%; padding: .4rem .5rem; }
+    .er-mobile-form .o_statusbar_buttons .btn,
+    .er-mobile-form .o_statusbar_buttons .o-dropdown > .btn {
+        min-height: 48px; font-size: 1rem; padding: .6rem 1rem; border-radius: .6rem; flex: 1 1 auto;
+    }
+    .er-mobile-form .o_statusbar_buttons .btn-primary { flex: 1 1 100%; font-weight: 600; }
+    .er-mobile-form .o_field_widget .o_input,
+    .er-mobile-form .o_field_widget input,
+    .er-mobile-form .o_field_widget select { min-height: 44px; font-size: 1rem; }
+    .er-mobile-form .o_form_sheet { padding: .75rem; }
+    .er-mobile-form .o_td_label { padding-top: .5rem; }
+    .er-mobile-form .oe_button_box .oe_stat_button { min-height: 52px; }
+    .er-mobile-form .o_list_renderer .o_data_cell { padding-top: .6rem; padding-bottom: .6rem; }
+    .er-mobile-kanban .o_kanban_record { padding: .9rem !important; border-radius: .8rem; }
+    .er-mobile-kanban .o_kanban_record .fw-bold { font-size: 1.05rem; }
+}

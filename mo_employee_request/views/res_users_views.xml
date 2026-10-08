@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_users_form_employee_request" model="ir.ui.view">
+        <field name="name">res.users.form.employee.request</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='access_rights']" position="after">
+                <page string="Employee Requests" name="employee_request_access"
+                      invisible="share">
+                    <group col="2">
+                        <group string="Requests">
+                            <field name="er_is_request_user"/>
+                            <div class="text-muted small" colspan="2">
+                                Required to see the app: create requests and follow your own.
+                            </div>
+                            <field name="er_is_all_documents"/>
+                            <div class="text-muted small" colspan="2">
+                                See all requests, stock transfers and purchase orders (read only).
+                            </div>
+                            <field name="er_is_request_on_behalf"/>
+                            <div class="text-muted small" colspan="2">
+                                Create requests on behalf of any employee.
+                            </div>
+                            <field name="er_is_dashboard"/>
+                            <div class="text-muted small" colspan="2">
+                                Open the Employee Requests dashboard.
+                            </div>
+                            <field name="er_is_request_manager"/>
+                            <div class="text-muted small" colspan="2">
+                                See all requests, reset and cancel them.
+                            </div>
+                        </group>
+                        <group string="Purchasing">
+                            <field name="er_is_purchase_user"/>
+                            <div class="text-muted small" colspan="2">
+                                Create and edit employee purchase orders.
+                            </div>
+                            <field name="er_is_purchase_manager"/>
+                            <div class="text-muted small" colspan="2">
+                                Full control over employee purchase orders.
+                            </div>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

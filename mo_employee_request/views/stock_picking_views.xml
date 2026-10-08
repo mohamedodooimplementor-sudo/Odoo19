@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_picking_form_er_inspection" model="ir.ui.view">
+        <field name="name">stock.picking.form.er.inspection</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header/field[@name='state']" position="before">
+                <field name="er_needs_inspection" invisible="1"/>
+                <field name="er_can_inspect" invisible="1"/>
+                <button name="action_er_inspection_approve" string="Inspection Approval"
+                        type="object" class="btn-primary" invisible="not er_can_inspect"/>
+                <button name="action_er_inspection_reject" string="Reject Inspection"
+                        type="object" invisible="not er_can_inspect"/>
+                <button name="action_er_inspection_reset" string="Request New Inspection"
+                        type="object" groups="stock.group_stock_user"
+                        invisible="not er_needs_inspection or er_inspection_state != 'rejected'"/>
+                <field name="er_inspection_state" widget="badge"
+                       decoration-success="er_inspection_state == 'approved'"
+                       decoration-danger="er_inspection_state == 'rejected'"
+                       decoration-warning="er_inspection_state == 'pending'"
+                       invisible="not er_needs_inspection"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_picking_form_er_analytic" model="ir.ui.view">
+        <field name="name">stock.picking.form.er.analytic</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <!-- lines: same analytic distribution widget as sales / purchases -->
+            <xpath expr="//page[@name='operations']//field[@name='move_ids']/list/field[@name='description_picking']"
+                   position="after">
+                <field name="analytic_precision" column_invisible="True"/>
+                <field name="analytic_distribution" widget="analytic_distribution" optional="show"
+                       options="{'product_field': 'product_id'}"
+                       readonly="parent.state in ('done', 'cancel')"/>
+            </xpath>
+            <!-- header: from the request; chosen here => applied to every line -->
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="analytic_precision" invisible="1"/>
+                <field name="analytic_distribution" widget="analytic_distribution"
+                       readonly="state in ('done', 'cancel')"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

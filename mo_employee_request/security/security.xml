@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- Technical privilege: keeps the groups out of the standard "Access Rights" /
+             "Extra Rights" list. They are managed from the "Employee Requests" tab only. -->
+        <record id="privilege_employee_request_hidden" model="res.groups.privilege">
+            <field name="name">Employee Requests</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+        </record>
+        <record id="group_employee_request_user" model="res.groups">
+            <field name="privilege_id" ref="privilege_employee_request_hidden"/>
+            <field name="name">Employee Request User</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">Create, read and edit own requests. Required to see the Employee Requests app.</field>
+        </record>
+        <record id="group_employee_request_all_documents" model="res.groups">
+            <field name="privilege_id" ref="privilege_employee_request_hidden"/>
+            <field name="name">Employee Request: All Documents</field>
+            <field name="implied_ids" eval="[(4, ref('group_employee_request_user'))]"/>
+            <field name="comment">See all employee requests, stock transfers and purchase orders (read only).</field>
+        </record>
+        <record id="group_request_on_behalf" model="res.groups">
+            <field name="privilege_id" ref="privilege_employee_request_hidden"/>
+            <field name="name">Employee Request: Create for Employees</field>
+            <field name="implied_ids" eval="[(4, ref('group_employee_request_user'))]"/>
+            <field name="comment">Can create requests on behalf of other employees.</field>
+        </record>
+        <record id="group_er_dashboard" model="res.groups">
+            <field name="privilege_id" ref="privilege_employee_request_hidden"/>
+            <field name="name">Employee Request: Dashboard</field>
+            <field name="implied_ids" eval="[(4, ref('group_employee_request_user'))]"/>
+            <field name="comment">Can open the Employee Requests dashboard.</field>
+        </record>
+        <record id="group_employee_request_manager" model="res.groups">
+            <field name="privilege_id" ref="privilege_employee_request_hidden"/>
+            <field name="name">Employee Request Manager</field>
+            <field name="implied_ids" eval="[(4, ref('group_employee_request_user')), (4, ref('group_employee_request_all_documents')), (4, ref('group_request_on_behalf')), (4, ref('group_er_dashboard'))]"/>
+            <field name="comment">Read all requests, reset and cancel them.</field>
+        </record>
+        <record id="group_warehouse_approver" model="res.groups">
+            <field name="privilege_id" ref="privilege_employee_request_hidden"/>
+            <field name="name">Warehouse Approver</field>
+            <field name="implied_ids" eval="[(4, ref('group_employee_request_user')), (4, ref('stock.group_stock_user'))]"/>
+        </record>
+        <record id="group_budget_approver" model="res.groups">
+            <field name="privilege_id" ref="privilege_employee_request_hidden"/>
+            <field name="name">Budget Approver</field>
+            <field name="implied_ids" eval="[(4, ref('group_employee_request_user'))]"/>
+        </record>
+        <record id="group_purchase_user" model="res.groups">
+            <field name="privilege_id" ref="privilege_employee_request_hidden"/>
+            <field name="name">Employee Purchase User</field>
+            <field name="implied_ids" eval="[(4, ref('group_employee_request_user'))]"/>
+            <field name="comment">Create and edit employee purchase orders.</field>
+        </record>
+        <record id="group_purchase_manager" model="res.groups">
+            <field name="privilege_id" ref="privilege_employee_request_hidden"/>
+            <field name="name">Employee Purchase Manager</field>
+            <field name="implied_ids" eval="[(4, ref('group_purchase_user'))]"/>
+        </record>
+        <record id="group_budget_control" model="res.groups">
+            <field name="privilege_id" ref="privilege_employee_request_hidden"/>
+            <field name="name">Budget Control User</field>
+            <field name="implied_ids" eval="[(4, ref('group_employee_request_user'))]"/>
+            <field name="comment">Edit and resubmit budget-rejected purchase orders.</field>
+        </record>
+
+        <record id="base.group_system" model="res.groups">
+            <field name="implied_ids" eval="[(4, ref('group_employee_request_manager')), (4, ref('group_purchase_manager')), (4, ref('group_budget_control'))]"/>
+        </record>
+    </data>
+
+    <data noupdate="1">
+        <!-- ===== Employee Request ===== -->
+        <record id="rule_employee_request_company" model="ir.rule">
+            <field name="name">Employee Request: multi-company</field>
+            <field name="model_id" ref="model_employee_request"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_employee_request_own" model="ir.rule">
+            <field name="name">Employee Request: own requests</field>
+            <field name="model_id" ref="model_employee_request"/>
+            <field name="groups" eval="[(4, ref('group_employee_request_user'))]"/>
+            <field name="domain_force">['|', ('create_uid', '=', user.id), ('user_id', '=', user.id)]</field>
+        </record>
+        <record id="rule_employee_request_approver" model="ir.rule">
+            <field name="name">Employee Request: approvers (read)</field>
+            <field name="model_id" ref="model_employee_request"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+            <field name="domain_force">['|', ('pending_approver_ids', 'in', [user.id]), ('approval_ids.user_id', '=', user.id)]</field>
+        </record>
+        <record id="rule_employee_request_warehouse" model="ir.rule">
+            <field name="name">Employee Request: warehouse approvers read processed requests</field>
+            <field name="model_id" ref="model_employee_request"/>
+            <field name="groups" eval="[(4, ref('group_warehouse_approver'))]"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+            <field name="domain_force">[('state', 'in', ('warehouse', 'budget', 'approved', 'processing', 'partial', 'closed'))]</field>
+        </record>
+        <record id="rule_employee_request_purchase" model="ir.rule">
+            <field name="name">Employee Request: purchasing reads approved requests</field>
+            <field name="model_id" ref="model_employee_request"/>
+            <field name="groups" eval="[(4, ref('group_purchase_user'))]"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+            <field name="domain_force">[('state', 'in', ('approved', 'processing', 'partial', 'closed'))]</field>
+        </record>
+        <record id="rule_employee_request_manager" model="ir.rule">
+            <field name="name">Employee Request: manager sees all</field>
+            <field name="model_id" ref="model_employee_request"/>
+            <field name="groups" eval="[(4, ref('group_employee_request_manager'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
+
+        <record id="rule_employee_request_line" model="ir.rule">
+            <field name="name">Employee Request Line: follows request</field>
+            <field name="model_id" ref="model_employee_request_line"/>
+            <field name="domain_force">[('request_id', 'any', [])]</field>
+        </record>
+        <record id="rule_employee_request_approval" model="ir.rule">
+            <field name="name">Employee Request Approval: follows request</field>
+            <field name="model_id" ref="model_employee_request_approval"/>
+            <field name="domain_force">[('request_id', 'any', [])]</field>
+        </record>
+
+        <!-- ===== Employee Purchase Orders ===== -->
+        <record id="rule_epo_company" model="ir.rule">
+            <field name="name">Employee PO: multi-company</field>
+            <field name="model_id" ref="model_employee_purchase_order"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_epo_read" model="ir.rule">
+            <field name="name">Employee PO: requester and approvers (read)</field>
+            <field name="model_id" ref="model_employee_purchase_order"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+            <field name="domain_force">['|', '|', ('pending_approver_ids', 'in', [user.id]), ('approval_ids.user_id', '=', user.id), ('user_id', '=', user.id)]</field>
+        </record>
+        <record id="rule_epo_purchase" model="ir.rule">
+            <field name="name">Employee PO: purchasing sees all</field>
+            <field name="model_id" ref="model_employee_purchase_order"/>
+            <field name="groups" eval="[(4, ref('group_purchase_user')), (4, ref('group_employee_request_manager'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
+        <record id="rule_epo_budget_control" model="ir.rule">
+            <field name="name">Employee PO: budget control</field>
+            <field name="model_id" ref="model_employee_purchase_order"/>
+            <field name="groups" eval="[(4, ref('group_budget_control'))]"/>
+            <field name="domain_force">[('state', 'in', ('budget_rejected', 'budget_control'))]</field>
+        </record>
+        <record id="rule_epo_line" model="ir.rule">
+            <field name="name">Employee PO Line: follows order</field>
+            <field name="model_id" ref="model_employee_purchase_order_line"/>
+            <field name="domain_force">[('order_id', 'any', [])]</field>
+        </record>
+        <record id="rule_epo_approval" model="ir.rule">
+            <field name="name">Employee PO Approval: follows order</field>
+            <field name="model_id" ref="model_employee_purchase_order_approval"/>
+            <field name="domain_force">[('order_id', 'any', [])]</field>
+        </record>
+
+        <!-- ===== All Documents (read-only visibility of everything) ===== -->
+        <record id="rule_employee_request_all_documents" model="ir.rule">
+            <field name="name">Employee Request: all documents (read)</field>
+            <field name="model_id" ref="model_employee_request"/>
+            <field name="groups" eval="[(4, ref('group_employee_request_all_documents'))]"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
+        <record id="rule_epo_all_documents" model="ir.rule">
+            <field name="name">Employee PO: all documents (read)</field>
+            <field name="model_id" ref="model_employee_purchase_order"/>
+            <field name="groups" eval="[(4, ref('group_employee_request_all_documents'))]"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,23 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_employee_request_internal,employee.request internal,model_employee_request,base.group_user,1,0,0,0
+access_employee_request_user,employee.request user,model_employee_request,group_employee_request_user,1,1,1,1
+access_employee_request_manager,employee.request manager,model_employee_request,group_employee_request_manager,1,1,1,1
+access_employee_request_line_internal,employee.request.line internal,model_employee_request_line,base.group_user,1,0,0,0
+access_employee_request_line_user,employee.request.line user,model_employee_request_line,group_employee_request_user,1,1,1,1
+access_employee_request_line_manager,employee.request.line manager,model_employee_request_line,group_employee_request_manager,1,1,1,1
+access_employee_request_approval_internal,employee.request.approval internal,model_employee_request_approval,base.group_user,1,0,0,0
+access_employee_request_approval_manager,employee.request.approval manager,model_employee_request_approval,group_employee_request_manager,1,0,0,0
+access_epo_internal,employee.purchase.order internal,model_employee_purchase_order,base.group_user,1,0,0,0
+access_epo_purchase_user,employee.purchase.order purchase user,model_employee_purchase_order,group_purchase_user,1,1,1,1
+access_epo_purchase_manager,employee.purchase.order purchase manager,model_employee_purchase_order,group_purchase_manager,1,1,1,1
+access_epo_budget_control,employee.purchase.order budget control,model_employee_purchase_order,group_budget_control,1,1,0,0
+access_epo_line_internal,employee.purchase.order.line internal,model_employee_purchase_order_line,base.group_user,1,0,0,0
+access_epo_line_purchase_user,employee.purchase.order.line purchase user,model_employee_purchase_order_line,group_purchase_user,1,1,1,1
+access_epo_line_budget_control,employee.purchase.order.line budget control,model_employee_purchase_order_line,group_budget_control,1,1,1,1
+access_epo_approval_internal,employee.purchase.order.approval internal,model_employee_purchase_order_approval,base.group_user,1,0,0,0
+access_er_hr_employee_user,hr.employee request user,hr.model_hr_employee,group_employee_request_user,1,0,0,0
+access_er_hr_department_user,hr.department request user,hr.model_hr_department,group_employee_request_user,1,0,0,0
+access_er_picking_all_docs,stock.picking all documents,stock.model_stock_picking,group_employee_request_all_documents,1,0,0,0
+access_er_move_all_docs,stock.move all documents,stock.model_stock_move,group_employee_request_all_documents,1,0,0,0
+access_er_move_line_all_docs,stock.move.line all documents,stock.model_stock_move_line,group_employee_request_all_documents,1,0,0,0
+access_er_required_field_system,er.required.field system,model_er_required_field,base.group_system,1,1,1,1

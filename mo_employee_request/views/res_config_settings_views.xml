@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_employee_request" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.employee.request</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Employee Requests" string="Employee Requests"
+                     name="mo_employee_request" groups="base.group_system">
+                    <block title="Request Approval" name="er_approval_block">
+                        <setting string="Department Approval"
+                                 help="Who approves the first step of a request">
+                            <field name="er_department_method"/>
+                            <div class="mt-2" invisible="er_department_method != 'users'">
+                                <field name="er_department_user_ids" widget="many2many_tags"/>
+                            </div>
+                        </setting>
+                        <setting string="Approval Mode"
+                                 help="Any one approver is enough, or all of them must approve each step">
+                            <field name="er_approval_mode"/>
+                        </setting>
+                        <setting string="Warehouse Approval Users">
+                            <field name="er_warehouse_user_ids" widget="many2many_tags"/>
+                        </setting>
+                        <setting string="Budget Approval Users">
+                            <field name="er_budget_user_ids" widget="many2many_tags"/>
+                        </setting>
+                    </block>
+                    <block title="Purchase Approval" name="er_purchase_block">
+                        <setting string="Purchase Manager Approval"
+                                 help="First approval of an employee purchase order">
+                            <field name="er_purchase_manager_method"/>
+                            <div class="mt-2" invisible="er_purchase_manager_method != 'users'">
+                                <field name="er_purchase_manager_user_ids" widget="many2many_tags"/>
+                            </div>
+                        </setting>
+                        <setting string="Purchase Budget Approval Users">
+                            <field name="er_purchase_budget_user_ids" widget="many2many_tags"/>
+                        </setting>
+                        <setting string="Budget Control Users"
+                                 help="Can edit and resubmit budget-rejected orders">
+                            <field name="er_budget_control_user_ids" widget="many2many_tags"/>
+                        </setting>
+                    </block>
+                    <block title="Receipt Inspection" name="er_inspection_block">
+                        <setting string="Receipt Inspection Approval"
+                                 help="Receipts of purchase orders must be approved by an inspector before they can be validated">
+                            <field name="er_inspection_enabled"/>
+                            <div class="mt-2" invisible="not er_inspection_enabled">
+                                <field name="er_inspection_mode" widget="radio"/>
+                            </div>
+                            <div class="mt-2"
+                                 invisible="not er_inspection_enabled or er_inspection_mode != 'users'">
+                                <field name="er_inspection_user_ids" widget="many2many_tags"/>
+                            </div>
+                        </setting>
+                    </block>
+                    <block title="Automation" name="er_automation_block">
+                        <setting string="Automatically Create Stock Transfers">
+                            <field name="er_auto_stock_order"/>
+                        </setting>
+                        <setting string="Automatically Create Purchase Orders">
+                            <field name="er_auto_purchase_order"/>
+                        </setting>
+                        <setting string="Automatically Create Odoo Purchase Orders">
+                            <field name="er_auto_odoo_po"/>
+                        </setting>
+                        <setting string="Automatically Create Bills"
+                                 help="Optional - disabled by default">
+                            <field name="er_auto_bill"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_employee_request_settings" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'module': 'mo_employee_request', 'bin_size': False}</field>
+    </record>
+</odoo>

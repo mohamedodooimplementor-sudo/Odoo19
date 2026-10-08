@@ -1,0 +1,2640 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* mo_employee_request
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: ar\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/wizard/epo_discount.py:0
+msgid "A discount can only be added while the order is in RFQ (or in Budget Control)."
+msgstr "لا يمكن إضافة خصم إلا أثناء مرحلة طلب عرض السعر (أو في مرحلة رقابة الموازنة)."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/wizard/epo_discount.py:0
+msgid "Invalid discount percentage."
+msgstr "نسبة الخصم غير صحيحة."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/wizard/epo_discount.py:0
+msgid "The discount amount cannot be negative."
+msgstr "مبلغ الخصم لا يمكن أن يكون سالباً."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/wizard/epo_discount.py:0
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_discount_form
+#: model:ir.actions.act_window,name:mo_employee_request.action_epo_discount
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
+msgid "Discount"
+msgstr "الخصم"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/wizard/epo_discount.py:0
+msgid "There are no order lines to apply a discount on."
+msgstr "لا توجد بنود في الأمر لتطبيق الخصم عليها."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/wizard/epo_discount.py:0
+#, python-format
+msgid "Discount: %(percent)s%%"
+msgstr "خصم: %(percent)s%%"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/wizard/epo_discount.py:0
+#, python-format
+msgid "Discount: %(percent)s%% - On products with the following taxes %(taxes)s"
+msgstr "خصم: %(percent)s%% - على المنتجات ذات الضرائب التالية %(taxes)s"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/wizard/epo_discount.py:0
+msgid "no taxes"
+msgstr "بدون ضرائب"
+
+#. module: mo_employee_request
+#: model:ir.model,name:mo_employee_request.model_employee_purchase_order_discount
+msgid "Employee Purchase Order Discount Wizard"
+msgstr "معالج خصم أمر شراء الموظف"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_discount__order_id
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_approval__order_id
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__order_id
+msgid "Order"
+msgstr "الأمر"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_discount__discount_amount
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_purchase_list
+msgid "Amount"
+msgstr "المبلغ"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_discount__discount_percentage
+msgid "Percentage"
+msgstr "النسبة المئوية"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_discount__discount_type
+msgid "Discount Type"
+msgstr "نوع الخصم"
+
+#. module: mo_employee_request
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_discount__discount_type__sol_discount
+msgid "On All Order Lines"
+msgstr "على كل بنود الأمر"
+
+#. module: mo_employee_request
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_discount__discount_type__so_discount
+msgid "Global Discount"
+msgstr "خصم إجمالي"
+
+#. module: mo_employee_request
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_discount__discount_type__amount
+msgid "Fixed Amount"
+msgstr "مبلغ ثابت"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_discount_form
+msgid "Apply"
+msgstr "تطبيق"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_discount_form
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
+msgid "Cancel"
+msgstr "إلغاء"
+
+#. module: mo_employee_request
+#: model:ir.model,name:mo_employee_request.model_employee_request_reject_wizard
+msgid "Reject Employee Request / Purchase Order"
+msgstr "رفض طلب الموظف / أمر الشراء"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_reject_wizard__res_model
+msgid "Res Model"
+msgstr "نموذج المستند"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_reject_wizard__res_id
+msgid "Res"
+msgstr "معرّف المستند"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_reject_wizard__reason
+msgid "Reason"
+msgstr "السبب"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_reject_wizard_form
+msgid "Why is this request rejected?"
+msgstr "ما سبب رفض هذا الطلب؟"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_reject_wizard_form
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+msgid "Reject"
+msgstr "رفض"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_reject_wizard_form
+msgid "Discard"
+msgstr "تجاهل"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_reject_wizard_form
+#: code:addons/mo_employee_request/models/employee_request.py:0
+msgid "Reject Request"
+msgstr "رفض الطلب"
+
+#. module: mo_employee_request
+#: model:ir.actions.client,name:mo_employee_request.action_er_dashboard
+#: model:ir.ui.menu,name:mo_employee_request.menu_er_dashboard
+#: model:ir.model.fields,field_description:mo_employee_request.field_res_users__er_is_dashboard
+msgid "Dashboard"
+msgstr "لوحة المتابعة"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_list
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.report_epo_document
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__price_total
+msgid "Total"
+msgstr "الإجمالي"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_list
+msgid "Employee Purchase Orders"
+msgstr "أوامر شراء الموظفين"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_search
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search
+msgid "To Approve"
+msgstr "للاعتماد"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
+msgid "Print RFQ"
+msgstr "طباعة طلب عرض السعر"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__stage__manager
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order__state__manager
+msgid "Manager Approval"
+msgstr "اعتماد المدير"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__stage__budget
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order__state__budget
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request__state__budget
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__stage__budget
+msgid "Budget Approval"
+msgstr "اعتماد الموازنة"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
+msgid "Send to Budget Control"
+msgstr "إرسال إلى رقابة الموازنة"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
+msgid "Confirm / Resubmit Budget"
+msgstr "تأكيد / إعادة إرسال للموازنة"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
+msgid "Create Odoo Purchase Order"
+msgstr "إنشاء أمر شراء أودو"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
+msgid "Create Bill"
+msgstr "إنشاء فاتورة"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
+msgid "Send by Email"
+msgstr "إرسال بالبريد الإلكتروني"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__action__reset
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__action__reset
+msgid "Reset to Draft"
+msgstr "إعادة إلى مسودة"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
+msgid "Cancel this purchase order?"
+msgstr "هل تريد إلغاء أمر الشراء هذا؟"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_search
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__stage__budget_rejected
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order__state__budget_rejected
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Budget Rejected"
+msgstr "مرفوض من الموازنة"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__stage__rejected
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__action__reject
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order__state__rejected
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request__state__rejected
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__stage__rejected
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__action__reject
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Rejected"
+msgstr "مرفوض"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__stage__budget_control
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order__state__budget_control
+msgid "Budget Control"
+msgstr "رقابة الموازنة"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_search
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__stage__done
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order__state__done
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request__state__closed
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__stage__closed
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Closed"
+msgstr "مغلق"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_search
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__stage__invoiced
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order__state__invoiced
+msgid "Invoiced"
+msgstr "تمت الفوترة"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__stage__cancelled
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__action__cancel
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order__state__cancelled
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request__state__cancelled
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__stage__cancelled
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__action__cancel
+msgid "Cancelled"
+msgstr "ملغي"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
+msgid "<span class=\"o_stat_text\">Odoo PO</span>"
+msgstr "<span class=\"o_stat_text\">أمر شراء أودو</span>"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+msgid "Receipts"
+msgstr "الاستلامات"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+msgid "Vendor Bills"
+msgstr "فواتير الموردين"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
+msgid "<span class=\"o_stat_text\">Employee Request</span>"
+msgstr "<span class=\"o_stat_text\">طلب الموظف</span>"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
+msgid "<span class=\"o_stat_text\">Agreement</span>"
+msgstr "<span class=\"o_stat_text\">الاتفاقية</span>"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
+msgid "Products"
+msgstr "المنتجات"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
+msgid "Terms and conditions..."
+msgstr "الشروط والأحكام..."
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
+msgid "Other Info"
+msgstr "معلومات أخرى"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__approval_ids
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__approval_ids
+msgid "Approval History"
+msgstr "سجل الاعتمادات"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
+#: model:ir.actions.report,name:mo_employee_request.report_employee_purchase_order
+#: model:ir.model,name:mo_employee_request.model_employee_purchase_order
+#: model:ir.model.fields,field_description:mo_employee_request.field_purchase_order__er_epo_id
+msgid "Employee Purchase Order"
+msgstr "أمر شراء موظف"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_kanban
+msgid "<i class=\"fa fa-truck me-1\" title=\"Vendor\"/>"
+msgstr "<i class=\"fa fa-truck me-1\" title=\"المورد\"/>"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_kanban
+msgid "<i class=\"fa fa-tag me-1\" title=\"Discount\"/>"
+msgstr "<i class=\"fa fa-tag me-1\" title=\"الخصم\"/>"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_kanban
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_kanban
+msgid "<i class=\"fa fa-list me-1\" title=\"Lines\"/>"
+msgstr "<i class=\"fa fa-list me-1\" title=\"البنود\"/>"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_kanban
+msgid "<i class=\"fa fa-check-circle text-success ms-2\" title=\"Odoo purchase order created\" invisible=\"not odoo_po_id\"/>"
+msgstr "<i class=\"fa fa-check-circle text-success ms-2\" title=\"تم إنشاء أمر شراء أودو\" invisible=\"not odoo_po_id\"/>"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_search
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request__state__draft
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__stage__draft
+msgid "Draft"
+msgstr "مسودة"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_search
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search
+msgid "In Approval"
+msgstr "قيد الاعتماد"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_search
+msgid "Odoo PO Created"
+msgstr "تم إنشاء أمر شراء أودو"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_search
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__stage__approved
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order__state__approved
+msgid "Open"
+msgstr "مفتوح"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_search
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_search
+#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__state
+msgid "Status"
+msgstr "الحالة"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_search
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_purchase_search
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__partner_id
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__partner_id
+#: model_terms:mail.template,body_html:mo_employee_request.mail_template_employee_po
+msgid "Vendor"
+msgstr "المورد"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_search
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_search
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_purchase_search
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_stock_search
+#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__employee_id
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__employee_id
+#: model:ir.model.fields,field_description:mo_employee_request.field_stock_move__er_employee_id
+msgid "Employee"
+msgstr "الموظف"
+
+#. module: mo_employee_request
+#: model:ir.actions.act_window,name:mo_employee_request.action_epo_new
+msgid "New Purchase Order"
+msgstr "أمر شراء جديد"
+
+#. module: mo_employee_request
+#: model:ir.actions.act_window,name:mo_employee_request.action_epo_all
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__epo_ids
+msgid "Purchase Orders"
+msgstr "أوامر الشراء"
+
+#. module: mo_employee_request
+#: model:ir.actions.act_window,name:mo_employee_request.action_epo_requests
+#: model:ir.ui.menu,name:mo_employee_request.menu_er_purchase_requests
+msgid "Requests Purchase Orders"
+msgstr "أوامر الشراء الناتجة عن الطلبات"
+
+#. module: mo_employee_request
+#: model:ir.actions.act_window,name:mo_employee_request.action_er_agreements
+#: model:ir.ui.menu,name:mo_employee_request.menu_er_agreements
+msgid "Agreements"
+msgstr "الاتفاقيات"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_list
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search
+#: model:ir.ui.menu,name:mo_employee_request.menu_employee_request_root
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_users_form_employee_request
+#: model:res.groups.privilege,name:mo_employee_request.privilege_employee_request_hidden
+msgid "Employee Requests"
+msgstr "طلبات الموظفين"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
+msgid "Submit"
+msgstr "إرسال"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
+msgid "Create Stock Transfers"
+msgstr "إنشاء تحويلات مخزنية"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
+msgid "Create Purchase Orders"
+msgstr "إنشاء أوامر شراء"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request__state__department
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__stage__department
+msgid "Department Approval"
+msgstr "اعتماد القسم"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request__state__warehouse
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__stage__warehouse
+msgid "Warehouse Approval"
+msgstr "اعتماد المستودع"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_picking_form_er_inspection
+msgid "Inspection Approval"
+msgstr "اعتماد الفحص"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
+msgid "Approve the inspection of the received goods?"
+msgstr "هل تريد اعتماد فحص البضاعة المستلمة؟"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_picking_form_er_inspection
+msgid "Reject Inspection"
+msgstr "رفض الفحص"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
+msgid "Reject the inspection of the received goods?"
+msgstr "هل تريد رفض فحص البضاعة المستلمة؟"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
+msgid "Are you sure you want to cancel this request?"
+msgstr "هل أنت متأكد من رغبتك في إلغاء هذا الطلب؟"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__action__approve
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request__state__approved
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__stage__approved
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__action__approve
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Approved"
+msgstr "معتمد"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request__state__processing
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__stage__processing
+msgid "Processing"
+msgstr "قيد التنفيذ"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request__state__partial
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__stage__partial
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Partially Done"
+msgstr "منفّذ جزئياً"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
+#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
+msgid "Transfers"
+msgstr "التحويلات"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
+msgid "Add a line"
+msgstr "إضافة بند"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
+msgid "Catalog"
+msgstr "الكتالوج"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
+msgid "Stock"
+msgstr "المخزون"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__line_ids
+msgid "Request Lines"
+msgstr "بنود الطلب"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__notes
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__note
+msgid "Notes"
+msgstr "ملاحظات"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
+#: model:ir.model,name:mo_employee_request.model_employee_request
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__er_required_field__document_type__request
+#: model:ir.model.fields,field_description:mo_employee_request.field_stock_move__er_request_id
+#: model:ir.model.fields,field_description:mo_employee_request.field_stock_picking__er_request_id
+msgid "Employee Request"
+msgstr "طلب موظف"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_kanban
+msgid "<i class=\"fa fa-sitemap me-1\" title=\"Department\"/>"
+msgstr "<i class=\"fa fa-sitemap me-1\" title=\"القسم\"/>"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_kanban
+msgid "<i class=\"fa fa-briefcase me-1\" title=\"Project\"/>"
+msgstr "<i class=\"fa fa-briefcase me-1\" title=\"المشروع\"/>"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_kanban
+msgid "<i class=\"fa fa-calendar me-1\" title=\"Request Date\"/>"
+msgstr "<i class=\"fa fa-calendar me-1\" title=\"تاريخ الطلب\"/>"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_search
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_purchase_search
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_stock_search
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__product_id
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__product_id
+msgid "Product"
+msgstr "المنتج"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search
+#: model:ir.actions.act_window,name:mo_employee_request.action_employee_request_my
+#: model:ir.ui.menu,name:mo_employee_request.menu_employee_request_my
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "My Requests"
+msgstr "طلباتي"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_search
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_stock_search
+#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__department_id
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__department_id
+#: model:ir.model.fields,field_description:mo_employee_request.field_stock_move__er_department_id
+msgid "Department"
+msgstr "القسم"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_search
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_purchase_search
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_stock_search
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__project_id
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__project_id
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__project_id
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__project_id
+#: model:ir.model.fields,field_description:mo_employee_request.field_stock_move__er_project_id
+msgid "Project"
+msgstr "المشروع"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__request_date
+msgid "Request Date"
+msgstr "تاريخ الطلب"
+
+#. module: mo_employee_request
+#: model:ir.actions.act_window,name:mo_employee_request.action_employee_request
+#: model:ir.ui.menu,name:mo_employee_request.menu_er_requests
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_users_form_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Requests"
+msgstr "الطلبات"
+
+#. module: mo_employee_request
+#: model_terms:ir.actions.act_window,help:mo_employee_request.action_employee_request
+msgid "Create your first employee request"
+msgstr "أنشئ أول طلب موظف لك"
+
+#. module: mo_employee_request
+#: model_terms:ir.actions.act_window,help:mo_employee_request.action_employee_request
+msgid "Request materials from the warehouse. Missing quantities go to purchasing."
+msgstr "اطلب الخامات من المستودع. الكميات غير المتوفرة تُحوَّل إلى المشتريات."
+
+#. module: mo_employee_request
+#: model:ir.actions.act_window,name:mo_employee_request.action_employee_request_to_approve
+#: model:ir.ui.menu,name:mo_employee_request.menu_employee_request_to_approve
+msgid "Requests to Approve"
+msgstr "طلبات بانتظار اعتمادي"
+
+#. module: mo_employee_request
+#: model_terms:ir.actions.act_window,help:mo_employee_request.action_employee_request_to_approve
+msgid "Nothing waiting for your approval"
+msgstr "لا يوجد ما ينتظر اعتمادك"
+
+#. module: mo_employee_request
+#: model:ir.actions.act_window,name:mo_employee_request.action_er_stock_transfers
+#: model:ir.ui.menu,name:mo_employee_request.menu_er_stock_orders
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__picking_ids
+msgid "Stock Transfers"
+msgstr "التحويلات المخزنية"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_required_field_list
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_required_field_search
+#: model:ir.actions.act_window,name:mo_employee_request.action_er_required_field
+#: model:ir.model.fields,field_description:mo_employee_request.field_er_required_mixin__er_required_fields
+msgid "Required Fields"
+msgstr "الحقول المطلوبة"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_required_field_search
+#: model:ir.model.fields,field_description:mo_employee_request.field_er_required_field__is_required
+msgid "Required"
+msgstr "مطلوب"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_required_field_search
+msgid "Not Required"
+msgstr "غير مطلوب"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_required_field_search
+#: model:ir.model.fields,field_description:mo_employee_request.field_er_required_field__document_type
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__er_required_field__scope__header
+msgid "Document"
+msgstr "المستند"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_required_field_search
+#: model:ir.model.fields,field_description:mo_employee_request.field_er_required_field__scope
+msgid "Section"
+msgstr "القسم الفرعي"
+
+#. module: mo_employee_request
+#: model_terms:ir.actions.act_window,help:mo_employee_request.action_er_required_field
+msgid "No configurable fields"
+msgstr "لا توجد حقول قابلة للتهيئة"
+
+#. module: mo_employee_request
+#: model:ir.ui.menu,name:mo_employee_request.menu_employee_request_all
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "All Requests"
+msgstr "كل الطلبات"
+
+#. module: mo_employee_request
+#: model:ir.ui.menu,name:mo_employee_request.menu_er_orders
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Orders"
+msgstr "الأوامر"
+
+#. module: mo_employee_request
+#: model:ir.ui.menu,name:mo_employee_request.menu_er_purchase_all
+msgid "All Purchase Orders"
+msgstr "كل أوامر الشراء"
+
+#. module: mo_employee_request
+#: model:ir.ui.menu,name:mo_employee_request.menu_er_reports
+msgid "Reports"
+msgstr "التقارير"
+
+#. module: mo_employee_request
+#: model:ir.ui.menu,name:mo_employee_request.menu_er_report_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_list
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_pivot
+#: model:ir.actions.act_window,name:mo_employee_request.action_er_report_request
+msgid "Employee Request Report"
+msgstr "تقرير طلبات الموظفين"
+
+#. module: mo_employee_request
+#: model:ir.ui.menu,name:mo_employee_request.menu_er_report_purchase
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_purchase_list
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_purchase_pivot
+#: model:ir.actions.act_window,name:mo_employee_request.action_er_report_purchase
+msgid "Purchase Report"
+msgstr "تقرير المشتريات"
+
+#. module: mo_employee_request
+#: model:ir.ui.menu,name:mo_employee_request.menu_er_report_stock
+#: model:ir.actions.act_window,name:mo_employee_request.action_er_report_stock
+msgid "Stock Consumption Report"
+msgstr "تقرير استهلاك المخزون"
+
+#. module: mo_employee_request
+#: model:ir.ui.menu,name:mo_employee_request.menu_employee_request_config
+msgid "Configuration"
+msgstr "التهيئة"
+
+#. module: mo_employee_request
+#: model:ir.ui.menu,name:mo_employee_request.menu_employee_request_settings
+#: model:ir.actions.act_window,name:mo_employee_request.action_employee_request_settings
+msgid "Settings"
+msgstr "الإعدادات"
+
+#. module: mo_employee_request
+#: model:ir.ui.menu,name:mo_employee_request.menu_er_required_field
+msgid "Required Field"
+msgstr "الحقول المطلوبة"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_list
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_pivot
+#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
+msgid "Requested"
+msgstr "المطلوب"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_list
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__qty_issued
+msgid "Issued"
+msgstr "المصروف"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_list
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__qty_purchase_planned
+msgid "Purchased"
+msgstr "المشتَرى"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_list
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__received_qty
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__qty_received
+msgid "Received"
+msgstr "المستلَم"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_list
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__qty_remaining
+msgid "Remaining"
+msgstr "المتبقي"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_search
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_purchase_search
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_stock_search
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__analytic_account_id
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__analytic_account_id
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__analytic_account_id
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__analytic_account_id
+#: model:ir.model.fields,field_description:mo_employee_request.field_stock_move__er_analytic_id
+msgid "Analytic Account"
+msgstr "الحساب التحليلي"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_purchase_list
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_stock_list
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.report_epo_document
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__product_uom_qty
+msgid "Quantity"
+msgstr "الكمية"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_purchase_search
+#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_approval__request_id
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__request_id
+msgid "Request"
+msgstr "الطلب"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_stock_list
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_stock_pivot
+msgid "Issued Quantity"
+msgstr "الكمية المصروفة"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_stock_list
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_stock_pivot
+msgid "Stock Consumption"
+msgstr "استهلاك المخزون"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_stock_search
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__warehouse_id
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__warehouse_id
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__warehouse_id
+msgid "Warehouse"
+msgstr "المستودع"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
+msgid "Who approves the first step of a request"
+msgstr "من يعتمد الخطوة الأولى من الطلب"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_approval_mode
+msgid "Approval Mode"
+msgstr "نمط الاعتماد"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
+msgid "Any one approver is enough, or all of them must approve each step"
+msgstr "يكفي اعتماد أحد المعتمدين، أو يجب أن يعتمد الجميع كل خطوة"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_warehouse_user_ids
+msgid "Warehouse Approval Users"
+msgstr "مستخدمو اعتماد المستودع"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_budget_user_ids
+msgid "Budget Approval Users"
+msgstr "مستخدمو اعتماد الموازنة"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
+msgid "Request Approval"
+msgstr "اعتماد الطلبات"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_purchase_manager_method
+msgid "Purchase Manager Approval"
+msgstr "اعتماد مدير المشتريات"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
+msgid "First approval of an employee purchase order"
+msgstr "الاعتماد الأول لأمر شراء الموظف"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_purchase_budget_user_ids
+msgid "Purchase Budget Approval Users"
+msgstr "مستخدمو اعتماد موازنة المشتريات"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_budget_control_user_ids
+msgid "Budget Control Users"
+msgstr "مستخدمو رقابة الموازنة"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
+msgid "Can edit and resubmit budget-rejected orders"
+msgstr "يمكنهم تعديل الأوامر المرفوضة من الموازنة وإعادة إرسالها"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
+msgid "Purchase Approval"
+msgstr "اعتماد المشتريات"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_inspection_enabled
+msgid "Receipt Inspection Approval"
+msgstr "اعتماد فحص الاستلام"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
+msgid "Receipts of purchase orders must be approved by an inspector before they can be validated"
+msgstr "يجب أن يعتمد المفتش استلامات أوامر الشراء قبل التصديق عليها"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
+msgid "Receipt Inspection"
+msgstr "فحص الاستلام"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_auto_stock_order
+msgid "Automatically Create Stock Transfers"
+msgstr "إنشاء التحويلات المخزنية تلقائياً"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_auto_purchase_order
+msgid "Automatically Create Purchase Orders"
+msgstr "إنشاء أوامر الشراء تلقائياً"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_auto_odoo_po
+msgid "Automatically Create Odoo Purchase Orders"
+msgstr "إنشاء أوامر شراء أودو تلقائياً"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_auto_bill
+msgid "Automatically Create Bills"
+msgstr "إنشاء الفواتير تلقائياً"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
+msgid "Optional - disabled by default"
+msgstr "اختياري - معطّل افتراضياً"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
+msgid "Automation"
+msgstr "الأتمتة"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_users_form_employee_request
+msgid "Required to see the app: create requests and follow your own."
+msgstr "مطلوب لرؤية التطبيق: إنشاء الطلبات ومتابعة طلباتك."
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_users_form_employee_request
+#: model:ir.model.fields,help:mo_employee_request.field_res_users__er_is_all_documents
+msgid "See all requests, stock transfers and purchase orders (read only)."
+msgstr "عرض كل الطلبات والتحويلات المخزنية وأوامر الشراء (للقراءة فقط)."
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_users_form_employee_request
+#: model:ir.model.fields,help:mo_employee_request.field_res_users__er_is_request_on_behalf
+msgid "Create requests on behalf of any employee."
+msgstr "إنشاء طلبات نيابةً عن أي موظف."
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_users_form_employee_request
+#: model:ir.model.fields,help:mo_employee_request.field_res_users__er_is_dashboard
+msgid "Open the Employee Requests dashboard."
+msgstr "فتح لوحة متابعة طلبات الموظفين."
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_users_form_employee_request
+msgid "See all requests, reset and cancel them."
+msgstr "عرض كل الطلبات وإعادتها إلى مسودة وإلغاؤها."
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_users_form_employee_request
+#: model:ir.model.fields,help:mo_employee_request.field_res_users__er_is_purchase_user
+#: model:res.groups,comment:mo_employee_request.group_purchase_user
+msgid "Create and edit employee purchase orders."
+msgstr "إنشاء وتعديل أوامر شراء الموظفين."
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_users_form_employee_request
+#: model:ir.model.fields,help:mo_employee_request.field_res_users__er_is_purchase_manager
+msgid "Full control over employee purchase orders."
+msgstr "تحكم كامل في أوامر شراء الموظفين."
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_users_form_employee_request
+msgid "Purchasing"
+msgstr "المشتريات"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_picking_form_er_inspection
+msgid "Request New Inspection"
+msgstr "طلب فحص جديد"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
+msgid "Locations"
+msgstr "المواقع"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
+msgid "res.)"
+msgstr "محجوز)"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
+msgid "No stock data for this product and warehouse."
+msgstr "لا توجد بيانات مخزون لهذا المنتج وهذا المستودع."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
+msgid "Employee Requests Dashboard"
+msgstr "لوحة متابعة طلبات الموظفين"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
+msgid "requests in the current selection"
+msgstr "طلب ضمن التحديد الحالي"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
+msgid "Period"
+msgstr "الفترة"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
+msgid "From"
+msgstr "من"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
+msgid "To"
+msgstr "إلى"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
+msgid "All departments"
+msgstr "كل الأقسام"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
+msgid "Only mine"
+msgstr "طلباتي فقط"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
+msgid "Reset"
+msgstr "إعادة ضبط"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
+msgid "Refresh"
+msgstr "تحديث"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
+msgid "Needs my action"
+msgstr "يحتاج إجراءً مني"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
+msgid "You are all caught up - nothing needs your action."
+msgstr "كل شيء منتهٍ - لا يوجد ما يحتاج إجراءً منك."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
+msgid "Requests by status"
+msgstr "الطلبات حسب الحالة"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
+msgid "Latest requests"
+msgstr "أحدث الطلبات"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_approval__date
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_approval__date
+msgid "Date"
+msgstr "التاريخ"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.report_epo_document
+msgid "Request for Quotation"
+msgstr "طلب عرض سعر"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.report_epo_document
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__er_required_field__document_type__purchase_order
+msgid "Purchase Order"
+msgstr "أمر شراء"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.report_epo_document
+msgid "<strong>Vendor</strong>"
+msgstr "<strong>المورد</strong>"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.report_epo_document
+msgid "<strong>Date:</strong>"
+msgstr "<strong>التاريخ:</strong>"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.report_epo_document
+msgid "<strong>Employee:</strong>"
+msgstr "<strong>الموظف:</strong>"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.report_epo_document
+msgid "<strong>Request:</strong>"
+msgstr "<strong>الطلب:</strong>"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.report_epo_document
+msgid "<strong>Agreement:</strong>"
+msgstr "<strong>الاتفاقية:</strong>"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.report_epo_document
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__name
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__name
+msgid "Description"
+msgstr "الوصف"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.report_epo_document
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__price_unit
+msgid "Unit Price"
+msgstr "سعر الوحدة"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.report_epo_document
+msgid "Disc.%"
+msgstr "الخصم %"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.report_epo_document
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__tax_ids
+msgid "Taxes"
+msgstr "الضرائب"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.report_epo_document
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__price_subtotal
+msgid "Subtotal"
+msgstr "الإجمالي الفرعي"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.report_epo_document
+msgid "Untaxed Amount"
+msgstr "المبلغ قبل الضريبة"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.report_epo_document
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__discount_total
+msgid "Total Discount"
+msgstr "إجمالي الخصم"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+msgid "confirmed the purchase order"
+msgstr "أكّد أمر الشراء"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+#: code:addons/mo_employee_request/models/employee_request.py:0
+#, python-format
+msgid "approved (%s)"
+msgstr "اعتمد (%s)"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+#, python-format
+msgid "rejected (%s)"
+msgstr "رفض (%s)"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+msgid "sent the order to Budget Control"
+msgstr "أرسل الأمر إلى رقابة الموازنة"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+msgid "resubmitted the order to Budget Approval"
+msgstr "أعاد إرسال الأمر إلى اعتماد الموازنة"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+msgid "reset the order to draft"
+msgstr "أعاد الأمر إلى مسودة"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+msgid "cancelled the order"
+msgstr "ألغى الأمر"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+msgid "Only draft purchase orders can be deleted."
+msgstr "لا يمكن حذف إلا أوامر الشراء التي في حالة مسودة."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+msgid "This order is not waiting for approval."
+msgstr "هذا الأمر ليس بانتظار الاعتماد."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+#: code:addons/mo_employee_request/models/employee_request.py:0
+#, python-format
+msgid "You are not an approver for the current step (%s)."
+msgstr "لست من المعتمدين للخطوة الحالية (%s)."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+msgid "Please choose a vendor first."
+msgstr "من فضلك اختر المورد أولاً."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+msgid "Please add at least one line."
+msgstr "من فضلك أضف بنداً واحداً على الأقل."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+msgid "Only purchase users can do this."
+msgstr "مستخدمو المشتريات فقط يمكنهم تنفيذ هذا الإجراء."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+msgid "The order must be fully approved first."
+msgstr "يجب اعتماد الأمر بالكامل أولاً."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+#, python-format
+msgid "Odoo purchase order %s created."
+msgstr "تم إنشاء أمر شراء أودو %s."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+msgid "Create the Odoo purchase order first."
+msgstr "أنشئ أمر شراء أودو أولاً."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+#, python-format
+msgid "Vendor bill created from %s."
+msgstr "تم إنشاء فاتورة مورد من %s."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+#, python-format
+msgid "Purchase order %s received"
+msgstr "تم استلام أمر الشراء %s"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+#, python-format
+msgid "The purchase order <a href=\"#\" data-oe-model=\"employee.purchase.order\" data-oe-id=\"%(id)s\">%(name)s</a> that you confirmed has been received."
+msgstr "تم استلام أمر الشراء <a href=\"#\" data-oe-model=\"employee.purchase.order\" data-oe-id=\"%(id)s\">%(name)s</a> الذي أكدته."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+#, python-format
+msgid "Lines of %s cannot be changed in its current state."
+msgstr "لا يمكن تعديل بنود %s في حالته الحالية."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+#, python-format
+msgid "%s can only be edited in Draft (or by Budget Control after a budget rejection)."
+msgstr "لا يمكن تعديل %s إلا في حالة المسودة (أو بواسطة رقابة الموازنة بعد رفض الموازنة)."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+#, python-format
+msgid "No users are configured for '%s'. Ask an administrator to set them in Settings > Employee Requests."
+msgstr "لم يتم تحديد مستخدمين للمرحلة '%s'. اطلب من مدير النظام تحديدهم من الإعدادات > طلبات الموظفين."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+#, python-format
+msgid "Waiting for %(stage)s: %(users)s"
+msgstr "بانتظار %(stage)s: %(users)s"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+#, python-format
+msgid "Quantity must be positive (%s)."
+msgstr "يجب أن تكون الكمية موجبة (%s)."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+#, python-format
+msgid "Check price and discount on %s."
+msgstr "راجع السعر والخصم في %s."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+msgid "Only draft orders can be confirmed."
+msgstr "لا يمكن تأكيد إلا الأوامر التي في حالة مسودة."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+msgid "Only budget-rejected orders can be sent to Budget Control."
+msgstr "لا يمكن إرسال إلى رقابة الموازنة إلا الأوامر المرفوضة من الموازنة."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+msgid "This order is not in Budget Control."
+msgstr "هذا الأمر ليس في مرحلة رقابة الموازنة."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+msgid "Only Budget Control users can resubmit."
+msgstr "مستخدمو رقابة الموازنة فقط يمكنهم إعادة الإرسال."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+msgid "This order cannot be reset to draft."
+msgstr "لا يمكن إعادة هذا الأمر إلى مسودة."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+#, python-format
+msgid "%s already has an Odoo purchase order; cancel that one from Purchase instead."
+msgstr "يوجد بالفعل أمر شراء أودو لـ %s؛ قم بإلغائه من تطبيق المشتريات بدلاً من ذلك."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+#, python-format
+msgid ""
+"No bill could be created yet: %s\n"
+"Bills follow each product's control policy (on ordered or on received quantities)."
+msgstr ""
+"تعذّر إنشاء فاتورة حتى الآن: %s\n"
+"تتبع الفواتير سياسة التحكم الخاصة بكل منتج (على الكميات المطلوبة أو المستلمة)."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+msgid "Discount must be between 0 and 100."
+msgstr "يجب أن يكون الخصم بين 0 و100."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+#, python-format
+msgid "Action required: %s"
+msgstr "مطلوب إجراء: %s"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+#: code:addons/mo_employee_request/models/employee_request.py:0
+msgid "All approvals completed."
+msgstr "اكتملت جميع الاعتمادات."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+#: code:addons/mo_employee_request/models/employee_request.py:0
+#, python-format
+msgid "Waiting for the remaining approvers: %s"
+msgstr "بانتظار باقي المعتمدين: %s"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+msgid "Vendor bill created automatically."
+msgstr "تم إنشاء فاتورة المورد تلقائياً."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+#, python-format
+msgid "Order is now: %s"
+msgstr "حالة الأمر الآن: %s"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+#, python-format
+msgid "Lines cannot be added to %s now."
+msgstr "لا يمكن إضافة بنود إلى %s الآن."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+#, python-format
+msgid "Automatic bill skipped: %s"
+msgstr "تم تخطي إنشاء الفاتورة تلقائياً: %s"
+
+#. module: mo_employee_request
+#: model:ir.model,name:mo_employee_request.model_employee_purchase_order_approval
+msgid "Employee Purchase Order Approval History"
+msgstr "سجل اعتمادات أمر شراء الموظف"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_approval__stage
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_approval__stage
+msgid "Stage"
+msgstr "المرحلة"
+
+#. module: mo_employee_request
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__stage__draft
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order__state__draft
+msgid "RFQ"
+msgstr "طلب عرض سعر"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_approval__user_id
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__user_id
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_approval__user_id
+#: model_terms:mail.template,body_html:mo_employee_request.mail_template_employee_po
+msgid "User"
+msgstr "المستخدم"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_approval__action
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_approval__action
+msgid "Action"
+msgstr "الإجراء"
+
+#. module: mo_employee_request
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__action__confirm
+msgid "Confirmed"
+msgstr "مؤكَّد"
+
+#. module: mo_employee_request
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__action__to_control
+msgid "Sent to Budget Control"
+msgstr "أُرسل إلى رقابة الموازنة"
+
+#. module: mo_employee_request
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__action__resubmit
+msgid "Budget Resubmitted"
+msgstr "أُعيد إرسالها للموازنة"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_approval__comment
+msgid "Comment"
+msgstr "تعليق"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__name
+msgid "Reference"
+msgstr "المرجع"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__company_id
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__company_id
+msgid "Company"
+msgstr "الشركة"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__date_order
+msgid "Purchase Date"
+msgstr "تاريخ الشراء"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__request_id
+msgid "Source Request"
+msgstr "الطلب المصدر"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__agreement_id
+msgid "Agreement"
+msgstr "الاتفاقية"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__currency_id
+msgid "Currency"
+msgstr "العملة"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__payment_term_id
+msgid "Payment Terms"
+msgstr "شروط الدفع"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__fiscal_position_id
+msgid "Fiscal Position"
+msgstr "الوضع الضريبي"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__incoterm_id
+msgid "Incoterm"
+msgstr "شرط التسليم (Incoterm)"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__line_ids
+msgid "Order Lines"
+msgstr "بنود الأمر"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__pending_approver_ids
+msgid "Waiting Action From"
+msgstr "بانتظار إجراء من"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__can_approve
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__can_approve
+msgid "Can Approve"
+msgstr "يمكنه الاعتماد"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__can_edit_budget
+msgid "Can Edit Budget"
+msgstr "يمكنه تعديل الموازنة"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__reject_reason
+msgid "Reject Reason"
+msgstr "سبب الرفض"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__state
+msgid "State"
+msgstr "الحالة"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__odoo_po_id
+msgid "Odoo Purchase Order"
+msgstr "أمر شراء أودو"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__amount_untaxed
+msgid "Amount Untaxed"
+msgstr "المبلغ قبل الضريبة"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__amount_tax
+msgid "Amount Tax"
+msgstr "مبلغ الضريبة"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__amount_total
+msgid "Amount Total"
+msgstr "المبلغ الإجمالي"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__received_notified
+msgid "Received Notified"
+msgstr "تم إشعار الاستلام"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__line_count
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__line_count
+msgid "Line Count"
+msgstr "عدد البنود"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__receipt_count
+msgid "Receipt Count"
+msgstr "عدد الاستلامات"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__bill_count
+msgid "Bill Count"
+msgstr "عدد الفواتير"
+
+#. module: mo_employee_request
+#: model:ir.model,name:mo_employee_request.model_employee_purchase_order_line
+msgid "Employee Purchase Order Line"
+msgstr "بند أمر شراء موظف"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__request_line_id
+msgid "Source Request Line"
+msgstr "بند الطلب المصدر"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__sequence
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__sequence
+#: model:ir.model.fields,field_description:mo_employee_request.field_er_required_field__sequence
+msgid "Sequence"
+msgstr "التسلسل"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__order_state
+msgid "Order Status"
+msgstr "حالة الأمر"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__product_uom_id
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__product_uom_id
+msgid "UoM"
+msgstr "وحدة القياس"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__discount
+msgid "Discount %"
+msgstr "الخصم %"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__discount_amount
+msgid "Discount Amount"
+msgstr "مبلغ الخصم"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__price_tax
+msgid "Price Tax"
+msgstr "ضريبة السعر"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__purchase_line_id
+msgid "Odoo PO Line"
+msgstr "بند أمر شراء أودو"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__planned_qty
+msgid "Planned Qty"
+msgstr "الكمية المخططة"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request.py:0
+msgid "submitted the request"
+msgstr "أرسل الطلب"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request.py:0
+#, python-format
+msgid "rejected the request (%s)"
+msgstr "رفض الطلب (%s)"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request.py:0
+msgid "reset the request to draft"
+msgstr "أعاد الطلب إلى مسودة"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request.py:0
+msgid "cancelled the request"
+msgstr "ألغى الطلب"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request.py:0
+msgid "Only draft requests can be deleted. Cancel the request instead to keep its history."
+msgstr "لا يمكن حذف إلا الطلبات التي في حالة مسودة. ألغِ الطلب بدلاً من ذلك للاحتفاظ بسجله."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request.py:0
+msgid "Only the requester or a request manager can do this."
+msgstr "صاحب الطلب أو مدير الطلبات فقط يمكنه تنفيذ هذا الإجراء."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request.py:0
+msgid "This request is not waiting for approval."
+msgstr "هذا الطلب ليس بانتظار الاعتماد."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request.py:0
+msgid "Please add at least one request line."
+msgstr "من فضلك أضف بند طلب واحداً على الأقل."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request.py:0
+msgid "You can only create requests for your own employee record."
+msgstr "يمكنك إنشاء طلبات لسجل الموظف الخاص بك فقط."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request.py:0
+msgid "Only draft requests can be modified."
+msgstr "لا يمكن تعديل إلا الطلبات التي في حالة مسودة."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request.py:0
+msgid "Every line needs a product and a warehouse."
+msgstr "كل بند يحتاج إلى منتج ومستودع."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request.py:0
+#, python-format
+msgid "Requested quantity must be positive (%s)."
+msgstr "يجب أن تكون الكمية المطلوبة موجبة (%s)."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request.py:0
+#, python-format
+msgid "No approver is configured for '%s'. Ask an administrator to set it in Settings > Employee Requests."
+msgstr "لم يتم تحديد معتمد للمرحلة '%s'. اطلب من مدير النظام تحديده من الإعدادات > طلبات الموظفين."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request.py:0
+#, python-format
+msgid "Waiting for %(stage)s from: %(users)s"
+msgstr "بانتظار %(stage)s من: %(users)s"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request.py:0
+msgid "Only draft requests can be submitted."
+msgstr "لا يمكن إرسال إلا الطلبات التي في حالة مسودة."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request.py:0
+msgid "This request cannot be cancelled."
+msgstr "لا يمكن إلغاء هذا الطلب."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request.py:0
+#, python-format
+msgid "The employee '%s' has no department."
+msgstr "الموظف '%s' ليس لديه قسم."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request.py:0
+#, python-format
+msgid ""
+"No department approver found. %s\n"
+"Set the department manager, or configure fallback users in Settings > Employee Requests."
+msgstr ""
+"لم يتم العثور على معتمد للقسم. %s\n"
+"حدّد مدير القسم، أو اضبط مستخدمين بديلين من الإعدادات > طلبات الموظفين."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request.py:0
+#, python-format
+msgid "Approval required: %s"
+msgstr "مطلوب اعتماد: %s"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request.py:0
+msgid "This request cannot be reset to draft."
+msgstr "لا يمكن إعادة هذا الطلب إلى مسودة."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request.py:0
+#, python-format
+msgid "The department '%s' has no manager."
+msgstr "القسم '%s' ليس له مدير."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request.py:0
+msgid "Only a request manager can reset a request that is already in the approval flow."
+msgstr "مدير الطلبات فقط يمكنه إعادة طلب موجود بالفعل في دورة الاعتماد."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request.py:0
+#, python-format
+msgid "The manager '%s' of department '%s' is not linked to a user (set the Related User on the employee)."
+msgstr "مدير القسم '%s' للقسم '%s' غير مرتبط بمستخدم (حدّد المستخدم المرتبط في سجل الموظف)."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request.py:0
+msgid "The only manager found is the requester himself."
+msgstr "المدير الوحيد الذي تم العثور عليه هو صاحب الطلب نفسه."
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__name
+msgid "Request Number"
+msgstr "رقم الطلب"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__pending_approver_ids
+msgid "Waiting Approval From"
+msgstr "بانتظار الاعتماد من"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__approval_round
+msgid "Approval Round"
+msgstr "جولة الاعتماد"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__reject_reason
+msgid "Rejection Reason"
+msgstr "سبب الرفض"
+
+#. module: mo_employee_request
+#: model:ir.model,name:mo_employee_request.model_employee_request_approval
+msgid "Employee Request Approval History"
+msgstr "سجل اعتمادات طلب الموظف"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_approval__round
+msgid "Round"
+msgstr "الجولة"
+
+#. module: mo_employee_request
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__action__submit
+msgid "Submitted"
+msgstr "تم الإرسال"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_approval__comment
+msgid "Comments"
+msgstr "التعليقات"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Documents can only be created for approved requests."
+msgstr "لا يمكن إنشاء المستندات إلا للطلبات المعتمدة."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "You are not allowed to create these documents."
+msgstr "ليس لديك صلاحية إنشاء هذه المستندات."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "The 'Employee Consumption' location is missing."
+msgstr "موقع 'استهلاك الموظفين' غير موجود."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+#, python-format
+msgid "Stock transfer(s) created: %s"
+msgstr "تم إنشاء تحويلات مخزنية: %s"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+#, python-format
+msgid "Request %s is closed"
+msgstr "تم إغلاق الطلب %s"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+#, python-format
+msgid "Your request <a href=\"#\" data-oe-model=\"employee.request\" data-oe-id=\"%(id)s\">%(name)s</a> is completed and closed."
+msgstr "تم تنفيذ طلبك <a href=\"#\" data-oe-model=\"employee.request\" data-oe-id=\"%(id)s\">%(name)s</a> وإغلاقه."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+#, python-format
+msgid "%s already has executed stock or purchase documents. They are kept for history, so the request cannot be cancelled."
+msgstr "الطلب %s له مستندات مخزنية أو شرائية تم تنفيذها بالفعل. يتم الاحتفاظ بها للسجل، لذلك لا يمكن إلغاء الطلب."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Products can only be changed on a draft request."
+msgstr "لا يمكن تغيير المنتجات إلا في طلب بحالة مسودة."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "You are not allowed to open the dashboard."
+msgstr "ليس لديك صلاحية فتح لوحة المتابعة."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Every request in the selected period"
+msgstr "كل الطلبات في الفترة المحددة"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Requests you created"
+msgstr "الطلبات التي أنشأتها"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Open Requests"
+msgstr "الطلبات المفتوحة"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Approved and being processed"
+msgstr "معتمدة وقيد التنفيذ"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Some lines are still pending"
+msgstr "بعض البنود ما زالت معلّقة"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Fully processed requests"
+msgstr "طلبات مكتملة التنفيذ"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Waiting for My Approval"
+msgstr "بانتظار اعتمادي"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Requests you have to approve"
+msgstr "الطلبات المطلوب منك اعتمادها"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Waiting for Approval"
+msgstr "بانتظار الاعتماد"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Any approval stage"
+msgstr "أي مرحلة اعتماد"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Waiting Department"
+msgstr "بانتظار القسم"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Department manager approval"
+msgstr "اعتماد مدير القسم"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Waiting Warehouse"
+msgstr "بانتظار المستودع"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Warehouse approval"
+msgstr "اعتماد المستودع"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Waiting Budget"
+msgstr "بانتظار الموازنة"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Budget approval"
+msgstr "اعتماد الموازنة"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Ready to be processed"
+msgstr "جاهزة للتنفيذ"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Rejected requests"
+msgstr "الطلبات المرفوضة"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Transfers created from requests"
+msgstr "التحويلات الناتجة عن الطلبات"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Employee purchase orders"
+msgstr "أوامر شراء الموظفين"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Purchase orders to fix and resubmit"
+msgstr "أوامر شراء تحتاج تصحيحاً وإعادة إرسال"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Requests to approve"
+msgstr "طلبات للاعتماد"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Purchase orders to approve"
+msgstr "أوامر شراء للاعتماد"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Budget rejected: fix and resubmit"
+msgstr "مرفوضة من الموازنة: صحّح وأعد الإرسال"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Approved, ready to process"
+msgstr "معتمدة وجاهزة للتنفيذ"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "My RFQs to send for approval"
+msgstr "طلبات عروض الأسعار الخاصة بي للإرسال للاعتماد"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "My rejected requests"
+msgstr "طلباتي المرفوضة"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Nothing is waiting for your inspection approval."
+msgstr "لا يوجد ما ينتظر اعتماد الفحص منك."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+#, python-format
+msgid "Purchase order(s) created: %s"
+msgstr "تم إنشاء أوامر شراء: %s"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+#, python-format
+msgid "Nothing is left to issue from stock for %s."
+msgstr "لا يتبقى شيء لصرفه من المخزون للطلب %s."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+#, python-format
+msgid "Nothing is left to purchase for %s."
+msgstr "لا يتبقى شيء لشرائه للطلب %s."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Approvals Pipeline"
+msgstr "مسار الاعتمادات"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "All time"
+msgstr "كل الأوقات"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Today"
+msgstr "اليوم"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "This week"
+msgstr "هذا الأسبوع"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "This month"
+msgstr "هذا الشهر"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "This quarter"
+msgstr "هذا الربع"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "This year"
+msgstr "هذه السنة"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Custom range"
+msgstr "نطاق مخصص"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+#, python-format
+msgid "Request is now: %s"
+msgstr "حالة الطلب الآن: %s"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__stock_order_count
+msgid "Stock Order Count"
+msgstr "عدد التحويلات المخزنية"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__has_inspection_pending
+msgid "Has Inspection Pending"
+msgstr "لديه فحص معلّق"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__epo_count
+msgid "Epo Count"
+msgstr "عدد أوامر الشراء"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__has_stock_to_create
+msgid "Has Stock To Create"
+msgstr "لديه مخزون للإنشاء"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__has_purchase_to_create
+msgid "Has Purchase To Create"
+msgstr "لديه مشتريات للإنشاء"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__total_requested
+msgid "Total Requested"
+msgstr "إجمالي المطلوب"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__total_issued
+msgid "Total Issued"
+msgstr "إجمالي المصروف"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__total_purchased
+msgid "Total Purchased"
+msgstr "إجمالي المشتَرى"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__total_received
+msgid "Total Received"
+msgstr "إجمالي المستلَم"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__total_remaining
+msgid "Total Remaining"
+msgstr "إجمالي المتبقي"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_line.py:0
+msgid "Lines can only be edited while the request is a draft."
+msgstr "لا يمكن تعديل البنود إلا عندما يكون الطلب مسودة."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_line.py:0
+msgid "Lines can only be removed while the request is a draft."
+msgstr "لا يمكن حذف البنود إلا عندما يكون الطلب مسودة."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_line.py:0
+msgid "Requested quantity must be greater than zero."
+msgstr "يجب أن تكون الكمية المطلوبة أكبر من صفر."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_line.py:0
+msgid "Lines can only be added while the request is a draft."
+msgstr "لا يمكن إضافة بنود إلا عندما يكون الطلب مسودة."
+
+#. module: mo_employee_request
+#: model:ir.model,name:mo_employee_request.model_employee_request_line
+#: model:ir.model.fields,field_description:mo_employee_request.field_stock_move__er_request_line_id
+msgid "Employee Request Line"
+msgstr "بند طلب موظف"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__product_category_id
+msgid "Product Category"
+msgstr "فئة المنتج"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__product_uom_qty
+msgid "Requested Quantity"
+msgstr "الكمية المطلوبة"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__onhand_qty
+msgid "On Hand"
+msgstr "الكمية المتاحة بالمخزن"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__reserved_qty
+msgid "Reserved"
+msgstr "المحجوز"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__available_qty
+msgid "Available"
+msgstr "المتاح"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__incoming_qty
+msgid "Incoming"
+msgstr "الوارد"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__outgoing_qty
+msgid "Outgoing"
+msgstr "الصادر"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__forecast_qty
+msgid "Forecast"
+msgstr "المتوقع"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__stock_status
+msgid "Stock Status"
+msgstr "حالة المخزون"
+
+#. module: mo_employee_request
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_line__stock_status__available
+msgid "🟢 Available"
+msgstr "🟢 متوفر"
+
+#. module: mo_employee_request
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_line__stock_status__partial
+msgid "🟠 Partially Available"
+msgstr "🟠 متوفر جزئياً"
+
+#. module: mo_employee_request
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_line__stock_status__unavailable
+msgid "🔴 Not Available"
+msgstr "🔴 غير متوفر"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__issue_qty
+msgid "Issue Quantity"
+msgstr "كمية الصرف"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__purchase_qty
+msgid "Purchase Quantity"
+msgstr "كمية الشراء"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__request_state
+msgid "Request Status"
+msgstr "حالة الطلب"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__move_ids
+msgid "Stock Moves"
+msgstr "الحركات المخزنية"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__po_line_ids
+msgid "Purchase Order Lines"
+msgstr "بنود أوامر الشراء"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__qty_stock_planned
+msgid "Stock Planned"
+msgstr "المخطط من المخزون"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__qty_unprocessed
+msgid "Not Yet Processed"
+msgstr "لم يُنفَّذ بعد"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/er_required_field.py:0
+#, python-format
+msgid ""
+"Some required fields are empty in %(document)s:\n"
+"%(details)s"
+msgstr ""
+"بعض الحقول المطلوبة فارغة في %(document)s:\n"
+"%(details)s"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/er_required_field.py:0
+#, python-format
+msgid "%(field)s (line: %(product)s)"
+msgstr "%(field)s (البند: %(product)s)"
+
+#. module: mo_employee_request
+#: model:ir.model,name:mo_employee_request.model_er_required_field
+msgid "Required Field Setting"
+msgstr "إعداد الحقل المطلوب"
+
+#. module: mo_employee_request
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__er_required_field__scope__line
+msgid "Lines"
+msgstr "البنود"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_er_required_field__field_id
+msgid "Field"
+msgstr "الحقل"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_er_required_field__model_name
+msgid "Model"
+msgstr "النموذج"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_er_required_field__field_name
+msgid "Technical Name"
+msgstr "الاسم التقني"
+
+#. module: mo_employee_request
+#: model:ir.model,name:mo_employee_request.model_er_required_mixin
+msgid "Required Fields Mixin"
+msgstr "قالب الحقول المطلوبة"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_er_required_mixin__er_required_line_fields
+msgid "Required Line Fields"
+msgstr "حقول البنود المطلوبة"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_purchase_order_line__er_po_line_id
+msgid "Employee PO Line"
+msgstr "بند أمر شراء الموظف"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_department_method
+msgid "Department Approval Method"
+msgstr "طريقة اعتماد القسم"
+
+#. module: mo_employee_request
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__res_company__er_department_method__manager
+msgid "Department Manager"
+msgstr "مدير القسم"
+
+#. module: mo_employee_request
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__res_company__er_department_method__users
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__res_company__er_inspection_mode__users
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__res_company__er_purchase_manager_method__users
+msgid "Specific Users"
+msgstr "مستخدمون محددون"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_department_user_ids
+msgid "Department Approval Users"
+msgstr "مستخدمو اعتماد القسم"
+
+#. module: mo_employee_request
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__res_company__er_approval_mode__any
+msgid "Any Approver"
+msgstr "أي معتمد"
+
+#. module: mo_employee_request
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__res_company__er_approval_mode__all
+msgid "All Approvers"
+msgstr "كل المعتمدين"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_discount_product_id
+msgid "Purchase Discount Product"
+msgstr "منتج خصم المشتريات"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,help:mo_employee_request.field_res_company__er_discount_product_id
+msgid "Service product used on the discount lines added by the Discount button of purchase orders. Created automatically the first time it is needed."
+msgstr "منتج خدمي يُستخدم في بنود الخصم التي يضيفها زر الخصم في أوامر الشراء. يُنشأ تلقائياً عند أول حاجة إليه."
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_inspection_mode
+msgid "Inspection Approver"
+msgstr "معتمد الفحص"
+
+#. module: mo_employee_request
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__res_company__er_inspection_mode__requester
+msgid "Requester of the Request"
+msgstr "صاحب الطلب"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_inspection_user_ids
+msgid "Inspection Approval Users"
+msgstr "مستخدمو اعتماد الفحص"
+
+#. module: mo_employee_request
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__res_company__er_purchase_manager_method__manager
+msgid "Direct Manager"
+msgstr "المدير المباشر"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_purchase_manager_user_ids
+msgid "Purchase Manager Users"
+msgstr "مستخدمو مدير المشتريات"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_res_users__er_is_request_user
+msgid "Request User"
+msgstr "مستخدم الطلبات"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,help:mo_employee_request.field_res_users__er_is_request_user
+msgid "Create, read and edit own requests. Required to see the app."
+msgstr "إنشاء وقراءة وتعديل طلباتك. مطلوب لرؤية التطبيق."
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_res_users__er_is_all_documents
+msgid "All Documents"
+msgstr "كل المستندات"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_res_users__er_is_request_on_behalf
+msgid "Create Requests for Employees"
+msgstr "إنشاء طلبات للموظفين"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_res_users__er_is_request_manager
+msgid "Request Manager"
+msgstr "مدير الطلبات"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,help:mo_employee_request.field_res_users__er_is_request_manager
+#: model:res.groups,comment:mo_employee_request.group_employee_request_manager
+msgid "Read all requests, reset and cancel them."
+msgstr "قراءة كل الطلبات وإعادتها إلى مسودة وإلغاؤها."
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_res_users__er_is_purchase_user
+msgid "Purchase User"
+msgstr "مستخدم المشتريات"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_res_users__er_is_purchase_manager
+msgid "Purchase Manager"
+msgstr "مدير المشتريات"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/stock_inherit.py:0
+#, python-format
+msgid "Inspection approval required from: %s"
+msgstr "مطلوب اعتماد الفحص من: %s"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/stock_inherit.py:0
+#, python-format
+msgid "You are not allowed to approve the inspection of %s."
+msgstr "ليس لديك صلاحية اعتماد فحص %s."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/stock_inherit.py:0
+msgid "Inspection approved"
+msgstr "تم اعتماد الفحص"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/stock_inherit.py:0
+#, python-format
+msgid "Inspection approved by %s."
+msgstr "تم اعتماد الفحص بواسطة %s."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/stock_inherit.py:0
+msgid "Inspection rejected"
+msgstr "تم رفض الفحص"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/stock_inherit.py:0
+#, python-format
+msgid "Inspection rejected by %s."
+msgstr "تم رفض الفحص بواسطة %s."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/stock_inherit.py:0
+#, python-format
+msgid "Receipt %s needs an inspection approval before it can be validated."
+msgstr "الاستلام %s يحتاج إلى اعتماد الفحص قبل التصديق عليه."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/stock_inherit.py:0
+#, python-format
+msgid "Receipt %s is waiting for your inspection approval."
+msgstr "الاستلام %s بانتظار اعتماد الفحص منك."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/stock_inherit.py:0
+msgid "(no approver configured)"
+msgstr "(لم يتم تحديد معتمد)"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_stock_move__er_warehouse_id
+msgid "Request Warehouse"
+msgstr "مستودع الطلب"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_stock_picking__er_needs_inspection
+msgid "Needs Inspection"
+msgstr "يحتاج إلى فحص"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_stock_picking__er_inspection_state
+msgid "Inspection"
+msgstr "الفحص"
+
+#. module: mo_employee_request
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__stock_picking__er_inspection_state__pending
+msgid "Waiting Inspection"
+msgstr "بانتظار الفحص"
+
+#. module: mo_employee_request
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__stock_picking__er_inspection_state__approved
+msgid "Inspection Approved"
+msgstr "تم اعتماد الفحص"
+
+#. module: mo_employee_request
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__stock_picking__er_inspection_state__rejected
+msgid "Inspection Rejected"
+msgstr "تم رفض الفحص"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_stock_picking__er_inspector_ids
+msgid "Inspection Approvers"
+msgstr "معتمدو الفحص"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_stock_picking__er_inspected_by
+msgid "Inspected By"
+msgstr "تم الفحص بواسطة"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_stock_picking__er_inspection_date
+msgid "Inspection Date"
+msgstr "تاريخ الفحص"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_stock_picking__er_can_inspect
+msgid "Er Can Inspect"
+msgstr "يمكنه الفحص"
+
+#. module: mo_employee_request
+#: model:mail.template,name:mo_employee_request.mail_template_employee_po
+msgid "Employee Purchase Order: Send by Email"
+msgstr "أمر شراء الموظف: الإرسال بالبريد الإلكتروني"
+
+#. module: mo_employee_request
+#: model:mail.template,subject:mo_employee_request.mail_template_employee_po
+msgid "{{ 'Request for Quotation' if object.state == 'draft' else 'Purchase Order' }} {{ object.name }}"
+msgstr "{{ 'طلب عرض سعر' if object.state == 'draft' else 'أمر شراء' }} {{ object.name }}"
+
+#. module: mo_employee_request
+#: model_terms:mail.template,body_html:mo_employee_request.mail_template_employee_po
+msgid "Dear"
+msgstr "السيد/ة"
+
+#. module: mo_employee_request
+#: model_terms:mail.template,body_html:mo_employee_request.mail_template_employee_po
+msgid "Please find attached"
+msgstr "نرفق لكم"
+
+#. module: mo_employee_request
+#: model_terms:mail.template,body_html:mo_employee_request.mail_template_employee_po
+msgid "purchase order"
+msgstr ""
+
+#. module: mo_employee_request
+#: model_terms:mail.template,body_html:mo_employee_request.mail_template_employee_po
+msgid "EPO/2026/00001"
+msgstr ""
+
+#. module: mo_employee_request
+#: model_terms:mail.template,body_html:mo_employee_request.mail_template_employee_po
+msgid "for a total of"
+msgstr "بإجمالي قدره"
+
+#. module: mo_employee_request
+#: model_terms:mail.template,body_html:mo_employee_request.mail_template_employee_po
+msgid "Best regards,<br/>"
+msgstr "مع أطيب التحيات،<br/>"
+
+#. module: mo_employee_request
+#: model:res.groups,name:mo_employee_request.group_employee_request_user
+msgid "Employee Request User"
+msgstr "مستخدم طلبات الموظفين"
+
+#. module: mo_employee_request
+#: model:res.groups,comment:mo_employee_request.group_employee_request_user
+msgid "Create, read and edit own requests. Required to see the Employee Requests app."
+msgstr "إنشاء وقراءة وتعديل طلباتك. مطلوب لرؤية تطبيق طلبات الموظفين."
+
+#. module: mo_employee_request
+#: model:res.groups,name:mo_employee_request.group_employee_request_all_documents
+msgid "Employee Request: All Documents"
+msgstr "طلبات الموظفين: كل المستندات"
+
+#. module: mo_employee_request
+#: model:res.groups,comment:mo_employee_request.group_employee_request_all_documents
+msgid "See all employee requests, stock transfers and purchase orders (read only)."
+msgstr "عرض كل طلبات الموظفين والتحويلات المخزنية وأوامر الشراء (للقراءة فقط)."
+
+#. module: mo_employee_request
+#: model:res.groups,name:mo_employee_request.group_request_on_behalf
+msgid "Employee Request: Create for Employees"
+msgstr "طلبات الموظفين: الإنشاء نيابةً عن الموظفين"
+
+#. module: mo_employee_request
+#: model:res.groups,comment:mo_employee_request.group_request_on_behalf
+msgid "Can create requests on behalf of other employees."
+msgstr "يمكنه إنشاء طلبات نيابةً عن موظفين آخرين."
+
+#. module: mo_employee_request
+#: model:res.groups,name:mo_employee_request.group_er_dashboard
+msgid "Employee Request: Dashboard"
+msgstr "طلبات الموظفين: لوحة المتابعة"
+
+#. module: mo_employee_request
+#: model:res.groups,comment:mo_employee_request.group_er_dashboard
+msgid "Can open the Employee Requests dashboard."
+msgstr "يمكنه فتح لوحة متابعة طلبات الموظفين."
+
+#. module: mo_employee_request
+#: model:res.groups,name:mo_employee_request.group_employee_request_manager
+msgid "Employee Request Manager"
+msgstr "مدير طلبات الموظفين"
+
+#. module: mo_employee_request
+#: model:res.groups,name:mo_employee_request.group_warehouse_approver
+msgid "Warehouse Approver"
+msgstr "معتمد المستودع"
+
+#. module: mo_employee_request
+#: model:res.groups,name:mo_employee_request.group_budget_approver
+msgid "Budget Approver"
+msgstr "معتمد الموازنة"
+
+#. module: mo_employee_request
+#: model:res.groups,name:mo_employee_request.group_purchase_user
+msgid "Employee Purchase User"
+msgstr "مستخدم مشتريات الموظفين"
+
+#. module: mo_employee_request
+#: model:res.groups,name:mo_employee_request.group_purchase_manager
+msgid "Employee Purchase Manager"
+msgstr "مدير مشتريات الموظفين"
+
+#. module: mo_employee_request
+#: model:res.groups,name:mo_employee_request.group_budget_control
+msgid "Budget Control User"
+msgstr "مستخدم رقابة الموازنة"
+
+#. module: mo_employee_request
+#: model:res.groups,comment:mo_employee_request.group_budget_control
+msgid "Edit and resubmit budget-rejected purchase orders."
+msgstr "تعديل أوامر الشراء المرفوضة من الموازنة وإعادة إرسالها."

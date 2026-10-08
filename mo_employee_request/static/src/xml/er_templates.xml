@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="mo_employee_request.StockField">
+        <a t-if="hasProduct" href="#" t-attf-class="er-stock er-stock-{{ status }}"
+           t-on-click.prevent.stop="onClick" t-att-title="tooltip">
+            <i class="er-stock-dot"/>
+            <b><t t-esc="available"/></b>
+            <span class="er-stock-fc"><i class="fa fa-long-arrow-right"/> <t t-esc="forecast"/></span>
+        </a>
+        <span t-else="" class="text-muted">-</span>
+    </t>
+
+    <t t-name="mo_employee_request.StockPopover">
+        <div class="er-pop">
+            <div t-if="state.loading" class="er-pop-loading">
+                <span class="er-pop-skel w-75"/><span class="er-pop-skel"/><span class="er-pop-skel w-50"/>
+            </div>
+            <t t-elif="state.data and state.data.product">
+                <div class="er-pop-head">
+                    <div class="er-pop-title text-truncate" t-esc="state.data.product"/>
+                    <div class="er-pop-sub text-truncate">
+                        <t t-esc="state.data.warehouse"/> &#183; <t t-esc="state.data.uom"/>
+                    </div>
+                    <span t-attf-class="er-pop-badge er-stock-{{ status }}">
+                        Requested <b><t t-esc="fmt(state.data.requested)"/></b>
+                    </span>
+                </div>
+                <div class="er-pop-grid">
+                    <div t-foreach="metrics" t-as="m" t-key="m.key" t-attf-class="er-pop-cell {{ m.cls }}">
+                        <span class="er-pop-lbl" t-esc="m.label"/>
+                        <b t-esc="m.value"/>
+                    </div>
+                </div>
+                <div class="er-pop-tabs" t-if="locations.length or moves.length">
+                    <button t-if="locations.length" type="button"
+                            t-attf-class="er-pop-tab {{ state.tab === 'loc' ? 'active' : '' }}"
+                            t-on-click="() => this.toggle('loc')">
+                        Locations <span t-esc="locations.length"/>
+                    </button>
+                    <button t-if="moves.length" type="button"
+                            t-attf-class="er-pop-tab {{ state.tab === 'mov' ? 'active' : '' }}"
+                            t-on-click="() => this.toggle('mov')">
+                        Transfers <span t-esc="moves.length"/>
+                    </button>
+                </div>
+                <div t-if="state.tab === 'loc'" class="er-pop-list">
+                    <div t-foreach="locations" t-as="loc" t-key="loc_index" class="er-pop-row">
+                        <span class="text-truncate" t-esc="loc.name"/>
+                        <span><b t-esc="fmt(loc.quantity)"/> <small class="text-muted">(<t t-esc="fmt(loc.reserved)"/> res.)</small></span>
+                    </div>
+                </div>
+                <div t-if="state.tab === 'mov'" class="er-pop-list">
+                    <div t-foreach="moves" t-as="mv" t-key="mv.dir + mv_index" class="er-pop-row">
+                        <span class="text-truncate">
+                            <span t-attf-class="er-pop-dir {{ mv.dir === 'In' ? 'in' : 'out' }}" t-esc="mv.dir"/>
+                            <t t-esc="mv.reference"/>
+                        </span>
+                        <span><b t-esc="fmt(mv.quantity)"/> <small class="text-muted" t-esc="mv.date"/></span>
+                    </div>
+                </div>
+            </t>
+            <div t-else="" class="text-muted">No stock data for this product and warehouse.</div>
+        </div>
+    </t>
+
+    <t t-name="mo_employee_request.Dashboard">
+        <div class="o_action er-dash overflow-auto">
+            <!-- Header + filters -->
+            <div class="er-dash-header">
+                <div class="er-dash-title">
+                    <span class="er-dash-title-icon"><i class="fa fa-th-large"/></span>
+                    <div>
+                        <h3 class="mb-0">Employee Requests Dashboard</h3>
+                        <div class="text-muted small">
+                            <t t-esc="state.data.total"/> requests in the current selection
+                        </div>
+                    </div>
+                </div>
+                <div class="er-dash-filters">
+                    <div class="er-filter">
+                        <label><i class="fa fa-calendar"/> Period</label>
+                        <select class="form-select form-select-sm" t-on-change="onPeriod">
+                            <option t-foreach="state.data.periods" t-as="p" t-key="p.key"
+                                    t-att-value="p.key"
+                                    t-att-selected="state.filters.period === p.key">
+                                <t t-esc="p.label"/>
+                            </option>
+                        </select>
+                    </div>
+                    <t t-if="state.filters.period === 'custom'">
+                        <div class="er-filter">
+                            <label>From</label>
+                            <input type="date" class="form-control form-control-sm"
+                                   t-att-value="state.filters.date_from" t-on-change="onDateFrom"/>
+                        </div>
+                        <div class="er-filter">
+                            <label>To</label>
+                            <input type="date" class="form-control form-control-sm"
+                                   t-att-value="state.filters.date_to" t-on-change="onDateTo"/>
+                        </div>
+                    </t>
+                    <div class="er-filter" t-if="state.data.scope and state.data.scope.can_filter_all">
+                        <label><i class="fa fa-sitemap"/> Department</label>
+                        <select class="form-select form-select-sm" t-on-change="onDepartment">
+                            <option value="">All departments</option>
+                            <option t-foreach="state.data.departments" t-as="d" t-key="d.id"
+                                    t-att-value="d.id"
+                                    t-att-selected="state.filters.department_id === d.id">
+                                <t t-esc="d.name"/>
+                            </option>
+                        </select>
+                    </div>
+                    <div class="er-filter er-filter-check" t-if="state.data.scope and state.data.scope.can_filter_all">
+                        <div class="form-check form-switch mb-0">
+                            <input class="form-check-input" type="checkbox" id="er_only_mine"
+                                   t-att-checked="state.filters.only_mine" t-on-change="onOnlyMine"/>
+                            <label class="form-check-label" for="er_only_mine">Only mine</label>
+                        </div>
+                    </div>
+                    <button t-if="hasActiveFilters" class="btn btn-sm btn-light er-reset"
+                            t-on-click="resetFilters">
+                        <i class="fa fa-times"/> Reset
+                    </button>
+                    <button class="btn btn-sm btn-light er-reset" t-on-click="load" title="Refresh">
+                        <i class="fa fa-refresh" t-att-class="{'fa-spin': state.loading}"/>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Needs my action -->
+            <div class="er-act" t-if="state.data.actions and state.data.actions.chips.length">
+                <div class="er-act-head">
+                    <span class="er-act-bolt"><i class="fa fa-bolt"/></span>
+                    <span class="er-act-title">Needs my action</span>
+                    <span class="er-act-total"><t t-esc="state.data.actions.total"/></span>
+                </div>
+                <div class="er-act-chips">
+                    <button t-foreach="state.data.actions.chips" t-as="chip" t-key="chip.key" type="button"
+                            t-attf-class="er-act-chip er-tint-{{ chip.color }}"
+                            t-on-click="() => this.open(chip)">
+                        <i t-attf-class="fa {{ chip.icon }}"/>
+                        <b><t t-esc="chip.count"/></b>
+                        <span><t t-esc="chip.label"/></span>
+                    </button>
+                </div>
+                <div class="er-act-list" t-if="state.data.actions.items.length">
+                    <button t-foreach="state.data.actions.items" t-as="it" t-key="it.model + it.id" type="button"
+                            class="er-act-row" t-on-click="() => this.openItem(it)">
+                        <span t-attf-class="er-act-ico er-tint-{{ it.color }}"><i t-attf-class="fa {{ it.icon }}"/></span>
+                        <span class="er-act-main">
+                            <b class="er-act-name" t-esc="it.name"/>
+                            <span class="er-act-sub" t-esc="it.sub"/>
+                            <span class="er-act-tag" t-esc="it.tag"/>
+                        </span>
+                        <i class="fa fa-angle-right er-act-go"/>
+                    </button>
+                </div>
+            </div>
+            <div class="er-act er-act-clear" t-elif="!state.loading">
+                <i class="fa fa-check-circle"/> You are all caught up - nothing needs your action.
+            </div>
+
+            <!-- Status distribution -->
+            <div class="er-card er-status-card" t-if="state.data.by_state.length">
+                <div class="er-section-title"><i class="fa fa-bar-chart"/> Requests by status</div>
+                <div class="er-statusbar">
+                    <div t-foreach="state.data.by_state" t-as="it" t-key="it.state"
+                         t-attf-class="er-seg er-bg-{{ stateColor(it.state) }}"
+                         t-attf-style="flex-grow: {{ it.count }}"
+                         t-on-click="() => this.open(it)"
+                         t-att-title="it.label + ': ' + it.count"/>
+                </div>
+                <div class="er-legend">
+                    <span t-foreach="state.data.by_state" t-as="it" t-key="it.state"
+                          class="er-legend-item" t-on-click="() => this.open(it)">
+                        <i t-attf-class="er-dot er-bg-{{ stateColor(it.state) }}"/>
+                        <t t-esc="it.label"/> <b><t t-esc="it.count"/></b>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Tile sections -->
+            <t t-foreach="state.data.sections" t-as="sec" t-key="sec.key">
+            <div class="er-section" t-if="tilesOf(sec.key).length">
+                <div class="er-section-title"><i t-attf-class="fa {{ sec.icon }}"/> <t t-esc="sec.label"/></div>
+                <div class="er-grid">
+                    <div t-foreach="tilesOf(sec.key)" t-as="tile" t-key="tile.key"
+                         t-attf-class="er-tile er-accent-{{ tile.color }}"
+                         t-on-click="() => this.open(tile)">
+                        <div t-attf-class="er-tile-icon er-tint-{{ tile.color }}">
+                            <i t-attf-class="fa {{ tile.icon }}"/>
+                        </div>
+                        <div class="er-tile-body">
+                            <div class="er-tile-count"><t t-esc="tile.count"/></div>
+                            <div class="er-tile-label"><t t-esc="tile.label"/></div>
+                            <div class="er-tile-hint"><t t-esc="tile.hint"/></div>
+                            <div t-if="tile.show_percent" class="er-tile-progress">
+                                <div class="er-progress-track">
+                                    <div t-attf-class="er-progress-fill er-bg-{{ tile.color }}"
+                                         t-attf-style="width: {{ tile.percent }}%"/>
+                                </div>
+                                <span class="er-progress-text"><t t-esc="tile.percent"/>%</span>
+                            </div>
+                        </div>
+                        <i class="fa fa-angle-right er-tile-arrow"/>
+                    </div>
+                </div>
+            </div>
+            </t>
+
+            <!-- Latest requests -->
+            <div class="er-card er-recent" t-if="state.data.recent.length">
+                <div class="er-section-title"><i class="fa fa-clock-o"/> Latest requests</div>
+                <table class="table table-hover table-sm mb-0 align-middle">
+                    <thead>
+                        <tr>
+                            <th>Request</th><th>Employee</th><th>Department</th>
+                            <th>Date</th><th class="text-end">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="state.data.recent" t-as="rec" t-key="rec.id"
+                            class="er-row" t-on-click="() => this.openRequest(rec)">
+                            <td class="fw-bold"><t t-esc="rec.name"/></td>
+                            <td><t t-esc="rec.employee"/></td>
+                            <td><t t-esc="rec.department"/></td>
+                            <td><t t-esc="rec.date"/></td>
+                            <td class="text-end">
+                                <span t-attf-class="badge er-badge er-bg-{{ stateColor(rec.state) }}">
+                                    <t t-esc="rec.state_label"/>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </t>
+</templates>

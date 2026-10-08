@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Fields the administrator can flag as required (Configuration > Required Field).
+         noupdate: the checkboxes chosen by the administrator survive module upgrades. -->
+    <data noupdate="1">
+        <record id="required_request_header_project_id" model="er.required.field">
+            <field name="sequence">10</field>
+            <field name="document_type">request</field>
+            <field name="scope">header</field>
+            <field name="field_id" ref="field_employee_request__project_id"/>
+            <field name="is_required" eval="False"/>
+        </record>
+        <record id="required_request_header_analytic_account_id" model="er.required.field">
+            <field name="sequence">20</field>
+            <field name="document_type">request</field>
+            <field name="scope">header</field>
+            <field name="field_id" ref="field_employee_request__analytic_account_id"/>
+            <field name="is_required" eval="False"/>
+        </record>
+        <record id="required_request_header_note" model="er.required.field">
+            <field name="sequence">30</field>
+            <field name="document_type">request</field>
+            <field name="scope">header</field>
+            <field name="field_id" ref="field_employee_request__note"/>
+            <field name="is_required" eval="False"/>
+        </record>
+        <record id="required_request_line_name" model="er.required.field">
+            <field name="sequence">40</field>
+            <field name="document_type">request</field>
+            <field name="scope">line</field>
+            <field name="field_id" ref="field_employee_request_line__name"/>
+            <field name="is_required" eval="False"/>
+        </record>
+        <record id="required_request_line_project_id" model="er.required.field">
+            <field name="sequence">50</field>
+            <field name="document_type">request</field>
+            <field name="scope">line</field>
+            <field name="field_id" ref="field_employee_request_line__project_id"/>
+            <field name="is_required" eval="False"/>
+        </record>
+        <record id="required_request_line_analytic_account_id" model="er.required.field">
+            <field name="sequence">60</field>
+            <field name="document_type">request</field>
+            <field name="scope">line</field>
+            <field name="field_id" ref="field_employee_request_line__analytic_account_id"/>
+            <field name="is_required" eval="False"/>
+        </record>
+        <record id="required_purchase_order_header_agreement_id" model="er.required.field">
+            <field name="sequence">70</field>
+            <field name="document_type">purchase_order</field>
+            <field name="scope">header</field>
+            <field name="field_id" ref="field_employee_purchase_order__agreement_id"/>
+            <field name="is_required" eval="False"/>
+        </record>
+        <record id="required_purchase_order_header_warehouse_id" model="er.required.field">
+            <field name="sequence">80</field>
+            <field name="document_type">purchase_order</field>
+            <field name="scope">header</field>
+            <field name="field_id" ref="field_employee_purchase_order__warehouse_id"/>
+            <field name="is_required" eval="False"/>
+        </record>
+        <record id="required_purchase_order_header_project_id" model="er.required.field">
+            <field name="sequence">90</field>
+            <field name="document_type">purchase_order</field>
+            <field name="scope">header</field>
+            <field name="field_id" ref="field_employee_purchase_order__project_id"/>
+            <field name="is_required" eval="False"/>
+        </record>
+        <record id="required_purchase_order_header_analytic_account_id" model="er.required.field">
+            <field name="sequence">100</field>
+            <field name="document_type">purchase_order</field>
+            <field name="scope">header</field>
+            <field name="field_id" ref="field_employee_purchase_order__analytic_account_id"/>
+            <field name="is_required" eval="False"/>
+        </record>
+        <record id="required_purchase_order_header_payment_term_id" model="er.required.field">
+            <field name="sequence">110</field>
+            <field name="document_type">purchase_order</field>
+            <field name="scope">header</field>
+            <field name="field_id" ref="field_employee_purchase_order__payment_term_id"/>
+            <field name="is_required" eval="False"/>
+        </record>
+        <record id="required_purchase_order_header_fiscal_position_id" model="er.required.field">
+            <field name="sequence">120</field>
+            <field name="document_type">purchase_order</field>
+            <field name="scope">header</field>
+            <field name="field_id" ref="field_employee_purchase_order__fiscal_position_id"/>
+            <field name="is_required" eval="False"/>
+        </record>
+        <record id="required_purchase_order_header_incoterm_id" model="er.required.field">
+            <field name="sequence">130</field>
+            <field name="document_type">purchase_order</field>
+            <field name="scope">header</field>
+            <field name="field_id" ref="field_employee_purchase_order__incoterm_id"/>
+            <field name="is_required" eval="False"/>
+        </record>
+        <record id="required_purchase_order_header_notes" model="er.required.field">
+            <field name="sequence">140</field>
+            <field name="document_type">purchase_order</field>
+            <field name="scope">header</field>
+            <field name="field_id" ref="field_employee_purchase_order__notes"/>
+            <field name="is_required" eval="False"/>
+        </record>
+        <record id="required_purchase_order_line_name" model="er.required.field">
+            <field name="sequence">150</field>
+            <field name="document_type">purchase_order</field>
+            <field name="scope">line</field>
+            <field name="field_id" ref="field_employee_purchase_order_line__name"/>
+            <field name="is_required" eval="False"/>
+        </record>
+        <record id="required_purchase_order_line_tax_ids" model="er.required.field">
+            <field name="sequence">160</field>
+            <field name="document_type">purchase_order</field>
+            <field name="scope">line</field>
+            <field name="field_id" ref="field_employee_purchase_order_line__tax_ids"/>
+            <field name="is_required" eval="False"/>
+        </record>
+        <record id="required_purchase_order_line_project_id" model="er.required.field">
+            <field name="sequence">170</field>
+            <field name="document_type">purchase_order</field>
+            <field name="scope">line</field>
+            <field name="field_id" ref="field_employee_purchase_order_line__project_id"/>
+            <field name="is_required" eval="False"/>
+        </record>
+        <record id="required_purchase_order_line_analytic_account_id" model="er.required.field">
+            <field name="sequence">180</field>
+            <field name="document_type">purchase_order</field>
+            <field name="scope">line</field>
+            <field name="field_id" ref="field_employee_purchase_order_line__analytic_account_id"/>
+            <field name="is_required" eval="False"/>
+        </record>
+        <record id="required_purchase_order_line_warehouse_id" model="er.required.field">
+            <field name="sequence">190</field>
+            <field name="document_type">purchase_order</field>
+            <field name="scope">line</field>
+            <field name="field_id" ref="field_employee_purchase_order_line__warehouse_id"/>
+            <field name="is_required" eval="False"/>
+        </record>
+    </data>
+</odoo>

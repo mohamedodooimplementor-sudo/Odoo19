@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- List -->
+    <record id="view_employee_request_list" model="ir.ui.view">
+        <field name="name">employee.request.list</field>
+        <field name="model">employee.request</field>
+        <field name="arch" type="xml">
+            <list string="Employee Requests"
+                  decoration-info="state in ('department', 'warehouse', 'budget')"
+                  decoration-success="state in ('approved', 'closed')"
+                  decoration-danger="state == 'rejected'"
+                  decoration-muted="state == 'cancelled'">
+                <field name="name"/>
+                <field name="request_date"/>
+                <field name="employee_id"/>
+                <field name="department_id"/>
+                <field name="project_id" optional="show"/>
+                <field name="analytic_account_id" optional="hide"/>
+                <field name="pending_approver_ids" widget="many2many_tags" column_invisible="1"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+                <field name="state" widget="badge"
+                       decoration-info="state in ('department', 'warehouse', 'budget')"
+                       decoration-success="state in ('approved', 'closed')"
+                       decoration-warning="state in ('processing', 'partial')"
+                       decoration-danger="state == 'rejected'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_employee_request_form" model="ir.ui.view">
+        <field name="name">employee.request.form</field>
+        <field name="model">employee.request</field>
+        <field name="arch" type="xml">
+            <form string="Employee Request" class="er-mobile-form">
+                <header>
+                    <button name="action_submit" string="Submit" type="object"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_create_stock_orders" string="Create Stock Transfers"
+                            type="object" class="btn-primary"
+                            invisible="not has_stock_to_create"/>
+                    <button name="action_create_purchase_orders" string="Create Purchase Orders"
+                            type="object" class="btn-primary"
+                            invisible="not has_purchase_to_create"/>
+                    <button name="action_approve" string="Department Approval" type="object"
+                            class="btn-primary"
+                            invisible="state != 'department' or not can_approve"/>
+                    <button name="action_approve" string="Warehouse Approval" type="object"
+                            class="btn-primary"
+                            invisible="state != 'warehouse' or not can_approve"/>
+                    <button name="action_approve" string="Budget Approval" type="object"
+                            class="btn-primary"
+                            invisible="state != 'budget' or not can_approve"/>
+                    <button name="action_reject" string="Reject" type="object"
+                            invisible="state not in ('department', 'warehouse', 'budget') or not can_approve"/>
+                    <field name="has_inspection_pending" invisible="1"/>
+                    <button name="action_er_inspection_approve" string="Inspection Approval"
+                            type="object" class="btn-primary"
+                            confirm="Approve the inspection of the received goods?"
+                            invisible="not has_inspection_pending"/>
+                    <button name="action_er_inspection_reject" string="Reject Inspection"
+                            type="object" confirm="Reject the inspection of the received goods?"
+                            invisible="not has_inspection_pending"/>
+                    <button name="action_reset_draft" string="Reset to Draft" type="object"
+                            invisible="state in ('draft', 'processing', 'partial', 'closed')"/>
+                    <button name="action_cancel" string="Cancel" type="object"
+                            confirm="Are you sure you want to cancel this request?"
+                            invisible="state in ('closed', 'rejected', 'cancelled')"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,department,warehouse,budget,approved,processing,closed"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Draft" bg_color="text-bg-secondary" invisible="state != 'draft'"/>
+                    <widget name="web_ribbon" title="Department Approval" bg_color="text-bg-info" invisible="state != 'department'"/>
+                    <widget name="web_ribbon" title="Warehouse Approval" bg_color="text-bg-primary" invisible="state != 'warehouse'"/>
+                    <widget name="web_ribbon" title="Budget Approval" bg_color="text-bg-warning" invisible="state != 'budget'"/>
+                    <widget name="web_ribbon" title="Approved" bg_color="text-bg-success" invisible="state != 'approved'"/>
+                    <widget name="web_ribbon" title="Processing" bg_color="er-ribbon-purple" invisible="state != 'processing'"/>
+                    <widget name="web_ribbon" title="Partially Done" bg_color="er-ribbon-orange" invisible="state != 'partial'"/>
+                    <widget name="web_ribbon" title="Closed" bg_color="er-ribbon-teal" invisible="state != 'closed'"/>
+                    <widget name="web_ribbon" title="Rejected" bg_color="text-bg-danger" invisible="state != 'rejected'"/>
+                    <widget name="web_ribbon" title="Cancelled" bg_color="text-bg-dark" invisible="state != 'cancelled'"/>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_stock_orders" type="object"
+                                class="oe_stat_button" icon="fa-truck"
+                                groups="mo_employee_request.group_warehouse_approver,mo_employee_request.group_employee_request_all_documents"
+                                invisible="stock_order_count == 0">
+                            <field name="stock_order_count" widget="statinfo" string="Transfers"/>
+                        </button>
+                        <button name="action_view_epos" type="object"
+                                class="oe_stat_button" icon="fa-shopping-cart"
+                                invisible="epo_count == 0">
+                            <field name="epo_count" widget="statinfo" string="Purchase Orders"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <field name="can_approve" invisible="1"/>
+                    <field name="has_stock_to_create" invisible="1"/>
+                    <field name="has_purchase_to_create" invisible="1"/>
+                    <field name="user_id" invisible="1"/>
+                    <field name="er_required_fields" invisible="1"/>
+                    <field name="er_required_line_fields" invisible="1"/>
+                    <group>
+                        <group name="main">
+                            <field name="employee_id" readonly="state != 'draft'"
+                                   groups="mo_employee_request.group_request_on_behalf"
+                                   options="{'no_create': True, 'no_create_edit': True}"/>
+                            <field name="employee_id" readonly="state != 'draft'"
+                                   groups="!mo_employee_request.group_request_on_behalf"
+                                   domain="[('user_id', '=', uid)]"
+                                   options="{'no_create': True, 'no_create_edit': True}"/>
+                            <field name="department_id"/>
+                            <field name="pending_approver_ids" widget="many2many_tags" invisible="1"/>
+                        </group>
+                        <group name="extra" class="d-none d-md-block">
+                            <field name="request_date" readonly="state != 'draft'"/>
+                            <field name="project_id" readonly="state != 'draft'"
+                                   required="state == 'draft' and 'project_id' in er_required_fields"/>
+                            <field name="analytic_account_id" readonly="state != 'draft'"
+                                   required="state == 'draft' and 'analytic_account_id' in er_required_fields"/>
+                            <field name="company_id" groups="base.group_multi_company"
+                                   readonly="state != 'draft'"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Request Lines" name="lines">
+                            <field name="line_ids" readonly="state != 'draft'">
+                                <list editable="bottom">
+                                    <control>
+                                        <create name="add_product_control" string="Add a line"/>
+                                        <button name="action_add_from_catalog" string="Catalog"
+                                                type="object" class="px-4 btn-link"
+                                                context="{'order_id': parent.id}"/>
+                                    </control>
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id"/>
+                                    <field name="name" optional="show"
+                                           required="parent.state == 'draft' and 'name' in parent.er_required_line_fields"/>
+                                    <field name="product_category_id" optional="hide"/>
+                                    <field name="product_uom_id" optional="show"/>
+                                    <field name="product_uom_qty"/>
+                                    <field name="warehouse_id" options="{'no_create': True}"
+                                           domain="[('company_id', 'in', [parent.company_id, False])]"/>
+                                    <field name="project_id" optional="show"
+                                           required="parent.state == 'draft' and 'project_id' in parent.er_required_line_fields"/>
+                                    <field name="analytic_account_id" optional="show"
+                                           required="parent.state == 'draft' and 'analytic_account_id' in parent.er_required_line_fields"/>
+                                    <field name="available_qty" string="Stock" widget="er_stock"/>
+                                    <field name="forecast_qty" column_invisible="1"/>
+                                    <field name="stock_status" column_invisible="1"/>
+                                    <field name="issue_qty" optional="hide"/>
+                                    <field name="purchase_qty" optional="hide"/>
+                                    <field name="qty_issued" optional="show"/>
+                                    <field name="qty_purchase_planned" optional="hide"/>
+                                    <field name="qty_received" optional="hide"/>
+                                    <field name="qty_remaining" optional="hide"/>
+                                    <field name="request_state" column_invisible="1"/>
+                                </list>
+                            </field>
+                            <group class="oe_subtotal_footer" invisible="state == 'draft'">
+                                <field name="total_requested"/>
+                                <field name="total_issued"/>
+                                <field name="total_purchased"/>
+                                <field name="total_received"/>
+                                <field name="total_remaining" class="oe_subtotal_footer_separator"/>
+                            </group>
+                        </page>
+                        <page string="Approval History" name="approvals">
+                            <field name="approval_ids" readonly="1">
+                                <list>
+                                    <field name="date"/>
+                                    <field name="user_id"/>
+                                    <field name="stage"/>
+                                    <field name="action"/>
+                                    <field name="comment"/>
+                                    <field name="round" optional="hide"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="note" readonly="state != 'draft'"
+                                   required="state == 'draft' and 'note' in er_required_fields"/>
+                            <group invisible="not reject_reason">
+                                <field name="reject_reason"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Kanban -->
+    <record id="view_employee_request_kanban" model="ir.ui.view">
+        <field name="name">employee.request.kanban</field>
+        <field name="model">employee.request</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" class="o_kanban_small_column er-mobile-kanban"
+                    group_create="false" group_edit="false" group_delete="false"
+                    quick_create="false" records_draggable="false" sample="1">
+                <field name="state"/>
+                <field name="activity_state"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <field name="name" class="fw-bold fs-5"/>
+                            <field name="state" widget="badge"
+                                   decoration-success="state in ('approved', 'closed')"
+                                   decoration-danger="state in ('rejected', 'cancelled')"
+                                   decoration-warning="state in ('department', 'warehouse', 'budget')"
+                                   decoration-info="state in ('processing', 'partial')"/>
+                        </div>
+                        <div class="d-flex align-items-center mb-1">
+                            <field name="employee_id" widget="many2one_avatar_employee" class="me-2"/>
+                            <field name="employee_id" class="fw-semibold"/>
+                        </div>
+                        <div class="text-muted mb-1 d-none d-md-block" invisible="not department_id">
+                            <i class="fa fa-sitemap me-1" title="Department"/>
+                            <field name="department_id"/>
+                        </div>
+                        <div class="text-muted mb-1 d-none d-md-block" invisible="not project_id">
+                            <i class="fa fa-briefcase me-1" title="Project"/>
+                            <field name="project_id"/>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <span class="text-muted small">
+                                <i class="fa fa-calendar me-1" title="Request Date"/>
+                                <field name="request_date"/>
+                                <span class="ms-2">
+                                    <i class="fa fa-list me-1" title="Lines"/>
+                                    <field name="line_count"/>
+                                </span>
+                            </span>
+                            <field name="activity_ids" widget="kanban_activity"/>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Search -->
+    <record id="view_employee_request_search" model="ir.ui.view">
+        <field name="name">employee.request.search</field>
+        <field name="model">employee.request</field>
+        <field name="arch" type="xml">
+            <search string="Employee Requests">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="department_id"/>
+                <field name="project_id"/>
+                <field name="analytic_account_id"/>
+                <field name="line_ids" string="Product"
+                       filter_domain="[('line_ids.product_id', 'ilike', self)]"/>
+                <filter name="filter_my" string="My Requests"
+                        domain="[('user_id', '=', uid)]"/>
+                <filter name="filter_to_approve" string="To Approve"
+                        domain="[('pending_approver_ids', 'in', [uid])]"/>
+                <separator/>
+                <filter name="filter_draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="filter_in_approval" string="In Approval"
+                        domain="[('state', 'in', ('department', 'warehouse', 'budget'))]"/>
+                <filter name="filter_approved" string="Approved" domain="[('state', '=', 'approved')]"/>
+                <filter name="filter_open" string="Open"
+                        domain="[('state', 'in', ('approved', 'processing', 'partial'))]"/>
+                <filter name="filter_closed" string="Closed" domain="[('state', '=', 'closed')]"/>
+                <filter name="filter_rejected" string="Rejected" domain="[('state', '=', 'rejected')]"/>
+                <group>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_employee" string="Employee" context="{'group_by': 'employee_id'}"/>
+                    <filter name="group_department" string="Department" context="{'group_by': 'department_id'}"/>
+                    <filter name="group_project" string="Project" context="{'group_by': 'project_id'}"/>
+                    <filter name="group_date" string="Request Date" context="{'group_by': 'request_date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_employee_request" model="ir.actions.act_window">
+        <field name="name">Requests</field>
+        <field name="res_model">employee.request</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="search_view_id" ref="view_employee_request_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first employee request</p>
+            <p>Request materials from the warehouse. Missing quantities go to purchasing.</p>
+        </field>
+    </record>
+
+    <record id="action_employee_request_my" model="ir.actions.act_window">
+        <field name="name">My Requests</field>
+        <field name="res_model">employee.request</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="domain">[('user_id', '=', uid)]</field>
+        <field name="search_view_id" ref="view_employee_request_search"/>
+    </record>
+
+    <record id="action_employee_request_to_approve" model="ir.actions.act_window">
+        <field name="name">Requests to Approve</field>
+        <field name="res_model">employee.request</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('pending_approver_ids', 'in', [uid])]</field>
+        <field name="search_view_id" ref="view_employee_request_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Nothing waiting for your approval</p>
+        </field>
+    </record>
+
+    <!-- Stock transfers created from requests (standard Odoo transfers) -->
+    <record id="action_er_stock_transfers" model="ir.actions.act_window">
+        <field name="name">Stock Transfers</field>
+        <field name="res_model">stock.picking</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('er_request_id', '!=', False)]</field>
+        <field name="context">{'create': False}</field>
+    </record>
+</odoo>

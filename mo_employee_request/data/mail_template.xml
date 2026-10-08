@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="mail_template_employee_po" model="mail.template">
+            <field name="name">Employee Purchase Order: Send by Email</field>
+            <field name="model_id" ref="model_employee_purchase_order"/>
+            <field name="subject">{{ 'Request for Quotation' if object.state == 'draft' else 'Purchase Order' }} {{ object.name }}</field>
+            <field name="email_from">{{ object.env.user.email_formatted }}</field>
+            <field name="partner_to">{{ object.partner_id.id }}</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px;">
+    <p>Dear <t t-out="object.partner_id.name or ''">Vendor</t>,</p>
+    <p>Please find attached <t t-out="'request for quotation' if object.state == 'draft' else 'purchase order'">purchase order</t> <strong t-out="object.name or ''">EPO/2026/00001</strong>
+       for a total of <strong t-out="format_amount(object.amount_total, object.currency_id)">100.00</strong>.</p>
+    <p>Best regards,<br/><t t-out="object.env.user.name or ''">User</t></p>
+</div>
+            </field>
+            <field name="report_template_ids" eval="[(4, ref('report_employee_purchase_order'))]"/>
+            <field name="auto_delete" eval="True"/>
+        </record>
+    </data>
+</odoo>
