@@ -21,3 +21,7 @@ access_er_picking_all_docs,stock.picking all documents,stock.model_stock_picking
 access_er_move_all_docs,stock.move all documents,stock.model_stock_move,group_employee_request_all_documents,1,0,0,0
 access_er_move_line_all_docs,stock.move.line all documents,stock.model_stock_move_line,group_employee_request_all_documents,1,0,0,0
 access_er_required_field_system,er.required.field system,model_er_required_field,base.group_system,1,1,1,1
+access_epo_discount_wizard_user,employee.purchase.order.discount user,model_employee_purchase_order_discount,group_employee_request_user,1,1,1,1
+access_epo_discount_wizard_internal,employee.purchase.order.discount internal,model_employee_purchase_order_discount,base.group_user,1,1,1,1
+access_er_reject_wizard_user,employee.request.reject.wizard user,model_employee_request_reject_wizard,group_employee_request_user,1,1,1,1
+access_er_reject_wizard_internal,employee.request.reject.wizard internal,model_employee_request_reject_wizard,base.group_user,1,1,1,1
