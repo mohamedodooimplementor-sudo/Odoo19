@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Employee Requests',
-    'version': '19.0.1.3.0',
+    'version': '19.0.1.4.0',
     'category': 'Inventory',
     'summary': 'Employee material requests with multi-step approvals (Department, Warehouse, Budget)',
     'description': """
@@ -15,7 +15,7 @@ Employee Purchase & Material Request
     """,
     'author': 'Eng. M.Aboelmagde',
     'license': 'LGPL-3',
-    'price': 350.0,
+    'price': 149.0,
     'currency': 'USD',
     'depends': ['base', 'hr', 'project', 'product', 'stock', 'stock_account', 'analytic', 'mail', 'account',
                 'purchase', 'purchase_stock', 'purchase_requisition'],
@@ -26,6 +26,7 @@ Employee Purchase & Material Request
         'data/er_required_field_data.xml',
         'wizard/reject_wizard_views.xml',
         'wizard/epo_discount_views.xml',
+        'wizard/epo_alternative_views.xml',
         'views/employee_request_views.xml',
         'views/employee_purchase_order_views.xml',
         'views/report_views.xml',

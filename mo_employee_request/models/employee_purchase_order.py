@@ -100,6 +100,14 @@ class EmployeePurchaseOrder(models.Model):
     discount_total = fields.Monetary(string='Total Discount', compute='_compute_amounts',
                                      store=True)
     received_notified = fields.Boolean(copy=False, readonly=True)
+    alternative_ids = fields.Many2many(
+        'employee.purchase.order', 'employee_po_alternative_rel', 'order_id', 'alternative_id',
+        string='Alternatives', copy=False, readonly=True)
+    alternative_count = fields.Integer(compute='_compute_alternative_count')
+    alt_excluded = fields.Boolean(
+        string='Not Selected', copy=False, readonly=True,
+        help="Set on alternatives that were not chosen: their quantities are not counted "
+             "as planned on the source request.")
     line_count = fields.Integer(compute='_compute_line_count')
     receipt_count = fields.Integer(compute='_compute_counts')
     bill_count = fields.Integer(compute='_compute_counts')
@@ -129,6 +137,11 @@ class EmployeePurchaseOrder(models.Model):
             rec.can_edit_budget = rec.state == 'budget_control' and (
                 user in rec.pending_approver_ids or is_admin
                 or user in rec.company_id.er_budget_control_user_ids)
+
+    @api.depends('alternative_ids')
+    def _compute_alternative_count(self):
+        for rec in self:
+            rec.alternative_count = len(rec.alternative_ids)
 
     @api.depends('line_ids')
     def _compute_line_count(self):
@@ -339,11 +352,15 @@ class EmployeePurchaseOrder(models.Model):
     # Buttons
     # ------------------------------------------------------------------
     def action_confirm(self):
+        if len(self) == 1 and not self.env.context.get('skip_alternative_check'):
+            if self.state == 'draft' and self._get_open_alternatives():
+                return self._action_alternative_warning()
         for rec in self:
             rec._check_user_rights()
             if rec.state != 'draft':
                 raise UserError(_("Only draft orders can be confirmed."))
             rec._check_ready()
+            rec._set_chosen_alternative()
             rec._log('confirm')
             rec.sudo()._enter_state('manager')
         return True
@@ -431,6 +448,72 @@ class EmployeePurchaseOrder(models.Model):
             srec.write({'state': 'cancelled', 'pending_approver_ids': [(5,)]})
         self.request_id._refresh_execution_state()
         return True
+
+    # ------------------------------------------------------------------
+    # Purchase Alternatives (same idea as Odoo's purchase_requisition alternatives)
+    # ------------------------------------------------------------------
+    def _get_open_alternatives(self):
+        """Linked alternatives that are still in RFQ."""
+        self.ensure_one()
+        return self.alternative_ids.filtered(lambda o: o.state == 'draft')
+
+    def _link_alternatives(self, others):
+        """Make self, its current alternatives and `others` one group (all linked to all)."""
+        group = (self | self.alternative_ids | others).sudo()
+        for rec in group:
+            rec.write({'alternative_ids': [(6, 0, (group - rec).ids)]})
+
+    def _set_chosen_alternative(self):
+        """This order becomes the selected one; the others stop counting on the request."""
+        self.ensure_one()
+        if not self.alternative_ids:
+            return
+        self.sudo().write({'alt_excluded': False})
+        self.alternative_ids.sudo().write({'alt_excluded': True})
+
+    def _action_alternative_warning(self):
+        self.ensure_one()
+        return {'type': 'ir.actions.act_window', 'name': _("Alternatives"),
+                'res_model': 'employee.purchase.order.alternative.warning',
+                'view_mode': 'form', 'target': 'new',
+                'context': {'default_order_id': self.id}}
+
+    def action_create_alternative(self):
+        self.ensure_one()
+        self._check_user_rights()
+        if self.state != 'draft':
+            raise UserError(_("Alternatives can only be created while the order is in RFQ."))
+        return {'type': 'ir.actions.act_window', 'name': _("Create Alternative"),
+                'res_model': 'employee.purchase.order.alternative',
+                'view_mode': 'form', 'target': 'new',
+                'context': {'default_order_id': self.id}}
+
+    def action_view_alternatives(self):
+        self.ensure_one()
+        return self._open('employee.purchase.order',
+                          [('id', 'in', self.alternative_ids.ids)], _("Alternatives"))
+
+    def action_compare_alternatives(self):
+        self.ensure_one()
+        group = self | self.alternative_ids
+        return {
+            'type': 'ir.actions.act_window', 'name': _("Compare Product Lines"),
+            'res_model': 'employee.purchase.order.line', 'view_mode': 'list',
+            'views': [(self.env.ref('mo_employee_request.view_epo_line_compare').id, 'list')],
+            'search_view_id': self.env.ref('mo_employee_request.view_epo_line_compare_search').id,
+            'domain': [('order_id', 'in', group.ids), ('is_discount_line', '=', False)],
+            'context': {'search_default_group_product': 1},
+        }
+
+    def action_choose_alternative(self):
+        self.ensure_one()
+        self._check_user_rights()
+        if self.state != 'draft':
+            raise UserError(_("Only RFQ orders can be chosen as the alternative."))
+        self._set_chosen_alternative()
+        self.message_post(body=_("%s chose this order as the selected alternative.",
+                                 self.env.user.name), subtype_xmlid='mail.mt_note')
+        return {'type': 'ir.actions.client', 'tag': 'reload'}
 
     # ------------------------------------------------------------------
     # Standard Odoo purchase order
@@ -652,6 +735,12 @@ class EmployeePurchaseOrderLine(models.Model):
                                 compute='_compute_received_qty', store=True)
     planned_qty = fields.Float(compute='_compute_planned_qty', store=True,
                                digits='Product Unit')
+    is_discount_line = fields.Boolean(compute='_compute_is_discount_line',
+                                      search='_search_is_discount_line')
+    net_price_unit = fields.Float(string='Net Unit Price', digits='Product Price',
+                                  compute='_compute_net_price_unit')
+    alt_best_price = fields.Boolean(string='Best Price', compute='_compute_alt_best_price')
+    alt_chosen = fields.Boolean(string='Selected', compute='_compute_alt_chosen')
 
     @api.depends('product_id')
     def _compute_name(self):
@@ -689,11 +778,48 @@ class EmployeePurchaseOrderLine(models.Model):
         for line in self:
             line.received_qty = line.purchase_line_id.qty_received if line.purchase_line_id else 0.0
 
-    @api.depends('product_uom_qty', 'order_id.state')
+    @api.depends('product_uom_qty', 'order_id.state', 'order_id.alt_excluded')
     def _compute_planned_qty(self):
         for line in self:
-            line.planned_qty = 0.0 if line.order_id.state in ('cancelled', 'rejected') \
+            line.planned_qty = 0.0 if (line.order_id.state in ('cancelled', 'rejected')
+                                       or line.order_id.alt_excluded) \
                 else line.product_uom_qty
+
+    def _compute_is_discount_line(self):
+        for line in self:
+            line.is_discount_line = line._is_discount_line()
+
+    def _search_is_discount_line(self, operator, value):
+        products = self.env['res.company'].sudo().search([]).er_discount_product_id
+        positive = (operator == '=' and value) or (operator == '!=' and not value)
+        return [('product_id', 'in' if positive else 'not in', products.ids)]
+
+    @api.depends('price_unit', 'discount')
+    def _compute_net_price_unit(self):
+        for line in self:
+            line.net_price_unit = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
+
+    def _alternative_peers(self):
+        """Same product, in this order and in its alternatives."""
+        self.ensure_one()
+        group = self.order_id | self.order_id.alternative_ids
+        return group.line_ids.filtered(
+            lambda l: l.product_id == self.product_id and not l._is_discount_line())
+
+    def _compute_alt_best_price(self):
+        for line in self:
+            peers = line._alternative_peers() if len(line.order_id.alternative_ids) else line
+            best = min(peers.mapped('net_price_unit') or [0.0])
+            line.alt_best_price = len(peers) > 1 and line.net_price_unit <= best
+
+    @api.depends('order_id.alt_excluded', 'order_id.alternative_ids')
+    def _compute_alt_chosen(self):
+        for line in self:
+            line.alt_chosen = bool(line.order_id.alternative_ids) and not line.order_id.alt_excluded
+
+    def action_choose_alternative(self):
+        self.ensure_one()
+        return self.order_id.action_choose_alternative()
 
     @api.onchange('product_id')
     def _onchange_product_id(self):

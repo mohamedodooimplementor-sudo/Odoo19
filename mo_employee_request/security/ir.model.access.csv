@@ -25,3 +25,5 @@ access_epo_discount_wizard_user,employee.purchase.order.discount user,model_empl
 access_epo_discount_wizard_internal,employee.purchase.order.discount internal,model_employee_purchase_order_discount,base.group_user,1,1,1,1
 access_er_reject_wizard_user,employee.request.reject.wizard user,model_employee_request_reject_wizard,group_employee_request_user,1,1,1,1
 access_er_reject_wizard_internal,employee.request.reject.wizard internal,model_employee_request_reject_wizard,base.group_user,1,1,1,1
+access_epo_alternative_wizard_internal,employee.purchase.order.alternative internal,model_employee_purchase_order_alternative,base.group_user,1,1,1,1
+access_epo_alternative_warning_internal,employee.purchase.order.alternative.warning internal,model_employee_purchase_order_alternative_warning,base.group_user,1,1,1,1

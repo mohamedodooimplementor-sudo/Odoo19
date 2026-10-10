@@ -2638,3 +2638,123 @@ msgstr "مستخدم رقابة الموازنة"
 #: model:res.groups,comment:mo_employee_request.group_budget_control
 msgid "Edit and resubmit budget-rejected purchase orders."
 msgstr "تعديل أوامر الشراء المرفوضة من الموازنة وإعادة إرسالها."
+
+#. module: mo_employee_request
+#: model:ir.model,name:mo_employee_request.model_employee_purchase_order_alternative
+msgid "Create Alternative Purchase Order"
+msgstr "إنشاء أمر شراء بديل"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_alternative_form
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
+msgid "Create Alternative"
+msgstr "إنشاء بديل"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
+msgid "Compare Product Lines"
+msgstr "مقارنة بنود المنتجات"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
+msgid "Alternatives"
+msgstr "البدائل"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_line_compare
+msgid "Choose"
+msgstr "اختيار"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__alt_excluded
+msgid "Not Selected"
+msgstr "غير مختار"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__alt_best_price
+msgid "Best Price"
+msgstr "أفضل سعر"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__net_price_unit
+msgid "Net Unit Price"
+msgstr "سعر الوحدة الصافي"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__alt_chosen
+msgid "Selected"
+msgstr "المختار"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_alternative_form
+msgid "Copy Products"
+msgstr "نسخ المنتجات"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_alternative_warning_form
+msgid "Cancel Alternatives"
+msgstr "إلغاء البدائل"
+
+#. module: mo_employee_request
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_alternative_warning_form
+msgid "Keep Alternatives"
+msgstr "إبقاء البدائل"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+msgid "Alternatives can only be created while the order is in RFQ."
+msgstr "لا يمكن إنشاء بدائل إلا أثناء مرحلة طلب عرض السعر."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+msgid "Only RFQ orders can be chosen as the alternative."
+msgstr "لا يمكن اختيار إلا أوامر في مرحلة طلب عرض السعر."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/wizard/epo_alternative.py:0
+msgid "%s chose this order as the selected alternative."
+msgstr "قام %s باختيار هذا الأمر كبديل مختار."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/wizard/epo_alternative.py:0
+msgid "These vendors already have an RFQ in this group of alternatives."
+msgstr "هؤلاء الموردون لديهم طلب عرض سعر بالفعل في مجموعة البدائل هذه."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/wizard/epo_alternative.py:0
+msgid "Created as an alternative of %s."
+msgstr "تم إنشاؤه كبديل للأمر %s."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/wizard/epo_alternative.py:0
+msgid "Alternatives created: %s"
+msgstr "تم إنشاء البدائل: %s"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/wizard/epo_alternative.py:0
+msgid ""
+"This order has alternatives that are still in RFQ: %s.\n"
+"Do you want to cancel them before sending this order for approval?"
+msgstr ""
+"هذا الأمر له بدائل ما زالت في مرحلة طلب عرض السعر: %s.\n"
+"هل تريد إلغاءها قبل إرسال هذا الأمر للموافقة؟"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/wizard/epo_alternative.py:0
+msgid "Vendors"
+msgstr "الموردون"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/wizard/epo_alternative.py:0
+msgid "Purchase Order Alternatives Warning"
+msgstr "تنبيه بدائل أمر الشراء"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/wizard/epo_alternative.py:0
+msgid "Set on alternatives that were not chosen: their quantities are not counted as planned on the source request."
+msgstr "تُفعَّل على البدائل غير المختارة: كمياتها لا تُحسب كمخططة على الطلب الأصلي."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/wizard/epo_alternative.py:0
+msgid "Copy the lines of the current order to the alternatives."
+msgstr "نسخ بنود الأمر الحالي إلى البدائل."

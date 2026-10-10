@@ -32,6 +32,10 @@
                             class="btn-primary" invisible="state != 'draft'"/>
                     <button name="action_print_rfq" string="Print RFQ" type="object"
                             invisible="state != 'draft'"/>
+                    <button name="action_create_alternative" string="Create Alternative"
+                            type="object" invisible="state != 'draft'"/>
+                    <button name="action_compare_alternatives" string="Compare Product Lines"
+                            type="object" invisible="alternative_count == 0"/>
                     <button name="action_approve" string="Manager Approval" type="object"
                             class="btn-primary"
                             invisible="state != 'manager' or not can_approve"/>
@@ -60,6 +64,8 @@
                            statusbar_visible="draft,manager,budget,approved,done,invoiced"/>
                 </header>
                 <sheet>
+                    <widget name="web_ribbon" title="Not Selected" bg_color="text-bg-warning"
+                            invisible="not alt_excluded or state != 'draft'"/>
                     <widget name="web_ribbon" title="Budget Rejected" bg_color="text-bg-danger"
                             invisible="state != 'budget_rejected'"/>
                     <widget name="web_ribbon" title="Rejected" bg_color="text-bg-danger"
@@ -74,6 +80,7 @@
                             invisible="state != 'cancelled'"/>
                     <field name="can_approve" invisible="1"/>
                     <field name="can_edit_budget" invisible="1"/>
+                    <field name="alt_excluded" invisible="1"/>
                     <field name="currency_id" invisible="1"/>
                     <field name="er_required_fields" invisible="1"/>
                     <field name="er_required_line_fields" invisible="1"/>
@@ -89,6 +96,10 @@
                         <button name="action_view_bills" type="object" class="oe_stat_button"
                                 icon="fa-pencil-square-o" invisible="bill_count == 0">
                             <field name="bill_count" widget="statinfo" string="Vendor Bills"/>
+                        </button>
+                        <button name="action_view_alternatives" type="object" class="oe_stat_button"
+                                icon="fa-random" invisible="alternative_count == 0">
+                            <field name="alternative_count" widget="statinfo" string="Alternatives"/>
                         </button>
                         <button name="action_view_request" type="object" class="oe_stat_button"
                                 icon="fa-file-text-o" invisible="not request_id">
@@ -162,6 +173,23 @@
                                 <field name="amount_total" class="oe_subtotal_footer_separator"/>
                             </group>
                         </page>
+                        <page string="Alternatives" name="alternatives"
+                              invisible="alternative_count == 0">
+                            <field name="alternative_ids" readonly="1">
+                                <list decoration-muted="state == 'cancelled'">
+                                    <field name="name"/>
+                                    <field name="partner_id"/>
+                                    <field name="date_order"/>
+                                    <field name="amount_total" sum="Total"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                    <field name="alt_excluded" string="Not Selected"/>
+                                    <field name="state" widget="badge"/>
+                                    <button name="action_choose_alternative" type="object"
+                                            string="Choose" icon="fa-check" class="btn-link"
+                                            invisible="state != 'draft' or not alt_excluded"/>
+                                </list>
+                            </field>
+                        </page>
                         <page string="Other Info" name="other">
                             <group>
                                 <group>
@@ -195,6 +223,53 @@
                 </sheet>
                 <chatter/>
             </form>
+        </field>
+    </record>
+
+    <!-- Purchase Alternatives: comparison of lines -->
+    <record id="view_epo_line_compare" model="ir.ui.view">
+        <field name="name">employee.purchase.order.line.compare</field>
+        <field name="model">employee.purchase.order.line</field>
+        <field name="arch" type="xml">
+            <list string="Compare Product Lines" create="0" edit="0" delete="0"
+                  decoration-success="alt_best_price"
+                  decoration-muted="order_state in ('cancelled', 'rejected')"
+                  default_order="product_id, net_price_unit">
+                <field name="product_id"/>
+                <field name="order_id"/>
+                <field name="partner_id"/>
+                <field name="product_uom_qty"/>
+                <field name="product_uom_id" optional="show"/>
+                <field name="price_unit"/>
+                <field name="discount" optional="show"/>
+                <field name="net_price_unit"/>
+                <field name="price_subtotal" sum="Total"/>
+                <field name="alt_best_price"/>
+                <field name="alt_chosen"/>
+                <field name="order_state" widget="badge"/>
+                <field name="currency_id" column_invisible="1"/>
+                <button name="action_choose_alternative" type="object" string="Choose"
+                        icon="fa-check" class="btn-link"
+                        invisible="order_state != 'draft' or alt_chosen"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_epo_line_compare_search" model="ir.ui.view">
+        <field name="name">employee.purchase.order.line.compare.search</field>
+        <field name="model">employee.purchase.order.line</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="product_id"/>
+                <field name="partner_id"/>
+                <field name="order_id"/>
+                <group>
+                    <filter name="group_product" string="Product"
+                            context="{'group_by': 'product_id'}"/>
+                    <filter name="group_vendor" string="Vendor"
+                            context="{'group_by': 'partner_id'}"/>
+                </group>
+            </search>
         </field>
     </record>
 
