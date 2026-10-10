@@ -32,10 +32,6 @@
                             class="btn-primary" invisible="state != 'draft'"/>
                     <button name="action_print_rfq" string="Print RFQ" type="object"
                             invisible="state != 'draft'"/>
-                    <button name="action_create_alternative" string="Create Alternative"
-                            type="object" invisible="state != 'draft'"/>
-                    <button name="action_compare_alternatives" string="Compare Product Lines"
-                            type="object" invisible="alternative_count == 0"/>
                     <button name="action_approve" string="Manager Approval" type="object"
                             class="btn-primary"
                             invisible="state != 'manager' or not can_approve"/>
@@ -81,6 +77,7 @@
                     <field name="can_approve" invisible="1"/>
                     <field name="can_edit_budget" invisible="1"/>
                     <field name="alt_excluded" invisible="1"/>
+                    <field name="company_id" invisible="1"/>
                     <field name="currency_id" invisible="1"/>
                     <field name="er_required_fields" invisible="1"/>
                     <field name="er_required_line_fields" invisible="1"/>
@@ -117,6 +114,7 @@
                             <field name="agreement_id" readonly="state not in ('draft', 'budget_control')"
                                    required="state in ('draft', 'budget_control') and 'agreement_id' in er_required_fields"/>
                             <field name="date_order" readonly="state != 'draft'"/>
+                            <field name="date_planned" readonly="state not in ('draft', 'budget_control')"/>
                             <field name="employee_id" invisible="1"/>
                             <field name="department_id"/>
                             <field name="pending_approver_ids" widget="many2many_tags" invisible="1"/>
@@ -173,17 +171,38 @@
                                 <field name="amount_total" class="oe_subtotal_footer_separator"/>
                             </group>
                         </page>
-                        <page string="Alternatives" name="alternatives"
-                              invisible="alternative_count == 0">
-                            <field name="alternative_ids" readonly="1">
-                                <list decoration-muted="state == 'cancelled'">
-                                    <field name="name"/>
-                                    <field name="partner_id"/>
-                                    <field name="date_order"/>
-                                    <field name="amount_total" sum="Total"/>
+                        <page string="Alternatives" name="alternatives">
+                            <group>
+                                <div class="d-flex gap-5">
+                                    <button name="action_create_alternative" type="object"
+                                            class="btn-link d-block" icon="fa-copy"
+                                            string="Create Alternative"
+                                            invisible="state != 'draft'"
+                                            help="Create a call for tender by adding alternative requests for quotation to different vendors. Compare the lines to choose the best price, and order some products from one vendor and others from another."/>
+                                    <button name="action_compare_alternatives" type="object"
+                                            class="btn-link d-block" icon="fa-bar-chart"
+                                            string="Compare Product Lines"
+                                            invisible="alternative_count == 0"/>
+                                </div>
+                            </group>
+                            <field name="alternative_ids" readonly="not id or state != 'draft'"
+                                   options="{'no_create': True}">
+                                <list string="Alternative Purchase Orders"
+                                      decoration-muted="state in ('cancelled', 'rejected')"
+                                      default_order="amount_total, id">
+                                    <control>
+                                        <create string="Link to Existing RFQ"/>
+                                    </control>
                                     <field name="currency_id" column_invisible="1"/>
-                                    <field name="alt_excluded" string="Not Selected"/>
-                                    <field name="state" widget="badge"/>
+                                    <field name="partner_id" string="Vendor" readonly="1"/>
+                                    <field name="on_time_rate" string="OTD" optional="show"/>
+                                    <field name="name" string="Reference"/>
+                                    <field name="date_planned" string="Expected Arrival"/>
+                                    <field name="amount_total" string="Total" widget="monetary"/>
+                                    <field name="alt_best_label" widget="badge"
+                                           decoration-success="alt_best_label"/>
+                                    <field name="alt_excluded" string="Not Selected" optional="hide"/>
+                                    <field name="state" string="Status" widget="badge"/>
                                     <button name="action_choose_alternative" type="object"
                                             string="Choose" icon="fa-check" class="btn-link"
                                             invisible="state != 'draft' or not alt_excluded"/>
@@ -243,8 +262,10 @@
                 <field name="price_unit"/>
                 <field name="discount" optional="show"/>
                 <field name="net_price_unit"/>
+                <field name="date_planned" string="Expected Arrival"/>
                 <field name="price_subtotal" sum="Total"/>
-                <field name="alt_best_price"/>
+                <field name="alt_best_label" widget="badge" decoration-success="alt_best_label"/>
+                <field name="alt_best_price" column_invisible="1"/>
                 <field name="alt_chosen"/>
                 <field name="order_state" widget="badge"/>
                 <field name="currency_id" column_invisible="1"/>

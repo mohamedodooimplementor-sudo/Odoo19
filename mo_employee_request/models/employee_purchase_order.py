@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from datetime import timedelta
+
 from odoo import _, api, fields, models
 from odoo.exceptions import AccessError, UserError, ValidationError
 
@@ -50,7 +52,7 @@ class EmployeePurchaseOrder(models.Model):
     _order = 'id desc'
 
     LOCKED_FIELDS = {'partner_id', 'date_order', 'warehouse_id', 'agreement_id',
-                     'currency_id', 'payment_term_id', 'fiscal_position_id',
+                     'currency_id', 'payment_term_id', 'fiscal_position_id', 'date_planned',
                      'incoterm_id', 'line_ids', 'project_id', 'analytic_account_id'}
 
     def _default_employee(self):
@@ -102,8 +104,21 @@ class EmployeePurchaseOrder(models.Model):
     received_notified = fields.Boolean(copy=False, readonly=True)
     alternative_ids = fields.Many2many(
         'employee.purchase.order', 'employee_po_alternative_rel', 'order_id', 'alternative_id',
-        string='Alternatives', copy=False, readonly=True)
+        string='Alternatives', copy=False,
+        domain="[('id', '!=', id), ('state', '=', 'draft'), ('company_id', '=', company_id)]")
     alternative_count = fields.Integer(compute='_compute_alternative_count')
+    group_order_ids = fields.Many2many(
+        'employee.purchase.order', string='Alternative Orders',
+        compute='_compute_group_order_ids', inverse='_inverse_group_order_ids',
+        help="All the orders of this group of alternatives, including this one.")
+    date_planned = fields.Datetime(
+        string='Expected Arrival', compute='_compute_date_planned', store=True, readonly=False,
+        copy=False, help="Purchase date + the longest vendor lead time (Purchase tab of the "
+                         "products) of the order lines. You can change it by hand.")
+    on_time_rate = fields.Float(string='OTD', related='partner_id.on_time_rate',
+                                digits=(42, 0), help="Vendor on-time delivery rate (%). "
+                                "-1 means there is no data yet.")
+    alt_best_label = fields.Char(string='Best', compute='_compute_alt_best_label')
     alt_excluded = fields.Boolean(
         string='Not Selected', copy=False, readonly=True,
         help="Set on alternatives that were not chosen: their quantities are not counted "
@@ -137,6 +152,60 @@ class EmployeePurchaseOrder(models.Model):
             rec.can_edit_budget = rec.state == 'budget_control' and (
                 user in rec.pending_approver_ids or is_admin
                 or user in rec.company_id.er_budget_control_user_ids)
+
+    @api.depends('alternative_ids')
+    def _compute_group_order_ids(self):
+        for rec in self:
+            rec.group_order_ids = rec | rec.alternative_ids
+
+    def _inverse_group_order_ids(self):
+        """Orders added in the Alternatives tab are linked; removed ones leave the group."""
+        for rec in self:
+            kept = rec.group_order_ids | rec
+            removed = (rec.alternative_ids - kept)
+            if removed:
+                removed._unlink_alternatives()
+            # an order linked here brings the alternatives it already had
+            rec._link_alternatives(kept - rec)
+
+    @api.depends('date_order', 'partner_id', 'line_ids.product_id', 'line_ids.product_uom_qty')
+    def _compute_date_planned(self):
+        for rec in self:
+            base = rec.date_order or fields.Datetime.now()
+            delay = 0
+            for line in rec.line_ids:
+                if not line.product_id or not rec.partner_id:
+                    continue
+                seller = line.product_id._select_seller(
+                    partner_id=rec.partner_id, quantity=line.product_uom_qty,
+                    uom_id=line.product_uom_id)
+                delay = max(delay, seller.delay if seller else 0)
+            rec.date_planned = base + timedelta(days=delay)
+
+    def _total_in_company_currency(self):
+        self.ensure_one()
+        return self.currency_id._convert(
+            self.amount_total, self.company_id.currency_id, self.company_id,
+            (self.date_order or fields.Datetime.now()).date())
+
+    @api.depends('alternative_ids', 'amount_total', 'date_planned', 'state', 'currency_id')
+    def _compute_alt_best_label(self):
+        for rec in self:
+            rec.alt_best_label = False
+            if not rec.alternative_ids:
+                continue
+            group = (rec | rec.alternative_ids).filtered(
+                lambda o: o.state not in ('cancelled', 'rejected'))
+            if rec not in group or len(group) < 2:
+                continue
+            labels = []
+            totals = {o.id: o._total_in_company_currency() for o in group}
+            if totals[rec.id] <= min(totals.values()):
+                labels.append(_("Best Price"))
+            dates = [o.date_planned for o in group if o.date_planned]
+            if rec.date_planned and rec.date_planned <= min(dates):
+                labels.append(_("Best Date"))
+            rec.alt_best_label = ", ".join(labels) or False
 
     @api.depends('alternative_ids')
     def _compute_alternative_count(self):
@@ -200,6 +269,8 @@ class EmployeePurchaseOrder(models.Model):
         return super().create(vals_list)
 
     def write(self, vals):
+        if 'alternative_ids' in vals and not self.env.context.get('skip_alt_sync'):
+            return self._write_alternatives(vals)
         if not self.env.su and self.LOCKED_FIELDS & set(vals):
             for rec in self:
                 if rec.state == 'draft':
@@ -459,9 +530,38 @@ class EmployeePurchaseOrder(models.Model):
 
     def _link_alternatives(self, others):
         """Make self, its current alternatives and `others` one group (all linked to all)."""
-        group = (self | self.alternative_ids | others).sudo()
+        group = (self | self.alternative_ids | others | others.alternative_ids).sudo()
         for rec in group:
-            rec.write({'alternative_ids': [(6, 0, (group - rec).ids)]})
+            rec.with_context(skip_alt_sync=True).write(
+                {'alternative_ids': [(6, 0, (group - rec).ids)]})
+
+    def _unlink_alternatives(self):
+        """Take these orders out of their group of alternatives."""
+        for rec in self.sudo():
+            rec.alternative_ids.write({'alternative_ids': [(3, rec.id)]})
+            rec.write({'alternative_ids': [(5,)], 'alt_excluded': False})
+
+    def _write_alternatives(self, vals):
+        """Keep the alternatives symmetric: everybody in a group is linked to everybody else.
+        Linking an existing RFQ merges its group; removing one frees it from the group."""
+        before = {rec.id: rec.alternative_ids for rec in self}
+        res = super(EmployeePurchaseOrder, self.with_context(skip_alt_sync=True)).write(vals)
+        for rec in self:
+            old, new = before[rec.id], rec.alternative_ids
+            added, removed = new - old, old - new
+            if added:
+                if rec.state != 'draft' or any(o.state != 'draft' for o in added):
+                    raise UserError(_("Only RFQ orders can be linked as alternatives."))
+                rec._link_alternatives(added | added.alternative_ids)
+            if removed:
+                rest = (old | rec) - removed
+                for gone in removed:
+                    gone.sudo().with_context(skip_alt_sync=True).write(
+                        {'alternative_ids': [(5,)], 'alt_excluded': False})
+                    for member in rest:
+                        member.sudo().with_context(skip_alt_sync=True).write(
+                            {'alternative_ids': [(3, gone.id)]})
+        return res
 
     def _set_chosen_alternative(self):
         """This order becomes the selected one; the others stop counting on the request."""
@@ -543,7 +643,7 @@ class EmployeePurchaseOrder(models.Model):
                 'product_qty': line.product_uom_qty,
                 uom_f: line.product_uom_id.id,
                 tax_f: [(6, 0, line.tax_ids.ids)],
-                'date_planned': self.date_order,
+                'date_planned': line.date_planned or self.date_planned or self.date_order,
                 'er_po_line_id': line.id,
             }
             if has_discount:
@@ -737,6 +837,12 @@ class EmployeePurchaseOrderLine(models.Model):
                                digits='Product Unit')
     is_discount_line = fields.Boolean(compute='_compute_is_discount_line',
                                       search='_search_is_discount_line')
+    date_planned = fields.Datetime(
+        string='Expected Arrival', compute='_compute_line_date_planned', store=True,
+        readonly=False)
+    net_price_company = fields.Float(string='Net Price (Company Currency)',
+                                     compute='_compute_net_price_company')
+    alt_best_label = fields.Char(string='Best', compute='_compute_alt_best_label')
     net_price_unit = fields.Float(string='Net Unit Price', digits='Product Price',
                                   compute='_compute_net_price_unit')
     alt_best_price = fields.Boolean(string='Best Price', compute='_compute_alt_best_price')
@@ -806,11 +912,42 @@ class EmployeePurchaseOrderLine(models.Model):
         return group.line_ids.filtered(
             lambda l: l.product_id == self.product_id and not l._is_discount_line())
 
+    @api.depends('order_id.date_planned')
+    def _compute_line_date_planned(self):
+        for line in self:
+            line.date_planned = line.order_id.date_planned
+
+    @api.depends('net_price_unit', 'order_id.currency_id', 'order_id.date_order')
+    def _compute_net_price_company(self):
+        for line in self:
+            order = line.order_id
+            line.net_price_company = order.currency_id._convert(
+                line.net_price_unit, order.company_id.currency_id, order.company_id,
+                (order.date_order or fields.Datetime.now()).date()) if order.currency_id else \
+                line.net_price_unit
+
+    def _alt_live_peers(self):
+        self.ensure_one()
+        peers = self._alternative_peers() if self.order_id.alternative_ids else self
+        return peers.filtered(lambda l: l.order_id.state not in ('cancelled', 'rejected'))
+
     def _compute_alt_best_price(self):
         for line in self:
-            peers = line._alternative_peers() if len(line.order_id.alternative_ids) else line
-            best = min(peers.mapped('net_price_unit') or [0.0])
-            line.alt_best_price = len(peers) > 1 and line.net_price_unit <= best
+            peers = line._alt_live_peers()
+            line.alt_best_price = (len(peers) > 1 and line in peers
+                                   and line.net_price_company <= min(peers.mapped('net_price_company')))
+
+    def _compute_alt_best_label(self):
+        for line in self:
+            peers = line._alt_live_peers()
+            labels = []
+            if len(peers) > 1 and line in peers:
+                if line.net_price_company <= min(peers.mapped('net_price_company')):
+                    labels.append(_("Best Price"))
+                dates = [d for d in peers.mapped('date_planned') if d]
+                if line.date_planned and dates and line.date_planned <= min(dates):
+                    labels.append(_("Best Date"))
+            line.alt_best_label = ", ".join(labels) or False
 
     @api.depends('order_id.alt_excluded', 'order_id.alternative_ids')
     def _compute_alt_chosen(self):

@@ -15,7 +15,7 @@ Employee Purchase & Material Request
     """,
     'author': 'Eng. M.Aboelmagde',
     'license': 'LGPL-3',
-    'price': 149.0,
+    'price': 350.0,
     'currency': 'USD',
     'depends': ['base', 'hr', 'project', 'product', 'stock', 'stock_account', 'analytic', 'mail', 'account',
                 'purchase', 'purchase_stock', 'purchase_requisition'],

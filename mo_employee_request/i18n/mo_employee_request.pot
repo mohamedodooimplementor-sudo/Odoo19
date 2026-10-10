@@ -26,10 +26,7 @@ msgid "The discount amount cannot be negative."
 msgstr ""
 
 #. module: mo_employee_request
-#: code:addons/mo_employee_request/wizard/epo_discount.py:0
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_discount_form
-#: model:ir.actions.act_window,name:mo_employee_request.action_epo_discount
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
+#: code:addons/mo_employee_request/wizard/epo_discount.py:0 model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_discount_form model:ir.actions.act_window,name:mo_employee_request.action_epo_discount model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
 msgid "Discount"
 msgstr ""
 
@@ -61,15 +58,12 @@ msgid "Employee Purchase Order Discount Wizard"
 msgstr ""
 
 #. module: mo_employee_request
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_discount__order_id
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_approval__order_id
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__order_id
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_discount__order_id model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_approval__order_id model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__order_id
 msgid "Order"
 msgstr ""
 
 #. module: mo_employee_request
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_discount__discount_amount
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_purchase_list
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_discount__discount_amount model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_purchase_list
 msgid "Amount"
 msgstr ""
 
@@ -104,9 +98,7 @@ msgid "Apply"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_discount_form
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_discount_form model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
 msgid "Cancel"
 msgstr ""
 
@@ -136,10 +128,7 @@ msgid "Why is this request rejected?"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_reject_wizard_form
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
-#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_reject_wizard_form model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form code:addons/mo_employee_request/models/employee_purchase_order.py:0
 msgid "Reject"
 msgstr ""
 
@@ -149,22 +138,17 @@ msgid "Discard"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_reject_wizard_form
-#: code:addons/mo_employee_request/models/employee_request.py:0
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_reject_wizard_form code:addons/mo_employee_request/models/employee_request.py:0
 msgid "Reject Request"
 msgstr ""
 
 #. module: mo_employee_request
-#: model:ir.actions.client,name:mo_employee_request.action_er_dashboard
-#: model:ir.ui.menu,name:mo_employee_request.menu_er_dashboard
-#: model:ir.model.fields,field_description:mo_employee_request.field_res_users__er_is_dashboard
+#: model:ir.actions.client,name:mo_employee_request.action_er_dashboard model:ir.ui.menu,name:mo_employee_request.menu_er_dashboard model:ir.model.fields,field_description:mo_employee_request.field_res_users__er_is_dashboard
 msgid "Dashboard"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_list
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.report_epo_document
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__price_total
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_list model_terms:ir.ui.view,arch_db:mo_employee_request.report_epo_document model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__price_total
 msgid "Total"
 msgstr ""
 
@@ -174,9 +158,7 @@ msgid "Employee Purchase Orders"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_search
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_search model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search
 msgid "To Approve"
 msgstr ""
 
@@ -186,19 +168,12 @@ msgid "Print RFQ"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__stage__manager
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order__state__manager
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__stage__manager model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order__state__manager
 msgid "Manager Approval"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__stage__budget
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order__state__budget
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request__state__budget
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__stage__budget
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__stage__budget model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order__state__budget model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request__state__budget model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__stage__budget
 msgid "Budget Approval"
 msgstr ""
 
@@ -228,10 +203,7 @@ msgid "Send by Email"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__action__reset
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__action__reset
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__action__reset model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__action__reset
 msgid "Reset to Draft"
 msgstr ""
 
@@ -241,65 +213,32 @@ msgid "Cancel this purchase order?"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_search
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__stage__budget_rejected
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order__state__budget_rejected
-#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_search model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__stage__budget_rejected model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order__state__budget_rejected code:addons/mo_employee_request/models/employee_request_exec.py:0
 msgid "Budget Rejected"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__stage__rejected
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__action__reject
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order__state__rejected
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request__state__rejected
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__stage__rejected
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__action__reject
-#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__stage__rejected model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__action__reject model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order__state__rejected model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request__state__rejected model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__stage__rejected model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__action__reject code:addons/mo_employee_request/models/employee_request_exec.py:0
 msgid "Rejected"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__stage__budget_control
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order__state__budget_control
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__stage__budget_control model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order__state__budget_control
 msgid "Budget Control"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_search
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__stage__done
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order__state__done
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request__state__closed
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__stage__closed
-#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_search model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__stage__done model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order__state__done model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request__state__closed model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__stage__closed code:addons/mo_employee_request/models/employee_request_exec.py:0
 msgid "Closed"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_search
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__stage__invoiced
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order__state__invoiced
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_search model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__stage__invoiced model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order__state__invoiced
 msgid "Invoiced"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__stage__cancelled
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__action__cancel
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order__state__cancelled
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request__state__cancelled
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__stage__cancelled
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__action__cancel
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__stage__cancelled model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__action__cancel model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order__state__cancelled model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request__state__cancelled model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__stage__cancelled model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__action__cancel
 msgid "Cancelled"
 msgstr ""
 
@@ -309,14 +248,12 @@ msgid "<span class=\"o_stat_text\">Odoo PO</span>"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
-#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form code:addons/mo_employee_request/models/employee_purchase_order.py:0
 msgid "Receipts"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
-#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form code:addons/mo_employee_request/models/employee_purchase_order.py:0
 msgid "Vendor Bills"
 msgstr ""
 
@@ -346,18 +283,12 @@ msgid "Other Info"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__approval_ids
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__approval_ids
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__approval_ids model:ir.model.fields,field_description:mo_employee_request.field_employee_request__approval_ids
 msgid "Approval History"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form
-#: model:ir.actions.report,name:mo_employee_request.report_employee_purchase_order
-#: model:ir.model,name:mo_employee_request.model_employee_purchase_order
-#: model:ir.model.fields,field_description:mo_employee_request.field_purchase_order__er_epo_id
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_form model:ir.actions.report,name:mo_employee_request.report_employee_purchase_order model:ir.model,name:mo_employee_request.model_employee_purchase_order model:ir.model.fields,field_description:mo_employee_request.field_purchase_order__er_epo_id
 msgid "Employee Purchase Order"
 msgstr ""
 
@@ -372,8 +303,7 @@ msgid "<i class=\"fa fa-tag me-1\" title=\"Discount\"/>"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_kanban
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_kanban
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_kanban model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_kanban
 msgid "<i class=\"fa fa-list me-1\" title=\"Lines\"/>"
 msgstr ""
 
@@ -383,17 +313,12 @@ msgid "<i class=\"fa fa-check-circle text-success ms-2\" title=\"Odoo purchase o
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_search
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request__state__draft
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__stage__draft
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_search model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request__state__draft model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__stage__draft
 msgid "Draft"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_search
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_search model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search
 msgid "In Approval"
 msgstr ""
 
@@ -403,41 +328,22 @@ msgid "Odoo PO Created"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_search
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__stage__approved
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order__state__approved
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_search model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__stage__approved model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order__state__approved
 msgid "Open"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_search
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_search
-#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__state
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_search model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_search code:addons/mo_employee_request/static/src/xml/er_templates.xml:0 model:ir.model.fields,field_description:mo_employee_request.field_employee_request__state
 msgid "Status"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_search
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_purchase_search
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__partner_id
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__partner_id
-#: model_terms:mail.template,body_html:mo_employee_request.mail_template_employee_po
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_search model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_purchase_search model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__partner_id model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__partner_id model_terms:mail.template,body_html:mo_employee_request.mail_template_employee_po
 msgid "Vendor"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_search
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_search
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_purchase_search
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_stock_search
-#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__employee_id
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__employee_id
-#: model:ir.model.fields,field_description:mo_employee_request.field_stock_move__er_employee_id
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_epo_search model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_search model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_purchase_search model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_stock_search code:addons/mo_employee_request/static/src/xml/er_templates.xml:0 model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__employee_id model:ir.model.fields,field_description:mo_employee_request.field_employee_request__employee_id model:ir.model.fields,field_description:mo_employee_request.field_stock_move__er_employee_id
 msgid "Employee"
 msgstr ""
 
@@ -447,32 +353,22 @@ msgid "New Purchase Order"
 msgstr ""
 
 #. module: mo_employee_request
-#: model:ir.actions.act_window,name:mo_employee_request.action_epo_all
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
-#: code:addons/mo_employee_request/models/employee_request_exec.py:0
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__epo_ids
+#: model:ir.actions.act_window,name:mo_employee_request.action_epo_all model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form code:addons/mo_employee_request/models/employee_request_exec.py:0 model:ir.model.fields,field_description:mo_employee_request.field_employee_request__epo_ids
 msgid "Purchase Orders"
 msgstr ""
 
 #. module: mo_employee_request
-#: model:ir.actions.act_window,name:mo_employee_request.action_epo_requests
-#: model:ir.ui.menu,name:mo_employee_request.menu_er_purchase_requests
+#: model:ir.actions.act_window,name:mo_employee_request.action_epo_requests model:ir.ui.menu,name:mo_employee_request.menu_er_purchase_requests
 msgid "Requests Purchase Orders"
 msgstr ""
 
 #. module: mo_employee_request
-#: model:ir.actions.act_window,name:mo_employee_request.action_er_agreements
-#: model:ir.ui.menu,name:mo_employee_request.menu_er_agreements
+#: model:ir.actions.act_window,name:mo_employee_request.action_er_agreements model:ir.ui.menu,name:mo_employee_request.menu_er_agreements
 msgid "Agreements"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_list
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search
-#: model:ir.ui.menu,name:mo_employee_request.menu_employee_request_root
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_users_form_employee_request
-#: model:res.groups.privilege,name:mo_employee_request.privilege_employee_request_hidden
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_list model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search model:ir.ui.menu,name:mo_employee_request.menu_employee_request_root model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request model_terms:ir.ui.view,arch_db:mo_employee_request.view_users_form_employee_request model:res.groups.privilege,name:mo_employee_request.privilege_employee_request_hidden
 msgid "Employee Requests"
 msgstr ""
 
@@ -492,23 +388,17 @@ msgid "Create Purchase Orders"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request__state__department
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__stage__department
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request__state__department model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__stage__department
 msgid "Department Approval"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request__state__warehouse
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__stage__warehouse
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request__state__warehouse model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__stage__warehouse
 msgid "Warehouse Approval"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_picking_form_er_inspection
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form model_terms:ir.ui.view,arch_db:mo_employee_request.view_picking_form_er_inspection
 msgid "Inspection Approval"
 msgstr ""
 
@@ -518,8 +408,7 @@ msgid "Approve the inspection of the received goods?"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_picking_form_er_inspection
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form model_terms:ir.ui.view,arch_db:mo_employee_request.view_picking_form_er_inspection
 msgid "Reject Inspection"
 msgstr ""
 
@@ -534,34 +423,22 @@ msgid "Are you sure you want to cancel this request?"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__action__approve
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request__state__approved
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__stage__approved
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__action__approve
-#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__action__approve model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request__state__approved model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__stage__approved model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__action__approve code:addons/mo_employee_request/models/employee_request_exec.py:0
 msgid "Approved"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request__state__processing
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__stage__processing
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request__state__processing model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__stage__processing
 msgid "Processing"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request__state__partial
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__stage__partial
-#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request__state__partial model:ir.model.fields.selection,name:mo_employee_request.selection__employee_request_approval__stage__partial code:addons/mo_employee_request/models/employee_request_exec.py:0
 msgid "Partially Done"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
-#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
 msgid "Transfers"
 msgstr ""
 
@@ -581,24 +458,17 @@ msgid "Stock"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__line_ids
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form model:ir.model.fields,field_description:mo_employee_request.field_employee_request__line_ids
 msgid "Request Lines"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__notes
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__note
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__notes model:ir.model.fields,field_description:mo_employee_request.field_employee_request__note
 msgid "Notes"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form
-#: model:ir.model,name:mo_employee_request.model_employee_request
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__er_required_field__document_type__request
-#: model:ir.model.fields,field_description:mo_employee_request.field_stock_move__er_request_id
-#: model:ir.model.fields,field_description:mo_employee_request.field_stock_picking__er_request_id
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_form model:ir.model,name:mo_employee_request.model_employee_request model:ir.model.fields.selection,name:mo_employee_request.selection__er_required_field__document_type__request model:ir.model.fields,field_description:mo_employee_request.field_stock_move__er_request_id model:ir.model.fields,field_description:mo_employee_request.field_stock_picking__er_request_id
 msgid "Employee Request"
 msgstr ""
 
@@ -618,58 +488,32 @@ msgid "<i class=\"fa fa-calendar me-1\" title=\"Request Date\"/>"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_search
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_purchase_search
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_stock_search
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__product_id
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__product_id
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_search model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_purchase_search model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_stock_search model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__product_id model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__product_id
 msgid "Product"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search
-#: model:ir.actions.act_window,name:mo_employee_request.action_employee_request_my
-#: model:ir.ui.menu,name:mo_employee_request.menu_employee_request_my
-#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search model:ir.actions.act_window,name:mo_employee_request.action_employee_request_my model:ir.ui.menu,name:mo_employee_request.menu_employee_request_my code:addons/mo_employee_request/models/employee_request_exec.py:0
 msgid "My Requests"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_search
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_stock_search
-#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__department_id
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__department_id
-#: model:ir.model.fields,field_description:mo_employee_request.field_stock_move__er_department_id
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_search model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_stock_search code:addons/mo_employee_request/static/src/xml/er_templates.xml:0 model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__department_id model:ir.model.fields,field_description:mo_employee_request.field_employee_request__department_id model:ir.model.fields,field_description:mo_employee_request.field_stock_move__er_department_id
 msgid "Department"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_search
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_purchase_search
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_stock_search
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__project_id
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__project_id
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__project_id
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__project_id
-#: model:ir.model.fields,field_description:mo_employee_request.field_stock_move__er_project_id
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_search model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_purchase_search model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_stock_search model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__project_id model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__project_id model:ir.model.fields,field_description:mo_employee_request.field_employee_request__project_id model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__project_id model:ir.model.fields,field_description:mo_employee_request.field_stock_move__er_project_id
 msgid "Project"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__request_date
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_employee_request_search model:ir.model.fields,field_description:mo_employee_request.field_employee_request__request_date
 msgid "Request Date"
 msgstr ""
 
 #. module: mo_employee_request
-#: model:ir.actions.act_window,name:mo_employee_request.action_employee_request
-#: model:ir.ui.menu,name:mo_employee_request.menu_er_requests
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_users_form_employee_request
-#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+#: model:ir.actions.act_window,name:mo_employee_request.action_employee_request model:ir.ui.menu,name:mo_employee_request.menu_er_requests model_terms:ir.ui.view,arch_db:mo_employee_request.view_users_form_employee_request code:addons/mo_employee_request/models/employee_request_exec.py:0
 msgid "Requests"
 msgstr ""
 
@@ -684,8 +528,7 @@ msgid "Request materials from the warehouse. Missing quantities go to purchasing
 msgstr ""
 
 #. module: mo_employee_request
-#: model:ir.actions.act_window,name:mo_employee_request.action_employee_request_to_approve
-#: model:ir.ui.menu,name:mo_employee_request.menu_employee_request_to_approve
+#: model:ir.actions.act_window,name:mo_employee_request.action_employee_request_to_approve model:ir.ui.menu,name:mo_employee_request.menu_employee_request_to_approve
 msgid "Requests to Approve"
 msgstr ""
 
@@ -695,24 +538,17 @@ msgid "Nothing waiting for your approval"
 msgstr ""
 
 #. module: mo_employee_request
-#: model:ir.actions.act_window,name:mo_employee_request.action_er_stock_transfers
-#: model:ir.ui.menu,name:mo_employee_request.menu_er_stock_orders
-#: code:addons/mo_employee_request/models/employee_request_exec.py:0
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__picking_ids
+#: model:ir.actions.act_window,name:mo_employee_request.action_er_stock_transfers model:ir.ui.menu,name:mo_employee_request.menu_er_stock_orders code:addons/mo_employee_request/models/employee_request_exec.py:0 model:ir.model.fields,field_description:mo_employee_request.field_employee_request__picking_ids
 msgid "Stock Transfers"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_required_field_list
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_required_field_search
-#: model:ir.actions.act_window,name:mo_employee_request.action_er_required_field
-#: model:ir.model.fields,field_description:mo_employee_request.field_er_required_mixin__er_required_fields
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_required_field_list model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_required_field_search model:ir.actions.act_window,name:mo_employee_request.action_er_required_field model:ir.model.fields,field_description:mo_employee_request.field_er_required_mixin__er_required_fields
 msgid "Required Fields"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_required_field_search
-#: model:ir.model.fields,field_description:mo_employee_request.field_er_required_field__is_required
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_required_field_search model:ir.model.fields,field_description:mo_employee_request.field_er_required_field__is_required
 msgid "Required"
 msgstr ""
 
@@ -722,15 +558,12 @@ msgid "Not Required"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_required_field_search
-#: model:ir.model.fields,field_description:mo_employee_request.field_er_required_field__document_type
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__er_required_field__scope__header
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_required_field_search model:ir.model.fields,field_description:mo_employee_request.field_er_required_field__document_type model:ir.model.fields.selection,name:mo_employee_request.selection__er_required_field__scope__header
 msgid "Document"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_required_field_search
-#: model:ir.model.fields,field_description:mo_employee_request.field_er_required_field__scope
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_required_field_search model:ir.model.fields,field_description:mo_employee_request.field_er_required_field__scope
 msgid "Section"
 msgstr ""
 
@@ -740,14 +573,12 @@ msgid "No configurable fields"
 msgstr ""
 
 #. module: mo_employee_request
-#: model:ir.ui.menu,name:mo_employee_request.menu_employee_request_all
-#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+#: model:ir.ui.menu,name:mo_employee_request.menu_employee_request_all code:addons/mo_employee_request/models/employee_request_exec.py:0
 msgid "All Requests"
 msgstr ""
 
 #. module: mo_employee_request
-#: model:ir.ui.menu,name:mo_employee_request.menu_er_orders
-#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+#: model:ir.ui.menu,name:mo_employee_request.menu_er_orders code:addons/mo_employee_request/models/employee_request_exec.py:0
 msgid "Orders"
 msgstr ""
 
@@ -762,24 +593,17 @@ msgid "Reports"
 msgstr ""
 
 #. module: mo_employee_request
-#: model:ir.ui.menu,name:mo_employee_request.menu_er_report_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_list
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_pivot
-#: model:ir.actions.act_window,name:mo_employee_request.action_er_report_request
+#: model:ir.ui.menu,name:mo_employee_request.menu_er_report_request model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_list model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_pivot model:ir.actions.act_window,name:mo_employee_request.action_er_report_request
 msgid "Employee Request Report"
 msgstr ""
 
 #. module: mo_employee_request
-#: model:ir.ui.menu,name:mo_employee_request.menu_er_report_purchase
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_purchase_list
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_purchase_pivot
-#: model:ir.actions.act_window,name:mo_employee_request.action_er_report_purchase
+#: model:ir.ui.menu,name:mo_employee_request.menu_er_report_purchase model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_purchase_list model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_purchase_pivot model:ir.actions.act_window,name:mo_employee_request.action_er_report_purchase
 msgid "Purchase Report"
 msgstr ""
 
 #. module: mo_employee_request
-#: model:ir.ui.menu,name:mo_employee_request.menu_er_report_stock
-#: model:ir.actions.act_window,name:mo_employee_request.action_er_report_stock
+#: model:ir.ui.menu,name:mo_employee_request.menu_er_report_stock model:ir.actions.act_window,name:mo_employee_request.action_er_report_stock
 msgid "Stock Consumption Report"
 msgstr ""
 
@@ -789,8 +613,7 @@ msgid "Configuration"
 msgstr ""
 
 #. module: mo_employee_request
-#: model:ir.ui.menu,name:mo_employee_request.menu_employee_request_settings
-#: model:ir.actions.act_window,name:mo_employee_request.action_employee_request_settings
+#: model:ir.ui.menu,name:mo_employee_request.menu_employee_request_settings model:ir.actions.act_window,name:mo_employee_request.action_employee_request_settings
 msgid "Settings"
 msgstr ""
 
@@ -800,82 +623,57 @@ msgid "Required Field"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_list
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_pivot
-#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_list model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_pivot code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
 msgid "Requested"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_list
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__qty_issued
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_list model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__qty_issued
 msgid "Issued"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_list
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__qty_purchase_planned
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_list model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__qty_purchase_planned
 msgid "Purchased"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_list
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__received_qty
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__qty_received
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_list model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__received_qty model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__qty_received
 msgid "Received"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_list
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__qty_remaining
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_list model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__qty_remaining
 msgid "Remaining"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_search
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_purchase_search
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_stock_search
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__analytic_account_id
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__analytic_account_id
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__analytic_account_id
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__analytic_account_id
-#: model:ir.model.fields,field_description:mo_employee_request.field_stock_move__er_analytic_id
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_request_search model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_purchase_search model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_stock_search model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__analytic_account_id model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__analytic_account_id model:ir.model.fields,field_description:mo_employee_request.field_employee_request__analytic_account_id model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__analytic_account_id model:ir.model.fields,field_description:mo_employee_request.field_stock_move__er_analytic_id
 msgid "Analytic Account"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_purchase_list
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_stock_list
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.report_epo_document
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__product_uom_qty
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_purchase_list model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_stock_list model_terms:ir.ui.view,arch_db:mo_employee_request.report_epo_document model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__product_uom_qty
 msgid "Quantity"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_purchase_search
-#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_approval__request_id
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__request_id
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_purchase_search code:addons/mo_employee_request/static/src/xml/er_templates.xml:0 model:ir.model.fields,field_description:mo_employee_request.field_employee_request_approval__request_id model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__request_id
 msgid "Request"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_stock_list
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_stock_pivot
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_stock_list model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_stock_pivot
 msgid "Issued Quantity"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_stock_list
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_stock_pivot
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_stock_list model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_stock_pivot
 msgid "Stock Consumption"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_stock_search
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__warehouse_id
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__warehouse_id
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__warehouse_id
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_er_report_stock_search model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__warehouse_id model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__warehouse_id model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__warehouse_id
 msgid "Warehouse"
 msgstr ""
 
@@ -885,8 +683,7 @@ msgid "Who approves the first step of a request"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
-#: model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_approval_mode
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_approval_mode
 msgid "Approval Mode"
 msgstr ""
 
@@ -896,14 +693,12 @@ msgid "Any one approver is enough, or all of them must approve each step"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
-#: model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_warehouse_user_ids
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_warehouse_user_ids
 msgid "Warehouse Approval Users"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
-#: model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_budget_user_ids
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_budget_user_ids
 msgid "Budget Approval Users"
 msgstr ""
 
@@ -913,8 +708,7 @@ msgid "Request Approval"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
-#: model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_purchase_manager_method
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_purchase_manager_method
 msgid "Purchase Manager Approval"
 msgstr ""
 
@@ -924,14 +718,12 @@ msgid "First approval of an employee purchase order"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
-#: model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_purchase_budget_user_ids
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_purchase_budget_user_ids
 msgid "Purchase Budget Approval Users"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
-#: model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_budget_control_user_ids
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_budget_control_user_ids
 msgid "Budget Control Users"
 msgstr ""
 
@@ -946,8 +738,7 @@ msgid "Purchase Approval"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
-#: model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_inspection_enabled
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_inspection_enabled
 msgid "Receipt Inspection Approval"
 msgstr ""
 
@@ -962,26 +753,22 @@ msgid "Receipt Inspection"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
-#: model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_auto_stock_order
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_auto_stock_order
 msgid "Automatically Create Stock Transfers"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
-#: model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_auto_purchase_order
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_auto_purchase_order
 msgid "Automatically Create Purchase Orders"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
-#: model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_auto_odoo_po
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_auto_odoo_po
 msgid "Automatically Create Odoo Purchase Orders"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request
-#: model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_auto_bill
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.res_config_settings_view_form_employee_request model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_auto_bill
 msgid "Automatically Create Bills"
 msgstr ""
 
@@ -1001,20 +788,17 @@ msgid "Required to see the app: create requests and follow your own."
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_users_form_employee_request
-#: model:ir.model.fields,help:mo_employee_request.field_res_users__er_is_all_documents
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_users_form_employee_request model:ir.model.fields,help:mo_employee_request.field_res_users__er_is_all_documents
 msgid "See all requests, stock transfers and purchase orders (read only)."
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_users_form_employee_request
-#: model:ir.model.fields,help:mo_employee_request.field_res_users__er_is_request_on_behalf
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_users_form_employee_request model:ir.model.fields,help:mo_employee_request.field_res_users__er_is_request_on_behalf
 msgid "Create requests on behalf of any employee."
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_users_form_employee_request
-#: model:ir.model.fields,help:mo_employee_request.field_res_users__er_is_dashboard
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_users_form_employee_request model:ir.model.fields,help:mo_employee_request.field_res_users__er_is_dashboard
 msgid "Open the Employee Requests dashboard."
 msgstr ""
 
@@ -1024,15 +808,12 @@ msgid "See all requests, reset and cancel them."
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_users_form_employee_request
-#: model:ir.model.fields,help:mo_employee_request.field_res_users__er_is_purchase_user
-#: model:res.groups,comment:mo_employee_request.group_purchase_user
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_users_form_employee_request model:ir.model.fields,help:mo_employee_request.field_res_users__er_is_purchase_user model:res.groups,comment:mo_employee_request.group_purchase_user
 msgid "Create and edit employee purchase orders."
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_users_form_employee_request
-#: model:ir.model.fields,help:mo_employee_request.field_res_users__er_is_purchase_manager
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.view_users_form_employee_request model:ir.model.fields,help:mo_employee_request.field_res_users__er_is_purchase_manager
 msgid "Full control over employee purchase orders."
 msgstr ""
 
@@ -1127,9 +908,7 @@ msgid "Latest requests"
 msgstr ""
 
 #. module: mo_employee_request
-#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_approval__date
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_approval__date
+#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0 model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_approval__date model:ir.model.fields,field_description:mo_employee_request.field_employee_request_approval__date
 msgid "Date"
 msgstr ""
 
@@ -1139,8 +918,7 @@ msgid "Request for Quotation"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.report_epo_document
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__er_required_field__document_type__purchase_order
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.report_epo_document model:ir.model.fields.selection,name:mo_employee_request.selection__er_required_field__document_type__purchase_order
 msgid "Purchase Order"
 msgstr ""
 
@@ -1170,15 +948,12 @@ msgid "<strong>Agreement:</strong>"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.report_epo_document
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__name
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__name
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.report_epo_document model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__name model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__name
 msgid "Description"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.report_epo_document
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__price_unit
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.report_epo_document model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__price_unit
 msgid "Unit Price"
 msgstr ""
 
@@ -1188,14 +963,12 @@ msgid "Disc.%"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.report_epo_document
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__tax_ids
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.report_epo_document model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__tax_ids
 msgid "Taxes"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.report_epo_document
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__price_subtotal
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.report_epo_document model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__price_subtotal
 msgid "Subtotal"
 msgstr ""
 
@@ -1205,8 +978,7 @@ msgid "Untaxed Amount"
 msgstr ""
 
 #. module: mo_employee_request
-#: model_terms:ir.ui.view,arch_db:mo_employee_request.report_epo_document
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__discount_total
+#: model_terms:ir.ui.view,arch_db:mo_employee_request.report_epo_document model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__discount_total
 msgid "Total Discount"
 msgstr ""
 
@@ -1216,8 +988,7 @@ msgid "confirmed the purchase order"
 msgstr ""
 
 #. module: mo_employee_request
-#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
-#: code:addons/mo_employee_request/models/employee_request.py:0
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0 code:addons/mo_employee_request/models/employee_request.py:0
 #, python-format
 msgid "approved (%s)"
 msgstr ""
@@ -1259,8 +1030,7 @@ msgid "This order is not waiting for approval."
 msgstr ""
 
 #. module: mo_employee_request
-#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
-#: code:addons/mo_employee_request/models/employee_request.py:0
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0 code:addons/mo_employee_request/models/employee_request.py:0
 #, python-format
 msgid "You are not an approver for the current step (%s)."
 msgstr ""
@@ -1401,14 +1171,12 @@ msgid "Action required: %s"
 msgstr ""
 
 #. module: mo_employee_request
-#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
-#: code:addons/mo_employee_request/models/employee_request.py:0
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0 code:addons/mo_employee_request/models/employee_request.py:0
 msgid "All approvals completed."
 msgstr ""
 
 #. module: mo_employee_request
-#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
-#: code:addons/mo_employee_request/models/employee_request.py:0
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0 code:addons/mo_employee_request/models/employee_request.py:0
 #, python-format
 msgid "Waiting for the remaining approvers: %s"
 msgstr ""
@@ -1442,28 +1210,22 @@ msgid "Employee Purchase Order Approval History"
 msgstr ""
 
 #. module: mo_employee_request
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_approval__stage
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_approval__stage
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_approval__stage model:ir.model.fields,field_description:mo_employee_request.field_employee_request_approval__stage
 msgid "Stage"
 msgstr ""
 
 #. module: mo_employee_request
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__stage__draft
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order__state__draft
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order_approval__stage__draft model:ir.model.fields.selection,name:mo_employee_request.selection__employee_purchase_order__state__draft
 msgid "RFQ"
 msgstr ""
 
 #. module: mo_employee_request
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_approval__user_id
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__user_id
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_approval__user_id
-#: model_terms:mail.template,body_html:mo_employee_request.mail_template_employee_po
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_approval__user_id model:ir.model.fields,field_description:mo_employee_request.field_employee_request__user_id model:ir.model.fields,field_description:mo_employee_request.field_employee_request_approval__user_id model_terms:mail.template,body_html:mo_employee_request.mail_template_employee_po
 msgid "User"
 msgstr ""
 
 #. module: mo_employee_request
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_approval__action
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_approval__action
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_approval__action model:ir.model.fields,field_description:mo_employee_request.field_employee_request_approval__action
 msgid "Action"
 msgstr ""
 
@@ -1493,8 +1255,7 @@ msgid "Reference"
 msgstr ""
 
 #. module: mo_employee_request
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__company_id
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__company_id
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__company_id model:ir.model.fields,field_description:mo_employee_request.field_employee_request__company_id
 msgid "Company"
 msgstr ""
 
@@ -1544,8 +1305,7 @@ msgid "Waiting Action From"
 msgstr ""
 
 #. module: mo_employee_request
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__can_approve
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__can_approve
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__can_approve model:ir.model.fields,field_description:mo_employee_request.field_employee_request__can_approve
 msgid "Can Approve"
 msgstr ""
 
@@ -1590,8 +1350,7 @@ msgid "Received Notified"
 msgstr ""
 
 #. module: mo_employee_request
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__line_count
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request__line_count
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order__line_count model:ir.model.fields,field_description:mo_employee_request.field_employee_request__line_count
 msgid "Line Count"
 msgstr ""
 
@@ -1616,9 +1375,7 @@ msgid "Source Request Line"
 msgstr ""
 
 #. module: mo_employee_request
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__sequence
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__sequence
-#: model:ir.model.fields,field_description:mo_employee_request.field_er_required_field__sequence
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__sequence model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__sequence model:ir.model.fields,field_description:mo_employee_request.field_er_required_field__sequence
 msgid "Sequence"
 msgstr ""
 
@@ -1628,8 +1385,7 @@ msgid "Order Status"
 msgstr ""
 
 #. module: mo_employee_request
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__product_uom_id
-#: model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__product_uom_id
+#: model:ir.model.fields,field_description:mo_employee_request.field_employee_purchase_order_line__product_uom_id model:ir.model.fields,field_description:mo_employee_request.field_employee_request_line__product_uom_id
 msgid "UoM"
 msgstr ""
 
@@ -2153,8 +1909,7 @@ msgid "Lines can only be added while the request is a draft."
 msgstr ""
 
 #. module: mo_employee_request
-#: model:ir.model,name:mo_employee_request.model_employee_request_line
-#: model:ir.model.fields,field_description:mo_employee_request.field_stock_move__er_request_line_id
+#: model:ir.model,name:mo_employee_request.model_employee_request_line model:ir.model.fields,field_description:mo_employee_request.field_stock_move__er_request_line_id
 msgid "Employee Request Line"
 msgstr ""
 
@@ -2318,9 +2073,7 @@ msgid "Department Manager"
 msgstr ""
 
 #. module: mo_employee_request
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__res_company__er_department_method__users
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__res_company__er_inspection_mode__users
-#: model:ir.model.fields.selection,name:mo_employee_request.selection__res_company__er_purchase_manager_method__users
+#: model:ir.model.fields.selection,name:mo_employee_request.selection__res_company__er_department_method__users model:ir.model.fields.selection,name:mo_employee_request.selection__res_company__er_inspection_mode__users model:ir.model.fields.selection,name:mo_employee_request.selection__res_company__er_purchase_manager_method__users
 msgid "Specific Users"
 msgstr ""
 
@@ -2400,8 +2153,7 @@ msgid "Request Manager"
 msgstr ""
 
 #. module: mo_employee_request
-#: model:ir.model.fields,help:mo_employee_request.field_res_users__er_is_request_manager
-#: model:res.groups,comment:mo_employee_request.group_employee_request_manager
+#: model:ir.model.fields,help:mo_employee_request.field_res_users__er_is_request_manager model:res.groups,comment:mo_employee_request.group_employee_request_manager
 msgid "Read all requests, reset and cancel them."
 msgstr ""
 
@@ -2723,4 +2475,56 @@ msgstr ""
 
 #. module: mo_employee_request
 msgid "Only RFQ orders can be chosen as the alternative."
+msgstr ""
+
+#. module: mo_employee_request
+msgid "Link to Existing RFQ"
+msgstr ""
+
+#. module: mo_employee_request
+msgid "Alternative Orders"
+msgstr ""
+
+#. module: mo_employee_request
+msgid "Alternative Purchase Orders"
+msgstr ""
+
+#. module: mo_employee_request
+msgid "Create a call for tender by adding alternative requests for quotation to different vendors. Make your choice by selecting the best combination of lead time and/or total amount. By comparing product lines you can also decide to order some products from one vendor and others from another vendor."
+msgstr ""
+
+#. module: mo_employee_request
+msgid "All the orders of this group of alternatives, including this one."
+msgstr ""
+
+#. module: mo_employee_request
+msgid "Only RFQ orders can be linked as alternatives."
+msgstr ""
+
+#. module: mo_employee_request
+msgid "Best Date"
+msgstr ""
+
+#. module: mo_employee_request
+msgid "OTD"
+msgstr ""
+
+#. module: mo_employee_request
+msgid "Expected Arrival"
+msgstr ""
+
+#. module: mo_employee_request
+msgid "Best"
+msgstr ""
+
+#. module: mo_employee_request
+msgid "Net Price (Company Currency)"
+msgstr ""
+
+#. module: mo_employee_request
+msgid "Purchase date + the longest vendor lead time (Purchase tab of the products) of the order lines. You can change it by hand."
+msgstr ""
+
+#. module: mo_employee_request
+msgid "Vendor on-time delivery rate (%). -1 means there is no data yet."
 msgstr ""
