@@ -651,8 +651,10 @@ class EmployeePurchaseOrder(models.Model):
                 vals['discount'] = line.discount
             else:
                 vals['price_unit'] = line.price_unit * (1 - line.discount / 100.0)
-            if line.analytic_account_id:
-                vals['analytic_distribution'] = {str(line.analytic_account_id.id): 100.0}
+            account = (line.analytic_account_id or self.analytic_account_id
+                       or line.project_id.account_id or self.project_id.account_id)
+            if account:
+                vals['analytic_distribution'] = {str(account.id): 100.0}
             lines.append((0, 0, vals))
         po_vals = {
             'partner_id': self.partner_id.id,
@@ -827,7 +829,9 @@ class EmployeePurchaseOrderLine(models.Model):
     price_tax = fields.Monetary(compute='_compute_amount', store=True)
     price_total = fields.Monetary(string='Total', compute='_compute_amount', store=True)
     project_id = fields.Many2one('project.project', string='Project')
-    analytic_account_id = fields.Many2one('account.analytic.account', string='Analytic Account')
+    analytic_account_id = fields.Many2one(
+        'account.analytic.account', string='Analytic Account',
+        compute='_compute_analytic', store=True, readonly=False)
     warehouse_id = fields.Many2one('stock.warehouse', string='Warehouse')
     purchase_line_id = fields.Many2one('purchase.order.line', string='Odoo PO Line',
                                        copy=False, readonly=True)
@@ -857,6 +861,14 @@ class EmployeePurchaseOrderLine(models.Model):
     def _compute_uom(self):
         for line in self:
             line.product_uom_id = line.product_id.uom_id
+
+    @api.depends('order_id.analytic_account_id', 'project_id.account_id')
+    def _compute_analytic(self):
+        # line account: project's account, else what was chosen on the line, else the header's
+        for line in self:
+            line.analytic_account_id = (
+                line.project_id.account_id or line.analytic_account_id
+                or line.order_id.analytic_account_id)
 
     @api.depends('product_uom_qty', 'price_unit', 'discount', 'tax_ids',
                  'order_id.partner_id', 'order_id.currency_id')

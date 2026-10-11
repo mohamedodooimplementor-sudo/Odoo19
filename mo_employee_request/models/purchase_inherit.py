@@ -15,6 +15,13 @@ class PurchaseOrderLine(models.Model):
     er_po_line_id = fields.Many2one('employee.purchase.order.line',
                                     string='Employee PO Line', copy=False, index=True)
 
+    def _prepare_stock_move_vals(self, *args, **kwargs):
+        # carry the analytic distribution of the PO line to the receipt's stock move
+        vals = super()._prepare_stock_move_vals(*args, **kwargs)
+        if self.analytic_distribution:
+            vals['analytic_distribution'] = self.analytic_distribution
+        return vals
+
 
 class AccountMove(models.Model):
     _inherit = 'account.move'

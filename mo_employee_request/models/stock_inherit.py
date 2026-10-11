@@ -84,12 +84,20 @@ class StockPicking(models.Model):
 
     # `analytic_distribution` (analytic.mixin) on the header: taken from the request, applied
     # to every line when changed (each line can still be changed).
-    @api.depends('er_request_id.analytic_account_id')
+    @api.depends('er_request_id.analytic_account_id',
+                 'move_ids.purchase_line_id.analytic_distribution')
     def _compute_analytic_distribution(self):
         for picking in self:
             account = picking.er_request_id.analytic_account_id
-            picking.analytic_distribution = (
-                {str(account.id): 100.0} if account else picking.analytic_distribution)
+            if account:
+                picking.analytic_distribution = {str(account.id): 100.0}
+                continue
+            # receipt of a purchase order: when every PO line has the same distribution,
+            # show it on the header too (otherwise keep what is there)
+            dists = [d for d in picking.sudo().move_ids.purchase_line_id.mapped(
+                'analytic_distribution') if d]
+            if dists and all(d == dists[0] for d in dists):
+                picking.analytic_distribution = dists[0]
 
     @api.onchange('analytic_distribution')
     def _onchange_er_analytic_distribution(self):

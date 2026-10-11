@@ -114,7 +114,7 @@
                             <field name="department_id"/>
                             <field name="pending_approver_ids" widget="many2many_tags" invisible="1"/>
                         </group>
-                        <group name="extra" class="d-none d-md-block">
+                        <group name="extra" class="d-none d-md-grid">
                             <field name="request_date" readonly="state != 'draft'"/>
                             <field name="project_id" readonly="state != 'draft'"
                                    required="state == 'draft' and 'project_id' in er_required_fields"/>

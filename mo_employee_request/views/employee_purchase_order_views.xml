@@ -119,7 +119,7 @@
                             <field name="department_id"/>
                             <field name="pending_approver_ids" widget="many2many_tags" invisible="1"/>
                         </group>
-                        <group name="right" class="d-none d-md-block">
+                        <group name="right" class="d-none d-md-grid">
                             <field name="request_id" readonly="1"/>
                             <field name="warehouse_id" readonly="state != 'draft'"
                                    required="state == 'draft' and 'warehouse_id' in er_required_fields"/>
