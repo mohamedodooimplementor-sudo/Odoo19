@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
 <t t-name="prime_construction_suite.Dashboard">
-<div class="o_construction_dashboard" style="background:var(--pcs-bg);height:100%;max-height:100%;overflow-y:auto;box-sizing:border-box;padding:24px;font-family:'Segoe UI',sans-serif;color-scheme:var(--pcs-color-scheme);">
+<div class="o_construction_dashboard" t-att-class="{'o_pcs_dark': state.dark}" style="background:var(--pcs-bg);height:100%;max-height:100%;overflow-y:auto;box-sizing:border-box;padding:24px;font-family:'Segoe UI',sans-serif;color-scheme:var(--pcs-color-scheme);">
 
     <!-- ── Header ── -->
     <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;">

@@ -1,19 +1,30 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Prime Construction Suite',
-    'version': '19.0.33.0.0',
+    'version': '19.0.34.0.0',
     'category': 'Construction',
-    'summary': 'All-in-one construction ERP: Projects, Contracts, BOQ, Billing, Cost Control, Equipment, Labor, Risk & Safety',
+    'summary': 'All-in-one construction ERP: Tendering, Projects, Contracts, BOQ, Billing, Cost Control, Procurement, Quality, Safety, Risk, KPIs and Earned Value. Arabic (RTL) and Dark Mode ready.',
     'description': """
 Prime Construction Suite
 ==============================
-A complete, end-to-end Odoo application covering the full lifecycle of a construction project.
+A complete, end-to-end Odoo application covering the full lifecycle of a construction
+project: from tender and estimate, through execution and billing, to final account and closeout.
 
-Core
-----
-* Projects, Contracts and Bill of Quantities (BOQ)
-* Change Orders workflow (auto-updates BOQ and contract value)
+Pre-Construction
+----------------
+* Estimates / Quantity Take-off with conversion to a project ("Win & Create Project")
+* Tenders / Bid Packages and Subcontractor bid comparison and award
+* Subcontractor Prequalification with expiry handling
+* Programs / Portfolios grouping related projects
+
+Core: Projects, Contracts, BOQ
+------------------------------
+* Projects, Contracts and Bill of Quantities (BOQ), import / export to Excel
 * Reusable BOQ Templates and standardized Cost Codes (WBS)
+* Change Orders workflow (auto-updates BOQ and contract value)
+* Measurement Sheets: daily executed quantities that feed progress invoices
+* Drawing register with revisions, review workflow and an on-image markup viewer
+* RFIs, Document Transmittals and a project Documents library
 
 Finance
 -------
@@ -21,29 +32,55 @@ Finance
 * Retention and advance-payment handling, with a Release Retention action
 * Withholding tax and social-insurance deduction tracking
 * Delay-penalty computation from contract terms
-* Actual Cost tracking with multi-level, threshold-based approval
+* Final Account (project close-out statement)
+* Actual Cost tracking with multi-level, threshold-based approval and an Approval Matrix by amount range and role
+* Optional automatic journal entries to Accounting when costs are approved
 * Overhead cost allocation across running projects
-* Subcontractor management with retention, WHT and AP Aging
+* Subcontractor management: retention, WHT, delay penalties, performance evaluation and AP Aging
 
-Field Operations
------------------
+Procurement & Inventory
+-----------------------
+* Material Requests, RFQs with vendor quote matrix and award to Purchase Orders
+* Purchase Orders generated directly from BOQ items
+* Site Material Issues and Material Returns (to store or to vendor)
+* Goods receipts auto-posted as Actual Costs against BOQ items
+
+Planning & Field Operations
+---------------------------
+* Schedule / Gantt chart (native Canvas, no Enterprise dependency) with baseline,
+  critical path (CPM) and delay analysis
+* Resource Planning with over-allocation detection and a Resource Leveling Assistant
 * Equipment register: usage logs, fuel cost, maintenance reminders, breakdown log
 * Daily Labor attendance: overtime, advances, deductions, cost postable per BOQ line
 * Site Diary: weather, workforce, equipment on site, daily issues
-* Schedule / Gantt chart (native Canvas, no Enterprise dependency) with delay analysis
 
-Compliance, Risk & Safety
---------------------------
+Quality, Safety & Risk
+----------------------
+* Quality Inspections (IR / MIR / WIR), Non-Conformance Reports (NCR),
+  Corrective / Preventive Actions (CAPA) and lab Test Results
+* HSE: Site Incidents, Work Permits, Safety Inspections, PPE Issuance and Training / Toolbox Talks
+* Risk Register with automatic probability x impact scoring, periodic reviews and a Risk Heat Map
 * Bank Guarantees and Insurance Policies with expiry reminders
 * Defects Liability Period tracking with a Snagging List
-* Risk Register with automatic probability x impact scoring
-* Site Incidents, Work Permits, and Safety Equipment Inspections (HSE)
 
-Reporting
+Reporting & KPIs
+----------------
+* Interactive dashboard: KPIs, profitability, alerts, cash-flow forecast
+* Earned Value Management: Planned Value, Earned Value, Actual Cost, CPI, SPI, EAC, ETC, VAC
+* KPI Engine with automatic daily snapshots and a KPI Dashboard
+* PDF reports: project summary, cost analysis, procurement, BOQ, contract summary,
+  client and vendor statements, equipment utilization
+
+Usability
 ---------
-* Interactive dashboard: KPIs, profitability, alerts, cash-flow forecast, EVM
-* Earned Value Management: Planned Value, Earned Value, Actual Cost, CPI, SPI
-* PDF portfolio snapshot report
+* Full Arabic translation with right-to-left (RTL) layout
+* Dark Mode support on the dashboard and risk heat map
+* Menu organized into 9 groups with related screens grouped underneath
+* Role-based access: Site User, Project Manager, Financial Manager (prices and costs hidden from site users)
+* Multi-company record rules
+
+Optional Python libraries on the server: xlsxwriter (Excel export), openpyxl (Excel import),
+reportlab (PDF reports). A clear message is shown if one is missing.
 
 See the full illustrated description below for screenshots of every module.
     """,
@@ -106,6 +143,7 @@ See the full illustrated description below for screenshots of every module.
     'assets': {
         'web.assets_backend': [
             'prime_construction_suite/static/src/css/construction_dashboard.css',
+            'prime_construction_suite/static/src/js/pcs_theme.js',
             'prime_construction_suite/static/src/js/construction_dashboard.js',
             'prime_construction_suite/static/src/xml/construction_dashboard.xml',
             'prime_construction_suite/static/src/js/construction_gantt.js',
@@ -121,7 +159,7 @@ See the full illustrated description below for screenshots of every module.
     'post_init_hook': '_post_init_hook',
     'auto_install': False,
     'license': 'OPL-1',
-    'price': 999.00,
+    'price': 1000.00,
     'currency': 'USD',
     'support': 'odoolabtech.offical',
     'images': ['static/description/banner.png', 'static/description/dashboard_preview.png', 'static/description/gantt_preview.png', 'static/description/module_map.png'],

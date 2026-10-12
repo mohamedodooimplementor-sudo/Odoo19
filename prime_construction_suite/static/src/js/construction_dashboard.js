@@ -3,6 +3,7 @@ import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { _t } from "@web/core/l10n/translation";
 import { Component, onMounted, useState, useRef } from "@odoo/owl";
+import { isOdooDarkMode } from "./pcs_theme";
 
 class ConstructionDashboard extends Component {
     static template = "prime_construction_suite.Dashboard";
@@ -18,6 +19,7 @@ class ConstructionDashboard extends Component {
         this.costTypeRef = useRef("costTypeCanvas");
 
         this.state = useState({
+            dark: isOdooDarkMode(),
             loading: true,
             kpis: {
                 total_projects: 0, running_projects: 0,
@@ -259,7 +261,7 @@ class ConstructionDashboard extends Component {
     }
 
     _chartTheme() {
-        const dark = document.documentElement.classList.contains('o_dark_mode');
+        const dark = this.state.dark;
         return dark ? {
             bg: '#101a30', grid: 'rgba(255,255,255,.08)', axisText: '#94a3b8', catText: '#aab4c8',
             cardBg: '#141b2e', headingText: '#f1f5f9', legendText: '#cbd5e1', mutedText: '#64748b',

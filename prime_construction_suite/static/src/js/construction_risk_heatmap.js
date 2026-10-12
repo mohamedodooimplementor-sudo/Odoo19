@@ -2,6 +2,7 @@
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { Component, onMounted, useState } from "@odoo/owl";
+import { isOdooDarkMode } from "./pcs_theme";
 
 const PROB_ORDER = ["low", "medium", "high"];
 const IMPACT_ORDER = ["high", "medium", "low"]; // top row = high impact
@@ -14,7 +15,7 @@ class ConstructionRiskHeatmap extends Component {
     setup() {
         this.orm = useService("orm");
         this.action = useService("action");
-        this.state = useState({ loading: true, cells: {}, risks: [] });
+        this.state = useState({ dark: isOdooDarkMode(), loading: true, cells: {}, risks: [] });
         onMounted(() => this._loadData());
     }
 

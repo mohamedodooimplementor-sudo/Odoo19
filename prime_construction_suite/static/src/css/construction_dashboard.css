@@ -1,5 +1,5 @@
 /* Prime Construction Suite — Executive Dashboard theme
- * Light (professional, default) + Dark (only under Odoo's own Dark Mode, html.o_dark_mode)
+ * Light (professional, default) + Dark (class o_pcs_dark, set from Odoo's color_scheme cookie / dark bundle)
  */
 
 .o_construction_dashboard {
@@ -18,7 +18,9 @@
     --pcs-chip-muted-text: #475569;
 }
 
-html.o_dark_mode .o_construction_dashboard {
+.o_construction_dashboard.o_pcs_dark,
+html.o_dark_mode .o_construction_dashboard,
+html[data-bs-theme="dark"] .o_construction_dashboard {
     --pcs-bg: linear-gradient(180deg, #0a0f1e, #0f172a 40%, #0f172a);
     --pcs-card-bg: #141b2e;
     --pcs-border: rgba(255, 255, 255, .07);
@@ -32,4 +34,18 @@ html.o_dark_mode .o_construction_dashboard {
     --pcs-shadow: 0 8px 20px rgba(0, 0, 0, .25);
     --pcs-chip-primary-text: #a5b4fc;
     --pcs-chip-muted-text: #94a3b8;
+}
+
+/* ── RTL (Arabic): mirror the physical offsets used inline ── */
+html[dir="rtl"] .o_construction_dashboard { direction: rtl; text-align: right; }
+html[dir="rtl"] .o_construction_dashboard .fa-arrow-right,
+html[dir="rtl"] .o_construction_dashboard .fa-chevron-right { transform: scaleX(-1); }
+html[dir="rtl"] .o_construction_dashboard i.fa { margin-right: 0 !important; margin-left: 6px; }
+html[dir="rtl"] .o_construction_dashboard [style*="margin-left:auto"] { margin-left: 0 !important; margin-right: auto; }
+html[dir="rtl"] .o_construction_dashboard canvas { direction: ltr; }
+
+/* ── Dark mode for the other custom screens (Gantt, drawing viewer) ── */
+html.o_dark_mode .o_construction_gantt, html.o_dark_mode .o_construction_drawing_viewer,
+html[data-bs-theme="dark"] .o_construction_gantt, html[data-bs-theme="dark"] .o_construction_drawing_viewer {
+    color-scheme: dark;
 }
