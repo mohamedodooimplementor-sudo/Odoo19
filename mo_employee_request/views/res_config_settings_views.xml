@@ -56,6 +56,36 @@
                             </div>
                         </setting>
                     </block>
+                    <block title="Project Stock Lock" name="er_project_lock_block">
+                        <setting string="Lock Stock per Project"
+                                 help="Stock received for a project cannot be issued to another project without approval">
+                            <field name="er_project_lock_enabled"/>
+                            <div class="mt-2" invisible="not er_project_lock_enabled">
+                                <field name="er_project_lock_mode" widget="radio"/>
+                            </div>
+                            <div class="mt-2" invisible="not er_project_lock_enabled">
+                                <field name="er_project_lock_user_ids" widget="many2many_tags"/>
+                            </div>
+                        </setting>
+                    </block>
+                    <block title="Project Stock Reservation" name="er_reservation_block">
+                        <setting string="General Projects Locations"
+                                 help="Shared project stock and default location of the request lines that have no project location">
+                            <field name="er_general_location_ids" widget="many2many_tags"
+                                   options="{'no_create': True}"
+                                   domain="[('usage', '=', 'internal'), ('er_is_general', '=', True)]"/>
+                        </setting>
+                    </block>
+                    <block title="Expiry Control" name="er_expiry_block">
+                        <setting string="Expiry Notification"
+                                 help="Notify before lots expire. The Expiry Date Report lists the items near expiry">
+                            <field name="er_expiry_days"/>
+                            <div class="mt-2">
+                                <field name="er_expiry_user_ids" widget="many2many_tags"
+                                       placeholder="Warehouse managers"/>
+                            </div>
+                        </setting>
+                    </block>
                     <block title="Automation" name="er_automation_block">
                         <setting string="Automatically Create Stock Transfers">
                             <field name="er_auto_stock_order"/>

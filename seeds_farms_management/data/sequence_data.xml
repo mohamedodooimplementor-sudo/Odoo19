@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="seq_seeds_receipt" model="ir.sequence">
+        <field name="name">Seed Receipt</field>
+        <field name="code">seeds.receipt</field>
+        <field name="prefix">RSD-</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="seq_seeds_settlement" model="ir.sequence">
+        <field name="name">Seed Settlement</field>
+        <field name="code">seeds.settlement</field>
+        <field name="prefix">STL-</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="seq_seeds_contract" model="ir.sequence">
+        <field name="name">Seed Contract</field>
+        <field name="code">seeds.contract</field>
+        <field name="prefix">CTR-</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+</odoo>

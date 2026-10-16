@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_seeds_farmer_user,seeds.farmer user,model_seeds_farmer,group_seeds_user,1,1,1,0
+access_seeds_farmer_manager,seeds.farmer manager,model_seeds_farmer,group_seeds_manager,1,1,1,1
+access_seeds_receipt_user,seeds.receipt user,model_seeds_receipt,group_seeds_user,1,1,1,1
+access_seeds_crop_user,seeds.crop.config user,model_seeds_crop_config,group_seeds_user,1,0,0,0
+access_seeds_crop_manager,seeds.crop.config manager,model_seeds_crop_config,group_seeds_manager,1,1,1,1
+access_seeds_grade_user,seeds.quality.grade user,model_seeds_quality_grade,group_seeds_user,1,0,0,0
+access_seeds_grade_manager,seeds.quality.grade manager,model_seeds_quality_grade,group_seeds_manager,1,1,1,1
+access_seeds_settlement_user,seeds.settlement user,model_seeds_settlement,group_seeds_user,1,1,1,1
+access_seeds_season_user,seeds.season user,model_seeds_season,group_seeds_user,1,0,0,0
+access_seeds_season_manager,seeds.season manager,model_seeds_season,group_seeds_manager,1,1,1,1
+access_seeds_land_user,seeds.land user,model_seeds_land,group_seeds_user,1,1,1,0
+access_seeds_land_manager,seeds.land manager,model_seeds_land,group_seeds_manager,1,1,1,1
+access_seeds_contract_user,seeds.contract user,model_seeds_contract,group_seeds_user,1,1,1,0
+access_seeds_contract_manager,seeds.contract manager,model_seeds_contract,group_seeds_manager,1,1,1,1

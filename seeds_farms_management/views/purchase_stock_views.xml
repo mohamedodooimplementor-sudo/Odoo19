@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="purchase_order_form_seeds" model="ir.ui.view">
+        <field name="name">purchase.order.form.seeds</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <field name="partner_ref" position="after">
+                <field name="seeds_receipt_id" invisible="not seeds_receipt_id"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_picking_form_seeds" model="ir.ui.view">
+        <field name="name">stock.picking.form.seeds</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Seeds Information" name="seeds_info" invisible="not seeds_receipt_id">
+                    <group>
+                        <group>
+                            <field name="seeds_receipt_id"/>
+                            <field name="seeds_weight_per_unit"/>
+                            <field name="seeds_total_weight"/>
+                            <field name="seeds_ardab_wg"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_seeds_purchase_orders" model="ir.actions.act_window">
+        <field name="name">Purchase Orders</field>
+        <field name="res_model">purchase.order</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('seeds_receipt_id', '!=', False)]</field>
+    </record>
+
+    <record id="action_seeds_pickings" model="ir.actions.act_window">
+        <field name="name">Inventory Receipts</field>
+        <field name="res_model">stock.picking</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('move_ids.purchase_line_id.order_id.seeds_receipt_id', '!=', False)]</field>
+    </record>
+</odoo>

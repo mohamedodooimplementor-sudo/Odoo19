@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="seeds_farms_management.Dashboard">
+        <div class="o_action seeds_dash p-3">
+            <t t-if="state.data">
+                <div class="seeds_kpis">
+                    <div class="seeds_kpi" t-on-click="openReceipts">
+                        <div class="v" t-out="fmt(state.data.receipts)"/>
+                        <div class="l">Receipts (draft: <t t-out="fmt(state.data.draft)"/>)</div>
+                    </div>
+                    <div class="seeds_kpi" t-on-click="openReceipts">
+                        <div class="v" t-out="fmt(state.data.factory_weight)"/>
+                        <div class="l">Factory weight (kg)</div>
+                    </div>
+                    <div class="seeds_kpi" t-on-click="openReceipts">
+                        <div class="v" t-out="fmt(state.data.ardab, 2)"/>
+                        <div class="l">Ardab (Corn <t t-out="fmt(state.data.corn, 2)"/> / Wheat <t t-out="fmt(state.data.wheat, 2)"/>)</div>
+                    </div>
+                    <div class="seeds_kpi" t-on-click="openSettlements">
+                        <div class="v" t-out="fmt(state.data.unsettled_amount, 2)"/>
+                        <div class="l">Unsettled amount (<t t-out="fmt(state.data.unsettled_count)"/> receipts)</div>
+                    </div>
+                </div>
+                <div class="seeds_panels">
+                    <div class="seeds_panel">
+                        <h4>Factory weight by month (kg)</h4>
+                        <canvas t-ref="canvas"/>
+                    </div>
+                    <div class="seeds_panel" t-on-click="openContracts">
+                        <h4>Running contracts (<t t-out="fmt(state.data.contracts)"/>)</h4>
+                        <div class="seeds_bar"><i t-attf-style="width: #{contractPercent}%"/></div>
+                        <div>Delivered <b t-out="fmt(state.data.delivered, 2)"/> of <b t-out="fmt(state.data.contracted, 2)"/> ardab</div>
+                    </div>
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>

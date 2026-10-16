@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_er_project_transfer_form" model="ir.ui.view">
+        <field name="name">er.project.transfer.form</field>
+        <field name="model">er.project.transfer</field>
+        <field name="arch" type="xml">
+            <form string="Transfer to Another Project">
+                <group>
+                    <group>
+                        <field name="allocation_id" invisible="1"/>
+                        <field name="project_id" options="{'no_create': True}"
+                               readonly="allocation_id"/>
+                        <field name="dest_project_id" options="{'no_create': True}"/>
+                        <field name="location_id" options="{'no_create': True}"
+                               readonly="allocation_id"/>
+                    </group>
+                    <group>
+                        <field name="product_id" options="{'no_create': True}"
+                               readonly="allocation_id"/>
+                        <field name="held_qty"/>
+                        <label for="qty"/>
+                        <div class="o_row">
+                            <field name="qty"/>
+                            <field name="product_uom_id"/>
+                        </div>
+                    </group>
+                </group>
+                <field name="note" placeholder="Why is the stock moved to the other project?"/>
+                <footer>
+                    <button name="action_confirm" string="Transfer" type="object"
+                            class="btn-primary"/>
+                    <button string="Discard" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_er_project_transfer" model="ir.actions.act_window">
+        <field name="name">Transfer Between Projects</field>
+        <field name="res_model">er.project.transfer</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Button on the allocation, only for the users allowed to transfer -->
+    <record id="view_er_project_allocation_form_transfer" model="ir.ui.view">
+        <field name="name">er.project.allocation.form.transfer</field>
+        <field name="model">er.project.allocation</field>
+        <field name="inherit_id" ref="view_er_project_allocation_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_er_transfer" string="Transfer to Another Project"
+                        type="object" groups="mo_employee_request.group_er_project_transfer"
+                        invisible="state != 'confirmed' or kind != 'reserve'"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_er_expiry_list" model="ir.ui.view">
+        <field name="name">er.expiry.report.list</field>
+        <field name="model">er.expiry.report</field>
+        <field name="arch" type="xml">
+            <list string="Expiry Date Report" create="0" edit="0" delete="0"
+                  decoration-danger="state == 'expired'" decoration-warning="state == 'soon'">
+                <field name="product_id"/>
+                <field name="lot_id"/>
+                <field name="warehouse_id"/>
+                <field name="location_id" optional="show"/>
+                <field name="quantity" sum="Quantity"/>
+                <field name="expiration_date"/>
+                <field name="days_left"/>
+                <field name="state" widget="badge" decoration-danger="state == 'expired'"
+                       decoration-warning="state == 'soon'" decoration-success="state == 'ok'"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_er_expiry_pivot" model="ir.ui.view">
+        <field name="name">er.expiry.report.pivot</field>
+        <field name="model">er.expiry.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Expiry Date Report">
+                <field name="warehouse_id" type="row"/>
+                <field name="state" type="col"/>
+                <field name="quantity" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+    <record id="view_er_expiry_search" model="ir.ui.view">
+        <field name="name">er.expiry.report.search</field>
+        <field name="model">er.expiry.report</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="product_id"/>
+                <field name="lot_id"/>
+                <field name="warehouse_id"/>
+                <filter name="f_expired" string="Expired" domain="[('days_left', '&lt;', 0)]"/>
+                <filter name="f_30" string="Within 30 Days"
+                        domain="[('days_left', '&gt;=', 0), ('days_left', '&lt;=', 30)]"/>
+                <filter name="f_60" string="Within 60 Days"
+                        domain="[('days_left', '&gt;=', 0), ('days_left', '&lt;=', 60)]"/>
+                <filter name="f_90" string="Within 90 Days"
+                        domain="[('days_left', '&gt;=', 0), ('days_left', '&lt;=', 90)]"/>
+                <group>
+                    <filter name="g_wh" string="Warehouse" context="{'group_by': 'warehouse_id'}"/>
+                    <filter name="g_product" string="Product" context="{'group_by': 'product_id'}"/>
+                    <filter name="g_state" string="Status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_er_expiry" model="ir.actions.act_window">
+        <field name="name">Expiry Date Report</field>
+        <field name="res_model">er.expiry.report</field>
+        <field name="view_mode">graph,pivot,list</field>
+        <field name="search_view_id" ref="view_er_expiry_search"/>
+        <field name="context">{'search_default_f_90': 1}</field>
+    </record>
+    <record id="view_er_expiry_graph" model="ir.ui.view">
+        <field name="name">er.expiry.report.graph</field>
+        <field name="model">er.expiry.report</field>
+        <field name="arch" type="xml">
+            <graph string="Expiry Date Report" type="bar">
+                <field name="state"/>
+                <field name="quantity" type="measure"/>
+            </graph>
+        </field>
+    </record>
+    <record id="action_er_expiry_graph" model="ir.actions.act_window.view">
+        <field name="sequence">0</field>
+        <field name="view_mode">graph</field>
+        <field name="view_id" ref="view_er_expiry_graph"/>
+        <field name="act_window_id" ref="action_er_expiry"/>
+    </record>
+</odoo>

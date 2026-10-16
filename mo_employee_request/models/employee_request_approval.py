@@ -14,6 +14,7 @@ class EmployeeRequestApproval(models.Model):
         ('draft', 'Draft'),
         ('department', 'Department Approval'),
         ('warehouse', 'Warehouse Approval'),
+        ('project', 'Project Approval'),
         ('budget', 'Budget Approval'),
         ('approved', 'Approved'),
         ('processing', 'Processing'),

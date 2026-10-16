@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_seeds_root" name="Seeds Farms" sequence="40" groups="group_seeds_user"
+              web_icon="seeds_farms_management,static/description/icon.png"/>
+    <menuitem id="menu_seeds_dashboard" name="Dashboard" parent="menu_seeds_root" action="action_seeds_dashboard" sequence="5"/>
+    <menuitem id="menu_seeds_contracts" name="Contracts" parent="menu_seeds_root" action="action_seeds_contract" sequence="8"/>
+    <menuitem id="menu_seeds_receipts" name="Receipts" parent="menu_seeds_root" action="action_seeds_receipt" sequence="10"/>
+    <menuitem id="menu_seeds_settlements" name="Settlements" parent="menu_seeds_root" action="action_seeds_settlement" sequence="25"/>
+    <menuitem id="menu_seeds_farmers" name="Farmers" parent="menu_seeds_root" action="action_seeds_farmer" sequence="20"/>
+    <menuitem id="menu_seeds_purchase" name="Purchase Orders" parent="menu_seeds_root" action="action_seeds_purchase_orders" sequence="30"/>
+    <menuitem id="menu_seeds_inventory" name="Inventory" parent="menu_seeds_root" action="action_seeds_pickings" sequence="40"/>
+    <menuitem id="menu_seeds_reporting" name="Reporting" parent="menu_seeds_root" action="action_seeds_receipt_report" sequence="50"/>
+    <menuitem id="menu_seeds_config" name="Configuration" parent="menu_seeds_root" sequence="90" groups="group_seeds_manager"/>
+    <menuitem id="menu_seeds_crop_config" name="Crop Settings" parent="menu_seeds_config" action="action_seeds_crop_config" sequence="10"/>
+    <menuitem id="menu_seeds_grades" name="Quality Grades" parent="menu_seeds_config" action="action_seeds_grade" sequence="20"/>
+    <menuitem id="menu_seeds_seasons" name="Seasons" parent="menu_seeds_config" action="action_seeds_season" sequence="30"/>
+    <menuitem id="menu_seeds_lands" name="Fields" parent="menu_seeds_config" action="action_seeds_land" sequence="40"/>
+</odoo>

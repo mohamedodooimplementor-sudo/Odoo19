@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_seeds_settlement_list" model="ir.ui.view">
+        <field name="name">seeds.settlement.list</field>
+        <field name="model">seeds.settlement</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="date"/>
+                <field name="partner_id"/>
+                <field name="total_amount" sum="Total"/>
+                <field name="advance_amount" sum="Total"/>
+                <field name="net_amount" sum="Total"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_seeds_settlement_form" model="ir.ui.view">
+        <field name="name">seeds.settlement.form</field>
+        <field name="model">seeds.settlement</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_load_receipts" string="Load Receipts" type="object"
+                            invisible="state != 'draft'"/>
+                    <button name="action_create_bill" string="Create Vendor Bill" type="object"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_cancel" string="Cancel" type="object"
+                            invisible="state == 'cancel'"/>
+                    <button name="action_draft" string="Set to Draft" type="object"
+                            invisible="state != 'cancel'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,billed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_bill" type="object" class="oe_stat_button"
+                                icon="fa-file-text-o" invisible="not invoice_id">
+                            <div class="o_stat_info"><span class="o_stat_text">Vendor Bill</span></div>
+                        </button>
+                    </div>
+                    <div class="oe_title"><h1><field name="name"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="partner_id" readonly="state != 'draft'"/>
+                            <field name="date" readonly="state != 'draft'"/>
+                            <field name="company_id" groups="base.group_multi_company" readonly="state != 'draft'"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="total_amount"/>
+                            <field name="advance_amount" readonly="state != 'draft'"/>
+                            <field name="net_amount"/>
+                            <field name="invoice_id"/>
+                        </group>
+                    </group>
+                    <field name="receipt_ids">
+                        <list>
+                            <field name="name"/>
+                            <field name="date"/>
+                            <field name="farmer_id"/>
+                            <field name="grade_id"/>
+                            <field name="number_of_ardab"/>
+                            <field name="adjusted_price"/>
+                            <field name="settlement_amount" sum="Total"/>
+                        </list>
+                    </field>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_seeds_settlement" model="ir.actions.act_window">
+        <field name="name">Settlements</field>
+        <field name="res_model">seeds.settlement</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

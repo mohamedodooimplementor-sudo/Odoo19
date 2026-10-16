@@ -110,19 +110,20 @@
                     <div class="oe_title"><h1><field name="name"/></h1></div>
                     <group>
                         <group name="left">
-                            <field name="partner_id" readonly="state not in ('draft', 'budget_control')"/>
-                            <field name="agreement_id" readonly="state not in ('draft', 'budget_control')"
+                            <field name="partner_id" readonly="state != 'draft'"/>
+                            <field name="agreement_id" readonly="state != 'draft'"
                                    required="state in ('draft', 'budget_control') and 'agreement_id' in er_required_fields"/>
                             <field name="date_order" readonly="state != 'draft'"/>
-                            <field name="date_planned" readonly="state not in ('draft', 'budget_control')"/>
+                            <field name="date_planned" readonly="state != 'draft'"/>
                             <field name="employee_id" invisible="1"/>
-                            <field name="department_id"/>
+                            <field name="department_id" invisible="1"/>
                             <field name="pending_approver_ids" widget="many2many_tags" invisible="1"/>
                         </group>
                         <group name="right" class="d-none d-md-grid">
                             <field name="request_id" readonly="1"/>
-                            <field name="warehouse_id" readonly="state != 'draft'"
-                                   required="state == 'draft' and 'warehouse_id' in er_required_fields"/>
+                            <field name="location_id" readonly="state != 'draft'"
+                                   options="{'no_create': True}"
+                                   required="state == 'draft' and 'location_id' in er_required_fields"/>
                             <field name="project_id" readonly="state != 'draft'"
                                    required="state == 'draft' and 'project_id' in er_required_fields"/>
                             <field name="analytic_account_id" readonly="state != 'draft'"
@@ -135,7 +136,7 @@
                     <notebook>
                         <page string="Products" name="lines">
                             <field name="line_ids"
-                                   readonly="state not in ('draft', 'budget_control') or (state == 'budget_control' and not can_edit_budget)">
+                                   readonly="state != 'draft'">
                                 <list editable="bottom">
                                     <field name="sequence" widget="handle"/>
                                     <field name="product_id"/>
@@ -152,15 +153,15 @@
                                            required="parent.state in ('draft', 'budget_control') and 'project_id' in parent.er_required_line_fields"/>
                                     <field name="analytic_account_id" optional="show"
                                            required="parent.state in ('draft', 'budget_control') and 'analytic_account_id' in parent.er_required_line_fields"/>
-                                    <field name="warehouse_id" optional="show"
-                                           required="parent.state in ('draft', 'budget_control') and 'warehouse_id' in parent.er_required_line_fields"/>
+                                    <field name="location_id" optional="show"
+                                           required="parent.state in ('draft', 'budget_control') and 'location_id' in parent.er_required_line_fields"/>
                                     <field name="request_line_id" optional="hide" readonly="1"/>
                                     <field name="received_qty" optional="show"/>
                                     <field name="currency_id" column_invisible="1"/>
                                 </list>
                             </field>
                             <div class="d-flex justify-content-start mb-2"
-                                 invisible="state != 'draft' and (state != 'budget_control' or not can_edit_budget)">
+                                 invisible="state != 'draft'">
                                 <button name="%(mo_employee_request.action_epo_discount)d"
                                         string="Discount" type="action" class="btn btn-secondary"/>
                             </div>
@@ -212,11 +213,11 @@
                         <page string="Other Info" name="other">
                             <group>
                                 <group>
-                                    <field name="payment_term_id" readonly="state not in ('draft', 'budget_control')"
+                                    <field name="payment_term_id" readonly="state != 'draft'"
                                            required="state in ('draft', 'budget_control') and 'payment_term_id' in er_required_fields"/>
-                                    <field name="fiscal_position_id" readonly="state not in ('draft', 'budget_control')"
+                                    <field name="fiscal_position_id" readonly="state != 'draft'"
                                            required="state in ('draft', 'budget_control') and 'fiscal_position_id' in er_required_fields"/>
-                                    <field name="incoterm_id" readonly="state not in ('draft', 'budget_control')"
+                                    <field name="incoterm_id" readonly="state != 'draft'"
                                            required="state in ('draft', 'budget_control') and 'incoterm_id' in er_required_fields"/>
                                     <field name="odoo_po_id"/>
                                 </group>
@@ -225,6 +226,7 @@
                                 </group>
                             </group>
                             <field name="notes" placeholder="Terms and conditions..."
+                                   readonly="state != 'draft'"
                                    required="state in ('draft', 'budget_control') and 'notes' in er_required_fields"/>
                         </page>
                         <page string="Approval History" name="approvals">

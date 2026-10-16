@@ -5,13 +5,13 @@ from odoo import _, api, fields, models
 from odoo.exceptions import AccessError, UserError
 from odoo.fields import Domain
 
-from .utils import convert_uom, pick_field
+from .utils import convert_uom, default_location, location_warehouse, pick_field
 
 GROUP_MANAGER = 'mo_employee_request.group_employee_request_manager'
 GROUP_WAREHOUSE = 'mo_employee_request.group_warehouse_approver'
 GROUP_PURCHASE = 'mo_employee_request.group_purchase_user'
 PROCESSABLE = ('approved', 'processing', 'partial')
-APPROVAL_STATES = ['department', 'warehouse', 'budget']
+APPROVAL_STATES = ['department', 'warehouse', 'project', 'budget']
 
 
 class EmployeeRequestExec(models.Model):
@@ -76,7 +76,7 @@ class EmployeeRequestExec(models.Model):
             rec.total_received = sum(lines.mapped('qty_received'))
             rec.total_remaining = sum(lines.mapped('qty_remaining'))
 
-    @api.depends('state', 'line_ids.qty_unprocessed', 'line_ids.available_qty')
+    @api.depends('state', 'check_stock', 'line_ids.qty_unprocessed', 'line_ids.available_qty')
     def _compute_to_create(self):
         for rec in self:
             stock = purchase = False
@@ -98,15 +98,22 @@ class EmployeeRequestExec(models.Model):
             unprocessed = line.qty_unprocessed
             if unprocessed <= 0:
                 continue
+            if not self.check_stock:
+                # stock is not checked: nothing is issued, everything is purchased
+                plan.append((line, 0.0, unprocessed))
+                continue
             # Free stock already promised to a draft transfer (not reserved yet)
             # (so not reserved) must not be counted again: the purchase quantity is
-            # always what the warehouse cannot cover.
+            # always what the location cannot cover.
             earmarked = sum(
                 convert_uom(m.product_uom_qty,
                             m[pick_field(m, 'product_uom', 'product_uom_id')],
                             line.product_uom_id)
                 for m in line.move_ids if m.state == 'draft')
-            available = max(line.available_qty - earmarked, 0.0)
+            # stock held for other projects is locked: it is not offered to this line, unless
+            # the holders approved it (it was released to free stock at the final approval)
+            locked = line._er_locked_for_others()
+            available = max(line.available_qty - earmarked - locked, 0.0)
             issue = min(unprocessed, available)
             plan.append((line, issue, unprocessed - issue))
         return plan
@@ -137,10 +144,11 @@ class EmployeeRequestExec(models.Model):
         self.ensure_one()
         rec = self.sudo()
         rec._lock_for_processing()
+        # one stock order per location AND per project of the lines
         groups = {}
         for line, issue, _buy in rec._get_split_plan():
             if issue > 0:
-                groups.setdefault(line.warehouse_id, []).append((line, issue))
+                groups.setdefault((line.location_id, line.project_id), []).append((line, issue))
         if not groups:
             return self.env['stock.picking']
         dest = self.env.ref('mo_employee_request.location_employee_consumption',
@@ -153,17 +161,19 @@ class EmployeeRequestExec(models.Model):
         partner = (rec.employee_id.work_contact_id
                    if 'work_contact_id' in rec.employee_id._fields else False)
         pickings = Picking
-        for warehouse, items in groups.items():
+        for (location, project), items in groups.items():
+            warehouse = location_warehouse(self.env, location, rec.company_id)
             moves = []
             for line, qty in items:
                 move_vals = {
                     'product_id': line.product_id.id,
                     'product_uom_qty': qty,
                     uom_field: line.product_uom_id.id,
-                    'location_id': warehouse.lot_stock_id.id,
+                    'location_id': location.id,
                     'location_dest_id': dest.id,
                     'company_id': rec.company_id.id,
                     'er_request_line_id': line.id,
+                    'er_project_id': project.id,
                 }
                 if line.analytic_account_id:
                     move_vals['analytic_distribution'] = {
@@ -171,16 +181,17 @@ class EmployeeRequestExec(models.Model):
                 if 'name' in Move._fields:  # removed in Odoo 19
                     move_vals['name'] = line.product_id.display_name
                 moves.append((0, 0, move_vals))
+            account = project.account_id or rec.analytic_account_id
             pickings |= Picking.create({
                 'picking_type_id': warehouse.out_type_id.id,
-                'location_id': warehouse.lot_stock_id.id,
+                'location_id': location.id,
                 'location_dest_id': dest.id,
                 'partner_id': partner.id if partner else False,
                 'origin': rec.name,
                 'company_id': rec.company_id.id,
                 'er_request_id': rec.id,
-                'analytic_distribution': ({str(rec.analytic_account_id.id): 100.0}
-                                          if rec.analytic_account_id else False),
+                'er_project_id': project.id,
+                'analytic_distribution': ({str(account.id): 100.0} if account else False),
                 'move_ids': moves,
             })
         rec.message_post(
@@ -210,18 +221,18 @@ class EmployeeRequestExec(models.Model):
             if buy > 0:
                 # vendor and price come from the product page (Purchase tab)
                 seller = rec._er_select_seller(line, buy)
-                key = (line.warehouse_id, seller.partner_id, seller.currency_id)
+                key = (line.location_id, seller.partner_id, seller.currency_id, line.project_id)
                 groups.setdefault(key, []).append((line, buy, seller))
         EPO = self.env['employee.purchase.order'].sudo()
         epos = EPO
-        for (warehouse, vendor, currency), items in groups.items():
+        for (location, vendor, currency, project), items in groups.items():
             epos |= EPO.create({
                 'request_id': rec.id,
                 'employee_id': rec.employee_id.id,
                 'department_id': rec.department_id.id,
-                'project_id': rec.project_id.id,
-                'analytic_account_id': rec.analytic_account_id.id,
-                'warehouse_id': warehouse.id,
+                'project_id': project.id,
+                'analytic_account_id': (project.account_id or rec.analytic_account_id).id,
+                'location_id': location.id,
                 'company_id': rec.company_id.id,
                 'partner_id': vendor.id or False,
                 'currency_id': (currency or rec.company_id.currency_id).id,
@@ -254,8 +265,11 @@ class EmployeeRequestExec(models.Model):
     def _on_fully_approved(self):
         res = super()._on_fully_approved()
         for rec in self:
+            rec._er_release_sources()
             company = rec.company_id
-            if company.er_auto_stock_order:
+            # without stock check nothing is issued (the split plan buys everything);
+            # the purchase order follows the setting, else the button creates it
+            if rec.check_stock and company.er_auto_stock_order:
                 rec._create_stock_orders(confirm=True)
             if company.er_auto_purchase_order:
                 rec._create_purchase_orders()
@@ -377,13 +391,15 @@ class EmployeeRequestExec(models.Model):
                 lines.unlink()
         elif quantity > 0:
             Line = self.env['employee.request.line']
-            warehouse = self.line_ids[:1].warehouse_id or Line.with_company(
-                self.company_id)._default_warehouse()
+            location = self.line_ids[:1].location_id or self.project_id.er_location_id \
+                or default_location(self.env, self.company_id)
+            product = self.env['product.product'].browse(product_id)
             Line.create({
                 'request_id': self.id,
                 'product_id': product_id,
+                'product_uom_id': product.uom_id.id,
                 'product_uom_qty': quantity,
-                'warehouse_id': warehouse.id,
+                'location_id': location.id,
             })
         return 0.0
 
@@ -423,6 +439,7 @@ class EmployeeRequestExec(models.Model):
         date_from, date_to = self._er_dashboard_range(filters, today)
         department = filters.get('department_id') or False
         only_mine = bool(filters.get('only_mine'))
+        project = filters.get('project_id') or False
 
         def base_domain(model):
             """Filters shared by every tile, adapted to each model's columns."""
@@ -431,17 +448,31 @@ class EmployeeRequestExec(models.Model):
                 'employee.purchase.order': ('date_order', 'user_id', True, 'department_id'),
                 'stock.picking': ('er_request_id.request_date', 'er_request_id.user_id',
                                   False, 'er_request_id.department_id'),
+                'er.project.stock.report': (False, False, False, False),
+                'er.project.allocation': ('date', 'user_id', True, False),
+                'er.expiry.report': (False, False, False, False),
             }[model]
             date_col, user_col, is_dt, dept_col = cols
             dom = []
-            if date_from:
+            if date_from and date_col:
                 dom.append((date_col, '>=', '%s 00:00:00' % date_from if is_dt else date_from))
-            if date_to:
+            if date_to and date_col:
                 dom.append((date_col, '<=', '%s 23:59:59' % date_to if is_dt else date_to))
-            if department:
+            if department and dept_col:
                 dom.append((dept_col, '=', department))
-            if only_mine:
+            if only_mine and user_col:
                 dom.append((user_col, '=', uid))
+            if project:
+                if model == 'employee.request':
+                    dom += ['|', ('project_id', '=', project),
+                            ('line_ids.project_id', '=', project)]
+                elif model == 'employee.purchase.order':
+                    dom += ['|', ('project_id', '=', project),
+                            ('line_ids.project_id', '=', project)]
+                elif model == 'stock.picking':
+                    dom.append(('er_project_id', '=', project))
+                elif 'project_id' in self.env[model]._fields:
+                    dom.append(('project_id', '=', project))
             return dom
 
         user = self.env.user
@@ -462,6 +493,11 @@ class EmployeeRequestExec(models.Model):
         see_budget_rej = is_all or is_purchase or is_budget_control
 
         R, P, S = ('employee.request', 'employee.purchase.order', 'stock.picking')
+        PS, PA = ('er.project.stock.report', 'er.project.allocation')
+        EX = 'er.expiry.report'
+        expiry_days = self.env.company.er_expiry_days or 30
+        see_project_stock = (is_all or user.has_group('stock.group_stock_user')
+                             or is_warehouse)
         # key, label, hint, model, extra domain, color, icon, section, visible
         tiles = [
             ('all', _("All Requests"), _("Every request in the selected period"),
@@ -502,6 +538,25 @@ class EmployeeRequestExec(models.Model):
              _("Purchase orders to fix and resubmit"),
              P, [('state', '=', 'budget_rejected')], 'danger', 'fa-exclamation-triangle',
              'orders', see_budget_rej),
+            ('proj_stock', _("Stock Held for Projects"),
+             _("Product lines still held by a project"),
+             PS, [('qty_held', '>', 0)], 'success', 'fa-lock', 'projects', see_project_stock),
+            ('proj_lock', _("Waiting Project Approval"),
+             _("Transfers that issue another project's stock"),
+             S, [('er_lock_state', '=', 'pending')], 'danger', 'fa-shield', 'projects',
+             see_stock or see_project_stock),
+            ('proj_alloc', _("Project Allocations"),
+             _("Stock set aside by hand for a project"),
+             PA, [('state', '=', 'confirmed')], 'info', 'fa-bookmark', 'projects',
+             see_project_stock),
+            ('expiry', _("Expiring Soon"),
+             _("Stock expiring within %s days or already expired", expiry_days),
+             EX, [('days_left', '<=', expiry_days)], 'warning', 'fa-hourglass-half',
+             'projects', see_project_stock),
+            ('proj_open_picking', _("Project Transfers to Do"),
+             _("Open transfers that belong to a project"),
+             S, [('er_project_id', '!=', False), ('state', 'not in', ('done', 'cancel'))],
+             'primary', 'fa-truck', 'projects', see_stock or see_project_stock),
         ]
         Request = self.env[R]
         try:
@@ -599,7 +654,66 @@ class EmployeeRequestExec(models.Model):
         if is_all:
             departments = [{'id': d.id, 'name': d.display_name}
                            for d in self.env['hr.department'].search([])]
+
+        # Project cards: requests, transfers, approvals and stock held, per project
+        cards = {}
+
+        def card(project_rec):
+            return cards.setdefault(project_rec.id, {
+                'id': project_rec.id, 'name': project_rec.display_name,
+                'requests': 0, 'open_requests': 0, 'transfers': 0, 'pending_lock': 0,
+                'held_qty': 0.0, 'held_value': 0.0, 'held_lines': 0, 'currency': ''})
+
+        project_dom = [('project_id', '!=', False)]
+        base_r = [d for d in base_domain(R)
+                  if not (isinstance(d, tuple) and d[0] in ('project_id', 'line_ids.project_id'))
+                  and d != '|']
+        try:
+            for proj, cnt in Request._read_group(base_r + project_dom, ['project_id'],
+                                                 ['__count']):
+                card(proj)['requests'] = cnt
+            for proj, cnt in Request._read_group(
+                    base_r + project_dom + [('state', 'in', PROCESSABLE)], ['project_id'],
+                    ['__count']):
+                card(proj)['open_requests'] = cnt
+        except Exception:
+            pass
+        try:
+            Picking = self.env[S]
+            for proj, cnt in Picking._read_group(
+                    [('er_project_id', '!=', False), ('state', 'not in', ('done', 'cancel'))],
+                    ['er_project_id'], ['__count']):
+                card(proj)['transfers'] = cnt
+            for proj, cnt in Picking._read_group(
+                    [('er_project_id', '!=', False), ('er_lock_state', '=', 'pending')],
+                    ['er_project_id'], ['__count']):
+                card(proj)['pending_lock'] = cnt
+        except Exception:
+            pass
+        if see_project_stock:
+            try:
+                for proj, qty, value, lines in self.env[PS]._read_group(
+                        [('qty_held', '>', 0)], ['project_id'],
+                        ['qty_held:sum', 'value_held:sum', '__count']):
+                    c = card(proj)
+                    c.update({'held_qty': qty, 'held_value': value, 'held_lines': lines})
+            except Exception:
+                pass
+        company_cur = self.env.company.currency_id
+        for c in cards.values():
+            c['currency'] = company_cur.symbol or ''
+            c['held_qty'] = round(c['held_qty'], 2)
+            c['held_value'] = round(c['held_value'], 2)
+        project_cards = sorted(
+            cards.values(),
+            key=lambda c: (-c['held_value'], -c['pending_lock'], -c['open_requests'], c['name']))
+        if project:
+            project_cards = [c for c in project_cards if c['id'] == project]
+        projects = [{'id': c['id'], 'name': c['name']}
+                    for c in sorted(cards.values(), key=lambda c: c['name'])]
         return {
+            'projects': projects,
+            'project_cards': project_cards[:12],
             'actions': actions,
             'tiles': data,
             'by_state': by_state,
@@ -611,6 +725,7 @@ class EmployeeRequestExec(models.Model):
                 {'key': 'requests', 'label': _("Requests"), 'icon': 'fa-inbox'},
                 {'key': 'approvals', 'label': _("Approvals Pipeline"), 'icon': 'fa-tasks'},
                 {'key': 'orders', 'label': _("Orders"), 'icon': 'fa-truck'},
+                {'key': 'projects', 'label': _("Projects Stock"), 'icon': 'fa-lock'},
             ],
             'periods': [
                 {'key': 'all', 'label': _("All time")},

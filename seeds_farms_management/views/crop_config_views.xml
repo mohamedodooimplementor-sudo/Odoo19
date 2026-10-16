@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_seeds_crop_list" model="ir.ui.view">
+        <field name="name">seeds.crop.config.list</field>
+        <field name="model">seeds.crop.config</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="crop_type"/>
+                <field name="weight_per_ardab"/>
+                <field name="ardab_wg"/>
+                <field name="standard_moisture"/>
+                <field name="moisture_rate"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_seeds_crop_config" model="ir.actions.act_window">
+        <field name="name">Crop Settings</field>
+        <field name="res_model">seeds.crop.config</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>

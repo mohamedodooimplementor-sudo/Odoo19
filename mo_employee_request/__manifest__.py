@@ -1,40 +1,51 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Employee Requests',
-    'version': '19.0.1.4.0',
+    'version': '19.0.1.29.0',
     'category': 'Inventory',
-    'summary': 'Employee material requests with multi-step approvals (Department, Warehouse, Budget)',
+    'summary': 'Employee material requests with multi-step approvals (Department, Warehouse, Budget) on project locations',
     'description': """
 Employee Purchase & Material Request
 =====================================================
-* Employee requests with lines, per-warehouse availability and the standard Odoo product catalog
+* Employee requests with lines, per-location availability (the project's location) and the standard Odoo product catalog
 * Approval workflow: Department -> Warehouse -> Budget
 * Automatic split into Stock Orders (standard transfers) and Employee Purchase Orders
 * Purchase approvals, Budget Control, standard Odoo PO / receipts / bills
+* Project stock: reservation, approval with purchase-order alert, Replace, Release Back, report
+* Expiry date notification and report
+* Product coding on the product page: category codes + the codes of the variant attribute values
 * Dashboard, reports, settings, security
     """,
     'author': 'Eng. M.Aboelmagde',
     'license': 'LGPL-3',
-    'price': 350.0,
+    'price': 500.0,
     'currency': 'USD',
     'depends': ['base', 'hr', 'project', 'product', 'stock', 'stock_account', 'analytic', 'mail', 'account',
-                'purchase', 'purchase_stock', 'purchase_requisition'],
+                'purchase', 'purchase_stock', 'purchase_requisition', 'product_expiry'],
     'data': [
         'security/security.xml',
         'security/ir.model.access.csv',
         'data/sequence_data.xml',
+            'data/cron_data.xml',
         'data/er_required_field_data.xml',
         'wizard/reject_wizard_views.xml',
+        'wizard/er_report_wizard_views.xml',
         'wizard/epo_discount_views.xml',
         'wizard/epo_alternative_views.xml',
         'views/employee_request_views.xml',
         'views/employee_purchase_order_views.xml',
         'views/report_views.xml',
+        'views/project_lock_views.xml',
+        'wizard/project_transfer_views.xml',
+        'views/expiry_views.xml',
+        'views/product_coding_views.xml',
         'views/dashboard_views.xml',
+        'views/stock_location_views.xml',
         'views/res_config_settings_views.xml',
         'views/res_users_views.xml',
         'views/er_required_field_views.xml',
         'report/epo_report.xml',
+        'report/er_report_generic.xml',
         'data/mail_template.xml',
         'views/stock_picking_views.xml',
         'views/menus.xml',

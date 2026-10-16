@@ -1,100 +1,194 @@
-<section style="font-family:Arial,Helvetica,sans-serif;max-width:960px;margin:auto;padding:24px;color:#333;line-height:1.55">
+<section class="erx">
+<style>
+.erx{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#1f2933;line-height:1.6;max-width:1040px;margin:0 auto;padding:0 18px 40px}
+.erx *{box-sizing:border-box}
+.erx h1,.erx h2,.erx h3{line-height:1.2;margin:0}
+.erx .hero{background:linear-gradient(135deg,#714B67 0%,#4a2f43 100%);color:#fff;border-radius:18px;padding:40px 36px;margin:18px 0 26px;display:flex;flex-wrap:wrap;gap:28px;align-items:center;justify-content:space-between}
+.erx .hero h1{font-size:34px;font-weight:800;letter-spacing:-.5px}
+.erx .hero p{margin:12px 0 0;font-size:17px;opacity:.92;max-width:560px}
+.erx .tags{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px}
+.erx .tag{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);padding:4px 12px;border-radius:999px;font-size:12.5px;font-weight:600}
+.erx .price{background:#fff;color:#714B67;border-radius:16px;padding:20px 30px;text-align:center;min-width:190px;box-shadow:0 14px 30px rgba(0,0,0,.25)}
+.erx .price small{display:block;letter-spacing:1.5px;font-size:11px;font-weight:700;opacity:.7}
+.erx .price b{display:block;font-size:44px;line-height:1.05;font-weight:800;margin:4px 0}
+.erx .price span{font-size:12.5px;color:#5b6573}
+.erx .banner{width:100%;border-radius:14px;border:1px solid #e3e6ec;margin-bottom:26px}
+.erx .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:34px}
+.erx .stat{background:#f6f2f5;border-radius:14px;padding:18px;text-align:center}
+.erx .stat b{display:block;font-size:26px;color:#714B67;font-weight:800}
+.erx .stat span{font-size:13px;color:#5b6573}
+.erx h2.t{font-size:26px;font-weight:800;color:#2b2330;margin:44px 0 8px}
+.erx h2.t:after{content:"";display:block;width:54px;height:4px;border-radius:4px;background:#714B67;margin-top:10px}
+.erx .lead{color:#5b6573;font-size:16px;margin:12px 0 22px;max-width:780px}
+.erx .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:16px}
+.erx .card{border:1px solid #e3e6ec;border-radius:14px;padding:20px 20px 18px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.erx .card .ic{width:42px;height:42px;border-radius:12px;background:#f0e7ee;color:#714B67;font-size:20px;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.erx .card h3{font-size:17px;margin-bottom:6px;color:#2b2330}
+.erx .card p{margin:0;font-size:14.5px;color:#4b5563}
+.erx .new{display:inline-block;background:#198754;color:#fff;font-size:10.5px;font-weight:800;letter-spacing:.8px;padding:2px 8px;border-radius:999px;vertical-align:middle;margin-inline-start:8px}
+.erx .shot{width:100%;border:1px solid #e3e6ec;border-radius:12px;margin-top:16px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.erx .steps{counter-reset:s;display:grid;gap:12px;margin:18px 0 0;padding:0;list-style:none}
+.erx .steps li{counter-increment:s;position:relative;padding:14px 16px 14px 62px;border:1px solid #e3e6ec;border-radius:12px;background:#fff;font-size:14.5px}
+.erx .steps li:before{content:counter(s);position:absolute;left:16px;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;background:#714B67;color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center}
+.erx table{width:100%;border-collapse:collapse;font-size:14px;margin-top:14px;border:1px solid #e3e6ec;border-radius:12px;overflow:hidden}
+.erx th{background:#714B67;color:#fff;text-align:left;padding:10px 14px;font-weight:600}
+.erx td{padding:10px 14px;border-top:1px solid #e3e6ec;vertical-align:top}
+.erx tr:nth-child(even) td{background:#faf8fa}
+.erx .callout{border-inline-start:5px solid #714B67;background:#f6f2f5;border-radius:10px;padding:16px 20px;margin-top:18px;font-size:15px}
+.erx .faq details{border:1px solid #e3e6ec;border-radius:12px;padding:14px 18px;margin-top:10px;background:#fff}
+.erx .faq summary{cursor:pointer;font-weight:700;color:#2b2330}
+.erx .faq p{margin:10px 0 0;color:#4b5563;font-size:14.5px}
+.erx .cta{margin-top:44px;background:linear-gradient(135deg,#714B67,#4a2f43);color:#fff;border-radius:16px;padding:28px 32px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+.erx .cta b{font-size:22px}
+.erx .cta .p{background:#fff;color:#714B67;font-weight:800;border-radius:999px;padding:10px 26px;font-size:18px}
+.erx code{background:#f0e7ee;color:#4a2f43;padding:1px 7px;border-radius:6px;font-size:13px}
+.erx .foot{margin-top:26px;color:#7b8794;font-size:13px;text-align:center}
+</style>
 
-  <img src="banner.png" alt="Employee Requests" style="width:100%;border-radius:8px"/>
+<div class="hero">
+  <div>
+    <h1>Employee Purchase &amp; Material Request</h1>
+    <p>Request &rarr; approve &rarr; issue from stock or buy &rarr; receive &rarr; bill. One flow on standard Odoo documents, with project stock that stays with its project.</p>
+    <div class="tags">
+      <span class="tag">Odoo 19</span><span class="tag">Inventory</span><span class="tag">Purchase</span>
+      <span class="tag">Projects</span><span class="tag">Approvals</span><span class="tag">Dashboard</span>
+    </div>
+  </div>
+  <div class="price"><small>PRICE</small><b>500 USD</b><span>one-time &middot; Odoo 19</span></div>
+</div>
 
-  <table style="width:100%;margin:18px 0 6px 0;border-collapse:collapse"><tr>
-    <td style="vertical-align:middle">
-      <h1 style="color:#714B67;margin:0;font-size:30px">Employee Purchase &amp; Material Request</h1>
-      <p style="margin:6px 0 0 0;color:#666;font-size:16px">Request &rarr; approve &rarr; issue from stock or buy &rarr; receive &rarr; bill. One flow, standard Odoo documents.</p>
-    </td>
-    <td style="vertical-align:middle;text-align:right;width:230px">
-      <div style="display:inline-block;background:#714B67;color:#fff;padding:12px 22px;border-radius:10px;text-align:center">
-        <div style="font-size:12px;letter-spacing:1px;opacity:.85">PRICE</div>
-        <div style="font-size:34px;font-weight:bold;line-height:1.1">149 USD</div>
-        <div style="font-size:12px;opacity:.85">one-time &middot; Odoo 19</div>
-      </div>
-    </td>
-  </tr></table>
-  <p style="color:#777;margin-top:0">Odoo 19 &middot; LGPL-3 &middot; Author: Eng. M.Aboelmagde &middot; Odoo Lab (@odoolab)</p>
+<img class="banner" src="banner.png" alt="Employee Requests"/>
 
-  <h2 style="color:#714B67">What it does</h2>
-  <p>Employees ask for materials. The system checks every warehouse, issues what is in stock through standard
-     Odoo transfers and sends the missing quantities to purchasing, where they become Employee Purchase Orders
-     with their own approvals. Approved orders create a real Odoo purchase order, receipts and vendor bills.
-     Nothing in Odoo core is modified.</p>
+<div class="stats">
+  <div class="stat"><b>5-step</b><span>approval workflow</span></div>
+  <div class="stat"><b>1 click</b><span>stock + purchase split</span></div>
+  <div class="stat"><b>Per project</b><span>transfers, orders, stock lock</span></div>
+  <div class="stat"><b>0 core edits</b><span>standard Odoo documents</span></div>
+</div>
 
-  <h2 style="color:#714B67">Workflow</h2>
-  <img src="workflow.png" alt="Workflow" style="width:100%;border:1px solid #e3e6ec;border-radius:8px"/>
-  <ol>
-    <li><b>Employee Request</b>: Draft &rarr; Department &rarr; Warehouse &rarr; Budget &rarr; Approved.</li>
-    <li><b>Split</b>: automatic or manual, into Stock Transfers (what is available) and Employee Purchase Orders (what is missing). Duplicate processing is blocked and partial processing is supported.</li>
-    <li><b>Employee Purchase Order</b>: starts as an <b>RFQ</b>. Print it or email it to the vendor, then press <b>To Approve</b> &rarr; Manager Approval &rarr; Budget Approval &rarr; Open.</li>
-    <li><b>Budget rejection</b>: the order goes to Budget Control, is edited and resubmitted straight back to Budget Approval.</li>
-    <li><b>Execution</b>: a real Odoo purchase order is created and confirmed, then receipts (with optional inspection approval) and vendor bills. The order moves to Closed and Invoiced, and the request follows: Processing, Partially Done, Closed.</li>
-  </ol>
+<h2 class="t">What it does</h2>
+<p class="lead">Employees ask for materials. The system checks every warehouse, issues what is in stock through standard Odoo transfers and sends the missing quantities to purchasing, where they become purchase orders with their own approvals. Everything is traced back to the request, and to the project it belongs to.</p>
 
-  <h2 style="color:#714B67">Purchasing, at a glance</h2>
-  <h3 style="color:#333">Kanban view for purchase orders</h3>
-  <p>Purchase orders can be switched to a kanban board grouped by stage, with the total amount of each column, the vendor,
-     amount, discount, employee, source request, number of lines, activities, and a tick once the Odoo purchase
-     order exists. List and form views are one click away.</p>
-  <img src="kanban.png" alt="Purchase order kanban" style="width:100%;border:1px solid #e3e6ec;border-radius:8px"/>
+<div class="grid">
+  <div class="card"><div class="ic">&#9989;</div><h3>Multi-step approvals</h3><p>Department, warehouse and budget approval, for requests and for purchase orders. Any-one or all-must-approve modes, with reasons and full history.</p></div>
+  <div class="card"><div class="ic">&#128230;</div><h3>Smart split</h3><p>Available stock goes to a stock transfer, the missing quantity to a purchase order. Partial processing and duplicate protection included.</p></div>
+  <div class="card"><div class="ic">&#128188;</div><h3>Project aware <span class="new">NEW</span></h3><p>The project fills itself on the stock order from the request or the purchase order. One transfer and one purchase order per project, never mixed.</p></div>
+  <div class="card"><div class="ic">&#128274;</div><h3>Project stock lock <span class="new">NEW</span></h3><p>Stock bought for a project stays with it. Issuing it to another project needs the approval of that project's manager.</p></div>
+  <div class="card"><div class="ic">&#128202;</div><h3>Project dashboard <span class="new">NEW</span></h3><p>Filter every tile by project and see one card per project: open requests, transfers, pending approvals and the value of stock held.</p></div>
+  <div class="card"><div class="ic">&#128209;</div><h3>Reports</h3><p>Requests, purchases, stock consumption, project stock and the approval history, also reachable from the Inventory reporting menu.</p></div>
+</div>
 
-  <h3 style="color:#333">RFQ first, then approval</h3>
-  <ul>
-    <li>The order is an <b>RFQ</b> until you press <b>To Approve</b>: print it (<i>Print RFQ</i>) or send it by email to the vendor first.</li>
-    <li>The printout and the email say "Request for Quotation" while it is an RFQ and "Purchase Order" afterwards.</li>
-    <li><b>Discount</b> button, same idea as in Sales: <i>On All Order Lines</i>, <i>Global Discount</i> (a negative line per tax group) or <i>Fixed Amount</i>.</li>
-    <li>Per-line price, discount and taxes, agreements, project and analytic account, stage ribbons and approval history.</li>
-  </ul>
-  <img src="rfq_form.png" alt="RFQ form" style="width:100%;border:1px solid #e3e6ec;border-radius:8px"/>
+<h2 class="t">Workflow</h2>
+<img class="shot" src="workflow.png" alt="Workflow"/>
+<ol class="steps">
+  <li><b>Employee Request</b>: Draft &rarr; Department &rarr; Warehouse &rarr; Budget &rarr; Approved.</li>
+  <li><b>Split</b>: automatic or manual, into stock transfers (what is available) and purchase orders (what is missing), one per warehouse and <b>per project</b>.</li>
+  <li><b>Employee Purchase Order</b>: starts as an RFQ you can print or email, then Manager Approval &rarr; Budget Approval &rarr; Open.</li>
+  <li><b>Budget rejection</b>: the order goes to Budget Control, is corrected and resubmitted straight back to Budget Approval.</li>
+  <li><b>Execution</b>: a real Odoo purchase order, receipts (with optional inspection approval) and vendor bills. The request moves to Processing, Partially Done, Closed.</li>
+</ol>
 
-  <h2 style="color:#714B67">Configuration</h2>
-  <p>Everything is set in <b>Settings &rarr; Employee Requests</b> (administrators only). Users picked in the
-     settings automatically receive the matching access group, so nobody has to tick groups on the user form.</p>
-  <img src="settings.png" alt="Settings" style="width:100%;border:1px solid #e3e6ec;border-radius:8px"/>
+<h2 class="t">Projects &amp; stock lock <span class="new">NEW</span></h2>
+<p class="lead">Materials bought for a project should not quietly disappear into another one. The module keeps track of what each project holds and asks for approval before anyone takes it.</p>
+<div class="grid">
+  <div class="card"><h3>Project filled automatically</h3><p>Stock orders take the project of the request line. Receipts take it from the purchase order. A request with several projects creates one stock order and one purchase order per project.</p></div>
+  <div class="card"><h3>Stock held per project</h3><p>Held = received for the project + allocated by hand &minus; issued to it, per warehouse and product. Always visible in <b>Project Stock Report</b>.</p></div>
+  <div class="card"><h3>Approval to issue</h3><p>A transfer that takes stock held by another project is blocked: no reservation, no validation. The requester gives a reason, the owner project's manager approves or rejects with a reason.</p></div>
+  <div class="card"><h3>Manual allocations</h3><p>Set aside stock that is already in the warehouse for a project, and release it when it is no longer needed.</p></div>
+  <div class="card"><h3>Approval history</h3><p>Who asked, who approved or rejected, when and why, kept in a dedicated report.</p></div>
+  <div class="card"><h3>Safe by design</h3><p>The project of a validated transfer cannot be changed, and an approval is cancelled automatically if quantities or the project change afterwards.</p></div>
+</div>
+<div class="callout"><b>Automatic requests respect the lock too.</b> When a request is split, stock held by other projects is not offered to the line: the missing quantity goes to purchasing instead.</div>
 
-  <table style="width:100%;border-collapse:collapse;margin-top:16px;font-size:14px">
-    <tr style="background:#714B67;color:#fff"><th style="text-align:left;padding:8px">Setting</th><th style="text-align:left;padding:8px">What it does</th></tr>
-    <tr><td style="padding:8px;border-bottom:1px solid #e3e6ec"><b>Department Approval</b></td><td style="padding:8px;border-bottom:1px solid #e3e6ec">First step of a request: the employee's department manager, or specific users.</td></tr>
-    <tr><td style="padding:8px;border-bottom:1px solid #e3e6ec"><b>Approval Mode</b></td><td style="padding:8px;border-bottom:1px solid #e3e6ec">Any one approver is enough, or all of them must approve each step.</td></tr>
-    <tr><td style="padding:8px;border-bottom:1px solid #e3e6ec"><b>Warehouse / Budget Approval Users</b></td><td style="padding:8px;border-bottom:1px solid #e3e6ec">Who checks stock and who gives the budget approval of a request.</td></tr>
-    <tr><td style="padding:8px;border-bottom:1px solid #e3e6ec"><b>Purchase Manager Approval</b></td><td style="padding:8px;border-bottom:1px solid #e3e6ec">First approval of a purchase order: the requester's direct manager, or specific users.</td></tr>
-    <tr><td style="padding:8px;border-bottom:1px solid #e3e6ec"><b>Purchase Budget Approval Users</b></td><td style="padding:8px;border-bottom:1px solid #e3e6ec">Second approval of a purchase order.</td></tr>
-    <tr><td style="padding:8px;border-bottom:1px solid #e3e6ec"><b>Budget Control Users</b></td><td style="padding:8px;border-bottom:1px solid #e3e6ec">Can edit and resubmit budget-rejected orders.</td></tr>
-    <tr><td style="padding:8px;border-bottom:1px solid #e3e6ec"><b>Receipt Inspection Approval</b></td><td style="padding:8px;border-bottom:1px solid #e3e6ec">Receipts must be approved by an inspector (the requester, or specific users) before they can be validated.</td></tr>
-    <tr><td style="padding:8px;border-bottom:1px solid #e3e6ec"><b>Automation</b></td><td style="padding:8px;border-bottom:1px solid #e3e6ec">Automatically create stock transfers, purchase orders and Odoo purchase orders; automatic bills are optional and off by default.</td></tr>
-  </table>
+<h2 class="t">Reservation, Replace &amp; Release Back <span class="new">NEW</span></h2>
+<p class="lead">Built from the project inventory meeting: stock is reserved for a project, moved between projects with approval and returned to general stock when it is no longer needed.</p>
+<div class="grid">
+  <div class="card"><h3>Reserve for a project</h3><p>From the <b>General Projects Warehouse</b> (set in Settings), or directly to the project when it is received on the project's purchase order.</p></div>
+  <div class="card"><h3>Replace action</h3><p>A <b>Replace Stock</b> button on the project pulls products from any warehouse. If the stock belongs to another project, the owner's approval is required.</p></div>
+  <div class="card"><h3>Purchase order alert</h3><p>The approval shows how much is taken from which project and what it keeps, so you know when a purchase order may be needed for them.</p></div>
+  <div class="card"><h3>Release Back</h3><p>When a project needs nothing more, release its reservation and the quantity returns to general stock.</p></div>
+  <div class="card"><h3>Project stock report</h3><p>Warehouse, project, product, received, allocated, issued and held quantity, from Inventory and from the app.</p></div>
+  <div class="card"><h3>Expiry control</h3><p>A daily notice before lots expire, plus an <b>Expiry Date Report</b> with expired / within 30, 60, 90 days filters and a dashboard tile.</p></div>
+</div>
 
-  <h3 style="color:#333">Access groups</h3>
-  <table style="width:100%;border-collapse:collapse;font-size:14px">
-    <tr style="background:#f3f4f7"><th style="text-align:left;padding:8px">Group</th><th style="text-align:left;padding:8px">Can</th></tr>
-    <tr><td style="padding:8px;border-bottom:1px solid #e3e6ec">Employee Request User</td><td style="padding:8px;border-bottom:1px solid #e3e6ec">Create, read and edit own requests; sees the app.</td></tr>
-    <tr><td style="padding:8px;border-bottom:1px solid #e3e6ec">Create for Employees</td><td style="padding:8px;border-bottom:1px solid #e3e6ec">Create requests on behalf of other employees.</td></tr>
-    <tr><td style="padding:8px;border-bottom:1px solid #e3e6ec">All Documents</td><td style="padding:8px;border-bottom:1px solid #e3e6ec">Read all requests, stock transfers and purchase orders.</td></tr>
-    <tr><td style="padding:8px;border-bottom:1px solid #e3e6ec">Dashboard</td><td style="padding:8px;border-bottom:1px solid #e3e6ec">Open the dashboard.</td></tr>
-    <tr><td style="padding:8px;border-bottom:1px solid #e3e6ec">Warehouse Approver / Budget Approver</td><td style="padding:8px;border-bottom:1px solid #e3e6ec">Approve their step of a request.</td></tr>
-    <tr><td style="padding:8px;border-bottom:1px solid #e3e6ec">Employee Purchase User / Manager</td><td style="padding:8px;border-bottom:1px solid #e3e6ec">Create and edit employee purchase orders.</td></tr>
-    <tr><td style="padding:8px;border-bottom:1px solid #e3e6ec">Budget Control User</td><td style="padding:8px;border-bottom:1px solid #e3e6ec">Edit and resubmit budget-rejected purchase orders.</td></tr>
-    <tr><td style="padding:8px;border-bottom:1px solid #e3e6ec">Employee Request Manager</td><td style="padding:8px;border-bottom:1px solid #e3e6ec">Read everything, reset and cancel requests.</td></tr>
-  </table>
+<h2 class="t">Product coding <span class="new">NEW</span></h2>
+<p class="lead">A <b>Product Coding</b> tab on the product page builds the internal reference from fields the product already has.</p>
+<table>
+  <tr><th style="width:30%">Part</th><th>Where it comes from</th></tr>
+  <tr><td>Category &amp; sub-category</td><td>The <b>Product Category</b> of the product: the <b>Code</b> field of its category and of <b>every parent</b> above it, top first (e.g. <code>EL</code> + <code>CB</code>)</td></tr>
+  <tr><td>Color</td><td>The values of the attribute marked <b>Color</b>, each with its own <b>Code</b> (first letter by default, editable)</td></tr>
+  <tr><td>Size</td><td>The values of the attribute marked <b>Size</b>, with their own Code, the same way</td></tr>
+  <tr><td><b>Result</b></td><td><code>ELCBRL</code>: filled on the product, one code per variant, with a warning if the code already exists</td></tr>
+</table>
 
-  <h2 style="color:#714B67">More features</h2>
-  <ul>
-    <li>Employee and department filled in automatically; project and analytic account per line</li>
-    <li>One compact Stock field per line (available &rarr; forecast, colour-coded by status) with a small click-through popover: on hand, reserved, incoming, outgoing, locations and related transfers</li>
-    <li>Product catalog with images, UoM, stock and one-click add / remove</li>
-    <li>Stock Orders create standard Odoo transfers and keep the analytic account of each request line</li>
-    <li>Reject with a reason, reset to draft, cancel; approval history, chatter and activities on every document</li>
-    <li>Smart buttons link the request, purchase order, receipts and bills</li>
-    <li>Clickable dashboard that starts with <b>Needs my action</b>: requests and purchase orders waiting for your approval, budget-rejected orders to fix, approved requests to process and your own rejected requests, with the oldest documents listed so you can open them in one tap</li>
-    <li>Phone-friendly forms and kanban boards: large buttons, bigger inputs, a single full-width main action and fewer fields on small screens</li>
-    <li>Plus Employee Request, Purchase and Stock Consumption reports</li>
-    <li>Dark mode support for the dashboard</li>
-  </ul>
+<h2 class="t">Dashboard</h2>
+<p class="lead">Starts with <b>Needs my action</b>, then the request pipeline and orders. Pick a project in the new <b>Project</b> filter, or click a project card, and every tile follows.</p>
+<div class="grid">
+  <div class="card"><h3>Project filter</h3><p>One select next to period and department. Requests, purchase orders and transfers are all filtered on it.</p></div>
+  <div class="card"><h3>Project cards</h3><p>Value of stock held, open requests, open transfers, items held and the number of approvals waiting, with a shortcut to the project stock.</p></div>
+  <div class="card"><h3>Projects Stock tiles</h3><p>Stock held for projects, transfers waiting project approval, manual allocations and open project transfers.</p></div>
+</div>
 
-  <h2 style="color:#714B67">Technical</h2>
-  <p>Technical name: <code>mo_employee_request</code> &middot; Odoo 19 &middot; depends on Contacts/HR, Project, Inventory (stock, stock_account), Purchase (purchase, purchase_stock, purchase_requisition), Accounting and Analytic &middot; no core files edited &middot; demo data included &middot; LGPL-3.</p>
+<h2 class="t">Purchasing at a glance</h2>
+<div class="grid">
+  <div class="card"><h3>Kanban for purchase orders</h3><p>Grouped by stage with column totals, vendor, amount, discount, source request, activities and a tick once the Odoo purchase order exists.</p></div>
+  <div class="card"><h3>RFQ first, then approval</h3><p>Print or email the RFQ, then press To Approve. The printout says &ldquo;Request for Quotation&rdquo; first and &ldquo;Purchase Order&rdquo; afterwards.</p></div>
+  <div class="card"><h3>Discounts, taxes, agreements</h3><p>Per-line price, discount and taxes, global or fixed discounts like in Sales, agreements, project and analytic account per line.</p></div>
+</div>
+<img class="shot" src="kanban.png" alt="Purchase order kanban"/>
+<img class="shot" src="rfq_form.png" alt="RFQ form"/>
 
-  <p style="margin-top:32px;color:#777">Author: Eng. M.Aboelmagde &middot; Odoo Lab (@odoolab)</p>
+<h2 class="t">Configuration</h2>
+<p class="lead">Everything is set in <b>Settings &rarr; Employee Requests</b>. Users picked there automatically receive the matching access group.</p>
+<img class="shot" src="settings.png" alt="Settings"/>
+<table>
+  <tr><th style="width:30%">Setting</th><th>What it does</th></tr>
+  <tr><td><b>Department Approval</b></td><td>First step of a request: the department manager, or specific users.</td></tr>
+  <tr><td><b>Approval Mode</b></td><td>Any one approver is enough, or all of them must approve each step.</td></tr>
+  <tr><td><b>Warehouse / Budget Approval</b></td><td>Who checks stock and who gives the budget approval of a request.</td></tr>
+  <tr><td><b>Purchase Manager / Budget Approval</b></td><td>The two approvals of a purchase order.</td></tr>
+  <tr><td><b>Budget Control Users</b></td><td>Can edit and resubmit budget-rejected orders.</td></tr>
+  <tr><td><b>Receipt Inspection Approval</b></td><td>Receipts must be approved by an inspector before validation.</td></tr>
+  <tr><td><b>Project Stock Lock</b></td><td>Turn the lock on or off, and choose who approves: the project manager of the stock owner, or specific users.</td></tr>
+  <tr><td><b>Automation</b></td><td>Create stock transfers, purchase orders and Odoo purchase orders automatically; bills are optional.</td></tr>
+</table>
+
+<h2 class="t">Access groups</h2>
+<table>
+  <tr><th style="width:34%">Group</th><th>Can</th></tr>
+  <tr><td>Employee Request User</td><td>Create, read and edit own requests; sees the app.</td></tr>
+  <tr><td>Create for Employees</td><td>Create requests on behalf of other employees.</td></tr>
+  <tr><td>All Documents</td><td>Read all requests, stock transfers and purchase orders.</td></tr>
+  <tr><td>Dashboard</td><td>Open the dashboard.</td></tr>
+  <tr><td>Warehouse / Budget Approver</td><td>Approve their step of a request.</td></tr>
+  <tr><td>Employee Purchase User / Manager</td><td>Create and edit employee purchase orders.</td></tr>
+  <tr><td>Budget Control User</td><td>Edit and resubmit budget-rejected purchase orders.</td></tr>
+  <tr><td>Project Stock Lock Approver</td><td>Approve issuing stock held for another project.</td></tr>
+  <tr><td>Employee Request Manager</td><td>Read everything, reset and cancel requests.</td></tr>
+</table>
+
+<h2 class="t">More features</h2>
+<div class="grid">
+  <div class="card"><h3>Live stock on every line</h3><p>One compact field (available &rarr; forecast, colour coded) with a popover: on hand, reserved, incoming, outgoing, locations and transfers.</p></div>
+  <div class="card"><h3>Product catalog</h3><p>Images, UoM, stock and one-click add / remove.</p></div>
+  <div class="card"><h3>Traceability</h3><p>Smart buttons link the request, purchase order, receipts and bills. Chatter and activities on every document.</p></div>
+  <div class="card"><h3>Phone friendly</h3><p>Large buttons, bigger inputs and a single full-width main action on small screens.</p></div>
+  <div class="card"><h3>Dark mode</h3><p>The dashboard follows the Odoo theme.</p></div>
+  <div class="card"><h3>Reject with a reason</h3><p>Reset to draft, cancel, approval history on every document.</p></div>
+</div>
+
+<h2 class="t">FAQ</h2>
+<div class="faq">
+  <details><summary>Does it change Odoo core?</summary><p>No. It extends standard models and views; transfers, purchase orders, receipts and bills are the normal Odoo documents.</p></details>
+  <details><summary>What stock is locked for a project?</summary><p>Stock received on purchase orders that belong to the project, plus quantities allocated by hand. Stock that was already in the warehouse is free until you allocate it.</p></details>
+  <details><summary>Can I turn the project lock off?</summary><p>Yes, in Settings &rarr; Employee Requests &rarr; Project Stock Lock. Projects are still filled on documents and shown on the reports.</p></details>
+  <details><summary>Who approves a cross-project issue?</summary><p>By default the project manager of the project holding the stock, falling back to the users chosen in the settings.</p></details>
+  <details><summary>Does it work with several warehouses and companies?</summary><p>Yes. Availability, holds and the report are computed per warehouse and per company.</p></details>
+</div>
+
+<h2 class="t">Technical</h2>
+<p>Technical name: <code>mo_employee_request</code> &middot; Odoo 19 &middot; depends on Contacts/HR, Project, Inventory (stock, stock_account, product_expiry), Purchase (purchase, purchase_stock, purchase_requisition), Accounting and Analytic &middot; no core files edited &middot; demo data included &middot; LGPL-3.</p>
+
+<div class="cta"><div><b>Ready to control requests, purchases and project stock?</b><div style="opacity:.85;margin-top:4px">One-time license, all updates for Odoo 19.</div></div><div class="p">500 USD</div></div>
+<p class="foot">Author: Eng. M.Aboelmagde &middot; Odoo Lab (@odoolab)</p>
 </section>

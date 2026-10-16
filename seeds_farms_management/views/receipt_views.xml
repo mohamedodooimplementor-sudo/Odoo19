@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_seeds_receipt_list" model="ir.ui.view">
+        <field name="name">seeds.receipt.list</field>
+        <field name="model">seeds.receipt</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="state == 'cancel'" decoration-success="state == 'po_created'">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="farmer_id"/>
+                <field name="contractor_id"/>
+                <field name="crop_type"/>
+                <field name="grade_id"/>
+                <field name="product_id"/>
+                <field name="factory_weight" sum="Total"/>
+                <field name="difference_weight" sum="Total"/>
+                <field name="number_of_ardab" sum="Total"/>
+                <field name="settlement_amount" sum="Total"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_seeds_receipt_form" model="ir.ui.view">
+        <field name="name">seeds.receipt.form</field>
+        <field name="model">seeds.receipt</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_confirm" string="Confirm" type="object" class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_create_purchase_order" string="Create Purchase Order" type="object"
+                            class="btn-primary" invisible="state != 'confirmed'"/>
+                    <button name="action_cancel" string="Cancel" type="object"
+                            invisible="state not in ('draft', 'confirmed')"/>
+                    <button name="action_draft" string="Set to Draft" type="object"
+                            invisible="state != 'cancel'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,po_created"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_purchase_order" type="object" class="oe_stat_button"
+                                icon="fa-shopping-cart" invisible="purchase_count == 0">
+                            <field name="purchase_count" widget="statinfo" string="Purchase Order"/>
+                        </button>
+                        <button name="action_view_pickings" type="object" class="oe_stat_button"
+                                icon="fa-truck" invisible="picking_count == 0">
+                            <field name="picking_count" widget="statinfo" string="Receipts"/>
+                        </button>
+                    </div>
+                    <div class="oe_title"><h1><field name="name"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="date" readonly="state != 'draft'"/>
+                            <field name="engineer_id" readonly="state != 'draft'"/>
+                            <field name="contractor_id" readonly="state != 'draft'"/>
+                            <field name="company_id" groups="base.group_multi_company" readonly="state != 'draft'"/>
+                            <field name="farmer_id" readonly="state != 'draft'"/>
+                            <field name="season_id" readonly="state != 'draft'"/>
+                            <field name="land_id" readonly="state != 'draft'"/>
+                            <field name="contract_id" readonly="state != 'draft'"/>
+                            <field name="country_id"/>
+                            <field name="state_id"/>
+                            <field name="city"/>
+                        </group>
+                        <group>
+                            <field name="warehouse_id" readonly="state != 'draft'"/>
+                            <field name="product_id" readonly="state != 'draft'"/>
+                            <field name="vehicle" readonly="state != 'draft'"/>
+                            <field name="crop_type" readonly="state != 'draft'"/>
+                            <field name="contractor_weight" readonly="state != 'draft'"/>
+                            <field name="gross_weight" readonly="state != 'draft'"/>
+                            <field name="tare_weight" readonly="state != 'draft'"/>
+                            <field name="factory_weight" readonly="state != 'draft'"/>
+                            <field name="difference_weight" decoration-danger="difference_weight &lt; 0"/>
+                            <field name="humidity_temp" readonly="state != 'draft'"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Seed Details" name="seed_details">
+                            <group>
+                                <group>
+                                    <field name="weight_per_ardab" readonly="state != 'draft'"/>
+                                    <field name="ardab_count"/>
+                                    <field name="sorting" readonly="state != 'draft'"/>
+                                    <field name="net_weight"/>
+                                </group>
+                                <group>
+                                    <field name="number_of_box" readonly="state != 'draft'"/>
+                                    <field name="weight_per_unit" readonly="state != 'draft'"/>
+                                    <field name="total_weight"/>
+                                    <field name="ardab_wg" readonly="state != 'draft'"/>
+                                    <field name="number_of_ardab"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Quality &amp; Pricing" name="quality_pricing">
+                            <group>
+                                <group string="Moisture">
+                                    <field name="moisture_percent" readonly="state != 'draft'"/>
+                                    <field name="standard_moisture" readonly="state != 'draft'"/>
+                                    <field name="moisture_rate" readonly="state != 'draft'"/>
+                                    <field name="moisture_deduction"/>
+                                </group>
+                                <group string="Grade &amp; Price">
+                                    <field name="grade_id" readonly="state != 'draft'"/>
+                                    <field name="grade_adjustment"/>
+                                    <field name="price_per_ardab" readonly="state != 'draft'"/>
+                                    <field name="adjusted_price"/>
+                                    <field name="settlement_amount"/>
+                                    <field name="settlement_id"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Additional Info" name="additional_info">
+                            <field name="notes" placeholder="Notes..."/>
+                        </page>
+                        <page string="Purchase &amp; Inventory" name="purchase_inventory">
+                            <group>
+                                <field name="purchase_order_id"/>
+                            </group>
+                            <field name="picking_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="scheduled_date"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_seeds_receipt_search" model="ir.ui.view">
+        <field name="name">seeds.receipt.search</field>
+        <field name="model">seeds.receipt</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="farmer_id"/>
+                <field name="contractor_id"/>
+                <field name="product_id"/>
+                <field name="vehicle"/>
+                <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="confirmed" string="Confirmed" domain="[('state', '=', 'confirmed')]"/>
+                <filter name="po_created" string="PO Created" domain="[('state', '=', 'po_created')]"/>
+                <filter name="unsettled" string="Unsettled" domain="[('state', '=', 'po_created'), ('settlement_id', '=', False)]"/>
+                <separator/>
+                <filter name="corn" string="Corn" domain="[('crop_type', '=', 'corn')]"/>
+                <filter name="wheat" string="Wheat" domain="[('crop_type', '=', 'wheat')]"/>
+                <group>
+                    <filter name="group_farmer" string="Farmer" context="{'group_by': 'farmer_id'}"/>
+                    <filter name="group_contractor" string="Contractor" context="{'group_by': 'contractor_id'}"/>
+                    <filter name="group_grade" string="Grade" context="{'group_by': 'grade_id'}"/>
+                    <filter name="group_crop" string="Crop Type" context="{'group_by': 'crop_type'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_month" string="Month" context="{'group_by': 'date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_seeds_receipt_pivot" model="ir.ui.view">
+        <field name="name">seeds.receipt.pivot</field>
+        <field name="model">seeds.receipt</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="crop_type" type="row"/>
+                <field name="date" interval="month" type="col"/>
+                <field name="contractor_weight" type="measure"/>
+                <field name="factory_weight" type="measure"/>
+                <field name="difference_weight" type="measure"/>
+                <field name="number_of_ardab" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_seeds_receipt_graph" model="ir.ui.view">
+        <field name="name">seeds.receipt.graph</field>
+        <field name="model">seeds.receipt</field>
+        <field name="arch" type="xml">
+            <graph type="bar">
+                <field name="farmer_id"/>
+                <field name="factory_weight" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_seeds_receipt" model="ir.actions.act_window">
+        <field name="name">Seed Receipts</field>
+        <field name="res_model">seeds.receipt</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_seeds_receipt_report" model="ir.actions.act_window">
+        <field name="name">Receipts Analysis</field>
+        <field name="res_model">seeds.receipt</field>
+        <field name="view_mode">pivot,graph,list,form</field>
+    </record>
+</odoo>

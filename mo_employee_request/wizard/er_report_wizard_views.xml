@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_er_report_wizard_form" model="ir.ui.view">
+        <field name="name">er.report.wizard.form</field>
+        <field name="model">er.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Report">
+                <field name="report_type" invisible="1"/>
+                <field name="company_id" invisible="1"/>
+                <group>
+                    <group string="Period" invisible="report_type not in ('request', 'purchase')">
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <group string="Filters">
+                        <field name="project_ids" widget="many2many_tags" options="{'no_create': True}"
+                               invisible="report_type == 'expiry'"/>
+                        <field name="only_held" invisible="report_type != 'project_stock'"/>
+                        <field name="expiry_state" invisible="report_type != 'expiry'"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_view" type="object" string="View" class="btn-primary"
+                            icon="fa-bar-chart"/>
+                    <button name="action_print_pdf" type="object" string="PDF" class="btn-secondary"
+                            icon="fa-file-pdf-o"/>
+                    <button name="action_export_xlsx" type="object" string="Excel"
+                            class="btn-secondary" icon="fa-file-excel-o"/>
+                    <button string="Close" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_er_report_wizard_request" model="ir.actions.act_window">
+        <field name="name">Employee Request Report</field>
+        <field name="res_model">er.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_report_type': 'request'}</field>
+    </record>
+    <record id="action_er_report_wizard_purchase" model="ir.actions.act_window">
+        <field name="name">Purchase Report</field>
+        <field name="res_model">er.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_report_type': 'purchase'}</field>
+    </record>
+    <record id="action_er_report_wizard_project_stock" model="ir.actions.act_window">
+        <field name="name">Project Stock Report</field>
+        <field name="res_model">er.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_report_type': 'project_stock'}</field>
+    </record>
+    <record id="action_er_report_wizard_expiry" model="ir.actions.act_window">
+        <field name="name">Expiry Date Report</field>
+        <field name="res_model">er.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_report_type': 'expiry'}</field>
+    </record>
+</odoo>

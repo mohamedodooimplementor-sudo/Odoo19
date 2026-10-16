@@ -39,3 +39,15 @@ class ResConfigSettings(models.TransientModel):
         related='company_id.er_purchase_budget_user_ids', readonly=False)
     er_budget_control_user_ids = fields.Many2many(
         related='company_id.er_budget_control_user_ids', readonly=False)
+
+    er_project_lock_enabled = fields.Boolean(
+        related='company_id.er_project_lock_enabled', readonly=False)
+    er_project_lock_user_ids = fields.Many2many(
+        related='company_id.er_project_lock_user_ids', readonly=False)
+    er_project_lock_mode = fields.Selection(
+        related='company_id.er_project_lock_mode', readonly=False)
+    er_general_location_ids = fields.Many2many(
+        related='company_id.er_general_location_ids', readonly=False,
+        domain="[('usage', '=', 'internal'), ('er_is_general', '=', True)]")
+    er_expiry_days = fields.Integer(related='company_id.er_expiry_days', readonly=False)
+    er_expiry_user_ids = fields.Many2many(related='company_id.er_expiry_user_ids', readonly=False)

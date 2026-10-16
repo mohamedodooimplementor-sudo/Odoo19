@@ -2,6 +2,8 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
+from .utils import default_location
+
 GROUP_MANAGER = 'mo_employee_request.group_employee_request_manager'
 
 
@@ -10,9 +12,8 @@ class EmployeeRequestLine(models.Model):
     _description = 'Employee Request Line'
     _order = 'sequence, id'
 
-    def _default_warehouse(self):
-        return self.env['stock.warehouse'].search(
-            [('company_id', '=', self.env.company.id)], limit=1)
+    def _default_location(self):
+        return default_location(self.env, self.company_id or self.env.company)
 
     request_id = fields.Many2one('employee.request', string='Request',
                                  required=True, ondelete='cascade', index=True)
@@ -25,23 +26,25 @@ class EmployeeRequestLine(models.Model):
         'product.category', string='Product Category',
         related='product_id.categ_id', store=True)
     name = fields.Text(string='Description', compute='_compute_name',
-                       store=True, readonly=False)
+                       store=True, readonly=False, precompute=True)
     product_uom_id = fields.Many2one(
         'uom.uom', string='UoM', compute='_compute_uom', store=True,
-        readonly=False, required=True)
+        readonly=False, required=True, precompute=True)
     product_uom_qty = fields.Float(string='Requested Quantity', default=1.0,
                                    digits='Product Unit', required=True)
-    warehouse_id = fields.Many2one(
-        'stock.warehouse', string='Warehouse', required=True,
-        default=_default_warehouse)
+    # Taken from the project's location as soon as a project is chosen (can still be changed)
+    location_id = fields.Many2one(
+        'stock.location', string='Location', required=True, index=True,
+        compute='_compute_location', store=True, readonly=False, precompute=True,
+        domain="[('usage', '=', 'internal'), ('company_id', 'in', [company_id, False])]")
     project_id = fields.Many2one('project.project', string='Project',
                                  compute='_compute_project', store=True,
-                                 readonly=False)
+                                 readonly=False, precompute=True)
     analytic_account_id = fields.Many2one(
         'account.analytic.account', string='Analytic Account',
         compute='_compute_analytic', store=True, readonly=False)
 
-    # Stock availability for the line's warehouse (expressed in the line UoM)
+    # Stock availability for the line's location, children included (expressed in the line UoM)
     onhand_qty = fields.Float(string='On Hand', compute='_compute_stock_info',
                               digits='Product Unit')
     reserved_qty = fields.Float(string='Reserved', compute='_compute_stock_info',
@@ -80,6 +83,13 @@ class EmployeeRequestLine(models.Model):
         for line in self:
             line.project_id = line.project_id or line.request_id.project_id
 
+    @api.depends('project_id', 'project_id.er_location_id')
+    def _compute_location(self):
+        for line in self:
+            # the project's location first; else keep the chosen one; else the default location
+            line.location_id = (line.project_id.er_location_id or line.location_id
+                                or line._default_location())
+
     @api.depends('request_id.analytic_account_id', 'project_id.account_id')
     def _compute_analytic(self):
         for line in self:
@@ -88,16 +98,16 @@ class EmployeeRequestLine(models.Model):
                 line.project_id.account_id or line.analytic_account_id
                 or line.request_id.analytic_account_id)
 
-    @api.depends('product_id', 'warehouse_id', 'product_uom_id', 'product_uom_qty')
+    @api.depends('product_id', 'location_id', 'product_uom_id', 'product_uom_qty')
     def _compute_stock_info(self):
         for line in self:
             vals = dict.fromkeys(
                 ('onhand_qty', 'reserved_qty', 'available_qty', 'incoming_qty',
                  'outgoing_qty', 'forecast_qty', 'issue_qty', 'purchase_qty'), 0.0)
             status = False
-            product, warehouse = line.product_id, line.warehouse_id
-            if product and warehouse:
-                prod = product.sudo().with_context(warehouse_id=warehouse.id)
+            product, location = line.product_id, line.location_id
+            if product and location:
+                prod = product.sudo().with_context(location=location.id)
                 onhand = prod.qty_available
                 free = prod.free_qty
                 vals.update(

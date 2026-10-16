@@ -2,6 +2,8 @@
 from odoo import Command, _, api, fields, models
 from odoo.exceptions import UserError
 
+from .utils import convert_uom, pick_field
+
 INSPECTION_SUMMARY = 'Receipt inspection approval'
 
 
@@ -19,10 +21,27 @@ class StockMove(models.Model):
                                      string='Employee')
     er_department_id = fields.Many2one(related='er_request_line_id.department_id', store=True,
                                        string='Department')
-    er_warehouse_id = fields.Many2one(related='er_request_line_id.warehouse_id', store=True,
-                                      string='Request Warehouse')
-    er_project_id = fields.Many2one(related='er_request_line_id.project_id', store=True,
-                                    string='Project')
+    er_location_id = fields.Many2one(related='er_request_line_id.location_id', store=True,
+                                     string='Request Location')
+    # Project of the move: the request line's project, else the purchase order line's project
+    # (receipts), else the one chosen on the transfer header. Kept editable on draft transfers.
+    er_project_id = fields.Many2one(
+        'project.project', string='Project', index=True,
+        compute='_compute_er_project', store=True, readonly=False)
+
+    @api.depends('er_request_line_id.project_id',
+                 'purchase_line_id.er_po_line_id.project_id',
+                 'purchase_line_id.er_po_line_id.order_id.project_id',
+                 'picking_id.er_project_id')
+    def _compute_er_project(self):
+        for move in self:
+            po_line = move.sudo().purchase_line_id.er_po_line_id
+            move.er_project_id = (
+                move.er_request_line_id.project_id
+                or po_line.project_id
+                or po_line.order_id.project_id
+                or move.picking_id.er_project_id
+                or move.er_project_id)
     # --- Analytic distribution (same widget / logic as sales and purchases) ----------------
     # `analytic_distribution` comes from analytic.mixin. Value: the one chosen on the transfer
     # header, otherwise the analytic account of the employee request line. Editable per line.
@@ -66,6 +85,118 @@ class StockMove(models.Model):
                     vals['analytic_distribution'] = distribution
         return vals_list
 
+    # --- Project stock lock ---------------------------------------------------
+    @api.model
+    def _er_project_locked_qty(self, product, location, exclude_project=None):
+        """{project_id: quantity} still held for each project in this location (children included).
+
+        Held = received for the project (receipt of a project purchase order)
+               - already issued to that project.  Expressed in the product UoM.
+        """
+        product, location = product.sudo(), location.sudo()
+        if not (product and location):
+            return {}
+        view = location
+        base = [('product_id', '=', product.id), ('state', '=', 'done'),
+                ('er_project_id', '!=', False)]
+        if exclude_project:
+            base.append(('er_project_id', '!=', exclude_project.id))
+        Move = self.sudo()
+        received = Move.search(base + [
+            ('picking_type_id.code', '=', 'incoming'),
+            ('location_dest_id', 'child_of', view.id)])
+        issued = Move.search(base + [
+            ('picking_type_id.code', '=', 'outgoing'),
+            ('location_id', 'child_of', view.id)])
+        held = {}
+        alloc_domain = [('state', '=', 'confirmed'), ('product_id', '=', product.id),
+                        ('location_id', 'child_of', location.id)]
+        if exclude_project:
+            alloc_domain.append(('project_id', '!=', exclude_project.id))
+        for alloc in self.env['er.project.allocation'].sudo().search(alloc_domain):
+            sign = -1.0 if alloc.kind == 'release' else 1.0
+            held[alloc.project_id.id] = held.get(alloc.project_id.id, 0.0) + sign * alloc.qty
+        for sign, moves in ((1, received), (-1, issued)):
+            for move in moves:
+                uom = move[pick_field(move, 'product_uom', 'product_uom_id')]
+                qty = convert_uom(move.quantity, uom, product.uom_id)
+                held[move.er_project_id.id] = held.get(move.er_project_id.id, 0.0) + sign * qty
+        return {pid: qty for pid, qty in held.items() if qty > 1e-6}
+
+    def _er_lock_scope(self):
+        """Moves of an outgoing transfer the project lock applies to."""
+        return self.filtered(
+            lambda m: m.picking_id and m.picking_id.picking_type_code == 'outgoing'
+            and m.state not in ('done', 'cancel')
+            and m.picking_id.picking_type_id.warehouse_id
+            and m.picking_id.company_id.sudo().er_project_lock_enabled)
+
+    @api.model
+    def _er_lock_check(self, product, project, location, wanted):
+        """None when `wanted` (product UoM) can be issued to `project` without touching stock
+        held for other projects, else (product, project, wanted, free, holder_ids, locked)."""
+        others = self._er_project_locked_qty(product, location, exclude_project=project)
+        locked = sum(others.values())
+        if not locked:
+            return None
+        onhand = product.sudo().with_context(location=location.id).qty_available
+        free = max(onhand - locked, 0.0)
+        if wanted - free > 1e-6:
+            return (product, project, wanted, free, set(others), locked)
+        return None
+
+    def _er_project_lock_excess(self):
+        """[(product, project, wanted, free, holder_ids, locked)] for the moves asking more
+        than what is free once the stock held by other projects is left alone."""
+        res = []
+        groups = {}
+        for move in self._er_lock_scope():
+            key = (move.product_id, move.er_project_id, move.location_id)
+            groups[key] = groups.get(key, 0.0) + convert_uom(
+                move.product_uom_qty, move[pick_field(move, 'product_uom', 'product_uom_id')],
+                move.product_id.uom_id)
+        for (product, project, location), wanted in groups.items():
+            found = self._er_lock_check(product, project, location, wanted)
+            if found:
+                res.append(found)
+        return res
+
+    @api.model
+    def _er_lock_alert(self, found):
+        """Text of one excess: what is taken from whom, and whether the owners need a PO."""
+        product, project, wanted, free, holder_ids, locked = found
+        holders = self.env['project.project'].sudo().browse(holder_ids)
+        taken = wanted - free
+        keep = max(locked - taken, 0.0)
+        return _(
+            "%(product)s: %(wanted)s requested for %(project)s but only %(free)s is free. "
+            "%(taken)s would be taken from stock held for %(holders)s, which would keep only "
+            "%(keep)s: a purchase order may be needed for them.",
+            product=product.display_name, wanted=wanted,
+            project=project.display_name or _("(no project)"), free=free, taken=taken,
+            holders=", ".join(holders.mapped('display_name')), keep=keep)
+
+    def _action_assign(self, *args, **kwargs):
+        # stock held for another project must not be reserved before it is approved
+        blocked = self.filtered(
+            lambda m: m.picking_id.er_lock_state != 'approved' and m._er_project_lock_excess())
+        return super(StockMove, self - blocked)._action_assign(*args, **kwargs)
+
+    def write(self, vals):
+        if 'er_project_id' in vals and not self.env.su and any(
+                m.state == 'done' and m.er_project_id.id != vals['er_project_id']
+                for m in self):
+            raise UserError(_("The project of a validated stock move cannot be changed: "
+                              "it would change the stock held for the projects."))
+        res = super().write(vals)
+        if {'product_id', 'product_uom_qty', 'er_project_id'} & set(vals):
+            # the approval was given for other quantities / another project
+            self.picking_id.filtered(
+                lambda p: p.er_lock_state in ('approved', 'rejected')
+                and p.state not in ('done', 'cancel')).sudo().write(
+                {'er_lock_state': 'none', 'er_lock_approved_by': False})
+        return res
+
     def _create_analytic_move(self):
         # When the distribution is already on the journal entry, posting it creates the analytic
         # lines: do not create (or keep the estimated) ones from the stock move as well.
@@ -82,13 +213,243 @@ class StockPicking(models.Model):
         'employee.request', string='Employee Request', index=True, copy=False,
         ondelete='set null')
 
-    # `analytic_distribution` (analytic.mixin) on the header: taken from the request, applied
-    # to every line when changed (each line can still be changed).
-    @api.depends('er_request_id.analytic_account_id',
+    # Project: from the request (stock order) or from the purchase order (receipt). A request
+    # with several projects gives one stock order per project, so it is a single value here.
+    er_project_id = fields.Many2one(
+        'project.project', string='Project', index=True, tracking=True,
+        compute='_compute_er_project', store=True, readonly=False)
+
+    @api.depends('er_request_id.project_id', 'move_ids.er_request_line_id.project_id',
+                 'move_ids.purchase_line_id.er_po_line_id.project_id',
+                 'move_ids.purchase_line_id.er_po_line_id.order_id.project_id')
+    def _compute_er_project(self):
+        for picking in self.sudo():
+            moves = picking.move_ids
+            projects = moves.er_request_line_id.project_id
+            for po_line in moves.purchase_line_id.er_po_line_id:
+                projects |= po_line.project_id or po_line.order_id.project_id
+            if not projects and picking.er_request_id:
+                projects = picking.er_request_id.project_id
+            if len(projects) == 1:
+                picking.er_project_id = projects
+            elif not projects:
+                picking.er_project_id = picking.er_project_id  # keep the manual choice
+            else:
+                picking.er_project_id = False  # several projects: shown per line
+
+    @api.onchange('er_project_id')
+    def _onchange_er_project_id(self):
+        for move in self.move_ids:
+            move.er_project_id = self.er_project_id
+
+    # --- Project stock lock (approval to issue stock held for another project) ----------
+    er_lock_state = fields.Selection(
+        [('none', 'No Approval'), ('pending', 'Waiting Project Approval'),
+         ('approved', 'Project Issue Approved'), ('rejected', 'Project Issue Rejected')],
+        string='Project Lock', default='none', copy=False, tracking=True)
+    er_lock_approved_by = fields.Many2one('res.users', string='Project Lock Approved By',
+                                          copy=False, readonly=True)
+    er_lock_message = fields.Text(compute='_compute_er_lock', string='Project Lock Details')
+    er_has_lock_excess = fields.Boolean(compute='_compute_er_lock')
+    er_can_approve_lock = fields.Boolean(compute='_compute_er_can_approve_lock')
+    er_lock_approver_ids = fields.Many2many(
+        'res.users', 'er_picking_lock_approver_rel', 'picking_id', 'user_id',
+        string='Project Lock Approvers', copy=False)
+
+    @api.depends('move_ids.product_id', 'move_ids.product_uom_qty', 'move_ids.er_project_id',
+                 'move_ids.state', 'state', 'er_lock_state')
+    def _compute_er_lock(self):
+        for picking in self:
+            lines = []
+            if picking.state not in ('done', 'cancel') and picking.id:
+                for found in picking.move_ids._er_project_lock_excess():
+                    lines.append(self.env['stock.move']._er_lock_alert(found))
+            picking.er_has_lock_excess = bool(lines)
+            picking.er_lock_message = "\n".join(lines)
+
+    @api.depends_context('uid')
+    @api.depends('er_lock_state', 'er_lock_approver_ids')
+    def _compute_er_can_approve_lock(self):
+        for picking in self:
+            picking.er_can_approve_lock = bool(
+                picking.er_lock_state == 'pending' and picking._er_user_is_lock_approver())
+
+    def _er_user_is_lock_approver(self):
+        """Approvers chosen when the approval was asked (manager of the project that holds
+        the stock), the users of the settings, or an administrator."""
+        self.ensure_one()
+        user = self.env.user
+        return (user in self.sudo().er_lock_approver_ids
+                or user.has_group('mo_employee_request.group_project_lock_approver')
+                or user.has_group('base.group_system'))
+
+    def _er_get_lock_approvers(self):
+        """Project manager of every project that holds the stock; the users of the settings
+        when the company prefers them or when a project has no manager."""
+        self.ensure_one()
+        company = self.company_id.sudo()
+        users = self.env['res.users']
+        if company.er_project_lock_mode == 'project_manager':
+            holder_ids = set()
+            for found in self.sudo().move_ids._er_project_lock_excess():
+                holder_ids |= found[4]
+            users = self.env['project.project'].sudo().browse(holder_ids).user_id
+        return users or company.er_project_lock_user_ids
+
+    def _er_lock_log(self, action, reason=False):
+        Log = self.env['er.project.lock.log'].sudo()
+        for picking in self.sudo():
+            Log.create({
+                'picking_id': picking.id,
+                'project_id': picking.er_project_id.id,
+                'action': action,
+                'details': picking.er_lock_message,
+                'reason': reason,
+                'user_id': self.env.user.id,
+                'company_id': picking.company_id.id,
+            })
+
+    def _er_lock_wizard(self, action):
+        self.ensure_one()
+        vals = {'picking_id': self.id, 'action': action}
+        if action == 'reject':
+            vals['line_ids'] = [(0, 0, {'move_id': move.id, 'reject_qty': qty})
+                                for move, qty in self._er_lock_reject_defaults()]
+        wizard = self.env['er.project.lock.reason'].create(vals)
+        return {
+            'type': 'ir.actions.act_window', 'res_model': 'er.project.lock.reason',
+            'res_id': wizard.id, 'view_mode': 'form', 'target': 'new',
+            'name': _("Request Project Approval") if action == 'request'
+            else _("Reject Project Issue"),
+        }
+
+    def _er_lock_reject_defaults(self):
+        """[(move, quantity)]: the part of each move that would take stock held for other
+        projects (move UoM), which is what the project owners are asked to refuse."""
+        self.ensure_one()
+        res = {}
+        for product, project, wanted, free, _holders, _locked in \
+                self.move_ids._er_project_lock_excess():
+            taken = wanted - free
+            moves = self.move_ids._er_lock_scope().filtered(
+                lambda m: m.product_id == product and m.er_project_id == project)
+            for move in moves.sorted('id', reverse=True):
+                move_uom = move[pick_field(move, 'product_uom', 'product_uom_id')]
+                demand = convert_uom(move.product_uom_qty, move_uom, product.uom_id)
+                part = min(demand, taken)
+                if part > 0:
+                    res[move] = convert_uom(part, product.uom_id, move_uom)
+                    taken -= part
+        return list(res.items())
+
+    def action_er_lock_request(self):
+        # a reason is mandatory: asked in a small wizard
+        self.ensure_one()
+        return self._er_lock_wizard('request')
+
+    def action_er_lock_reject(self):
+        self.ensure_one()
+        self._er_check_lock_approver()
+        return self._er_lock_wizard('reject')
+
+    def _er_lock_do_request(self, reason):
+        for picking in self.sudo().filtered(lambda p: p.er_has_lock_excess):
+            approvers = picking._er_get_lock_approvers()
+            picking.write({'er_lock_state': 'pending',
+                           'er_lock_approver_ids': [Command.set(approvers.ids)]})
+            for user in approvers:
+                picking.activity_schedule(
+                    'mail.mail_activity_data_todo', user_id=user.id,
+                    summary=_("Project stock approval"),
+                    note=_("%s issues stock that is held for other projects.", picking.name))
+            details = (picking.er_lock_message or '').replace("\n", "<br/>")
+            if approvers:
+                picking.message_notify(
+                    partner_ids=approvers.partner_id.ids,
+                    subject=_("Project stock approval: %s", picking.name),
+                    body=_("%(user)s asks to issue stock held for your project(s):<br/>"
+                           "%(d)s<br/><b>Reason:</b> %(r)s",
+                           user=self.env.user.name, d=details, r=reason),
+                    subtype_xmlid='mail.mt_note')
+            picking.message_post(
+                body=_("Approval requested from %(who)s:<br/>%(d)s<br/><b>Reason:</b> %(r)s",
+                       who=", ".join(approvers.mapped('name')) or _("(no approver configured)"),
+                       d=details, r=reason),
+                subtype_xmlid='mail.mt_note')
+            picking._er_lock_log('request', reason)
+        return True
+
+    def _er_check_lock_approver(self):
+        for picking in self:
+            if not picking._er_user_is_lock_approver():
+                raise UserError(_("You are not allowed to approve issuing project stock."))
+
+    def action_er_lock_approve(self):
+        self._er_check_lock_approver()
+        for picking in self.sudo():
+            picking._er_lock_log('approve')
+            picking.write({'er_lock_state': 'approved',
+                           'er_lock_approved_by': self.env.user.id})
+            picking.activity_ids.filtered(
+                lambda a: a.summary == _("Project stock approval"))._action_done(
+                feedback=_("Approved"))
+            picking.message_post(
+                body=_("Issuing stock of other projects approved by %s.", self.env.user.name),
+                subtype_xmlid='mail.mt_note')
+            picking.move_ids.filtered(lambda m: m.state == 'confirmed')._action_assign()
+        return True
+
+    def _er_lock_do_reject(self, reason, rejects=None):
+        """Refuse part of the stock held for other projects: `rejects` = {move: quantity}.
+        The quantity leaves the transfer and is purchased for the request automatically."""
+        rejects = rejects or {}
+        for picking in self.sudo():
+            lines = []
+            for move, qty in rejects.items():
+                move = move.sudo()
+                if move.picking_id != picking or qty <= 0:
+                    continue
+                lines.append("%s: %s" % (move.product_id.display_name, qty))
+                if qty >= move.product_uom_qty - 1e-6:
+                    move._action_cancel()
+                else:
+                    move.product_uom_qty -= qty
+            picking._er_lock_log('reject', reason)
+            picking.write({'er_lock_state': 'rejected',
+                           'er_lock_approved_by': self.env.user.id})
+            picking.activity_ids.filtered(
+                lambda a: a.summary == _("Project stock approval"))._action_done(
+                feedback=_("Rejected"))
+            picking.message_post(
+                body=_("Issuing stock of other projects rejected by %(u)s.<br/>%(q)s"
+                       "<b>Reason:</b> %(r)s", u=self.env.user.name, r=reason,
+                       q=("<b>Rejected:</b> %s<br/>" % ", ".join(lines)) if lines else ""),
+                subtype_xmlid='mail.mt_note')
+            # what stays can be issued (nothing of it touches the held stock any more)
+            picking.move_ids.filtered(lambda m: m.state == 'confirmed')._action_assign()
+            # the rejected quantity is purchased for the request
+            if lines and picking.er_request_id:
+                picking.er_request_id._create_purchase_orders()
+        return True
+
+    def _er_check_project_lock(self):
+        for picking in self.sudo():
+            if (picking.state in ('done', 'cancel') or picking.er_lock_state == 'approved'
+                    or not picking.move_ids._er_project_lock_excess()):
+                continue
+            raise UserError(_(
+                "%(name)s issues stock that is held for other projects. Ask for the project "
+                "approval first.\n\n%(details)s",
+                name=picking.name, details=picking.er_lock_message))
+
+    # `analytic_distribution` (analytic.mixin) on the header: taken from the project / request,
+    # applied to every line when changed (each line can still be changed).
+    @api.depends('er_request_id.analytic_account_id', 'er_project_id.account_id',
                  'move_ids.purchase_line_id.analytic_distribution')
     def _compute_analytic_distribution(self):
         for picking in self:
-            account = picking.er_request_id.analytic_account_id
+            account = (picking.er_project_id.account_id
+                       or picking.er_request_id.analytic_account_id)
             if account:
                 picking.analytic_distribution = {str(account.id): 100.0}
                 continue
@@ -242,7 +603,15 @@ class StockPicking(models.Model):
 
     def button_validate(self):
         self._er_check_inspection()
+        self._er_check_project_lock()
         return super().button_validate()
+
+    def write(self, vals):
+        if 'er_project_id' in vals and not self.env.su and any(
+                p.state == 'done' and p.er_project_id.id != vals['er_project_id']
+                for p in self):
+            raise UserError(_("The project of a validated transfer cannot be changed."))
+        return super().write(vals)
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -269,6 +638,7 @@ class StockPicking(models.Model):
 
     def _action_done(self):
         self._er_check_inspection()
+        self._er_check_project_lock()
         res = super()._action_done()
         self._er_refresh_requests()
         return res

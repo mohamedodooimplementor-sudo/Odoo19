@@ -98,9 +98,8 @@ class EmployeePurchaseOrderDiscount(models.TransientModel):
     def action_apply_discount(self):
         self.ensure_one()
         order = self.order_id
-        if order.state != 'draft' and not (order.state == 'budget_control' and order.can_edit_budget):
-            raise UserError(_("A discount can only be added while the order is in RFQ "
-                              "(or in Budget Control)."))
+        if order.state != 'draft':
+            raise UserError(_("A discount can only be added while the order is in RFQ."))
         if self.discount_type == 'sol_discount':
             order.line_ids.filtered(lambda l: not l._is_discount_line()).write(
                 {'discount': self.discount_percentage * 100})

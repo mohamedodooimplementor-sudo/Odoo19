@@ -5,8 +5,8 @@ from odoo.exceptions import AccessError, UserError, ValidationError
 GROUP_MANAGER = 'mo_employee_request.group_employee_request_manager'
 GROUP_USER = 'mo_employee_request.group_employee_request_user'
 GROUP_ON_BEHALF = 'mo_employee_request.group_request_on_behalf'
-APPROVAL_STATES = ['department', 'warehouse', 'budget']
-FLOW = ['draft', 'department', 'warehouse', 'budget', 'approved']
+APPROVAL_STATES = ['department', 'warehouse', 'project', 'budget']
+FLOW = ['draft', 'department', 'warehouse', 'project', 'budget', 'approved']
 TODO = 'mail.mail_activity_data_todo'
 
 
@@ -18,7 +18,7 @@ class EmployeeRequest(models.Model):
 
     # Fields that only a manager may touch once the request left Draft
     LOCKED_FIELDS = {'employee_id', 'project_id', 'analytic_account_id',
-                     'request_date', 'line_ids'}
+                     'request_date', 'line_ids', 'check_project_stock', 'check_stock'}
 
     def _default_employee(self):
         return self.env.user.employee_id
@@ -46,6 +46,7 @@ class EmployeeRequest(models.Model):
         ('draft', 'Draft'),
         ('department', 'Department Approval'),
         ('warehouse', 'Warehouse Approval'),
+        ('project', 'Project Approval'),
         ('budget', 'Budget Approval'),
         ('approved', 'Approved'),
         ('processing', 'Processing'),
@@ -94,6 +95,16 @@ class EmployeeRequest(models.Model):
     def _compute_analytic_account(self):
         for rec in self:
             rec.analytic_account_id = rec.project_id.account_id or rec.analytic_account_id
+
+    @api.onchange('project_id')
+    def _onchange_project_location(self):
+        project = self.project_id
+        if project and not project.er_location_id:
+            return {'warning': {
+                'title': _("No location on the project"),
+                'message': _("The project '%s' has no Project Location, so its lines use the "
+                             "default location. Set it on the project form.",
+                             project.display_name)}}
 
     @api.constrains('employee_id')
     def _check_employee_permission(self):
@@ -160,8 +171,8 @@ class EmployeeRequest(models.Model):
         if not self.line_ids:
             raise UserError(_("Please add at least one request line."))
         for line in self.line_ids:
-            if not line.product_id or not line.warehouse_id:
-                raise UserError(_("Every line needs a product and a warehouse."))
+            if not line.product_id or not line.location_id:
+                raise UserError(_("Every line needs a product and a location."))
             if line.product_uom_qty <= 0:
                 raise UserError(_("Requested quantity must be positive (%s).",
                                   line.product_id.display_name))
@@ -295,7 +306,8 @@ class EmployeeRequest(models.Model):
                 srec.write({'pending_approver_ids': [(3, user.id)]})
                 srec.activity_feedback([TODO], user_id=user.id)
             if (is_override or not srec.pending_approver_ids
-                    or rec.company_id.er_approval_mode == 'any'):
+                    or rec.company_id.er_approval_mode == 'any'
+                    or rec.state == 'project'):
                 srec._advance()
             else:
                 srec.message_post(

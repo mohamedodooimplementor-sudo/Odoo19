@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="crop_corn" model="seeds.crop.config">
+        <field name="name">Corn</field>
+        <field name="crop_type">corn</field>
+        <field name="weight_per_ardab">252</field>
+        <field name="standard_moisture">14</field>
+        <field name="moisture_rate">1</field>
+        <field name="ardab_wg">150</field>
+    </record>
+    <record id="crop_wheat" model="seeds.crop.config">
+        <field name="name">Wheat</field>
+        <field name="crop_type">wheat</field>
+        <field name="weight_per_ardab">150</field>
+        <field name="standard_moisture">13.5</field>
+        <field name="moisture_rate">1</field>
+        <field name="ardab_wg">150</field>
+    </record>
+</odoo>

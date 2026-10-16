@@ -6,7 +6,7 @@
         <field name="model">employee.request</field>
         <field name="arch" type="xml">
             <list string="Employee Requests"
-                  decoration-info="state in ('department', 'warehouse', 'budget')"
+                  decoration-info="state in ('department', 'warehouse', 'project', 'budget')"
                   decoration-success="state in ('approved', 'closed')"
                   decoration-danger="state == 'rejected'"
                   decoration-muted="state == 'cancelled'">
@@ -19,7 +19,7 @@
                 <field name="pending_approver_ids" widget="many2many_tags" column_invisible="1"/>
                 <field name="company_id" groups="base.group_multi_company" optional="hide"/>
                 <field name="state" widget="badge"
-                       decoration-info="state in ('department', 'warehouse', 'budget')"
+                       decoration-info="state in ('department', 'warehouse', 'project', 'budget')"
                        decoration-success="state in ('approved', 'closed')"
                        decoration-warning="state in ('processing', 'partial')"
                        decoration-danger="state == 'rejected'"/>
@@ -48,11 +48,14 @@
                     <button name="action_approve" string="Warehouse Approval" type="object"
                             class="btn-primary"
                             invisible="state != 'warehouse' or not can_approve"/>
+                    <button name="action_approve" string="Project Approval" type="object"
+                            class="btn-primary"
+                            invisible="state != 'project' or not can_approve"/>
                     <button name="action_approve" string="Budget Approval" type="object"
                             class="btn-primary"
                             invisible="state != 'budget' or not can_approve"/>
                     <button name="action_reject" string="Reject" type="object"
-                            invisible="state not in ('department', 'warehouse', 'budget') or not can_approve"/>
+                            invisible="state not in ('department', 'warehouse', 'project', 'budget') or not can_approve"/>
                     <field name="has_inspection_pending" invisible="1"/>
                     <button name="action_er_inspection_approve" string="Inspection Approval"
                             type="object" class="btn-primary"
@@ -67,12 +70,13 @@
                             confirm="Are you sure you want to cancel this request?"
                             invisible="state in ('closed', 'rejected', 'cancelled')"/>
                     <field name="state" widget="statusbar"
-                           statusbar_visible="draft,department,warehouse,budget,approved,processing,closed"/>
+                           statusbar_visible="draft,department,warehouse,project,budget,approved,processing,closed"/>
                 </header>
                 <sheet>
                     <widget name="web_ribbon" title="Draft" bg_color="text-bg-secondary" invisible="state != 'draft'"/>
                     <widget name="web_ribbon" title="Department Approval" bg_color="text-bg-info" invisible="state != 'department'"/>
                     <widget name="web_ribbon" title="Warehouse Approval" bg_color="text-bg-primary" invisible="state != 'warehouse'"/>
+                    <widget name="web_ribbon" title="Project Approval" bg_color="text-bg-info" invisible="state != 'project'"/>
                     <widget name="web_ribbon" title="Budget Approval" bg_color="text-bg-warning" invisible="state != 'budget'"/>
                     <widget name="web_ribbon" title="Approved" bg_color="text-bg-success" invisible="state != 'approved'"/>
                     <widget name="web_ribbon" title="Processing" bg_color="er-ribbon-purple" invisible="state != 'processing'"/>
@@ -122,6 +126,10 @@
                                    required="state == 'draft' and 'analytic_account_id' in er_required_fields"/>
                             <field name="company_id" groups="base.group_multi_company"
                                    readonly="state != 'draft'"/>
+                            <field name="check_stock" readonly="state != 'draft'"/>
+                            <field name="er_lock_enabled" invisible="1"/>
+                            <field name="check_project_stock" readonly="state != 'draft'"
+                                   invisible="not er_lock_enabled or not check_stock"/>
                         </group>
                     </group>
                     <notebook>
@@ -141,8 +149,8 @@
                                     <field name="product_category_id" optional="hide"/>
                                     <field name="product_uom_id" optional="show"/>
                                     <field name="product_uom_qty"/>
-                                    <field name="warehouse_id" options="{'no_create': True}"
-                                           domain="[('company_id', 'in', [parent.company_id, False])]"/>
+                                    <field name="location_id" options="{'no_create': True}"
+                                           domain="[('usage', '=', 'internal'), ('company_id', 'in', [parent.company_id, False])]"/>
                                     <field name="project_id" optional="show"
                                            required="parent.state == 'draft' and 'project_id' in parent.er_required_line_fields"/>
                                     <field name="analytic_account_id" optional="show"
@@ -166,6 +174,29 @@
                                 <field name="total_received"/>
                                 <field name="total_remaining" class="oe_subtotal_footer_separator"/>
                             </group>
+                        </page>
+                        <page string="Other Projects" name="er_sources"
+                              invisible="not check_stock or not check_project_stock or (state in ('draft', 'department') and not source_ids)">
+                            <div class="text-muted mb-2">
+                                Take stock held by another project instead of purchasing it.
+                                The managers of those projects approve it before the budget;
+                                one approval is enough, and they can lower the quantities.
+                            </div>
+                            <field name="source_ids"
+                                   readonly="state not in ('warehouse', 'project')">
+                                <list editable="bottom">
+                                    <field name="line_id" options="{'no_create': True}"
+                                           domain="[('request_id', '=', parent.id)]"
+                                           readonly="parent.state != 'warehouse'"/>
+                                    <field name="product_id"/>
+                                    <field name="location_id"/>
+                                    <field name="project_id" options="{'no_create': True}"
+                                           readonly="parent.state != 'warehouse'"/>
+                                    <field name="held_qty"/>
+                                    <field name="qty"/>
+                                    <field name="product_uom_id"/>
+                                </list>
+                            </field>
                         </page>
                         <page string="Approval History" name="approvals">
                             <field name="approval_ids" readonly="1">
@@ -210,7 +241,7 @@
                             <field name="state" widget="badge"
                                    decoration-success="state in ('approved', 'closed')"
                                    decoration-danger="state in ('rejected', 'cancelled')"
-                                   decoration-warning="state in ('department', 'warehouse', 'budget')"
+                                   decoration-warning="state in ('department', 'warehouse', 'project', 'budget')"
                                    decoration-info="state in ('processing', 'partial')"/>
                         </div>
                         <div class="d-flex align-items-center mb-1">
@@ -262,7 +293,7 @@
                 <separator/>
                 <filter name="filter_draft" string="Draft" domain="[('state', '=', 'draft')]"/>
                 <filter name="filter_in_approval" string="In Approval"
-                        domain="[('state', 'in', ('department', 'warehouse', 'budget'))]"/>
+                        domain="[('state', 'in', ('department', 'warehouse', 'project', 'budget'))]"/>
                 <filter name="filter_approved" string="Approved" domain="[('state', '=', 'approved')]"/>
                 <filter name="filter_open" string="Open"
                         domain="[('state', 'in', ('approved', 'processing', 'partial'))]"/>
@@ -287,7 +318,7 @@
         <field name="search_view_id" ref="view_employee_request_search"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">Create your first employee request</p>
-            <p>Request materials from the warehouse. Missing quantities go to purchasing.</p>
+            <p>Request materials from the project location. Missing quantities go to purchasing.</p>
         </field>
     </record>
 
@@ -315,7 +346,7 @@
         <field name="name">Stock Transfers</field>
         <field name="res_model">stock.picking</field>
         <field name="view_mode">list,form</field>
-        <field name="domain">[('er_request_id', '!=', False)]</field>
+        <field name="domain">['|', ('er_request_id', '!=', False), ('er_project_id', '!=', False)]</field>
         <field name="context">{'create': False}</field>
     </record>
 </odoo>

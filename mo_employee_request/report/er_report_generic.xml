@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="paperformat_er_landscape" model="report.paperformat">
+        <field name="name">Employee Request Landscape</field>
+        <field name="format">A4</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">32</field>
+        <field name="margin_bottom">18</field>
+        <field name="margin_left">8</field>
+        <field name="margin_right">8</field>
+        <field name="header_spacing">28</field>
+    </record>
+
+    <record id="action_report_er_generic" model="ir.actions.report">
+        <field name="name">Employee Request Reports</field>
+        <field name="model">er.report.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mo_employee_request.report_er_generic_document</field>
+        <field name="report_file">mo_employee_request.report_er_generic_document</field>
+        <field name="paperformat_id" ref="paperformat_er_landscape"/>
+        <field name="print_report_name">'%s' % object.report_type</field>
+    </record>
+
+    <template id="report_er_generic_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="d" t-value="o._get_report_data()"/>
+                <t t-call="web.external_layout">
+                    <div class="page" style="font-size: 10px;">
+                        <table style="width:100%; border-collapse:collapse; margin-bottom:8px;">
+                            <tr>
+                                <td style="border-left:6px solid #2c5282; padding:4px 10px;">
+                                    <div style="font-size:20px; font-weight:bold; color:#1a365d;" t-esc="d['title']"/>
+                                    <div style="color:#718096;" t-esc="d['filters']"/>
+                                </td>
+                                <td style="text-align:right; color:#718096; vertical-align:bottom;">
+                                    <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <table style="width:100%; border-collapse:separate; border-spacing:6px 0; margin-bottom:10px;">
+                            <tr>
+                                <t t-foreach="d['kpis']" t-as="k">
+                                    <td t-attf-style="border:1px solid {{ k[2] }}; border-top:4px solid {{ k[2] }}; text-align:center; padding:6px 4px;">
+                                        <div style="color:#718096; font-size:9px; text-transform:uppercase;" t-esc="k[0]"/>
+                                        <div t-attf-style="font-size:16px; font-weight:bold; color:{{ k[2] }};">
+                                            <span t-esc="o._fmt_kpi(k[1])"/>
+                                        </div>
+                                    </td>
+                                </t>
+                            </tr>
+                        </table>
+
+                        <table style="width:100%; border-collapse:collapse;">
+                            <thead>
+                                <tr>
+                                    <t t-foreach="d['columns']" t-as="c">
+                                        <th t-attf-style="background:#2c5282; color:#fff; padding:5px 4px; border:1px solid #1a365d; text-align:{{ 'right' if c[1] in ('float', 'money') else 'left' }};" t-esc="c[0]"/>
+                                    </t>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="d['rows']" t-as="row">
+                                    <tr t-attf-style="background:{{ '#f7fafc' if row_index % 2 else '#ffffff' }}; page-break-inside:avoid;">
+                                        <t t-foreach="row" t-as="cell">
+                                            <t t-set="kind" t-value="d['columns'][cell_index][1]"/>
+                                            <td t-attf-style="padding:4px; border:1px solid #e2e8f0; text-align:{{ 'right' if kind in ('float', 'money') else 'left' }};">
+                                                <span t-esc="o._fmt_cell(cell, kind)"/>
+                                            </td>
+                                        </t>
+                                    </tr>
+                                </t>
+                                <tr t-if="d['rows'] and d['totals']" style="background:#bee3f8; font-weight:bold;">
+                                    <t t-foreach="d['totals']" t-as="cell">
+                                        <t t-set="kind" t-value="d['columns'][cell_index][1]"/>
+                                        <td t-attf-style="padding:5px 4px; border:1px solid #2c5282; border-top:2px solid #2c5282; text-align:{{ 'right' if kind in ('float', 'money') else 'left' }};">
+                                            <span t-esc="o._fmt_cell(cell, kind)"/>
+                                        </td>
+                                    </t>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p t-if="not d['rows']" style="text-align:center; color:#718096; margin-top:20px;">No data for these filters.</p>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

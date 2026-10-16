@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_seeds_receipt" model="ir.actions.report">
+        <field name="name">Receipt Ticket</field>
+        <field name="model">seeds.receipt</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">seeds_farms_management.report_seeds_receipt</field>
+        <field name="report_file">seeds_farms_management.report_seeds_receipt</field>
+        <field name="print_report_name">'Receipt - %s' % object.name</field>
+        <field name="binding_model_id" ref="model_seeds_receipt"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_seeds_receipt">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Seed Receipt <span t-field="o.name"/></h2>
+                        <table class="table table-sm table-borderless mt-3">
+                            <tr>
+                                <td><strong>Date</strong></td><td><span t-field="o.date"/></td>
+                                <td><strong>Contractor</strong></td><td><span t-field="o.contractor_id"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Farmer</strong></td><td><span t-field="o.farmer_id"/></td>
+                                <td><strong>Engineer</strong></td><td><span t-field="o.engineer_id"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Product</strong></td><td><span t-field="o.product_id"/></td>
+                                <td><strong>Crop / Grade</strong></td>
+                                <td><span t-field="o.crop_type"/> <span t-if="o.grade_id" t-out="'/ ' + o.grade_id.name"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Vehicle</strong></td><td><span t-field="o.vehicle"/></td>
+                                <td><strong>Delivery To</strong></td><td><span t-field="o.warehouse_id"/></td>
+                            </tr>
+                            <tr t-if="o.contract_id or o.season_id">
+                                <td><strong>Contract</strong></td><td><span t-field="o.contract_id"/></td>
+                                <td><strong>Season</strong></td><td><span t-field="o.season_id"/></td>
+                            </tr>
+                        </table>
+                        <table class="table table-sm table-bordered mt-3">
+                            <thead>
+                                <tr><th>Weights</th><th class="text-end">Value</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Gross weight (kg)</td><td class="text-end"><span t-field="o.gross_weight"/></td></tr>
+                                <tr><td>Tare weight (kg)</td><td class="text-end"><span t-field="o.tare_weight"/></td></tr>
+                                <tr><td>Factory weight (kg)</td><td class="text-end"><span t-field="o.factory_weight"/></td></tr>
+                                <tr><td>Contractor weight (kg)</td><td class="text-end"><span t-field="o.contractor_weight"/></td></tr>
+                                <tr><td>Difference (kg)</td><td class="text-end"><span t-field="o.difference_weight"/></td></tr>
+                                <tr><td>Moisture % / deduction (kg)</td>
+                                    <td class="text-end"><span t-field="o.moisture_percent"/> / <span t-field="o.moisture_deduction"/></td></tr>
+                                <tr><td>Sorting (kg)</td><td class="text-end"><span t-field="o.sorting"/></td></tr>
+                                <tr><td><strong>Net (kg)</strong></td><td class="text-end"><strong><span t-field="o.net_weight"/></strong></td></tr>
+                                <tr><td><strong>Number of ardab</strong></td><td class="text-end"><strong><span t-field="o.number_of_ardab"/></strong></td></tr>
+                            </tbody>
+                        </table>
+                        <div class="row mt-5 pt-4">
+                            <div class="col-4 text-center">____________________<br/>Engineer</div>
+                            <div class="col-4 text-center">____________________<br/>Farmer / Driver</div>
+                            <div class="col-4 text-center">____________________<br/>Warehouse</div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Category: the Code field -->
+    <record id="view_product_category_form_er_code" model="ir.ui.view">
+        <field name="name">product.category.form.er.code</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='parent_id']" position="after">
+                <field name="er_code" placeholder="e.g. EL"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Attribute values: the Code field -->
+    <record id="view_product_attribute_form_er_code" model="ir.ui.view">
+        <field name="name">product.attribute.form.er.code</field>
+        <field name="model">product.attribute</field>
+        <field name="inherit_id" ref="product.product_attribute_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='value_ids']/list/field[@name='name']" position="after">
+                <field name="er_code" placeholder="e.g. R"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Product: the Product Coding tab -->
+    <record id="view_product_template_form_er_coding" model="ir.ui.view">
+        <field name="name">product.template.form.er.coding</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Product Coding" name="er_product_coding">
+                    <group>
+                        <group string="From the product">
+                            <field name="categ_id" readonly="1"/>
+                            <field name="er_category_levels"/>
+                        </group>
+                        <group string="Code">
+                            <field name="er_category_code" class="fw-bold fs-4"/>
+                        </group>
+                    </group>
+                    <field name="product_variant_ids" readonly="1" nolabel="1">
+                        <list>
+                            <field name="display_name" string="Variant"/>
+                            <field name="default_code"/>
+                            <field name="er_generated_code"/>
+                        </list>
+                    </field>
+                    <div class="text-muted mb-2">
+                        Code = the code of the product category and of every parent above it,
+                        then the code of each value of the variant (set on the attribute values
+                        in Inventory &gt; Configuration &gt; Attributes).
+                    </div>
+                    <button name="action_er_generate_code" type="object" string="Generate Code"
+                            class="btn-primary"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

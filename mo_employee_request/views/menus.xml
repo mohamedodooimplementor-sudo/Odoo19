@@ -25,10 +25,6 @@
     <!-- ===== Orders ===== -->
     <menuitem id="menu_er_orders" name="Orders" parent="menu_employee_request_root"
               sequence="20"/>
-    <menuitem id="menu_er_stock_orders" name="Stock Transfers" parent="menu_er_orders"
-              action="action_er_stock_transfers"
-              groups="group_warehouse_approver,group_employee_request_all_documents"
-              sequence="10"/>
     <menuitem id="menu_er_purchase_requests" name="Requests Purchase Orders"
               parent="menu_er_orders" action="action_epo_requests"
               groups="group_purchase_user,group_budget_approver,group_budget_control,group_employee_request_all_documents"
@@ -40,15 +36,58 @@
     <menuitem id="menu_er_agreements" name="Agreements" parent="menu_er_orders"
               action="action_er_agreements" groups="group_purchase_user" sequence="50"/>
 
+    <!-- ===== Stock Operation ===== -->
+    <menuitem id="menu_er_warehouse" name="Stock Operation" parent="menu_employee_request_root"
+              groups="group_er_warehouse" sequence="25"/>
+    <menuitem id="menu_er_stock_orders" name="Stock Transfers" parent="menu_er_warehouse"
+              action="action_er_stock_transfers" groups="group_er_warehouse" sequence="10"/>
+    <menuitem id="menu_er_project_allocation" name="Project Allocations" parent="menu_er_warehouse"
+              action="action_er_project_allocated_stock" groups="group_er_warehouse" sequence="20"/>
+    <menuitem id="menu_er_allocation_orders" name="Allocation Orders" parent="menu_er_warehouse"
+              action="action_er_project_allocation" groups="group_er_warehouse" sequence="21"/>
+    <menuitem id="menu_er_project_release" name="Release Back" parent="menu_er_warehouse"
+              action="action_er_project_release" groups="group_er_warehouse" sequence="30"/>
+    <menuitem id="menu_er_project_issue" name="Issue to Project" parent="menu_er_warehouse"
+              action="action_er_project_issue" groups="group_er_warehouse" sequence="32"/>
+    <menuitem id="menu_er_project_transfer" name="Transfer Between Projects"
+              parent="menu_er_warehouse" action="action_er_project_transfer"
+              groups="group_er_project_transfer" sequence="35"/>
+    <menuitem id="menu_er_products" name="Products" parent="menu_er_warehouse"
+              action="stock.product_template_action_product" groups="group_er_warehouse"
+              sequence="5"/>
+    <menuitem id="menu_er_purchase_receipts" name="Purchase Receipts" parent="menu_er_warehouse"
+              action="action_er_purchase_receipts" groups="group_er_warehouse" sequence="40"/>
+
     <!-- ===== Reports ===== -->
     <menuitem id="menu_er_reports" name="Reports" parent="menu_employee_request_root"
               groups="group_employee_request_manager,group_purchase_user" sequence="30"/>
     <menuitem id="menu_er_report_request" name="Employee Request Report" parent="menu_er_reports"
-              action="action_er_report_request" sequence="10"/>
+              action="action_er_report_wizard_request" sequence="10"/>
     <menuitem id="menu_er_report_purchase" name="Purchase Report" parent="menu_er_reports"
-              action="action_er_report_purchase" sequence="20"/>
-    <menuitem id="menu_er_report_stock" name="Stock Consumption Report" parent="menu_er_reports"
-              action="action_er_report_stock" sequence="30"/>
+              action="action_er_report_wizard_purchase" sequence="20"/>
+
+    <menuitem id="menu_er_report_project_stock" name="Project Stock Report"
+              parent="menu_er_reports" action="action_er_report_wizard_project_stock" sequence="40"/>
+
+    <menuitem id="menu_stock_project_release" name="Release Back"
+              parent="stock.menu_stock_warehouse_mgmt" action="action_er_project_release"
+              groups="stock.group_stock_user" sequence="46"/>
+    <menuitem id="menu_stock_project_allocation" name="Project Allocations"
+              parent="stock.menu_stock_warehouse_mgmt" action="action_er_project_allocated_stock"
+              groups="stock.group_stock_user" sequence="45"/>
+    <menuitem id="menu_stock_allocation_orders" name="Allocation Orders"
+              parent="stock.menu_stock_warehouse_mgmt" action="action_er_project_allocation"
+              groups="stock.group_stock_user" sequence="44"/>
+
+    <menuitem id="menu_er_report_expiry" name="Expiry Date Report"
+              parent="menu_er_reports" action="action_er_report_wizard_expiry" sequence="60"/>
+    <menuitem id="menu_stock_expiry_report" name="Expiry Date Report"
+              parent="stock.menu_warehouse_report" action="action_er_expiry"
+              groups="stock.group_stock_user" sequence="47"/>
+    <!-- Same report inside Inventory > Reporting -->
+    <menuitem id="menu_stock_project_stock_report" name="Project Stock"
+              parent="stock.menu_warehouse_report" action="action_er_project_stock"
+              groups="stock.group_stock_user" sequence="45"/>
 
     <!-- ===== Configuration ===== -->
     <menuitem id="menu_employee_request_config" name="Configuration"

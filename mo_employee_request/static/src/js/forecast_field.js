@@ -28,7 +28,7 @@ export class StockPopover extends Component {
     static template = "mo_employee_request.StockPopover";
     static props = {
         productId: Number,
-        warehouseId: Number,
+        locationId: Number,
         qty: Number,
         close: { type: Function, optional: true },
     };
@@ -41,8 +41,8 @@ export class StockPopover extends Component {
     }
 
     async load() {
-        const { productId, warehouseId, qty } = this.props;
-        const key = `${productId}-${warehouseId}-${qty}`;
+        const { productId, locationId, qty } = this.props;
+        const key = `${productId}-${locationId}-${qty}`;
         const hit = CACHE.get(key);
         if (hit && Date.now() - hit.time < CACHE_TTL) {
             this.state.data = hit.data;
@@ -53,7 +53,7 @@ export class StockPopover extends Component {
             const data = await this.orm.call(
                 "employee.request.line",
                 "get_forecast_data",
-                [productId, warehouseId, qty]
+                [productId, locationId, qty]
             );
             CACHE.set(key, { time: Date.now(), data });
             this.state.data = data;
@@ -86,6 +86,14 @@ export class StockPopover extends Component {
 
     get locations() {
         return (this.state.data || {}).locations || [];
+    }
+
+    get allLocations() {
+        return (this.state.data || {}).all_locations || [];
+    }
+
+    get projects() {
+        return (this.state.data || {}).projects || [];
     }
 
     get moves() {
@@ -140,13 +148,13 @@ export class StockField extends Component {
 
     onClick(ev) {
         const productId = relId(this.data.product_id);
-        const warehouseId = relId(this.data.warehouse_id);
-        if (!productId || !warehouseId) {
+        const locationId = relId(this.data.location_id);
+        if (!productId || !locationId) {
             return;
         }
         this.popover.open(ev.currentTarget, {
             productId,
-            warehouseId,
+            locationId,
             qty: this.data.product_uom_qty || 0,
         });
     }

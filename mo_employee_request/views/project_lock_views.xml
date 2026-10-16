@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Reason wizard -->
+    <record id="view_er_project_lock_reason_form" model="ir.ui.view">
+        <field name="name">er.project.lock.reason.form</field>
+        <field name="model">er.project.lock.reason</field>
+        <field name="arch" type="xml">
+            <form string="Project Stock Approval">
+                <group>
+                    <field name="picking_id" invisible="1"/>
+                    <field name="action" invisible="1"/>
+                    <field name="reason" placeholder="Why is this stock needed / why is it refused?"/>
+                </group>
+                <field name="line_ids" invisible="action != 'reject'" nolabel="1">
+                    <list editable="bottom" create="0" delete="0">
+                        <field name="product_id"/>
+                        <field name="demand"/>
+                        <field name="reject_qty"/>
+                    </list>
+                </field>
+                <div class="text-muted" invisible="action != 'reject'">
+                    The rejected quantity leaves this transfer and a purchase order is created
+                    for it.
+                </div>
+                <footer>
+                    <button name="action_confirm" string="Confirm" type="object" class="btn-primary"/>
+                    <button string="Discard" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Allocation -->
+    <record id="view_er_project_allocation_list" model="ir.ui.view">
+        <field name="name">er.project.allocation.list</field>
+        <field name="model">er.project.allocation</field>
+        <field name="arch" type="xml">
+            <list string="Project Allocations">
+                <field name="name"/>
+                <field name="kind"/>
+                <field name="project_id"/>
+                <field name="location_id"/>
+                <field name="product_id"/>
+                <field name="qty" sum="Quantity"/>
+                <field name="product_uom_id"/>
+                <field name="date" optional="show"/>
+                <field name="state" widget="badge" decoration-success="state == 'confirmed'"
+                       decoration-muted="state == 'released'"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_er_project_allocation_form" model="ir.ui.view">
+        <field name="name">er.project.allocation.form</field>
+        <field name="model">er.project.allocation</field>
+        <field name="arch" type="xml">
+            <form string="Project Allocation">
+                <header>
+                    <button name="action_confirm" string="Allocate" type="object"
+                            class="btn-primary" invisible="state != 'draft' or kind != 'reserve'"/>
+                    <button name="action_confirm" string="Release Back to General Stock" type="object"
+                            class="btn-primary" invisible="state != 'draft' or kind != 'release'"/>
+                    <button name="action_release" string="Cancel Reservation" type="object"
+                            invisible="state != 'confirmed' or kind != 'reserve'"/>
+                    <button name="action_release" string="Cancel Release" type="object"
+                            invisible="state != 'confirmed' or kind != 'release'"/>
+                    <button name="action_draft" string="Back to Draft" type="object"
+                            invisible="state != 'released'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="kind" readonly="state != 'draft'"/>
+                            <field name="project_id" readonly="state != 'draft'"/>
+                            <field name="location_id" readonly="state != 'draft'"/>
+                            <field name="source"/>
+                            <field name="product_id" readonly="state != 'draft'"/>
+                            <label for="qty"/>
+                            <div class="o_row">
+                                <field name="qty" readonly="state != 'draft'"/>
+                                <field name="product_uom_id"/>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="free_qty" invisible="kind == 'release'"/>
+                            <field name="project_held_qty" invisible="kind == 'reserve'"/>
+                            <field name="user_id"/>
+                            <field name="date"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <field name="note" placeholder="Why is this stock set aside for the project?"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="view_er_project_allocation_search" model="ir.ui.view">
+        <field name="name">er.project.allocation.search</field>
+        <field name="model">er.project.allocation</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="product_id"/>
+                <filter name="f_active" string="Allocated" domain="[('state', '=', 'confirmed')]"/>
+                <group>
+                    <filter name="g_project" string="Project" context="{'group_by': 'project_id'}"/>
+                    <filter name="g_product" string="Product" context="{'group_by': 'product_id'}"/>
+                    <filter name="g_state" string="Status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_er_project_allocation" model="ir.actions.act_window">
+        <field name="name">Allocation Orders</field>
+        <field name="res_model">er.project.allocation</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('kind', '=', 'reserve')]</field>
+        <field name="search_view_id" ref="view_er_project_allocation_search"/>
+    </record>
+
+    <!-- Approval history -->
+    <record id="view_er_project_lock_log_list" model="ir.ui.view">
+        <field name="name">er.project.lock.log.list</field>
+        <field name="model">er.project.lock.log</field>
+        <field name="arch" type="xml">
+            <list string="Project Stock Approvals" create="0" edit="0" delete="0">
+                <field name="date"/>
+                <field name="picking_id"/>
+                <field name="project_id"/>
+                <field name="action" widget="badge" decoration-success="action == 'approve'"
+                       decoration-danger="action == 'reject'" decoration-warning="action == 'request'"/>
+                <field name="user_id"/>
+                <field name="reason"/>
+                <field name="details" optional="hide"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_er_project_lock_log_search" model="ir.ui.view">
+        <field name="name">er.project.lock.log.search</field>
+        <field name="model">er.project.lock.log</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="picking_id"/>
+                <field name="project_id"/>
+                <field name="user_id"/>
+                <group>
+                    <filter name="g_project" string="Project" context="{'group_by': 'project_id'}"/>
+                    <filter name="g_action" string="Decision" context="{'group_by': 'action'}"/>
+                    <filter name="g_user" string="User" context="{'group_by': 'user_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_er_project_lock_log" model="ir.actions.act_window">
+        <field name="name">Project Stock Approvals</field>
+        <field name="res_model">er.project.lock.log</field>
+        <field name="view_mode">list</field>
+        <field name="search_view_id" ref="view_er_project_lock_log_search"/>
+    </record>
+
+    <!-- Replace wizard (project) -->
+    <record id="view_er_project_replace_form" model="ir.ui.view">
+        <field name="name">er.project.replace.form</field>
+        <field name="model">er.project.replace</field>
+        <field name="arch" type="xml">
+            <form string="Replace Stock">
+                <div class="alert alert-warning" role="alert" invisible="not alert">
+                    <strong>Approval required</strong>
+                    <field name="alert" nolabel="1" readonly="1"/>
+                </div>
+                <group>
+                    <group>
+                        <field name="project_id" readonly="context.get('default_project_id')"
+                               options="{'no_create': True}"/>
+                        <field name="location_id"/>
+                    </group>
+                    <group><field name="reason" placeholder="Why does the project need this stock?"/></group>
+                </group>
+                <field name="line_ids">
+                    <list editable="bottom">
+                        <field name="product_id"/>
+                        <field name="qty"/>
+                        <field name="product_uom_id"/>
+                        <field name="free_qty"/>
+                    </list>
+                </field>
+                <footer>
+                    <button name="action_confirm" string="Create Stock Order" type="object"
+                            class="btn-primary"/>
+                    <button string="Discard" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_er_project_issue" model="ir.actions.act_window">
+        <field name="name">Issue to Project</field>
+        <field name="res_model">er.project.replace</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Project form: stock buttons -->
+    <record id="view_project_form_er_stock" model="ir.ui.view">
+        <field name="name">project.project.form.er.stock</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group name="er_project_location" string="Stock">
+                    <field name="er_location_id" options="{'no_create': True}"/>
+                </group>
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_er_project_stock" type="object" class="oe_stat_button"
+                        icon="fa-lock" string="Project Stock"/>
+                <button name="action_er_replace" type="object" class="oe_stat_button"
+                        icon="fa-exchange" string="Replace Stock"/>
+                <button name="action_er_release_back" type="object" class="oe_stat_button"
+                        icon="fa-undo" string="Release Back"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Release back -->
+    <record id="action_er_project_release" model="ir.actions.act_window">
+        <field name="name">Release Back</field>
+        <field name="res_model">er.project.allocation</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('kind', '=', 'release')]</field>
+        <field name="context">{'default_kind': 'release'}</field>
+        <field name="search_view_id" ref="view_er_project_allocation_search"/>
+    </record>
+</odoo>

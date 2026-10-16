@@ -52,11 +52,11 @@
             <field name="field_id" ref="field_employee_purchase_order__agreement_id"/>
             <field name="is_required" eval="False"/>
         </record>
-        <record id="required_purchase_order_header_warehouse_id" model="er.required.field">
+        <record id="required_purchase_order_header_location_id" model="er.required.field">
             <field name="sequence">80</field>
             <field name="document_type">purchase_order</field>
             <field name="scope">header</field>
-            <field name="field_id" ref="field_employee_purchase_order__warehouse_id"/>
+            <field name="field_id" ref="field_employee_purchase_order__location_id"/>
             <field name="is_required" eval="False"/>
         </record>
         <record id="required_purchase_order_header_project_id" model="er.required.field">
@@ -129,11 +129,11 @@
             <field name="field_id" ref="field_employee_purchase_order_line__analytic_account_id"/>
             <field name="is_required" eval="False"/>
         </record>
-        <record id="required_purchase_order_line_warehouse_id" model="er.required.field">
+        <record id="required_purchase_order_line_location_id" model="er.required.field">
             <field name="sequence">190</field>
             <field name="document_type">purchase_order</field>
             <field name="scope">line</field>
-            <field name="field_id" ref="field_employee_purchase_order_line__warehouse_id"/>
+            <field name="field_id" ref="field_employee_purchase_order_line__location_id"/>
             <field name="is_required" eval="False"/>
         </record>
     </data>

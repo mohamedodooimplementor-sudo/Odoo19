@@ -4,7 +4,7 @@ from datetime import timedelta
 from odoo import _, api, fields, models
 from odoo.exceptions import AccessError, UserError, ValidationError
 
-from .utils import pick_field
+from .utils import default_location, location_warehouse, pick_field
 
 GROUP_PURCHASE_MANAGER = 'mo_employee_request.group_purchase_manager'
 GROUP_PURCHASE_USER = 'mo_employee_request.group_purchase_user'
@@ -51,9 +51,9 @@ class EmployeePurchaseOrder(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin', 'er.required.mixin']
     _order = 'id desc'
 
-    LOCKED_FIELDS = {'partner_id', 'date_order', 'warehouse_id', 'agreement_id',
+    LOCKED_FIELDS = {'partner_id', 'date_order', 'location_id', 'agreement_id',
                      'currency_id', 'payment_term_id', 'fiscal_position_id', 'date_planned',
-                     'incoterm_id', 'line_ids', 'project_id', 'analytic_account_id'}
+                     'incoterm_id', 'line_ids', 'project_id', 'analytic_account_id', 'notes'}
 
     def _default_employee(self):
         return self.env.user.employee_id
@@ -72,9 +72,11 @@ class EmployeePurchaseOrder(models.Model):
     analytic_account_id = fields.Many2one('account.analytic.account', string='Analytic Account')
     request_id = fields.Many2one('employee.request', string='Source Request',
                                  ondelete='restrict', index=True, copy=False)
-    warehouse_id = fields.Many2one('stock.warehouse', string='Warehouse',
-                                   default=lambda s: s.env['stock.warehouse'].search(
-                                       [('company_id', '=', s.env.company.id)], limit=1))
+    # Where the purchase is received. Comes from the project's location (request line).
+    location_id = fields.Many2one(
+        'stock.location', string='Receive In', index=True,
+        domain="[('usage', '=', 'internal'), ('company_id', 'in', [company_id, False])]",
+        default=lambda s: default_location(s.env))
     agreement_id = fields.Many2one('purchase.requisition', string='Agreement', copy=False)
     currency_id = fields.Many2one('res.currency', string='Currency', required=True,
                                   default=lambda s: s.env.company.currency_id)
@@ -275,10 +277,7 @@ class EmployeePurchaseOrder(models.Model):
             for rec in self:
                 if rec.state == 'draft':
                     continue
-                if rec.state == 'budget_control' and rec._is_controller():
-                    continue
-                raise UserError(_("%s can only be edited in Draft (or by Budget Control "
-                                  "after a budget rejection).", rec.name))
+                raise UserError(_("%s can only be edited in Draft.", rec.name))
         return super().write(vals)
 
     def unlink(self):
@@ -290,6 +289,11 @@ class EmployeePurchaseOrder(models.Model):
         return super().copy_data(dict(default or {}, name='New'))
 
     @api.model
+    @api.onchange('project_id')
+    def _onchange_project_location(self):
+        if self.project_id.er_location_id:
+            self.location_id = self.project_id.er_location_id
+
     def _prepare_line_from_request_line(self, line, qty, seller=None):
         product = line.product_id
         taxes = product.supplier_taxes_id.filtered(
@@ -316,7 +320,7 @@ class EmployeePurchaseOrder(models.Model):
             'tax_ids': [(6, 0, taxes.ids)],
             'project_id': line.project_id.id,
             'analytic_account_id': line.analytic_account_id.id,
-            'warehouse_id': line.warehouse_id.id,
+            'location_id': line.location_id.id,
         }
 
     # ------------------------------------------------------------------
@@ -645,6 +649,7 @@ class EmployeePurchaseOrder(models.Model):
                 tax_f: [(6, 0, line.tax_ids.ids)],
                 'date_planned': line.date_planned or self.date_planned or self.date_order,
                 'er_po_line_id': line.id,
+                'er_location_id': (line.location_id or self.location_id).id,
             }
             if has_discount:
                 vals['price_unit'] = line.price_unit
@@ -671,8 +676,12 @@ class EmployeePurchaseOrder(models.Model):
         note_f = pick_field(PO, 'note', 'notes')  # `notes` was renamed `note` in Odoo 19
         if note_f and self.notes:
             po_vals[note_f] = self.notes
-        if self.warehouse_id:
-            po_vals['picking_type_id'] = self.warehouse_id.in_type_id.id
+        # the receipt goes to the location of the order (the project's location)
+        location = self.location_id or self.line_ids[:1].location_id
+        if location:
+            po_vals['picking_type_id'] = location_warehouse(
+                self.env, location, self.company_id).in_type_id.id
+            po_vals['er_location_id'] = location.id
         if self.agreement_id and 'requisition_id' in PO._fields:
             po_vals['requisition_id'] = self.agreement_id.id
         po = PO.create(po_vals)
@@ -832,7 +841,10 @@ class EmployeePurchaseOrderLine(models.Model):
     analytic_account_id = fields.Many2one(
         'account.analytic.account', string='Analytic Account',
         compute='_compute_analytic', store=True, readonly=False)
-    warehouse_id = fields.Many2one('stock.warehouse', string='Warehouse')
+    location_id = fields.Many2one(
+        'stock.location', string='Location', index=True,
+        domain="[('usage', '=', 'internal')]",
+        compute='_compute_line_location', store=True, readonly=False)
     purchase_line_id = fields.Many2one('purchase.order.line', string='Odoo PO Line',
                                        copy=False, readonly=True)
     received_qty = fields.Float(string='Received', digits='Product Unit',
@@ -861,6 +873,12 @@ class EmployeePurchaseOrderLine(models.Model):
     def _compute_uom(self):
         for line in self:
             line.product_uom_id = line.product_id.uom_id
+
+    @api.depends('project_id.er_location_id', 'order_id.location_id')
+    def _compute_line_location(self):
+        for line in self:
+            line.location_id = (line.location_id or line.project_id.er_location_id
+                                or line.order_id.location_id)
 
     @api.depends('order_id.analytic_account_id', 'project_id.account_id')
     def _compute_analytic(self):
@@ -983,14 +1001,13 @@ class EmployeePurchaseOrderLine(models.Model):
             if not 0 <= line.discount <= 100:
                 raise ValidationError(_("Discount must be between 0 and 100."))
 
-    # Editable in draft, or by Budget Control after a budget rejection
+    # Editable in draft only
     def _check_editable(self):
         if self.env.su:
             return
         for line in self:
             order = line.order_id
-            if order.state == 'draft' or (order.state == 'budget_control'
-                                          and order._is_controller()):
+            if order.state == 'draft':
                 continue
             raise UserError(_("Lines of %s cannot be changed in its current state.", order.name))
 
@@ -1000,8 +1017,7 @@ class EmployeePurchaseOrderLine(models.Model):
             orders = self.env['employee.purchase.order'].browse(
                 {v['order_id'] for v in vals_list if v.get('order_id')})
             for order in orders:
-                if order.state != 'draft' and not (
-                        order.state == 'budget_control' and order._is_controller()):
+                if order.state != 'draft':
                     raise UserError(_("Lines cannot be added to %s now.", order.name))
         return super().create(vals_list)
 

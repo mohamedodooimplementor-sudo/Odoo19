@@ -2562,3 +2562,198 @@ msgstr "تاريخ الشراء + أطول مدة توريد للمورد (من 
 #. module: mo_employee_request
 msgid "Vendor on-time delivery rate (%). -1 means there is no data yet."
 msgstr "نسبة تسليم المورد في الموعد (%). القيمة -1 تعني عدم وجود بيانات بعد."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request.py:0
+msgid "Project Location"
+msgstr "موقع المشروع"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+msgid "Location"
+msgstr "الموقع"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+msgid "Receive In"
+msgstr "الاستلام في"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/purchase_inherit.py:0
+msgid "Receive In Location"
+msgstr "موقع الاستلام"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/wizard/project_replace_wizard.py:0
+msgid "Pull From Location"
+msgstr "السحب من الموقع"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/er_project_lock.py:0
+msgid "General Projects Location"
+msgstr "موقع المشاريع العام"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/er_project_lock.py:0
+msgid "Other Location"
+msgstr "موقع آخر"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
+msgid "Inside"
+msgstr "داخل الموقع"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
+msgid "All Locations"
+msgstr "كل المواقع"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request.py:0
+msgid "No location on the project"
+msgstr "لا يوجد موقع للمشروع"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request.py:0
+msgid "Every line needs a product and a location."
+msgstr "كل سطر يحتاج إلى منتج وموقع."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
+msgid "No stock data for this product and location."
+msgstr "لا توجد بيانات مخزون لهذا المنتج وهذا الموقع."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/views/employee_request_views.xml:0
+msgid "Request materials from the project location."
+msgstr "اطلب الخامات من موقع المشروع."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/wizard/er_report_wizard.py:0
+msgid "Employee Request Reports"
+msgstr "تقارير طلبات الموظفين"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/er_expiry.py:0
+msgid "Report"
+msgstr "التقرير"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Filters"
+msgstr "الفلاتر"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/wizard/er_report_wizard.py:0
+msgid "View"
+msgstr "عرض"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/wizard/er_report_wizard.py:0
+msgid "PDF"
+msgstr "PDF"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/wizard/er_report_wizard.py:0
+msgid "Excel"
+msgstr "إكسيل"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+msgid "Close"
+msgstr "إغلاق"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/wizard/er_report_wizard.py:0
+msgid "Only Stock Still Held"
+msgstr "المخزون المحجوز فقط"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/wizard/er_report_wizard.py:0
+msgid "Expiry Status"
+msgstr "حالة الصلاحية"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+msgid "All"
+msgstr "الكل"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/er_expiry.py:0
+msgid "Expired"
+msgstr "منتهي"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Expiring Soon"
+msgstr "قارب على الانتهاء"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_purchase_order.py:0
+msgid "Valid"
+msgstr "ساري"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/wizard/er_report_wizard.py:0
+msgid "No filter"
+msgstr "بدون فلتر"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/wizard/er_report_wizard.py:0
+msgid "Mixed currencies"
+msgstr "عملات مختلفة"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Projects"
+msgstr "المشاريع"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/employee_request_exec.py:0
+msgid "Held for Project"
+msgstr "المحجوز للمشروع"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/models/er_project_stock_report.py:0
+msgid "Value Held"
+msgstr "قيمة المحجوز"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/report/er_report_generic.xml:0
+msgid "No data for these filters."
+msgstr "لا توجد بيانات لهذه الفلاتر."
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
+msgid "By status"
+msgstr "حسب الحالة"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/__manifest__.py:0
+msgid "Project stock"
+msgstr "مخزون المشروع"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
+msgid "Items"
+msgstr "الأصناف"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
+msgid "Reset filters"
+msgstr "إعادة ضبط الفلاتر"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_stock_location__er_is_general
+msgid "General Location"
+msgstr "موقع عام"
+
+#. module: mo_employee_request
+#: model:ir.model.fields,field_description:mo_employee_request.field_res_company__er_general_location_ids
+msgid "General Projects Locations"
+msgstr "مواقع المشاريع العامة"
+
+#. module: mo_employee_request
+#: model:ir.actions.act_window,name:mo_employee_request.action_er_project_allocation
+msgid "Allocation Orders"
+msgstr "أوامر التخصيص"

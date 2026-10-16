@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_stock_location_form_er" model="ir.ui.view">
+        <field name="name">stock.location.form.er</field>
+        <field name="model">stock.location</field>
+        <field name="inherit_id" ref="stock.view_location_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='usage']" position="after">
+                <field name="er_is_general"
+                       invisible="usage != 'internal'"/>
+                <field name="er_project_id"
+                       invisible="er_is_general or usage != 'internal'"
+                       options="{'no_create': True}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

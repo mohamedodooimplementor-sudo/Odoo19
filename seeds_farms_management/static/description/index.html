@@ -1,0 +1,75 @@
+<section class="sf">
+<style>
+.sf{font-family:Arial,Helvetica,sans-serif;max-width:960px;margin:auto;color:#1d2b22}
+.sf *{box-sizing:border-box}
+.sf .hero{position:relative;background:#0f2a1c;color:#f3efdc;border-radius:12px;padding:48px 40px;min-height:380px;overflow:hidden}
+.sf .hero h1{margin:0;font-size:44px;line-height:1.05;color:#f3efdc}
+.sf .hero .ar{margin:12px 0 4px;font-size:24px;color:#f4d36b}
+.sf .hero small{color:#a9bfa8;font-size:15px}
+.sf .hero .t{animation:sfin 1s .3s both}
+.sf .card{position:absolute;right:32px;bottom:28px;width:300px;background:#173b28;border:1px solid #2c5a40;border-radius:10px;padding:16px;animation:sfin .8s 1.6s both}
+.sf .card .h{display:flex;justify-content:space-between;color:#a9bfa8;font-size:13px;margin-bottom:6px}
+.sf .card .h b{color:#f3efdc;font-size:16px}
+.sf .r{display:flex;justify-content:space-between;border-top:1px solid #234c35;padding:7px 0;font-size:13px;color:#a9bfa8;opacity:0;animation:sfin .6s both}
+.sf .r b{color:#f3efdc;font-size:16px}.sf .r.k b{color:#f4d36b}
+.sf .r:nth-of-type(1){animation-delay:2.2s}.sf .r:nth-of-type(2){animation-delay:2.8s}
+.sf .r:nth-of-type(3){animation-delay:3.4s}.sf .r:nth-of-type(4){animation-delay:4s}
+.sf .flow{position:absolute;left:40px;bottom:28px;max-width:420px}
+.sf .flow span{display:inline-block;margin:0 6px 6px 0;padding:5px 12px;border-radius:99px;border:1px solid #2c5a40;color:#a9bfa8;font-size:13px;animation:sfon .5s both}
+.sf .flow span:nth-child(1){animation-delay:4.6s}.sf .flow span:nth-child(2){animation-delay:5.2s}
+.sf .flow span:nth-child(3){animation-delay:5.8s}.sf .flow span:nth-child(4){animation-delay:6.4s}
+.sf .flow span:nth-child(5){animation-delay:7s}
+@keyframes sfin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes sfon{to{background:#f4d36b;color:#2a1f00;border-color:#f4d36b}}
+.sf h2{font-size:26px;margin:44px 0 14px}
+.sf .g{display:flex;flex-wrap:wrap;gap:14px}
+.sf .f{flex:1 1 280px;border:1px solid #d6e0d4;border-radius:10px;padding:16px 18px;background:#f7faf5}
+.sf .f b{display:block;margin-bottom:4px;font-size:16px}
+.sf .f p{margin:0;font-size:14px;line-height:1.5;color:#44564a}
+.sf .price{margin-top:44px;background:#f4d36b;border-radius:12px;padding:30px 36px;display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:center}
+.sf .price .n{font-size:54px;font-weight:bold;color:#2a1f00;line-height:1}
+.sf .price p{margin:6px 0 0;color:#4a3a05;font-size:15px}
+.sf .price ul{margin:0;padding-left:18px;color:#2a1f00;font-size:15px;line-height:1.7}
+.sf .foot{margin:28px 0 8px;font-size:14px;color:#44564a}
+</style>
+<div class="hero">
+  <div class="t">
+    <h1>Seeds Farms<br/>Management</h1>
+    <div class="ar">من الأرض للـ ERP</div>
+    <small>Custom module for Odoo 19</small>
+  </div>
+  <div class="flow"><span>Receipt</span><span>Quality</span><span>Confirmed</span><span>Purchase order</span><span>Settlement</span></div>
+  <div class="card">
+    <div class="h"><b>RSD-00023</b><span>Corn, Grade A</span></div>
+    <div class="r"><span>Factory weight (kg)</span><b>8,200</b></div>
+    <div class="r"><span>Difference (kg)</span><b>-300</b></div>
+    <div class="r"><span>Moisture deduction (kg)</span><b>41</b></div>
+    <div class="r k"><span>Number of ardab</span><b>6.67</b></div>
+  </div>
+</div>
+
+<h2>What you get</h2>
+<div class="g">
+  <div class="f"><b>Farmers management</b><p>Farmer data, location and GPS, with a receipts counter per farmer.</p></div>
+  <div class="f"><b>Seed receipts</b><p>Sequence RSD, contractor and factory weights, difference, sorting and net, with workflow states.</p></div>
+  <div class="f"><b>Weighbridge weights</b><p>Gross and tare weights give the factory weight automatically.</p></div>
+  <div class="f"><b>Moisture deduction</b><p>Standard moisture and deduction rate per crop (Corn and Wheat), fully configurable.</p></div>
+  <div class="f"><b>Quality grades</b><p>Grade A, B and C with bonus or penalty on the price per ardab.</p></div>
+  <div class="f"><b>Automated calculations</b><p>Number, total weight and number of ardab computed per crop.</p></div>
+  <div class="f"><b>Purchase integration</b><p>Create a purchase order from a confirmed receipt with the adjusted price.</p></div>
+  <div class="f"><b>Inventory integration</b><p>Seed weights shown on the incoming receipt.</p></div>
+  <div class="f"><b>Settlements</b><p>Group receipts into one vendor bill and deduct advance payments.</p></div>
+  <div class="f"><b>Season contracts</b><p>Agreed quantity and price per farmer, with delivered and remaining ardab tracked on every receipt.</p></div>
+  <div class="f"><b>Seasons and fields</b><p>Link each receipt to a season and to the farmer's field.</p></div>
+  <div class="f"><b>Dashboard</b><p>KPIs, monthly weight chart, unsettled amount and contract progress.</p></div>
+  <div class="f"><b>PDF receipt ticket</b><p>Printable ticket with weights, deductions and signature boxes.</p></div>
+  <div class="f"><b>Validation and security</b><p>Field checks, delete protection, user and manager groups, multi-company.</p></div>
+  <div class="f"><b>Reporting</b><p>Pivot and graph analysis by crop, farmer, grade and month.</p></div>
+</div>
+
+<div class="price">
+  <div><div class="n">$199</div><p>One-time price, Odoo 19</p></div>
+  <ul><li>Full source code</li><li>Install and configuration guidance</li><li>Contact for custom requirements</li></ul>
+</div>
+<p class="foot">Author: Eng. M.Aboelmagde (Odoo Lab). Requires Purchase, Inventory and Accounting.</p>
+</section>

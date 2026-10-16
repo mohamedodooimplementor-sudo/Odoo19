@@ -6,6 +6,7 @@ ER_COMPANY_GROUPS = {
     'er_warehouse_user_ids': 'mo_employee_request.group_warehouse_approver',
     'er_budget_user_ids': 'mo_employee_request.group_budget_approver',
     'er_budget_control_user_ids': 'mo_employee_request.group_budget_control',
+    'er_project_lock_user_ids': 'mo_employee_request.group_project_lock_approver',
 }
 
 
@@ -47,6 +48,44 @@ class ResCompany(models.Model):
     er_inspection_user_ids = fields.Many2many(
         'res.users', 'er_company_inspection_user_rel', 'company_id', 'user_id',
         string='Inspection Approval Users')
+
+    # --- Project stock lock ------------------------------------------------------
+    er_project_lock_enabled = fields.Boolean(
+        string='Lock Stock per Project', default=True,
+        help="Stock received for a project cannot be issued to another project (or to no "
+             "project) unless an approver agrees.")
+    er_project_lock_mode = fields.Selection(
+        [('project_manager', 'Project Manager of the Stock Owner'),
+         ('users', 'Specific Users')],
+        string='Project Lock Approver', default='project_manager', required=True,
+        help="Who approves issuing stock that belongs to another project. With the project "
+             "manager, the users below are used when the project has no manager.")
+    er_general_location_ids = fields.Many2many(
+        'stock.location', 'er_company_general_location_rel', 'company_id', 'location_id',
+        string='General Projects Locations',
+        domain="[('usage', '=', 'internal'), ('er_is_general', '=', True)]",
+        help="Locations holding the shared project stock (only locations ticked General "
+             "Location can be chosen). The first one is used by default for the reservations "
+             "and for the request lines that have no project location.")
+    # first general location: the default one
+    er_general_location_id = fields.Many2one(
+        'stock.location', string='Default General Location',
+        compute='_compute_er_general_location_id', store=True)
+
+    @api.depends('er_general_location_ids')
+    def _compute_er_general_location_id(self):
+        for company in self:
+            company.er_general_location_id = company.er_general_location_ids[:1]
+    er_expiry_days = fields.Integer(
+        string='Expiry Notice (days)', default=30,
+        help="Lots expiring within this number of days are notified. 0 turns the notice off.")
+    er_expiry_user_ids = fields.Many2many(
+        'res.users', 'er_company_expiry_user_rel', 'company_id', 'user_id',
+        string='Expiry Notification Users',
+        help="Receive the expiry notices. Warehouse managers when empty.")
+    er_project_lock_user_ids = fields.Many2many(
+        'res.users', 'er_company_project_lock_rel', 'company_id', 'user_id',
+        string='Project Lock Approval Users')
 
     # --- Purchase approval ---------------------------------------------------
     er_purchase_manager_method = fields.Selection(

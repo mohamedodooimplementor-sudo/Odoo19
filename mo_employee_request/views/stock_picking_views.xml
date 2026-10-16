@@ -44,4 +44,78 @@
             </xpath>
         </field>
     </record>
+    <record id="view_picking_form_er_project" model="ir.ui.view">
+        <field name="name">stock.picking.form.er.project</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header/field[@name='state']" position="before">
+                <field name="er_has_lock_excess" invisible="1"/>
+                <field name="er_can_approve_lock" invisible="1"/>
+                <button name="action_er_lock_request" string="Request Project Approval"
+                        type="object" class="btn-primary"
+                        invisible="not er_has_lock_excess or er_lock_state in ('pending', 'approved')"/>
+                <button name="action_er_lock_approve" string="Approve Project Issue"
+                        type="object" class="btn-primary" invisible="not er_can_approve_lock"/>
+                <button name="action_er_lock_reject" string="Reject Project Issue"
+                        type="object" invisible="not er_can_approve_lock"/>
+            </xpath>
+            <xpath expr="//sheet" position="before">
+                <div class="alert alert-warning mb-0" role="alert"
+                     invisible="not er_has_lock_excess or er_lock_state == 'approved'">
+                    <strong>Stock held for other projects</strong>
+                    <field name="er_lock_message" nolabel="1" readonly="1"/>
+                    <field name="er_lock_state" widget="badge" readonly="1"
+                           decoration-warning="er_lock_state == 'pending'"
+                           decoration-danger="er_lock_state == 'rejected'"
+                           invisible="er_lock_state == 'none'"/>
+                </div>
+            </xpath>
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="er_project_id" readonly="state in ('done', 'cancel')"/>
+                <field name="er_lock_approved_by" invisible="er_lock_state != 'approved'"/>
+            </xpath>
+            <xpath expr="//page[@name='operations']//field[@name='move_ids']/list/field[@name='description_picking']"
+                   position="after">
+                <field name="er_project_id" optional="show"
+                       readonly="parent.state in ('done', 'cancel')"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_picking_tree_er_project" model="ir.ui.view">
+        <field name="name">stock.picking.list.er.project</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.vpicktree"/>
+        <field name="arch" type="xml">
+            <field name="origin" position="after">
+                <field name="er_project_id" optional="show"/>
+            </field>
+        </field>
+    </record>
+    <record id="view_picking_search_er_project" model="ir.ui.view">
+        <field name="name">stock.picking.search.er.project</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+        <field name="arch" type="xml">
+            <field name="origin" position="after">
+                <field name="er_project_id"/>
+                <filter name="er_lock_pending" string="Waiting Project Approval"
+                        domain="[('er_lock_state', '=', 'pending')]"/>
+                <filter name="er_group_project" string="Project"
+                        context="{'group_by': 'er_project_id'}"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Receipts of the purchase orders created from the employee purchase orders -->
+    <record id="action_er_purchase_receipts" model="ir.actions.act_window">
+        <field name="name">Purchase Receipts</field>
+        <field name="res_model">stock.picking</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('picking_type_code', '=', 'incoming'), ('purchase_id.er_epo_id', '!=', False)]</field>
+        <field name="context">{'create': False}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No purchase receipts</p>
+        </field>
+    </record>
 </odoo>

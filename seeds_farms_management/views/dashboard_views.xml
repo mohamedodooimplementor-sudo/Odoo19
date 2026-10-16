@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_seeds_dashboard" model="ir.actions.client">
+        <field name="name">Seeds Dashboard</field>
+        <field name="tag">seeds_dashboard</field>
+    </record>
+</odoo>

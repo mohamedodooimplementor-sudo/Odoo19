@@ -54,19 +54,28 @@ class EmployeeRequestLineExec(models.Model):
             line.qty_unprocessed = max(
                 line.product_uom_qty - stock_planned - purchase_planned, 0.0)
 
+    def _er_locked_for_others(self):
+        """Quantity (line UoM) of the line's product held for projects other than its own."""
+        self.ensure_one()
+        company = self.company_id.sudo()
+        if not (company.er_project_lock_enabled and self.product_id and self.location_id):
+            return 0.0
+        held = self.env['stock.move']._er_project_locked_qty(
+            self.product_id, self.location_id, exclude_project=self.project_id)
+        return self._to_line_uom(sum(held.values()))
+
     @api.model
-    def get_forecast_data(self, product_id, warehouse_id, qty=0.0):
+    def get_forecast_data(self, product_id, location_id, qty=0.0):
         """Data for the forecast popup (OWL widget)."""
         product = self.env['product.product'].sudo().browse(product_id).exists()
-        warehouse = self.env['stock.warehouse'].sudo().browse(warehouse_id).exists()
-        if not product or not warehouse:
+        location = self.env['stock.location'].sudo().browse(location_id).exists()
+        if not product or not location:
             return {}
-        prod = product.with_context(warehouse_id=warehouse.id)
+        prod = product.with_context(location=location.id)
         onhand, free = prod.qty_available, prod.free_qty
-        view_loc = warehouse.view_location_id
         quants = self.env['stock.quant'].sudo()._read_group(
             [('product_id', '=', product.id),
-             ('location_id', 'child_of', view_loc.id),
+             ('location_id', 'child_of', location.id),
              ('location_id.usage', '=', 'internal')],
             ['location_id'], ['quantity:sum', 'reserved_quantity:sum'])
         locations = [{'name': loc.display_name, 'quantity': qty_sum,
@@ -76,7 +85,7 @@ class EmployeeRequestLineExec(models.Model):
         open_states = ('waiting', 'confirmed', 'assigned', 'partially_available')
         base = [('product_id', '=', product.id), ('state', 'in', open_states)]
         wh_locations = self.env['stock.location'].sudo().search(
-            [('id', 'child_of', view_loc.id)]).ids
+            [('id', 'child_of', location.id)]).ids
         incoming = Move.search(base + [
             ('location_dest_id', 'in', wh_locations),
             ('location_id', 'not in', wh_locations)], limit=20)
@@ -90,6 +99,30 @@ class EmployeeRequestLineExec(models.Model):
                      'date': fields.Date.to_string(m.date) if m.date else ''}
                     for m in moves]
 
+        # every location that has the product, and which project holds how much of it.
+        # The locations of the projects are listed first; each project location is shown once.
+        all_locations, projects = [], []
+        Project = self.env['project.project'].sudo()
+        Location = self.env['stock.location'].sudo()
+        company_ids = self.env.companies.ids
+        loc_ids = {loc.id for loc, _q in self.env['stock.quant'].sudo()._read_group(
+            [('product_id', '=', product.id), ('location_id.usage', '=', 'internal'),
+             ('location_id.company_id', 'in', company_ids), ('quantity', '>', 0)],
+            ['location_id'], ['quantity:sum'])}
+        project_locs = Project.search([('er_location_id', '!=', False)]).er_location_id
+        loc_ids |= set(project_locs.ids)
+        for loc in Location.browse(sorted(loc_ids)):
+            loc_prod = product.with_context(location=loc.id)
+            held = self.env['stock.move']._er_project_locked_qty(product, loc)
+            if loc_prod.qty_available or held:
+                all_locations.append({
+                    'name': loc.display_name, 'on_hand': loc_prod.qty_available,
+                    'available': loc_prod.free_qty, 'held': sum(held.values())})
+            for project_id, held_qty in held.items():
+                projects.append({'project': Project.browse(project_id).display_name,
+                                 'location': loc.display_name, 'quantity': held_qty})
+        projects.sort(key=lambda r: (r['project'], r['location']))
+
         status = 'unavailable'
         if free >= qty > 0:
             status = 'available'
@@ -97,7 +130,7 @@ class EmployeeRequestLineExec(models.Model):
             status = 'partial'
         return {
             'product': product.display_name,
-            'warehouse': warehouse.display_name,
+            'location': location.display_name,
             'uom': product.uom_id.name,
             'requested': qty,
             'on_hand': onhand, 'reserved': onhand - free, 'available': free,
@@ -105,6 +138,8 @@ class EmployeeRequestLineExec(models.Model):
             'forecast': prod.virtual_available,
             'status': status,
             'locations': locations,
+            'all_locations': all_locations,
+            'projects': projects,
             'incoming_moves': fmt(incoming),
             'outgoing_moves': fmt(outgoing),
         }
