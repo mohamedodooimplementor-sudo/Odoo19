@@ -5,7 +5,7 @@
     'summary': "General Ledger and Partner Ledger in USD, EUR, Combined and Company currency, with a smart button on the partner form.",
     'description': "General Ledger and Partner Ledger in USD, EUR, Combined and Company currency.",
     'category': 'Accounting/Accounting',
-    'version': '18.0.1.0.0',
+    'version': '18.0.1.0.1',
     'author': "Eng.Aboelmagde",
     'license': 'OPL-1',
     'price': 99.00,
