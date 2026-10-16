@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="partner_ledger_multi_report" model="account.report">
+        <field name="name">Partner Ledger - Combined $ + €</field>
+        <field name="availability_condition">always</field>
+        <field name="filter_show_draft" eval="True"/>
+        <!-- <field name="filter_account_type" eval="True"/> -->
+        <field name="filter_account_type">both</field>
+        <field name="filter_partner" eval="True"/>
+        <field name="filter_unfold_all" eval="True"/>
+        <field name="filter_unreconciled" eval="True"/>
+        <field name="filter_period_comparison" eval="False"/>
+        <field name="filter_multi_company">selector</field>
+        <field name="default_opening_date_filter">this_year</field>
+        <field name="search_bar" eval="True"/>
+        <field name="load_more_limit" eval="80"/>
+        <field name="custom_handler_model_id" ref="model_account_partner_ledger_report_handler_multi"/>
+        <!-- <field name="main_template">account_reports.template_partner_ledger_report</field>
+        <field name="line_template">account_reports.line_template_partner_ledger_report</field> -->
+        <field name="load_more_limit" eval="80"/>
+        <field name="column_ids">
+            <record id="partner_ledger_report_mt_journal_code" model="account.report.column">
+                <field name="name">JRNL</field>
+                <field name="expression_label">journal_code</field>
+                <field name="figure_type">string</field>
+            </record>
+            <record id="partner_ledger_report_mt_account_code" model="account.report.column">
+                <field name="name">Account</field>
+                <field name="expression_label">account_code</field>
+                <field name="figure_type">string</field>
+            </record>
+            <record id="partner_ledger_report_mt_ref" model="account.report.column">
+                <field name="name">Ref</field>
+                <field name="expression_label">ref</field>
+                <field name="figure_type">string</field>
+            </record>
+            <record id="partner_ledger_report_mt_date_maturity" model="account.report.column">
+                <field name="name">Due Date</field>
+                <field name="expression_label">date_maturity</field>
+                <field name="figure_type">date</field>
+            </record>
+            <record id="partner_ledger_report_mt_matching_number" model="account.report.column">
+                <field name="name">Matching Number</field>
+                <field name="expression_label">matching_number</field>
+                <field name="figure_type">string</field>
+            </record>
+            <record id="partner_ledger_report_mt_debit" model="account.report.column">
+                <field name="name">Debit</field>
+                <field name="expression_label">debit</field>
+                <!-- <field name="figure_type">monetary</field>
+                <field name="blank_if_zero" eval="True"/> -->
+            </record>
+            <record id="partner_ledger_report_mt_credit" model="account.report.column">
+                <field name="name">Credit</field>
+                <field name="expression_label">credit</field>
+                <!-- <field name="figure_type">monetary</field>
+                <field name="blank_if_zero" eval="True"/> -->
+            </record>
+            <record id="partner_ledger_report_mt_amount_currency" model="account.report.column">
+                <field name="name">Amount Currency</field>
+                <field name="expression_label">amount_currency</field>
+                <!-- <field name="figure_type">monetary</field>
+                <field name="blank_if_zero" eval="True"/> -->
+            </record>
+            <record id="partner_ledger_report_mt_balance" model="account.report.column">
+                <field name="name">Balance</field>
+                <field name="expression_label">balance</field>
+                <!-- <field name="figure_type">monetary</field>
+                <field name="blank_if_zero" eval="False"/> -->
+            </record>
+            <record id="partner_ledger_report_mt_balance_pl_debit" model="account.report.column">
+                    <field name="name">Debit $</field>
+                    <field name="expression_label">pl_debit</field>
+                    <!-- <field name="figure_type">float</field> -->
+                    <!-- <field name="blank_if_zero" eval="True"/> -->
+                </record>
+                <record id="partner_ledger_report_mt_balance_pl_credit" model="account.report.column">
+                    <field name="name">Credit $</field>
+                    <field name="expression_label">pl_credit</field>
+                    <!-- <field name="figure_type">float</field> -->
+                    <!-- <field name="blank_if_zero" eval="True"/> -->
+                </record>
+                <record id="partner_ledger_report_mt_balance_pl_amount" model="account.report.column">
+                    <field name="name">Amount $</field>
+                    <field name="expression_label">pl_amount</field>
+                </record>
+                <record id="partner_ledger_report_mt_balance_pl_balance" model="account.report.column">
+                    <field name="name">Balance $</field>
+                    <field name="expression_label">pl_balance</field>
+                    <!-- <field name="figure_type">float</field> -->
+                    <!-- <field name="blank_if_zero" eval="False"/> -->
+                </record>
+                <record id="partner_ledger_report_mt_balance_euro_pl_debit" model="account.report.column">
+                    <field name="name">Debit &#x20AC;</field>
+                    <field name="expression_label">euro_pl_debit</field>
+                    <!-- <field name="figure_type">float</field> -->
+                    <!-- <field name="blank_if_zero" eval="True"/> -->
+                </record>
+                <record id="partner_ledger_report_mt_balance_euro_pl_credit" model="account.report.column">
+                    <field name="name">Credit &#x20AC;</field>
+                    <field name="expression_label">euro_pl_credit</field>
+                    <!-- <field name="figure_type">float</field> -->
+                    <!-- <field name="blank_if_zero" eval="True"/> -->
+                </record>
+                <record id="partner_ledger_report_mt_balance_euro_pl_amount" model="account.report.column">
+                    <field name="name">Amount &#x20AC;</field>
+                    <field name="expression_label">euro_pl_amount</field>
+                    <!-- <field name="figure_type">float</field> -->
+                    <!-- <field name="blank_if_zero" eval="False"/> -->
+                </record>
+                <record id="partner_ledger_report_mt_balance_euro_pl_balance" model="account.report.column">
+                    <field name="name">Balance &#x20AC;</field>
+                    <field name="expression_label">euro_pl_balance</field>
+                    <!-- <field name="figure_type">float</field> -->
+                    <!-- <field name="blank_if_zero" eval="False"/> -->
+                </record>
+        </field>
+    </record>
+
+        <record id="action_account_multi_report_partner_ledger" model="ir.actions.client">
+            <field name="name">Partner Ledger Multi</field>
+            <field name="tag">account_report</field>
+            <field name="context" eval="{'report_id': ref('new_gl_pl_report.partner_ledger_multi_report')}"/>
+        </record>
+
+        <menuitem id="menu_action_account_multi_report_partner_ledger" name="Partner Ledger (Multi-currency)"
+                  action="action_account_multi_report_partner_ledger"
+                  parent="account.account_reports_partners_reports_menu"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+        <record id="account_reports.partner_ledger_report" model="account.report">
+            <field name="column_ids">
+                <record id="partner_ledger_report_balance_pl_debit" model="account.report.column">
+                    <field name="name">Debit $</field>
+                    <field name="expression_label">pl_debit</field>
+                    <field name="figure_type">float</field>
+                    <field name="blank_if_zero" eval="True"/>
+                </record>
+                <record id="partner_ledger_report_balance_pl_credit" model="account.report.column">
+                    <field name="name">Credit $</field>
+                    <field name="expression_label">pl_credit</field>
+                    <field name="figure_type">float</field>
+                    <field name="blank_if_zero" eval="True"/>
+                </record>
+                <record id="partner_ledger_report_balance_pl_currency" model="account.report.column">
+                    <field name="name">Balance $</field>
+                    <field name="expression_label">pl_currency</field>
+                    <field name="figure_type">float</field>
+                    <field name="blank_if_zero" eval="False"/>
+                </record>
+            </field>
+        </record>
+
+<!--        <record id="account_reports.general_ledger_report" model="account.report">-->
+<!--            <field name="column_ids">-->
+<!--                <record id="general_ledger_report_balance_pl_debit" model="account.report.column">-->
+<!--                    <field name="name">Debit $</field>-->
+<!--                    <field name="expression_label">pl_debit</field>-->
+<!--                    <field name="figure_type">float</field>-->
+<!--                    <field name="blank_if_zero" eval="True"/>-->
+<!--                </record>-->
+<!--                <record id="general_ledger_report_balance_pl_credit" model="account.report.column">-->
+<!--                    <field name="name">Credit $</field>-->
+<!--                    <field name="expression_label">pl_credit</field>-->
+<!--                    <field name="figure_type">float</field>-->
+<!--                    <field name="blank_if_zero" eval="True"/>-->
+<!--                </record>-->
+<!--                <record id="general_ledger_report_balance_pl_currency" model="account.report.column">-->
+<!--                    <field name="name">Balance $</field>-->
+<!--                    <field name="expression_label">pl_currency</field>-->
+<!--                    <field name="figure_type">float</field>-->
+<!--                    <field name="blank_if_zero" eval="False"/>-->
+<!--                </record>-->
+<!--            </field>-->
+<!--        </record>-->
+    </data>
+</odoo>
