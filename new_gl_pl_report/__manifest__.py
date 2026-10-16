@@ -8,7 +8,7 @@
     'version': '18.0.1.0.1',
     'author': "Eng.Aboelmagde",
     'license': 'OPL-1',
-    'price': 99.00,
+    'price': 150.00,
     'currency': 'USD',
     'images': ['static/description/banner.png'],
     'depends': ['account_reports', 'account'],
