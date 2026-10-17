@@ -6,7 +6,7 @@
     'description': "General Ledger and Partner Ledger in USD, EUR, Combined and Company currency.",
     'category': 'Accounting/Accounting',
     'version': '18.0.1.0.1',
-    'author': "Eng.Aboelmagde",
+    'author': "Eng. M.Aboelmagde",
     'license': 'OPL-1',
     'price': 150.00,
     'currency': 'USD',
