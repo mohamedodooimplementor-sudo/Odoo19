@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_finding" model="ir.actions.report">
+        <field name="name">Audit Finding</field>
+        <field name="model">odoo.auditor.finding</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odoo_auditor.report_finding_document</field>
+        <field name="report_file">odoo_auditor.report_finding_document</field>
+        <field name="binding_model_id" ref="model_odoo_auditor_finding"/>
+        <field name="binding_type">report</field>
+    </record>
+    <template id="report_finding_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Audit Finding <span t-field="o.name"/></h2>
+                        <h4 t-field="o.title"/>
+                        <table class="table table-sm">
+                            <tr><th>Rule</th><td><span t-field="o.rule_id"/></td><th>Severity</th><td><span t-field="o.severity"/></td></tr>
+                            <tr><th>Status</th><td><span t-field="o.state"/></td><th>Risk score</th><td><span t-field="o.risk_score"/></td></tr>
+                            <tr><th>Source</th><td><span t-field="o.source_name"/></td><th>Estimated impact</th>
+                                <td><span t-field="o.estimated_impact"/></td></tr>
+                        </table>
+                        <h5>Description</h5><p t-field="o.description"/>
+                        <h5>Expected condition</h5><p t-field="o.expected_condition"/>
+                        <h5>Actual condition</h5><p t-field="o.actual_condition"/>
+                        <h5>Root cause</h5><p t-field="o.root_cause"/>
+                        <h5>Recommendation</h5><p t-field="o.recommendation"/>
+                        <h5>Management response</h5><p t-field="o.management_response"/>
+                        <h5>Corrective actions</h5>
+                        <table class="table table-sm">
+                            <thead><tr><th>Ref</th><th>Responsible</th><th>Deadline</th><th>Status</th></tr></thead>
+                            <tbody><tr t-foreach="o.action_ids" t-as="a">
+                                <td><span t-field="a.name"/></td><td><span t-field="a.responsible_user_id"/></td>
+                                <td><span t-field="a.deadline"/></td><td><span t-field="a.state"/></td></tr></tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

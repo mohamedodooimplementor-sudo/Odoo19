@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_run_summary" model="ir.actions.report">
+        <field name="name">Audit Run Summary</field>
+        <field name="model">odoo.auditor.run</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odoo_auditor.report_run_summary_document</field>
+        <field name="report_file">odoo_auditor.report_run_summary_document</field>
+        <field name="binding_model_id" ref="model_odoo_auditor_run"/>
+        <field name="binding_type">report</field>
+    </record>
+    <template id="report_run_summary_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Audit Summary <span t-field="o.name"/></h2>
+                        <h4 t-field="o.audit_name"/>
+                        <table class="table table-sm">
+                            <tr><th>Company</th><td><span t-field="o.company_id"/></td><th>Period</th>
+                                <td><span t-field="o.date_from"/> - <span t-field="o.date_to"/></td></tr>
+                            <tr><th>Status</th><td><span t-field="o.state"/></td><th>Records inspected</th><td><span t-field="o.records_inspected"/></td></tr>
+                            <tr><th>Domains</th><td colspan="3"><span t-field="o.domains_covered"/></td></tr>
+                        </table>
+                        <h5>Findings by severity</h5>
+                        <table class="table table-sm">
+                            <thead><tr><th>Critical</th><th>High</th><th>Medium</th><th>Low</th><th>Total</th></tr></thead>
+                            <tbody><tr><td t-esc="o.critical_count"/><td t-esc="o.high_count"/><td t-esc="o.medium_count"/>
+                                <td t-esc="o.low_count"/><td t-esc="o.finding_count"/></tr></tbody>
+                        </table>
+                        <h5>Top findings by risk score</h5>
+                        <table class="table table-sm">
+                            <thead><tr><th>No.</th><th>Rule</th><th>Title</th><th>Severity</th><th class="text-end">Impact</th></tr></thead>
+                            <tbody>
+                                <tr t-foreach="o.finding_ids.sorted(lambda f: -f.risk_score)[:20]" t-as="f">
+                                    <td><span t-field="f.name"/></td><td><span t-field="f.rule_code"/></td>
+                                    <td><span t-field="f.title"/></td><td><span t-field="f.severity"/></td>
+                                    <td class="text-end"><span t-field="f.estimated_impact"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <h5>Rules executed</h5>
+                        <p t-esc="o.rule_versions"/>
+                        <t t-if="o.message_log"><h5>Warnings and errors</h5><pre t-esc="o.message_log"/></t>
+                        <p class="text-muted small">Detection results are indicators requiring human review; they are not conclusions of fraud.</p>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

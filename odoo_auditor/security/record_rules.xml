@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Multi-company -->
+        <record id="rule_finding_company" model="ir.rule">
+            <field name="name">Auditor finding: multi-company</field>
+            <field name="model_id" ref="model_odoo_auditor_finding"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_run_company" model="ir.rule">
+            <field name="name">Auditor run: multi-company</field>
+            <field name="model_id" ref="model_odoo_auditor_run"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_evidence_company" model="ir.rule">
+            <field name="name">Auditor evidence: multi-company</field>
+            <field name="model_id" ref="model_odoo_auditor_evidence"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_action_company" model="ir.rule">
+            <field name="name">Auditor action: multi-company</field>
+            <field name="model_id" ref="model_odoo_auditor_action"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_plan_company" model="ir.rule">
+            <field name="name">Auditor plan: multi-company</field>
+            <field name="model_id" ref="model_odoo_auditor_plan"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_rule_company" model="ir.rule">
+            <field name="name">Auditor rule: multi-company</field>
+            <field name="model_id" ref="model_odoo_auditor_rule"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_log_company" model="ir.rule">
+            <field name="name">Auditor log: multi-company</field>
+            <field name="model_id" ref="model_odoo_auditor_log"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="rule_access_review_company" model="ir.rule">
+            <field name="name">Auditor Access review: multi-company</field>
+            <field name="model_id" ref="model_odoo_auditor_access_review"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_checklist_company" model="ir.rule">
+            <field name="name">Auditor Checklist: multi-company</field>
+            <field name="model_id" ref="model_odoo_auditor_checklist"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="rule_exclusion_company" model="ir.rule">
+            <field name="name">Auditor exclusion: multi-company</field>
+            <field name="model_id" ref="model_odoo_auditor_exclusion"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <!-- Confidentiality: group rules are OR-ed, so members of the confidential group see everything -->
+        <record id="rule_finding_non_confidential" model="ir.rule">
+            <field name="name">Auditor finding: hide confidential from regular auditors</field>
+            <field name="model_id" ref="model_odoo_auditor_finding"/>
+            <field name="groups" eval="[(4, ref('group_auditor_user'))]"/>
+            <field name="domain_force">[('is_confidential', '=', False)]</field>
+        </record>
+        <record id="rule_finding_confidential_all" model="ir.rule">
+            <field name="name">Auditor finding: confidential access</field>
+            <field name="model_id" ref="model_odoo_auditor_finding"/>
+            <field name="groups" eval="[(4, ref('group_auditor_confidential'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
+        <record id="rule_evidence_non_restricted" model="ir.rule">
+            <field name="name">Auditor evidence: hide confidential/restricted from regular auditors</field>
+            <field name="model_id" ref="model_odoo_auditor_evidence"/>
+            <field name="groups" eval="[(4, ref('group_auditor_user'))]"/>
+            <field name="domain_force">[('confidentiality', '=', 'internal')]</field>
+        </record>
+        <record id="rule_evidence_confidential_all" model="ir.rule">
+            <field name="name">Auditor evidence: confidential access</field>
+            <field name="model_id" ref="model_odoo_auditor_evidence"/>
+            <field name="groups" eval="[(4, ref('group_auditor_confidential'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
+    </data>
+</odoo>

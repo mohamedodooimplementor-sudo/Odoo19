@@ -1,0 +1,36 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_rule_user,rule user,model_odoo_auditor_rule,odoo_auditor.group_auditor_user,1,0,0,0
+access_rule_manager,rule manager,model_odoo_auditor_rule,odoo_auditor.group_auditor_manager,1,1,1,0
+access_run_user,run user,model_odoo_auditor_run,odoo_auditor.group_auditor_user,1,1,1,0
+access_run_manager,run manager,model_odoo_auditor_run,odoo_auditor.group_auditor_manager,1,1,1,0
+access_finding_user,finding user,model_odoo_auditor_finding,odoo_auditor.group_auditor_user,1,1,1,0
+access_finding_manager,finding manager,model_odoo_auditor_finding,odoo_auditor.group_auditor_manager,1,1,1,0
+access_evidence_user,evidence user,model_odoo_auditor_evidence,odoo_auditor.group_auditor_user,1,1,1,0
+access_evidence_manager,evidence manager,model_odoo_auditor_evidence,odoo_auditor.group_auditor_manager,1,1,1,0
+access_action_user,action user,model_odoo_auditor_action,odoo_auditor.group_auditor_user,1,1,1,0
+access_action_manager,action manager,model_odoo_auditor_action,odoo_auditor.group_auditor_manager,1,1,1,0
+access_plan_user,plan user,model_odoo_auditor_plan,odoo_auditor.group_auditor_user,1,1,1,0
+access_plan_manager,plan manager,model_odoo_auditor_plan,odoo_auditor.group_auditor_manager,1,1,1,0
+access_program_user,program user,model_odoo_auditor_program,odoo_auditor.group_auditor_user,1,1,1,0
+access_program_manager,program manager,model_odoo_auditor_program,odoo_auditor.group_auditor_manager,1,1,1,1
+access_workpaper_user,workpaper user,model_odoo_auditor_workpaper,odoo_auditor.group_auditor_user,1,1,1,0
+access_workpaper_manager,workpaper manager,model_odoo_auditor_workpaper,odoo_auditor.group_auditor_manager,1,1,1,1
+access_risk_user,risk user,model_odoo_auditor_risk,odoo_auditor.group_auditor_user,1,0,0,0
+access_risk_manager,risk manager,model_odoo_auditor_risk,odoo_auditor.group_auditor_manager,1,1,1,0
+access_control_user,control user,model_odoo_auditor_control,odoo_auditor.group_auditor_user,1,0,0,0
+access_control_manager,control manager,model_odoo_auditor_control,odoo_auditor.group_auditor_manager,1,1,1,0
+access_log_user,log user,model_odoo_auditor_log,odoo_auditor.group_auditor_user,1,0,0,0
+access_log_manager,log manager,model_odoo_auditor_log,odoo_auditor.group_auditor_manager,1,0,0,0
+access_run_wizard_user,run_wizard user,model_odoo_auditor_run_wizard,odoo_auditor.group_auditor_user,1,1,1,1
+access_finding_resolution_wizard_user,finding_resolution_wizard user,model_odoo_auditor_finding_resolution_wizard,odoo_auditor.group_auditor_user,1,1,1,1
+access_access_review_user,access_review user,model_odoo_auditor_access_review,odoo_auditor.group_auditor_user,1,1,1,0
+access_access_review_manager,access_review manager,model_odoo_auditor_access_review,odoo_auditor.group_auditor_manager,1,1,1,0
+access_access_review_line_user,access_review_line user,model_odoo_auditor_access_review_line,odoo_auditor.group_auditor_user,1,1,1,1
+access_access_review_line_manager,access_review_line manager,model_odoo_auditor_access_review_line,odoo_auditor.group_auditor_manager,1,1,1,1
+access_checklist_user,checklist user,model_odoo_auditor_checklist,odoo_auditor.group_auditor_user,1,1,1,0
+access_checklist_manager,checklist manager,model_odoo_auditor_checklist,odoo_auditor.group_auditor_manager,1,1,1,1
+access_checklist_line_user,checklist_line user,model_odoo_auditor_checklist_line,odoo_auditor.group_auditor_user,1,1,1,1
+access_checklist_line_manager,checklist_line manager,model_odoo_auditor_checklist_line,odoo_auditor.group_auditor_manager,1,1,1,1
+access_exclusion_user,exclusion user,model_odoo_auditor_exclusion,odoo_auditor.group_auditor_user,1,0,0,0
+access_exclusion_manager,exclusion manager,model_odoo_auditor_exclusion,odoo_auditor.group_auditor_manager,1,1,1,0
+access_setup_wizard_manager,setup wizard manager,model_odoo_auditor_setup_wizard,odoo_auditor.group_auditor_manager,1,1,1,1

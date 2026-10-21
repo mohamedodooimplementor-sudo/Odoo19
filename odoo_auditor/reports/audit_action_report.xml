@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_actions" model="ir.actions.report">
+        <field name="name">Corrective Actions</field>
+        <field name="model">odoo.auditor.action</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odoo_auditor.report_actions_document</field>
+        <field name="report_file">odoo_auditor.report_actions_document</field>
+        <field name="binding_model_id" ref="model_odoo_auditor_action"/>
+        <field name="binding_type">report</field>
+    </record>
+    <template id="report_actions_document">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2>Corrective Actions</h2>
+                    <table class="table table-sm">
+                        <thead><tr><th>Ref</th><th>Finding</th><th>Action</th><th>Responsible</th><th>Deadline</th><th>Status</th><th>Verified by</th></tr></thead>
+                        <tbody>
+                            <tr t-foreach="docs" t-as="a">
+                                <td><span t-field="a.name"/></td><td><span t-field="a.finding_id.name"/></td>
+                                <td><span t-field="a.title"/></td><td><span t-field="a.responsible_user_id"/></td>
+                                <td><span t-field="a.deadline"/></td><td><span t-field="a.state"/></td>
+                                <td><span t-field="a.verified_by"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

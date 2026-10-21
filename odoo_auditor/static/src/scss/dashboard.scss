@@ -1,0 +1,33 @@
+// Theme-aware: only Bootstrap 5.3 / Odoo CSS variables are used, so the same file renders
+// correctly in both light and dark mode (no hard-coded surface or text colours).
+.o_auditor_dashboard {
+    color: var(--bs-body-color);
+
+    .o_aud_card, .o_aud_panel {
+        background: var(--bs-body-bg);
+        border: 1px solid var(--bs-border-color);
+        border-radius: 8px;
+        padding: 14px;
+    }
+    .o_aud_card { cursor: pointer; text-align: center; transition: box-shadow .15s ease; }
+    .o_aud_card:hover { box-shadow: 0 2px 8px rgba(0, 0, 0, .25); }
+    .o_aud_value { font-size: 2rem; font-weight: 700; }
+    .o_aud_label { color: var(--bs-secondary-color); }
+    .o_aud_critical .o_aud_value { color: var(--bs-danger); }
+    .o_aud_high .o_aud_value { color: var(--bs-warning); }
+    .o_aud_overdue .o_aud_value { color: var(--bs-info); }
+
+    .o_aud_bar_row, .o_aud_link_row { display: flex; align-items: center; gap: 8px; padding: 4px 0; cursor: pointer; }
+    .o_aud_link_row { justify-content: space-between; }
+    .o_aud_link_row:hover, .o_aud_bar_row:hover { background: var(--bs-tertiary-bg); }
+    .o_aud_bar_label { width: 110px; text-transform: capitalize; }
+    .o_aud_bar_track { flex: 1; background: var(--bs-secondary-bg); border-radius: 4px; height: 12px; }
+    .o_aud_bar { height: 12px; border-radius: 4px; min-width: 2px; }
+    .o_aud_bar_critical { background: var(--bs-danger); }
+    .o_aud_bar_high { background: var(--bs-warning); }
+    .o_aud_bar_medium { background: var(--bs-yellow, #ffc107); }
+    .o_aud_bar_low { background: var(--bs-success); }
+    .o_aud_bar_informational { background: var(--bs-info); }
+    .o_aud_bar_domain { background: var(--bs-primary); }
+    .o_aud_bar_count { width: 32px; text-align: right; }
+}

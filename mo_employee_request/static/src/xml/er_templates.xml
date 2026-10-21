@@ -40,7 +40,7 @@
                     <button t-if="allLocations.length" type="button"
                             t-attf-class="er-pop-tab {{ state.tab === 'wh' ? 'active' : '' }}"
                             t-on-click="() => this.toggle('wh')">
-                        All Locations <span t-esc="allLocations.length"/>
+                        Other Locations <span t-esc="allLocations.length"/>
                     </button>
                     <button t-if="projects.length" type="button"
                             t-attf-class="er-pop-tab {{ state.tab === 'prj' ? 'active' : '' }}"
@@ -55,20 +55,29 @@
                 </div>
                 <div t-if="state.tab === 'loc'" class="er-pop-list">
                     <div t-foreach="locations" t-as="loc" t-key="loc_index" class="er-pop-row">
-                        <span class="text-truncate" t-esc="loc.name"/>
-                        <span><b t-esc="fmt(loc.quantity)"/> <small class="text-muted">(<t t-esc="fmt(loc.reserved)"/> res.)</small></span>
+                        <span class="er-pop-name"><span class="text-truncate" t-esc="loc.name"/></span>
+                        <span class="er-pop-qty"><b t-esc="fmt(loc.quantity)"/> <small class="text-muted">(<t t-esc="fmt(loc.reserved)"/> res.)</small></span>
                     </div>
                 </div>
                 <div t-if="state.tab === 'wh'" class="er-pop-list">
                     <div t-foreach="allLocations" t-as="wh" t-key="wh_index" class="er-pop-row">
-                        <span class="text-truncate" t-esc="wh.name"/>
-                        <span><b t-esc="fmt(wh.available)"/> <small class="text-muted">free of <t t-esc="fmt(wh.on_hand)"/> (<t t-esc="fmt(wh.held)"/> held)</small></span>
+                        <span class="er-pop-name">
+                            <span class="text-truncate" t-esc="wh.name"/>
+                            <small t-if="wh.project" class="er-pop-prj"><i class="fa fa-briefcase"/> <t t-esc="wh.project"/></small>
+                        </span>
+                        <span class="er-pop-qty">
+                            <b t-esc="fmt(wh.available)"/>
+                            <small class="text-muted">free of <t t-esc="fmt(wh.on_hand)"/></small>
+                        </span>
                     </div>
                 </div>
                 <div t-if="state.tab === 'prj'" class="er-pop-list">
                     <div t-foreach="projects" t-as="pr" t-key="pr_index" class="er-pop-row">
-                        <span class="text-truncate"><t t-esc="pr.project"/> <small class="text-muted">&#183; <t t-esc="pr.location"/></small></span>
-                        <span><b t-esc="fmt(pr.quantity)"/></span>
+                        <span class="er-pop-name">
+                            <span class="text-truncate" t-esc="pr.project"/>
+                            <small class="text-muted text-truncate"><i class="fa fa-map-marker"/> <t t-esc="pr.location"/></small>
+                        </span>
+                        <span class="er-pop-qty"><b t-esc="fmt(pr.quantity)"/></span>
                     </div>
                 </div>
                 <div t-if="state.tab === 'mov'" class="er-pop-list">

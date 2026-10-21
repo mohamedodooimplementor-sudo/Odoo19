@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_auditor_rule_list" model="ir.ui.view">
+        <field name="name">odoo.auditor.rule.list</field>
+        <field name="model">odoo.auditor.rule</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="code"/><field name="name"/><field name="domain_area"/>
+                <field name="severity" widget="badge"/><field name="nature"/><field name="frequency"/>
+                <field name="last_run"/><field name="finding_count"/><field name="effectiveness"/>
+                <field name="active" column_invisible="True"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_auditor_rule_form" model="ir.ui.view">
+        <field name="name">odoo.auditor.rule.form</field>
+        <field name="model">odoo.auditor.rule</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_findings" type="object" class="oe_stat_button" icon="fa-search">
+                            <field name="finding_count" widget="statinfo" string="Findings"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <field name="active" invisible="1"/>
+                    <group>
+                        <group>
+                            <field name="name"/><field name="code"/><field name="method_key"/>
+                            <field name="domain_area"/><field name="category"/><field name="company_id"/>
+                        </group>
+                        <group>
+                            <field name="severity"/><field name="nature"/><field name="risk_category"/>
+                            <field name="version"/><field name="owner_id"/><field name="department"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Configuration">
+                            <group>
+                                <group string="Thresholds">
+                                    <field name="threshold_amount"/><field name="threshold_days"/>
+                                    <field name="threshold_percent"/><field name="extra_params"/>
+                                </group>
+                                <group string="Exclusions &amp; Scheduling">
+                                    <field name="exclude_partner_ids" widget="many2many_tags"/>
+                                    <field name="frequency"/><field name="lookback_days"/>
+                                    <field name="last_run"/><field name="next_run"/>
+                                </group>
+                            </group>
+                            <group string="Validation">
+                                <field name="applicable_models"/><field name="config_message" nolabel="1" colspan="2"/>
+                            </group>
+                        </page>
+                        <page string="Guidance">
+                            <group>
+                                <field name="description"/><field name="recommendation"/><field name="expected_evidence"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="view_auditor_rule_search" model="ir.ui.view">
+        <field name="name">odoo.auditor.rule.search</field>
+        <field name="model">odoo.auditor.rule</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/><field name="code"/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="g_area" string="Domain" context="{'group_by': 'domain_area'}"/>
+                    <filter name="g_sev" string="Severity" context="{'group_by': 'severity'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_auditor_rule" model="ir.actions.act_window">
+        <field name="name">Audit Rules</field>
+        <field name="res_model">odoo.auditor.rule</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

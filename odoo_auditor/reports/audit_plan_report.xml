@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_plan" model="ir.actions.report">
+        <field name="name">Audit Plan</field>
+        <field name="model">odoo.auditor.plan</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odoo_auditor.report_plan_document</field>
+        <field name="report_file">odoo_auditor.report_plan_document</field>
+        <field name="binding_model_id" ref="model_odoo_auditor_plan"/>
+        <field name="binding_type">report</field>
+    </record>
+    <template id="report_plan_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Audit Plan <span t-field="o.name"/></h2>
+                        <h4 t-field="o.title"/>
+                        <table class="table table-sm">
+                            <tr><th>Period</th><td><span t-field="o.fiscal_year"/></td><th>Status</th><td><span t-field="o.state"/></td></tr>
+                            <tr><th>Lead auditor</th><td><span t-field="o.lead_user_id"/></td><th>Approved by</th><td><span t-field="o.approved_by"/></td></tr>
+                            <tr><th>Dates</th><td><span t-field="o.date_start"/> - <span t-field="o.date_end"/></td>
+                                <th>Budget (h)</th><td><span t-field="o.budget_hours"/></td></tr>
+                        </table>
+                        <h5>Objective</h5><p t-field="o.objective"/>
+                        <h5>Scope</h5><p t-field="o.scope"/>
+                        <h5>Risk assessment</h5><p t-field="o.risk_assessment"/>
+                        <h5>Programs and workpapers</h5>
+                        <t t-foreach="o.program_ids" t-as="p">
+                            <h6 t-field="p.name"/>
+                            <p t-field="p.procedures"/>
+                            <table class="table table-sm" t-if="p.workpaper_ids">
+                                <thead><tr><th>Workpaper</th><th>Result</th><th>Status</th><th>Prepared</th><th>Reviewed</th></tr></thead>
+                                <tbody><tr t-foreach="p.workpaper_ids" t-as="w">
+                                    <td><span t-field="w.name"/></td><td><span t-field="w.test_result"/></td>
+                                    <td><span t-field="w.state"/></td><td><span t-field="w.prepared_by"/></td>
+                                    <td><span t-field="w.reviewed_by"/></td></tr></tbody>
+                            </table>
+                        </t>
+                        <h5>Conclusion</h5><p t-field="o.conclusion"/>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

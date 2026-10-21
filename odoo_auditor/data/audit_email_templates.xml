@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="mail_template_run_summary" model="mail.template">
+            <field name="name">Odoo Auditor: Audit run summary</field>
+            <field name="model_id" ref="model_odoo_auditor_run"/>
+            <field name="subject">Audit run {{ object.name }} completed</field>
+            <field name="email_to">{{ object.user_id.email }}</field>
+            <field name="body_html" type="html">
+<div>
+    <p>The scheduled audit <strong><t t-out="object.audit_name"/></strong> (<t t-out="object.name"/>) has finished.</p>
+    <p><t t-out="object.summary or ''"/></p>
+    <p>Open Odoo Auditor to review the findings. This message contains no confidential HR or payroll details.</p>
+</div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+    </data>
+</odoo>

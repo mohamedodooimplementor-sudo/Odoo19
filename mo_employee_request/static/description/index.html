@@ -1,7 +1,15 @@
-<section class="erx">
+<section class="erx" dir="ltr">
 <style>
 .erx{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#1f2933;line-height:1.6;max-width:1040px;margin:0 auto;padding:0 18px 40px}
+.erx{direction:ltr;text-align:left;unicode-bidi:isolate}
 .erx *{box-sizing:border-box}
+.erx img{max-width:100%;height:auto;display:block}
+.erx h1,.erx h2,.erx h3{border:0;padding:0;text-transform:none;font-family:inherit}
+.erx p{margin:0}
+.erx .tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:14px}
+.erx .tw table{margin-top:0;min-width:520px}
+.erx table th,.erx table td{text-align:left}
+.erx .price b,.erx .stat b,.erx .cta .p{unicode-bidi:isolate;white-space:nowrap}
 .erx h1,.erx h2,.erx h3{line-height:1.2;margin:0}
 .erx .hero{background:linear-gradient(135deg,#714B67 0%,#4a2f43 100%);color:#fff;border-radius:18px;padding:40px 36px;margin:18px 0 26px;display:flex;flex-wrap:wrap;gap:28px;align-items:center;justify-content:space-between}
 .erx .hero h1{font-size:34px;font-weight:800;letter-spacing:-.5px}
@@ -12,7 +20,7 @@
 .erx .price small{display:block;letter-spacing:1.5px;font-size:11px;font-weight:700;opacity:.7}
 .erx .price b{display:block;font-size:44px;line-height:1.05;font-weight:800;margin:4px 0}
 .erx .price span{font-size:12.5px;color:#5b6573}
-.erx .banner{width:100%;border-radius:14px;border:1px solid #e3e6ec;margin-bottom:26px}
+.erx .banner{width:100%;height:auto;border-radius:14px;border:1px solid #e3e6ec;margin-bottom:26px}
 .erx .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:34px}
 .erx .stat{background:#f6f2f5;border-radius:14px;padding:18px;text-align:center}
 .erx .stat b{display:block;font-size:26px;color:#714B67;font-weight:800}
@@ -20,13 +28,14 @@
 .erx h2.t{font-size:26px;font-weight:800;color:#2b2330;margin:44px 0 8px}
 .erx h2.t:after{content:"";display:block;width:54px;height:4px;border-radius:4px;background:#714B67;margin-top:10px}
 .erx .lead{color:#5b6573;font-size:16px;margin:12px 0 22px;max-width:780px}
+.erx p.lead{margin:12px 0 22px}
 .erx .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:16px}
 .erx .card{border:1px solid #e3e6ec;border-radius:14px;padding:20px 20px 18px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.05)}
 .erx .card .ic{width:42px;height:42px;border-radius:12px;background:#f0e7ee;color:#714B67;font-size:20px;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
 .erx .card h3{font-size:17px;margin-bottom:6px;color:#2b2330}
 .erx .card p{margin:0;font-size:14.5px;color:#4b5563}
 .erx .new{display:inline-block;background:#198754;color:#fff;font-size:10.5px;font-weight:800;letter-spacing:.8px;padding:2px 8px;border-radius:999px;vertical-align:middle;margin-inline-start:8px}
-.erx .shot{width:100%;border:1px solid #e3e6ec;border-radius:12px;margin-top:16px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.erx .shot{width:100%;height:auto;border:1px solid #e3e6ec;border-radius:12px;margin-top:16px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
 .erx .steps{counter-reset:s;display:grid;gap:12px;margin:18px 0 0;padding:0;list-style:none}
 .erx .steps li{counter-increment:s;position:relative;padding:14px 16px 14px 62px;border:1px solid #e3e6ec;border-radius:12px;background:#fff;font-size:14.5px}
 .erx .steps li:before{content:counter(s);position:absolute;left:16px;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;background:#714B67;color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center}
@@ -113,13 +122,13 @@
 
 <h2 class="t">Product coding <span class="new">NEW</span></h2>
 <p class="lead">A <b>Product Coding</b> tab on the product page builds the internal reference from fields the product already has.</p>
-<table>
+<div class="tw"><table>
   <tr><th style="width:30%">Part</th><th>Where it comes from</th></tr>
   <tr><td>Category &amp; sub-category</td><td>The <b>Product Category</b> of the product: the <b>Code</b> field of its category and of <b>every parent</b> above it, top first (e.g. <code>EL</code> + <code>CB</code>)</td></tr>
   <tr><td>Color</td><td>The values of the attribute marked <b>Color</b>, each with its own <b>Code</b> (first letter by default, editable)</td></tr>
   <tr><td>Size</td><td>The values of the attribute marked <b>Size</b>, with their own Code, the same way</td></tr>
   <tr><td><b>Result</b></td><td><code>ELCBRL</code>: filled on the product, one code per variant, with a warning if the code already exists</td></tr>
-</table>
+</table></div>
 
 <h2 class="t">Dashboard</h2>
 <p class="lead">Starts with <b>Needs my action</b>, then the request pipeline and orders. Pick a project in the new <b>Project</b> filter, or click a project card, and every tile follows.</p>
@@ -141,7 +150,7 @@
 <h2 class="t">Configuration</h2>
 <p class="lead">Everything is set in <b>Settings &rarr; Employee Requests</b>. Users picked there automatically receive the matching access group.</p>
 <img class="shot" src="settings.png" alt="Settings"/>
-<table>
+<div class="tw"><table>
   <tr><th style="width:30%">Setting</th><th>What it does</th></tr>
   <tr><td><b>Department Approval</b></td><td>First step of a request: the department manager, or specific users.</td></tr>
   <tr><td><b>Approval Mode</b></td><td>Any one approver is enough, or all of them must approve each step.</td></tr>
@@ -151,10 +160,10 @@
   <tr><td><b>Receipt Inspection Approval</b></td><td>Receipts must be approved by an inspector before validation.</td></tr>
   <tr><td><b>Project Stock Lock</b></td><td>Turn the lock on or off, and choose who approves: the project manager of the stock owner, or specific users.</td></tr>
   <tr><td><b>Automation</b></td><td>Create stock transfers, purchase orders and Odoo purchase orders automatically; bills are optional.</td></tr>
-</table>
+</table></div>
 
 <h2 class="t">Access groups</h2>
-<table>
+<div class="tw"><table>
   <tr><th style="width:34%">Group</th><th>Can</th></tr>
   <tr><td>Employee Request User</td><td>Create, read and edit own requests; sees the app.</td></tr>
   <tr><td>Create for Employees</td><td>Create requests on behalf of other employees.</td></tr>
@@ -165,11 +174,11 @@
   <tr><td>Budget Control User</td><td>Edit and resubmit budget-rejected purchase orders.</td></tr>
   <tr><td>Project Stock Lock Approver</td><td>Approve issuing stock held for another project.</td></tr>
   <tr><td>Employee Request Manager</td><td>Read everything, reset and cancel requests.</td></tr>
-</table>
+</table></div>
 
 <h2 class="t">More features</h2>
 <div class="grid">
-  <div class="card"><h3>Live stock on every line</h3><p>One compact field (available &rarr; forecast, colour coded) with a popover: on hand, reserved, incoming, outgoing, locations and transfers.</p></div>
+  <div class="card"><h3>Live stock on every line</h3><p>One compact field (available &rarr; forecast, colour coded) with a popover: on hand, reserved, incoming, outgoing, the other locations that hold the product (free of on hand) and which project holds how much, plus open transfers.</p></div>
   <div class="card"><h3>Product catalog</h3><p>Images, UoM, stock and one-click add / remove.</p></div>
   <div class="card"><h3>Traceability</h3><p>Smart buttons link the request, purchase order, receipts and bills. Chatter and activities on every document.</p></div>
   <div class="card"><h3>Phone friendly</h3><p>Large buttons, bigger inputs and a single full-width main action on small screens.</p></div>

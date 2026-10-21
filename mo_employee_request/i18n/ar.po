@@ -2757,3 +2757,13 @@ msgstr "مواقع المشاريع العامة"
 #: model:ir.actions.act_window,name:mo_employee_request.action_er_project_allocation
 msgid "Allocation Orders"
 msgstr "أوامر التخصيص"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
+msgid "Other Locations"
+msgstr "مواقع أخرى"
+
+#. module: mo_employee_request
+#: code:addons/mo_employee_request/static/src/xml/er_templates.xml:0
+msgid "free of"
+msgstr "متاح من"

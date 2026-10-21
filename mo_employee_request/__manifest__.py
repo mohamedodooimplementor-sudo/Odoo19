@@ -6,12 +6,31 @@
     'summary': 'Employee material requests with multi-step approvals (Department, Warehouse, Budget) on project locations',
     'description': """
 Employee Purchase & Material Request
-=====================================================
-* Employee requests with lines, per-location availability (the project's location) and the standard Odoo product catalog
-* Approval workflow: Department -> Warehouse -> Budget
+====================================
+
+Request -> approve -> issue from stock or buy -> receive -> bill, on standard Odoo documents.
+
+Requests & approvals
+--------------------
+* Employee requests with lines and the standard Odoo product catalog
+* Approval workflow: Department -> Warehouse -> Budget, with reasons and full history
 * Automatic split into Stock Orders (standard transfers) and Employee Purchase Orders
 * Purchase approvals, Budget Control, standard Odoo PO / receipts / bills
+
+Live stock on every line
+------------------------
+* Available -> forecast pill on each line, colour coded
+* Popover with on hand, reserved, incoming, outgoing and open transfers
+* The other locations that hold the product, with their free / on-hand quantities
+* The projects that hold the product and where
+
+Projects
+--------
 * Project stock: reservation, approval with purchase-order alert, Replace, Release Back, report
+* Project stock lock: stock bought for a project stays with it
+
+Also
+----
 * Expiry date notification and report
 * Product coding on the product page: category codes + the codes of the variant attribute values
 * Dashboard, reports, settings, security
@@ -26,7 +45,7 @@ Employee Purchase & Material Request
         'security/security.xml',
         'security/ir.model.access.csv',
         'data/sequence_data.xml',
-            'data/cron_data.xml',
+        'data/cron_data.xml',
         'data/er_required_field_data.xml',
         'wizard/reject_wizard_views.xml',
         'wizard/er_report_wizard_views.xml',

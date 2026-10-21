@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="group_auditor_user" model="res.groups">
+            <field name="name">Odoo Auditor / Auditor</field>
+        </record>
+        <record id="group_auditor_manager" model="res.groups">
+            <field name="name">Odoo Auditor / Audit Manager</field>
+            <field name="implied_ids" eval="[(4, ref('group_auditor_user'))]"/>
+        </record>
+        <record id="group_auditor_confidential" model="res.groups">
+            <field name="name">Odoo Auditor / Confidential (HR &amp; Payroll) Access</field>
+            <field name="implied_ids" eval="[(4, ref('group_auditor_user'))]"/>
+        </record>
+        <!-- System administrators get manager rights for initial setup. Remove this link in production
+             if audit independence from IT administration is required. -->
+        <record id="base.group_system" model="res.groups">
+            <field name="implied_ids" eval="[(4, ref('odoo_auditor.group_auditor_manager'))]"/>
+        </record>
+    </data>
+</odoo>

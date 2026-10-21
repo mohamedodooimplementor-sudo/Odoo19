@@ -1,0 +1,3833 @@
+# Arabic translation for odoo_auditor
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Auditor 19.0\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_rule.py:121
+#: code:addons/odoo_auditor/models/audit_run.py:163
+#: model:ir.actions.act_window,name:odoo_auditor.action_auditor_finding
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_run_form
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_rule_form
+#: model:ir.ui.menu,name:odoo_auditor.menu_auditor_findings
+msgid "Findings"
+msgstr "الملاحظات"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_rule.py:88
+#, python-format
+msgid "Required model not installed: %s"
+msgstr "النموذج المطلوب غير مثبّت: %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_rule.py:94
+msgid "Configuration is valid."
+msgstr "الإعدادات صحيحة."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_rule.py:105
+msgid "Extra parameters must be a flat JSON object of simple values."
+msgstr "المعاملات الإضافية يجب أن تكون كائن JSON مسطّح بقيم بسيطة."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_rule.py:92
+#, python-format
+msgid "Threshold '%s' is required for this rule."
+msgstr "الحد '%s' مطلوب لهذه القاعدة."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_rule.py:102
+msgid "Extra parameters must be valid JSON."
+msgstr "المعاملات الإضافية يجب أن تكون JSON صالحًا."
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_rule__name
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_access_review__name
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_control__name
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_risk__name
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_program__name
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_workpaper__name
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_evidence__name
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_checklist__name
+msgid "Name"
+msgstr "الاسم"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_rule__code
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_control__code
+msgid "Code"
+msgstr "الكود"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_rule__active
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__active
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_exclusion__active
+msgid "Active"
+msgstr "نشط"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_rule__description
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__description
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_control__description
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_risk__description
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_evidence__description
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_finding_document
+msgid "Description"
+msgstr "الوصف"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_rule__domain_area
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run_wizard__domain_area
+msgid "Domain Area"
+msgstr "مجال المراجعة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_rule__domain_area__financial
+msgid "Financial & Accounting"
+msgstr "المالية والمحاسبة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_rule__domain_area__inventory
+msgid "Inventory & Warehouse"
+msgstr "المخزون والمستودعات"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_rule__domain_area__sales
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_run__audit_type__sales
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_run_wizard__domain_area__sales
+#: code:addons/odoo_auditor/static/src/js/dashboard.js:0
+msgid "Sales"
+msgstr "المبيعات"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_rule__domain_area__purchase
+msgid "Purchase & Vendor"
+msgstr "المشتريات والموردون"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_rule__domain_area__hr
+msgid "HR & Payroll"
+msgstr "الموارد البشرية والرواتب"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_rule__domain_area__manufacturing
+#: code:addons/odoo_auditor/static/src/js/dashboard.js:0
+msgid "Manufacturing"
+msgstr "التصنيع"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_rule__domain_area__access
+msgid "Access & SoD"
+msgstr "الصلاحيات وفصل المهام"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_rule__domain_area__other
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_evidence__evidence_type__other
+#: code:addons/odoo_auditor/static/src/js/dashboard.js:0
+msgid "Other"
+msgstr "أخرى"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_rule__category
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_risk__category
+msgid "Category"
+msgstr "التصنيف"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_rule__method_key
+msgid "Method Key"
+msgstr "مفتاح التنفيذ"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_rule__nature
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__nature
+msgid "Nature"
+msgstr "الطبيعة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_rule__nature__verified_inconsistency
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_finding__nature__verified_inconsistency
+msgid "Verified inconsistency"
+msgstr "تضارب مؤكد"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_rule__nature__policy_exception
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_finding__nature__policy_exception
+msgid "Policy exception"
+msgstr "استثناء من السياسة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_rule__nature__risk_indicator
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_finding__nature__risk_indicator
+msgid "Risk indicator"
+msgstr "مؤشر مخاطر"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_rule__nature__needs_investigation
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_finding__nature__needs_investigation
+msgid "Requires human investigation"
+msgstr "يتطلب تحقيقًا بشريًا"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_rule__severity
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__severity
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_finding_search
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_rule_search
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_run_summary_document
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_finding_document
+msgid "Severity"
+msgstr "الخطورة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_rule__severity__informational
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_finding__severity__informational
+#: code:addons/odoo_auditor/static/src/js/dashboard.js:0
+msgid "Informational"
+msgstr "للعلم"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_rule__severity__low
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_finding__severity__low
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_risk__inherent_rating__low
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_risk__residual_rating__low
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_action__priority__0
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_run_summary_document
+#: code:addons/odoo_auditor/static/src/js/dashboard.js:0
+msgid "Low"
+msgstr "منخفضة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_rule__severity__medium
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_finding__severity__medium
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_risk__inherent_rating__medium
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_risk__residual_rating__medium
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_run_summary_document
+#: code:addons/odoo_auditor/static/src/js/dashboard.js:0
+msgid "Medium"
+msgstr "متوسطة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_rule__severity__high
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_finding__severity__high
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_risk__inherent_rating__high
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_risk__residual_rating__high
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_action__priority__2
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_run_summary_document
+#: code:addons/odoo_auditor/static/src/xml/dashboard.xml:0
+#: code:addons/odoo_auditor/static/src/js/dashboard.js:0
+msgid "High"
+msgstr "عالية"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_rule__severity__critical
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_finding__severity__critical
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_risk__inherent_rating__critical
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_risk__residual_rating__critical
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_run_summary_document
+#: code:addons/odoo_auditor/static/src/xml/dashboard.xml:0
+#: code:addons/odoo_auditor/static/src/js/dashboard.js:0
+msgid "Critical"
+msgstr "حرجة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_rule__risk_category
+msgid "Risk Category"
+msgstr "فئة المخاطر"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_rule__risk_category__financial
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_run__audit_type__financial
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_risk__category__financial
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_run_wizard__domain_area__financial
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_setup_wizard_form
+#: code:addons/odoo_auditor/static/src/js/dashboard.js:0
+msgid "Financial"
+msgstr "مالية"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_rule__risk_category__operational
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_risk__category__operational
+msgid "Operational"
+msgstr "تشغيلية"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_rule__risk_category__compliance
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_risk__category__compliance
+msgid "Compliance"
+msgstr "امتثال"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_rule__risk_category__fraud
+msgid "Fraud indicator"
+msgstr "مؤشر احتيال"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_rule__risk_category__data_quality
+msgid "Data quality"
+msgstr "جودة البيانات"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_rule__company_id
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_access_review__company_id
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__company_id
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_log__company_id
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run__company_id
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_control__company_id
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_risk__company_id
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_plan__company_id
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_evidence__company_id
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_exclusion__company_id
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_checklist__company_id
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run_wizard__company_id
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_run_summary_document
+msgid "Company"
+msgstr "الشركة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_rule__threshold_amount
+msgid "Threshold Amount"
+msgstr "حد المبلغ"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_rule__threshold_days
+msgid "Threshold Days"
+msgstr "حد الأيام"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_rule__threshold_percent
+msgid "Threshold Percent"
+msgstr "حد النسبة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_rule__extra_params
+msgid "Extra Params"
+msgstr "معاملات إضافية"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_rule__exclude_partner_ids
+msgid "Excluded Partners"
+msgstr "الشركاء المستبعدون"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_rule__version
+msgid "Detection Logic Version"
+msgstr "إصدار منطق الكشف"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_rule__recommendation
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__recommendation
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_finding_document
+msgid "Recommendation"
+msgstr "التوصية"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_rule__expected_evidence
+msgid "Expected Evidence"
+msgstr "الدليل المتوقع"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_rule__owner_id
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_control__owner_id
+msgid "Owner"
+msgstr "المالك"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_rule__department
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_action__responsible_department
+msgid "Responsible Department"
+msgstr "الإدارة المسؤولة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_rule__frequency
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_control__frequency
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_setup_wizard__frequency
+msgid "Frequency"
+msgstr "التكرار"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_rule__frequency__manual
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_setup_wizard__frequency__manual
+msgid "Manual only"
+msgstr "يدوي فقط"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_rule__frequency__daily
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_control__frequency__daily
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_setup_wizard__frequency__daily
+msgid "Daily"
+msgstr "يوميًا"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_rule__frequency__weekly
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_control__frequency__weekly
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_setup_wizard__frequency__weekly
+msgid "Weekly"
+msgstr "أسبوعيًا"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_rule__frequency__monthly
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_control__frequency__monthly
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_setup_wizard__frequency__monthly
+msgid "Monthly"
+msgstr "شهريًا"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_rule__lookback_days
+msgid "Lookback Days"
+msgstr "فترة الرجوع (أيام)"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_rule__last_run
+msgid "Last Run"
+msgstr "آخر تشغيل"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_rule__next_run
+msgid "Next Run"
+msgstr "التشغيل القادم"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_rule__finding_ids
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_log__finding_id
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run__finding_ids
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_action__finding_id
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_evidence__finding_id
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_exclusion__finding_id
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding_resolution_wizard__finding_id
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_actions_document
+msgid "Finding"
+msgstr "الملاحظة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_rule__finding_count
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run__finding_count
+msgid "Finding Count"
+msgstr "عدد الملاحظات"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_rule__effectiveness
+msgid "Effectiveness"
+msgstr "الفعالية"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_rule__effectiveness__untested
+msgid "Not yet evaluated"
+msgstr "لم تُقيَّم بعد"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_rule__effectiveness__productive
+msgid "Producing findings"
+msgstr "تنتج ملاحظات"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_rule__effectiveness__quiet
+msgid "No findings"
+msgstr "لا توجد ملاحظات"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_rule__applicable_models
+msgid "Applicable Models"
+msgstr "النماذج المعنية"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_rule__config_message
+msgid "Configuration Validation"
+msgstr "التحقق من الإعدادات"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_rule__config_ok
+msgid "Config Ok"
+msgstr "الإعدادات سليمة"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_access_review.py:11
+#, python-format
+msgid "Access review %s"
+msgstr "مراجعة الصلاحيات %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_access_review.py:25
+msgid "Lines can only be generated in draft."
+msgstr "يمكن توليد السطور في حالة المسودة فقط."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_access_review.py:38
+msgid "Record a decision on every line first."
+msgstr "سجّل قرارًا على كل سطر أولًا."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_access_review.py:40
+msgid "Keeping or escalating a conflict requires a justification."
+msgstr "الإبقاء على التعارض أو تصعيده يتطلب مبررًا."
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_access_review__review_date
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_risk__review_date
+msgid "Review Date"
+msgstr "تاريخ المراجعة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_access_review__reviewer_id
+msgid "Reviewer"
+msgstr "المراجع"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_access_review__state
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__state
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run__state
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_plan__state
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_workpaper__state
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_action__state
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_checklist__state
+msgid "State"
+msgstr "الحالة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_access_review__state__draft
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_run__state__draft
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_plan__state__draft
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_workpaper__state__draft
+msgid "Draft"
+msgstr "مسودة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_access_review__state__in_review
+msgid "In Review"
+msgstr "قيد المراجعة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_access_review__state__done
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_plan__state__done
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_action__state__completed
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_checklist__state__done
+msgid "Completed"
+msgstr "مكتملة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_access_review__line_ids
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_checklist__line_ids
+msgid "Line"
+msgstr "السطر"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_access_review__note
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_checklist_line__note
+msgid "Note"
+msgstr "ملاحظة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_access_review_line__review_id
+msgid "Review"
+msgstr "مراجعة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_access_review_line__user_id
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_log__user_id
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_log_search
+msgid "User"
+msgstr "المستخدم"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_access_review_line__conflicts
+msgid "Conflicts"
+msgstr "التعارضات"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_access_review_line__decision
+msgid "Decision"
+msgstr "القرار"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_access_review_line__decision__pending
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_evidence__verification_status__pending
+msgid "Pending"
+msgstr "معلّق"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_access_review_line__decision__keep
+msgid "Keep (compensating control)"
+msgstr "إبقاء (ضابط تعويضي)"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_access_review_line__decision__revoke
+msgid "Request revocation"
+msgstr "طلب إلغاء الصلاحية"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_access_review_line__decision__escalate
+msgid "Escalate"
+msgstr "تصعيد"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_access_review_line__justification
+msgid "Justification"
+msgstr "المبرر"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_finding.py:119
+msgid "Findings cannot be deleted. Archive them instead."
+msgstr "لا يمكن حذف الملاحظات. قم بأرشفتها بدلًا من ذلك."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_finding.py:230
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__evidence_ids
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_workpaper__evidence_ids
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_finding_form
+#: model:ir.actions.act_window,name:odoo_auditor.action_auditor_evidence
+#: model:ir.ui.menu,name:odoo_auditor.menu_auditor_evidence
+msgid "Evidence"
+msgstr "الأدلة"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_finding.py:236
+#: model:ir.actions.act_window,name:odoo_auditor.action_auditor_action
+#: model:ir.actions.report,name:odoo_auditor.action_report_actions
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_actions_document
+#: model:ir.ui.menu,name:odoo_auditor.menu_auditor_actions
+msgid "Corrective Actions"
+msgstr "الإجراءات التصحيحية"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_finding.py:113
+msgid "The state can only be changed through the workflow buttons."
+msgstr "لا يمكن تغيير الحالة إلا من خلال أزرار سير العمل."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_finding.py:131
+msgid "Only an Audit Manager can perform this operation."
+msgstr "مدير المراجعة فقط يمكنه تنفيذ هذه العملية."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_finding.py:172
+msgid "A documented justification is required."
+msgstr "مطلوب مبرر موثّق."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_finding.py:179
+msgid "Reopened manually."
+msgstr "أُعيد فتحها يدويًا."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_finding.py:187
+#, python-format
+msgid "Condition detected again by run %s - finding reopened."
+msgstr "تم اكتشاف الحالة مجددًا في التشغيل %s - أُعيد فتح الملاحظة."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_finding.py:224
+msgid "The source record is not available."
+msgstr "السجل المصدر غير متاح."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_finding.py:125
+#, python-format
+msgid "Transition from '%(a)s' to '%(b)s' is not allowed."
+msgstr "الانتقال من '%(a)s' إلى '%(b)s' غير مسموح."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_finding.py:150
+msgid "High / critical findings need at least one corrective action."
+msgstr "الملاحظات العالية / الحرجة تحتاج إجراءً تصحيحيًا واحدًا على الأقل."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_finding.py:152
+msgid "All corrective actions must be completed first."
+msgstr "يجب إكمال جميع الإجراءات التصحيحية أولًا."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_finding.py:161
+msgid "Segregation of duties: the process owner / action owner cannot close a high or critical finding."
+msgstr "فصل المهام: لا يمكن لمالك العملية / مسؤول الإجراء إغلاق ملاحظة عالية أو حرجة."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_finding.py:165
+msgid "High / critical findings require verified corrective actions."
+msgstr "الملاحظات العالية / الحرجة تتطلب إجراءات تصحيحية موثّقة التحقق."
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__name
+msgid "Finding No."
+msgstr "رقم الملاحظة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__title
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_plan__title
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_action__title
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_run_summary_document
+msgid "Title"
+msgstr "العنوان"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__rule_id
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_exclusion__rule_id
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run_wizard__rule_ids
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_finding_search
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_run_summary_document
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_finding_document
+msgid "Rule"
+msgstr "القاعدة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__run_id
+msgid "Detected in Run"
+msgstr "اكتُشفت في التشغيل"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__last_run_id
+msgid "Last Detected in Run"
+msgstr "آخر اكتشاف في التشغيل"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__fingerprint
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_exclusion__fingerprint
+msgid "Fingerprint"
+msgstr "البصمة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__source_model
+msgid "Source Model"
+msgstr "نموذج المصدر"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__source_res_id
+msgid "Source Res"
+msgstr "معرّف المصدر"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__source_name
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_evidence__source_document
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_exclusion__source_name
+msgid "Source Document"
+msgstr "المستند المصدر"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__source_date
+msgid "Source Document Date"
+msgstr "تاريخ المستند المصدر"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__partner_id
+msgid "Partner"
+msgstr "الشريك"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__product_name
+msgid "Related Product"
+msgstr "المنتج المرتبط"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__product_res_id
+msgid "Product ID"
+msgstr "معرّف المنتج"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__detection_date
+msgid "Detection Date"
+msgstr "تاريخ الاكتشاف"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__risk_score
+msgid "Risk Score"
+msgstr "درجة المخاطر"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__estimated_impact
+msgid "Estimated Impact"
+msgstr "الأثر المالي التقديري"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__currency_id
+msgid "Currency"
+msgstr "العملة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__validation_status
+msgid "Validation Status"
+msgstr "حالة التحقق"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_finding__validation_status__unvalidated
+msgid "Unvalidated"
+msgstr "غير متحقق منها"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_finding__validation_status__confirmed
+msgid "Confirmed"
+msgstr "مؤكدة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_finding__validation_status__false_positive
+msgid "False positive"
+msgstr "إيجابية كاذبة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__expected_condition
+msgid "Expected Condition"
+msgstr "الوضع المتوقع"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__actual_condition
+msgid "Actual Condition"
+msgstr "الوضع الفعلي"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__evidence_count
+msgid "Evidence Count"
+msgstr "عدد الأدلة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_finding__state__new
+msgid "New"
+msgstr "جديدة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_finding__state__triaged
+msgid "Triaged"
+msgstr "تم الفرز"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_finding__state__investigating
+msgid "Under Investigation"
+msgstr "قيد التحقيق"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_finding__state__awaiting_response
+msgid "Awaiting Management Response"
+msgstr "بانتظار رد الإدارة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_finding__state__action_required
+msgid "Action Required"
+msgstr "إجراء مطلوب"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_finding__state__pending_verification
+msgid "Pending Verification"
+msgstr "بانتظار التحقق"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_finding__state__closed
+msgid "Closed"
+msgstr "مغلقة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_finding__state__rejected
+msgid "Rejected (Duplicate / False Positive)"
+msgstr "مرفوضة (مكررة / إيجابية كاذبة)"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_finding__state__reopened
+msgid "Reopened"
+msgstr "أُعيد فتحها"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__assigned_user_id
+msgid "Assigned Auditor"
+msgstr "المراجع المسؤول"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__process_owner_id
+msgid "Process Owner"
+msgstr "مالك العملية"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__department
+msgid "Department"
+msgstr "القسم"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__root_cause
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_action__root_cause
+msgid "Root Cause"
+msgstr "السبب الجذري"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__management_response
+msgid "Management Response"
+msgstr "رد الإدارة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__action_ids
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_actions_document
+msgid "Action"
+msgstr "الإجراء"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__action_count
+msgid "Action Count"
+msgstr "عدد الإجراءات"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__due_date
+msgid "Due Date"
+msgstr "تاريخ الاستحقاق"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__resolution_notes
+msgid "Resolution Notes"
+msgstr "ملاحظات الحل"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__related_finding_ids
+msgid "Related Finding"
+msgstr "ملاحظة ذات صلة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__reopened_count
+msgid "Reopened Count"
+msgstr "عدد مرات إعادة الفتح"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__last_verified_date
+msgid "Last Verified Date"
+msgstr "تاريخ آخر تحقق"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__closed_by
+msgid "Closed By"
+msgstr "أغلقها"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__closed_date
+msgid "Closed Date"
+msgstr "تاريخ الإغلاق"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__closure_note
+msgid "Closure Note"
+msgstr "ملاحظة الإغلاق"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__rejection_justification
+msgid "Rejection Justification"
+msgstr "مبرر الرفض"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__rejected_by
+msgid "Rejected By"
+msgstr "رفضها"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding__is_confidential
+msgid "Confidential (HR / Payroll)"
+msgstr "سري (موارد بشرية / رواتب)"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_log.py:28
+msgid "The audit log is protected and cannot be modified."
+msgstr "سجل التدقيق محمي ولا يمكن تعديله."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_log.py:33
+msgid "The audit log is protected and cannot be deleted."
+msgstr "سجل التدقيق محمي ولا يمكن حذفه."
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_log__timestamp
+msgid "Timestamp"
+msgstr "الطابع الزمني"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_log__operation
+msgid "Operation"
+msgstr "العملية"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_log__operation__create
+msgid "Create"
+msgstr "إنشاء"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_log__operation__write
+msgid "Update"
+msgstr "تحديث"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_log__operation__transition
+msgid "State Transition"
+msgstr "انتقال حالة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_log__operation__unlink_blocked
+msgid "Blocked Deletion"
+msgstr "حذف محظور"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_log__model_name
+msgid "Model Name"
+msgstr "اسم النموذج"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_log__res_id
+msgid "Res"
+msgstr "المعرّف"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_log__res_name
+msgid "Res Name"
+msgstr "اسم السجل"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_log__old_values
+msgid "Old Values"
+msgstr "القيم القديمة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_log__new_values
+msgid "New Values"
+msgstr "القيم الجديدة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_log__reason
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_exclusion__reason
+msgid "Reason"
+msgstr "السبب"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:112
+msgid "Values observed at detection time (historical snapshot)."
+msgstr "القيم المرصودة وقت الاكتشاف (لقطة تاريخية)."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:127
+#, python-format
+msgid "Draft entry outstanding: %s"
+msgstr "قيد مسودة معلّق: %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:128
+#, python-format
+msgid "The entry has been in draft since %s."
+msgstr "القيد في حالة مسودة منذ %s."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:129
+#, python-format
+msgid "Draft entries older than %s days are posted or cancelled."
+msgstr "يتم ترحيل أو إلغاء قيود المسودة الأقدم من %s يومًا."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:130
+#, python-format
+msgid "Draft since %s"
+msgstr "مسودة منذ %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:172
+#, python-format
+msgid "Possible duplicate vendor bill (ref %s)"
+msgstr "فاتورة مورد مكررة محتملة (المرجع %s)"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:173
+#, python-format
+msgid "%(n)s vendor bills share partner, reference, amount and currency: %(names)s"
+msgstr "%(n)s فواتير موردين تتشابه في الشريك والمرجع والمبلغ والعملة: %(names)s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:175
+msgid "A vendor reference is registered once per partner."
+msgstr "مرجع المورد يُسجَّل مرة واحدة لكل شريك."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:176
+#, python-format
+msgid "%s documents with identical partner/ref/amount/currency"
+msgstr "%s مستندات بنفس الشريك/المرجع/المبلغ/العملة"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:196
+#, python-format
+msgid "Possible duplicate customer invoice for %s"
+msgstr "فاتورة عميل مكررة محتملة للعميل %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:197
+#, python-format
+msgid "%(n)s invoices share customer, date, amount and currency: %(names)s"
+msgstr "%(n)s فواتير تتشابه في العميل والتاريخ والمبلغ والعملة: %(names)s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:199
+msgid "Invoices with identical customer/date/amount are intentional and documented."
+msgstr "الفواتير المتطابقة في العميل/التاريخ/المبلغ تكون مقصودة وموثّقة."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:200
+#, python-format
+msgid "%s similar invoices"
+msgstr "%s فواتير متشابهة"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:216
+#, python-format
+msgid "Large credit note: %s"
+msgstr "إشعار دائن كبير: %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:217
+#, python-format
+msgid "Credit note of %(amt)s in company currency (threshold %(thr)s)."
+msgstr "إشعار دائن بقيمة %(amt)s بعملة الشركة (الحد %(thr)s)."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:219
+msgid "Credit notes above the threshold are approved and supported."
+msgstr "الإشعارات الدائنة فوق الحد معتمدة ومدعومة بمستندات."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:220
+#, python-format
+msgid "Amount %s"
+msgstr "المبلغ %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:235
+#, python-format
+msgid "Backdated entry: %s"
+msgstr "قيد بتاريخ سابق: %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:236
+#, python-format
+msgid "Entry dated %(d)s was created %(lag)s days later. Backdating can be legitimate (late documents); verify the period was open and approved."
+msgstr "القيد المؤرخ %(d)s أُنشئ بعد %(lag)s يومًا. التأريخ السابق قد يكون مشروعًا (مستندات متأخرة)؛ تحقق من أن الفترة كانت مفتوحة ومعتمدة."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:238
+#, python-format
+msgid "Entries are dated within %s days of creation."
+msgstr "تُؤرَّخ القيود خلال %s يومًا من إنشائها."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:239
+#, python-format
+msgid "Created %s days after accounting date"
+msgstr "أُنشئ بعد %s يومًا من تاريخ المحاسبة"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:251
+#, python-format
+msgid "Negative stock: %(p)s @ %(l)s"
+msgstr "مخزون سالب: %(p)s @ %(l)s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:253
+#, python-format
+msgid "On-hand quantity is %s. Check for unrecorded receipts before concluding a loss."
+msgstr "الكمية المتاحة %s. تحقق من وجود استلامات غير مسجّلة قبل الحكم بوجود فقد."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:255
+msgid "On-hand quantity is not negative in internal locations."
+msgstr "الكمية المتاحة ليست سالبة في المواقع الداخلية."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:256
+#: code:addons/odoo_auditor/models/audit_engine.py:290
+#, python-format
+msgid "Quantity %s"
+msgstr "الكمية %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:269
+#, python-format
+msgid "Transfer pending too long: %s"
+msgstr "تحويل معلّق لفترة طويلة: %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:270
+#, python-format
+msgid "Transfer scheduled %(d)s is still in state %(s)s. In-transit stock is not a loss; check the transfer workflow."
+msgstr "التحويل المجدول في %(d)s ما زال في الحالة %(s)s. المخزون قيد النقل ليس فاقدًا؛ راجع سير التحويل."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:272
+#, python-format
+msgid "Transfers are completed within %s days of schedule."
+msgstr "تُكمل التحويلات خلال %s يومًا من موعدها."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:273
+#, python-format
+msgid "Pending since %s"
+msgstr "معلّق منذ %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:286
+#, python-format
+msgid "Large inventory adjustment: %s"
+msgstr "تسوية مخزون كبيرة: %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:287
+#, python-format
+msgid "Adjustment of %(q)s %(u)s (quantity threshold %(t)s). Valuation impact is not computed by this rule."
+msgstr "تسوية بمقدار %(q)s %(u)s (حد الكمية %(t)s). لا تحسب هذه القاعدة أثر التقييم."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:289
+msgid "Adjustments are within the approved tolerance."
+msgstr "التسويات ضمن الحد المعتمد."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:310
+#, python-format
+msgid "High discount on %(o)s: %(d)s%%"
+msgstr "خصم مرتفع على %(o)s: %(d)s%%"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:311
+#, python-format
+msgid "Line '%(p)s' has discount %(d)s%% (limit %(t)s%%)."
+msgstr "السطر '%(p)s' عليه خصم %(d)s%% (الحد %(t)s%%)."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:313
+#, python-format
+msgid "Discounts do not exceed %s%% without approval."
+msgstr "لا تتجاوز الخصومات %s%% دون موافقة."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:314
+#, python-format
+msgid "Discount %s%%"
+msgstr "الخصم %s%%"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:413
+msgid "receivable"
+msgstr "مستحق القبض"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:413
+msgid "payable"
+msgstr "مستحق الدفع"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:415
+#, python-format
+msgid "Overdue %(k)s: %(n)s"
+msgstr "متأخر %(k)s: %(n)s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:416
+#, python-format
+msgid "Due %(d)s, residual %(r)s (company currency). Overdue status alone does not imply error; check collection / payment agreements."
+msgstr "الاستحقاق %(d)s، المتبقي %(r)s (بعملة الشركة). التأخر وحده لا يعني خطأ؛ راجع اتفاقيات التحصيل/الدفع."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:418
+#, python-format
+msgid "Items are settled within %s days after the due date."
+msgstr "تُسوّى البنود خلال %s يومًا بعد تاريخ الاستحقاق."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:419
+#, python-format
+msgid "Overdue since %s"
+msgstr "متأخر منذ %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:457
+#, python-format
+msgid "Manufacturing order open too long: %s"
+msgstr "أمر تصنيع مفتوح لفترة طويلة: %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:458
+#, python-format
+msgid "Started %(d)s and still in state %(s)s."
+msgstr "بدأ في %(d)s وما زال في الحالة %(s)s."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:459
+#, python-format
+msgid "Orders are closed within %s days."
+msgstr "تُغلق الأوامر خلال %s يومًا."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:460
+#, python-format
+msgid "Open since %s"
+msgstr "مفتوح منذ %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:562
+msgid "Configure account codes in extra parameters: {\"codes\": [\"101404\"]}"
+msgstr "اضبط أكواد الحسابات في المعاملات الإضافية: {\"codes\": [\"101404\"]}"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:618
+#, python-format
+msgid "Unreconciled bank line: %s"
+msgstr "بند بنكي غير مسوّى: %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:619
+#, python-format
+msgid "Dated %(d)s, amount %(a)s, still unreconciled. An outstanding item alone is not an error; verify it is being followed up."
+msgstr "بتاريخ %(d)s ومبلغ %(a)s وما زال غير مسوّى. البند المعلّق وحده ليس خطأ؛ تأكد من متابعته."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:621
+#, python-format
+msgid "Statement lines are reconciled within %s days."
+msgstr "تُسوّى بنود كشف الحساب خلال %s يومًا."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:622
+#, python-format
+msgid "Unreconciled since %s"
+msgstr "غير مسوّى منذ %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:631
+msgid "Sales app not installed; link cannot be checked."
+msgstr "تطبيق المبيعات غير مثبّت؛ لا يمكن فحص الربط."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:639
+#, python-format
+msgid "Delivery without sales order: %s"
+msgstr "تسليم بدون أمر بيع: %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:640
+msgid "Done delivery has no linked sales order. Returns, samples and manual deliveries may be legitimate."
+msgstr "التسليم المنفّذ غير مرتبط بأمر بيع. المرتجعات والعينات والتسليمات اليدوية قد تكون مشروعة."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:642
+msgid "Deliveries are linked to a sales order."
+msgstr "ترتبط التسليمات بأمر بيع."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:642
+msgid "No sales order"
+msgstr "لا يوجد أمر بيع"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:682
+#, python-format
+msgid "Sale to archived customer: %s"
+msgstr "بيع لعميل مؤرشف: %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:683
+#, python-format
+msgid "Customer %s is archived (an archive after the sale is also possible; check dates)."
+msgstr "العميل %s مؤرشف (قد تكون الأرشفة بعد البيع؛ تحقق من التواريخ)."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:685
+msgid "Customers are active when orders are confirmed."
+msgstr "يكون العملاء نشطين عند تأكيد الأوامر."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:685
+msgid "Customer archived"
+msgstr "عميل مؤرشف"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:700
+#, python-format
+msgid "Vendor bill without PO: %s"
+msgstr "فاتورة مورد بدون أمر شراء: %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:701
+msgid "No bill line is linked to a purchase order. Allowed for some expense categories; exclude those vendors in the rule if the process is permitted."
+msgstr "لا يوجد سطر في الفاتورة مرتبط بأمر شراء. مسموح لبعض فئات المصروفات؛ استبعد هؤلاء الموردين في القاعدة إذا كانت العملية مسموحة."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:703
+msgid "Bills reference an approved purchase order."
+msgstr "تشير الفواتير إلى أمر شراء معتمد."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:703
+msgid "No purchase order link"
+msgstr "لا يوجد ربط بأمر شراء"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:750
+msgid "Expense amount field not found."
+msgstr "حقل مبلغ المصروف غير موجود."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:758
+#, python-format
+msgid "Possible duplicate expense on %s"
+msgstr "مصروف مكرر محتمل في %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:759
+#, python-format
+msgid "%(n)s claims with the same employee, date, product and amount: %(names)s"
+msgstr "%(n)s مطالبات بنفس الموظف والتاريخ والمنتج والمبلغ: %(names)s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:761
+msgid "Each expense is claimed once."
+msgstr "يُطالَب بكل مصروف مرة واحدة."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:761
+#, python-format
+msgid "%s identical claims"
+msgstr "%s مطالبات متطابقة"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:776
+#, python-format
+msgid "Expense above limit: %s"
+msgstr "مصروف يتجاوز الحد: %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:777
+#, python-format
+msgid "Claim exceeds the limit of %s. Verify approval."
+msgstr "المطالبة تتجاوز الحد %s. تحقق من الموافقة."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:778
+msgid "Claims above the limit are specially approved."
+msgstr "المطالبات فوق الحد تُعتمد بشكل خاص."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:778
+msgid "Above limit"
+msgstr "فوق الحد"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:794
+#, python-format
+msgid "Expense without receipt: %s"
+msgstr "مصروف بدون إيصال: %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:795
+#, python-format
+msgid "No attachment found on a claim above %s."
+msgstr "لم يُعثر على مرفق لمطالبة فوق %s."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:796
+msgid "Receipts are attached to claims above the limit."
+msgstr "تُرفق الإيصالات بالمطالبات فوق الحد."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:796
+msgid "No attachment"
+msgstr "لا يوجد مرفق"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:804
+msgid "Payslip net wage field not found."
+msgstr "حقل صافي الراتب في قسيمة الراتب غير موجود."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:834
+#, python-format
+msgid "Tax modified: %s"
+msgstr "ضريبة معدّلة: %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:835
+#, python-format
+msgid "Tax record last modified on %(d)s by %(u)s. Odoo does not keep field-level history for taxes, so what changed must be verified manually."
+msgstr "آخر تعديل لسجل الضريبة في %(d)s بواسطة %(u)s. لا يحتفظ أودو بسجل تغييرات على مستوى الحقول للضرائب، لذا يجب التحقق يدويًا مما تغيّر."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:838
+msgid "Tax configuration changes are approved and documented."
+msgstr "تُعتمد تغييرات إعدادات الضرائب وتُوثّق."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:839
+#: code:addons/odoo_auditor/models/audit_engine.py:938
+#, python-format
+msgid "Modified %s"
+msgstr "عُدّل في %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:878
+msgid "Expiration dates are not configured (product_expiry)."
+msgstr "تواريخ الصلاحية غير مضبوطة (product_expiry)."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:886
+#, python-format
+msgid "Expiry risk: %(l)s (%(p)s)"
+msgstr "خطر انتهاء الصلاحية: %(l)s (%(p)s)"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:887
+#, python-format
+msgid "Lot expires %(d)s with %(q)s on hand."
+msgstr "تنتهي صلاحية الدفعة في %(d)s وتوجد كمية %(q)s في المخزون."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:888
+msgid "Expired stock is quarantined or disposed of."
+msgstr "يُحجر المخزون المنتهي الصلاحية أو يُتخلص منه."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:899
+msgid "Accounting credit-limit fields not found."
+msgstr "حقول حد الائتمان في المحاسبة غير موجودة."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:934
+#, python-format
+msgid "Salary rule modified: %s"
+msgstr "قاعدة راتب معدّلة: %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:935
+#, python-format
+msgid "Salary rule last modified on %(d)s by %(u)s. Verify the change was authorised."
+msgstr "آخر تعديل لقاعدة الراتب في %(d)s بواسطة %(u)s. تحقق من أن التغيير كان مصرّحًا به."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:937
+msgid "Payroll configuration changes are approved and documented."
+msgstr "تُعتمد تغييرات إعدادات الرواتب وتُوثّق."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:47
+#, python-format
+msgid "No implementation registered for '%s'."
+msgstr "لا يوجد تنفيذ مسجّل للمفتاح '%s'."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:51
+#, python-format
+msgid "Skipped: required model(s) not installed: %s"
+msgstr "تم التخطي: النماذج المطلوبة غير مثبّتة: %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:115
+#, python-format
+msgid "Review %(s)s finding %(n)s"
+msgstr "راجع ملاحظة %(s)s رقم %(n)s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:151
+#, python-format
+msgid "Large manual entry: %s"
+msgstr "قيد يدوي كبير: %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:152
+#, python-format
+msgid "Manual journal entry with total debit %(amt)s (threshold %(thr)s)."
+msgstr "قيد يومية يدوي بإجمالي مدين %(amt)s (الحد %(thr)s)."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:154
+msgid "Manual entries above the threshold carry documented approval."
+msgstr "القيود اليدوية فوق الحد تحمل موافقة موثّقة."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:155
+#, python-format
+msgid "Total debit %s"
+msgstr "إجمالي المدين %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:341
+msgid "line cost recorded on the order"
+msgstr "تكلفة السطر المسجّلة في الأمر"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:342
+msgid "CURRENT product cost (historical cost at order time is not available - limitation)"
+msgstr "التكلفة الحالية للمنتج (التكلفة التاريخية وقت الأمر غير متاحة - قيد)"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:344
+#, python-format
+msgid "Low/negative margin on %s"
+msgstr "هامش منخفض/سالب على %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:345
+#, python-format
+msgid "Margin %(m).1f%% below minimum %(t)s%%. Cost basis: %(s)s."
+msgstr "الهامش %(m).1f%% أقل من الحد الأدنى %(t)s%%. أساس التكلفة: %(s)s."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:347
+#, python-format
+msgid "Margin is at least %s%%."
+msgstr "الهامش لا يقل عن %s%%."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:348
+#, python-format
+msgid "Margin %.1f%%"
+msgstr "الهامش %.1f%%"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:368
+#, python-format
+msgid "High-value purchase order %s"
+msgstr "أمر شراء عالي القيمة %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:369
+#, python-format
+msgid "PO value %(a)s (threshold %(t)s). Verify approval evidence."
+msgstr "قيمة أمر الشراء %(a)s (الحد %(t)s). تحقق من دليل الموافقة."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:371
+msgid "Orders above the threshold are approved by an authorised person."
+msgstr "الأوامر فوق الحد يعتمدها شخص مفوّض."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:372
+#, python-format
+msgid "Value %s"
+msgstr "القيمة %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:394
+#, python-format
+msgid "Possible split purchase on %s"
+msgstr "تقسيم محتمل للمشتريات في %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:395
+#, python-format
+msgid "%(n)s orders to the same vendor on the same day, each below %(t)s but totalling %(tot)s: %(names)s"
+msgstr "%(n)s أوامر لنفس المورد في نفس اليوم، كل منها أقل من %(t)s وإجماليها %(tot)s: %(names)s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:398
+msgid "Purchases are not split to avoid approval limits."
+msgstr "لا تُقسَّم المشتريات لتفادي حدود الموافقة."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:399
+#, python-format
+msgid "Combined value %s"
+msgstr "القيمة المجمعة %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:441
+#, python-format
+msgid "Excess consumption on %s"
+msgstr "استهلاك زائد في %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:442
+#, python-format
+msgid "%(n)s component(s) consumed more than %(p)s%% above demand. Demand may have been edited after MO creation; value uses CURRENT product cost (limitation)."
+msgstr "%(n)s مكوّن/مكوّنات استُهلكت بأكثر من %(p)s%% فوق الطلب. قد يكون الطلب عُدّل بعد إنشاء أمر التصنيع؛ القيمة تستخدم التكلفة الحالية للمنتج (قيد)."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:445
+#, python-format
+msgid "Consumption stays within %s%% of demand."
+msgstr "يبقى الاستهلاك ضمن %s%% من الطلب."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:446
+#, python-format
+msgid "%s component(s) over tolerance"
+msgstr "%s مكوّن/مكوّنات فوق الحد المسموح"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:476
+#, python-format
+msgid "Duplicate employees sharing %s"
+msgstr "موظفون مكررون يتشاركون %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:477
+#, python-format
+msgid "%(n)s employee records share the same %(f)s: %(names)s"
+msgstr "%(n)s سجلات موظفين تتشارك نفس %(f)s: %(names)s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:479
+msgid "Each person has a single employee record."
+msgstr "لكل شخص سجل موظف واحد."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:480
+#, python-format
+msgid "%s records"
+msgstr "%s سجلات"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:494
+#, python-format
+msgid "Missing master data: %s"
+msgstr "بيانات رئيسية ناقصة: %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:495
+#, python-format
+msgid "Missing fields: %s"
+msgstr "حقول ناقصة: %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:496
+msgid "Mandatory employee data is complete."
+msgstr "بيانات الموظف الإلزامية مكتملة."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:520
+#, python-format
+msgid "Conflicting access: %s"
+msgstr "صلاحيات متعارضة: %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:521
+#, python-format
+msgid "User holds both %(a)s and %(b)s. Compensating controls may justify this."
+msgstr "المستخدم يملك %(a)s و%(b)s معًا. قد تبرر ذلك ضوابط تعويضية."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:523
+msgid "Incompatible duties are held by different people."
+msgstr "المهام المتعارضة يتولاها أشخاص مختلفون."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:546
+#, python-format
+msgid "Repeated round amounts: %s"
+msgstr "مبالغ مدوّرة متكررة: %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:547
+#, python-format
+msgid "%(n)s documents with amounts that are multiples of %(s)s: %(names)s. Round amounts are common (e.g. retainers); this is only a risk indicator."
+msgstr "%(n)s مستندات بمبالغ من مضاعفات %(s)s: %(names)s. المبالغ المدوّرة شائعة (مثل الاشتراكات)؛ هذا مجرد مؤشر مخاطر."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:550
+msgid "Amounts reflect actual quantities and prices."
+msgstr "المبالغ تعكس الكميات والأسعار الفعلية."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:551
+#, python-format
+msgid "%s round-number documents"
+msgstr "%s مستندات بمبالغ مدوّرة"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:572
+#, python-format
+msgid "Clearing/suspense balance: %s"
+msgstr "رصيد حساب تسوية/معلّق: %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:573
+#, python-format
+msgid "Cumulative balance %(b)s at %(d)s exceeds %(t)s."
+msgstr "الرصيد التراكمي %(b)s في %(d)s يتجاوز %(t)s."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:575
+msgid "Clearing / suspense accounts are cleared regularly."
+msgstr "تُسوّى حسابات التسوية/المعلّقة بانتظام."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:576
+#: code:addons/odoo_auditor/models/audit_engine.py:920
+#, python-format
+msgid "Balance %s"
+msgstr "الرصيد %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:600
+#, python-format
+msgid "Abnormal movement: %s"
+msgstr "حركة غير طبيعية: %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:601
+#, python-format
+msgid "Movement %(c)s vs previous equal period %(p)s (change %(pct).0f%%). Seasonality or one-off events can explain this."
+msgstr "الحركة %(c)s مقابل الفترة السابقة المماثلة %(p)s (تغيّر %(pct).0f%%). قد يفسر ذلك موسمية أو أحداث استثنائية."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:603
+msgid "Movements are consistent with the previous period."
+msgstr "الحركات متسقة مع الفترة السابقة."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:604
+#, python-format
+msgid "Change %s"
+msgstr "التغيّر %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:665
+#, python-format
+msgid "Orders just below threshold: %s"
+msgstr "أوامر قريبة من الحد: %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:666
+#, python-format
+msgid "%(n)s orders between %(l).0f and %(t)s: %(names)s"
+msgstr "%(n)s أوامر بين %(l).0f و%(t)s: %(names)s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:668
+msgid "Order values are not clustered just below approval limits."
+msgstr "قيم الأوامر غير متجمعة أسفل حدود الموافقة مباشرة."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:669
+#, python-format
+msgid "%s orders"
+msgstr "%s أوامر"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:726
+#, python-format
+msgid "Price above history: %s"
+msgstr "سعر أعلى من التاريخ: %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:727
+#, python-format
+msgid "Unit price %(p)s vs average %(a).2f of %(n)s earlier orders (+%(pct).0f%%)."
+msgstr "سعر الوحدة %(p)s مقابل متوسط %(a).2f لـ %(n)s أوامر سابقة (+%(pct).0f%%)."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:729
+#, python-format
+msgid "Prices stay within %s%% of history."
+msgstr "تبقى الأسعار ضمن %s%% من التاريخ."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:730
+#, python-format
+msgid "Unit price %s"
+msgstr "سعر الوحدة %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:860
+#, python-format
+msgid "Payment soon after bank change: %s"
+msgstr "دفعة بعد تغيير الحساب البنكي: %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:861
+#, python-format
+msgid "Bank account of %(p)s was created or edited on %(c)s and a payment followed on %(d)s. Verify the change with the vendor through an independent channel."
+msgstr "الحساب البنكي لـ %(p)s أُنشئ أو عُدّل في %(c)s وتلته دفعة في %(d)s. تحقق من التغيير مع المورد عبر قناة مستقلة."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:864
+msgid "Bank detail changes are verified before payments are released."
+msgstr "يُتحقق من تغييرات البيانات البنكية قبل صرف الدفعات."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:865
+#, python-format
+msgid "Payment %s days after change"
+msgstr "دفعة بعد %s يومًا من التغيير"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:889
+msgid "Expired"
+msgstr "منتهية الصلاحية"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:889
+#, python-format
+msgid "Expires within %s days"
+msgstr "تنتهي خلال %s يومًا"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:915
+#, python-format
+msgid "Customer above credit limit: %s"
+msgstr "عميل فوق حد الائتمان: %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:916
+#, python-format
+msgid "Receivable balance %(c)s exceeds the credit limit %(l)s. The CURRENT balance is compared (the balance at order time is not available - limitation)."
+msgstr "رصيد المدينين %(c)s يتجاوز حد الائتمان %(l)s. تتم مقارنة الرصيد الحالي (رصيد وقت الأمر غير متاح - قيد)."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:919
+msgid "Sales to customers stay within their credit limit."
+msgstr "تبقى مبيعات العملاء ضمن حد الائتمان."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:817
+#, python-format
+msgid "Payroll deviation: %s"
+msgstr "انحراف في الرواتب: %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:818
+#, python-format
+msgid "Net pay changed by %(p).0f%% versus the previous payslip. Bonuses, unpaid leave or corrections can explain this."
+msgstr "تغيّر صافي الراتب بنسبة %(p).0f%% عن قسيمة الراتب السابقة. قد تفسر ذلك مكافآت أو إجازات بدون أجر أو تصحيحات."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:820
+#, python-format
+msgid "Net pay is stable within %s%%."
+msgstr "صافي الراتب مستقر ضمن %s%%."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_engine.py:821
+#, python-format
+msgid "Change %.0f%%"
+msgstr "التغيّر %.0f%%"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_run.py:136
+#, python-format
+msgid "%(n)s findings (critical %(c)s, high %(h)s, medium %(m)s, low %(l)s) from %(i)s records inspected."
+msgstr "%(n)s ملاحظات (حرجة %(c)s، عالية %(h)s، متوسطة %(m)s، منخفضة %(l)s) من %(i)s سجل تم فحصه."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_run.py:118
+#: code:addons/odoo_auditor/models/audit_run.py:91
+msgid "Select at least one rule."
+msgstr "اختر قاعدة واحدة على الأقل."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_run.py:76
+msgid "'Date from' must not be after 'Date to'."
+msgstr "'من تاريخ' يجب ألا يكون بعد 'إلى تاريخ'."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_run.py:102
+msgid "This run is already executing."
+msgstr "هذا التشغيل قيد التنفيذ بالفعل."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_run.py:107
+msgid "Another audit is currently running for this company."
+msgstr "هناك مراجعة أخرى قيد التشغيل لهذه الشركة."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_run.py:178
+#, python-format
+msgid "Scheduled audit %s"
+msgstr "مراجعة مجدولة %s"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run__name
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_plan__name
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_action__name
+msgid "Reference"
+msgstr "المرجع"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run__audit_name
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run_wizard__audit_name
+msgid "Audit Name"
+msgstr "اسم المراجعة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run__audit_type
+msgid "Audit Type"
+msgstr "نوع المراجعة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_run__audit_type__full
+msgid "Full / Multi-domain"
+msgstr "كاملة / متعددة المجالات"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_run__audit_type__inventory
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_run_wizard__domain_area__inventory
+#: code:addons/odoo_auditor/static/src/js/dashboard.js:0
+msgid "Inventory"
+msgstr "المخزون"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_run__audit_type__purchase
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_run_wizard__domain_area__purchase
+#: code:addons/odoo_auditor/static/src/js/dashboard.js:0
+msgid "Purchase"
+msgstr "المشتريات"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_run__audit_type__custom
+msgid "Custom rule selection"
+msgstr "اختيار قواعد مخصص"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run__date_from
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run_wizard__date_from
+msgid "Date From"
+msgstr "من تاريخ"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run__date_to
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run_wizard__date_to
+msgid "Date To"
+msgstr "إلى تاريخ"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run__start_datetime
+msgid "Start Datetime"
+msgstr "وقت البدء"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run__end_datetime
+msgid "End Datetime"
+msgstr "وقت الانتهاء"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run__duration
+msgid "Duration"
+msgstr "المدة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run__user_id
+msgid "Initiated by"
+msgstr "بدأها"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run__mode
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding_resolution_wizard__mode
+msgid "Mode"
+msgstr "الوضع"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_run__mode__manual
+msgid "Manual"
+msgstr "يدوي"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_run__mode__scheduled
+msgid "Scheduled"
+msgstr "مجدول"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_run__mode__event
+msgid "Event-triggered"
+msgstr "مُشغَّل بحدث"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run__rule_ids
+msgid "Selected Rules"
+msgstr "القواعد المختارة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run__domains_covered
+msgid "Domains Covered"
+msgstr "المجالات المشمولة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_run__state__queued
+msgid "Queued"
+msgstr "في الانتظار"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_run__state__running
+msgid "Running"
+msgstr "قيد التشغيل"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_run__state__done
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_checklist_line__done
+msgid "Done"
+msgstr "تم"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_run__state__failed
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_workpaper__test_result__failed
+msgid "Failed"
+msgstr "فشل"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run__records_inspected
+msgid "Records Inspected"
+msgstr "السجلات المفحوصة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run__critical_count
+msgid "Critical Count"
+msgstr "عدد الحرجة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run__high_count
+msgid "High Count"
+msgstr "عدد العالية"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run__medium_count
+msgid "Medium Count"
+msgstr "عدد المتوسطة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run__low_count
+msgid "Low Count"
+msgstr "عدد المنخفضة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run__message_log
+msgid "Errors & Warnings"
+msgstr "الأخطاء والتحذيرات"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run__config_snapshot
+msgid "Config Snapshot"
+msgstr "لقطة الإعدادات"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run__rule_versions
+msgid "Rule Versions"
+msgstr "إصدارات القواعد"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run__summary
+msgid "Summary"
+msgstr "الملخص"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run__progress
+msgid "Progress"
+msgstr "التقدم"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run__current_rule
+msgid "Current Rule"
+msgstr "القاعدة الحالية"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_control__control_type
+msgid "Control Type"
+msgstr "نوع الضابط"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_control__control_type__preventive
+msgid "Preventive"
+msgstr "وقائي"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_control__control_type__detective
+msgid "Detective"
+msgstr "كشفي"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_control__control_type__corrective
+msgid "Corrective"
+msgstr "تصحيحي"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_control__frequency__continuous
+msgid "Continuous"
+msgstr "مستمر"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_control__frequency__quarterly
+msgid "Quarterly"
+msgstr "ربع سنوي"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_control__frequency__annual
+msgid "Annual"
+msgstr "سنوي"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_control__design_effectiveness
+msgid "Design Effectiveness"
+msgstr "فعالية التصميم"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_control__design_effectiveness__effective
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_control__operating_effectiveness__effective
+msgid "Effective"
+msgstr "فعّال"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_control__design_effectiveness__partial
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_control__operating_effectiveness__partial
+msgid "Partially effective"
+msgstr "فعّال جزئيًا"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_control__design_effectiveness__ineffective
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_control__operating_effectiveness__ineffective
+msgid "Ineffective"
+msgstr "غير فعّال"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_control__design_effectiveness__untested
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_control__operating_effectiveness__untested
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_workpaper__test_result__not_tested
+msgid "Not tested"
+msgstr "لم يُختبر"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_control__operating_effectiveness
+msgid "Operating Effectiveness"
+msgstr "فعالية التشغيل"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_control__risk_reduction
+msgid "Risk Reduction"
+msgstr "تقليل المخاطر"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_control__last_test_date
+msgid "Last Test Date"
+msgstr "تاريخ آخر اختبار"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_control__testing_history
+msgid "Testing History"
+msgstr "سجل الاختبارات"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_control__rule_ids
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_risk__rule_ids
+msgid "Linked Rules"
+msgstr "القواعد المرتبطة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_control__risk_ids
+msgid "Mitigated Risks"
+msgstr "المخاطر المخففة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_risk__code
+msgid "Risk ID"
+msgstr "رقم الخطر"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_risk__category__fraud
+msgid "Fraud"
+msgstr "احتيال"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_risk__category__it
+msgid "IT / Access"
+msgstr "تقنية المعلومات / الصلاحيات"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_risk__likelihood
+msgid "Likelihood"
+msgstr "الاحتمالية"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_risk__likelihood__1
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_risk__impact__1
+msgid "1 - Very low"
+msgstr "1 - منخفض جدًا"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_risk__likelihood__2
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_risk__impact__2
+msgid "2 - Low"
+msgstr "2 - منخفض"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_risk__likelihood__3
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_risk__impact__3
+msgid "3 - Medium"
+msgstr "3 - متوسط"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_risk__likelihood__4
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_risk__impact__4
+msgid "4 - High"
+msgstr "4 - عالٍ"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_risk__likelihood__5
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_risk__impact__5
+msgid "5 - Very high"
+msgstr "5 - عالٍ جدًا"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_risk__impact
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_run_summary_document
+msgid "Impact"
+msgstr "الأثر"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_risk__inherent_score
+msgid "Inherent Score"
+msgstr "درجة الخطر الكامنة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_risk__inherent_rating
+msgid "Inherent Rating"
+msgstr "تقييم الخطر الكامن"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_risk__control_ids
+msgid "Existing Controls"
+msgstr "الضوابط القائمة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_risk__residual_score
+msgid "Residual Score"
+msgstr "درجة الخطر المتبقي"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_risk__residual_rating
+msgid "Residual Rating"
+msgstr "تقييم الخطر المتبقي"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_risk__finding_ids
+msgid "Linked Findings"
+msgstr "الملاحظات المرتبطة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_risk__remediation_plan
+msgid "Remediation Plan"
+msgstr "خطة المعالجة"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_plan.py:41
+msgid "Only an Audit Manager can approve plans."
+msgstr "مدير المراجعة فقط يمكنه اعتماد الخطط."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_plan.py:104
+msgid "Sample size cannot exceed the population size."
+msgstr "حجم العينة لا يمكن أن يتجاوز حجم المجتمع."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_plan.py:112
+msgid "Only prepared workpapers can be reviewed."
+msgstr "يمكن مراجعة أوراق العمل المُعدّة فقط."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_plan.py:114
+msgid "The preparer cannot review their own workpaper."
+msgstr "المُعِد لا يمكنه مراجعة ورقة عمله."
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_plan__fiscal_year
+msgid "Fiscal Year / Period"
+msgstr "السنة المالية / الفترة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_plan__objective
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_program__objective
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_workpaper__objective
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_plan_document
+msgid "Objective"
+msgstr "الهدف"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_plan__risk_assessment
+msgid "Risk Assessment"
+msgstr "تقييم المخاطر"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_plan__scope
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_plan_document
+msgid "Scope"
+msgstr "النطاق"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_plan__departments
+msgid "Departments & Processes"
+msgstr "الأقسام والعمليات"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_plan__date_start
+msgid "Date Start"
+msgstr "تاريخ البدء"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_plan__date_end
+msgid "Date End"
+msgstr "تاريخ الانتهاء"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_plan__lead_user_id
+msgid "Lead Auditor"
+msgstr "رئيس المراجعين"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_plan__team_ids
+msgid "Audit Team"
+msgstr "فريق المراجعة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_plan__budget_hours
+msgid "Budgeted Effort (hours)"
+msgstr "الجهد المقدّر (ساعات)"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_plan__state__approved
+msgid "Approved"
+msgstr "معتمدة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_plan__state__in_progress
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_action__state__in_progress
+msgid "In Progress"
+msgstr "قيد التنفيذ"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_plan__state__cancelled
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_action__state__cancelled
+msgid "Cancelled"
+msgstr "ملغاة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_plan__approved_by
+msgid "Approved By"
+msgstr "اعتمدها"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_plan__program_ids
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_workpaper__program_id
+msgid "Program"
+msgstr "البرنامج"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_plan__conclusion
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_plan_form
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_plan_document
+msgid "Conclusion"
+msgstr "الخلاصة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_program__plan_id
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_evidence__plan_id
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_checklist__plan_id
+msgid "Plan"
+msgstr "الخطة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_program__procedures
+msgid "Procedures"
+msgstr "الإجراءات"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_program__workpaper_ids
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_evidence__workpaper_id
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_plan_document
+msgid "Workpaper"
+msgstr "ورقة العمل"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_workpaper__sample_method
+msgid "Sample Method"
+msgstr "طريقة العينة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_workpaper__sample_method__full
+msgid "Full population"
+msgstr "المجتمع كاملًا"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_workpaper__sample_method__random
+msgid "Random"
+msgstr "عشوائية"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_workpaper__sample_method__judgmental
+msgid "Judgmental"
+msgstr "تقديرية"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_workpaper__sample_method__statistical
+msgid "Statistical"
+msgstr "إحصائية"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_workpaper__sample_seed
+msgid "Sample Seed"
+msgstr "بذرة العينة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_workpaper__population_size
+msgid "Population Size"
+msgstr "حجم المجتمع"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_workpaper__sample_size
+msgid "Sample Size"
+msgstr "حجم العينة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_workpaper__sample_selection
+msgid "Selected Sample (IDs / references)"
+msgstr "العينة المختارة (معرّفات / مراجع)"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_workpaper__testing_performed
+msgid "Testing Performed"
+msgstr "الاختبار المنفّذ"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_workpaper__test_result
+msgid "Test Result"
+msgstr "نتيجة الاختبار"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_workpaper__test_result__passed
+msgid "Passed"
+msgstr "ناجح"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_workpaper__test_result__passed_exceptions
+msgid "Passed with exceptions"
+msgstr "ناجح مع استثناءات"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_workpaper__exceptions
+msgid "Exceptions"
+msgstr "الاستثناءات"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_workpaper__finding_ids
+msgid "Resulting Findings"
+msgstr "الملاحظات الناتجة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_workpaper__reviewer_comments
+msgid "Reviewer Comments"
+msgstr "تعليقات المراجع"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_workpaper__state__prepared
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_plan_document
+msgid "Prepared"
+msgstr "مُعدّة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_workpaper__state__reviewed
+msgid "Reviewed / Approved"
+msgstr "تمت المراجعة / الاعتماد"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_workpaper__prepared_by
+msgid "Prepared By"
+msgstr "أعدّها"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_workpaper__prepared_date
+msgid "Prepared Date"
+msgstr "تاريخ الإعداد"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_workpaper__reviewed_by
+msgid "Reviewed By"
+msgstr "راجعها"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_workpaper__reviewed_date
+msgid "Reviewed Date"
+msgstr "تاريخ المراجعة"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_action.py:66
+msgid "Only an Audit Manager can verify actions."
+msgstr "مدير المراجعة فقط يمكنه التحقق من الإجراءات."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_action.py:59
+msgid "Only open actions can be completed."
+msgstr "يمكن إكمال الإجراءات المفتوحة فقط."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_action.py:61
+msgid "Completion notes are required."
+msgstr "ملاحظات الإكمال مطلوبة."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_action.py:69
+msgid "Only completed actions can be verified."
+msgstr "يمكن التحقق من الإجراءات المكتملة فقط."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_action.py:71
+msgid "Segregation of duties: the action owner cannot verify their own action."
+msgstr "فصل المهام: صاحب الإجراء لا يمكنه التحقق من إجراءه."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_action.py:88
+#, python-format
+msgid "Overdue corrective action %s"
+msgstr "إجراء تصحيحي متأخر %s"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_action__description
+msgid "Action Description"
+msgstr "وصف الإجراء"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_action__responsible_user_id
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_finding_document
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_actions_document
+msgid "Responsible"
+msgstr "المسؤول"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_action__priority
+msgid "Priority"
+msgstr "الأولوية"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_action__priority__1
+msgid "Normal"
+msgstr "عادية"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_action__priority__3
+msgid "Urgent"
+msgstr "عاجلة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_action__deadline
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_finding_document
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_actions_document
+msgid "Deadline"
+msgstr "الموعد النهائي"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_action__state__open
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_checklist__state__open
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_finding_search
+msgid "Open"
+msgstr "مفتوح"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_action__state__verified
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_evidence__verification_status__verified
+msgid "Verified"
+msgstr "تم التحقق"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_action__completion_notes
+msgid "Completion Notes"
+msgstr "ملاحظات الإكمال"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_action__completed_by
+msgid "Completed By"
+msgstr "أكمله"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_action__completion_evidence_ids
+msgid "Completion Evidence"
+msgstr "دليل الإكمال"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_action__verified_by
+msgid "Verified By"
+msgstr "تحقق منه"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_action__verification_date
+msgid "Verification Date"
+msgstr "تاريخ التحقق"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_action__effectiveness_review
+msgid "Effectiveness Review"
+msgstr "مراجعة الفعالية"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_action__escalation_count
+msgid "Escalation Count"
+msgstr "عدد التصعيدات"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_action__escalation_history
+msgid "Escalation History"
+msgstr "سجل التصعيد"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_action__is_overdue
+msgid "Is Overdue"
+msgstr "متأخر"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_evidence.py:66
+msgid "Evidence cannot be deleted."
+msgstr "لا يمكن حذف الأدلة."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_evidence.py:53
+#, python-format
+msgid "Snapshot for %s"
+msgstr "لقطة لـ %s"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_evidence.py:62
+msgid "Evidence snapshots are immutable."
+msgstr "لقطات الأدلة غير قابلة للتعديل."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_evidence.py:71
+msgid "This evidence is not linked to a finding."
+msgstr "هذا الدليل غير مرتبط بملاحظة."
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_evidence__evidence_type
+msgid "Evidence Type"
+msgstr "نوع الدليل"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_evidence__evidence_type__snapshot
+msgid "System snapshot (historical)"
+msgstr "لقطة النظام (تاريخية)"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_evidence__evidence_type__document
+msgid "Document"
+msgstr "مستند"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_evidence__evidence_type__confirmation
+msgid "Confirmation"
+msgstr "تأكيد"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_evidence__evidence_type__observation
+msgid "Observation"
+msgstr "ملاحظة ميدانية"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_evidence__evidence_type__interview
+msgid "Interview / Inquiry"
+msgstr "مقابلة / استفسار"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_evidence__snapshot_kind
+msgid "Snapshot Kind"
+msgstr "نوع اللقطة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_evidence__snapshot_kind__historical
+msgid "Historical snapshot - values at detection time"
+msgstr "لقطة تاريخية - القيم وقت الاكتشاف"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_evidence__snapshot_kind__manual
+msgid "Manually provided"
+msgstr "مقدّم يدويًا"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_evidence__run_id
+msgid "Run"
+msgstr "التشغيل"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_evidence__snapshot_json
+msgid "Observed Values"
+msgstr "القيم المرصودة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_evidence__snapshot_hash
+msgid "SHA-256"
+msgstr "SHA-256"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_evidence__hash_valid
+msgid "Hash Valid"
+msgstr "البصمة سليمة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_evidence__collected_date
+msgid "Collected Date"
+msgstr "تاريخ الجمع"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_evidence__collected_by
+msgid "Collected By"
+msgstr "جمعه"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_evidence__attachment_ids
+msgid "Files"
+msgstr "الملفات"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_evidence__verification_status
+msgid "Verification Status"
+msgstr "حالة التحقق"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_evidence__verification_status__rejected
+msgid "Rejected"
+msgstr "مرفوض"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_evidence__confidentiality
+msgid "Confidentiality"
+msgstr "درجة السرية"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_evidence__confidentiality__internal
+msgid "Internal"
+msgstr "داخلي"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_evidence__confidentiality__confidential
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_finding_search
+msgid "Confidential"
+msgstr "سري"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_evidence__confidentiality__restricted
+msgid "Restricted"
+msgstr "مقيّد"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/models/audit_checklist.py:41
+msgid "Complete all checklist items first."
+msgstr "أكمل جميع بنود القائمة أولًا."
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_checklist__kind
+msgid "Kind"
+msgstr "النوع"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_checklist__kind__period_end
+msgid "Period-end"
+msgstr "نهاية الفترة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_checklist__kind__year_end
+msgid "Year-end"
+msgstr "نهاية السنة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_checklist__period
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_plan_document
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_run_summary_document
+msgid "Period"
+msgstr "الفترة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_checklist_line__checklist_id
+msgid "Checklist"
+msgstr "قائمة المراجعة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_checklist_line__sequence
+msgid "Sequence"
+msgstr "التسلسل"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_checklist_line__item
+msgid "Item"
+msgstr "البند"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_checklist_line__done_by
+msgid "Done By"
+msgstr "أنجزه"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_checklist_line__done_date
+msgid "Done Date"
+msgstr "تاريخ الإنجاز"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/wizards/run_audit_wizard.py:10
+#, python-format
+msgid "Audit %s"
+msgstr "مراجعة %s"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_run_wizard__domain_area__all
+msgid "All domains"
+msgstr "كل المجالات"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run_wizard__execute_now
+msgid "Execute Now"
+msgstr "التنفيذ الآن"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_run_wizard__background
+msgid "Run in background"
+msgstr "التشغيل في الخلفية"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_finding_resolution_wizard__mode__close
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_finding_form
+msgid "Close"
+msgstr "إغلاق"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_finding_resolution_wizard__mode__reject
+msgid "Reject (duplicate / false positive)"
+msgstr "رفض (مكررة / إيجابية كاذبة)"
+
+#. module: odoo_auditor
+#: model:ir.model.fields.selection,name:odoo_auditor.selection__odoo_auditor_finding_resolution_wizard__mode__ignore
+msgid "Reject and ignore in future runs"
+msgstr "رفض وتجاهل في التشغيلات القادمة"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_finding_resolution_wizard__note
+msgid "Closure Note / Justification"
+msgstr "ملاحظة الإغلاق / المبرر"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/wizards/setup_wizard.py:55
+msgid "Setup applied"
+msgstr "تم تطبيق الإعداد"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/wizards/setup_wizard.py:56
+#, python-format
+msgid "%(a)s rules ready, %(s)s skipped (app not installed)."
+msgstr "%(a)s قواعد جاهزة، %(s)s تم تخطيها (التطبيق غير مثبّت)."
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_setup_wizard__manual_entry_amount
+msgid "Large manual entry (FIN002)"
+msgstr "قيد يدوي كبير (FIN002)"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_setup_wizard__credit_note_amount
+msgid "Large credit note (FIN005)"
+msgstr "إشعار دائن كبير (FIN005)"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_setup_wizard__stale_days
+msgid "Stale drafts / overdue / MOs (days)"
+msgstr "مسودات متأخرة / مستحقات / أوامر تصنيع (أيام)"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_setup_wizard__bank_line_days
+msgid "Unreconciled bank line (days)"
+msgstr "بند بنكي غير مسوّى (أيام)"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_setup_wizard__transfer_days
+msgid "Pending transfer (days)"
+msgstr "تحويل معلّق (أيام)"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_setup_wizard__adjustment_qty
+msgid "Large inventory adjustment (units)"
+msgstr "تسوية مخزون كبيرة (وحدات)"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_setup_wizard__max_discount
+msgid "Maximum discount % (SAL001)"
+msgstr "أقصى خصم % (SAL001)"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_setup_wizard__min_margin
+msgid "Minimum margin % (SAL002)"
+msgstr "أدنى هامش % (SAL002)"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_setup_wizard__sales_threshold
+msgid "Sales approval threshold (SAL003)"
+msgstr "حد موافقة المبيعات (SAL003)"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_setup_wizard__purchase_threshold
+msgid "Purchase approval threshold (PUR001/002)"
+msgstr "حد موافقة المشتريات (PUR001/002)"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_setup_wizard__price_variance
+msgid "Purchase price variance % (PUR004)"
+msgstr "تفاوت سعر الشراء % (PUR004)"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_setup_wizard__consumption_tolerance
+msgid "Component consumption tolerance % (MRP001)"
+msgstr "تفاوت استهلاك المكونات % (MRP001)"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_setup_wizard__expense_limit
+msgid "Expense limit (HR004)"
+msgstr "حد المصروفات (HR004)"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_setup_wizard__receipt_above
+msgid "Receipt required above (HR005)"
+msgstr "الإيصال مطلوب فوق (HR005)"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_setup_wizard__payroll_deviation
+msgid "Payroll deviation % (HR006)"
+msgstr "انحراف الرواتب % (HR006)"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_setup_wizard__bank_change_days
+msgid "Payment after bank change (days)"
+msgstr "دفعة بعد تغيير حساب بنكي (أيام)"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_setup_wizard__expiry_days
+msgid "Near-expiry window (days)"
+msgstr "نافذة قرب انتهاء الصلاحية (أيام)"
+
+#. module: odoo_auditor
+#: model:ir.model.fields,field_description:odoo_auditor.field_odoo_auditor_setup_wizard__activate_applicable
+msgid "Activate rules whose apps are installed"
+msgstr "تفعيل القواعد التي تطبيقاتها مثبّتة"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_finding_list
+msgid "Open source document"
+msgstr "فتح المستند المصدر"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_finding_form
+msgid "Triage"
+msgstr "فرز"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_finding_form
+msgid "Investigate"
+msgstr "تحقيق"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_finding_form
+msgid "Request Management Response"
+msgstr "طلب رد الإدارة"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_finding_form
+msgid "Require Action"
+msgstr "طلب إجراء"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_finding_form
+msgid "Submit for Verification"
+msgstr "إرسال للتحقق"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_finding_form
+msgid "Create Corrective Action"
+msgstr "إنشاء إجراء تصحيحي"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_finding_form
+msgid "Ignore in Future"
+msgstr "تجاهل مستقبلًا"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_finding_form
+msgid "Reject (False Positive / Duplicate)"
+msgstr "رفض (إيجابية كاذبة / مكررة)"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_finding_form
+msgid "Reopen"
+msgstr "إعادة فتح"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_finding_form
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_finding_document
+msgid "Source"
+msgstr "المصدر"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_finding_form
+msgid "Actions"
+msgstr "الإجراءات"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_finding_form
+msgid "Condition"
+msgstr "الحالة الفعلية"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_finding_form
+msgid "Investigation & Response"
+msgstr "التحقيق والرد"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_finding_form
+msgid "Closure"
+msgstr "الإغلاق"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_finding_search
+msgid "My Findings"
+msgstr "ملاحظاتي"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_finding_search
+msgid "High / Critical"
+msgstr "عالية / حرجة"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_finding_search
+msgid "Unassigned"
+msgstr "غير مسندة"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_finding_search
+msgid "Past Due"
+msgstr "متأخرة عن الموعد"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_finding_search
+msgid "Reopened Before"
+msgstr "أُعيد فتحها سابقًا"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_finding_search
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_exclusion_form
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_rule_form
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_rule_search
+msgid "Archived"
+msgstr "مؤرشف"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_finding_search
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_action_search
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_plan_document
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_run_summary_document
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_finding_document
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_actions_document
+msgid "Status"
+msgstr "الحالة"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_finding_search
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_rule_search
+msgid "Domain"
+msgstr "المجال"
+
+#. module: odoo_auditor
+#: model:ir.actions.server,name:odoo_auditor.server_action_export_findings
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_run_form
+msgid "Export to Excel"
+msgstr "تصدير إلى Excel"
+
+#. module: odoo_auditor
+#: model:ir.actions.act_window,name:odoo_auditor.action_auditor_dashboard
+#: model:ir.actions.client,name:odoo_auditor.action_auditor_dashboard_client
+#: model:ir.ui.menu,name:odoo_auditor.menu_auditor_dashboard
+msgid "Dashboard"
+msgstr "لوحة المعلومات"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_resolution_wizard_form
+msgid "Confirm"
+msgstr "تأكيد"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_resolution_wizard_form
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_plan_form
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_run_wizard_form
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_setup_wizard_form
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_action_form
+msgid "Cancel"
+msgstr "إلغاء"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_access_review_form
+msgid "Generate Conflicts"
+msgstr "توليد التعارضات"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_access_review_form
+msgid "Complete Review"
+msgstr "إكمال المراجعة"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_access_review_form
+msgid "Review notes"
+msgstr "ملاحظات المراجعة"
+
+#. module: odoo_auditor
+#: model:ir.actions.act_window,name:odoo_auditor.action_auditor_access_review
+#: model:ir.ui.menu,name:odoo_auditor.menu_auditor_access
+msgid "Access Reviews"
+msgstr "مراجعات الصلاحيات"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_checklist_form
+msgid "Generate Standard Items"
+msgstr "توليد البنود القياسية"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_checklist_form
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_plan_form
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_action_form
+msgid "Complete"
+msgstr "إكمال"
+
+#. module: odoo_auditor
+#: model:ir.actions.act_window,name:odoo_auditor.action_auditor_checklist
+msgid "Checklists"
+msgstr "قوائم المراجعة"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_exclusion_form
+msgid "Archive this record to make the condition reportable again in the next run."
+msgstr "أرشف هذا السجل لجعل الحالة قابلة للإبلاغ مجددًا في التشغيل القادم."
+
+#. module: odoo_auditor
+#: model:ir.actions.act_window,name:odoo_auditor.action_auditor_exclusion
+#: model:ir.ui.menu,name:odoo_auditor.menu_auditor_exclusions
+msgid "Exclusions"
+msgstr "الاستثناءات"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_plan_form
+msgid "Approve"
+msgstr "اعتماد"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_plan_form
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_action_form
+msgid "Start"
+msgstr "بدء"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_plan_form
+msgid "Objective & Scope"
+msgstr "الهدف والنطاق"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_plan_form
+#: model:ir.ui.menu,name:odoo_auditor.menu_auditor_programs
+msgid "Programs"
+msgstr "البرامج"
+
+#. module: odoo_auditor
+#: model:ir.actions.act_window,name:odoo_auditor.action_auditor_plan
+#: model:ir.ui.menu,name:odoo_auditor.menu_auditor_plans
+msgid "Audit Plans"
+msgstr "خطط المراجعة"
+
+#. module: odoo_auditor
+#: model:ir.actions.act_window,name:odoo_auditor.action_auditor_program
+msgid "Audit Programs"
+msgstr "برامج المراجعة"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_workpaper_form
+msgid "Mark Prepared"
+msgstr "تعليم كمُعدّة"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_workpaper_form
+msgid "Review & Approve"
+msgstr "مراجعة واعتماد"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_workpaper_form
+msgid "Testing"
+msgstr "الاختبار"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_workpaper_form
+msgid "Findings & Evidence"
+msgstr "الملاحظات والأدلة"
+
+#. module: odoo_auditor
+#: model:ir.actions.act_window,name:odoo_auditor.action_auditor_workpaper
+#: model:ir.ui.menu,name:odoo_auditor.menu_auditor_workpapers
+msgid "Workpapers"
+msgstr "أوراق العمل"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_run_form
+msgid "Execute"
+msgstr "تنفيذ"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_run_form
+msgid "Run in Background"
+msgstr "تشغيل في الخلفية"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_run_form
+msgid "Re-run (idempotent)"
+msgstr "إعادة التشغيل (آمنة التكرار)"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_run_form
+msgid "Rules"
+msgstr "القواعد"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_run_form
+msgid "Results"
+msgstr "النتائج"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_run_form
+msgid "Snapshot"
+msgstr "اللقطة"
+
+#. module: odoo_auditor
+#: model:ir.actions.act_window,name:odoo_auditor.action_auditor_run
+#: model:ir.ui.menu,name:odoo_auditor.menu_auditor_runs
+msgid "Audit Runs"
+msgstr "تشغيلات المراجعة"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_run_wizard_form
+#: model:ir.actions.act_window,name:odoo_auditor.action_auditor_run_wizard
+#: model:ir.ui.menu,name:odoo_auditor.menu_auditor_run_now
+msgid "Run Audit"
+msgstr "تشغيل مراجعة"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_setup_wizard_form
+msgid "Set your approval thresholds once. Rules whose apps are installed are activated and scheduled."
+msgstr "اضبط حدود الموافقة مرة واحدة. يتم تفعيل وجدولة القواعد التي تطبيقاتها مثبّتة."
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_setup_wizard_form
+msgid "Inventory & Manufacturing"
+msgstr "المخزون والتصنيع"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_setup_wizard_form
+msgid "Sales & Purchase"
+msgstr "المبيعات والمشتريات"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_setup_wizard_form
+#: code:addons/odoo_auditor/static/src/js/dashboard.js:0
+msgid "HR"
+msgstr "الموارد البشرية"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_setup_wizard_form
+msgid "Apply"
+msgstr "تطبيق"
+
+#. module: odoo_auditor
+#: model:ir.actions.act_window,name:odoo_auditor.action_auditor_setup_wizard
+#: model:ir.ui.menu,name:odoo_auditor.menu_auditor_setup
+msgid "Quick Setup"
+msgstr "الإعداد السريع"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_action_form
+msgid "Verify"
+msgstr "تحقق"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_action_search
+msgid "Overdue"
+msgstr "متأخر"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_action_search
+msgid "My Actions"
+msgstr "إجراءاتي"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_evidence_form
+msgid "Open Source Document"
+msgstr "فتح المستند المصدر"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_evidence_form
+msgid "Historical Snapshot (values at detection time - not current state)"
+msgstr "لقطة تاريخية (القيم وقت الاكتشاف - ليست الحالة الحالية)"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_log_search
+msgid "Model"
+msgstr "النموذج"
+
+#. module: odoo_auditor
+#: model:ir.actions.act_window,name:odoo_auditor.action_auditor_log
+#: model:ir.ui.menu,name:odoo_auditor.menu_auditor_log
+msgid "Audit Log"
+msgstr "سجل التدقيق"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_rule_form
+#: model:ir.ui.menu,name:odoo_auditor.menu_auditor_config
+msgid "Configuration"
+msgstr "الإعدادات"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_rule_form
+msgid "Thresholds"
+msgstr "الحدود"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_rule_form
+msgid "Exclusions & Scheduling"
+msgstr "الاستبعادات والجدولة"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_rule_form
+msgid "Validation"
+msgstr "التحقق"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_rule_form
+msgid "Guidance"
+msgstr "إرشادات"
+
+#. module: odoo_auditor
+#: model:ir.actions.act_window,name:odoo_auditor.action_auditor_rule
+#: model:ir.ui.menu,name:odoo_auditor.menu_auditor_rules
+msgid "Audit Rules"
+msgstr "قواعد المراجعة"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_risk_form
+msgid "Controls & Links"
+msgstr "الضوابط والروابط"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.view_auditor_risk_form
+msgid "Description & Remediation"
+msgstr "الوصف والمعالجة"
+
+#. module: odoo_auditor
+#: model:ir.actions.act_window,name:odoo_auditor.action_auditor_risk
+#: model:ir.ui.menu,name:odoo_auditor.menu_auditor_risks
+msgid "Risk Register"
+msgstr "سجل المخاطر"
+
+#. module: odoo_auditor
+#: model:ir.actions.act_window,name:odoo_auditor.action_auditor_control
+#: model:ir.ui.menu,name:odoo_auditor.menu_auditor_controls
+msgid "Controls"
+msgstr "الضوابط"
+
+#. module: odoo_auditor
+#: model:ir.actions.report,name:odoo_auditor.action_report_plan
+msgid "Audit Plan"
+msgstr "خطة المراجعة"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_plan_document
+msgid "Lead auditor"
+msgstr "رئيس المراجعين"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_plan_document
+msgid "Approved by"
+msgstr "اعتمدها"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_plan_document
+msgid "Dates"
+msgstr "التواريخ"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_plan_document
+msgid "Budget (h)"
+msgstr "الميزانية (ساعات)"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_plan_document
+msgid "Risk assessment"
+msgstr "تقييم المخاطر"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_plan_document
+msgid "Programs and workpapers"
+msgstr "البرامج وأوراق العمل"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_plan_document
+msgid "Result"
+msgstr "النتيجة"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_plan_document
+msgid "Reviewed"
+msgstr "تمت المراجعة"
+
+#. module: odoo_auditor
+#: model:ir.actions.report,name:odoo_auditor.action_report_run_summary
+msgid "Audit Run Summary"
+msgstr "ملخص تشغيل المراجعة"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_run_summary_document
+msgid "Records inspected"
+msgstr "السجلات المفحوصة"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_run_summary_document
+msgid "Domains"
+msgstr "المجالات"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_run_summary_document
+msgid "Findings by severity"
+msgstr "الملاحظات حسب الخطورة"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_run_summary_document
+msgid "Total"
+msgstr "الإجمالي"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_run_summary_document
+msgid "Top findings by risk score"
+msgstr "أهم الملاحظات حسب درجة المخاطر"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_run_summary_document
+msgid "No."
+msgstr "الرقم"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_run_summary_document
+msgid "Rules executed"
+msgstr "القواعد المنفّذة"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_run_summary_document
+msgid "Warnings and errors"
+msgstr "التحذيرات والأخطاء"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_run_summary_document
+msgid "Detection results are indicators requiring human review; they are not conclusions of fraud."
+msgstr "نتائج الكشف مؤشرات تتطلب مراجعة بشرية؛ وليست استنتاجات بوجود احتيال."
+
+#. module: odoo_auditor
+#: model:ir.actions.report,name:odoo_auditor.action_report_finding
+msgid "Audit Finding"
+msgstr "ملاحظة مراجعة"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_finding_document
+msgid "Risk score"
+msgstr "درجة المخاطر"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_finding_document
+msgid "Estimated impact"
+msgstr "الأثر التقديري"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_finding_document
+msgid "Expected condition"
+msgstr "الوضع المتوقع"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_finding_document
+msgid "Actual condition"
+msgstr "الوضع الفعلي"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_finding_document
+msgid "Root cause"
+msgstr "السبب الجذري"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_finding_document
+msgid "Management response"
+msgstr "رد الإدارة"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_finding_document
+msgid "Corrective actions"
+msgstr "الإجراءات التصحيحية"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_finding_document
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_actions_document
+msgid "Ref"
+msgstr "المرجع"
+
+#. module: odoo_auditor
+#: model_terms:ir.ui.view,arch_db:odoo_auditor.report_actions_document
+msgid "Verified by"
+msgstr "تحقق منه"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_fin001
+msgid "Draft journal entries outstanding too long"
+msgstr "قيود مسودة معلّقة لفترة طويلة"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_fin002
+msgid "Large manual journal entries"
+msgstr "قيود يومية يدوية كبيرة"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_fin003
+msgid "Potential duplicate vendor bills"
+msgstr "فواتير موردين مكررة محتملة"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_fin004
+msgid "Potential duplicate customer invoices"
+msgstr "فواتير عملاء مكررة محتملة"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_fin005
+msgid "Large credit notes / refunds"
+msgstr "إشعارات دائنة / مرتجعات كبيرة"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_fin006
+msgid "Entries posted long after their accounting date"
+msgstr "قيود مُرحَّلة بعد تاريخ محاسبتها بفترة طويلة"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_inv001
+msgid "Negative stock in internal locations"
+msgstr "مخزون سالب في المواقع الداخلية"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_inv002
+msgid "Transfers pending beyond threshold"
+msgstr "تحويلات معلّقة بعد الحد المسموح"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_inv003
+msgid "Large inventory adjustments"
+msgstr "تسويات مخزون كبيرة"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_sal001
+msgid "High sales discounts"
+msgstr "خصومات مبيعات مرتفعة"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_sal002
+msgid "Sales below cost / minimum margin"
+msgstr "مبيعات أقل من التكلفة / الحد الأدنى للهامش"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_pur001
+msgid "Purchase orders above approval threshold"
+msgstr "أوامر شراء فوق حد الموافقة"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_pur002
+msgid "Purchase orders split around approval limit"
+msgstr "أوامر شراء مقسّمة حول حد الموافقة"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_fin007
+msgid "Overdue receivables and payables"
+msgstr "مستحقات القبض والدفع المتأخرة"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_mrp001
+msgid "Component consumption above BOM demand"
+msgstr "استهلاك مكونات أعلى من طلب قائمة المواد"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_mrp002
+msgid "Manufacturing orders open too long"
+msgstr "أوامر تصنيع مفتوحة لفترة طويلة"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_hr001
+msgid "Potential duplicate employee records"
+msgstr "سجلات موظفين مكررة محتملة"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_hr002
+msgid "Employees missing mandatory master data"
+msgstr "موظفون بدون بيانات رئيسية إلزامية"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_sod001
+msgid "Users holding conflicting access rights"
+msgstr "مستخدمون يملكون صلاحيات متعارضة"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_fin008
+msgid "Repeated round-number transactions"
+msgstr "معاملات متكررة بمبالغ مدوّرة"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_fin009
+msgid "Unusual balance in clearing / suspense accounts"
+msgstr "رصيد غير معتاد في حسابات التسوية / المعلّقة"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_fin010
+msgid "Abnormal period-over-period account movements"
+msgstr "حركات حسابات غير طبيعية مقارنة بالفترة السابقة"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_fin011
+msgid "Bank statement lines unreconciled too long"
+msgstr "بنود كشف بنكي غير مسوّاة لفترة طويلة"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_inv004
+msgid "Deliveries without a linked sales order"
+msgstr "تسليمات بدون أمر بيع مرتبط"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_sal003
+msgid "Repeated sales orders just below approval threshold"
+msgstr "أوامر بيع متكررة قريبة من حد الموافقة"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_sal004
+msgid "Confirmed sales to archived customers"
+msgstr "مبيعات مؤكدة لعملاء مؤرشفين"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_pur003
+msgid "Vendor bills without purchase order"
+msgstr "فواتير موردين بدون أمر شراء"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_pur004
+msgid "Purchase price above vendor history"
+msgstr "سعر شراء أعلى من تاريخ المورد"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_hr003
+msgid "Potential duplicate expense claims"
+msgstr "مطالبات مصروفات مكررة محتملة"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_hr004
+msgid "Expenses above configured limit"
+msgstr "مصروفات فوق الحد المضبوط"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_hr005
+msgid "Expenses missing receipts"
+msgstr "مصروفات بدون إيصالات"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_hr006
+msgid "Payroll deviation from previous period"
+msgstr "انحراف الرواتب عن الفترة السابقة"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_fin012
+msgid "Tax configuration modified in period"
+msgstr "تعديل إعدادات الضرائب خلال الفترة"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_pur005
+msgid "Vendor bank account changed shortly before payment"
+msgstr "تغيير حساب المورد البنكي قبل الدفع بفترة قصيرة"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_inv005
+msgid "Expired or near-expiry lots with stock on hand"
+msgstr "دفعات منتهية أو قريبة الانتهاء مع وجود مخزون"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_sal005
+msgid "Sales to customers above their credit limit"
+msgstr "مبيعات لعملاء فوق حد الائتمان"
+
+#. module: odoo_auditor
+#: model:odoo.auditor.rule,name:odoo_auditor.rule_hr007
+msgid "Payroll salary rules modified in period"
+msgstr "تعديل قواعد الرواتب خلال الفترة"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/static/src/xml/dashboard.xml:0
+#: code:addons/odoo_auditor/static/src/js/dashboard.js:0
+msgid "Open findings"
+msgstr "الملاحظات المفتوحة"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/static/src/xml/dashboard.xml:0
+msgid "Overdue actions"
+msgstr "إجراءات متأخرة"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/static/src/xml/dashboard.xml:0
+msgid "Open findings by severity"
+msgstr "الملاحظات المفتوحة حسب الخطورة"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/static/src/xml/dashboard.xml:0
+msgid "Open findings by domain"
+msgstr "الملاحظات المفتوحة حسب المجال"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/static/src/xml/dashboard.xml:0
+msgid "No open findings."
+msgstr "لا توجد ملاحظات مفتوحة."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/static/src/xml/dashboard.xml:0
+msgid "Most productive rules"
+msgstr "القواعد الأكثر إنتاجًا"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/static/src/xml/dashboard.xml:0
+msgid "No data yet. Run an audit."
+msgstr "لا توجد بيانات بعد. شغّل مراجعة."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/static/src/xml/dashboard.xml:0
+msgid "Latest runs"
+msgstr "آخر التشغيلات"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/static/src/xml/dashboard.xml:0
+msgid "No runs yet."
+msgstr "لا توجد تشغيلات بعد."
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/static/src/js/dashboard.js:0
+msgid "Access"
+msgstr "الصلاحيات"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/static/src/js/dashboard.js:0
+msgid "Rule findings"
+msgstr "ملاحظات القاعدة"
+
+#. module: odoo_auditor
+#: code:addons/odoo_auditor/static/src/js/dashboard.js:0
+msgid "Overdue Actions"
+msgstr "إجراءات متأخرة"
+
+#. module: odoo_auditor
+#: model:ir.ui.menu,name:odoo_auditor.menu_auditor_root
+msgid "Odoo Auditor"
+msgstr "مراجع أودو"
+
+#. module: odoo_auditor
+#: model:ir.ui.menu,name:odoo_auditor.menu_auditor_analysis
+msgid "Analysis"
+msgstr "التحليل"
+
+#. module: odoo_auditor
+#: model:ir.ui.menu,name:odoo_auditor.menu_auditor_audits
+msgid "Audits"
+msgstr "المراجعات"
+
+#. module: odoo_auditor
+#: model:ir.ui.menu,name:odoo_auditor.menu_auditor_planning
+msgid "Planning"
+msgstr "التخطيط"
+
+#. module: odoo_auditor
+#: model:ir.ui.menu,name:odoo_auditor.menu_auditor_riskctl
+msgid "Risk & Control"
+msgstr "المخاطر والضوابط"
+
+#. module: odoo_auditor
+#: model:ir.ui.menu,name:odoo_auditor.menu_auditor_checklists
+msgid "Period / Year-end Checklists"
+msgstr "قوائم نهاية الفترة / السنة"

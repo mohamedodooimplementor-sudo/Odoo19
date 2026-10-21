@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="rule_fin001" model="odoo.auditor.rule">
+            <field name="code">FIN001</field><field name="method_key">FIN001</field>
+            <field name="name">Draft journal entries outstanding too long</field><field name="domain_area">financial</field>
+            <field name="nature">policy_exception</field><field name="severity">low</field><field name="risk_category">operational</field>
+            <field name="threshold_amount">0</field><field name="threshold_days">30</field><field name="threshold_percent">0</field>
+            <field name="recommendation">Post or cancel stale draft entries.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_fin002" model="odoo.auditor.rule">
+            <field name="code">FIN002</field><field name="method_key">FIN002</field>
+            <field name="name">Large manual journal entries</field><field name="domain_area">financial</field>
+            <field name="nature">risk_indicator</field><field name="severity">medium</field><field name="risk_category">financial</field>
+            <field name="threshold_amount">50000</field><field name="threshold_days">0</field><field name="threshold_percent">0</field>
+            <field name="recommendation">Verify approval and supporting documents for the manual entry.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_fin003" model="odoo.auditor.rule">
+            <field name="code">FIN003</field><field name="method_key">FIN003</field>
+            <field name="name">Potential duplicate vendor bills</field><field name="domain_area">financial</field>
+            <field name="nature">verified_inconsistency</field><field name="severity">high</field><field name="risk_category">financial</field>
+            <field name="threshold_amount">0</field><field name="threshold_days">0</field><field name="threshold_percent">0</field>
+            <field name="recommendation">Confirm duplication with the vendor and cancel/credit the duplicate before payment.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_fin004" model="odoo.auditor.rule">
+            <field name="code">FIN004</field><field name="method_key">FIN004</field>
+            <field name="name">Potential duplicate customer invoices</field><field name="domain_area">financial</field>
+            <field name="nature">needs_investigation</field><field name="severity">medium</field><field name="risk_category">financial</field>
+            <field name="threshold_amount">0</field><field name="threshold_days">0</field><field name="threshold_percent">0</field>
+            <field name="recommendation">Confirm whether the invoices are intentional; credit if duplicated.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_fin005" model="odoo.auditor.rule">
+            <field name="code">FIN005</field><field name="method_key">FIN005</field>
+            <field name="name">Large credit notes / refunds</field><field name="domain_area">financial</field>
+            <field name="nature">risk_indicator</field><field name="severity">medium</field><field name="risk_category">financial</field>
+            <field name="threshold_amount">10000</field><field name="threshold_days">0</field><field name="threshold_percent">0</field>
+            <field name="recommendation">Verify approval, reason and supporting documents.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_fin006" model="odoo.auditor.rule">
+            <field name="code">FIN006</field><field name="method_key">FIN006</field>
+            <field name="name">Entries posted long after their accounting date</field><field name="domain_area">financial</field>
+            <field name="nature">needs_investigation</field><field name="severity">medium</field><field name="risk_category">compliance</field>
+            <field name="threshold_amount">0</field><field name="threshold_days">30</field><field name="threshold_percent">0</field>
+            <field name="recommendation">Verify the period was open and the posting was authorised.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_inv001" model="odoo.auditor.rule">
+            <field name="code">INV001</field><field name="method_key">INV001</field>
+            <field name="name">Negative stock in internal locations</field><field name="domain_area">inventory</field>
+            <field name="nature">verified_inconsistency</field><field name="severity">medium</field><field name="risk_category">operational</field>
+            <field name="threshold_amount">0</field><field name="threshold_days">0</field><field name="threshold_percent">0</field>
+            <field name="recommendation">Record missing receipts or correct the operation sequence.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_inv002" model="odoo.auditor.rule">
+            <field name="code">INV002</field><field name="method_key">INV002</field>
+            <field name="name">Transfers pending beyond threshold</field><field name="domain_area">inventory</field>
+            <field name="nature">policy_exception</field><field name="severity">low</field><field name="risk_category">operational</field>
+            <field name="threshold_amount">0</field><field name="threshold_days">14</field><field name="threshold_percent">0</field>
+            <field name="recommendation">Complete or cancel the stalled transfer.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_inv003" model="odoo.auditor.rule">
+            <field name="code">INV003</field><field name="method_key">INV003</field>
+            <field name="name">Large inventory adjustments</field><field name="domain_area">inventory</field>
+            <field name="nature">risk_indicator</field><field name="severity">medium</field><field name="risk_category">operational</field>
+            <field name="threshold_amount">100</field><field name="threshold_days">0</field><field name="threshold_percent">0</field>
+            <field name="recommendation">Obtain count sheets and approval for the adjustment.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_sal001" model="odoo.auditor.rule">
+            <field name="code">SAL001</field><field name="method_key">SAL001</field>
+            <field name="name">High sales discounts</field><field name="domain_area">sales</field>
+            <field name="nature">policy_exception</field><field name="severity">medium</field><field name="risk_category">financial</field>
+            <field name="threshold_amount">0</field><field name="threshold_days">0</field><field name="threshold_percent">20</field>
+            <field name="recommendation">Verify discount approval against policy.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_sal002" model="odoo.auditor.rule">
+            <field name="code">SAL002</field><field name="method_key">SAL002</field>
+            <field name="name">Sales below cost / minimum margin</field><field name="domain_area">sales</field>
+            <field name="nature">risk_indicator</field><field name="severity">high</field><field name="risk_category">financial</field>
+            <field name="threshold_amount">0</field><field name="threshold_days">0</field><field name="threshold_percent">0</field>
+            <field name="recommendation">Review pricing approval. Note: cost basis may be current cost.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_pur001" model="odoo.auditor.rule">
+            <field name="code">PUR001</field><field name="method_key">PUR001</field>
+            <field name="name">Purchase orders above approval threshold</field><field name="domain_area">purchase</field>
+            <field name="nature">policy_exception</field><field name="severity">medium</field><field name="risk_category">compliance</field>
+            <field name="threshold_amount">100000</field><field name="threshold_days">0</field><field name="threshold_percent">0</field>
+            <field name="recommendation">Verify approval evidence.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_pur002" model="odoo.auditor.rule">
+            <field name="code">PUR002</field><field name="method_key">PUR002</field>
+            <field name="name">Purchase orders split around approval limit</field><field name="domain_area">purchase</field>
+            <field name="nature">needs_investigation</field><field name="severity">high</field><field name="risk_category">fraud</field>
+            <field name="threshold_amount">100000</field><field name="threshold_days">0</field><field name="threshold_percent">0</field>
+            <field name="recommendation">Review whether orders were split to avoid approval.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_fin007" model="odoo.auditor.rule">
+            <field name="code">FIN007</field><field name="method_key">FIN007</field>
+            <field name="name">Overdue receivables and payables</field><field name="domain_area">financial</field>
+            <field name="nature">policy_exception</field><field name="severity">low</field><field name="risk_category">financial</field>
+            <field name="threshold_amount">0</field><field name="threshold_days">30</field><field name="threshold_percent">0</field>
+            
+            <field name="recommendation">Follow up collection / payment; confirm no disputes.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_mrp001" model="odoo.auditor.rule">
+            <field name="code">MRP001</field><field name="method_key">MRP001</field>
+            <field name="name">Component consumption above BOM demand</field><field name="domain_area">manufacturing</field>
+            <field name="nature">risk_indicator</field><field name="severity">medium</field><field name="risk_category">operational</field>
+            <field name="threshold_amount">0</field><field name="threshold_days">0</field><field name="threshold_percent">10</field>
+            
+            <field name="recommendation">Investigate scrap, yield loss or unrecorded substitutions.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_mrp002" model="odoo.auditor.rule">
+            <field name="code">MRP002</field><field name="method_key">MRP002</field>
+            <field name="name">Manufacturing orders open too long</field><field name="domain_area">manufacturing</field>
+            <field name="nature">policy_exception</field><field name="severity">low</field><field name="risk_category">operational</field>
+            <field name="threshold_amount">0</field><field name="threshold_days">30</field><field name="threshold_percent">0</field>
+            
+            <field name="recommendation">Close or cancel stale manufacturing orders.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_hr001" model="odoo.auditor.rule">
+            <field name="code">HR001</field><field name="method_key">HR001</field>
+            <field name="name">Potential duplicate employee records</field><field name="domain_area">hr</field>
+            <field name="nature">needs_investigation</field><field name="severity">medium</field><field name="risk_category">fraud</field>
+            <field name="threshold_amount">0</field><field name="threshold_days">0</field><field name="threshold_percent">0</field>
+            
+            <field name="recommendation">Verify the identity and merge or archive duplicates.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_hr002" model="odoo.auditor.rule">
+            <field name="code">HR002</field><field name="method_key">HR002</field>
+            <field name="name">Employees missing mandatory master data</field><field name="domain_area">hr</field>
+            <field name="nature">policy_exception</field><field name="severity">low</field><field name="risk_category">data_quality</field>
+            <field name="threshold_amount">0</field><field name="threshold_days">0</field><field name="threshold_percent">0</field>
+            
+            <field name="recommendation">Complete the missing employee data.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_sod001" model="odoo.auditor.rule">
+            <field name="code">SOD001</field><field name="method_key">SOD001</field>
+            <field name="name">Users holding conflicting access rights</field><field name="domain_area">access</field>
+            <field name="nature">policy_exception</field><field name="severity">high</field><field name="risk_category">compliance</field>
+            <field name="threshold_amount">0</field><field name="threshold_days">0</field><field name="threshold_percent">0</field>
+            <field name="extra_params">{&quot;pairs&quot;: [[&quot;purchase.group_purchase_manager&quot;, &quot;account.group_account_manager&quot;], [&quot;sales_team.group_sale_manager&quot;, &quot;account.group_account_manager&quot;], [&quot;stock.group_stock_manager&quot;, &quot;purchase.group_purchase_manager&quot;]]}</field>
+            <field name="recommendation">Remove one of the rights or document a compensating control.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_fin008" model="odoo.auditor.rule">
+            <field name="code">FIN008</field><field name="method_key">FIN008</field>
+            <field name="name">Repeated round-number transactions</field><field name="domain_area">financial</field>
+            <field name="nature">risk_indicator</field><field name="severity">low</field><field name="risk_category">fraud</field>
+            <field name="threshold_amount">1000</field><field name="threshold_days">0</field><field name="threshold_percent">0</field>
+            <field name="extra_params">{&quot;min_count&quot;: 3}</field>
+            <field name="recommendation">Review the business reason for repeated round amounts.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_fin009" model="odoo.auditor.rule">
+            <field name="code">FIN009</field><field name="method_key">FIN009</field>
+            <field name="name">Unusual balance in clearing / suspense accounts</field><field name="domain_area">financial</field>
+            <field name="nature">policy_exception</field><field name="severity">medium</field><field name="risk_category">financial</field>
+            <field name="threshold_amount">10000</field><field name="threshold_days">0</field><field name="threshold_percent">0</field>
+            <field name="extra_params">{&quot;codes&quot;: []}</field><field name="active" eval="False"/>
+            <field name="recommendation">Clear or explain the balance. Configure account codes first.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_fin010" model="odoo.auditor.rule">
+            <field name="code">FIN010</field><field name="method_key">FIN010</field>
+            <field name="name">Abnormal period-over-period account movements</field><field name="domain_area">financial</field>
+            <field name="nature">risk_indicator</field><field name="severity">medium</field><field name="risk_category">financial</field>
+            <field name="threshold_amount">10000</field><field name="threshold_days">0</field><field name="threshold_percent">50</field>
+            
+            <field name="recommendation">Obtain explanations for large movements.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_fin011" model="odoo.auditor.rule">
+            <field name="code">FIN011</field><field name="method_key">FIN011</field>
+            <field name="name">Bank statement lines unreconciled too long</field><field name="domain_area">financial</field>
+            <field name="nature">risk_indicator</field><field name="severity">low</field><field name="risk_category">financial</field>
+            <field name="threshold_amount">0</field><field name="threshold_days">30</field><field name="threshold_percent">0</field>
+            
+            <field name="recommendation">Follow up unmatched bank items.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_inv004" model="odoo.auditor.rule">
+            <field name="code">INV004</field><field name="method_key">INV004</field>
+            <field name="name">Deliveries without a linked sales order</field><field name="domain_area">inventory</field>
+            <field name="nature">policy_exception</field><field name="severity">medium</field><field name="risk_category">compliance</field>
+            <field name="threshold_amount">0</field><field name="threshold_days">0</field><field name="threshold_percent">0</field>
+            
+            <field name="recommendation">Verify the delivery authorisation.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_sal003" model="odoo.auditor.rule">
+            <field name="code">SAL003</field><field name="method_key">SAL003</field>
+            <field name="name">Repeated sales orders just below approval threshold</field><field name="domain_area">sales</field>
+            <field name="nature">needs_investigation</field><field name="severity">medium</field><field name="risk_category">fraud</field>
+            <field name="threshold_amount">50000</field><field name="threshold_days">0</field><field name="threshold_percent">5</field>
+            
+            <field name="recommendation">Check whether orders were sized to avoid approval.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_sal004" model="odoo.auditor.rule">
+            <field name="code">SAL004</field><field name="method_key">SAL004</field>
+            <field name="name">Confirmed sales to archived customers</field><field name="domain_area">sales</field>
+            <field name="nature">policy_exception</field><field name="severity">low</field><field name="risk_category">compliance</field>
+            <field name="threshold_amount">0</field><field name="threshold_days">0</field><field name="threshold_percent">0</field>
+            
+            <field name="recommendation">Verify customer status and approval.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_pur003" model="odoo.auditor.rule">
+            <field name="code">PUR003</field><field name="method_key">PUR003</field>
+            <field name="name">Vendor bills without purchase order</field><field name="domain_area">purchase</field>
+            <field name="nature">policy_exception</field><field name="severity">low</field><field name="risk_category">compliance</field>
+            <field name="threshold_amount">0</field><field name="threshold_days">0</field><field name="threshold_percent">0</field>
+            
+            <field name="recommendation">Obtain PO or document the permitted exception.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_pur004" model="odoo.auditor.rule">
+            <field name="code">PUR004</field><field name="method_key">PUR004</field>
+            <field name="name">Purchase price above vendor history</field><field name="domain_area">purchase</field>
+            <field name="nature">risk_indicator</field><field name="severity">medium</field><field name="risk_category">financial</field>
+            <field name="threshold_amount">0</field><field name="threshold_days">0</field><field name="threshold_percent">20</field>
+            
+            <field name="recommendation">Request price justification from procurement.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_hr003" model="odoo.auditor.rule">
+            <field name="code">HR003</field><field name="method_key">HR003</field>
+            <field name="name">Potential duplicate expense claims</field><field name="domain_area">hr</field>
+            <field name="nature">verified_inconsistency</field><field name="severity">medium</field><field name="risk_category">fraud</field>
+            <field name="threshold_amount">0</field><field name="threshold_days">0</field><field name="threshold_percent">0</field>
+            
+            <field name="recommendation">Reject or recover the duplicate claim.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_hr004" model="odoo.auditor.rule">
+            <field name="code">HR004</field><field name="method_key">HR004</field>
+            <field name="name">Expenses above configured limit</field><field name="domain_area">hr</field>
+            <field name="nature">policy_exception</field><field name="severity">medium</field><field name="risk_category">compliance</field>
+            <field name="threshold_amount">1000</field><field name="threshold_days">0</field><field name="threshold_percent">0</field>
+            
+            <field name="recommendation">Verify special approval.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_hr005" model="odoo.auditor.rule">
+            <field name="code">HR005</field><field name="method_key">HR005</field>
+            <field name="name">Expenses missing receipts</field><field name="domain_area">hr</field>
+            <field name="nature">policy_exception</field><field name="severity">low</field><field name="risk_category">compliance</field>
+            <field name="threshold_amount">100</field><field name="threshold_days">0</field><field name="threshold_percent">0</field>
+            
+            <field name="recommendation">Obtain the receipt or reject the claim.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_hr006" model="odoo.auditor.rule">
+            <field name="code">HR006</field><field name="method_key">HR006</field>
+            <field name="name">Payroll deviation from previous period</field><field name="domain_area">hr</field>
+            <field name="nature">risk_indicator</field><field name="severity">medium</field><field name="risk_category">financial</field>
+            <field name="threshold_amount">0</field><field name="threshold_days">0</field><field name="threshold_percent">30</field>
+            
+            <field name="recommendation">Review supporting payroll documents.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_fin012" model="odoo.auditor.rule">
+            <field name="code">FIN012</field><field name="method_key">FIN012</field>
+            <field name="name">Tax configuration modified in period</field><field name="domain_area">financial</field>
+            <field name="nature">needs_investigation</field><field name="severity">medium</field><field name="risk_category">compliance</field>
+            <field name="threshold_amount">0</field><field name="threshold_days">0</field><field name="threshold_percent">0</field>
+            <field name="recommendation">Confirm the tax change was approved and documented.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_pur005" model="odoo.auditor.rule">
+            <field name="code">PUR005</field><field name="method_key">PUR005</field>
+            <field name="name">Vendor bank account changed shortly before payment</field><field name="domain_area">purchase</field>
+            <field name="nature">risk_indicator</field><field name="severity">high</field><field name="risk_category">fraud</field>
+            <field name="threshold_amount">0</field><field name="threshold_days">14</field><field name="threshold_percent">0</field>
+            <field name="recommendation">Call-back verification with the vendor before releasing payment.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_inv005" model="odoo.auditor.rule">
+            <field name="code">INV005</field><field name="method_key">INV005</field>
+            <field name="name">Expired or near-expiry lots with stock on hand</field><field name="domain_area">inventory</field>
+            <field name="nature">policy_exception</field><field name="severity">medium</field><field name="risk_category">operational</field>
+            <field name="threshold_amount">0</field><field name="threshold_days">30</field><field name="threshold_percent">0</field>
+            <field name="recommendation">Quarantine, sell-through or dispose of the lot.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_sal005" model="odoo.auditor.rule">
+            <field name="code">SAL005</field><field name="method_key">SAL005</field>
+            <field name="name">Sales to customers above their credit limit</field><field name="domain_area">sales</field>
+            <field name="nature">policy_exception</field><field name="severity">medium</field><field name="risk_category">financial</field>
+            <field name="threshold_amount">0</field><field name="threshold_days">0</field><field name="threshold_percent">0</field>
+            <field name="recommendation">Review credit approval for the customer.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+        <record id="rule_hr007" model="odoo.auditor.rule">
+            <field name="code">HR007</field><field name="method_key">HR007</field>
+            <field name="name">Payroll salary rules modified in period</field><field name="domain_area">hr</field>
+            <field name="nature">needs_investigation</field><field name="severity">high</field><field name="risk_category">compliance</field>
+            <field name="threshold_amount">0</field><field name="threshold_days">0</field><field name="threshold_percent">0</field>
+            <field name="recommendation">Verify authorisation of the payroll rule change.</field>
+            <field name="expected_evidence">Source document, approval record and supporting documentation.</field>
+            <field name="frequency">manual</field>
+        </record>
+    </data>
+</odoo>

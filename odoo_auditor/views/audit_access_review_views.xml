@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_auditor_access_review_form" model="ir.ui.view">
+        <field name="name">odoo.auditor.access.review.form</field>
+        <field name="model">odoo.auditor.access.review</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_generate" type="object" string="Generate Conflicts" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_complete" type="object" string="Complete Review" class="btn-primary" invisible="state != 'in_review'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group><group><field name="name"/><field name="company_id" groups="base.group_multi_company"/></group>
+                        <group><field name="review_date"/><field name="reviewer_id"/></group></group>
+                    <field name="line_ids" readonly="state == 'done'">
+                        <list editable="bottom" create="0">
+                            <field name="user_id"/><field name="conflicts"/><field name="decision"/><field name="justification"/>
+                        </list>
+                    </field>
+                    <field name="note" placeholder="Review notes"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="view_auditor_access_review_list" model="ir.ui.view">
+        <field name="name">odoo.auditor.access.review.list</field>
+        <field name="model">odoo.auditor.access.review</field>
+        <field name="arch" type="xml"><list><field name="name"/><field name="review_date"/><field name="reviewer_id"/><field name="state" widget="badge"/></list></field>
+    </record>
+    <record id="action_auditor_access_review" model="ir.actions.act_window">
+        <field name="name">Access Reviews</field><field name="res_model">odoo.auditor.access.review</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_auditor_checklist_form" model="ir.ui.view">
+        <field name="name">odoo.auditor.checklist.form</field>
+        <field name="model">odoo.auditor.checklist</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_generate_lines" type="object" string="Generate Standard Items" invisible="state == 'done'"/>
+                    <button name="action_complete" type="object" string="Complete" class="btn-primary" invisible="state == 'done'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group><group><field name="name"/><field name="kind"/></group>
+                        <group><field name="period"/><field name="plan_id"/><field name="company_id" groups="base.group_multi_company"/></group></group>
+                    <field name="line_ids" readonly="state == 'done'">
+                        <list editable="bottom"><field name="sequence" widget="handle"/><field name="item"/><field name="done"/>
+                            <field name="done_by"/><field name="done_date"/><field name="note"/></list>
+                    </field>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="view_auditor_checklist_list" model="ir.ui.view">
+        <field name="name">odoo.auditor.checklist.list</field>
+        <field name="model">odoo.auditor.checklist</field>
+        <field name="arch" type="xml"><list><field name="name"/><field name="kind"/><field name="period"/><field name="state" widget="badge"/></list></field>
+    </record>
+    <record id="action_auditor_checklist" model="ir.actions.act_window">
+        <field name="name">Checklists</field><field name="res_model">odoo.auditor.checklist</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

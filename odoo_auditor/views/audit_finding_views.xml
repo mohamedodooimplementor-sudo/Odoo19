@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_auditor_finding_list" model="ir.ui.view">
+        <field name="name">odoo.auditor.finding.list</field>
+        <field name="model">odoo.auditor.finding</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="severity == 'critical'" decoration-warning="severity == 'high'"
+                  decoration-muted="state in ('closed', 'rejected')">
+                <field name="name"/><field name="title"/><field name="rule_code"/><field name="domain_area"/>
+                <field name="source_name"/><field name="severity" widget="badge"/><field name="risk_score"/>
+                <field name="estimated_impact"/><field name="assigned_user_id" widget="many2one_avatar_user"/>
+                <field name="due_date"/><field name="state" widget="badge"/>
+                <field name="currency_id" column_invisible="True"/>
+                <button name="action_open_source" type="object" icon="fa-external-link" title="Open source document"
+                        invisible="not source_model"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_auditor_finding_form" model="ir.ui.view">
+        <field name="name">odoo.auditor.finding.form</field>
+        <field name="model">odoo.auditor.finding</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_triage" type="object" string="Triage" class="btn-primary"
+                            invisible="state not in ('new', 'reopened')"/>
+                    <button name="action_investigate" type="object" string="Investigate" class="btn-primary"
+                            invisible="state not in ('triaged', 'reopened')"/>
+                    <button name="action_request_response" type="object" string="Request Management Response"
+                            class="btn-primary" invisible="state != 'investigating'"/>
+                    <button name="action_require_action" type="object" string="Require Action" class="btn-primary"
+                            invisible="state != 'awaiting_response'"/>
+                    <button name="action_pending_verification" type="object" string="Submit for Verification"
+                            class="btn-primary" invisible="state != 'action_required'"/>
+                    <button name="action_open_resolution_wizard" type="object" string="Close"
+                            context="{'resolution_mode': 'close'}" class="btn-success"
+                            invisible="state != 'pending_verification'" groups="odoo_auditor.group_auditor_manager"/>
+                    <button name="action_create_corrective_action" type="object" string="Create Corrective Action"
+                            invisible="state in ('closed', 'rejected', 'new')"/>
+                    <button name="action_open_resolution_wizard" type="object" string="Ignore in Future"
+                            context="{'resolution_mode': 'ignore'}"
+                            invisible="state in ('closed', 'rejected')" groups="odoo_auditor.group_auditor_manager"/>
+                    <button name="action_open_resolution_wizard" type="object" string="Reject (False Positive / Duplicate)"
+                            context="{'resolution_mode': 'reject'}"
+                            invisible="state in ('closed', 'rejected')" groups="odoo_auditor.group_auditor_manager"/>
+                    <button name="action_reopen" type="object" string="Reopen" invisible="state != 'closed'"
+                            groups="odoo_auditor.group_auditor_manager"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="new,triaged,investigating,awaiting_response,action_required,pending_verification,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_source" type="object" class="oe_stat_button" icon="fa-external-link"
+                                string="Source" invisible="not source_model"/>
+                        <button name="action_view_evidence" type="object" class="oe_stat_button" icon="fa-paperclip">
+                            <field name="evidence_count" widget="statinfo" string="Evidence"/>
+                        </button>
+                        <button name="action_view_actions" type="object" class="oe_stat_button" icon="fa-tasks">
+                            <field name="action_count" widget="statinfo" string="Actions"/>
+                        </button>
+                    </div>
+                    <field name="active" invisible="1"/>
+                    <h1><field name="name"/></h1>
+                    <h2><field name="title"/></h2>
+                    <group>
+                        <group>
+                            <field name="rule_id"/><field name="domain_area"/><field name="company_id" groups="base.group_multi_company"/>
+                            <field name="severity"/><field name="nature"/><field name="risk_score"/>
+                            <field name="validation_status"/><field name="is_confidential"/>
+                        </group>
+                        <group>
+                            <field name="source_name"/><field name="source_model" groups="base.group_no_one"/>
+                            <field name="source_date"/><field name="partner_id"/><field name="product_name"/>
+                            <field name="estimated_impact"/><field name="currency_id" invisible="1"/>
+                            <field name="detection_date"/><field name="run_id"/><field name="reopened_count"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Condition">
+                            <group>
+                                <field name="description"/><field name="expected_condition"/><field name="actual_condition"/>
+                            </group>
+                        </page>
+                        <page string="Investigation &amp; Response">
+                            <group>
+                                <group>
+                                    <field name="assigned_user_id"/><field name="process_owner_id"/>
+                                    <field name="department"/><field name="due_date"/>
+                                </group>
+                                <group><field name="last_verified_date"/><field name="related_finding_ids" widget="many2many_tags"/></group>
+                            </group>
+                            <group>
+                                <field name="root_cause"/><field name="recommendation"/>
+                                <field name="management_response"/><field name="resolution_notes"/>
+                            </group>
+                        </page>
+                        <page string="Closure" invisible="state not in ('closed', 'rejected')">
+                            <group>
+                                <field name="closed_by"/><field name="closed_date"/><field name="closure_note"/>
+                                <field name="rejected_by"/><field name="rejection_justification"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="view_auditor_finding_search" model="ir.ui.view">
+        <field name="name">odoo.auditor.finding.search</field>
+        <field name="model">odoo.auditor.finding</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/><field name="title"/><field name="rule_code"/><field name="source_name"/>
+                <field name="partner_id"/><field name="assigned_user_id"/><field name="rule_id"/><field name="product_name"/>
+                <filter name="open" string="Open" domain="[('state', 'not in', ('closed', 'rejected'))]"/>
+                <filter name="mine" string="My Findings" domain="[('assigned_user_id', '=', uid)]"/>
+                <filter name="high" string="High / Critical" domain="[('severity', 'in', ('high', 'critical'))]"/>
+                <filter name="unassigned" string="Unassigned" domain="[('assigned_user_id', '=', False), ('state', 'not in', ('closed', 'rejected'))]"/>
+                <filter name="late" string="Past Due" domain="[('due_date', '&lt;', context_today().strftime('%Y-%m-%d')), ('state', 'not in', ('closed', 'rejected'))]"/>
+                <filter name="recurring" string="Reopened Before" domain="[('reopened_count', '&gt;', 0)]"/>
+                <filter name="confidential" string="Confidential" domain="[('is_confidential', '=', True)]" groups="odoo_auditor.group_auditor_confidential"/>
+                <separator/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="g_state" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="g_sev" string="Severity" context="{'group_by': 'severity'}"/>
+                    <filter name="g_area" string="Domain" context="{'group_by': 'domain_area'}"/>
+                    <filter name="g_rule" string="Rule" context="{'group_by': 'rule_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="view_auditor_finding_graph" model="ir.ui.view">
+        <field name="name">odoo.auditor.finding.graph</field>
+        <field name="model">odoo.auditor.finding</field>
+        <field name="arch" type="xml">
+            <graph type="bar"><field name="domain_area"/><field name="severity"/></graph>
+        </field>
+    </record>
+    <record id="view_auditor_finding_pivot" model="ir.ui.view">
+        <field name="name">odoo.auditor.finding.pivot</field>
+        <field name="model">odoo.auditor.finding</field>
+        <field name="arch" type="xml">
+            <pivot><field name="domain_area" type="row"/><field name="severity" type="col"/></pivot>
+        </field>
+    </record>
+    <record id="view_auditor_finding_kanban" model="ir.ui.view">
+        <field name="name">odoo.auditor.finding.kanban</field>
+        <field name="model">odoo.auditor.finding</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" records_draggable="false" group_create="false"
+                    quick_create="false" group_delete="false" group_edit="false">
+                <field name="state"/><field name="source_model"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <field name="name" class="text-muted small"/>
+                            <field name="severity" widget="badge" decoration-danger="severity == 'critical'"
+                                   decoration-warning="severity == 'high'" decoration-info="severity == 'medium'"
+                                   decoration-success="severity == 'low'"/>
+                        </div>
+                        <field name="title" class="fw-bold"/>
+                        <div class="text-muted small"><field name="source_name"/></div>
+                        <div class="text-muted small"><field name="partner_id"/></div>
+                        <footer class="pt-2">
+                            <field name="estimated_impact" widget="monetary"/>
+                            <field name="due_date" widget="remaining_days" invisible="state in ('closed', 'rejected')"/>
+                            <field name="assigned_user_id" widget="many2one_avatar_user" class="ms-auto"/>
+                        </footer>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="server_action_export_findings" model="ir.actions.server">
+        <field name="name">Export to Excel</field>
+        <field name="model_id" ref="model_odoo_auditor_finding"/>
+        <field name="binding_model_id" ref="model_odoo_auditor_finding"/>
+        <field name="binding_view_types">list,kanban</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_export_xlsx()</field>
+    </record>
+    <record id="action_auditor_finding" model="ir.actions.act_window">
+        <field name="name">Findings</field>
+        <field name="res_model">odoo.auditor.finding</field>
+        <field name="view_mode">kanban,list,form,graph,pivot</field>
+        <field name="context">{'search_default_open': 1}</field>
+    </record>
+    <record id="action_auditor_dashboard" model="ir.actions.act_window">
+        <field name="name">Dashboard</field>
+        <field name="res_model">odoo.auditor.finding</field>
+        <field name="view_mode">graph,pivot,list,form</field>
+        <field name="context">{'search_default_open': 1}</field>
+    </record>
+
+    <record id="view_auditor_resolution_wizard_form" model="ir.ui.view">
+        <field name="name">odoo.auditor.finding.resolution.wizard.form</field>
+        <field name="model">odoo.auditor.finding.resolution.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group><field name="finding_id" readonly="1"/><field name="mode" readonly="1"/><field name="note"/></group>
+                <footer>
+                    <button name="action_confirm" type="object" string="Confirm" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

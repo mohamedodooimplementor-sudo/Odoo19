@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_auditor_run_list" model="ir.ui.view">
+        <field name="name">odoo.auditor.run.list</field>
+        <field name="model">odoo.auditor.run</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="state == 'failed'" decoration-success="state == 'done'">
+                <field name="name"/><field name="audit_name"/><field name="company_id" groups="base.group_multi_company"/>
+                <field name="date_from"/><field name="date_to"/><field name="mode"/>
+                <field name="finding_count"/><field name="critical_count"/><field name="high_count"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_auditor_run_form" model="ir.ui.view">
+        <field name="name">odoo.auditor.run.form</field>
+        <field name="model">odoo.auditor.run</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_execute" type="object" string="Execute" class="btn-primary"
+                            invisible="state in ('running', 'done', 'queued')"/>
+                    <button name="action_queue" type="object" string="Run in Background"
+                            invisible="state not in ('draft', 'failed')"/>
+                    <button name="action_export_xlsx" type="object" string="Export to Excel" invisible="state != 'done'"/>
+                    <button name="action_execute" type="object" string="Re-run (idempotent)"
+                            invisible="state != 'done'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,queued,running,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_findings" type="object" class="oe_stat_button" icon="fa-exclamation-triangle">
+                            <field name="finding_count" widget="statinfo" string="Findings"/>
+                        </button>
+                    </div>
+                    <h1><field name="name"/></h1>
+                    <div invisible="state not in ('queued', 'running')" class="mb-3">
+                        <field name="progress" widget="progressbar"/>
+                        <span class="text-muted"><field name="current_rule"/></span>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="audit_name" readonly="state != 'draft'"/>
+                            <field name="audit_type" readonly="state != 'draft'"/>
+                            <field name="company_id" readonly="state != 'draft'" groups="base.group_multi_company"/>
+                            <field name="date_from" readonly="state != 'draft'"/>
+                            <field name="date_to" readonly="state != 'draft'"/>
+                        </group>
+                        <group>
+                            <field name="mode"/><field name="user_id"/>
+                            <field name="start_datetime"/><field name="end_datetime"/><field name="duration"/>
+                            <field name="records_inspected"/><field name="domains_covered"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Rules">
+                            <field name="rule_ids" readonly="state in ('running', 'done')">
+                                <list><field name="code"/><field name="name"/><field name="severity"/><field name="version"/></list>
+                            </field>
+                        </page>
+                        <page string="Results">
+                            <group>
+                                <group>
+                                    <field name="critical_count"/><field name="high_count"/>
+                                    <field name="medium_count"/><field name="low_count"/>
+                                </group>
+                                <group><field name="summary"/></group>
+                            </group>
+                            <field name="message_log"/>
+                        </page>
+                        <page string="Snapshot">
+                            <group><field name="rule_versions"/><field name="config_snapshot"/></group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_auditor_run" model="ir.actions.act_window">
+        <field name="name">Audit Runs</field>
+        <field name="res_model">odoo.auditor.run</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_auditor_run_wizard_form" model="ir.ui.view">
+        <field name="name">odoo.auditor.run.wizard.form</field>
+        <field name="model">odoo.auditor.run.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="audit_name"/><field name="company_id" groups="base.group_multi_company"/>
+                        <field name="domain_area"/>
+                    </group>
+                    <group><field name="date_from"/><field name="date_to"/><field name="execute_now"/><field name="background" invisible="not execute_now"/></group>
+                </group>
+                <field name="rule_ids">
+                    <list><field name="code"/><field name="name"/><field name="severity"/></list>
+                </field>
+                <footer>
+                    <button name="action_run" type="object" string="Run Audit" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_auditor_setup_wizard_form" model="ir.ui.view">
+        <field name="name">odoo.auditor.setup.wizard.form</field>
+        <field name="model">odoo.auditor.setup.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <p class="text-muted">Set your approval thresholds once. Rules whose apps are installed are activated and scheduled.</p>
+                <group>
+                    <group string="Financial">
+                        <field name="manual_entry_amount"/><field name="credit_note_amount"/>
+                        <field name="stale_days"/><field name="bank_line_days"/>
+                    </group>
+                    <group string="Inventory &amp; Manufacturing">
+                        <field name="transfer_days"/><field name="adjustment_qty"/><field name="expiry_days"/><field name="consumption_tolerance"/>
+                    </group>
+                    <group string="Sales &amp; Purchase">
+                        <field name="max_discount"/><field name="min_margin"/><field name="sales_threshold"/>
+                        <field name="purchase_threshold"/><field name="price_variance"/><field name="bank_change_days"/>
+                    </group>
+                    <group string="HR">
+                        <field name="expense_limit"/><field name="receipt_above"/><field name="payroll_deviation"/>
+                    </group>
+                </group>
+                <group><field name="frequency"/><field name="activate_applicable"/></group>
+                <footer>
+                    <button name="action_apply" type="object" string="Apply" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_auditor_setup_wizard" model="ir.actions.act_window">
+        <field name="name">Quick Setup</field>
+        <field name="res_model">odoo.auditor.setup.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+    <record id="action_auditor_run_wizard" model="ir.actions.act_window">
+        <field name="name">Run Audit</field>
+        <field name="res_model">odoo.auditor.run.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

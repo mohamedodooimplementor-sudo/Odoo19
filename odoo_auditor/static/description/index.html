@@ -1,0 +1,109 @@
+<section style="font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;max-width:1000px;margin:0 auto;padding:16px;line-height:1.6;color:#22303f">
+
+<img src="banner.png" alt="Odoo Auditor 19" style="width:100%;border-radius:10px;margin-bottom:20px"/>
+
+<div style="text-align:center;margin:10px 0 26px">
+  <h1 style="margin:0;color:#1f3a5f">Odoo Auditor 19</h1>
+  <p style="font-size:1.15em;color:#4b5a6a;margin:8px 0 0">Enterprise-wide internal audit, continuous monitoring and corrective-action management for Odoo 19.</p>
+  <p style="margin:14px 0 0">
+    <span style="display:inline-block;background:#1f3a5f;color:#fff;border-radius:20px;padding:4px 14px;margin:3px">Odoo 19 Community &amp; Enterprise</span>
+    <span style="display:inline-block;background:#4fb58a;color:#fff;border-radius:20px;padding:4px 14px;margin:3px">Read-only &amp; safe</span>
+    <span style="display:inline-block;background:#4a7fc1;color:#fff;border-radius:20px;padding:4px 14px;margin:3px">Light &amp; dark mode</span>
+    <span style="display:inline-block;background:#7a4fb5;color:#fff;border-radius:20px;padding:4px 14px;margin:3px">Arabic &amp; English</span>
+  </p>
+</div>
+
+<h2 style="color:#1f3a5f">Why Odoo Auditor?</h2>
+<p>Most "audit" apps only log who changed what. <strong>Odoo Auditor is a complete audit workflow</strong>: it scans your accounting, inventory, sales, purchase, manufacturing and HR data with 37 predefined rules, turns exceptions into <strong>findings with preserved evidence</strong>, and follows each one through investigation, management response, corrective action and independent verification.</p>
+<p>It is <strong>read-only toward your business data</strong>. It never posts, cancels, approves or edits your records.</p>
+
+<img src="pipeline.png" alt="From rule to verified fix" style="width:100%;border-radius:10px;margin:14px 0"/>
+
+<h2 style="color:#1f3a5f">Dashboard - light and dark mode</h2>
+<p>Open findings by severity and domain, overdue actions, most productive rules and latest runs. Every card drills down to the filtered list. Follows Odoo's light or dark theme automatically.</p>
+<img src="dashboard.png" alt="Dashboard light and dark" style="width:100%;border-radius:10px;margin:10px 0"/>
+
+<h2 style="color:#1f3a5f">37 built-in rules, 7 domains</h2>
+<img src="rules.png" alt="Rules coverage" style="width:100%;border-radius:10px;margin:10px 0"/>
+<ul>
+  <li><strong>Financial:</strong> duplicate vendor bills and customer invoices, large manual entries, backdated postings, aged drafts, overdue receivables/payables, round-number patterns, suspense balances, abnormal period-over-period movements, stale bank lines, tax changes.</li>
+  <li><strong>Inventory:</strong> negative stock, large adjustments, stalled transfers, deliveries without sales order, expired / near-expiry lots.</li>
+  <li><strong>Sales:</strong> high discounts, sales below cost, orders just below approval limits, archived customers, credit-limit breaches.</li>
+  <li><strong>Purchase:</strong> high-value and split purchase orders, bills without PO, price above vendor history, vendor bank change before payment.</li>
+  <li><strong>Manufacturing:</strong> component consumption above BOM, stale manufacturing orders.</li>
+  <li><strong>HR &amp; payroll (confidential):</strong> duplicate employees, missing master data, duplicate / over-limit / receipt-less expenses, payroll deviation, payroll rule changes.</li>
+  <li><strong>Access:</strong> segregation-of-duties conflicts with configurable group pairs.</li>
+</ul>
+<p>Rules are controlled, predefined implementations - <strong>no arbitrary code, eval or SQL</strong> is ever run from configuration. Rules whose apps are not installed are skipped safely.</p>
+
+<h2 style="color:#1f3a5f">Findings workflow with segregation of duties</h2>
+<img src="workflow.png" alt="Findings workflow" style="width:100%;border-radius:10px;margin:10px 0"/>
+<ul>
+  <li>Kanban, list, graph and pivot views, with filters for my findings, unassigned, past due and reopened.</li>
+  <li>One-click <strong>Create Corrective Action</strong> from any finding.</li>
+  <li><strong>Ignore in future</strong> with a documented reason; archive the exclusion to report again.</li>
+  <li>Automatic <strong>reopen on recurrence</strong>; duplicate-proof re-runs.</li>
+  <li>Risk score from severity and the nature of the exception (verified inconsistency, policy exception, risk indicator, needs investigation).</li>
+</ul>
+
+<h2 style="color:#1f3a5f">Immutable evidence &amp; read-only design</h2>
+<img src="safety.png" alt="Evidence and read-only" style="width:100%;border-radius:10px;margin:10px 0"/>
+
+<h2 style="color:#1f3a5f">Everything an internal audit team needs</h2>
+<ul>
+  <li><strong>Quick Setup wizard:</strong> set thresholds once, activate every applicable rule.</li>
+  <li><strong>Background runs</strong> with live progress, scheduled runs, per-company locking, multi-company support.</li>
+  <li><strong>Corrective actions</strong> with owners, deadlines, verification by an independent person and automatic escalation of overdue items.</li>
+  <li><strong>Audit plans, programs and workpapers</strong> (preparer and reviewer must differ), sample documentation.</li>
+  <li><strong>Risk &amp; control register</strong> with documented scoring (inherent and residual).</li>
+  <li><strong>Access reviews</strong> and <strong>period / year-end checklists</strong>.</li>
+  <li><strong>Reports:</strong> PDF (finding, run summary, plan, actions) and Excel export.</li>
+  <li><strong>Protected audit log</strong> of the Auditor's own records (append-only).</li>
+  <li><strong>Confidential access group</strong> for HR / payroll findings; no salary values are ever shown.</li>
+</ul>
+
+<h2 style="color:#1f3a5f">Quick start</h2>
+<ol>
+  <li>Install the module and add yourself to <em>Odoo Auditor / Audit Manager</em>.</li>
+  <li>Open <em>Configuration &gt; Quick Setup</em>, review thresholds, press <em>Apply</em>.</li>
+  <li>Open <em>Audits &gt; Run Audit</em> and let it run in the background.</li>
+  <li>Review the Dashboard, triage findings, assign corrective actions.</li>
+</ol>
+
+<h2 style="color:#1f3a5f">Technical information</h2>
+<table style="width:100%;border-collapse:collapse">
+  <tr><td style="border:1px solid #dfe4ea;padding:8px;width:30%"><strong>Technical name</strong></td><td style="border:1px solid #dfe4ea;padding:8px">odoo_auditor</td></tr>
+  <tr><td style="border:1px solid #dfe4ea;padding:8px"><strong>Odoo version</strong></td><td style="border:1px solid #dfe4ea;padding:8px">19.0 - Community and Enterprise</td></tr>
+  <tr><td style="border:1px solid #dfe4ea;padding:8px"><strong>Dependencies</strong></td><td style="border:1px solid #dfe4ea;padding:8px">base, mail (Accounting, Sales, Purchase, Inventory, MRP, HR are optional and detected automatically)</td></tr>
+  <tr><td style="border:1px solid #dfe4ea;padding:8px"><strong>Python libraries</strong></td><td style="border:1px solid #dfe4ea;padding:8px">xlsxwriter (included with Odoo)</td></tr>
+  <tr><td style="border:1px solid #dfe4ea;padding:8px"><strong>Languages</strong></td><td style="border:1px solid #dfe4ea;padding:8px">English, Arabic</td></tr>
+  <tr><td style="border:1px solid #dfe4ea;padding:8px"><strong>License</strong></td><td style="border:1px solid #dfe4ea;padding:8px">Odoo Proprietary License v1.0 (OPL-1)</td></tr>
+</table>
+
+<div style="background:#f1f6fb;border:1px solid #cfdcec;border-radius:10px;padding:18px;margin:26px 0;text-align:center">
+  <div style="font-size:2em;font-weight:700;color:#1f3a5f">USD 249</div>
+  <div>One-time purchase &middot; one Odoo database &middot; Community and Enterprise</div>
+  <div style="color:#4b5a6a;margin-top:6px">Includes free bug-fix support. Price is shown by the Odoo Apps store at checkout.</div>
+</div>
+
+<h2 style="color:#1f3a5f">Frequently asked questions</h2>
+<p><strong>Will it change my accounting or stock data?</strong><br/>No. It only reads business data and creates its own audit records.</p>
+<p><strong>Does it say a transaction is fraud?</strong><br/>No. Every finding is a risk indicator for human review and states whether it is a verified inconsistency, a policy exception, a risk indicator or an item needing investigation.</p>
+<p><strong>I do not use Payroll / Manufacturing. Is that a problem?</strong><br/>No. Rules for apps that are not installed are skipped with a warning.</p>
+<p><strong>Can I add my own rules?</strong><br/>You can tune thresholds, exclusions, schedules and severity of every rule. New detection logic is added in Python by a developer (controlled rule registry).</p>
+
+<div dir="rtl" style="background:#fbfbf4;border:1px solid #e7e2c4;border-radius:10px;padding:18px;margin:26px 0;text-align:right">
+  <h2 style="color:#1f3a5f;margin-top:0">نبذة بالعربية</h2>
+  <p><strong>Odoo Auditor</strong> مديول مراجعة داخلية ورقابة مستمرة لأودو 19. يفحص المحاسبة والمخزون والمبيعات والمشتريات والتصنيع والموارد البشرية بـ <strong>37 قاعدة جاهزة</strong>، ويحوّل الاستثناءات إلى <strong>ملاحظات بأدلة محفوظة</strong>، ويتابعها حتى الإغلاق بإجراءات تصحيحية وتحقق مستقل.</p>
+  <ul>
+    <li><strong>للقراءة فقط:</strong> لا يرحّل ولا يلغي ولا يوافق ولا يعدّل أي سجل.</li>
+    <li>لوحة معلومات بالوضعين الفاتح والمظلم، وعرض Kanban للملاحظات.</li>
+    <li>فصل مهام في الإغلاق والتحقق، وسجل تدقيق محمي، وصلاحيات سرّية لملاحظات الموارد البشرية.</li>
+    <li>معالج إعداد سريع، تشغيل في الخلفية بشريط تقدم، تقارير PDF وتصدير Excel.</li>
+    <li>خطط ومراجعات وأوراق عمل، سجل مخاطر وضوابط، مراجعات صلاحيات، وقوائم إقفال.</li>
+    <li>واجهة عربية كاملة.</li>
+  </ul>
+</div>
+
+<p style="text-align:center;color:#6b7785">Developed by <strong>Eng. M.Aboelmagde</strong> &middot; Odoo Lab (@odoolab)</p>
+</section>

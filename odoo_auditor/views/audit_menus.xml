@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_auditor_root" name="Odoo Auditor" sequence="60"
+              web_icon="odoo_auditor,static/description/icon.png"
+              groups="odoo_auditor.group_auditor_user"/>
+    <menuitem id="menu_auditor_dashboard" name="Dashboard" parent="menu_auditor_root" action="action_auditor_dashboard_client" sequence="1"/>
+    <menuitem id="menu_auditor_analysis" name="Analysis" parent="menu_auditor_root" action="action_auditor_dashboard" sequence="5"/>
+    <menuitem id="menu_auditor_audits" name="Audits" parent="menu_auditor_root" sequence="10"/>
+    <menuitem id="menu_auditor_run_now" name="Run Audit" parent="menu_auditor_audits" action="action_auditor_run_wizard" sequence="1"/>
+    <menuitem id="menu_auditor_runs" name="Audit Runs" parent="menu_auditor_audits" action="action_auditor_run" sequence="2"/>
+    <menuitem id="menu_auditor_findings" name="Findings" parent="menu_auditor_root" action="action_auditor_finding" sequence="20"/>
+    <menuitem id="menu_auditor_actions" name="Corrective Actions" parent="menu_auditor_root" action="action_auditor_action" sequence="30"/>
+    <menuitem id="menu_auditor_evidence" name="Evidence" parent="menu_auditor_root" action="action_auditor_evidence" sequence="35"/>
+    <menuitem id="menu_auditor_planning" name="Planning" parent="menu_auditor_root" sequence="40"/>
+    <menuitem id="menu_auditor_plans" name="Audit Plans" parent="menu_auditor_planning" action="action_auditor_plan" sequence="1"/>
+    <menuitem id="menu_auditor_programs" name="Programs" parent="menu_auditor_planning" action="action_auditor_program" sequence="2"/>
+    <menuitem id="menu_auditor_workpapers" name="Workpapers" parent="menu_auditor_planning" action="action_auditor_workpaper" sequence="3"/>
+    <menuitem id="menu_auditor_riskctl" name="Risk &amp; Control" parent="menu_auditor_root" sequence="50"/>
+    <menuitem id="menu_auditor_risks" name="Risk Register" parent="menu_auditor_riskctl" action="action_auditor_risk" sequence="1"/>
+    <menuitem id="menu_auditor_controls" name="Controls" parent="menu_auditor_riskctl" action="action_auditor_control" sequence="2"/>
+    <menuitem id="menu_auditor_access" name="Access Reviews" parent="menu_auditor_riskctl" action="action_auditor_access_review" sequence="3"/>
+    <menuitem id="menu_auditor_checklists" name="Period / Year-end Checklists" parent="menu_auditor_planning" action="action_auditor_checklist" sequence="4"/>
+    <menuitem id="menu_auditor_config" name="Configuration" parent="menu_auditor_root" sequence="90"
+              groups="odoo_auditor.group_auditor_manager"/>
+    <menuitem id="menu_auditor_rules" name="Audit Rules" parent="menu_auditor_config" action="action_auditor_rule" sequence="1"/>
+    <menuitem id="menu_auditor_exclusions" name="Exclusions" parent="menu_auditor_config" action="action_auditor_exclusion" sequence="3"/>
+    <menuitem id="menu_auditor_setup" name="Quick Setup" parent="menu_auditor_config" action="action_auditor_setup_wizard" sequence="0"/>
+    <menuitem id="menu_auditor_log" name="Audit Log" parent="menu_auditor_config" action="action_auditor_log" sequence="2"/>
+</odoo>

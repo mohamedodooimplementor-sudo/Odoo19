@@ -46,6 +46,7 @@ export class StockPopover extends Component {
         const hit = CACHE.get(key);
         if (hit && Date.now() - hit.time < CACHE_TTL) {
             this.state.data = hit.data;
+            this.state.tab = this.defaultTab();
             this.state.loading = false;
             return;
         }
@@ -57,9 +58,22 @@ export class StockPopover extends Component {
             );
             CACHE.set(key, { time: Date.now(), data });
             this.state.data = data;
+            this.state.tab = this.defaultTab();
         } finally {
             this.state.loading = false;
         }
+    }
+
+    // Show the other locations / projects holding the product right away,
+    // so nobody has to hunt for them behind a click.
+    defaultTab() {
+        if (this.allLocations.length) {
+            return "wh";
+        }
+        if (this.projects.length) {
+            return "prj";
+        }
+        return null;
     }
 
     fmt(value) {

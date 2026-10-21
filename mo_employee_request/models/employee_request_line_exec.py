@@ -99,28 +99,53 @@ class EmployeeRequestLineExec(models.Model):
                      'date': fields.Date.to_string(m.date) if m.date else ''}
                     for m in moves]
 
-        # every location that has the product, and which project holds how much of it.
-        # The locations of the projects are listed first; each project location is shown once.
-        all_locations, projects = [], []
+        # Other locations holding the product (the request's own location, with its
+        # children, is already covered by "Inside") and what each project holds of it.
         Project = self.env['project.project'].sudo()
         Location = self.env['stock.location'].sudo()
-        company_ids = self.env.companies.ids
-        loc_ids = {loc.id for loc, _q in self.env['stock.quant'].sudo()._read_group(
-            [('product_id', '=', product.id), ('location_id.usage', '=', 'internal'),
-             ('location_id.company_id', 'in', company_ids), ('quantity', '>', 0)],
-            ['location_id'], ['quantity:sum'])}
-        project_locs = Project.search([('er_location_id', '!=', False)]).er_location_id
-        loc_ids |= set(project_locs.ids)
-        for loc in Location.browse(sorted(loc_ids)):
-            loc_prod = product.with_context(location=loc.id)
+        here = set(wh_locations)
+        project_by_loc = {}
+        for prj in Project.search([('er_location_id', '!=', False)]):
+            project_by_loc.setdefault(prj.er_location_id.id, prj)
+        stock_by_loc = {}
+        for loc, q_sum, r_sum in self.env['stock.quant'].sudo()._read_group(
+                [('product_id', '=', product.id), ('location_id.usage', '=', 'internal'),
+                 ('location_id.company_id', 'in', self.env.companies.ids)],
+                ['location_id'], ['quantity:sum', 'reserved_quantity:sum']):
+            stock_by_loc[loc.id] = (q_sum, r_sum)
+
+        all_locations = []
+        for loc_id, (q_sum, r_sum) in stock_by_loc.items():
+            if loc_id in here or q_sum <= 1e-6:
+                continue
+            prj = project_by_loc.get(loc_id)
+            all_locations.append({
+                'name': Location.browse(loc_id).display_name,
+                'on_hand': q_sum, 'reserved': r_sum, 'available': q_sum - r_sum,
+                'project': prj.display_name if prj else ''})
+        all_locations.sort(key=lambda r: (-r['on_hand'], r['name']))
+
+        projects = []
+        shown = {}  # project id -> (location, quantity) already listed from its own location
+        # 1) the stock sitting in the location of each project
+        for loc_id, prj in project_by_loc.items():
+            on_hand = product.with_context(location=loc_id).qty_available
+            if on_hand > 1e-6:
+                loc = Location.browse(loc_id)
+                projects.append({'project': prj.display_name, 'quantity': on_hand,
+                                 'location': loc.display_name})
+                shown[prj.id] = (loc, on_hand)
+        # 2) stock held for a project inside a shared location, beyond what is listed above
+        for loc_id in set(stock_by_loc) | set(project_by_loc):
+            loc = Location.browse(loc_id)
             held = self.env['stock.move']._er_project_locked_qty(product, loc)
-            if loc_prod.qty_available or held:
-                all_locations.append({
-                    'name': loc.display_name, 'on_hand': loc_prod.qty_available,
-                    'available': loc_prod.free_qty, 'held': sum(held.values())})
             for project_id, held_qty in held.items():
-                projects.append({'project': Project.browse(project_id).display_name,
-                                 'location': loc.display_name, 'quantity': held_qty})
+                own_loc, own_qty = shown.get(project_id, (False, 0.0))
+                if own_loc and (own_loc == loc or own_loc.parent_path.startswith(loc.parent_path)):
+                    held_qty -= own_qty  # same units, already counted in the project's location
+                if held_qty > 1e-6:
+                    projects.append({'project': Project.browse(project_id).display_name,
+                                     'quantity': held_qty, 'location': loc.display_name})
         projects.sort(key=lambda r: (r['project'], r['location']))
 
         status = 'unavailable'

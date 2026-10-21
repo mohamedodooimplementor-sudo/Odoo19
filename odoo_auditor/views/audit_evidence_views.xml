@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_auditor_evidence_list" model="ir.ui.view">
+        <field name="name">odoo.auditor.evidence.list</field>
+        <field name="model">odoo.auditor.evidence</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/><field name="evidence_type"/><field name="finding_id"/><field name="collected_date"/>
+                <field name="collected_by"/><field name="verification_status" widget="badge"/><field name="confidentiality"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_auditor_evidence_form" model="ir.ui.view">
+        <field name="name">odoo.auditor.evidence.form</field>
+        <field name="model">odoo.auditor.evidence</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_open_source" type="object" string="Open Source Document"
+                            invisible="not finding_id"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/><field name="evidence_type"/><field name="snapshot_kind"/>
+                            <field name="finding_id"/><field name="run_id"/><field name="plan_id"/><field name="workpaper_id"/>
+                        </group>
+                        <group>
+                            <field name="source_document"/><field name="collected_date"/><field name="collected_by"/>
+                            <field name="verification_status"/><field name="confidentiality"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description"/>
+                        <field name="attachment_ids" widget="many2many_binary"/>
+                    </group>
+                    <group string="Historical Snapshot (values at detection time - not current state)"
+                          invisible="not snapshot_json">
+                        <field name="snapshot_json"/><field name="snapshot_hash"/><field name="hash_valid"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_auditor_evidence" model="ir.actions.act_window">
+        <field name="name">Evidence</field>
+        <field name="res_model">odoo.auditor.evidence</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

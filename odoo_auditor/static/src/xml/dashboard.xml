@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <t t-name="odoo_auditor.Dashboard">
+        <div class="o_auditor_dashboard p-3 overflow-auto h-100">
+            <t t-if="state.data">
+                <div class="row g-3 mb-3">
+                    <div class="col-6 col-md-3">
+                        <div class="o_aud_card" t-on-click="() => this.openFindings(this.openLabel, [['state', 'not in', ['closed', 'rejected']]])">
+                            <div class="o_aud_value" t-esc="state.data.open_total"/>
+                            <div class="o_aud_label">Open findings</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="o_aud_card o_aud_critical" t-on-click="() => this.openSeverity('critical')">
+                            <div class="o_aud_value" t-esc="state.data.severity.critical"/>
+                            <div class="o_aud_label">Critical</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="o_aud_card o_aud_high" t-on-click="() => this.openSeverity('high')">
+                            <div class="o_aud_value" t-esc="state.data.severity.high"/>
+                            <div class="o_aud_label">High</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="o_aud_card o_aud_overdue" t-on-click="openOverdueActions">
+                            <div class="o_aud_value" t-esc="state.data.overdue_actions"/>
+                            <div class="o_aud_label">Overdue actions</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-3">
+                    <div class="col-12 col-lg-6">
+                        <div class="o_aud_panel">
+                            <h5>Open findings by severity</h5>
+                            <div t-foreach="severities" t-as="s" t-key="s.key" class="o_aud_bar_row" t-on-click="() => this.openSeverity(s.key)">
+                                <span class="o_aud_bar_label" t-esc="s.label"/>
+                                <div class="o_aud_bar_track">
+                                    <div t-attf-class="o_aud_bar o_aud_bar_#{s.key}" t-attf-style="width: #{barWidth(s.count, maxSeverity)}"/>
+                                </div>
+                                <span class="o_aud_bar_count" t-esc="s.count"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="o_aud_panel">
+                            <h5>Open findings by domain</h5>
+                            <div t-foreach="domains" t-as="d" t-key="d.key" class="o_aud_bar_row" t-on-click="() => this.openDomain(d.key)">
+                                <span class="o_aud_bar_label" t-esc="d.label"/>
+                                <div class="o_aud_bar_track">
+                                    <div class="o_aud_bar o_aud_bar_domain" t-attf-style="width: #{barWidth(d.count, state.data.open_total or 1)}"/>
+                                </div>
+                                <span class="o_aud_bar_count" t-esc="d.count"/>
+                            </div>
+                            <div t-if="!domains.length" class="text-muted">No open findings.</div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="o_aud_panel">
+                            <h5>Most productive rules</h5>
+                            <div t-foreach="state.data.top_rules" t-as="r" t-key="r.id" class="o_aud_link_row" t-on-click="() => this.openRule(r.id)">
+                                <span t-esc="r.name"/><span class="badge text-bg-secondary" t-esc="r.count"/>
+                            </div>
+                            <div t-if="!state.data.top_rules.length" class="text-muted">No data yet. Run an audit.</div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="o_aud_panel">
+                            <h5>Latest runs</h5>
+                            <div t-foreach="state.data.runs" t-as="run" t-key="run.id" class="o_aud_link_row" t-on-click="() => this.openRun(run.id)">
+                                <span><t t-esc="run.name"/> - <t t-esc="run.audit_name"/></span>
+                                <span class="badge text-bg-light"><t t-esc="run.state"/> / <t t-esc="run.finding_count"/></span>
+                            </div>
+                            <div t-if="!state.data.runs.length" class="text-muted">No runs yet.</div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>

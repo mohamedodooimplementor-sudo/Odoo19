@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_run" model="ir.sequence">
+            <field name="name">Audit Run</field><field name="code">odoo.auditor.run</field>
+            <field name="prefix">RUN/%(year)s/</field><field name="padding">5</field><field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_finding" model="ir.sequence">
+            <field name="name">Audit Finding</field><field name="code">odoo.auditor.finding</field>
+            <field name="prefix">FND/%(year)s/</field><field name="padding">5</field><field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_action" model="ir.sequence">
+            <field name="name">Corrective Action</field><field name="code">odoo.auditor.action</field>
+            <field name="prefix">ACT/%(year)s/</field><field name="padding">5</field><field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_plan" model="ir.sequence">
+            <field name="name">Audit Plan</field><field name="code">odoo.auditor.plan</field>
+            <field name="prefix">PLN/%(year)s/</field><field name="padding">4</field><field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

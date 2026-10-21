@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="cron_scheduled_audits" model="ir.cron">
+            <field name="name">Odoo Auditor: run scheduled rules</field>
+            <field name="model_id" ref="model_odoo_auditor_run"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_run_scheduled()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active" eval="True"/>
+        </record>
+        <record id="cron_escalate_actions" model="ir.cron">
+            <field name="name">Odoo Auditor: escalate overdue corrective actions</field>
+            <field name="model_id" ref="model_odoo_auditor_action"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_escalate_overdue()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active" eval="True"/>
+        </record>
+        <record id="cron_process_queue" model="ir.cron">
+            <field name="name">Odoo Auditor: process queued audit runs</field>
+            <field name="model_id" ref="model_odoo_auditor_run"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_process_queue()</field>
+            <field name="interval_number">15</field>
+            <field name="interval_type">minutes</field>
+            <field name="active" eval="True"/>
+        </record>
+    </data>
+</odoo>
