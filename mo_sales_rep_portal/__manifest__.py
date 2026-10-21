@@ -1,6 +1,6 @@
 {
     'name': 'Sales Representative Portal & Route Management',
-    'version': '19.0.2.4.0',
+    'version': '19.0.2.5.0',
     'summary': 'Field sales portal for Odoo 19: routes, GPS visits, orders, collections, cheques, returns, expenses, targets and offline sync - on standard Odoo documents',
     'description': """
 Sales Representative Portal & Route Management
@@ -12,7 +12,7 @@ Portal interface + Route/Visit management + integration layer over standard Odoo
     'author': 'Eng. M.Aboelmagde',
     'website': 'https://www.youtube.com/@odoolab',
     'license': 'OPL-1',
-    'price': 649.0,
+    'price': 299.0,
     'currency': 'USD',
     'images': [
         'static/description/banner.png',

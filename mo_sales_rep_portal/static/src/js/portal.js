@@ -726,8 +726,32 @@
     setInterval(refresh, 60000);
   }
 
+  // ---- dark / light toggle (remembered on this device; default follows the phone setting) ----
+  function bindTheme() {
+    var btn = document.getElementById('mo-theme');
+    if (!btn) { return; }
+    var root = document.documentElement;
+    var mq = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+    function isDark() {
+      var t = root.getAttribute('data-theme');
+      return t ? t === 'dark' : !!(mq && mq.matches);
+    }
+    function paint() {
+      btn.textContent = isDark() ? '☀️' : '🌙';
+      var meta = document.querySelector('meta[name=theme-color]');
+      if (meta) { meta.setAttribute('content', isDark() ? '#0f1820' : '#0e6b5c'); }
+    }
+    btn.addEventListener('click', function () {
+      var next = isDark() ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('mo_theme', next); } catch (e) { /* private mode: still works for this page */ }
+      paint();
+    });
+    paint();
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
-    bindOffline(); bindFab(); bindDashboard(); bindTracking(); bindLines(); bindPayment(); bindCheque(); bindReturn();
+    bindTheme(); bindOffline(); bindFab(); bindDashboard(); bindTracking(); bindLines(); bindPayment(); bindCheque(); bindReturn();
     document.querySelectorAll('input[name=client_uid]').forEach(function (i) { if (!i.value) { i.value = uuid(); } });
     var flash = document.querySelector('.mo-flash');
     if (flash && window.history && history.replaceState) {

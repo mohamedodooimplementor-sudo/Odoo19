@@ -40,6 +40,7 @@ class RepSettings:
 class SalesRepPaymentMethod(models.Model):
     _name = 'mo.sales.rep.payment.method'
     _description = 'Sales Representative Payment Method'
+    _inherit = ['mail.thread']
 
     name = fields.Char(required=True)
     method_type = fields.Selection([('cash', 'Cash'), ('bank', 'Bank'), ('cheque', 'Cheque'), ('other', 'Other')],
@@ -134,11 +135,25 @@ class SalesRep(models.Model):
             rep.user_id.sudo().write({field: [(4, group.id)]})
 
     # ------------------------------------------------------------------
+    def _customers_only_domain(self):
+        """Real customers only: no users (internal / portal), no employees, no company contacts."""
+        Partner = self.env['res.partner']
+        domain = [('active', '=', True), ('parent_id', '=', False), ('user_ids', '=', False)]
+        if 'employee_ids' in Partner._fields:
+            domain.append(('employee_ids', '=', False))
+        company_partners = self.env['res.company'].sudo().with_context(active_test=False).search([]).partner_id.ids
+        if company_partners:
+            domain.append(('id', 'not in', company_partners))
+        return domain
+
     def customers_domain(self):
+        """Supervisor (can_view_all_customers): every customer.
+        Otherwise: only the customers assigned to this representative, or whose Salesperson is him."""
         self.ensure_one()
+        base = self._customers_only_domain()
         if self.can_view_all_customers:
-            return [('active', '=', True), ('parent_id', '=', False)]
-        return ['|', ('id', 'in', self.customer_ids.ids), ('user_id', '=', self.user_id.id)]
+            return base
+        return base + ['|', ('id', 'in', self.customer_ids.ids), ('user_id', '=', self.user_id.id)]
 
     def get_customers(self):
         self.ensure_one()

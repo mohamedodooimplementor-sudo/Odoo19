@@ -8,6 +8,7 @@
                 <meta name="theme-color" content="#0e6b5c"/>
                 <link rel="manifest" href="/rep/manifest.json"/>
                 <link rel="apple-touch-icon" href="/mo_sales_rep_portal/static/src/img/icon-192.png"/>
+                <script>try{var m=localStorage.getItem("mo_theme");if(m==="dark"||m==="light"){document.documentElement.setAttribute("data-theme",m);}}catch(e){}</script>
                 <link rel="stylesheet" href="/mo_sales_rep_portal/static/src/css/portal.css"/>
                 <script defer="defer" src="/mo_sales_rep_portal/static/src/js/portal.js"/>
             </t>
@@ -17,6 +18,7 @@
                 <header class="mo-top">
                     <h1><t t-esc="title"/></h1>
                     <button type="button" id="mo-conn" class="mo-conn" data-state="online" t-att-data-online="T('Online')" t-att-data-offline="T('Offline')" t-att-data-syncing="T('Syncing')" t-att-data-pending="T('waiting to sync')"><t t-esc="T('Online')"/></button>
+                    <button type="button" id="mo-theme" class="mo-theme" t-att-aria-label="T('Toggle dark mode')" t-att-title="T('Toggle dark mode')">🌓</button>
                     <a href="/rep/notifications" t-att-aria-label="T('Notifications')">🔔<span class="mo-badge" t-if="unread"><t t-esc="unread"/></span></a>
                     <a id="mo-logout" href="/web/session/logout?redirect=/web/login" t-att-aria-label="T('Log out')">⏻</a>
                 </header>

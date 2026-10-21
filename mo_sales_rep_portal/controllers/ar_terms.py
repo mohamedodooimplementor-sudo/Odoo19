@@ -367,7 +367,7 @@ AR.update({
     "No visit": "بدون زيارة", "Not visited": "لم تتم زيارتهم", "Not visited for %s days": "لم تتم زيارته منذ %s يوم",
     "Note added.": "تمت إضافة الملاحظة.", "Nothing can be returned for this customer": "لا يوجد ما يمكن إرجاعه لهذا العميل",
     "Nothing is outstanding.": "لا توجد مبالغ مستحقة.", "Offline": "غير متصل", "On today's route": "على مسار اليوم",
-    "Online": "متصل", "Only a draft expense can be deleted.": "يمكن حذف المصروف المسودة فقط.", "Open Customer": "فتح العميل",
+    "Online": "متصل", "Toggle dark mode": "تبديل الوضع الداكن", "Only a draft expense can be deleted.": "يمكن حذف المصروف المسودة فقط.", "Open Customer": "فتح العميل",
     "Outstanding": "المستحق", "Outstanding %s": "مستحق %s", "Outstanding & Aging": "المستحقات وأعمار الديون",
     "Outstanding invoices": "الفواتير المستحقة", "Overdue": "متأخر", "Overdue %s": "متأخر %s",
     "Overdue Follow-ups": "متابعات متأخرة", "Overdue:": "المتأخرة:", "Payment Date": "تاريخ الدفعة",

@@ -5,6 +5,8 @@ from odoo.exceptions import UserError
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
+    # The standard Salesperson only offers internal users; a sales rep is a portal user, so allow any user.
+    user_id = fields.Many2one('res.users', domain=[('share', 'in', [True, False])])
     mo_whatsapp = fields.Char('WhatsApp')
     mo_approval_state = fields.Selection(
         [('approved', 'Approved'), ('waiting', 'Waiting Approval'), ('refused', 'Refused')],

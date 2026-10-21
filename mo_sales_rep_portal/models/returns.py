@@ -4,6 +4,7 @@ from odoo import fields, models
 class ReturnReason(models.Model):
     _name = 'mo.return.reason'
     _description = 'Customer Return Reason'
+    _inherit = ['mail.thread']
     _order = 'sequence, id'
 
     name = fields.Char(required=True, translate=True)

@@ -4,8 +4,29 @@
   --radius: 14px;
 }
 @media (prefers-color-scheme: dark) {
-  :root { --ink: #e8eef3; --muted: #9fb0bf; --bg: #0f1820; --card: #17232e; --line: #26364a; --primary: #29a58f; }
+  :root:not([data-theme="light"]) { --ink: #e8eef3; --muted: #9fb0bf; --bg: #0f1820; --card: #17232e; --line: #26364a; --primary: #29a58f; color-scheme: dark; }
+  :root:not([data-theme="light"]) .mo-chip { background: #2a3a4a; color: #d5e0ea; }
+  :root:not([data-theme="light"]) .mo-chip.started, :root:not([data-theme="light"]) .mo-chip.sent { background: #1c3556; color: #a9c9f5; }
+  :root:not([data-theme="light"]) .mo-chip.completed, :root:not([data-theme="light"]) .mo-chip.confirmed, :root:not([data-theme="light"]) .mo-chip.delivered, :root:not([data-theme="light"]) .mo-chip.invoiced, :root:not([data-theme="light"]) .mo-chip.paid, :root:not([data-theme="light"]) .mo-chip.posted { background: #12392f; color: #8be0c6; }
+  :root:not([data-theme="light"]) .mo-chip.missed, :root:not([data-theme="light"]) .mo-chip.cancel, :root:not([data-theme="light"]) .mo-chip.cancelled { background: #4a1f1b; color: #f3b3ad; }
+  :root:not([data-theme="light"]) .mo-chip.high { background: #4a3710; color: #f5d48a; }
+  :root:not([data-theme="light"]) .mo-chip.urgent { background: #5a1c17; color: #ffc4be; }
+  :root:not([data-theme="light"]) .mo-flash { background: #12392f; color: #8be0c6; }
+  :root:not([data-theme="light"]) .mo-flash.err { background: #4a1f1b; color: #f3b3ad; }
+  :root:not([data-theme="light"]) .mo-conn { background: #12392f; color: #8be0c6; }
 }
+:root[data-theme="dark"] { --ink: #e8eef3; --muted: #9fb0bf; --bg: #0f1820; --card: #17232e; --line: #26364a; --primary: #29a58f; color-scheme: dark; }
+:root[data-theme="dark"] .mo-chip { background: #2a3a4a; color: #d5e0ea; }
+:root[data-theme="dark"] .mo-chip.started, :root[data-theme="dark"] .mo-chip.sent { background: #1c3556; color: #a9c9f5; }
+:root[data-theme="dark"] .mo-chip.completed, :root[data-theme="dark"] .mo-chip.confirmed, :root[data-theme="dark"] .mo-chip.delivered, :root[data-theme="dark"] .mo-chip.invoiced, :root[data-theme="dark"] .mo-chip.paid, :root[data-theme="dark"] .mo-chip.posted { background: #12392f; color: #8be0c6; }
+:root[data-theme="dark"] .mo-chip.missed, :root[data-theme="dark"] .mo-chip.cancel, :root[data-theme="dark"] .mo-chip.cancelled { background: #4a1f1b; color: #f3b3ad; }
+:root[data-theme="dark"] .mo-chip.high { background: #4a3710; color: #f5d48a; }
+:root[data-theme="dark"] .mo-chip.urgent { background: #5a1c17; color: #ffc4be; }
+:root[data-theme="dark"] .mo-flash { background: #12392f; color: #8be0c6; }
+:root[data-theme="dark"] .mo-flash.err { background: #4a1f1b; color: #f3b3ad; }
+:root[data-theme="dark"] .mo-conn { background: #12392f; color: #8be0c6; }
+:root[data-theme="light"] { color-scheme: light; }
+.mo-theme { background: transparent; border: 0; color: inherit; font-size: 1.1rem; line-height: 1; padding: 6px 8px; cursor: pointer; }
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 body.mo_rep { background: var(--bg); color: var(--ink); font: 16px/1.45 "Segoe UI", Tahoma, "Noto Sans Arabic", Arial, sans-serif; -webkit-text-size-adjust: 100%; }

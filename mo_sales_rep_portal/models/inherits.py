@@ -35,6 +35,9 @@ class SaleOrder(models.Model):
     _name = 'sale.order'
     _inherit = ['sale.order', 'mo.portal.source.mixin']
 
+    # Standard Salesperson only offers internal users; a sales rep is a portal user.
+    user_id = fields.Many2one('res.users', domain=[('share', 'in', [True, False])])
+
     def action_confirm(self):
         res = super().action_confirm()
         settings = self.env['mo.sales.rep.settings'].get_settings()

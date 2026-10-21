@@ -5,6 +5,7 @@ class SalesRepSettings(models.Model):
     """Single-record settings model (explicit booleans, no ir.config_parameter gotchas)."""
     _name = 'mo.sales.rep.settings'
     _description = 'Sales Representative Portal Settings'
+    _inherit = ['mail.thread']
 
     name = fields.Char(default='Sales Representative Portal Settings', readonly=True)
     # General
