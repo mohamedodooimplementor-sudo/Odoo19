@@ -43,6 +43,9 @@ class SalesRepSettings(models.Model):
     allow_direct_invoice = fields.Boolean('Allow Invoice without Sales Order', default=False)
     auto_post_invoice = fields.Boolean('Post Invoice Automatically', default=True)
     allow_payment = fields.Boolean('Allow Payment Registration', default=True)
+    allow_auto_invoice = fields.Boolean('Create Invoice Automatically When the Order Is Confirmed', default=False,
+                                        help='Default for every representative; each one can be overridden on his own profile. '
+                                             'The invoice is posted automatically when "Post Invoice Automatically" is on.')
     # Inventory
     allow_stock_view = fields.Boolean('Allow Stock View', default=True)
     allow_internal_transfer = fields.Boolean('Allow Internal Transfer', default=True)

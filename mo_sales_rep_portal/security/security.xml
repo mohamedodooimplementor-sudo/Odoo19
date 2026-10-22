@@ -343,4 +343,36 @@
         <field name="groups" eval="[(4, ref('group_mo_rep_accountant'))]"/>
         <field name="domain_force">[(1, '=', 1)]</field>
     </record>
+
+    <!-- ===== Commission: a representative reads only his own APPROVED statements ===== -->
+    <record id="rule_commission_own" model="ir.rule">
+        <field name="name">Rep: own approved commission statements</field>
+        <field name="model_id" ref="model_mo_sales_commission"/>
+        <field name="groups" eval="[(4, ref('group_sales_rep_portal'))]"/>
+        <field name="domain_force">[('rep_id.user_id', '=', user.id), ('state', 'in', ('approved', 'paid'))]</field>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+    <record id="rule_commission_line_own" model="ir.rule">
+        <field name="name">Rep: own approved commission lines</field>
+        <field name="model_id" ref="model_mo_sales_commission_line"/>
+        <field name="groups" eval="[(4, ref('group_sales_rep_portal'))]"/>
+        <field name="domain_force">[('statement_id.rep_id.user_id', '=', user.id), ('statement_id.state', 'in', ('approved', 'paid'))]</field>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+    <record id="rule_mc_commission" model="ir.rule">
+        <field name="name">Sales Rep Portal: multi-company (commission)</field>
+        <field name="model_id" ref="model_mo_sales_commission"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_mc_commission_rule" model="ir.rule">
+        <field name="name">Sales Rep Portal: multi-company (commission rule)</field>
+        <field name="model_id" ref="model_mo_sales_commission_rule"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
 </odoo>

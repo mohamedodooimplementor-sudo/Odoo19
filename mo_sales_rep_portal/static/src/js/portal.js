@@ -726,32 +726,74 @@
     setInterval(refresh, 60000);
   }
 
-  // ---- dark / light toggle (remembered on this device; default follows the phone setting) ----
-  function bindTheme() {
-    var btn = document.getElementById('mo-theme');
-    if (!btn) { return; }
-    var root = document.documentElement;
-    var mq = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
-    function isDark() {
-      var t = root.getAttribute('data-theme');
-      return t ? t === 'dark' : !!(mq && mq.matches);
+  // ---- files: shrink phone photos before upload and say clearly when a file is refused ----
+  function bindFiles() {
+    var root = document.getElementById('mo-root');
+    if (!root) { return; }
+    var MAX = 10 * 1024 * 1024, SHRINK_OVER = 1024 * 1024, EDGE = 1600;
+    function noteFor(input) {
+      var n = input.parentNode.querySelector('.mo-file-msg[data-for="' + (input.id || input.name) + '"]');
+      if (!n) {
+        n = document.createElement('div');
+        n.className = 'mo-file-msg'; n.setAttribute('data-for', input.id || input.name); n.setAttribute('role', 'status');
+        input.insertAdjacentElement('afterend', n);
+      }
+      return n;
     }
-    function paint() {
-      btn.textContent = isDark() ? '☀️' : '🌙';
-      var meta = document.querySelector('meta[name=theme-color]');
-      if (meta) { meta.setAttribute('content', isDark() ? '#0f1820' : '#0e6b5c'); }
+    function shrink(file) {
+      if (!/^image\/(jpeg|png|webp)$/.test(file.type) || file.size < SHRINK_OVER || !window.URL || !document.createElement('canvas').toBlob) {
+        return Promise.resolve({ file: file, shrunk: false });
+      }
+      return new Promise(function (resolve) {
+        var img = new Image(), url = URL.createObjectURL(file);
+        img.onload = function () {
+          try {
+            var k = Math.min(1, EDGE / Math.max(img.naturalWidth, img.naturalHeight));
+            var c = document.createElement('canvas');
+            c.width = Math.max(1, Math.round(img.naturalWidth * k)); c.height = Math.max(1, Math.round(img.naturalHeight * k));
+            var ctx = c.getContext('2d');
+            ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height);
+            ctx.drawImage(img, 0, 0, c.width, c.height);
+            c.toBlob(function (blob) {
+              URL.revokeObjectURL(url);
+              if (blob && blob.size < file.size) {
+                resolve({ file: new File([blob], file.name.replace(/\.[^.]+$/, '') + '.jpg', { type: 'image/jpeg', lastModified: Date.now() }), shrunk: true });
+              } else { resolve({ file: file, shrunk: false }); }
+            }, 'image/jpeg', 0.82);
+          } catch (e) { URL.revokeObjectURL(url); resolve({ file: file, shrunk: false }); }
+        };
+        img.onerror = function () { URL.revokeObjectURL(url); resolve({ file: file, shrunk: false }); };
+        img.src = url;
+      });
     }
-    btn.addEventListener('click', function () {
-      var next = isDark() ? 'light' : 'dark';
-      root.setAttribute('data-theme', next);
-      try { localStorage.setItem('mo_theme', next); } catch (e) { /* private mode: still works for this page */ }
-      paint();
+    document.addEventListener('change', function (ev) {
+      var input = ev.target;
+      if (!input || input.type !== 'file' || !input.files || !input.files.length) { return; }
+      var note = noteFor(input);
+      note.textContent = '';
+      Promise.all(Array.prototype.slice.call(input.files).map(shrink)).then(function (res) {
+        var keep = [], big = 0, shrunk = false;
+        res.forEach(function (r) {
+          if (r.file.size > MAX) { big += 1; } else { keep.push(r.file); shrunk = shrunk || r.shrunk; }
+        });
+        if (window.DataTransfer) {
+          try {
+            var dt = new DataTransfer();
+            keep.forEach(function (f) { dt.items.add(f); });
+            input.files = dt.files;
+          } catch (e) { /* older browser: keep the original selection */ }
+        }
+        var msgs = [];
+        if (big) { msgs.push(root.getAttribute('data-file-big')); }
+        if (shrunk) { msgs.push(root.getAttribute('data-file-opt')); }
+        note.textContent = msgs.join(' ');
+        note.classList.toggle('err', !!big);
+      });
     });
-    paint();
   }
 
   document.addEventListener('DOMContentLoaded', function () {
-    bindTheme(); bindOffline(); bindFab(); bindDashboard(); bindTracking(); bindLines(); bindPayment(); bindCheque(); bindReturn();
+    bindFiles(); bindOffline(); bindFab(); bindDashboard(); bindTracking(); bindLines(); bindPayment(); bindCheque(); bindReturn();
     document.querySelectorAll('input[name=client_uid]').forEach(function (i) { if (!i.value) { i.value = uuid(); } });
     var flash = document.querySelector('.mo-flash');
     if (flash && window.history && history.replaceState) {

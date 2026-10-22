@@ -9,11 +9,12 @@
                 <link rel="manifest" href="/rep/manifest.json"/>
                 <link rel="apple-touch-icon" href="/mo_sales_rep_portal/static/src/img/icon-192.png"/>
                 <script>try{var m=localStorage.getItem("mo_theme");if(m==="dark"||m==="light"){document.documentElement.setAttribute("data-theme",m);}}catch(e){}</script>
-                <link rel="stylesheet" href="/mo_sales_rep_portal/static/src/css/portal.css"/>
-                <script defer="defer" src="/mo_sales_rep_portal/static/src/js/portal.js"/>
+                <link rel="stylesheet" href="/mo_sales_rep_portal/static/src/css/portal.css?v=2.7.0"/>
+                <script defer="defer" src="/mo_sales_rep_portal/static/src/js/portal.js?v=2.7.0"/>
+                <script defer="defer" src="/mo_sales_rep_portal/static/src/js/theme.js?v=2.7.0"/>
             </t>
             <t t-set="body_classname" t-value="'mo_rep'"/>
-            <div id="mo-root" class="mo-app" t-att-dir="'rtl' if is_rtl else 'ltr'" t-att-data-tracking="S.tracking_interval if S.enable_tracking else False" t-att-data-active-visit="active_visit.id if active_visit else False" t-att-data-csrf="csrf" t-att-data-uid="uid">
+            <div id="mo-root" class="mo-app" t-att-dir="'rtl' if is_rtl else 'ltr'" t-att-data-tracking="S.tracking_interval if S.enable_tracking else False" t-att-data-active-visit="active_visit.id if active_visit else False" t-att-data-csrf="csrf" t-att-data-uid="uid" t-att-data-file-big="T('This file is larger than 10 MB and was not selected.')" t-att-data-file-opt="T('Photo reduced to save data.')">
                 <div id="mo-offline" class="mo-offline" hidden="hidden" role="status" t-att-data-blocked="T('This action needs an internet connection.')" t-att-data-queued="T('Saved on this device. It will sync when you are back online.')" t-att-data-skipped="T('Photos were not saved offline; add them later.')" t-att-data-failed="T('could not be saved')"><t t-esc="T('You are offline. Saved pages stay available; visits, notes, follow-ups, expenses, new customers and quotations are saved on the device and synced later.')"/></div>
                 <header class="mo-top">
                     <h1><t t-esc="title"/></h1>
@@ -29,7 +30,7 @@
                         <a href="/rep/customers" t-attf-class="#{'on' if active == 'customers' else ''}"><i>👥</i><t t-esc="T('Customers')"/></a>
                         <a href="/rep/orders" t-attf-class="#{'on' if active == 'orders' else ''}"><i>🧾</i><t t-esc="T('Orders')"/></a>
                         <a href="/rep/more" t-attf-class="#{'on' if active == 'more' else ''}"><i>⋯</i><t t-esc="T('More')"/></a>
-                    <a href="/rep/invoices" t-attf-class="mo-desk"><i>🧮</i><t t-esc="T('Invoices')"/></a><a href="/rep/payments" t-attf-class="mo-desk"><i>💳</i><t t-esc="T('Payments')"/></a><a href="/rep/collections" t-attf-class="mo-desk"><i>💰</i><t t-esc="T('Collections')"/></a><a href="/rep/outstanding" t-attf-class="mo-desk"><i>⏳</i><t t-esc="T('Outstanding')"/></a><a href="/rep/followups" t-attf-class="mo-desk"><i>✅</i><t t-esc="T('Follow-ups')"/></a><a href="/rep/targets" t-attf-class="mo-desk"><i>🎯</i><t t-esc="T('My Targets')"/></a><a href="/rep/expenses" t-attf-class="mo-desk"><i>🧾</i><t t-esc="T('Expenses')"/></a><a href="/rep/cheques" t-attf-class="mo-desk"><i>🏦</i><t t-esc="T('My Cheques')"/></a><a href="/rep/stock" t-attf-class="mo-desk"><i>📦</i><t t-esc="T('My Stock')"/></a><a href="/rep/notifications" t-attf-class="mo-desk"><i>🔔</i><t t-esc="T('Notifications')"/></a></div>
+                    <a href="/rep/invoices" t-attf-class="mo-desk"><i>🧮</i><t t-esc="T('Invoices')"/></a><a href="/rep/payments" t-attf-class="mo-desk"><i>💳</i><t t-esc="T('Payments')"/></a><a href="/rep/collections" t-attf-class="mo-desk"><i>💰</i><t t-esc="T('Collections')"/></a><a href="/rep/outstanding" t-attf-class="mo-desk"><i>⏳</i><t t-esc="T('Outstanding')"/></a><a href="/rep/followups" t-attf-class="mo-desk"><i>✅</i><t t-esc="T('Follow-ups')"/></a><a href="/rep/targets" t-attf-class="mo-desk"><i>🎯</i><t t-esc="T('My Targets')"/></a><a t-if="has_commission" href="/rep/commissions" t-attf-class="mo-desk"><i>💵</i><t t-esc="T('My Commission')"/></a><a href="/rep/expenses" t-attf-class="mo-desk"><i>🧾</i><t t-esc="T('Expenses')"/></a><a href="/rep/cheques" t-attf-class="mo-desk"><i>🏦</i><t t-esc="T('My Cheques')"/></a><a href="/rep/stock" t-attf-class="mo-desk"><i>📦</i><t t-esc="T('My Stock')"/></a><a href="/rep/notifications" t-attf-class="mo-desk"><i>🔔</i><t t-esc="T('Notifications')"/></a></div>
                 </nav>
             <div class="mo-content"><div t-if="msg" t-attf-class="mo-flash #{'err' if kind == 'err' else ''}" role="status"><t t-esc="msg"/></div>
                 <a t-if="active_visit" class="mo-open-visit" t-attf-href="/rep/visit/#{active_visit.id}">
@@ -59,7 +60,9 @@
         <t t-call="web.layout">
             <t t-set="head">
                 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-                <link rel="stylesheet" href="/mo_sales_rep_portal/static/src/css/portal.css"/>
+                <script>try{var m=localStorage.getItem("mo_theme");if(m==="dark"||m==="light"){document.documentElement.setAttribute("data-theme",m);}}catch(e){}</script>
+                <link rel="stylesheet" href="/mo_sales_rep_portal/static/src/css/portal.css?v=2.7.0"/>
+                <script defer="defer" src="/mo_sales_rep_portal/static/src/js/theme.js?v=2.7.0"/>
             </t>
             <t t-set="body_classname" t-value="'mo_rep'"/>
             <div class="mo-app" t-att-dir="'rtl' if is_rtl else 'ltr'"><main class="mo-main">

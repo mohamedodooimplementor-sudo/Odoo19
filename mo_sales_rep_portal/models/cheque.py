@@ -29,6 +29,12 @@ class SalesCheque(models.Model):
         for rec in self:
             rec.attachment_count = Att.search_count([('res_model', '=', self._name), ('res_id', '=', rec.id)])
 
+    def action_open_attachments(self):
+        self.ensure_one()
+        return {'type': 'ir.actions.act_window', 'name': _('Attachments'), 'res_model': 'ir.attachment',
+                'view_mode': 'list,form', 'domain': [('res_model', '=', self._name), ('res_id', '=', self.id)],
+                'context': {'default_res_model': self._name, 'default_res_id': self.id}}
+
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:

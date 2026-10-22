@@ -2,6 +2,12 @@
 """Arabic terms for the Sales Representative Portal (rendered at runtime by i18n.T)."""
 
 AR = {
+    "This file is larger than 10 MB and was not selected.": "الملف أكبر من 10 ميجا ولم يتم اختياره.",
+    "Photo reduced to save data.": "تم تصغير الصورة لتوفير البيانات.",
+    "%s file(s) could not be saved (maximum 10 MB each).": "تعذّر حفظ %s ملف (الحد الأقصى 10 ميجا لكل ملف).",
+    "This customer already exists. The existing record was opened.": "هذا العميل موجود بالفعل، تم فتح السجل الموجود.",
+    "A customer with the same phone number or name already exists. Ask your manager.": "يوجد عميل بنفس رقم الهاتف أو الاسم. اسأل مديرك.",
+    "Create anyway (a different branch of the same customer)": "إنشاء على أي حال (فرع آخر لنفس العميل)",
     # --- navigation / generic
     "Home": "الرئيسية",
     "Route": "خط السير",
@@ -419,3 +425,18 @@ AR.update({
     "In progress": "جارية", "Last 14 days": "آخر 14 يوم", "Live": "مباشر", "No data yet": "لا توجد بيانات بعد",
     "Top customers this month": "أفضل العملاء هذا الشهر", "Updated": "آخر تحديث",
 })
+
+AR.update({
+    "My Commission": "عمولتي", "Commission": "العمولة", "Commission Statement": "كشف العمولة",
+    "This month (estimate)": "هذا الشهر (تقديري)",
+    "The estimate becomes final when your manager approves the monthly statement.": "التقدير يصبح نهائياً عند اعتماد المدير لكشف العمولة الشهري.",
+    "No commission rule applies to you yet. Ask your manager.": "لا توجد قاعدة عمولة مطبّقة عليك بعد. اسأل مديرك.",
+    "Only the first lines are shown.": "يتم عرض أول البنود فقط.", "Monthly statements": "كشوف العمولات الشهرية",
+    "Approved on": "اعتُمد في", "Paid on": "صُرف في", "Adjustments": "تعديلات", "Back": "رجوع", "Record not found.": "السجل غير موجود.",
+    "Confirmed sales orders": "أوامر البيع المؤكدة", "Collected payments": "المبالغ المحصّلة", "Target achievement": "تحقيق التارجت",
+    "Percentage": "نسبة", "Tiered": "شرائح", "Fixed amount": "مبلغ ثابت", "Approved": "معتمد",
+})
+
+AR.update({"Appearance": "المظهر", "Auto (same as phone)": "تلقائي (مثل الموبايل)", "Dark": "داكن", "Light": "فاتح"})
+
+AR.update({"Invoice created": "تم إنشاء الفاتورة", "Invoice not created": "لم يتم إنشاء الفاتورة"})

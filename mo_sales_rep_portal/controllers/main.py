@@ -6,13 +6,14 @@ from collections import defaultdict
 from datetime import datetime, time, timedelta
 
 import pytz
-from werkzeug.urls import url_encode
+from urllib.parse import urlencode as url_encode
 
 from odoo import fields, http
 from odoo.addons.portal.controllers.portal import CustomerPortal
 from odoo.addons.web.controllers.home import Home
 from odoo.exceptions import AccessError, UserError, ValidationError
 from odoo.http import request
+from odoo.tools.image import image_process
 from odoo.tools.misc import format_date
 
 from ..models import analytics
@@ -20,6 +21,7 @@ from ..models.geo import nearest_neighbour_order
 from .i18n import T, is_ar
 
 MAX_ATTACHMENT = 10 * 1024 * 1024
+SHRINK_IMAGES_OVER = 1536 * 1024
 
 
 # ----------------------------------------------------------------------
@@ -103,6 +105,10 @@ def _money(value):
 
 
 def _redir(url, msg=None, kind='ok'):
+    skipped = request.httprequest.environ.get('mo_att_skipped', 0)
+    if skipped:
+        note = T('%s file(s) could not be saved (maximum 10 MB each).') % skipped
+        msg, kind = ((msg + ' ') if msg else '') + note, 'err'
     if msg:
         url += ('&' if '?' in url else '?') + url_encode({'msg': msg, 'kind': kind})
     return request.redirect(url)
@@ -151,7 +157,7 @@ def _render(template, rep, active='home', title='Sales Rep', **values):
         msg=request.params.get('msg'), kind=request.params.get('kind', 'ok'),
         T=T, is_rtl=is_ar(), money=_money, dt=_local_dt, hm=_hm, buckets=analytics.BUCKETS,
         bucket_label=_bucket_label, reason=_reason, sel=_sel, line_uom=_line_uom, cur=rep.company_id.currency_id.symbol or '',
-        ostatus=order_status, csrf=request.csrf_token(),
+        ostatus=order_status, csrf=request.csrf_token(), has_commission=rep.has_commission(),
     )
     ctx.update(values)
     return request.render(template, ctx)
@@ -168,19 +174,36 @@ def rep_required(func):
     return wrapper
 
 
+def _shrink_image(data, mimetype):
+    """Phone photos are 5-10 MB: keep them well under the limit (max 1920px, JPEG-like quality)."""
+    mimetype = mimetype or ''
+    if not mimetype.startswith('image/') or 'svg' in mimetype or len(data) <= SHRINK_IMAGES_OVER:
+        return data
+    try:
+        small = image_process(data, size=(1920, 1920), quality=82)
+    except Exception:  # unknown/corrupt image: keep the original and let the size check decide
+        return data
+    return small if small and len(small) < len(data) else data
+
+
 def _save_attachments(model, res_id, files):
-    if not _settings().enable_attachments:
-        return 0
-    count = 0
+    """Save uploaded files; files that cannot be saved are counted so the next message can tell the user."""
+    enabled = _settings().enable_attachments
+    count = skipped = 0
     for f in files:
         if not f or not f.filename:
             continue
-        data = f.read()
+        data = f.read() if enabled else b''
+        data = _shrink_image(data, f.mimetype) if data else data
         if not data or len(data) > MAX_ATTACHMENT:
+            skipped += 1
             continue
         request.env['ir.attachment'].sudo().create({
             'name': f.filename, 'datas': base64.b64encode(data), 'res_model': model, 'res_id': res_id})
         count += 1
+    if skipped:
+        environ = request.httprequest.environ
+        environ['mo_att_skipped'] = environ.get('mo_att_skipped', 0) + skipped
     return count
 
 
@@ -288,8 +311,8 @@ def _parse_lines(rep, S, form, stock=False):
 
 
 SW_SCRIPT = r"""
-const VERSION = 'mo-rep-v2';
-const SHELL = ['/mo_sales_rep_portal/static/src/css/portal.css', '/mo_sales_rep_portal/static/src/js/portal.js'];
+const VERSION = 'mo-rep-v5';
+const SHELL = ['/mo_sales_rep_portal/static/src/css/portal.css?v=2.7.0', '/mo_sales_rep_portal/static/src/js/portal.js?v=2.7.0', '/mo_sales_rep_portal/static/src/js/theme.js?v=2.7.0'];
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(VERSION).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));
 });
@@ -1107,6 +1130,10 @@ class RepPortal(http.Controller):
             if not payments:
                 raise UserError(T('The payment could not be created. Please check the journal configuration.'))
             visit = request.env['mo.sales.visit'].sudo().browse(int(visit_id)).exists() if visit_id else False
+            if not (visit and visit.rep_id == rep):   # registered outside the visit page: use his open visit with this customer
+                visit = request.env['mo.sales.visit'].sudo().search([
+                    ('rep_id', '=', rep.id), ('state', '=', 'started'),
+                    ('partner_id', 'in', (move.partner_id.id, move.commercial_partner_id.id))], limit=1)
             payments.write({'mo_source': 'portal', 'mo_rep_id': rep.id, 'mo_method_id': method.id,
                             'mo_client_uid': client_uid or False,
                             'mo_visit_id': visit.id if visit and visit.rep_id == rep else move.mo_visit_id.id or False})

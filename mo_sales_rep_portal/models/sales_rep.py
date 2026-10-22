@@ -17,7 +17,7 @@ PERMISSION_KEYS = (
     'allow_quotation', 'allow_sales_order', 'allow_discount', 'allow_price_change',
     'allow_invoice_creation', 'allow_direct_invoice', 'allow_payment',
     'allow_stock_view', 'allow_internal_transfer', 'allow_return',
-    'allow_delivery_validation', 'allow_auto_validate',
+    'allow_delivery_validation', 'allow_auto_validate', 'allow_auto_invoice',
     'allow_new_customer', 'allow_expense', 'allow_customer_return', 'allow_ranking',
 )
 
@@ -85,6 +85,8 @@ class SalesRep(models.Model):
     perm_allow_delivery_validation = fields.Selection(PERM_SELECTION, 'Allow Delivery Validation', default='default', required=True)
     perm_allow_auto_validate = fields.Selection(PERM_SELECTION, 'Auto-validate Stock Operations', default='default', required=True,
                                                 help='Validate stock operations and sale-order deliveries automatically when the stock is available.')
+    perm_allow_auto_invoice = fields.Selection(PERM_SELECTION, 'Auto-create Invoice on Order Confirmation', default='default', required=True,
+                                               help='When the representative confirms a sales order the invoice is created (and posted) automatically.')
     perm_allow_new_customer = fields.Selection(PERM_SELECTION, 'Allow Creating Customers', default='default', required=True)
     perm_allow_expense = fields.Selection(PERM_SELECTION, 'Allow Expenses', default='default', required=True)
     perm_allow_customer_return = fields.Selection(PERM_SELECTION, 'Allow Customer Returns', default='default', required=True)
@@ -182,6 +184,9 @@ class SalesRep(models.Model):
     def can_auto_validate(self, settings=None):
         return self.permission('allow_auto_validate')
 
+    def can_auto_invoice(self, settings=None):
+        return self.permission('allow_auto_invoice')
+
     def can_change_price(self, settings=None):
         return self.permission('allow_price_change')
 
@@ -236,6 +241,13 @@ class SalesRep(models.Model):
                 ('mo_created_by_rep_id', '=', self.id), ('mo_approval_state', '!=', 'refused'),
                 ('create_date', '>=', start), ('create_date', '<=', end)]),
         }
+
+    def has_commission(self):
+        """True when a commission rule applies to this representative or a statement was already approved for him."""
+        self.ensure_one()
+        return bool(self.env['mo.sales.commission.rule'].rules_for(self)) or bool(
+            self.env['mo.sales.commission'].sudo().search_count(
+                [('rep_id', '=', self.id), ('state', 'in', ('approved', 'paid'))]))
 
     def current_target(self, day=None):
         self.ensure_one()

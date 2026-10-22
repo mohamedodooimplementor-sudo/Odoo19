@@ -18,6 +18,9 @@
     <menuitem id="menu_rep_targets" name="Targets" parent="menu_rep_team" action="action_target" sequence="2" groups="mo_sales_rep_portal.group_mo_rep_user"/>
     <menuitem id="menu_rep_expenses" name="Expenses" parent="menu_rep_team" action="action_expense" sequence="3" groups="mo_sales_rep_portal.group_mo_rep_user,mo_sales_rep_portal.group_mo_rep_accountant"/>
 
+    <menuitem id="menu_rep_commissions" name="Commissions" parent="menu_rep_team" action="action_commission" sequence="4" groups="mo_sales_rep_portal.group_mo_rep_manager,mo_sales_rep_portal.group_mo_rep_accountant"/>
+    <menuitem id="menu_rep_commission_generate" name="Generate Commissions" parent="menu_rep_team" action="action_commission_generate" sequence="5" groups="mo_sales_rep_portal.group_mo_rep_manager"/>
+
     <!-- ===== Field Work ===== -->
     <menuitem id="menu_rep_field" name="Field Work" parent="menu_rep_root" sequence="20" groups="mo_sales_rep_portal.group_mo_rep_user"/>
     <menuitem id="menu_rep_routes" name="Routes" parent="menu_rep_field" action="action_route" sequence="1" groups="mo_sales_rep_portal.group_mo_rep_user"/>
@@ -47,5 +50,6 @@
     <menuitem id="menu_rep_settings" name="Settings" parent="menu_rep_config" action="action_settings_open" sequence="1"/>
     <menuitem id="menu_rep_methods" name="Payment Methods" parent="menu_rep_config" action="action_payment_method" sequence="2"/>
     <menuitem id="menu_rep_locations" name="Location Log" parent="menu_rep_config" action="action_location" sequence="3"/>
+    <menuitem id="menu_rep_commission_rules" name="Commission Rules" parent="menu_rep_config" action="action_commission_rule" sequence="5"/>
     <menuitem id="menu_rep_reasons" name="Return Reasons" parent="menu_rep_config" action="action_return_reason" sequence="4"/>
 </odoo>

@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ================================ commission rules -->
+    <record id="view_commission_rule_list" model="ir.ui.view">
+        <field name="name">mo.sales.commission.rule.list</field>
+        <field name="model">mo.sales.commission.rule</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="rep_ids" widget="many2many_tags" optional="show"/>
+                <field name="basis"/>
+                <field name="method"/>
+                <field name="percent" optional="show"/>
+                <field name="fixed_amount" optional="hide"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_commission_rule_form" model="ir.ui.view">
+        <field name="name">mo.sales.commission.rule.form</field>
+        <field name="model">mo.sales.commission.rule</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group string="Rule">
+                            <field name="name"/>
+                            <field name="rep_ids" widget="many2many_tags"/>
+                            <field name="basis"/>
+                            <field name="method"/>
+                        </group>
+                        <group string="Settings">
+                            <field name="sequence"/>
+                            <field name="active"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <group string="Calculation">
+                        <field name="amount_basis" invisible="basis != 'order'"/>
+                        <field name="percent" invisible="method != 'percent'"/>
+                        <field name="fixed_amount" invisible="method != 'fixed'"/>
+                        <field name="target_metric" invisible="basis != 'target'"/>
+                        <field name="target_amount_on" invisible="basis != 'target' or method == 'fixed'"/>
+                        <field name="min_achievement" invisible="basis != 'target' or method == 'tiered'"/>
+                    </group>
+                    <group string="Tiers" invisible="method != 'tiered'">
+                        <field name="tier_ids" nolabel="1" colspan="2">
+                            <list editable="bottom">
+                                <field name="threshold"/>
+                                <field name="rate"/>
+                            </list>
+                        </field>
+                    </group>
+                    <group invisible="method != 'tiered'">
+                        <div class="text-muted" colspan="2" invisible="basis == 'target'">
+                            Slabs: each slice of the period total is paid at the rate of its tier. Example: 0 → 1%, 100000 → 2%
+                            means the first 100,000 earn 1% and everything above earns 2%.
+                        </div>
+                        <div class="text-muted" colspan="2" invisible="basis != 'target'">
+                            Levels: "From" is the achievement %. The rate of the highest level reached is applied to the sales
+                            (or collection) of the period. Example: 80 → 1%, 100 → 2%, 120 → 3%.
+                        </div>
+                    </group>
+                    <group string="Notes"><field name="note" nolabel="1" colspan="2"/></group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="view_commission_rule_search" model="ir.ui.view">
+        <field name="name">mo.sales.commission.rule.search</field>
+        <field name="model">mo.sales.commission.rule</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="rep_ids"/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_basis" string="Based On" context="{'group_by': 'basis'}"/>
+                    <filter name="group_method" string="Calculation" context="{'group_by': 'method'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_commission_rule" model="ir.actions.act_window">
+        <field name="name">Commission Rules</field>
+        <field name="res_model">mo.sales.commission.rule</field>
+        <field name="view_mode">list,kanban,form</field>
+    </record>
+
+    <!-- ================================ commission statements -->
+    <record id="view_commission_list" model="ir.ui.view">
+        <field name="name">mo.sales.commission.list</field>
+        <field name="model">mo.sales.commission</field>
+        <field name="arch" type="xml">
+            <list decoration-success="state == 'paid'" decoration-info="state == 'approved'">
+                <field name="rep_id"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="total" sum="Total"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_commission_form" model="ir.ui.view">
+        <field name="name">mo.sales.commission.form</field>
+        <field name="model">mo.sales.commission</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_compute" type="object" string="Calculate" class="btn-primary"
+                            invisible="state != 'draft'" groups="mo_sales_rep_portal.group_mo_rep_manager"/>
+                    <button name="action_approve" type="object" string="Approve" class="btn-primary"
+                            invisible="state != 'draft'" groups="mo_sales_rep_portal.group_mo_rep_manager"
+                            confirm="Approve this statement? The representative will see it in the portal."/>
+                    <button name="action_paid" type="object" string="Mark as Paid" class="btn-primary"
+                            invisible="state != 'approved'" groups="mo_sales_rep_portal.group_mo_rep_manager"/>
+                    <button name="action_draft" type="object" string="Reset to Draft"
+                            invisible="state == 'draft'" groups="mo_sales_rep_portal.group_mo_rep_manager"
+                            confirm="The representative will no longer see this statement until it is approved again."/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,approved,paid"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="rep_id" readonly="state != 'draft'"/>
+                            <field name="date_from" readonly="state != 'draft'"/>
+                            <field name="date_to" readonly="state != 'draft'"/>
+                        </group>
+                        <group>
+                            <field name="total"/>
+                            <field name="approved_by"/>
+                            <field name="approved_date"/>
+                            <field name="paid_date"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Commission Lines" name="lines">
+                            <field name="line_ids" readonly="state != 'draft'">
+                                <list editable="bottom">
+                                    <field name="rule_id"/>
+                                    <field name="date"/>
+                                    <field name="description"/>
+                                    <field name="partner_id"/>
+                                    <field name="base_amount"/>
+                                    <field name="rate"/>
+                                    <field name="amount" sum="Total"/>
+                                </list>
+                            </field>
+                            <div class="text-muted">
+                                While the statement is a draft you can edit a line, delete it, or add a manual line
+                                (for example a deduction or a bonus). Calculate rebuilds the lines from the rules.
+                            </div>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="note" placeholder="Visible to the back-office only."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="view_commission_search" model="ir.ui.view">
+        <field name="name">mo.sales.commission.search</field>
+        <field name="model">mo.sales.commission</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="rep_id"/>
+                <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="approved" string="Approved" domain="[('state', '=', 'approved')]"/>
+                <filter name="paid" string="Paid" domain="[('state', '=', 'paid')]"/>
+                <group>
+                    <filter name="group_rep" string="Salesperson" context="{'group_by': 'rep_id'}"/>
+                    <filter name="group_month" string="Month" context="{'group_by': 'date_from:month'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_commission" model="ir.actions.act_window">
+        <field name="name">Commission Statements</field>
+        <field name="res_model">mo.sales.commission</field>
+        <field name="view_mode">list,kanban,form</field>
+    </record>
+
+    <!-- ================================ generate wizard -->
+    <record id="view_commission_generate_form" model="ir.ui.view">
+        <field name="name">mo.sales.commission.generate.form</field>
+        <field name="model">mo.sales.commission.generate</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="rep_ids" widget="many2many_tags"/>
+                </group>
+                <div class="text-muted">
+                    Creates one draft statement for every selected representative that has a commission rule and no
+                    statement yet for this period. Review them, then approve.
+                </div>
+                <footer>
+                    <button name="action_generate" type="object" string="Generate" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_commission_generate" model="ir.actions.act_window">
+        <field name="name">Generate Statements</field>
+        <field name="res_model">mo.sales.commission.generate</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- ================================ kanban views -->
+    <record id="view_rep_kanban" model="ir.ui.view">
+        <field name="name">mo.sales.rep.kanban</field>
+        <field name="model">mo.sales.rep</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <field name="name" class="fw-bold fs-5"/>
+                            <field name="user_id" widget="many2one_avatar_user"/>
+                        </div>
+                        <div class="text-muted" t-if="record.warehouse_id.raw_value">
+                            <i class="fa fa-truck me-1"/><field name="warehouse_id"/>
+                        </div>
+                        <div class="text-muted" t-if="record.team_id.raw_value">
+                            <i class="fa fa-users me-1"/><field name="team_id"/>
+                        </div>
+                        <div class="d-flex gap-4 mt-2">
+                            <span><i class="fa fa-road me-1"/><field name="route_count"/> <span class="text-muted">Routes</span></span>
+                            <span><i class="fa fa-map-marker me-1"/><field name="visit_count"/> <span class="text-muted">Visits</span></span>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_route_kanban" model="ir.ui.view">
+        <field name="name">mo.sales.route.kanban</field>
+        <field name="model">mo.sales.route</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="weekday" records_draggable="false" quick_create="false"
+                    group_create="false" group_edit="false" group_delete="false">
+                <templates>
+                    <t t-name="card">
+                        <field name="name" class="fw-bold"/>
+                        <div><field name="rep_id"/></div>
+                        <div class="text-muted" t-if="record.area.raw_value"><i class="fa fa-map-o me-1"/><field name="area"/></div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_target_kanban" model="ir.ui.view">
+        <field name="name">mo.sales.target.kanban</field>
+        <field name="model">mo.sales.target</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex justify-content-between">
+                            <field name="rep_id" class="fw-bold"/>
+                        </div>
+                        <div class="text-muted"><field name="date_from"/> → <field name="date_to"/></div>
+                        <div class="d-flex justify-content-between mt-2">
+                            <span class="text-muted">Sales</span>
+                            <span><field name="sales_actual"/> / <field name="sales_target"/></span>
+                        </div>
+                        <field name="achievement" widget="progressbar"/>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_expense_kanban" model="ir.ui.view">
+        <field name="name">mo.sales.expense.kanban</field>
+        <field name="model">mo.sales.expense</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" records_draggable="false" quick_create="false"
+                    group_create="false" group_edit="false" group_delete="false">
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex justify-content-between">
+                            <field name="name" class="fw-bold"/>
+                            <field name="amount" widget="monetary"/>
+                        </div>
+                        <div><field name="rep_id"/></div>
+                        <div class="text-muted"><field name="expense_type"/> · <field name="date"/></div>
+                        <field name="currency_id" invisible="1"/>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_commission_kanban" model="ir.ui.view">
+        <field name="name">mo.sales.commission.kanban</field>
+        <field name="model">mo.sales.commission</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" records_draggable="false" quick_create="false"
+                    group_create="false" group_edit="false" group_delete="false">
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex justify-content-between">
+                            <field name="rep_id" class="fw-bold"/>
+                            <field name="total" widget="monetary"/>
+                        </div>
+                        <div class="text-muted"><field name="date_from"/> → <field name="date_to"/></div>
+                        <field name="currency_id" invisible="1"/>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_commission_rule_kanban" model="ir.ui.view">
+        <field name="name">mo.sales.commission.rule.kanban</field>
+        <field name="model">mo.sales.commission.rule</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <templates>
+                    <t t-name="card">
+                        <field name="name" class="fw-bold"/>
+                        <div class="text-muted"><field name="basis"/> · <field name="method"/></div>
+                        <div class="mt-1"><field name="rep_ids" widget="many2many_tags"/></div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+</odoo>

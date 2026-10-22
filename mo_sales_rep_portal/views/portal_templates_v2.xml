@@ -119,9 +119,18 @@
 
     <template id="tpl_more" name="Sales Rep - More">
         <t t-call="mo_sales_rep_portal.tpl_layout">
+            <div class="mo-card">
+                <h3><t t-esc="T('Appearance')"/></h3>
+                <div class="mo-theme-opts" role="group" t-att-aria-label="T('Appearance')">
+                    <button type="button" class="mo-theme-opt" data-mo-theme="auto">🌓 <t t-esc="T('Auto (same as phone)')"/></button>
+                    <button type="button" class="mo-theme-opt" data-mo-theme="dark">🌙 <t t-esc="T('Dark')"/></button>
+                    <button type="button" class="mo-theme-opt" data-mo-theme="light">☀️ <t t-esc="T('Light')"/></button>
+                </div>
+            </div>
             <a class="mo-list-link" href="/rep/followups"><t t-esc="T('Follow-ups')"/> <span>›</span></a>
             <a class="mo-list-link" href="/rep/outstanding"><t t-esc="T('Outstanding &amp; Aging')"/> <span>›</span></a>
             <a class="mo-list-link" href="/rep/targets"><t t-esc="T('My Targets')"/> <span>›</span></a>
+            <a t-if="has_commission" class="mo-list-link" href="/rep/commissions"><t t-esc="T('My Commission')"/> <span>›</span></a>
             <a t-if="S.allow_ranking" class="mo-list-link" href="/rep/ranking"><t t-esc="T('Ranking')"/> <span>›</span></a>
             <a class="mo-list-link" href="/rep/visits"><t t-esc="T('Visits')"/> <span>›</span></a>
             <a class="mo-list-link" href="/rep/invoices"><t t-esc="T('My Invoices')"/> <span>›</span></a>
@@ -201,6 +210,7 @@
                     <label for="c_att"><t t-esc="T('Photos or documents')"/></label>
                     <input id="c_att" type="file" name="attachments" class="mo-input" multiple="multiple" accept="image/*,application/pdf"/>
                 </t>
+                <label class="mo-check"><input type="checkbox" name="force_dup" value="1"/> <t t-esc="T('Create anyway (a different branch of the same customer)')"/></label>
                 <button type="submit" class="mo-btn primary" style="margin-top:14px"><t t-esc="T('Save Customer')"/></button>
             </form>
         </t>

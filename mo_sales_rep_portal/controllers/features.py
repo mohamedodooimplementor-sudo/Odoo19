@@ -89,6 +89,15 @@ class RepFeatures(http.Controller):
                 raise UserError(T('Enter the customer name.'))
             if not (mobile or phone):
                 raise UserError(T('Enter a mobile or phone number.'))
+            if not kw.get('force_dup'):
+                found = Partner.mo_find_duplicates(name, [mobile, phone, whatsapp], city)
+                dup = Partner.search(rep._customers_only_domain() + [('id', 'in', found.ids)], limit=1) if found else None
+                if dup:
+                    if Partner.search_count(rep.customers_domain() + [('id', '=', dup.id)]):
+                        return _redir('/rep/customer/%s' % dup.id,
+                                      T('This customer already exists. The existing record was opened.'))
+                    return _redir('/rep/customer/new', T('A customer with the same phone number or name already '
+                                                         'exists. Ask your manager.'), 'err')
             vals = {
                 'name': name.strip(), 'phone': phone or False, 'street': street or False, 'city': city or False,
                 'mo_whatsapp': whatsapp or False, 'company_type': company_type if company_type in ('company', 'person') else 'company',
@@ -462,7 +471,7 @@ class RepFeatures(http.Controller):
     def offline_manifest(self, rep, **kw):
         """Pages the device pre-loads so the day's work stays usable without a connection."""
         today = _today()
-        urls = ['/rep', '/rep/route', '/rep/customers', '/rep/followups', '/rep/outstanding', '/rep/targets',
+        urls = ['/rep', '/rep/route', '/rep/customers', '/rep/followups', '/rep/outstanding', '/rep/targets', '/rep/commissions',
                 '/rep/cheques', '/rep/expenses', '/rep/more', '/rep/stock', '/rep/orders', '/rep/invoices',
                 '/rep/payments', '/rep/visit/new', '/rep/order/new', '/rep/payment/new', '/rep/expense/new',
                 '/rep/customer/new', '/rep/followup/new', '/rep/return/new', '/rep/stock/operation']

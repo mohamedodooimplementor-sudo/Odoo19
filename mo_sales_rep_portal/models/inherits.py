@@ -45,6 +45,8 @@ class SaleOrder(models.Model):
             order.mo_rep_id._notify(_('Order confirmed'), order.name, '/rep/order/%s' % order.id)
             if order.mo_rep_id.can_auto_validate(settings):
                 order._mo_auto_validate_deliveries()
+            if order.mo_rep_id.can_auto_invoice(settings):   # after the delivery: "invoice delivered quantities" products
+                order._mo_auto_invoice(settings)
             order.mo_rep_id._check_targets()
         return res
 
@@ -83,6 +85,32 @@ class SaleOrder(models.Model):
                         '/rep/order/%s' % order.id)
         elif order.picking_ids:
             rep._notify(_('Delivery validated'), order.name, '/rep/order/%s' % order.id)
+
+    def _mo_auto_invoice(self, settings=None):
+        """Create (and post, per the portal setting) the invoice of a confirmed order.
+
+        Never blocks the confirmation: when the invoice cannot be created the representative is notified and the
+        order stays "to invoice" so it can still be invoiced by hand.
+        """
+        self.ensure_one()
+        settings = settings or self.env['mo.sales.rep.settings'].get_settings()
+        order, rep = self.sudo(), self.mo_rep_id
+        if order.invoice_status != 'to invoice':
+            return
+        try:
+            with self.env.cr.savepoint():
+                moves = order._create_invoices()
+                moves.write({'mo_source': order.mo_source or 'backend', 'mo_rep_id': rep.id,
+                             'mo_visit_id': order.mo_visit_id.id or False})
+                if settings.auto_post_invoice:
+                    moves.action_post()
+        except (UserError, ValidationError) as e:
+            _logger.info('Auto-invoice of %s skipped: %s', order.name, e)
+            rep._notify(_('Invoice not created'), _('%(o)s could not be invoiced automatically: %(e)s', o=order.name, e=e),
+                        '/rep/order/%s' % order.id)
+            return
+        rep._notify(_('Invoice created'), '%s → %s' % (order.name, ', '.join(moves.mapped(lambda m: m.name or _('Draft')))),
+                    '/rep/invoice/%s' % moves[:1].id)
 
     def _action_cancel(self):
         res = super()._action_cancel()

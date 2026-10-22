@@ -7,7 +7,7 @@
 | Version | 19.0 |
 | Title | Field Sales Management - Sales Representative Portal & Routes |
 | Category | Sales |
-| Price | **299 USD** (one-time, per Odoo instance - adjust to your policy; it is also set in `__manifest__.py`) |
+| Price | **800 USD** (one-time, per Odoo instance - adjust to your policy; it is also set in `__manifest__.py`) |
 | License | `OPL-1` (Odoo Proprietary License) - already set in `__manifest__.py`; the `LICENSE` file in the module folder carries the notice |
 | Banner | `static/description/banner.png` (560x280); a larger copy is `banner_large.png` |
 | Description page | `static/description/index.html` (already contains the screenshots, features, Arabic summary) |
@@ -45,10 +45,9 @@ Give every sales representative a fast, mobile-first portal for the whole daily 
 - لوحة تحكم للمدير بفلاتر وكل رقم فيها يفتح السجلات.
 - يعمل مع ضعف الإنترنت: الزيارات والملاحظات والمتابعات والمصروفات والعملاء الجدد وعروض الأسعار تُحفظ وتُزامن تلقائيًا.
 
-## Why 299 USD (my suggestion, please review)
-- I looked for comparable field-sales apps on apps.odoo.com but the search did not return clear, reliable prices, so this number is **not market-verified**. It reflects the scope: a portal for the full daily workflow (routes, visits, orders, collections, cheques, returns, expenses, targets, offline, manager dashboard) with no extra mobile app to maintain.
-- Suggested options: 199 USD (entry, to build reviews), 299 USD (recommended), 399+ USD (with paid support / customization hours).
-- Consider selling support as a separate paid item rather than raising the price.
+## Price: 800 USD
+- The price is set to 800 USD (also in `__manifest__.py`, `'price': 800.0`). It is the owner's decision and is not market-verified.
+- Consider selling support or customization hours as a separate paid item.
 
 ## Upload checklist
 1. Check the final price in `__manifest__.py` (`'price'`, `'currency'`); the license is already `OPL-1`.
@@ -59,3 +58,5 @@ Give every sales representative a fast, mobile-first portal for the whole daily 
 
 ## Changelog (store text)
 - 19.0.2.0: field sales management - Customer 360, new customers with approval, targets and ranking, aging, expenses, receipts, cheques, advanced returns, recurring routes, follow-ups, smart dashboard, quick actions, offline queue, manager dashboard filters, per-rep permissions.
+- 19.0.2.5: chatter on every form; supervisors see real customers only (no users/employees); Salesperson on customers and sales orders accepts portal users; working attachments button on expenses and cheques; portal theme button (auto / dark / light) on every page.
+- 19.0.2.6: photos are resized before upload and refused files are reported; duplicate customers are stopped (phone in any format, or name + city); automated tests added.

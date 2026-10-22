@@ -7,6 +7,7 @@ from . import visit
 from . import notification
 from . import customer
 from . import target
+from . import commission
 from . import expense
 from . import followup
 from . import cheque

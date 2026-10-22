@@ -1,3 +1,5 @@
+import re
+
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 
@@ -38,3 +40,26 @@ class ResPartner(models.Model):
                 rep._notify(_('Customer refused'), '%s %s' % (partner.display_name, partner.mo_refuse_reason or ''),
                             '/rep/customer/%s' % partner.id, key='cust-no:%s' % partner.id)
             partner.message_post(body=_('Refused by %s', self.env.user.name), subtype_xmlid='mail.mt_note')
+
+    @api.model
+    def mo_find_duplicates(self, name=None, phones=(), city=None):
+        """Active partners that share a phone/mobile number (last digits, any formatting) or have the same
+        name in the same city. Used to stop representatives from creating a customer twice."""
+        cols = [c for c in ('phone', 'mobile') if c in self._fields]
+        self.flush_model(['name', 'city', 'active'] + cols)
+        ids = set()
+        tails = {re.sub(r'\D', '', p or '')[-9:] for p in (phones or ())}
+        for tail in (x for x in tails if len(x) >= 7):
+            for col in cols:  # column names come from the fixed list above
+                self.env.cr.execute(
+                    "SELECT id FROM res_partner WHERE active AND right(regexp_replace(coalesce(" + col + ", ''), "
+                    "'\\D', '', 'g'), %s) = %s", (len(tail), tail))
+                ids.update(r[0] for r in self.env.cr.fetchall())
+        name = (name or '').strip()
+        if name:
+            esc = lambda s: s.replace('\\', '\\\\').replace('%', '\\%').replace('_', '\\_')
+            domain = [('name', '=ilike', esc(name))]
+            if (city or '').strip():
+                domain.append(('city', '=ilike', esc(city.strip())))
+            ids.update(self.search(domain).ids)
+        return self.browse(sorted(ids))

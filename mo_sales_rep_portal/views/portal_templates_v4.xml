@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ======================================================== commission -->
+    <template id="tpl_commissions" name="Sales Rep - Commission">
+        <t t-call="mo_sales_rep_portal.tpl_layout">
+            <div class="mo-stat hero"><span><t t-esc="T('This month (estimate)')"/></span><b><t t-esc="money(grand)"/> <t t-esc="cur"/></b></div>
+            <p class="mo-muted"><t t-esc="d_from"/> → <t t-esc="d_to"/> · <t t-esc="T('The estimate becomes final when your manager approves the monthly statement.')"/></p>
+            <div t-if="not groups" class="mo-empty"><t t-esc="T('No commission rule applies to you yet. Ask your manager.')"/></div>
+            <t t-foreach="groups" t-as="g">
+                <div class="mo-card">
+                    <div class="mo-row"><h3 t-esc="g['rule'].name"/><b t-esc="money(g['total'])"/></div>
+                    <div class="mo-muted" style="font-size:.82rem;margin-bottom:6px"><t t-esc="sel(g['rule'], 'basis')"/> · <t t-esc="sel(g['rule'], 'method')"/></div>
+                    <t t-foreach="g['lines'][:shown]" t-as="l">
+                        <div class="mo-row">
+                            <span><t t-esc="l['description']"/><t t-if="l['partner_id']"> · <span class="mo-muted" t-esc="partners.get(l['partner_id'])"/></t></span>
+                            <b t-esc="money(l['amount'])"/>
+                        </div>
+                        <div t-if="l['base_amount']" class="mo-muted" style="font-size:.8rem;margin-bottom:6px">
+                            <t t-esc="l['date']"/> · <t t-esc="money(l['base_amount'])"/> × <t t-esc="'%.2f' % l['rate']"/>%
+                        </div>
+                    </t>
+                    <div t-if="len(g['lines']) &gt; shown" class="mo-muted"><t t-esc="T('Only the first lines are shown.')"/></div>
+                </div>
+            </t>
+            <div class="mo-card" t-if="statements">
+                <h3><t t-esc="T('Monthly statements')"/></h3>
+                <t t-foreach="statements" t-as="s">
+                    <a class="mo-list-link" t-attf-href="/rep/commission/#{s.id}">
+                        <span><t t-esc="s.date_from"/> → <t t-esc="s.date_to"/> <span t-attf-class="mo-chip #{'confirmed' if s.state == 'paid' else 'sent'}"><t t-esc="sel(s, 'state')"/></span></span>
+                        <span><t t-esc="money(s.total)"/> ›</span>
+                    </a>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <template id="tpl_commission" name="Sales Rep - Commission Statement">
+        <t t-call="mo_sales_rep_portal.tpl_layout">
+            <div class="mo-stat hero"><span><t t-esc="st.date_from"/> → <t t-esc="st.date_to"/></span><b><t t-esc="money(st.total)"/> <t t-esc="cur"/></b></div>
+            <p class="mo-muted">
+                <span t-attf-class="mo-chip #{'confirmed' if st.state == 'paid' else 'sent'}"><t t-esc="sel(st, 'state')"/></span>
+                <t t-if="st.approved_date"> · <t t-esc="T('Approved on')"/> <t t-esc="dt(st.approved_date)"/></t>
+                <t t-if="st.paid_date"> · <t t-esc="T('Paid on')"/> <t t-esc="st.paid_date"/></t>
+            </p>
+            <t t-foreach="by_rule" t-as="grp">
+                <div class="mo-card">
+                    <div class="mo-row"><h3 t-esc="grp[0].name if grp[0] else T('Adjustments')"/><b t-esc="money(sum(l.amount for l in grp[1]))"/></div>
+                    <t t-foreach="grp[1][:shown]" t-as="l">
+                        <div class="mo-row">
+                            <span><t t-esc="l.description"/><t t-if="l.partner_id"> · <span class="mo-muted" t-esc="l.partner_id.display_name"/></t></span>
+                            <b t-esc="money(l.amount)"/>
+                        </div>
+                        <div t-if="l.base_amount" class="mo-muted" style="font-size:.8rem;margin-bottom:6px">
+                            <t t-esc="l.date"/> · <t t-esc="money(l.base_amount)"/> × <t t-esc="'%.2f' % l.rate"/>%
+                        </div>
+                    </t>
+                    <div t-if="len(grp[1]) &gt; shown" class="mo-muted"><t t-esc="T('Only the first lines are shown.')"/></div>
+                </div>
+            </t>
+            <a class="mo-btn" href="/rep/commissions"><t t-esc="T('Back')"/></a>
+        </t>
+    </template>
+</odoo>

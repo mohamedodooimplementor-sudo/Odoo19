@@ -106,6 +106,7 @@
                                 <group string="Accounting">
                                     <field name="perm_allow_invoice_creation" widget="radio" options="{'horizontal': true}"/>
                                     <field name="perm_allow_direct_invoice" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="perm_allow_auto_invoice" widget="radio" options="{'horizontal': true}"/>
                                     <field name="perm_allow_payment" widget="radio" options="{'horizontal': true}"/>
                                     <field name="perm_allow_expense" widget="radio" options="{'horizontal': true}"/>
                                 </group>
@@ -148,7 +149,7 @@
     <record id="action_rep" model="ir.actions.act_window">
         <field name="name">Sales Representatives</field>
         <field name="res_model">mo.sales.rep</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">kanban,list,form</field>
     </record>
 
     <!-- Routes -->
@@ -221,7 +222,7 @@
     <record id="action_route" model="ir.actions.act_window">
         <field name="name">Routes</field>
         <field name="res_model">mo.sales.route</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">list,kanban,form</field>
     </record>
 
     <!-- Visits -->
@@ -262,6 +263,15 @@
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
+                        <button name="action_open_orders" type="object" class="oe_stat_button" icon="fa-shopping-cart">
+                            <field name="sale_order_count" widget="statinfo" string="Sales Orders"/>
+                        </button>
+                        <button name="action_open_invoices" type="object" class="oe_stat_button" icon="fa-pencil-square-o">
+                            <field name="invoice_count" widget="statinfo" string="Invoices"/>
+                        </button>
+                        <button name="action_open_payments" type="object" class="oe_stat_button" icon="fa-money">
+                            <field name="payment_count" widget="statinfo" string="Payments"/>
+                        </button>
                         <button name="action_open_attachments" type="object" class="oe_stat_button" icon="fa-paperclip">
                             <field name="attachment_count" widget="statinfo" string="Attachments"/>
                         </button>
@@ -302,23 +312,6 @@
                             <field name="notes"/>
                         </group>
                     </group>
-                    <notebook>
-                        <page string="Sales Orders" name="orders">
-                            <field name="sale_order_ids" readonly="1">
-                                <list><field name="name"/><field name="date_order"/><field name="amount_total"/><field name="state"/></list>
-                            </field>
-                        </page>
-                        <page string="Invoices" name="invoices">
-                            <field name="invoice_ids" readonly="1">
-                                <list><field name="name"/><field name="invoice_date"/><field name="amount_total"/><field name="amount_residual"/><field name="state"/></list>
-                            </field>
-                        </page>
-                        <page string="Payments" name="payments">
-                            <field name="payment_ids" readonly="1">
-                                <list><field name="name"/><field name="date"/><field name="amount"/><field name="state"/></list>
-                            </field>
-                        </page>
-                    </notebook>
                 </sheet>
                 <chatter/>
             </form>
@@ -428,6 +421,7 @@
                             <field name="allow_invoice_creation"/>
                             <field name="allow_direct_invoice" invisible="not allow_invoice_creation"/>
                             <field name="auto_post_invoice" invisible="not allow_invoice_creation"/>
+                            <field name="allow_auto_invoice"/>
                             <field name="allow_payment"/>
                         </group>
                         <group string="Inventory">

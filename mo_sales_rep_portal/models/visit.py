@@ -47,8 +47,12 @@ class SalesVisit(models.Model):
     company_id = fields.Many2one('res.company', related='rep_id.company_id', store=True)
     sale_order_ids = fields.One2many('sale.order', 'mo_visit_id')
     invoice_ids = fields.One2many('account.move', 'mo_visit_id')
-    payment_ids = fields.One2many('account.payment', 'mo_visit_id')
+    payment_ids = fields.Many2many('account.payment', compute='_compute_payment_ids',
+                                   help='Payments linked to this visit, plus payments registered against the invoices of this visit.')
     attachment_count = fields.Integer(compute='_compute_attachment_count')
+    sale_order_count = fields.Integer(compute='_compute_document_counts')
+    invoice_count = fields.Integer(compute='_compute_document_counts')
+    payment_count = fields.Integer(compute='_compute_document_counts')
     start_map_url = fields.Char(compute='_compute_map_url')
 
     @api.depends('start_time', 'end_time')
@@ -58,6 +62,39 @@ class SalesVisit(models.Model):
                 rec.duration = (rec.end_time - rec.start_time).total_seconds() / 3600.0
             else:
                 rec.duration = 0.0
+
+    @api.depends('invoice_ids')
+    def _compute_payment_ids(self):
+        Payment = self.env['account.payment'].sudo()
+        for rec in self:
+            payments = Payment.search([('mo_visit_id', '=', rec.id)]) if isinstance(rec.id, int) else Payment
+            for invoice in rec.invoice_ids.sudo():
+                payments |= invoice._get_reconciled_payments()
+            rec.payment_ids = payments.filtered(lambda p: p.payment_type == 'inbound')
+
+    @api.depends('sale_order_ids', 'invoice_ids', 'payment_ids')
+    def _compute_document_counts(self):
+        for rec in self:
+            rec.sale_order_count = len(rec.sale_order_ids)
+            rec.invoice_count = len(rec.invoice_ids)
+            rec.payment_count = len(rec.payment_ids)
+
+    def _open_documents(self, name, model, records):
+        self.ensure_one()
+        action = {'type': 'ir.actions.act_window', 'name': name, 'res_model': model,
+                  'view_mode': 'list,form', 'domain': [('id', 'in', records.ids)]}
+        if len(records) == 1:
+            action.update({'view_mode': 'form', 'res_id': records.id})
+        return action
+
+    def action_open_orders(self):
+        return self._open_documents(_('Sales Orders'), 'sale.order', self.sale_order_ids)
+
+    def action_open_invoices(self):
+        return self._open_documents(_('Invoices'), 'account.move', self.invoice_ids)
+
+    def action_open_payments(self):
+        return self._open_documents(_('Payments'), 'account.payment', self.payment_ids)
 
     def _compute_attachment_count(self):
         Att = self.env['ir.attachment'].sudo()

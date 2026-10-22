@@ -93,3 +93,17 @@ OPL-1 (Odoo Proprietary License v1.0): one purchased license per database, no re
 
 ## v2.1.1
 - Manager dashboard: fixed the page not scrolling (the client action had no fixed height; it is now sized from the viewport and scrolls inside).
+
+## v2.5
+- Chatter (messages, notes, activities, attachments) on every backend form: visits, routes, targets, expenses, follow-ups, cheques, payment methods, return reasons, settings. Legacy `oe_chatter` blocks replaced by `<chatter/>`.
+- Customers: a representative with "can view all customers" now sees customers only (users, employees and company contacts are excluded); otherwise only assigned customers or those where he is the Salesperson.
+- Salesperson on customers and sales orders accepts portal users; "Sales Representatives" field added to the customer form.
+- Attachments: expense "Receipts" button was disabled and now opens the attachments; cheque form gets an Attachments button.
+- Portal: theme button on every page (Auto / Dark / Light, remembered per device); service-worker cache bumped to `mo-rep-v3`.
+- Price set to 800 USD.
+
+## v2.6
+- Uploads: photos over 1 MB are resized in the browser (max 1600 px, JPEG) before upload and again on the server (max 1920 px) when still large; files over 10 MB are refused with a visible message in the portal instead of being skipped silently.
+- Duplicate customers: `res.partner.mo_find_duplicates()` matches phone/mobile by the last digits (any formatting) and name + city. A duplicate opens the existing record when the representative can access it, otherwise a neutral message is shown. A "Create anyway" checkbox covers a different branch.
+- Tests (`tests/`): customer visibility (supervisor vs assigned, users/employees/company excluded), Salesperson accepts portal users, duplicate detection, and a direct-link access check. Run with `odoo -d <db> -u mo_sales_rep_portal --test-tags /mo_sales_rep_portal --stop-after-init`.
+- Theme button is now a small menu with three named choices (Auto / Dark / Light, the active one ticked) instead of a cycling icon, so Auto is visibly different from the other two.
