@@ -67,6 +67,8 @@ Main features
     ],
     'images': ['static/description/banner.jpg'],
     'license': 'AGPL-3',
+    'price': 25.00,
+    'currency': 'USD',
     'installable': True,
     'auto_install': False,
     'application': False,

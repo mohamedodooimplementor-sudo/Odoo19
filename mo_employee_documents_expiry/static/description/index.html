@@ -1,54 +1,136 @@
-<section style="font-family: Arial, sans-serif; max-width: 960px; margin: 0 auto; padding: 24px; color: #333;">
-    <h1 style="margin-bottom: 4px;">Employee Documents Expiry</h1>
-    <p style="font-size: 16px; color: #666; margin-top: 0;">
-        Keep all employee documents in one place and get warned before they expire.
+<section style="font-family: Arial, Helvetica, sans-serif; max-width: 1000px; margin: 0 auto; color: #2d3142;">
+
+    <!-- Hero -->
+    <div style="background: linear-gradient(135deg, #1565c0, #512da8); color: #fff; border-radius: 12px; padding: 40px 36px; margin-bottom: 28px;">
+        <h1 style="margin: 0 0 8px 0; font-size: 34px; color: #fff;">Employee Documents Expiry</h1>
+        <p style="margin: 0 0 18px 0; font-size: 18px; color: #e3e9fb;">
+            Never miss a passport, residence or license expiry again. Keep every employee
+            document in one place and get warned before it expires.
+        </p>
+        <span style="display: inline-block; background: #ffd600; color: #1a237e; font-weight: bold; padding: 6px 16px; border-radius: 20px; font-size: 14px;">
+            Odoo 18 &nbsp;|&nbsp; Email + Odoo Notification + Activity
+        </span>
+    </div>
+
+    <!-- Video -->
+    <h2 style="color: #1a237e;">Watch how it works (54 seconds)</h2>
+    <div style="text-align: center; margin-bottom: 8px;">
+        <video controls="controls" preload="metadata" style="width: 100%; max-width: 900px; border-radius: 10px; background: #1a237e;">
+            <source src="/mo_employee_documents_expiry/static/description/video/employee_documents_expiry.mp4" type="video/mp4"/>
+        </video>
+    </div>
+    <p style="text-align: center; font-size: 14px; color: #666;">
+        If the video does not play here, <a href="/mo_employee_documents_expiry/static/description/video/employee_documents_expiry.mp4" target="_blank">open it in a new tab</a>
+        or watch the quick preview below.
+    </p>
+    <div style="text-align: center; margin-bottom: 24px;">
+        <img src="/mo_employee_documents_expiry/static/description/video/employee_documents_expiry.gif" alt="Employee Documents Expiry preview" style="width: 100%; max-width: 640px; border-radius: 10px; border: 1px solid #dde2f0;"/>
+    </div>
+
+    <!-- Problem -->
+    <h2 style="color: #1a237e;">Why this module?</h2>
+    <p style="font-size: 16px; line-height: 1.7;">
+        Expired passports, residence permits and licenses mean fines, blocked travel and
+        operational delays. This module reminds the right people at the right time, inside
+        Odoo and by email, and keeps following up until the document is renewed.
     </p>
 
-    <h2>Why this module?</h2>
-    <p>
-        Expired passports, residence permits and licenses cause fines and operational
-        delays. This module reminds the right people at the right time, in Odoo and by
-        email, until the document is renewed.
-    </p>
+    <!-- Reminder timeline -->
+    <h2 style="color: #1a237e;">How the reminders work</h2>
+    <p style="font-size: 15px; color: #555;">Default stages (fully configurable). Each stage is sent only once, no daily spam.</p>
+    <table style="width: 100%; border-collapse: separate; border-spacing: 6px; text-align: center; margin-bottom: 8px;">
+        <tr>
+            <td style="background: #e8f5e9; border-radius: 8px; padding: 14px 4px;"><b style="font-size: 20px; color: #2e7d32;">60</b><br/><span style="font-size: 12px;">days before</span></td>
+            <td style="background: #e8f5e9; border-radius: 8px; padding: 14px 4px;"><b style="font-size: 20px; color: #2e7d32;">30</b><br/><span style="font-size: 12px;">days before</span></td>
+            <td style="background: #fff3e0; border-radius: 8px; padding: 14px 4px;"><b style="font-size: 20px; color: #ef6c00;">7</b><br/><span style="font-size: 12px;">days before</span></td>
+            <td style="background: #fff3e0; border-radius: 8px; padding: 14px 4px;"><b style="font-size: 20px; color: #ef6c00;">1</b><br/><span style="font-size: 12px;">day before</span></td>
+            <td style="background: #ffebee; border-radius: 8px; padding: 14px 4px;"><b style="font-size: 20px; color: #c62828;">0</b><br/><span style="font-size: 12px;">expiry day</span></td>
+            <td style="background: #ffcdd2; border-radius: 8px; padding: 14px 4px;"><b style="font-size: 20px; color: #b71c1c;">Expired</b><br/><span style="font-size: 12px;">repeated weekly</span></td>
+        </tr>
+    </table>
 
-    <h2>Key features</h2>
-    <ul style="line-height: 1.8;">
-        <li><b>Staged reminders:</b> 60, 30, 7, 1 and 0 days before expiry by default. Configurable globally or per document type. Each stage is sent once.</li>
-        <li><b>Three channels:</b> email to the employee, Odoo inbox notification and a "Document Expiry" activity.</li>
-        <li><b>Choose who is notified</b> per document, or use the default recipients: the employee, his manager and the HR managers.</li>
-        <li><b>Escalation</b> to the manager, department manager and HR managers when the document is still not renewed.</li>
-        <li><b>Weekly summary email</b> for the HR managers.</li>
-        <li><b>Status and dashboard:</b> Valid / Expiring Soon / Expired, colored lists, filters, graph and pivot views.</li>
-        <li><b>One-click renewal:</b> creates the new document, archives the old one and closes its activities.</li>
-        <li><b>Editable bilingual email template</b> (English / Arabic) and a configurable schedule for the scheduled actions.</li>
-    </ul>
+    <!-- Features grid -->
+    <h2 style="color: #1a237e;">Key features</h2>
+    <table style="width: 100%; border-collapse: separate; border-spacing: 10px;">
+        <tr>
+            <td style="width: 50%; vertical-align: top; background: #f5f7fb; border-radius: 10px; padding: 16px;">
+                <h3 style="margin: 0 0 6px 0; color: #1565c0;">Three notification channels</h3>
+                Email to the employee, Odoo inbox notification (bell) and a
+                "Document Expiry" activity on the document.
+            </td>
+            <td style="width: 50%; vertical-align: top; background: #f5f7fb; border-radius: 10px; padding: 16px;">
+                <h3 style="margin: 0 0 6px 0; color: #1565c0;">Choose who is notified</h3>
+                Pick the users for each document, or use the defaults: the employee,
+                his manager and the HR managers.
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: top; background: #f5f7fb; border-radius: 10px; padding: 16px;">
+                <h3 style="margin: 0 0 6px 0; color: #1565c0;">Reminder days per document type</h3>
+                Residence permit at 90 days, work card at 15 days. Set a global default
+                and override it on each document type.
+            </td>
+            <td style="vertical-align: top; background: #f5f7fb; border-radius: 10px; padding: 16px;">
+                <h3 style="margin: 0 0 6px 0; color: #1565c0;">Escalation</h3>
+                If a document is still not renewed close to expiry, the manager,
+                department manager and HR managers are alerted.
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: top; background: #f5f7fb; border-radius: 10px; padding: 16px;">
+                <h3 style="margin: 0 0 6px 0; color: #1565c0;">Status and dashboard</h3>
+                Valid / Expiring Soon / Expired badges, colored lists, ready filters,
+                and graph and pivot views grouped by department or document type.
+            </td>
+            <td style="vertical-align: top; background: #f5f7fb; border-radius: 10px; padding: 16px;">
+                <h3 style="margin: 0 0 6px 0; color: #1565c0;">One-click renewal</h3>
+                The Renew button creates the new document, archives the old one and
+                closes its pending activities automatically.
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: top; background: #f5f7fb; border-radius: 10px; padding: 16px;">
+                <h3 style="margin: 0 0 6px 0; color: #1565c0;">Weekly summary for HR</h3>
+                One email listing every document that expired or will expire soon,
+                instead of one email per document.
+            </td>
+            <td style="vertical-align: top; background: #f5f7fb; border-radius: 10px; padding: 16px;">
+                <h3 style="margin: 0 0 6px 0; color: #1565c0;">Editable bilingual email</h3>
+                English / Arabic email template you can edit from Odoo, and a
+                configurable schedule for the scheduled actions.
+            </td>
+        </tr>
+    </table>
 
-    <h2>Configuration</h2>
-    <p>
-        Go to <i>Settings &rarr; Employees &rarr; Employee Documents Expiry</i> to set the
-        reminder days, expired-notice repeat, escalation, summary email and the schedule
-        of the scheduled actions. Reminder days can also be overridden on each document
-        type (Employee Checklist).
-    </p>
-
-    <h2>Usage</h2>
-    <ol style="line-height: 1.8;">
+    <!-- Usage -->
+    <h2 style="color: #1a237e;">Quick start</h2>
+    <ol style="font-size: 16px; line-height: 1.9;">
         <li>Open an employee and click the <b>Documents</b> button.</li>
-        <li>Create a document, set its expiry date and (optionally) the users to notify.</li>
-        <li>Follow the status from <i>Employees &rarr; Documents Expiry</i>.</li>
-        <li>When the document is renewed, click <b>Renew</b>.</li>
+        <li>Create a document, set the <b>Expiry Date</b> and (optionally) the <b>Notify Users</b>.</li>
+        <li>Follow everything from <i>Employees &rarr; Documents Expiry</i>.</li>
+        <li>When the employee brings the new document, click <b>Renew</b>.</li>
     </ol>
 
-    <div dir="rtl" style="text-align: right; margin-top: 24px;">
-        <h2>نبذة بالعربي</h2>
-        <p>
+    <h2 style="color: #1a237e;">Configuration</h2>
+    <p style="font-size: 16px; line-height: 1.7;">
+        <i>Settings &rarr; Employees &rarr; Employee Documents Expiry</i>:
+        reminder days, repeat of the expired notice, escalation, weekly summary and the
+        schedule of the scheduled actions. Per document type reminder days are set on the
+        Employee Checklist form.
+    </p>
+
+    <!-- Arabic -->
+    <div dir="rtl" style="text-align: right; background: #fff8e1; border-radius: 10px; padding: 18px 22px; margin-top: 24px;">
+        <h2 style="margin-top: 0; color: #1a237e;">نبذة بالعربي</h2>
+        <p style="font-size: 16px; line-height: 1.9; margin: 0;">
             موديول لإدارة مستندات الموظفين وتنبيهك قبل انتهائها: تنبيهات على مراحل
-            (إيميل + إشعار داخل Odoo + نشاط)، تحديد من يصله التنبيه لكل مستند،
-            تصعيد للمدير والموارد البشرية، ملخص أسبوعي، لوحة متابعة، وزر تجديد
-            بضغطة واحدة.
+            (إيميل + إشعار داخل Odoo + نشاط)، تحديد من يصله التنبيه لكل مستند، أيام
+            تنبيه مختلفة لكل نوع مستند، تصعيد للمدير والموارد البشرية، ملخص أسبوعي،
+            لوحة متابعة، وزر تجديد بضغطة واحدة.
         </p>
     </div>
 
-    <hr/>
-    <p style="color: #888;">Developed by Eng. M.Aboelmagde Apps. License: AGPL-3.</p>
+    <p style="margin-top: 28px; color: #888; font-size: 13px; text-align: center;">
+        Developed by <b>Eng. M.Aboelmagde Apps</b> &nbsp;|&nbsp; License: AGPL-3
+    </p>
 </section>
