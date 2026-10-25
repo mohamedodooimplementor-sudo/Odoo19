@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--Renew wizard-->
+    <record id="hr_employee_document_renew_view_form" model="ir.ui.view">
+        <field name="name">hr.employee.document.renew.view.form</field>
+        <field name="model">hr.employee.document.renew</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="document_id"/>
+                        <field name="name"/>
+                    </group>
+                    <group>
+                        <field name="issue_date"/>
+                        <field name="expiry_date"/>
+                    </group>
+                </group>
+                <group>
+                    <field name="attachment_ids" widget="many2many_binary"/>
+                </group>
+                <footer>
+                    <button name="action_renew" type="object" string="Renew"
+                            class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel" class="btn-secondary"
+                            special="cancel" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!--Activity type used for the document expiry reminders-->
+        <record id="mail_activity_type_document_expiry"
+                model="mail.activity.type">
+            <field name="name">Document Expiry</field>
+            <field name="summary">Employee document expiry</field>
+            <field name="icon">fa-file-text-o</field>
+            <field name="delay_count">0</field>
+            <field name="sequence">50</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--Reminder settings in Settings > Employees-->
+    <record id="res_config_settings_view_form_documents_expiry"
+            model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.documents.expiry</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="hr.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//app[@name='hr']" position="inside">
+                <block title="Employee Documents Expiry"
+                       name="documents_expiry_setting_container">
+                    <setting string="Reminder Days"
+                             help="Days before expiry when a reminder is sent (comma separated). Can be overridden per document type.">
+                        <field name="documents_reminder_days"/>
+                    </setting>
+                    <setting string="Expired Documents"
+                             help="Repeat the expired notice every X days (0 = once).">
+                        <field name="documents_expired_repeat_days"/>
+                    </setting>
+                    <setting string="Escalation"
+                             help="Notify managers and HR when the document is still not renewed with this many days left (0 = disabled).">
+                        <field name="documents_escalation_days"/>
+                    </setting>
+                    <setting string="Weekly Summary"
+                             help="Weekly email to HR managers listing the documents expiring soon.">
+                        <field name="documents_summary_enabled"/>
+                        <div class="mt8"
+                             invisible="not documents_summary_enabled">
+                            <label for="documents_summary_days"/>
+                            <field name="documents_summary_days"/>
+                        </div>
+                    </setting>
+                    <setting string="Reminders Schedule"
+                             help="How often the reminders scheduled action runs (also editable from Settings > Technical > Scheduled Actions).">
+                        <div class="d-flex flex-wrap gap-2 align-items-center">
+                            <label for="documents_cron_interval_number"/>
+                            <field name="documents_cron_interval_number"
+                                   class="oe_inline" style="width: 60px;"/>
+                            <field name="documents_cron_interval_type"
+                                   class="oe_inline"/>
+                        </div>
+                        <div class="mt8">
+                            <label for="documents_cron_nextcall"/>
+                            <field name="documents_cron_nextcall"/>
+                        </div>
+                    </setting>
+                    <setting string="Summary Schedule"
+                             help="How often the summary email is sent.">
+                        <div class="d-flex flex-wrap gap-2 align-items-center">
+                            <label for="documents_summary_cron_interval_number"/>
+                            <field name="documents_summary_cron_interval_number"
+                                   class="oe_inline" style="width: 60px;"/>
+                            <field name="documents_summary_cron_interval_type"
+                                   class="oe_inline"/>
+                        </div>
+                        <div class="mt8">
+                            <label for="documents_summary_cron_nextcall"/>
+                            <field name="documents_summary_cron_nextcall"/>
+                        </div>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>
