@@ -6,7 +6,7 @@
     'author': 'Eng. M.Aboelmagde',
     'website': 'https://www.youtube.com/@odoolab',
     'license': 'OPL-1',
-    'price': 19.00,
+    'price': 00.00,
     'currency': 'USD',
     'support': 'odoolabtech.offical',
     'images': ['static/description/banner.png', 'static/description/how_it_works.png', 'static/description/setup_steps.png'],
