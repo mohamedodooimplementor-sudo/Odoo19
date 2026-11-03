@@ -5,7 +5,7 @@
     'category': 'Contacts',
     'author': "Eng. M.Aboelmagde",
      'license': 'OPL-1',
-    'price': 15.00,
+    'price': 00.00,
     'currency': 'USD',
     'depends': ['base'],
     'data': [
