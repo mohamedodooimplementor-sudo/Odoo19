@@ -5,7 +5,7 @@
     'category': 'Inventory/Products',
     'author': "Eng. M.Aboelmagde",
     'license': 'OPL-1',
-    'price': 29.00,
+    'price': 00.00,
     'currency': 'USD',
     'depends': ['product'],
     'data': [
