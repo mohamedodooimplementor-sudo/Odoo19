@@ -30,8 +30,10 @@ Key Features
   per-company incoming/outgoing sequences and a dashboard that follows the active company
   (or companies) selected in the switcher.
 """,
-    "author": "Eng. M.Aboelmagde",
-    "license": "LGPL-3",
+     "author": "Eng. M.Aboelmagde",
+    "license": "OPL-1",
+    "price": 120.00,
+    "currency": "USD",
     "depends": ["base", "mail", "account", "web"],
     "data": [
         "security/check_security.xml",
