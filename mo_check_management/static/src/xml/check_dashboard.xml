@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="mo_check_management.CheckDashboard">
+        <div t-attf-class="o_check_dashboard#{this.state.dark ? ' o_check_dark' : ''}">
+
+            <!-- ============ Banner ============ -->
+            <div class="o_check_banner">
+                <div class="o_check_banner_title">
+                    <span class="o_check_banner_icon"><i class="oi" data-icon="payments"/></span>
+                    <div>
+                        <h1>Check Management<small t-if="this.state.data and this.state.data.companies" class="ms-2 fs-6 opacity-75" t-out="this.state.data.companies.join(' + ')"/></h1>
+                        <p>Incoming, outgoing and collection overview</p>
+                    </div>
+                </div>
+                <div class="o_check_banner_actions">
+                    <t t-if="this.state.data and this.state.data.available_companies.length > 1">
+                        <select class="form-select form-select-sm o_check_company_filter" title="Company"
+                                t-on-change="this.onCompanyFilter">
+                            <option value="" t-att-selected="!this.state.companyFilter">All companies</option>
+                            <t t-foreach="this.state.data.available_companies" t-as="comp" t-key="comp.id">
+                                <option t-att-value="comp.id" t-att-selected="this.state.companyFilter === comp.id"
+                                        t-out="comp.name"/>
+                            </t>
+                        </select>
+                    </t>
+                    <t t-if="this.state.data">
+                        <div class="o_check_net" t-att-class="this.netPositive ? 'is-positive' : 'is-negative'"
+                             title="Open incoming checks minus open outgoing checks">
+                            <span class="o_check_net_label">Expected net</span>
+                            <strong>
+                                <i class="oi" t-att-data-icon="this.netPositive ? 'arrow_drop_up' : 'arrow_drop_down'"/>
+                                <t t-out="this.formatMoney(this.state.data.net_open)"/>
+                                <small t-out="this.state.data.currency"/>
+                            </strong>
+                        </div>
+                    </t>
+                    <button class="btn o_check_refresh" t-on-click="this.loadDashboard">
+                        <i class="oi me-1" data-icon="refresh"/> Refresh
+                    </button>
+                </div>
+            </div>
+
+            <t t-if="this.state.loading">
+                <div class="o_check_loading"><i class="oi oi-spin oi-2x" data-icon="progress_activity"/><span>Loading dashboard...</span></div>
+            </t>
+            <t t-elif="this.state.data">
+
+                <!-- ============ KPI cards ============ -->
+                <div class="o_check_cards">
+                    <t t-foreach="this.cards" t-as="card" t-key="card[0]">
+                        <div class="o_check_card" t-att-class="'o_check_card_' + card[0]" t-on-click="() => this.openCard(card[3])">
+                            <div class="o_check_card_icon"><i class="oi" t-att-data-icon="card[2]"/></div>
+                            <div class="o_check_card_body">
+                                <span class="o_check_card_label" t-out="card[1]"/>
+                                <strong t-out="this.formatMoney(this.state.data.cards[card[0]].amount)"/>
+                                <small><t t-out="this.state.data.cards[card[0]].count"/> checks</small>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+
+                <!-- ============ Charts row 1 ============ -->
+                <div class="o_check_grid o_check_grid_charts">
+                    <section class="o_check_panel">
+                        <div class="o_check_panel_header"><h3><i class="oi" data-icon="pie_chart"/> Checks by Status</h3></div>
+                        <div class="o_check_donut_wrap">
+                            <t t-set="chart" t-value="this.statusChart"/>
+                            <t t-if="chart.segments.length">
+                                <svg class="o_check_donut" viewBox="0 0 200 200" role="img" aria-label="Checks by status">
+                                    <circle cx="100" cy="100" t-att-r="chart.R" class="o_check_donut_track"/>
+                                    <t t-foreach="chart.segments" t-as="seg" t-key="seg.key">
+                                        <circle cx="100" cy="100" t-att-r="chart.R" class="o_check_donut_seg"
+                                                t-att-stroke="seg.color" t-att-stroke-dasharray="seg.dash"
+                                                t-att-stroke-dashoffset="seg.offset"
+                                                transform="rotate(-90 100 100)"
+                                                t-on-click="() => this.openChecks({state: seg.key, name: seg.label})">
+                                            <title><t t-out="seg.label"/>: <t t-out="this.formatMoney(seg.amount)"/> (<t t-out="seg.pct"/>%)</title>
+                                        </circle>
+                                    </t>
+                                    <text x="100" y="94" class="o_check_donut_total_label" text-anchor="middle">Total</text>
+                                    <text x="100" y="116" class="o_check_donut_total" text-anchor="middle" t-out="this.formatCompact(chart.total)"/>
+                                </svg>
+                                <ul class="o_check_legend">
+                                    <t t-foreach="chart.segments" t-as="seg" t-key="seg.key">
+                                        <li t-on-click="() => this.openChecks({state: seg.key, name: seg.label})">
+                                            <span class="o_check_dot" t-att-style="'background:' + seg.color"/>
+                                            <span class="o_check_legend_label" t-out="seg.label"/>
+                                            <span class="o_check_legend_value"><t t-out="seg.count"/> · <t t-out="seg.pct"/>%</span>
+                                        </li>
+                                    </t>
+                                </ul>
+                            </t>
+                            <t t-else=""><div class="o_check_empty">No data yet</div></t>
+                        </div>
+                    </section>
+
+                    <section class="o_check_panel">
+                        <div class="o_check_panel_header">
+                            <h3><i class="oi" data-icon="bar_chart"/> Expected Cash Flow by Due Date</h3>
+                            <div class="o_check_chart_legend">
+                                <span><i class="o_check_dot o_check_dot_in"/> Incoming</span>
+                                <span><i class="o_check_dot o_check_dot_out"/> Outgoing</span>
+                            </div>
+                        </div>
+                        <t t-set="cf" t-value="this.cashflowChart"/>
+                        <div class="o_check_chart_wrap">
+                            <svg class="o_check_bars" t-att-viewBox="'0 0 ' + cf.W + ' ' + cf.H" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Expected cash flow">
+                                <defs>
+                                    <linearGradient id="o_check_grad_in" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0%" stop-color="#34d399"/><stop offset="100%" stop-color="#059669"/>
+                                    </linearGradient>
+                                    <linearGradient id="o_check_grad_out" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0%" stop-color="#fb923c"/><stop offset="100%" stop-color="#ea580c"/>
+                                    </linearGradient>
+                                </defs>
+                                <t t-foreach="cf.ticks" t-as="tick" t-key="tick.value">
+                                    <line t-att-x1="cf.left" t-att-x2="cf.W - cf.right" t-att-y1="tick.y" t-att-y2="tick.y" class="o_check_gridline"/>
+                                    <text t-att-x="cf.left - 8" t-att-y="tick.y + 4" text-anchor="end" class="o_check_axis_text" t-out="this.formatCompact(tick.value)"/>
+                                </t>
+                                <t t-foreach="cf.bars" t-as="bar" t-key="bar.bucket.key">
+                                    <rect t-att-x="bar.incoming.x" t-att-y="bar.incoming.y" t-att-width="bar.incoming.w" t-att-height="bar.incoming.h"
+                                          rx="4" class="o_check_bar o_check_bar_in" fill="url(#o_check_grad_in)"
+                                          t-on-click="() => this.openBucket(bar.bucket, 'incoming')">
+                                        <title><t t-out="bar.bucket.label"/> · Incoming: <t t-out="this.formatMoney(bar.incoming.v)"/></title>
+                                    </rect>
+                                    <rect t-att-x="bar.outgoing.x" t-att-y="bar.outgoing.y" t-att-width="bar.outgoing.w" t-att-height="bar.outgoing.h"
+                                          rx="4" class="o_check_bar o_check_bar_out" fill="url(#o_check_grad_out)"
+                                          t-on-click="() => this.openBucket(bar.bucket, 'outgoing')">
+                                        <title><t t-out="bar.bucket.label"/> · Outgoing: <t t-out="this.formatMoney(bar.outgoing.v)"/></title>
+                                    </rect>
+                                    <text t-att-x="bar.cx" t-att-y="bar.labelY" text-anchor="middle" class="o_check_axis_text"
+                                          t-att-class="bar.bucket.key == 'overdue' ? 'o_check_axis_overdue' : ''" t-out="bar.bucket.label"/>
+                                </t>
+                            </svg>
+                            <div t-if="cf.empty" class="o_check_chart_empty">No open checks to forecast</div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- ============ Charts row 2 ============ -->
+                <div class="o_check_grid o_check_grid_half">
+                    <section class="o_check_panel">
+                        <div class="o_check_panel_header"><h3><i class="oi" data-icon="account_balance"/> Top Banks</h3></div>
+                        <div class="o_check_hbars">
+                            <t t-if="this.banksChart.length">
+                                <t t-foreach="this.banksChart" t-as="bank" t-key="bank.id">
+                                    <div class="o_check_hbar_row" t-on-click="() => this.openChecks({bank: bank.id, name: bank.name})">
+                                        <div class="o_check_hbar_head">
+                                            <strong t-out="bank.name"/>
+                                            <span><t t-out="this.formatMoney(bank.amount)"/> <small>· <t t-out="bank.count"/> checks</small></span>
+                                        </div>
+                                        <div class="o_check_hbar_track">
+                                            <div class="o_check_hbar_fill o_check_fill_bank" t-att-style="'width:' + bank.pct + '%'"/>
+                                        </div>
+                                    </div>
+                                </t>
+                            </t>
+                            <t t-else=""><div class="o_check_empty">No bank data</div></t>
+                        </div>
+                    </section>
+
+                    <section class="o_check_panel">
+                        <div class="o_check_panel_header">
+                            <h3><i class="oi oi-filled" data-icon="group"/> Top Partners (Open Checks)</h3>
+                            <div class="o_check_chart_legend">
+                                <span><i class="o_check_dot o_check_dot_in"/> Incoming</span>
+                                <span><i class="o_check_dot o_check_dot_out"/> Outgoing</span>
+                            </div>
+                        </div>
+                        <div class="o_check_hbars">
+                            <t t-if="this.partnersChart.length">
+                                <t t-foreach="this.partnersChart" t-as="partner" t-key="partner.id">
+                                    <div class="o_check_hbar_row" t-on-click="() => this.openChecks({partner: partner.id, open: true, name: partner.name})">
+                                        <div class="o_check_hbar_head">
+                                            <strong t-out="partner.name"/>
+                                            <span><t t-out="this.formatMoney(partner.incoming + partner.outgoing)"/> <small>· <t t-out="partner.count"/> checks</small></span>
+                                        </div>
+                                        <div class="o_check_hbar_track">
+                                            <div class="o_check_hbar_fill o_check_fill_in" t-att-style="'width:' + partner.inPct + '%'"/>
+                                            <div class="o_check_hbar_fill o_check_fill_out" t-att-style="'width:' + partner.outPct + '%'"/>
+                                        </div>
+                                    </div>
+                                </t>
+                            </t>
+                            <t t-else=""><div class="o_check_empty">No open checks</div></t>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- ============ Next 30 days ============ -->
+                <section class="o_check_panel o_check_due_panel">
+                    <div class="o_check_panel_header">
+                        <h3><i class="oi oi-filled" data-icon="calendar_today"/> Next 30 Days</h3><span class="o_check_date" t-out="this.state.data.today"/>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table o_check_due_table">
+                            <thead><tr><th>Reference</th><th>Check No.</th><th>Partner</th><th>Type</th><th>Due Date</th><th class="text-end">Amount</th><th>Status</th></tr></thead>
+                            <tbody>
+                                <t t-if="this.state.data.due_soon.length">
+                                    <t t-foreach="this.state.data.due_soon" t-as="row" t-key="row.id">
+                                        <tr t-on-click="() => this.openRow(row.id)">
+                                            <td><strong t-out="row.name"/></td>
+                                            <td t-out="row.check_number"/>
+                                            <td t-out="row.partner"/>
+                                            <td>
+                                                <span class="o_check_type" t-att-class="'o_check_type_' + row.type">
+                                                    <i class="oi" t-att-data-icon="row.type == 'incoming' ? 'arrow_downward' : 'arrow_upward'"/>
+                                                    <t t-out="row.type == 'incoming' ? 'Incoming' : 'Outgoing'"/>
+                                                </span>
+                                            </td>
+                                            <td t-out="row.due_date"/>
+                                            <td class="text-end"><strong t-out="this.formatMoney(row.amount)"/> <small class="text-muted" t-out="row.currency"/></td>
+                                            <td><span class="o_check_state" t-att-style="'background:' + this.stateColor(row.state)" t-out="row.state_label"/></td>
+                                        </tr>
+                                    </t>
+                                </t>
+                                <t t-else=""><tr><td colspan="7" class="o_check_empty">No checks due in the next 30 days.</td></tr></t>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </t>
+            <t t-elif="this.state.error"><div class="alert alert-danger"><t t-out="this.state.error"/></div></t>
+        </div>
+    </t>
+</templates>

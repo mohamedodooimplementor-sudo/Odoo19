@@ -1,0 +1,26 @@
+<odoo>
+    <!-- Legacy single sequence, kept only as a fallback if the per-direction ones are ever removed. -->
+    <record id="seq_check_management" model="ir.sequence">
+        <field name="name">Check Reference (Legacy)</field>
+        <field name="code">check.management</field>
+        <field name="prefix">CHK/%(y)s/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_check_management_incoming" model="ir.sequence">
+        <field name="name">Check Reference - Incoming</field>
+        <field name="code">check.management.incoming</field>
+        <field name="prefix">CHK-IN/%(y)s/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_check_management_outgoing" model="ir.sequence">
+        <field name="name">Check Reference - Outgoing</field>
+        <field name="code">check.management.outgoing</field>
+        <field name="prefix">CHK-OUT/%(y)s/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+</odoo>

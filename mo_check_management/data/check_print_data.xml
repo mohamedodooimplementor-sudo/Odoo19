@@ -1,0 +1,45 @@
+<odoo noupdate="1">
+    <record id="check_print_template_ar" model="check.print.template">
+        <field name="name">Generic Check - Arabic (175 x 80 mm)</field>
+        <field name="sequence">10</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="words_lang">ar</field>
+        <field name="words_prefix">فقط</field>
+        <field name="words_suffix">لا غير</field>
+        <field name="font_family">tahoma</field>
+        <field name="font_size">12</field>
+        <field name="date_x">122</field>
+        <field name="date_y">10</field>
+        <field name="payee_x">20</field>
+        <field name="payee_y">27</field>
+        <field name="payee_width">140</field>
+        <field name="words_x">20</field>
+        <field name="words_y">37</field>
+        <field name="words_width">140</field>
+        <field name="amount_x">125</field>
+        <field name="amount_y">50</field>
+    </record>
+
+    <record id="check_print_template_en" model="check.print.template">
+        <field name="name">Generic Check - English (175 x 80 mm)</field>
+        <field name="sequence">20</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="words_lang">en</field>
+        <field name="words_prefix"></field>
+        <field name="words_suffix">Only</field>
+        <field name="font_family">arial</field>
+        <field name="font_size">11</field>
+        <field name="date_x">122</field>
+        <field name="date_y">10</field>
+        <field name="payee_x">28</field>
+        <field name="payee_y">27</field>
+        <field name="payee_width">135</field>
+        <field name="words_x">28</field>
+        <field name="words_y">37</field>
+        <field name="words_width">135</field>
+        <field name="amount_x">125</field>
+        <field name="amount_y">50</field>
+        <field name="crossed" eval="True"/>
+        <field name="crossed_text">A/C Payee Only</field>
+    </record>
+</odoo>

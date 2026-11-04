@@ -1,0 +1,16 @@
+id,name,model_id,group_id/id,operation,domain
+access_check_user,check.management user,check.management,mo_check_management.check_management_group_user,cru,
+access_check_manager,check.management manager,check.management,mo_check_management.check_management_group_manager,crud,
+check_management_rule_company,Checks: multi-company,check.management,,crud,"[('company_id', 'in', company_ids)]"
+access_check_bank_user,check.bank user,check.bank,mo_check_management.check_management_group_user,cru,
+access_check_bank_manager,check.bank manager,check.bank,mo_check_management.check_management_group_manager,crud,
+check_bank_rule_company,Check Banks: multi-company,check.bank,,crud,"[('company_id', 'in', company_ids)]"
+access_check_movement_user,check.movement user,check.movement,mo_check_management.check_management_group_user,r,
+access_check_movement_manager,check.movement manager,check.movement,mo_check_management.check_management_group_manager,crud,
+check_movement_rule_company,Check Movements: multi-company,check.movement,,crud,"[('check_id.company_id', 'in', company_ids)]"
+access_check_config_user,check.config user,check.config,mo_check_management.check_management_group_user,r,
+access_check_config_manager,check.config manager,check.config,mo_check_management.check_management_group_manager,crud,
+check_config_rule_company,Check Settings: multi-company,check.config,,crud,"[('company_id', 'in', company_ids)]"
+access_check_print_template_user,check.print.template user,check.print.template,mo_check_management.check_management_group_user,r,
+access_check_print_template_manager,check.print.template manager,check.print.template,mo_check_management.check_management_group_manager,crud,
+check_print_template_rule_company,Check Print Template: multi-company,check.print.template,,crud,"[('company_id', 'in', company_ids)]"
