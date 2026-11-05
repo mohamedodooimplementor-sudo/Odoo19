@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main application -->
+    <menuitem id="rc_menu_root" name="Radiology Consumables" sequence="45"
+              web_icon="radiology_consumables,static/description/icon.png"
+              groups="group_rc_nurse,group_rc_analytics"/>
+
+    <!-- Main sections -->
+    <menuitem id="rc_menu_dashboard" name="Dashboard" parent="rc_menu_root"
+              action="rc_dashboard_action" sequence="1" groups="group_rc_nurse"/>
+    <menuitem id="rc_menu_operations" name="Operation" parent="rc_menu_root"
+              sequence="10" groups="group_rc_nurse"/>
+    <menuitem id="rc_menu_inventory" name="Stock &amp; Rooms" parent="rc_menu_root"
+              sequence="20" groups="group_rc_nurse,group_rc_storekeeper"/>
+    <menuitem id="rc_menu_config" name="Configuration" parent="rc_menu_root"
+              sequence="90" groups="group_rc_manager"/>
+
+    <!-- Operations -->
+    <menuitem id="rc_menu_consumption" name="Exam Consumption" parent="rc_menu_operations"
+              action="rc_consumption_action" sequence="10" groups="group_rc_nurse"/>
+    <menuitem id="rc_menu_receipts" name="Room Receipts" parent="rc_menu_operations"
+              action="rc_receipt_action" sequence="20" groups="group_rc_nurse"/>
+
+    <!-- Reports -->
+    <menuitem id="rc_menu_reports" name="Reports" parent="rc_menu_root"
+              sequence="30" groups="group_rc_nurse"/>
+    <menuitem id="rc_menu_consumption_report" name="Exam Consumption Analysis"
+              parent="rc_menu_reports" action="rc_consumption_report_action"
+              sequence="10" groups="group_rc_nurse"/>
+
+    <menuitem id="rc_menu_expired" name="Expired Stock" parent="rc_menu_reports"
+              action="rc_expiry_expired_server_action" sequence="20" groups="group_rc_nurse"/>
+    <menuitem id="rc_menu_expiring_soon" name="Expiring Soon" parent="rc_menu_reports"
+              action="rc_expiry_soon_server_action" sequence="30" groups="group_rc_nurse"/>
+
+    <!-- Inventory and room stock -->
+    <menuitem id="rc_menu_room_stock" name="Room Stock" parent="rc_menu_inventory"
+              action="rc_room_stock_action" sequence="20" groups="group_rc_nurse"/>
+    <menuitem id="rc_menu_room_levels" name="Room Stock Levels" parent="rc_menu_inventory"
+              action="rc_room_levels_action" sequence="30" groups="group_rc_storekeeper"/>
+
+    <!-- Independent analytics access: analysts do not need nurse or stock roles. -->
+    <menuitem id="rc_menu_analytics" name="Cost &amp; Performance Analytics"
+              parent="rc_menu_root" sequence="25" groups="group_rc_analytics"/>
+    <!-- A section that has children cannot open its own action, so the dashboard gets its own leaf. -->
+    <record id="rc_menu_analytics" model="ir.ui.menu">
+        <field name="action" eval="False"/>
+    </record>
+    <menuitem id="rc_menu_analytics_dashboard" name="Analytics Dashboard"
+              parent="rc_menu_analytics" action="rc_analytics_dashboard_action"
+              sequence="5" groups="group_rc_analytics"/>
+    <menuitem id="rc_menu_analytics_rooms" name="Room Performance"
+              parent="rc_menu_analytics" action="rc_analytics_room_action"
+              sequence="10" groups="group_rc_analytics"/>
+    <menuitem id="rc_menu_analytics_exams" name="Cost per Examination"
+              parent="rc_menu_analytics" action="rc_analytics_cost_action"
+              sequence="20" groups="group_rc_analytics"/>
+
+    <!-- Configuration -->
+    <menuitem id="rc_menu_templates" name="Consumption Templates" parent="rc_menu_config"
+              action="rc_template_action" sequence="10"/>
+    <menuitem id="rc_menu_rooms" name="Rooms and Labs" parent="rc_menu_config"
+              action="rc_room_action" sequence="20"/>
+    <menuitem id="rc_menu_ris" name="RIS Connection" parent="rc_menu_config"
+              action="rc_ris_config_action" sequence="30"/>
+    <menuitem id="rc_menu_company" name="Consumables Setup" parent="rc_menu_config"
+              action="rc_company_action" sequence="40" groups="base.group_system"/>
+</odoo>

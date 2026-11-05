@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="rc_consumption_view_list" model="ir.ui.view">
+        <field name="name">rc.exam.consumption.list</field>
+        <field name="model">rc.exam.consumption</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="state == 'cancel'" decoration-success="state == 'done'" decoration-info="state in ('prep', 'scan')">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="room_id"/>
+                <field name="service_product_id"/>
+                <field name="patient_id"/>
+                <field name="nurse_id"/>
+                <field name="source" optional="hide"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="rc_consumption_view_form" model="ir.ui.view">
+        <field name="name">rc.exam.consumption.form</field>
+        <field name="model">rc.exam.consumption</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="%(action_report_rc_consumption)d" string="Print Exam" type="action" class="btn-secondary"/>
+                    <button name="action_confirm_prep" string="Confirm Preparation" type="object"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_confirm_scan" string="Confirm Scan" type="object"
+                            class="btn-primary" invisible="state != 'prep'"/>
+                    <button name="action_confirm_post" string="Confirm After Exam" type="object"
+                            class="btn-primary" invisible="state != 'scan'"/>
+                    <button name="action_reload_lines" string="Reload from Template" type="object"
+                            invisible="state != 'draft'"/>
+                    <button name="action_cancel" string="Cancel" type="object"
+                            invisible="state != 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,prep,scan,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_consumables" type="object" class="oe_stat_button"
+                                icon="fa-medkit" invisible="consumable_count == 0">
+                            <field name="consumable_count" widget="statinfo" string="Consumables"/>
+                        </button>
+                        <button name="action_view_pickings" type="object" class="oe_stat_button"
+                                icon="fa-truck" invisible="picking_count == 0">
+                            <field name="picking_count" widget="statinfo" string="Stock Transfers"/>
+                        </button>
+                        <button name="action_view_sales_order" type="object" class="oe_stat_button"
+                                icon="fa-shopping-cart" invisible="sales_order_count == 0">
+                            <field name="sales_order_count" widget="statinfo" string="Sales Order"/>
+                        </button>
+                        <button name="action_view_room_stock" type="object" class="oe_stat_button"
+                                icon="fa-cubes" invisible="not room_id">
+                            <field name="room_stock_count" widget="statinfo" string="Room Stock"/>
+                        </button>
+                    </div>
+                    <div class="oe_title"><h1><field name="name"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="room_id" readonly="state != 'draft'" required="state == 'draft'"/>
+                            <field name="service_product_id" readonly="state != 'draft'"/>
+                            <field name="template_id" readonly="state != 'draft'"/>
+                            <field name="patient_id" readonly="state != 'draft'" context="{'res_partner_search_mode': 'customer'}" options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="date" readonly="state != 'draft'"/>
+                            <field name="nurse_id" readonly="state != 'draft'"/>
+                            <field name="source" readonly="state != 'draft'"/>
+                            <field name="ris_ref" readonly="state != 'draft'"/>
+                            <field name="sale_order_id" invisible="not sale_order_id"/>
+                            <field name="company_id" groups="base.group_multi_company" readonly="state != 'draft'"/>
+                        </group>
+                    </group>
+                    <group string="Case">
+                        <group>
+                            <field name="with_contrast" readonly="state != 'draft'"/>
+                            <field name="allergy_case" readonly="state != 'draft'"/>
+                            <field name="needs_gown" readonly="state != 'draft'"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Consumables">
+                            <field name="line_ids" readonly="state in ('done', 'cancel')">
+                                <list editable="bottom">
+                                    <field name="locked" column_invisible="True"/>
+                                    <field name="phase" readonly="locked"/>
+                                    <field name="line_type" readonly="locked"/>
+                                    <field name="product_id" readonly="locked"/>
+                                    <field name="tracking" column_invisible="True"/>
+                                    <field name="lot_id" readonly="locked or tracking == 'none'"/>
+                                    <field name="qty_planned" optional="show" readonly="locked"/>
+                                    <field name="qty_done" readonly="locked"/>
+                                    <field name="uom_id"/>
+                                    <field name="charged_to"/>
+                                    <field name="notes" readonly="locked"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="rc_consumption_view_search" model="ir.ui.view">
+        <field name="name">rc.exam.consumption.search</field>
+        <field name="model">rc.exam.consumption</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="ris_ref"/>
+                <field name="room_id"/>
+                <field name="service_product_id"/>
+                <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="in_progress" string="In Progress" domain="[('state', 'in', ('prep', 'scan'))]"/>
+                <filter name="done" string="Done" domain="[('state', '=', 'done')]"/>
+                <separator/>
+                <filter name="mine" string="My Records" domain="[('nurse_id', '=', uid)]"/>
+                <group>
+                    <filter name="group_room" string="Room" context="{'group_by': 'room_id'}"/>
+                    <filter name="group_exam" string="Exam" context="{'group_by': 'service_product_id'}"/>
+                    <filter name="group_nurse" string="Nurse" context="{'group_by': 'nurse_id'}"/>
+                    <filter name="group_date" string="Day" context="{'group_by': 'date:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="rc_consumption_view_kanban" model="ir.ui.view">
+        <field name="name">rc.exam.consumption.kanban</field>
+        <field name="model">rc.exam.consumption</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="room_id"/>
+                <field name="service_product_id"/>
+                <field name="patient_id"/>
+                <field name="nurse_id"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <strong><field name="name"/></strong>
+                            <field name="state" widget="badge"/>
+                        </div>
+                        <div class="mt-2"><field name="service_product_id"/></div>
+                        <div><field name="patient_id"/></div>
+                        <div class="text-muted"><field name="room_id"/></div>
+                        <div class="text-muted"><field name="date"/></div>
+                        <div class="mt-2"><field name="nurse_id"/></div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="rc_consumption_view_graph" model="ir.ui.view">
+        <field name="name">rc.exam.consumption.graph</field>
+        <field name="model">rc.exam.consumption</field>
+        <field name="arch" type="xml">
+            <graph string="Exam Consumption Analysis" type="bar">
+                <field name="date" interval="month"/>
+                <field name="id" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="rc_consumption_view_pivot" model="ir.ui.view">
+        <field name="name">rc.exam.consumption.pivot</field>
+        <field name="model">rc.exam.consumption</field>
+        <field name="arch" type="xml">
+            <pivot string="Exam Consumption Analysis">
+                <field name="room_id" type="row"/>
+                <field name="service_product_id" type="row"/>
+                <field name="date" type="col" interval="month"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="rc_consumption_action" model="ir.actions.act_window">
+        <field name="name">Exam Consumption</field>
+        <field name="res_model">rc.exam.consumption</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="context">{'search_default_mine': 1}</field>
+    </record>
+
+    <record id="rc_consumption_report_action" model="ir.actions.act_window">
+        <field name="name">Exam Consumption Analysis</field>
+        <field name="res_model">rc.exam.consumption</field>
+        <field name="view_mode">graph,pivot,list</field>
+        <field name="context">{'search_default_done': 1}</field>
+    </record>
+
+    <record id="rc_consumption_line_dashboard_list" model="ir.ui.view">
+        <field name="name">rc.exam.consumption.line.dashboard.list</field>
+        <field name="model">rc.exam.consumption.line</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <list string="Actually Consumed Products" create="0" edit="0" delete="0">
+                <field name="consumption_id" string="Exam Reference"/>
+                <field name="phase"/>
+                <field name="product_id"/>
+                <field name="qty_transferred" string="Consumed Quantity" sum="Total Consumed"/>
+                <field name="uom_id" string="Unit"/>
+                <field name="picking_id" string="Internal Transfer"/>
+            </list>
+        </field>
+    </record>
+</odoo>

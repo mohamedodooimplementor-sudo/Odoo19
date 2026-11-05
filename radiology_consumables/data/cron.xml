@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="rc_cron_clear_ris_samples" model="ir.cron">
+        <field name="name">Radiology Consumables: clear old RIS samples</field>
+        <field name="model_id" ref="model_rc_ris_config"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_clear_old_samples()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+    </record>
+</odoo>

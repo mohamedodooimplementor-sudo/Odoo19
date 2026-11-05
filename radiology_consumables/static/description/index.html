@@ -1,0 +1,133 @@
+<section class="rc">
+<style>
+.rc{--bg:#fff;--fg:#202938;--muted:#667085;--card:#f4f8fb;--accent:#087e8b;--border:#dce5eb;
+font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;max-width:980px;margin:0 auto;padding:24px;
+background:var(--bg);color:var(--fg);line-height:1.65}
+@media(prefers-color-scheme:dark){.rc{--bg:#111827;--fg:#e5e7eb;--muted:#aab4c0;--card:#1d2939;--accent:#42c2c9;--border:#344054}}
+[data-bs-theme="dark"] .rc{--bg:#111827;--fg:#e5e7eb;--muted:#aab4c0;--card:#1d2939;--accent:#42c2c9;--border:#344054}
+.rc h1,.rc h2,.rc h3{color:var(--accent);line-height:1.25}
+.rc h1{font-size:2.1em;margin:.5em 0}
+.rc h2{font-size:1.55em;margin:1.7em 0 .65em}
+.rc p{margin:.65em 0}
+.rc img{max-width:100%;height:auto;border-radius:12px;display:block;margin:18px auto;border:1px solid var(--border)}
+.rc .hero{text-align:center;padding:8px 0 20px}
+.rc .hero p{font-size:1.12em;max-width:820px;margin:10px auto}
+.rc .price{display:inline-block;background:var(--accent);color:#fff;border-radius:999px;padding:7px 20px;font-weight:700}
+.rc .muted{color:var(--muted);font-size:.94em}
+.rc .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:14px}
+.rc .box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px}
+.rc .box b{color:var(--accent)}
+.rc li{margin:7px 0}
+.rc table{border-collapse:collapse;width:100%;margin:12px 0}
+.rc td,.rc th{border:1px solid var(--border);padding:10px;text-align:left}
+.rc th{background:var(--card);color:var(--accent)}
+.rc .tagline{font-weight:600}
+</style>
+
+<div class="hero">
+<img src="banner.png" alt="Radiology Consumables for Odoo" />
+<h1>Radiology Consumables &amp; Room Management</h1>
+<p class="tagline">From the central store to the radiology room, down to the cost of every single exam.</p>
+<p>A dedicated solution for radiology centers and hospitals using Odoo. Control room-level stock, confirm every delivery, create exam consumption straight from sales orders, and see the actual consumables cost per exam, per room and per product &mdash; all on standard Odoo Inventory.</p>
+<p><span class="price">USD 199</span> <span class="muted">&nbsp;One-time purchase · Odoo 20 · Community &amp; Enterprise</span></p>
+</div>
+
+<h2>Why Radiology Consumables?</h2>
+<p>Radiology departments use a wide range of consumables across CT, MRI, X-ray and other services. Without a structured process it is hard to know what each exam consumes, what each room holds, where losses happen, and what it all costs. This module answers those four questions in one connected workflow.</p>
+<div class="grid">
+<div class="box"><b>Know the real cost of every exam</b><br/>Actual cost is captured from validated stock transfers and analysed per exam, per room and per product.</div>
+<div class="box"><b>Control stock by room</b><br/>Each room or lab has its own internal location, assigned staff and a Max level per product.</div>
+<div class="box"><b>Verify every delivery</b><br/>Issued quantities stay in transit until the receiving room confirms what was actually received.</div>
+<div class="box"><b>Make losses visible</b><br/>Record discrepancies, damaged items, human errors and extravasation separately from normal consumption.</div>
+</div>
+
+<h2>End-to-End Workflow</h2>
+<p>Replenish rooms from the main store, create exam records from confirmed sales orders, consume by phase, and get the cost automatically.</p>
+<img src="workflow.png" alt="Radiology consumables end-to-end workflow"/>
+
+<h2>Key Features</h2>
+<div class="grid">
+<div class="box"><b>Exam Consumption Templates</b><br/>Reusable templates for CT, MRI, X-ray and other services. Products and quantities are defined by phase (Preparation, Scan Room, After Exam) and by condition (always, with contrast, allergy case, gown needed).</div>
+<div class="box"><b>Sales Order Integration</b><br/>Mark a service product as a Radiology Exam with its default room. When the sales order is confirmed, one draft exam record per unit is created with the template items. Cancelling the order cancels the draft records.</div>
+<div class="box"><b>Pay from the Sales Order</b><br/>A Register Payment button on the sales order creates and posts the invoice when needed, then opens Odoo's standard payment wizard. The payment is reconciled with the invoice automatically.</div>
+<div class="box"><b>Auto Deliver &amp; Invoice</b><br/>Tick one option on the warehouse and confirming a sales order validates its delivery (if any), then creates and posts the customer invoice. If a step cannot complete, the order is still confirmed and the reason is logged in its chatter.</div>
+<div class="box"><b>Service Product Integration</b><br/>Maintain exam consumables from the template menu or from a tab on the service product, without duplicating configuration.</div>
+<div class="box"><b>Room &amp; Lab Inventory</b><br/>Dedicated internal locations for each room or lab, with responsible staff and a default supply store. Labs are flagged with an Is Lab option.</div>
+<div class="box"><b>Room Stock Levels (Max)</b><br/>Set a Max per product and room. The module shows what is In Room, On the Way and To Request, and creates the issue request for everything below Max in one click.</div>
+<div class="box"><b>Controlled Issue to Rooms</b><br/>Transfer supplies from the main store to the room using standard Odoo internal transfers, with an In Transit stage.</div>
+<div class="box"><b>Room Receipt Confirmation</b><br/>Room staff confirm received quantities. Differences require a reason and can be returned to the main store.</div>
+<div class="box"><b>Phase-by-Phase Stock Deduction</b><br/>Each exam phase creates a standard internal transfer to the consumption location. The next phase is blocked until the previous transfer is validated. Optional automatic validation per company.</div>
+<div class="box"><b>Loss &amp; Exception Tracking</b><br/>Line types for extravasation, defective items and human error keep exceptional usage separate and visible for accountability.</div>
+<div class="box"><b>Lots &amp; Traceability</b><br/>Select the lot on the exam line. Moves follow standard Odoo stock traceability, with chatter tracking on exams and issues.</div>
+<div class="box"><b>Management Dashboard</b><br/>A colourful, at-a-glance page with a gradient header banner. Exams (total, done, in progress, draft), pending receipts, received issues, requests, differences, low-stock rooms and used quantity, with room and date filters and drill-down.</div>
+<div class="box"><b>Expiry Reports</b><br/>Expired Stock and Expiring Soon lists by room, product and lot, with days to expiry, colour status, pivot by expiry month and a configurable alert window per company (default 60 days).</div>
+<div class="box"><b>Printable PDF Reports</b><br/>Exam Consumption, Room Receipt / Stock Transfer, Consumption Template, Room Stock Levels, Room Stock On Hand and Expiry Report.</div>
+</div>
+
+<h2>Cost &amp; Performance Analytics</h2>
+<p>A dedicated analytics area for managers and analysts. It counts only transfers that were actually validated in Inventory, so the numbers reflect real consumption &mdash; not plans.</p>
+<div class="grid">
+<div class="box"><b>Actual cost per exam</b><br/>Unit cost is taken from stock valuation when available, otherwise from the product cost, and the cost source is shown on every line.</div>
+<div class="box"><b>Cost per Examination</b><br/>Pivot and graph by month and exam type, with cost and consumed quantity.</div>
+<div class="box"><b>Room Performance</b><br/>Compare rooms and labs by cost and quantity across months.</div>
+<div class="box"><b>Analytics Dashboard</b><br/>Exams with validated consumption, total cost, average cost per exam, consumed quantity, top rooms, top exams and the most expensive consumed products, with date filters.</div>
+</div>
+<img src="analytics.png" alt="Cost and Performance Analytics dashboard"/>
+<p class="muted">Cost figures are visible only to users in the Cost &amp; Performance Analyst group, which works independently of the nurse and storekeeper roles.</p>
+
+<h2>Consumption Template Setup</h2>
+<p>Configure the standard products and quantities required for each examination, organized by workflow phase and applicable conditions.</p>
+<img src="template.png" alt="Exam consumption template configuration"/>
+
+<h2>Dashboard &amp; Operational Monitoring</h2>
+<p>The dashboard brings the key indicators together so managers can spot pending receipts, track exam progress and see which rooms need replenishment. Filter by room and date range; every card opens the underlying records. Both dashboards open with a coloured header banner, so you always know which page you are on.</p>
+<img src="dashboard.png" alt="Radiology management dashboard with colour banner and KPI cards"/>
+<p class="muted">Dashboard images use sample data for illustration.</p>
+
+<h2>RIS Connection Settings</h2>
+<p>Store the connection to your RIS once per company: base URL, authentication (none, API key header, bearer token or basic), SSL and timeout, and the paths for sales orders, invoices and payments. Use <b>Test Connection</b> to verify access and <b>Fetch Samples</b> to preview the data format your RIS returns. Sales orders that carry a RIS reference create exam records marked as coming from RIS.</p>
+<p class="muted">Note: this version provides the connection settings and testing tools. Automatic pulling of RIS orders is not included; orders can reach Odoo as standard sales orders through your own integration or import.</p>
+
+<h2>Security &amp; User Roles</h2>
+<img src="roles.png" alt="Radiology consumables security roles"/>
+<table>
+<tr><th>Role</th><th>Main responsibilities</th></tr>
+<tr><td>Room Nurse</td><td>Receive supplies and record exam consumption for assigned rooms only.</td></tr>
+<tr><td>Storekeeper</td><td>Manage issues, internal transfers, room stock levels and replenishment across all rooms.</td></tr>
+<tr><td>Manager</td><td>Configure rooms, templates and RIS connection; full access to operations.</td></tr>
+<tr><td>Cost &amp; Performance Analyst</td><td>Independent read-only access to cost analytics, without stock or nurse permissions.</td></tr>
+</table>
+
+<h2>Built on Standard Odoo Inventory</h2>
+<ul>
+<li>Uses Odoo internal locations and stock transfers.</li>
+<li>Supports standard stock move processing and inventory traceability, including lots.</li>
+<li>Optional add-on <b>Radiology Consumables - Analytic Accounting</b> charges the journal entry of every exam transfer to the analytic account of the room, for department-level reporting in Odoo's analytic reports.</li>
+<li>Multi-company ready: records and settings are scoped per company.</li>
+<li>Designed for Odoo 20 Community and Enterprise.</li>
+<li>Full Arabic translation included (ar).</li>
+</ul>
+
+<h2>Quick Setup</h2>
+<ol>
+<li>Install the module; the consumption, loss and in-transit locations are created automatically.</li>
+<li>Create radiology rooms and labs, assign staff and a supply store.</li>
+<li>Assign users to the module security groups.</li>
+<li>Create consumption templates, or configure consumables on the service products and mark them as Radiology Exams.</li>
+<li>Set Max levels per room, issue supplies, confirm receipts and record exam consumption.</li>
+<li>Open Cost &amp; Performance Analytics to review the actual cost.</li>
+</ol>
+
+<h2>Technical Information</h2>
+<ul>
+<li><b>Version:</b> 20.0.1.8.0</li>
+<li><b>License:</b> LGPL-3</li>
+<li><b>Dependencies:</b> Inventory, Inventory Valuation (stock_account), Expiration Dates (product_expiry), Invoicing, Discuss and Sales</li>
+<li><b>Python library:</b> requests (used by the RIS connection tools)</li>
+<li><b>Compatibility:</b> Odoo 20 Community and Enterprise</li>
+</ul>
+
+<h2>Support</h2>
+<p>Developed by <b>Eng. M. Aboelmagde</b> · Odoo Lab.</p>
+<p class="muted">For technical support, implementation assistance or customization inquiries, please contact the module publisher through the Odoo Apps listing.</p>
+</section>

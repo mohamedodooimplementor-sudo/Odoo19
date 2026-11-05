@@ -1,0 +1,2208 @@
+# Arabic translation of Radiology Consumables & Room Management.
+# Copyright (C) Eng. M.Aboelmagde
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: Eng. M.Aboelmagde\n"
+"Language-Team: Arabic\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/consumption.py:190
+#, python-format
+msgid "%(name)s is not ready for this stage."
+msgstr "%(name)s غير جاهز لهذه المرحلة."
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_ris_config_view_form
+msgid "/health"
+msgstr "/health"
+
+#. module: radiology_consumables
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__rc_ris_config__auth_type__api_key
+msgid "API Key (custom header)"
+msgstr "مفتاح API (ترويسة مخصصة)"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_ris_config__api_token
+msgid "API Key / Token"
+msgstr "مفتاح API / الرمز"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_ris_config__api_key_header
+msgid "API Key Header"
+msgstr "ترويسة مفتاح API"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_ris_config__active
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_consumption_template__active
+msgid "Active"
+msgstr "نشط"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption_line__actual_cost
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption__actual_consumables_cost
+msgid "Actual Consumables Cost"
+msgstr "التكلفة الفعلية للمستهلكات"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml
+msgid "Actual Cost"
+msgstr "التكلفة الفعلية"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption_line__actual_unit_cost
+msgid "Actual Unit Cost"
+msgstr "تكلفة الوحدة الفعلية"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml
+msgid "Actual validated consumables cost and room performance"
+msgstr "التكلفة الفعلية المعتمدة للمستهلكات وأداء الغرف"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_consumption_line_dashboard_list
+msgid "Actually Consumed Products"
+msgstr "المنتجات المستهلكة فعلياً"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/issue.py:86
+msgid "Add at least one item with a quantity."
+msgstr "أضف صنفاً واحداً على الأقل بكمية."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/dashboard.xml
+msgid "All My Rooms"
+msgstr "كل غرفي"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption__allergy_case
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__rc_consumption_template_line__condition__allergy
+msgid "Allergy Case"
+msgstr "حالة حساسية"
+
+#. module: radiology_consumables
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__rc_consumption_template_line__condition__always
+msgid "Always"
+msgstr "دائماً"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_ris_config__auth_type
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_ris_config_view_form
+msgid "Authentication"
+msgstr "المصادقة"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_stock_warehouse__rc_auto_fulfill_on_confirm
+msgid "Auto Deliver & Invoice on Sale Confirmation"
+msgstr "تسليم وفوترة تلقائية عند تأكيد أمر البيع"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/sale.py:74
+#, python-format
+msgid "Automatic delivery could not be completed: %s"
+msgstr "تعذر إكمال التسليم التلقائي: %s"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/sale.py:85
+#, python-format
+msgid "Automatic invoice could not be completed: %s"
+msgstr "تعذر إكمال الفاتورة التلقائية: %s"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_res_company__rc_auto_validate_exam_transfers
+msgid "Automatically Validate Exam Stock Transfers"
+msgstr "اعتماد تحويلات مخزون الفحوصات تلقائياً"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml
+msgid "Average Cost per Exam"
+msgstr "متوسط التكلفة لكل فحص"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_ris_config__base_url
+msgid "Base URL"
+msgstr "الرابط الأساسي"
+
+#. module: radiology_consumables
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__rc_ris_config__auth_type__bearer
+msgid "Bearer Token"
+msgstr "رمز Bearer"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_consumption_view_form
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_issue_view_form
+msgid "Cancel"
+msgstr "إلغاء"
+
+#. module: radiology_consumables
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__rc_exam_consumption__state__cancel
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__rc_issue__state__cancel
+msgid "Cancelled"
+msgstr "ملغي"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_consumption_view_form
+msgid "Case"
+msgstr "الحالة"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption_line__charged_to
+msgid "Charged To"
+msgstr "يُحمَّل على"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/stock_location.py:30
+msgid "Choose \"Supply From (Main Store)\" first."
+msgstr "اختر \"التوريد من (المخزن الرئيسي)\" أولاً."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/consumption.py:192
+msgid "Choose the room before confirming."
+msgstr "اختر الغرفة قبل التأكيد."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml
+#: code:addons/radiology_consumables/static/src/dashboard/dashboard.xml
+msgid "Clear Filters"
+msgstr "مسح عوامل التصفية"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_ris_config_view_form
+msgid "Clear Samples"
+msgstr "مسح العينات"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption__company_id
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_issue__company_id
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_ris_config__company_id
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_consumption_template__company_id
+msgid "Company"
+msgstr "الشركة"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_consumption_template_line__condition
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_template
+msgid "Condition"
+msgstr "الشرط"
+
+#. module: radiology_consumables
+#: model:ir.ui.menu,name:radiology_consumables.rc_menu_config
+msgid "Configuration"
+msgstr "الإعدادات"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_consumption_view_form
+msgid "Confirm After Exam"
+msgstr "تأكيد ما بعد الفحص"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_issue_view_form
+msgid "Confirm Issue"
+msgstr "تأكيد الاستلام"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_consumption_view_form
+msgid "Confirm Preparation"
+msgstr "تأكيد التحضير"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_consumption_view_form
+msgid "Confirm Scan"
+msgstr "تأكيد الفحص"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/sale.py:43
+msgid "Confirm the sales order before registering a payment."
+msgstr "أكّد أمر البيع قبل تسجيل الدفعة."
+
+#. module: radiology_consumables
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__rc_ris_config__last_test_status__ok
+msgid "Connected"
+msgstr "متصل"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_ris_config_view_form
+msgid "Connection"
+msgstr "الاتصال"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/ris_config.py:141
+#, python-format
+msgid "Connection failed (%s)."
+msgstr "فشل الاتصال (%s)."
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption__consumable_count
+msgid "Consumable Count"
+msgstr "عدد المستهلكات"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/consumption.py:127
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption__line_ids
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_consumption_template__line_ids
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_consumption_view_form
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_template_view_form
+msgid "Consumables"
+msgstr "المستهلكات"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_report_layout
+msgid "Consumables & Room Operations"
+msgstr "المستهلكات وتشغيل الغرف"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_consumption
+msgid "Consumables & Usage"
+msgstr "المستهلكات والاستخدام"
+
+#. module: radiology_consumables
+#: model:res.groups,name:radiology_consumables.group_rc_analytics
+msgid "Consumables / Cost & Performance Analyst"
+msgstr "المستهلكات / محلل التكلفة والأداء"
+
+#. module: radiology_consumables
+#: model:res.groups,name:radiology_consumables.group_rc_manager
+msgid "Consumables / Manager"
+msgstr "المستهلكات / المدير"
+
+#. module: radiology_consumables
+#: model:res.groups,name:radiology_consumables.group_rc_nurse
+msgid "Consumables / Room Nurse"
+msgstr "المستهلكات / ممرض الغرفة"
+
+#. module: radiology_consumables
+#: model:res.groups,name:radiology_consumables.group_rc_storekeeper
+msgid "Consumables / Storekeeper"
+msgstr "المستهلكات / أمين المخزن"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_analytics_consumption_graph
+msgid "Consumables Cost Trend"
+msgstr "اتجاه تكلفة المستهلكات"
+
+#. module: radiology_consumables
+#: model:ir.actions.act_window,name:radiology_consumables.rc_company_action
+#: model:ir.ui.menu,name:radiology_consumables.rc_menu_company
+msgid "Consumables Setup"
+msgstr "إعداد المستهلكات"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml
+msgid "Consumed Qty"
+msgstr "الكمية المستهلكة"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_consumption_line_dashboard_list
+msgid "Consumed Quantity"
+msgstr "الكمية المستهلكة"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption_line__consumption_id
+msgid "Consumption"
+msgstr "الاستهلاك"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_res_company__rc_consumption_location_id
+msgid "Consumption Location"
+msgstr "موقع الاستهلاك"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_product_template__rc_template_id
+#: model:ir.actions.report,name:radiology_consumables.action_report_rc_template
+msgid "Consumption Template"
+msgstr "قالب الاستهلاك"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_template
+msgid "Consumption Template:"
+msgstr "قالب الاستهلاك:"
+
+#. module: radiology_consumables
+#: model:ir.ui.menu,name:radiology_consumables.rc_menu_templates
+#: model:ir.actions.act_window,name:radiology_consumables.rc_template_action
+msgid "Consumption Templates"
+msgstr "قوالب الاستهلاك"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml
+msgid "Cost"
+msgstr "التكلفة"
+
+#. module: radiology_consumables
+#: model:ir.actions.client,name:radiology_consumables.rc_analytics_dashboard_action
+#: model:ir.ui.menu,name:radiology_consumables.rc_menu_analytics
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml
+msgid "Cost & Performance Analytics"
+msgstr "تحليلات التكلفة والأداء"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption_line__cost_method
+msgid "Cost Source"
+msgstr "مصدر التكلفة"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml
+msgid "Cost by Examination"
+msgstr "التكلفة حسب الفحص"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,help:radiology_consumables.field_rc_exam_consumption_line__actual_unit_cost
+msgid "Cost captured when the related internal transfer is validated. Uses stock valuation layers when available; otherwise snapshots the product standard cost."
+msgstr "تُسجَّل التكلفة عند اعتماد التحويل الداخلي المرتبط. تُستخدم طبقات تقييم المخزون عند توفرها، وإلا تُؤخذ التكلفة القياسية للمنتج."
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_analytics_consumption_pivot
+#: model:ir.actions.act_window,name:radiology_consumables.rc_analytics_cost_action
+#: model:ir.ui.menu,name:radiology_consumables.rc_menu_analytics_exams
+msgid "Cost per Examination"
+msgstr "التكلفة لكل فحص"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_product_template_form
+msgid "Create Consumables List"
+msgstr "إنشاء قائمة المستهلكات"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_room_levels_view_form
+msgid "Create Issue Request"
+msgstr "إنشاء طلب صرف"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/issue.py:171
+msgid "Create the internal transfer first by clicking Issue to Room."
+msgstr "أنشئ التحويل الداخلي أولاً بالضغط على \"صرف للغرفة\"."
+
+#. module: radiology_consumables
+#: model:ir.actions.client,name:radiology_consumables.rc_dashboard_action
+#: model:ir.ui.menu,name:radiology_consumables.rc_menu_dashboard
+msgid "Dashboard"
+msgstr "لوحة المعلومات"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption__date
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_issue
+#: code:addons/radiology_consumables/static/src/dashboard/dashboard.xml
+msgid "Date"
+msgstr "التاريخ"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_consumption_view_search
+msgid "Day"
+msgstr "يوم"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_expiry
+msgid "Days"
+msgstr "الأيام"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_stock_quant__rc_days_to_expiry
+msgid "Days to Expiry"
+msgstr "الأيام المتبقية للانتهاء"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_product_template__rc_room_id
+msgid "Default Room / Lab"
+msgstr "الغرفة / المعمل الافتراضي"
+
+#. module: radiology_consumables
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__rc_exam_consumption_line__line_type__defective
+msgid "Defective / Faulty"
+msgstr "تالف / معيب"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_stock_location__is_room
+msgid "Department / Room"
+msgstr "القسم / الغرفة"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_issue
+msgid "Difference / Notes:"
+msgstr "الفرق / ملاحظات:"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_issue__difference_reason
+msgid "Difference Reason"
+msgstr "سبب الفرق"
+
+#. module: radiology_consumables
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__rc_exam_consumption__state__done
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_consumption_view_search
+msgid "Done"
+msgstr "تم"
+
+#. module: radiology_consumables
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__rc_exam_consumption__state__draft
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__rc_issue__state__draft
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_consumption_view_search
+msgid "Draft"
+msgstr "مسودة"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_ris_config_view_form
+msgid "Endpoints (added after the Base URL)"
+msgstr "المسارات (تُضاف بعد الرابط الأساسي)"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption_line__analytics_exam_id
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption__service_product_id
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_consumption_view_search
+msgid "Exam"
+msgstr "الفحص"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_product_template__rc_line_ids
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_product_template_form
+msgid "Exam Consumables"
+msgstr "مستهلكات الفحص"
+
+#. module: radiology_consumables
+#: model:ir.actions.report,name:radiology_consumables.action_report_rc_consumption
+#: model:ir.actions.act_window,name:radiology_consumables.rc_consumption_action
+#: model:ir.ui.menu,name:radiology_consumables.rc_menu_consumption
+msgid "Exam Consumption"
+msgstr "استهلاك الفحص"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_consumption_view_graph
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_consumption_view_pivot
+#: model:ir.actions.act_window,name:radiology_consumables.rc_consumption_report_action
+#: model:ir.ui.menu,name:radiology_consumables.rc_menu_consumption_report
+msgid "Exam Consumption Analysis"
+msgstr "تحليل استهلاك الفحوصات"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_consumption
+msgid "Exam Consumption:"
+msgstr "استهلاك الفحص:"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption_line__analytics_date
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_consumption
+msgid "Exam Date"
+msgstr "تاريخ الفحص"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_consumption_line_dashboard_list
+msgid "Exam Reference"
+msgstr "مرجع الفحص"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_consumption_template__service_tmpl_ids
+msgid "Exam Services"
+msgstr "خدمات الفحوصات"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption_line__analytics_state
+msgid "Exam Status"
+msgstr "حالة الفحص"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml
+msgid "Examination"
+msgstr "الفحص"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,help:radiology_consumables.field_rc_ris_config__base_url
+msgid "Example: https://ris.example.com/api"
+msgstr "مثال: https://ris.example.com/api"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_sale_order_form
+#: code:addons/radiology_consumables/static/src/dashboard/dashboard.xml
+msgid "Exams"
+msgstr "الفحوصات"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml
+msgid "Exams with Validated Consumption"
+msgstr "فحوصات باستهلاك معتمد"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_stock_quant__rc_expiration_date
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_expiry
+msgid "Expiration Date"
+msgstr "تاريخ الانتهاء"
+
+#. module: radiology_consumables
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__stock_quant__rc_expiry_state__expired
+msgid "Expired"
+msgstr "منتهي الصلاحية"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/expiry.py:56
+#: model:ir.actions.server,name:radiology_consumables.rc_expiry_expired_server_action
+#: model:ir.ui.menu,name:radiology_consumables.rc_menu_expired
+msgid "Expired Stock"
+msgstr "مخزون منتهي الصلاحية"
+
+#. module: radiology_consumables
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__stock_quant__rc_expiry_state__soon
+#: model:ir.actions.server,name:radiology_consumables.rc_expiry_soon_server_action
+#: model:ir.ui.menu,name:radiology_consumables.rc_menu_expiring_soon
+msgid "Expiring Soon"
+msgstr "قارب على الانتهاء"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/expiry.py:59
+#, python-format
+msgid "Expiring Soon (%s days)"
+msgstr "قارب على الانتهاء (%s يوم)"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_expiry_view_pivot
+msgid "Expiry"
+msgstr "الصلاحية"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_expiry_view_search
+msgid "Expiry Month"
+msgstr "شهر الانتهاء"
+
+#. module: radiology_consumables
+#: model:ir.actions.report,name:radiology_consumables.action_report_rc_expiry
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_expiry
+msgid "Expiry Report"
+msgstr "تقرير الصلاحية"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_stock_quant__rc_expiry_state
+msgid "Expiry Status"
+msgstr "حالة الصلاحية"
+
+#. module: radiology_consumables
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__rc_exam_consumption_line__line_type__patient_extra
+msgid "Extra (patient)"
+msgstr "إضافي (على المريض)"
+
+#. module: radiology_consumables
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__rc_exam_consumption_line__line_type__extravasation
+msgid "Extravasation"
+msgstr "تسرب الصبغة"
+
+#. module: radiology_consumables
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__rc_ris_config__last_test_status__failed
+msgid "Failed"
+msgstr "فشل"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_ris_config_view_form
+msgid "Fetch Sample Data"
+msgstr "جلب بيانات تجريبية"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,help:radiology_consumables.field_sale_order__rc_ris_ref
+msgid "Filled by the RIS connection. Exams created from this order are marked as coming from RIS."
+msgstr "يُملأ من اتصال RIS. الفحوصات المنشأة من هذا الأمر تُعلَّم بأنها قادمة من RIS."
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_issue
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml
+#: code:addons/radiology_consumables/static/src/dashboard/dashboard.xml
+msgid "From"
+msgstr "من"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_issue__source_location_id
+msgid "From (Main Store)"
+msgstr "من (المخزن الرئيسي)"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml
+msgid "Full Analysis"
+msgstr "التحليل الكامل"
+
+#. module: radiology_consumables
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__rc_consumption_template_line__condition__gown
+msgid "Gown Needed"
+msgstr "يلزم رداء"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_issue__has_difference
+msgid "Has Difference"
+msgstr "به فرق"
+
+#. module: radiology_consumables
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__rc_exam_consumption_line__line_type__human_error
+msgid "Human Error"
+msgstr "خطأ بشري"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_consumption_view_search
+msgid "In Progress"
+msgstr "قيد التنفيذ"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_room_par__qty_on_hand
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_room
+msgid "In Room"
+msgstr "في الغرفة"
+
+#. module: radiology_consumables
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__rc_issue__state__in_transit
+msgid "In Transit"
+msgstr "في الطريق"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_res_company__rc_transit_location_id
+msgid "In Transit Location"
+msgstr "موقع العبور"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption_line__picking_id
+#: code:addons/radiology_consumables/models/issue.py:157
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_issue__picking_id
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_issue
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_consumption_line_dashboard_list
+msgid "Internal Transfer"
+msgstr "تحويل داخلي"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_ris_config__sample_invoice
+msgid "Invoice Sample"
+msgstr "عينة فاتورة"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_ris_config__endpoint_invoice
+msgid "Invoices Path"
+msgstr "مسار الفواتير"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_stock_location__is_lab
+msgid "Is Lab"
+msgstr "معمل"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_issue_line__issue_id
+msgid "Issue"
+msgstr "الصرف"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_issue__issue_date
+msgid "Issue Date"
+msgstr "تاريخ الصرف"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_issue_view_form
+msgid "Issue to Room"
+msgstr "صرف للغرفة"
+
+#. module: radiology_consumables
+#: model:ir.actions.act_window,name:radiology_consumables.rc_issue_action
+msgid "Issue to Rooms"
+msgstr "الصرف للغرف"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_issue_line__qty_issued
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_issue
+msgid "Issued"
+msgstr "المصروف"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_issue__issued_by
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_issue
+msgid "Issued By"
+msgstr "صُرف بواسطة"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_issue__line_ids
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_issue_view_form
+msgid "Items"
+msgstr "الأصناف"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/issue.py:243
+msgid "Items can only be added while the issue is a draft."
+msgstr "يمكن إضافة الأصناف فقط أثناء كون الصرف مسودة."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/issue.py:254
+msgid "Items cannot be changed after the issue left draft."
+msgstr "لا يمكن تعديل الأصناف بعد خروج الصرف من المسودة."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/issue.py:259
+msgid "Items cannot be deleted after the issue left draft."
+msgstr "لا يمكن حذف الأصناف بعد خروج الصرف من المسودة."
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_ris_config_view_form
+msgid "Last Test"
+msgstr "آخر اختبار"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_ris_config__last_test_date
+msgid "Last Test Date"
+msgstr "تاريخ آخر اختبار"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_ris_config__last_test_message
+msgid "Last Test Message"
+msgstr "رسالة آخر اختبار"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_ris_config__last_test_status
+msgid "Last Test Status"
+msgstr "حالة آخر اختبار"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption_line__line_type
+msgid "Line Type"
+msgstr "نوع السطر"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml
+msgid "Loading analytics..."
+msgstr "جارٍ تحميل التحليلات..."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/dashboard.xml
+msgid "Loading dashboard..."
+msgstr "جارٍ تحميل لوحة المعلومات..."
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption_line__locked
+msgid "Locked"
+msgstr "مقفل"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_res_company__rc_loss_location_id
+msgid "Loss / Scrap Location"
+msgstr "موقع الفاقد / التالف"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption_line__lot_id
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_issue_line__lot_id
+msgid "Lot"
+msgstr "الدفعة"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_consumption
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_issue
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_quants
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_expiry
+msgid "Lot / Serial"
+msgstr "الدفعة / الرقم التسلسلي"
+
+#. module: radiology_consumables
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__rc_exam_consumption__source__manual
+msgid "Manual"
+msgstr "يدوي"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_room_par__max_qty
+msgid "Max"
+msgstr "الحد الأقصى"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,help:radiology_consumables.field_rc_room_par__qty_to_request
+msgid "Max - In Room - On the Way (never negative)."
+msgstr "الحد الأقصى - في الغرفة - في الطريق (لا يكون سالباً)."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/room_par.py:32
+msgid "Max cannot be negative."
+msgstr "لا يمكن أن يكون الحد الأقصى سالباً."
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_room
+msgid "Maximum"
+msgstr "الحد الأقصى"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml
+msgid "Most Consumed Products by Cost"
+msgstr "أكثر المنتجات استهلاكاً حسب التكلفة"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption_line__move_id
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_issue_line__move_id
+msgid "Move"
+msgstr "الحركة"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_consumption_view_search
+msgid "My Records"
+msgstr "سجلاتي"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_issue_view_search
+msgid "My Rooms"
+msgstr "غرفي"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption__name
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_issue__name
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_consumption_template__name
+msgid "Name"
+msgstr "الاسم"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_res_company__rc_expiry_alert_days
+msgid "Near-Expiry Alert (days)"
+msgstr "تنبيه قرب الانتهاء (بالأيام)"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption__needs_gown
+msgid "Needs Gown"
+msgstr "يحتاج رداء"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,help:radiology_consumables.field_stock_quant__rc_days_to_expiry
+msgid "Negative when the lot is already expired."
+msgstr "سالب عندما تكون الدفعة منتهية الصلاحية."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/consumption.py:20
+#: code:addons/radiology_consumables/models/consumption.py:66
+#: code:addons/radiology_consumables/models/consumption.py:67
+#: code:addons/radiology_consumables/models/issue.py:17
+#: code:addons/radiology_consumables/models/issue.py:53
+#: code:addons/radiology_consumables/models/issue.py:54
+msgid "New"
+msgstr "جديد"
+
+#. module: radiology_consumables
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__rc_ris_config__auth_type__none
+msgid "No Authentication"
+msgstr "بدون مصادقة"
+
+#. module: radiology_consumables
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__stock_quant__rc_expiry_state__none
+msgid "No Expiry"
+msgstr "بدون تاريخ انتهاء"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/issue.py:96
+#: code:addons/radiology_consumables/models/stock_mixin.py:121
+msgid "No Internal Transfer operation type was found for this company."
+msgstr "لم يتم العثور على نوع عملية تحويل داخلي لهذه الشركة."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/dashboard.xml
+msgid "No receipts or requests found."
+msgstr "لا توجد استلامات أو طلبات."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/dashboard.xml
+msgid "No records found for the selected filters."
+msgstr "لا توجد سجلات للمرشحات المحددة."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml
+msgid "No validated consumption."
+msgstr "لا يوجد استهلاك معتمد."
+
+#. module: radiology_consumables
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__rc_exam_consumption_line__line_type__normal
+msgid "Normal"
+msgstr "عادي"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/stock_mixin.py:41
+#, python-format
+msgid "Not enough stock of %(product)s in %(loc)s: available %(avail)s, requested %(qty)s."
+msgstr "لا يوجد مخزون كافٍ من %(product)s في %(loc)s: المتاح %(avail)s، المطلوب %(qty)s."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/issue.py:117
+#, python-format
+msgid "Not enough stock of %(product)s in %(location)s for lot %(lot)s. Available: %(available)s; requested: %(requested)s."
+msgstr "لا يوجد مخزون كافٍ من %(product)s في %(location)s للدفعة %(lot)s. المتاح: %(available)s؛ المطلوب: %(requested)s."
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption_line__notes
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_consumption
+msgid "Notes"
+msgstr "ملاحظات"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/sale.py:54
+msgid "Nothing to pay: the invoices of this order are already paid."
+msgstr "لا يوجد ما يُدفع: فواتير هذا الأمر مدفوعة بالفعل."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/stock_location.py:33
+msgid "Nothing to request: every product is at or above its Max."
+msgstr "لا شيء للطلب: كل المنتجات عند حدها الأقصى أو أعلى."
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption__nurse_id
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_consumption
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_consumption_view_search
+#: code:addons/radiology_consumables/static/src/dashboard/dashboard.xml
+msgid "Nurse"
+msgstr "الممرض"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_room_par__qty_pending
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_room
+msgid "On the Way"
+msgstr "في الطريق"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/stock_mixin.py:25
+msgid "Only a storekeeper or a manager can do this."
+msgstr "هذا الإجراء متاح لأمين المخزن أو المدير فقط."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/issue.py:251
+msgid "Only a storekeeper or a manager can edit issue items."
+msgstr "تعديل أصناف الصرف متاح لأمين المخزن أو المدير فقط."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/issue.py:179
+#, python-format
+msgid "Only the staff of %s can confirm receipt."
+msgstr "يمكن لموظفي %s فقط تأكيد الاستلام."
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_issue_view_form
+msgid "Open Internal Transfer"
+msgstr "فتح التحويل الداخلي"
+
+#. module: radiology_consumables
+#: model:ir.ui.menu,name:radiology_consumables.rc_menu_operations
+msgid "Operation"
+msgstr "العملية"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,help:radiology_consumables.field_rc_ris_config__test_endpoint
+msgid "Optional path used by Test Connection. Empty = Base URL."
+msgstr "مسار اختياري يستخدمه اختبار الاتصال. فارغ = الرابط الأساسي."
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_report_layout
+msgid "Page"
+msgstr "الصفحة"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_room_view_form
+msgid "Parent Location"
+msgstr "الموقع الرئيسي"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_ris_config__password
+msgid "Password"
+msgstr "كلمة المرور"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption__patient_id
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_consumption
+#: code:addons/radiology_consumables/static/src/dashboard/dashboard.xml
+msgid "Patient"
+msgstr "المريض"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_ris_config__sample_payment
+msgid "Payment Sample"
+msgstr "عينة دفعة"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_ris_config__endpoint_payment
+msgid "Payments Path"
+msgstr "مسار المدفوعات"
+
+#. module: radiology_consumables
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__rc_exam_consumption_line__cost_method__pending
+msgid "Pending Stock Validation"
+msgstr "بانتظار اعتماد المخزون"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption_line__phase
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_consumption_template_line__phase
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_consumption
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_template
+msgid "Phase"
+msgstr "المرحلة"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption__picking_count
+msgid "Picking Count"
+msgstr "عدد التحويلات"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption_line__qty_planned
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_consumption
+msgid "Planned"
+msgstr "المخطط"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/consumption.py:217
+msgid "Please configure the Consumption Location in Radiology Consumables settings."
+msgstr "من فضلك حدد موقع الاستهلاك في إعدادات مستهلكات الأشعة."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/issue.py:195
+msgid "Please write the reason for the quantity difference."
+msgstr "من فضلك اكتب سبب فرق الكمية."
+
+#. module: radiology_consumables
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__rc_exam_consumption__state__prep
+msgid "Preparation Done"
+msgstr "تم التحضير"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_consumption
+msgid "Prepared by: __________________"
+msgstr "أعدّه: __________________"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_consumption_view_form
+msgid "Print Exam"
+msgstr "طباعة الفحص"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_issue_view_form
+msgid "Print Receipt"
+msgstr "طباعة الإيصال"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_room_view_form
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_room_levels_view_form
+msgid "Print Room Stock"
+msgstr "طباعة مخزون الغرفة"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_template_view_form
+msgid "Print Template"
+msgstr "طباعة القالب"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_report_layout
+msgid "Printed:"
+msgstr "تاريخ الطباعة:"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption_line__product_id
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_issue_line__product_id
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_room_par__product_id
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_consumption_template_line__product_id
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_consumption
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_issue
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_template
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_room
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_quants
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_expiry
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_expiry_view_search
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_room_stock_view_search
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml
+msgid "Product"
+msgstr "المنتج"
+
+#. module: radiology_consumables
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__rc_exam_consumption_line__cost_method__standard
+msgid "Product Cost Fallback"
+msgstr "تكلفة المنتج (بديل)"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml
+msgid "Qty"
+msgstr "الكمية"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_consumption_template_line__qty
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_template
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_quants
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_expiry
+msgid "Quantity"
+msgstr "الكمية"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,help:radiology_consumables.field_rc_room_par__qty_pending
+msgid "Quantity already requested (draft) or issued and not yet received for this room."
+msgstr "الكمية المطلوبة بالفعل (مسودة) أو المصروفة ولم تُستلم بعد لهذه الغرفة."
+
+#. module: radiology_consumables
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__rc_exam_consumption__source__ris
+msgid "RIS"
+msgstr "RIS"
+
+#. module: radiology_consumables
+#: model:ir.ui.menu,name:radiology_consumables.rc_menu_ris
+#: model:ir.actions.act_window,name:radiology_consumables.rc_ris_config_action
+msgid "RIS Connection"
+msgstr "اتصال RIS"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption__ris_ref
+#: model:ir.model.fields,field_description:radiology_consumables.field_sale_order__rc_ris_ref
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_consumption
+msgid "RIS Reference"
+msgstr "مرجع RIS"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/ris_config.py:164
+msgid "RIS connection"
+msgstr "اتصال RIS"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/ris_config.py:190
+msgid "RIS samples"
+msgstr "عينات RIS"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_report_layout
+msgid "Radiology"
+msgstr "الأشعة"
+
+#. module: radiology_consumables
+#: model:ir.ui.menu,name:radiology_consumables.rc_menu_root
+msgid "Radiology Consumables"
+msgstr "مستهلكات الأشعة"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_report_layout
+msgid "Radiology Consumables Management"
+msgstr "إدارة مستهلكات الأشعة"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/dashboard.xml
+msgid "Radiology Dashboard"
+msgstr "لوحة معلومات الأشعة"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_product_template__rc_is_exam
+msgid "Radiology Exam"
+msgstr "فحص أشعة"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_sale_order__rc_consumption_count
+msgid "Rc Consumption Count"
+msgstr "عدد سجلات الاستهلاك"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_sale_order__rc_payment_pending
+msgid "Rc Payment Pending"
+msgstr "دفعة معلقة"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/dashboard.xml
+msgid "Receipts & Requests"
+msgstr "الاستلامات والطلبات"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_issue__receive_date
+msgid "Receive Date"
+msgstr "تاريخ الاستلام"
+
+#. module: radiology_consumables
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__rc_issue__state__received
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_issue_line__qty_received
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_issue
+msgid "Received"
+msgstr "المستلم"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_issue__received_by
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_issue
+msgid "Received By"
+msgstr "استلمه"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/issue.py:249
+#: code:addons/radiology_consumables/models/issue.py:240
+msgid "Received and returned quantities are set by the workflow."
+msgstr "الكميات المستلمة والمرتجعة تُحدَّد تلقائياً بواسطة سير العمل."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/dashboard.xml
+msgid "Recent Exam Consumption"
+msgstr "أحدث استهلاك للفحوصات"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/dashboard.xml
+msgid "Recent Receipts & Requests"
+msgstr "أحدث الاستلامات والطلبات"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/dashboard.xml
+msgid "Reference"
+msgstr "المرجع"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml
+#: code:addons/radiology_consumables/static/src/dashboard/dashboard.xml
+msgid "Refresh"
+msgstr "تحديث"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_sale_order_form
+msgid "Register Payment"
+msgstr "تسجيل دفعة"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_consumption_view_form
+msgid "Reload from Template"
+msgstr "إعادة التحميل من القالب"
+
+#. module: radiology_consumables
+#: model:ir.ui.menu,name:radiology_consumables.rc_menu_reports
+msgid "Reports"
+msgstr "التقارير"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_issue_view_form
+msgid "Required only if the received quantity differs from the issued quantity"
+msgstr "مطلوب فقط إذا اختلفت الكمية المستلمة عن الكمية المصروفة"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_issue_view_form
+msgid "Return Difference to Store"
+msgstr "إرجاع الفرق للمخزن"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_issue
+msgid "Returned"
+msgstr "المرتجع"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_issue_line__qty_returned
+msgid "Returned to Store"
+msgstr "المرتجع للمخزن"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_consumption
+msgid "Reviewed by: __________________"
+msgstr "راجعه: __________________"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption_line__analytics_room_id
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption__room_id
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_consumption
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_consumption_view_search
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_issue_view_search
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_room_stock_view_search
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml
+#: code:addons/radiology_consumables/static/src/dashboard/dashboard.xml
+msgid "Room"
+msgstr "الغرفة"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_room_par__room_id
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_room_levels_view_list
+#: code:addons/radiology_consumables/static/src/dashboard/dashboard.xml
+msgid "Room / Lab"
+msgstr "الغرفة / المعمل"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_quants
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_expiry
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_expiry_view_search
+msgid "Room / Location"
+msgstr "الغرفة / الموقع"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_analytics_room_graph
+msgid "Room Cost Comparison"
+msgstr "مقارنة تكلفة الغرف"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_analytics_room_pivot
+#: model:ir.actions.act_window,name:radiology_consumables.rc_analytics_room_action
+#: model:ir.ui.menu,name:radiology_consumables.rc_menu_analytics_rooms
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml
+msgid "Room Performance"
+msgstr "أداء الغرف"
+
+#. module: radiology_consumables
+#: model:ir.actions.report,name:radiology_consumables.action_report_rc_issue
+msgid "Room Receipt / Stock Transfer"
+msgstr "استلام الغرفة / تحويل المخزون"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_issue
+msgid "Room Receipt / Stock Transfer:"
+msgstr "استلام الغرفة / تحويل المخزون:"
+
+#. module: radiology_consumables
+#: model:ir.actions.act_window,name:radiology_consumables.rc_receipt_action
+#: model:ir.ui.menu,name:radiology_consumables.rc_menu_receipts
+msgid "Room Receipts"
+msgstr "استلامات الغرف"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_issue
+msgid "Room Receiver: __________________"
+msgstr "مستلم الغرفة: __________________"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_stock_location__rc_responsible_ids
+msgid "Room Staff"
+msgstr "موظفو الغرفة"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_room_view_form
+msgid "Room Staff (can receive items and record exams for this room)"
+msgstr "موظفو الغرفة (يمكنهم استلام الأصناف وتسجيل الفحوصات لهذه الغرفة)"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/consumption.py:152
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_consumption_view_form
+#: model:ir.ui.menu,name:radiology_consumables.rc_menu_room_stock
+#: model:ir.actions.act_window,name:radiology_consumables.rc_room_stock_action
+msgid "Room Stock"
+msgstr "مخزون الغرفة"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption__room_stock_count
+msgid "Room Stock Count"
+msgstr "عدد أصناف الغرفة"
+
+#. module: radiology_consumables
+#: model:ir.actions.report,name:radiology_consumables.action_report_rc_room
+#: model:ir.ui.menu,name:radiology_consumables.rc_menu_room_levels
+#: model:ir.actions.act_window,name:radiology_consumables.rc_room_levels_action
+msgid "Room Stock Levels"
+msgstr "مستويات مخزون الغرف"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_room
+msgid "Room Stock Levels:"
+msgstr "مستويات مخزون الغرفة:"
+
+#. module: radiology_consumables
+#: model:ir.actions.report,name:radiology_consumables.action_report_rc_room_quants
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_quants
+msgid "Room Stock On Hand"
+msgstr "الرصيد الحالي لمخزون الغرفة"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/dashboard.xml
+msgid "Room activity, exam consumption and stock overview"
+msgstr "نشاط الغرف واستهلاك الفحوصات ونظرة عامة على المخزون"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/stock_location.py:24
+msgid "Room and Lab locations must be of type Internal."
+msgstr "يجب أن تكون مواقع الغرف والمعامل من النوع داخلي."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/issue.py:66
+msgid "Room staff can only write the difference reason."
+msgstr "يمكن لموظفي الغرفة كتابة سبب الفرق فقط."
+
+#. module: radiology_consumables
+#: model:ir.model.fields,help:radiology_consumables.field_product_template__rc_room_id
+msgid "Room that performs this exam. Used for the exam consumption created from sales orders."
+msgstr "الغرفة التي تُجري هذا الفحص. تُستخدم لاستهلاك الفحص المنشأ من أوامر البيع."
+
+#. module: radiology_consumables
+#: model:ir.actions.act_window,name:radiology_consumables.rc_room_action
+#: model:ir.ui.menu,name:radiology_consumables.rc_menu_rooms
+msgid "Rooms and Labs"
+msgstr "الغرف والمعامل"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption__sale_line_id
+msgid "Sale Line"
+msgstr "سطر البيع"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/consumption.py:141
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption__sale_order_id
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_consumption
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_consumption_view_form
+msgid "Sales Order"
+msgstr "أمر البيع"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption__sales_order_count
+msgid "Sales Order Count"
+msgstr "عدد أوامر البيع"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_ris_config__sample_sales_order
+msgid "Sales Order Sample"
+msgstr "عينة أمر بيع"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_ris_config__endpoint_sales_order
+msgid "Sales Orders Path"
+msgstr "مسار أوامر البيع"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_ris_config__sample_date
+msgid "Sample Date"
+msgstr "تاريخ العينة"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_ris_config_view_form
+msgid "Sample Responses"
+msgstr "ردود تجريبية"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/ris_config.py:191
+msgid "Samples saved with patient values masked. They are cleared automatically after 24 hours."
+msgstr "تم حفظ العينات مع إخفاء بيانات المرضى. تُمسح تلقائياً بعد 24 ساعة."
+
+#. module: radiology_consumables
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__rc_exam_consumption__state__scan
+msgid "Scan Done"
+msgstr "تم الفحص"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_consumption_template_line__sequence
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_template
+msgid "Sequence"
+msgstr "التسلسل"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_consumption
+msgid "Service"
+msgstr "الخدمة"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_template
+msgid "Services:"
+msgstr "الخدمات:"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_consumption
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_issue
+msgid "Signature: __________"
+msgstr "التوقيع: __________"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption__source
+msgid "Source"
+msgstr "المصدر"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_room
+msgid "Source Location:"
+msgstr "موقع المصدر:"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption__state
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_issue__state
+msgid "State"
+msgstr "الحالة"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_consumption
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_issue
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_expiry
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_issue_view_search
+#: code:addons/radiology_consumables/static/src/dashboard/dashboard.xml
+msgid "Status"
+msgstr "الحالة"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_report_layout
+#: model:ir.ui.menu,name:radiology_consumables.rc_menu_inventory
+msgid "Stock & Rooms"
+msgstr "المخزون والغرف"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_stock_location__rc_par_ids
+msgid "Stock Levels"
+msgstr "مستويات المخزون"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/consumption.py:170
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption__picking_ids
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_consumption_view_form
+msgid "Stock Transfers"
+msgstr "تحويلات المخزون"
+
+#. module: radiology_consumables
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__rc_exam_consumption_line__cost_method__valuation
+msgid "Stock Valuation"
+msgstr "تقييم المخزون"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,help:radiology_consumables.field_res_company__rc_expiry_alert_days
+msgid "Stock whose lot expires within this number of days is listed in the Expiring Soon report."
+msgstr "المخزون الذي تنتهي دفعته خلال هذا العدد من الأيام يظهر في تقرير \"قارب على الانتهاء\"."
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_issue
+msgid "Storekeeper: __________________"
+msgstr "أمين المخزن: __________________"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_stock_location__rc_source_location_id
+msgid "Supply From (Main Store)"
+msgstr "التوريد من (المخزن الرئيسي)"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption__template_id
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_consumption_template_line__template_id
+msgid "Template"
+msgstr "القالب"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_ris_config_view_form
+msgid "Test Connection"
+msgstr "اختبار الاتصال"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_ris_config__test_endpoint
+msgid "Test Path"
+msgstr "مسار الاختبار"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/ris_config.py:38
+#: code:addons/radiology_consumables/models/ris_config.py:92
+msgid "The RIS URL must start with http:// or https://"
+msgstr "يجب أن يبدأ رابط RIS بـ http:// أو https://"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/ris_config.py:42
+msgid "The RIS host name cannot be resolved."
+msgstr "تعذر تحليل اسم مضيف RIS."
+
+#. module: radiology_consumables
+#: model:ir.model.fields,help:radiology_consumables.field_rc_exam_consumption__patient_id
+msgid "The patient as a customer (contact)."
+msgstr "المريض كعميل (جهة اتصال)."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/stock_mixin.py:123
+msgid "The room location and Consumption location must be different."
+msgstr "يجب أن يختلف موقع الغرفة عن موقع الاستهلاك."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/consumption.py:76
+msgid "The room, exam and company cannot change after the first stage is confirmed."
+msgstr "لا يمكن تغيير الغرفة أو الفحص أو الشركة بعد تأكيد أول مرحلة."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/stock_mixin.py:115
+msgid "The selected operation type must be an Internal Transfer for this company."
+msgstr "يجب أن يكون نوع العملية المحدد تحويلاً داخلياً لهذه الشركة."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/issue.py:88
+msgid "The source location and room must be different."
+msgstr "يجب أن يختلف موقع المصدر عن الغرفة."
+
+#. module: radiology_consumables
+#: model:ir.model.fields,help:radiology_consumables.field_rc_exam_consumption_line__locked
+msgid "The stage of this line is already confirmed, so it cannot be changed."
+msgstr "مرحلة هذا السطر مؤكدة بالفعل، لذلك لا يمكن تعديله."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/consumption.py:431
+#: code:addons/radiology_consumables/models/consumption.py:439
+msgid "The stock move of a line is set by the workflow."
+msgstr "حركة المخزون الخاصة بالسطر تُحدَّد بواسطة سير العمل."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/ris_config.py:98
+msgid "The timeout must be between 1 and 60 seconds."
+msgstr "يجب أن تكون مهلة الاتصال بين 1 و60 ثانية."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/issue.py:191
+#, python-format
+msgid "The transferred quantity is invalid for %s."
+msgstr "الكمية المحوّلة غير صحيحة للصنف %s."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/ris_config.py:105
+msgid "There is already a RIS connection for this company."
+msgstr "يوجد اتصال RIS لهذه الشركة بالفعل."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/issue.py:154
+msgid "There is no internal transfer linked to this issue yet."
+msgstr "لا يوجد تحويل داخلي مرتبط بهذا الصرف بعد."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/consumption.py:74
+#: code:addons/radiology_consumables/models/issue.py:62
+msgid "These fields are managed by the workflow and cannot be edited directly."
+msgstr "هذه الحقول يديرها سير العمل ولا يمكن تعديلها مباشرة."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/consumption.py:64
+#: code:addons/radiology_consumables/models/issue.py:51
+#, python-format
+msgid "These fields are managed by the workflow: %s"
+msgstr "هذه الحقول يديرها سير العمل: %s"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/ris_config.py:47
+msgid "This RIS address is not allowed (loopback, link-local or reserved)."
+msgstr "عنوان RIS هذا غير مسموح (loopback أو link-local أو محجوز)."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/consumption.py:55
+msgid "This RIS reference already has a consumption record."
+msgstr "مرجع RIS هذا له سجل استهلاك بالفعل."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/consumption.py:441
+msgid "This stage is already confirmed and cannot be changed."
+msgstr "هذه المرحلة مؤكدة بالفعل ولا يمكن تعديلها."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/consumption.py:449
+msgid "This stage is already confirmed and its items cannot be deleted."
+msgstr "هذه المرحلة مؤكدة بالفعل ولا يمكن حذف أصنافها."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/consumption.py:434
+msgid "This stage is already confirmed. Add the item to a stage that is still open."
+msgstr "هذه المرحلة مؤكدة بالفعل. أضف الصنف إلى مرحلة ما زالت مفتوحة."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/consumption.py:444
+msgid "This stage is already confirmed. Choose a stage that is still open."
+msgstr "هذه المرحلة مؤكدة بالفعل. اختر مرحلة ما زالت مفتوحة."
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_ris_config__timeout
+msgid "Timeout (seconds)"
+msgstr "مهلة الاتصال (بالثواني)"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml
+#: code:addons/radiology_consumables/static/src/dashboard/dashboard.xml
+msgid "To"
+msgstr "إلى"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_room_par__qty_to_request
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_room
+msgid "To Request"
+msgstr "المطلوب طلبه"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_issue
+msgid "To Room"
+msgstr "إلى الغرفة"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_issue__room_id
+msgid "To Room / Lab"
+msgstr "إلى الغرفة / المعمل"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_expiry_view_list
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_room_stock_view_list
+msgid "Total"
+msgstr "الإجمالي"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml
+msgid "Total Consumables Cost"
+msgstr "إجمالي تكلفة المستهلكات"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_consumption_line_dashboard_list
+msgid "Total Consumed"
+msgstr "إجمالي المستهلك"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/sale.py:102
+#, python-format
+msgid "Transfer %s could not be validated automatically (check stock availability)."
+msgstr "تعذر اعتماد التحويل %s تلقائياً (تحقق من توفر المخزون)."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/consumption.py:234
+#, python-format
+msgid "Transfer %s could not be validated automatically. Please open it in Inventory and validate it manually."
+msgstr "تعذر اعتماد التحويل %s تلقائياً. افتحه من المخزون واعتمده يدوياً."
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_issue
+msgid "Transferred Items"
+msgstr "الأصناف المحوّلة"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption_line__qty_transferred
+msgid "Transferred Quantity"
+msgstr "الكمية المحوّلة"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_consumption_line_dashboard_list
+msgid "Unit"
+msgstr "الوحدة"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/stock_mixin.py:10
+#, python-format
+msgid "Unsupported stock model: none of the fields %(names)s exist on %(model)s."
+msgstr "نموذج مخزون غير مدعوم: لا يوجد أي من الحقول %(names)s في %(model)s."
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_consumption
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_issue
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_template
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_room
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_quants
+msgid "UoM"
+msgstr "وحدة القياس"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption_line__qty_done
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.report_rc_consumption
+msgid "Used"
+msgstr "المستخدم"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_ris_config__username
+msgid "Username"
+msgstr "اسم المستخدم"
+
+#. module: radiology_consumables
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__rc_ris_config__auth_type__basic
+msgid "Username / Password (Basic)"
+msgstr "اسم المستخدم / كلمة المرور (Basic)"
+
+#. module: radiology_consumables
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__stock_quant__rc_expiry_state__ok
+msgid "Valid"
+msgstr "صالح"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption__actual_consumables_qty
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml
+msgid "Validated Consumed Quantity"
+msgstr "الكمية المستهلكة المعتمدة"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_ris_config__verify_ssl
+msgid "Verify SSL Certificate"
+msgstr "التحقق من شهادة SSL"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_issue_view_search
+msgid "Waiting Receipt"
+msgstr "بانتظار الاستلام"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,help:radiology_consumables.field_product_template__rc_is_exam
+msgid "When a sales order containing this service is confirmed, a draft Exam Consumption is created for it."
+msgstr "عند تأكيد أمر بيع يحتوي هذه الخدمة، يُنشأ لها استهلاك فحص بحالة مسودة."
+
+#. module: radiology_consumables
+#: model:ir.model.fields,help:radiology_consumables.field_stock_warehouse__rc_auto_fulfill_on_confirm
+msgid "When enabled, confirming a sales order of this warehouse validates its delivery transfers (if any), then creates and posts the customer invoice."
+msgstr "عند التفعيل، يؤدي تأكيد أمر بيع لهذا المخزن إلى اعتماد تحويلات التسليم (إن وجدت)، ثم إنشاء فاتورة العميل وترحيلها."
+
+#. module: radiology_consumables
+#: model:ir.model.fields,help:radiology_consumables.field_res_company__rc_auto_validate_exam_transfers
+msgid "When enabled, internal transfers created by exam phases are validated automatically. When disabled, transfers remain waiting for manual validation in Inventory."
+msgstr "عند التفعيل، تُعتمد التحويلات الداخلية المنشأة من مراحل الفحص تلقائياً. عند التعطيل، تبقى التحويلات بانتظار الاعتماد اليدوي في المخزون."
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_rc_exam_consumption__with_contrast
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__rc_consumption_template_line__condition__contrast
+msgid "With Contrast"
+msgstr "بصبغة"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_issue_view_search
+msgid "With Difference"
+msgstr "بفرق"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/consumption.py:277
+msgid "You are not allowed to view this room."
+msgstr "غير مسموح لك بعرض هذه الغرفة."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/consumption.py:204
+#, python-format
+msgid "You cannot confirm %(phase)s until the previous phase stock transfer(s) are validated: %(pickings)s"
+msgstr "لا يمكنك تأكيد %(phase)s قبل اعتماد تحويلات مخزون المرحلة السابقة: %(pickings)s"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/models/issue.py:173
+msgid "You cannot confirm this issue until the linked internal transfer is validated. Open the transfer and click Validate in Inventory first."
+msgstr "لا يمكنك تأكيد هذا الصرف قبل اعتماد التحويل الداخلي المرتبط. افتح التحويل واضغط \"اعتماد\" في المخزون أولاً."
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_ris_config_view_form
+msgid "https://ris.example.com/api"
+msgstr "https://ris.example.com/api"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Actual validated consumables cost, room efficiency and examination economics"
+msgstr "التكلفة الفعلية للمستهلكات المعتمدة وكفاءة الغرف واقتصاديات الفحوصات"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "View examinations"
+msgstr "عرض الفحوصات"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Rooms"
+msgstr "الغرف"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Reset"
+msgstr "إعادة ضبط"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Search..."
+msgstr "بحث..."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "No matches."
+msgstr "لا توجد نتائج."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Trend"
+msgstr "الاتجاه"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Hover for details, click a point to drill into that period"
+msgstr "مرّر للتفاصيل، واضغط على نقطة للتعمق في هذه الفترة"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Cost source"
+msgstr "مصدر التكلفة"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "How each cost was determined"
+msgstr "كيف تم تحديد كل تكلفة"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "total"
+msgstr "الإجمالي"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Fallback cost uses the product's standard cost when no stock valuation layer exists."
+msgstr "التكلفة البديلة تستخدم التكلفة القياسية للمنتج عند عدم وجود تقييم مخزون."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "No validated consumption for the current filters."
+msgstr "لا يوجد استهلاك معتمد حسب الفلاتر الحالية."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "No data."
+msgstr "لا توجد بيانات."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Cost by room"
+msgstr "التكلفة حسب الغرفة"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Where consumables cost is concentrated"
+msgstr "أين تتركز تكلفة المستهلكات"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Full analysis"
+msgstr "التحليل الكامل"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Cost by examination"
+msgstr "التكلفة حسب الفحص"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Which exam types drive cost"
+msgstr "أنواع الفحوصات الأعلى تكلفة"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Efficiency: average cost per exam"
+msgstr "الكفاءة: متوسط التكلفة لكل فحص"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Rooms ranked by cost per examination"
+msgstr "ترتيب الغرف حسب تكلفة الفحص"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Top consumed products"
+msgstr "أكثر المنتجات استهلاكاً"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "By total cost"
+msgstr "حسب إجمالي التكلفة"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Room performance"
+msgstr "أداء الغرف"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Click a row to filter by room"
+msgstr "اضغط على صف للتصفية حسب الغرفة"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Consumed qty"
+msgstr "الكمية المستهلكة"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Actual cost"
+msgstr "التكلفة الفعلية"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Avg / exam"
+msgstr "المتوسط / فحص"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Share"
+msgstr "النسبة"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "This month"
+msgstr "هذا الشهر"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Last month"
+msgstr "الشهر الماضي"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Last 30 days"
+msgstr "آخر 30 يوم"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "This quarter"
+msgstr "هذا الربع"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "This year"
+msgstr "هذه السنة"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "All time"
+msgstr "كل الفترات"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Week"
+msgstr "أسبوع"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Month"
+msgstr "شهر"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "All sources"
+msgstr "كل المصادر"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Stock valuation"
+msgstr "تقييم المخزون"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Cost fallback"
+msgstr "التكلفة البديلة"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Product cost fallback"
+msgstr "التكلفة البديلة للمنتج"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Unable to load analytics."
+msgstr "تعذّر تحميل التحليلات."
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Filtered Examinations"
+msgstr "الفحوصات المصفّاة"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "vs previous period"
+msgstr "مقارنة بالفترة السابقة"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Total consumables cost"
+msgstr "إجمالي تكلفة المستهلكات"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Examinations"
+msgstr "الفحوصات"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "with validated consumption"
+msgstr "باستهلاك معتمد"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Avg cost / exam"
+msgstr "متوسط التكلفة / فحص"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Consumed quantity"
+msgstr "الكمية المستهلكة"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Top cost room"
+msgstr "الغرفة الأعلى تكلفة"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Valuation coverage"
+msgstr "تغطية التقييم"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "cost backed by stock valuation"
+msgstr "التكلفة المدعومة بتقييم المخزون"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Click to drill down"
+msgstr "اضغط للتعمق"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "Click to filter"
+msgstr "اضغط للتصفية"
+
+#. module: radiology_consumables
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.js:0
+#: code:addons/radiology_consumables/static/src/dashboard/analytics_dashboard.xml:0
+msgid "lines"
+msgstr "بنود"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_res_users__rc_access_level
+msgid "Operations Role"
+msgstr "دور التشغيل"
+
+#. module: radiology_consumables
+#: model:ir.model.fields,field_description:radiology_consumables.field_res_users__rc_is_analyst
+msgid "Cost & Performance Analyst"
+msgstr "محلل التكاليف والأداء"
+
+#. module: radiology_consumables
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__res_users__rc_access_level__none
+msgid "No access"
+msgstr "بدون صلاحية"
+
+#. module: radiology_consumables
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__res_users__rc_access_level__nurse
+msgid "Room Nurse"
+msgstr "ممرض الغرفة"
+
+#. module: radiology_consumables
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__res_users__rc_access_level__storekeeper
+msgid "Storekeeper"
+msgstr "أمين المخزن"
+
+#. module: radiology_consumables
+#: model:ir.model.fields.selection,name:radiology_consumables.selection__res_users__rc_access_level__manager
+msgid "Manager"
+msgstr "المدير"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_view_users_form
+msgid "Operations"
+msgstr "التشغيل"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_view_users_form
+msgid "Cost & Performance"
+msgstr "التكاليف والأداء"
+
+#. module: radiology_consumables
+#: model_terms:ir.ui.view,arch_db:radiology_consumables.rc_view_users_form
+msgid ""
+"Each operations role includes the ones below it (Manager > Storekeeper > Room Nurse).\n"
+"                        The analyst role is independent and does not require any operations role."
+msgstr ""
+"كل دور تشغيلي يشمل الأدوار الأدنى منه (المدير > أمين المخزن > ممرض الغرفة). "
+"دور المحلل مستقل ولا يحتاج أي دور تشغيلي."

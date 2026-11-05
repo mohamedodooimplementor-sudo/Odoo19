@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Consistent branded PDF reports for the module's operational documents. -->
+    <record id="action_report_rc_consumption" model="ir.actions.report">
+        <field name="name">Exam Consumption</field><field name="model">rc.exam.consumption</field>
+        <field name="report_type">qweb-pdf</field><field name="report_name">radiology_consumables.report_rc_consumption</field>
+        <field name="binding_model_id" ref="model_rc_exam_consumption"/><field name="binding_type">report</field>
+    </record>
+    <record id="action_report_rc_issue" model="ir.actions.report">
+        <field name="name">Room Receipt / Stock Transfer</field><field name="model">rc.issue</field>
+        <field name="report_type">qweb-pdf</field><field name="report_name">radiology_consumables.report_rc_issue</field>
+        <field name="binding_model_id" ref="model_rc_issue"/><field name="binding_type">report</field>
+    </record>
+    <record id="action_report_rc_template" model="ir.actions.report">
+        <field name="name">Consumption Template</field><field name="model">rc.consumption.template</field>
+        <field name="report_type">qweb-pdf</field><field name="report_name">radiology_consumables.report_rc_template</field>
+        <field name="binding_model_id" ref="model_rc_consumption_template"/><field name="binding_type">report</field>
+    </record>
+    <record id="action_report_rc_room" model="ir.actions.report">
+        <field name="name">Room Stock Levels</field><field name="model">stock.location</field>
+        <field name="report_type">qweb-pdf</field><field name="report_name">radiology_consumables.report_rc_room</field>
+        <field name="binding_model_id" ref="stock.model_stock_location"/><field name="binding_type">report</field>
+    </record>
+    <record id="action_report_rc_room_quants" model="ir.actions.report">
+        <field name="name">Room Stock On Hand</field><field name="model">stock.quant</field>
+        <field name="report_type">qweb-pdf</field><field name="report_name">radiology_consumables.report_rc_quants</field>
+        <field name="binding_model_id" ref="stock.model_stock_quant"/><field name="binding_type">report</field>
+    </record>
+
+    <record id="action_report_rc_expiry" model="ir.actions.report">
+        <field name="name">Expiry Report</field><field name="model">stock.quant</field>
+        <field name="report_type">qweb-pdf</field><field name="report_name">radiology_consumables.report_rc_expiry</field>
+        <field name="binding_model_id" ref="stock.model_stock_quant"/><field name="binding_type">report</field>
+    </record>
+
+    <template id="rc_report_layout">
+        <div class="header" style="border-bottom:3px solid #087e8b;padding-bottom:10px;margin-bottom:18px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div><h2 style="color:#123047;margin:0;font-size:22px;">Radiology <span style="color:#087e8b;">Stock &amp; Rooms</span></h2>
+                    <div style="color:#64748b;font-size:10px;">Consumables &amp; Room Operations</div></div>
+                <div style="text-align:right;color:#64748b;font-size:10px;">Printed: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/></div>
+            </div>
+        </div>
+        <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <t t-out="0"/>
+        </div>
+        <div class="footer" style="border-top:1px solid #d8e2e8;padding-top:7px;color:#64748b;font-size:9px;">
+            <span>Radiology Consumables Management</span><span style="float:right;">Page <span class="page"/> / <span class="topage"/></span>
+        </div>
+    </template>
+
+    <template id="report_rc_consumption">
+        <t t-call="web.html_container"><t t-foreach="docs" t-as="o"><t t-call="radiology_consumables.rc_report_layout">
+            <h2 style="color:#123047;border-bottom:1px solid #d8e2e8;padding-bottom:8px;">Exam Consumption: <span t-field="o.name"/></h2>
+            <table class="table table-sm" style="width:100%;font-size:11px;"><tbody>
+                <tr><td><strong>Exam Date</strong></td><td><span t-field="o.date"/></td><td><strong>Status</strong></td><td><span t-field="o.state"/></td></tr>
+                <tr><td><strong>Patient</strong></td><td><span t-field="o.patient_id"/></td><td><strong>Room</strong></td><td><span t-field="o.room_id"/></td></tr>
+                <tr><td><strong>Service</strong></td><td><span t-field="o.service_product_id"/></td><td><strong>Nurse</strong></td><td><span t-field="o.nurse_id"/></td></tr>
+                <tr><td><strong>RIS Reference</strong></td><td><span t-field="o.ris_ref"/></td><td><strong>Sales Order</strong></td><td><span t-field="o.sale_order_id"/></td></tr>
+            </tbody></table>
+            <h4 style="color:#087e8b;margin-top:20px;">Consumables &amp; Usage</h4>
+            <table class="table table-sm table-striped" style="font-size:10px;width:100%;"><thead style="background:#123047;color:white;"><tr><th>Phase</th><th>Product</th><th>Lot / Serial</th><th>Planned</th><th>Used</th><th>UoM</th><th>Notes</th></tr></thead><tbody>
+                <tr t-foreach="o.line_ids" t-as="l"><td><span t-field="l.phase"/></td><td><span t-field="l.product_id"/></td><td><span t-field="l.lot_id"/></td><td><span t-field="l.qty_planned"/></td><td><span t-field="l.qty_done"/></td><td><span t-field="l.uom_id"/></td><td><span t-field="l.notes"/></td></tr>
+            </tbody></table>
+            <div style="margin-top:35px;display:flex;justify-content:space-between;font-size:10px;"><span>Prepared by: __________________</span><span>Reviewed by: __________________</span><span>Signature: __________</span></div>
+        </t></t></t>
+    </template>
+
+    <template id="report_rc_issue">
+        <t t-call="web.html_container"><t t-foreach="docs" t-as="o"><t t-call="radiology_consumables.rc_report_layout">
+            <h2 style="color:#123047;border-bottom:1px solid #d8e2e8;padding-bottom:8px;">Room Receipt / Stock Transfer: <span t-field="o.name"/></h2>
+            <table class="table table-sm" style="font-size:11px;width:100%;"><tbody>
+                <tr><td><strong>Date</strong></td><td><span t-field="o.issue_date"/></td><td><strong>Status</strong></td><td><span t-field="o.state"/></td></tr>
+                <tr><td><strong>From</strong></td><td><span t-field="o.source_location_id"/></td><td><strong>To Room</strong></td><td><span t-field="o.room_id"/></td></tr>
+                <tr><td><strong>Issued By</strong></td><td><span t-field="o.issued_by"/></td><td><strong>Received By</strong></td><td><span t-field="o.received_by"/></td></tr>
+                <tr><td><strong>Internal Transfer</strong></td><td colspan="3"><span t-field="o.picking_id"/></td></tr>
+            </tbody></table>
+            <h4 style="color:#087e8b;margin-top:20px;">Transferred Items</h4>
+            <table class="table table-sm table-striped" style="font-size:10px;width:100%;"><thead style="background:#123047;color:white;"><tr><th>Product</th><th>Lot / Serial</th><th>Issued</th><th>Received</th><th>Returned</th><th>UoM</th></tr></thead><tbody>
+                <tr t-foreach="o.line_ids" t-as="l"><td><span t-field="l.product_id"/></td><td><span t-field="l.lot_id"/></td><td><span t-field="l.qty_issued"/></td><td><span t-field="l.qty_received"/></td><td><span t-field="l.qty_returned"/></td><td><span t-field="l.uom_id"/></td></tr>
+            </tbody></table>
+            <div t-if="o.difference_reason" style="margin-top:14px;padding:10px;background:#f1f5f9;"><strong>Difference / Notes:</strong><br/><span t-field="o.difference_reason"/></div>
+            <div style="margin-top:35px;display:flex;justify-content:space-between;font-size:10px;"><span>Storekeeper: __________________</span><span>Room Receiver: __________________</span><span>Signature: __________</span></div>
+        </t></t></t>
+    </template>
+
+    <template id="report_rc_template">
+        <t t-call="web.html_container"><t t-foreach="docs" t-as="o"><t t-call="radiology_consumables.rc_report_layout">
+            <h2 style="color:#123047;border-bottom:1px solid #d8e2e8;padding-bottom:8px;">Consumption Template: <span t-field="o.name"/></h2>
+            <p><strong>Services:</strong> <span t-field="o.service_tmpl_ids"/></p>
+            <table class="table table-sm table-striped" style="font-size:10px;width:100%;"><thead style="background:#123047;color:white;"><tr><th>Sequence</th><th>Phase</th><th>Product</th><th>Quantity</th><th>UoM</th><th>Condition</th></tr></thead><tbody>
+                <tr t-foreach="o.line_ids" t-as="l"><td><span t-field="l.sequence"/></td><td><span t-field="l.phase"/></td><td><span t-field="l.product_id"/></td><td><span t-field="l.qty"/></td><td><span t-field="l.uom_id"/></td><td><span t-field="l.condition"/></td></tr>
+            </tbody></table>
+        </t></t></t>
+    </template>
+
+    <template id="report_rc_room">
+        <t t-call="web.html_container"><t t-foreach="docs" t-as="o"><t t-call="radiology_consumables.rc_report_layout">
+            <h2 style="color:#123047;border-bottom:1px solid #d8e2e8;padding-bottom:8px;">Room Stock Levels: <span t-field="o.complete_name"/></h2>
+            <p><strong>Source Location:</strong> <span t-field="o.rc_source_location_id"/></p>
+            <table class="table table-sm table-striped" style="font-size:10px;width:100%;"><thead style="background:#123047;color:white;"><tr><th>Product</th><th>In Room</th><th>On the Way</th><th>Maximum</th><th>To Request</th><th>UoM</th></tr></thead><tbody>
+                <tr t-foreach="o.rc_par_ids" t-as="l"><td><span t-field="l.product_id"/></td><td><span t-field="l.qty_on_hand"/></td><td><span t-field="l.qty_pending"/></td><td><span t-field="l.max_qty"/></td><td><span t-field="l.qty_to_request"/></td><td><span t-field="l.uom_id"/></td></tr>
+            </tbody></table>
+        </t></t></t>
+    </template>
+
+    <template id="report_rc_quants">
+        <t t-call="web.html_container"><t t-foreach="docs" t-as="o"><t t-call="radiology_consumables.rc_report_layout">
+            <h2 style="color:#123047;border-bottom:1px solid #d8e2e8;padding-bottom:8px;">Room Stock On Hand</h2>
+            <table class="table table-sm table-striped" style="font-size:10px;width:100%;"><thead style="background:#123047;color:white;"><tr><th>Room / Location</th><th>Product</th><th>Lot / Serial</th><th>Quantity</th><th>UoM</th></tr></thead><tbody>
+                <tr><td><span t-field="o.location_id"/></td><td><span t-field="o.product_id"/></td><td><span t-field="o.lot_id"/></td><td><span t-field="o.quantity"/></td><td><span t-field="o.rc_uom_id"/></td></tr>
+            </tbody></table>
+        </t></t></t>
+    </template>
+
+    <template id="report_rc_expiry">
+        <t t-call="web.html_container"><t t-foreach="docs" t-as="o"><t t-call="radiology_consumables.rc_report_layout">
+            <h2 style="color:#123047;border-bottom:1px solid #d8e2e8;padding-bottom:8px;">Expiry Report</h2>
+            <table class="table table-sm table-striped" style="font-size:10px;width:100%;"><thead style="background:#123047;color:white;"><tr><th>Room / Location</th><th>Product</th><th>Lot / Serial</th><th>Expiration Date</th><th>Days</th><th>Status</th><th>Quantity</th></tr></thead><tbody>
+                <tr>
+                    <td><span t-field="o.location_id"/></td><td><span t-field="o.product_id"/></td><td><span t-field="o.lot_id"/></td>
+                    <td><span t-field="o.rc_expiration_date" t-options="{'widget': 'date'}"/></td>
+                    <td><span t-field="o.rc_days_to_expiry"/></td>
+                    <td><span t-field="o.rc_expiry_state"/></td>
+                    <td><span t-field="o.quantity"/> <span t-field="o.rc_uom_id"/></td>
+                </tr>
+            </tbody></table>
+        </t></t></t>
+    </template>
+</odoo>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="radiology_consumables.Dashboard">
+        <div class="o_rc_dashboard p-3 overflow-auto h-100 w-100">
+            <div class="o_rc_banner o_rc_banner_main d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="o_rc_banner_icon"><i class="fa fa-heartbeat"/></div>
+                    <div>
+                        <h2 class="mb-1">Radiology Dashboard</h2>
+                        <div class="o_rc_banner_sub">Room activity, exam consumption and stock overview</div>
+                    </div>
+                </div>
+                <button class="btn btn-light fw-semibold" t-on-click="this.loadData" t-att-disabled="this.state.loading">
+                    <i class="fa fa-refresh me-1"/> Refresh
+                </button>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="row g-3 align-items-end">
+                        <div class="col-12 col-md-4">
+                            <label class="form-label">Room / Lab</label>
+                            <select class="form-select" t-model="this.roomId" t-on-change="this.onFilterChange">
+                                <option value="">All My Rooms</option>
+                                <t t-foreach="this.state.data.rooms" t-as="room" t-key="room.id">
+                                    <option t-att-value="room.id.toString()" t-esc="room.name"/>
+                                </t>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <label class="form-label">From</label>
+                            <input type="date" class="form-control" t-model="this.dateFrom" t-on-change="this.onFilterChange"/>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <label class="form-label">To</label>
+                            <input type="date" class="form-control" t-model="this.dateTo" t-on-change="this.onFilterChange"/>
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <button class="btn btn-outline-secondary w-100" t-on-click="this.clearFilters">
+                                Clear Filters
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <t t-if="this.state.error">
+                <div class="alert alert-danger" role="alert" t-esc="this.state.error"/>
+            </t>
+            <t t-if="this.state.loading">
+                <div class="text-center p-5"><i class="fa fa-spinner fa-spin fa-2x"/> <div class="mt-2">Loading dashboard...</div></div>
+            </t>
+            <t t-else="">
+                <h5 class="o_rc_section_title">Exams</h5>
+                <div class="row g-3 mb-4">
+                    <t t-foreach="this.examCards" t-as="card" t-key="card.key">
+                        <div class="col-6 col-md-4 col-xl">
+                            <div t-attf-class="o_rc_card {{ card.cls }}" role="button" t-on-click="() => this.onCardClick(card)">
+                                <i t-attf-class="fa {{ card.icon }} o_rc_card_icon"/>
+                                <div class="o_rc_card_value" t-esc="card.value"/>
+                                <div class="o_rc_card_label" t-esc="card.label"/>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+
+                <h5 class="o_rc_section_title">Receipts &amp; Requests</h5>
+                <div class="row g-3 mb-4">
+                    <t t-foreach="this.stockCards" t-as="card" t-key="card.key">
+                        <div class="col-6 col-md-4 col-xl">
+                            <div t-attf-class="o_rc_card {{ card.cls }}" role="button" t-on-click="() => this.onCardClick(card)">
+                                <i t-attf-class="fa {{ card.icon }} o_rc_card_icon"/>
+                                <div class="o_rc_card_value" t-esc="card.value"/>
+                                <div class="o_rc_card_label" t-esc="card.label"/>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header o_rc_table_header rc-orange fw-semibold">Recent Receipts &amp; Requests</div>
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead><tr><th>Reference</th><th>Date</th><th>Room</th><th>Status</th></tr></thead>
+                            <tbody>
+                                <t t-if="!this.state.data.recent_issues.length">
+                                    <tr><td colspan="4" class="text-center text-muted p-4">No receipts or requests found.</td></tr>
+                                </t>
+                                <t t-foreach="this.state.data.recent_issues" t-as="iss" t-key="iss.id">
+                                    <tr class="o_rc_dashboard_clickable" t-on-click="() => this.openIssue(iss)" style="cursor:pointer">
+                                        <td class="fw-semibold" t-esc="iss.name"/>
+                                        <td t-esc="iss.date"/>
+                                        <td t-esc="iss.room"/>
+                                        <td><span t-attf-class="badge o_rc_badge_{{ iss.state_key }}" t-esc="iss.state"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header o_rc_table_header rc-blue fw-semibold">Recent Exam Consumption</div>
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead><tr>
+                                <th>Reference</th><th>Date</th><th>Room</th><th>Patient</th><th>Nurse</th><th>Status</th>
+                            </tr></thead>
+                            <tbody>
+                                <t t-if="!this.state.data.recent.length">
+                                    <tr><td colspan="6" class="text-center text-muted p-4">No records found for the selected filters.</td></tr>
+                                </t>
+                                <t t-foreach="this.state.data.recent" t-as="rec" t-key="rec.id">
+                                    <tr class="o_rc_dashboard_clickable" t-on-click="() => this.openRecent(rec)" style="cursor:pointer">
+                                        <td class="fw-semibold" t-esc="rec.name"/>
+                                        <td t-esc="rec.date"/>
+                                        <td t-esc="rec.room"/>
+                                        <td t-esc="rec.patient"/>
+                                        <td t-esc="rec.nurse"/>
+                                        <td><span class="badge text-bg-light" t-esc="rec.state"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>

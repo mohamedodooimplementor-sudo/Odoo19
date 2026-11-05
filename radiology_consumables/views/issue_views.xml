@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="rc_issue_view_list" model="ir.ui.view">
+        <field name="name">rc.issue.list</field>
+        <field name="model">rc.issue</field>
+        <field name="arch" type="xml">
+            <list decoration-warning="state == 'in_transit'" decoration-muted="state == 'cancel'">
+                <field name="name"/>
+                <field name="issue_date"/>
+                <field name="source_location_id"/>
+                <field name="room_id"/>
+                <field name="issued_by"/>
+                <field name="has_difference" optional="show"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="rc_issue_view_kanban" model="ir.ui.view">
+        <field name="name">rc.issue.kanban</field>
+        <field name="model">rc.issue</field>
+        <field name="arch" type="xml">
+            <kanban create="0" default_group_by="state">
+                <field name="state"/>
+                <templates>
+                    <t t-name="card">
+                        <field name="name" class="fw-bold fs-4"/>
+                        <field name="room_id" class="fs-5"/>
+                        <div class="text-muted"><field name="issue_date"/></div>
+                        <field name="state" widget="badge" class="mt-2"/>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="rc_issue_view_form" model="ir.ui.view">
+        <field name="name">rc.issue.form</field>
+        <field name="model">rc.issue</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="%(action_report_rc_issue)d" string="Print Receipt" type="action" class="btn-secondary"/>
+                    <button name="action_issue" string="Issue to Room" type="object" class="btn-primary"
+                            invisible="state != 'draft'" groups="radiology_consumables.group_rc_storekeeper"/>
+                    <button name="action_open_picking" string="Open Internal Transfer" type="object"
+                            invisible="not picking_id or state not in ('in_transit', 'received')"/>
+                    <button name="action_receive" string="Confirm Issue" type="object" class="btn-success"
+                            invisible="state != 'in_transit'"/>
+                    <button name="action_return_difference" string="Return Difference to Store" type="object"
+                            invisible="not has_difference" groups="radiology_consumables.group_rc_storekeeper"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state != 'draft'"
+                            groups="radiology_consumables.group_rc_storekeeper"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_transit,received"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="source_location_id" readonly="state != 'draft'"/>
+                            <field name="room_id" readonly="state != 'draft'"/>
+                            <field name="company_id" groups="base.group_multi_company" readonly="state != 'draft'"/>
+                        </group>
+                        <group>
+                            <field name="issued_by"/>
+                            <field name="issue_date"/>
+                            <field name="picking_id" readonly="1" domain="[]"/>
+                            <field name="received_by" invisible="state != 'received'"/>
+                            <field name="receive_date" invisible="state != 'received'"/>
+                            <field name="has_difference" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Items">
+                            <field name="line_ids" readonly="state in ('received', 'cancel')">
+                                <list editable="bottom">
+                                    <field name="product_id" readonly="parent.state != 'draft'"/>
+                                    <field name="tracking" column_invisible="True"/>
+                                    <field name="lot_id" readonly="tracking == 'none' or parent.state != 'draft'"/>
+                                    <field name="qty_issued" readonly="parent.state != 'draft'"/>
+                                    <field name="qty_received" column_invisible="parent.state == 'draft'" readonly="1"/>
+                                    <field name="qty_returned" column_invisible="parent.state != 'received'" readonly="1"/>
+                                    <field name="uom_id"/>
+                                </list>
+                            </field>
+                            <group invisible="state != 'in_transit'">
+                                <field name="difference_reason" placeholder="Required only if the received quantity differs from the issued quantity"/>
+                            </group>
+                            <group invisible="state != 'received'">
+                                <field name="difference_reason" readonly="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="rc_issue_view_search" model="ir.ui.view">
+        <field name="name">rc.issue.search</field>
+        <field name="model">rc.issue</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="room_id"/>
+                <filter name="in_transit" string="Waiting Receipt" domain="[('state', '=', 'in_transit')]"/>
+                <filter name="my_rooms" string="My Rooms" domain="[('room_id.rc_responsible_ids', '=', uid)]"/>
+                <filter name="with_diff" string="With Difference" domain="[('has_difference', '=', True)]"/>
+                <group>
+                    <filter name="group_room" string="Room" context="{'group_by': 'room_id'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="rc_receipt_action" model="ir.actions.act_window">
+        <field name="name">Room Receipts</field>
+        <field name="res_model">rc.issue</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="context">{'search_default_in_transit': 1, 'search_default_my_rooms': 1}</field>
+    </record>
+    <record id="rc_issue_action" model="ir.actions.act_window">
+        <field name="name">Issue to Rooms</field>
+        <field name="res_model">rc.issue</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

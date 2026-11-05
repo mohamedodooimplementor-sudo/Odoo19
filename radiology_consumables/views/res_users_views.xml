@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Dedicated tab next to "Access Rights" for the module's roles. -->
+    <record id="rc_view_users_form" model="ir.ui.view">
+        <field name="name">res.users.form.radiology.consumables</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='access_rights']" position="after">
+                <page string="Radiology Consumables" name="rc_access">
+                    <group>
+                        <group string="Operations">
+                            <field name="rc_access_level" widget="radio"/>
+                        </group>
+                        <group string="Cost &amp; Performance">
+                            <field name="rc_is_analyst"/>
+                        </group>
+                    </group>
+                    <div class="text-muted">
+                        Each operations role includes the ones below it (Manager &gt; Storekeeper &gt; Room Nurse).
+                        The analyst role is independent and does not require any operations role.
+                    </div>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

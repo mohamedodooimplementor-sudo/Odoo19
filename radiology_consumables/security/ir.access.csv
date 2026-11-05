@@ -1,0 +1,39 @@
+id,name,model_id,group_id/id,operation,domain
+rc_consumption_nurse,Consumption nurse,rc.exam.consumption,radiology_consumables.group_rc_nurse,cru,"['|', ('room_id.rc_responsible_ids', 'in', [user.id]), ('create_uid', '=', user.id)]"
+rc_consumption_storekeeper,Consumption storekeeper,rc.exam.consumption,radiology_consumables.group_rc_storekeeper,cru,
+rc_consumption_manager,Consumption manager,rc.exam.consumption,radiology_consumables.group_rc_manager,crud,
+rc_consumption_line_nurse,Consumption line nurse,rc.exam.consumption.line,radiology_consumables.group_rc_nurse,crud,"['|', ('consumption_id.room_id.rc_responsible_ids', 'in', [user.id]), ('create_uid', '=', user.id)]"
+rc_consumption_line_storekeeper,Consumption line storekeeper,rc.exam.consumption.line,radiology_consumables.group_rc_storekeeper,crud,
+rc_issue_nurse,Issue nurse,rc.issue,radiology_consumables.group_rc_nurse,ru,"[('room_id.rc_responsible_ids', 'in', [user.id])]"
+rc_issue_storekeeper,Issue storekeeper,rc.issue,radiology_consumables.group_rc_storekeeper,cru,
+rc_issue_manager,Issue manager,rc.issue,radiology_consumables.group_rc_manager,crud,
+rc_issue_line_nurse,Issue line nurse,rc.issue.line,radiology_consumables.group_rc_nurse,ru,"[('issue_id.room_id.rc_responsible_ids', 'in', [user.id])]"
+rc_issue_line_storekeeper,Issue line storekeeper,rc.issue.line,radiology_consumables.group_rc_storekeeper,crud,
+rc_template_nurse,Template nurse,rc.consumption.template,radiology_consumables.group_rc_nurse,r,
+rc_template_manager,Template manager,rc.consumption.template,radiology_consumables.group_rc_manager,crud,
+rc_template_line_nurse,Template line nurse,rc.consumption.template.line,radiology_consumables.group_rc_nurse,r,
+rc_template_line_manager,Template line manager,rc.consumption.template.line,radiology_consumables.group_rc_manager,crud,
+rc_ris_config_manager,RIS config manager,rc.ris.config,radiology_consumables.group_rc_manager,crud,
+rc_location_nurse,Location nurse,stock.location,radiology_consumables.group_rc_nurse,r,"['|', '&', ('is_room', '=', False), ('is_lab', '=', False), ('rc_responsible_ids', 'in', [user.id])]"
+rc_location_manager,Location manager,stock.location,radiology_consumables.group_rc_manager,cru,
+rc_lot_nurse,Lot nurse,stock.lot,radiology_consumables.group_rc_nurse,r,
+rc_product_nurse,Product nurse,product.product,radiology_consumables.group_rc_nurse,r,
+rc_product_tmpl_nurse,Product template nurse,product.template,radiology_consumables.group_rc_nurse,r,
+rc_analytic_nurse,Analytic account nurse,account.analytic.account,radiology_consumables.group_rc_nurse,r,
+rc_quant_nurse,Quant nurse,stock.quant,radiology_consumables.group_rc_nurse,r,"[('location_id.rc_responsible_ids', 'in', [user.id])]"
+rc_quant_storekeeper,Quant storekeeper,stock.quant,radiology_consumables.group_rc_storekeeper,r,
+rc_location_storekeeper,Location storekeeper,stock.location,radiology_consumables.group_rc_storekeeper,ru,
+rc_par_nurse,Room level nurse,rc.room.par,radiology_consumables.group_rc_nurse,r,"[('room_id.rc_responsible_ids', 'in', [user.id])]"
+rc_par_storekeeper,Room level storekeeper,rc.room.par,radiology_consumables.group_rc_storekeeper,crud,
+rc_consumption_analytics_read,Analytics consumption read,rc.exam.consumption,radiology_consumables.group_rc_analytics,r,
+rc_consumption_line_analytics_read,Analytics line read,rc.exam.consumption.line,radiology_consumables.group_rc_analytics,r,"[('consumption_id.company_id', 'in', company_ids)]"
+rc_location_analytics_read,Analytics location read,stock.location,radiology_consumables.group_rc_analytics,r,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+rc_product_analytics_read,Analytics product read,product.product,radiology_consumables.group_rc_analytics,r,
+rule_rc_consumption_company,Consumption company scope,rc.exam.consumption,,crud,"[('company_id', 'in', company_ids)]"
+rule_rc_consumption_line_company,Consumption line company scope,rc.exam.consumption.line,,crud,"[('consumption_id.company_id', 'in', company_ids)]"
+rule_rc_issue_company,Issue company scope,rc.issue,,crud,"[('company_id', 'in', company_ids)]"
+rule_rc_issue_line_company,Issue line multi-company,rc.issue.line,,crud,"[('issue_id.company_id', 'in', company_ids)]"
+rule_rc_template_company,Template company scope,rc.consumption.template,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+rule_rc_template_line_company,Template line company scope,rc.consumption.template.line,,crud,"['|', ('template_id.company_id', '=', False), ('template_id.company_id', 'in', company_ids)]"
+rule_rc_ris_config_company,RIS config company scope,rc.ris.config,,crud,"[('company_id', 'in', company_ids)]"
+rule_rc_par_company,Room level company scope,rc.room.par,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"

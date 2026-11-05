@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+<t t-name="radiology_consumables.CostAnalyticsDashboard">
+<div class="o_rc_dashboard o_rc_analytics p-3 overflow-auto h-100 w-100" t-att-class="{'is-loading': this.state.loading, 'o_rc_dark': this.state.dark}">
+ <div class="o_rc_loadbar" t-if="this.state.loading"/>
+
+ <div class="o_rc_banner o_rc_banner_analytics d-flex flex-wrap justify-content-between align-items-center mb-3 gap-3">
+  <div class="d-flex align-items-center gap-3">
+   <div class="o_rc_banner_icon"><i class="fa fa-bar-chart"/></div>
+   <div><h2 class="mb-1">Cost &amp; Performance Analytics</h2><div class="o_rc_banner_sub">Actual validated consumables cost, room efficiency and examination economics</div></div>
+  </div>
+  <div class="d-flex gap-2">
+   <button class="btn btn-outline-light" t-on-click="this.openExams" t-att-disabled="!this.state.data.exam_ids.length"><i class="fa fa-list me-1"/>View examinations</button>
+   <button class="btn btn-light fw-semibold" t-on-click="this.loadData"><i class="fa fa-refresh me-1" t-att-class="{'fa-spin': this.state.loading}"/>Refresh</button>
+  </div>
+ </div>
+
+ <div class="o_rc_filterbar">
+  <div class="d-flex flex-wrap align-items-center gap-2">
+   <div class="btn-group btn-group-sm flex-wrap">
+    <button t-foreach="this.presets" t-as="p" t-key="p.id" class="btn btn-outline-primary" t-att-class="{'active': this.state.filters.preset === p.id}" t-on-click="() =&gt; this.applyPreset(p)" t-esc="p.label"/>
+   </div>
+   <div class="d-flex align-items-center gap-1">
+    <input type="date" class="form-control form-control-sm" t-att-value="this.state.filters.date_from" t-on-change="(ev) =&gt; this.setDate('date_from', ev.target.value)"/>
+    <i class="fa fa-long-arrow-right text-muted"/>
+    <input type="date" class="form-control form-control-sm" t-att-value="this.state.filters.date_to" t-on-change="(ev) =&gt; this.setDate('date_to', ev.target.value)"/>
+   </div>
+   
+    <div class="position-relative">
+     <button class="btn btn-sm btn-outline-secondary" t-on-click="() =&gt; this.toggleMenu('rooms')"><i class="fa fa-hospital-o me-1"/>Rooms<span t-if="this.state.filters.room_ids.length" class="badge text-bg-primary ms-1" t-esc="this.state.filters.room_ids.length"/> <i class="fa fa-caret-down ms-1"/></button>
+     <t t-if="this.state.menu === 'rooms'">
+      <div class="o_rc_backdrop" t-on-click="this.closeMenu"/>
+      <div class="o_rc_menu">
+       <input type="search" class="form-control form-control-sm mb-2" placeholder="Search..." t-att-value="this.state.search" t-on-input="(ev) =&gt; this.state.search = ev.target.value"/>
+       <div class="o_rc_menu_list">
+        <label class="o_rc_menu_item" t-foreach="this.menuOptions('rooms')" t-as="o" t-key="o.id">
+         <input type="checkbox" class="form-check-input" t-att-checked="this.isSelected('room_ids', o.id)" t-on-change="() =&gt; this.toggleFilter('room_ids', o.id, o.name)"/>
+         <span t-esc="o.name"/>
+        </label>
+        <div t-if="!this.menuOptions('rooms').length" class="text-muted small p-2">No matches.</div>
+       </div>
+      </div>
+     </t>
+    </div>
+   
+    <div class="position-relative">
+     <button class="btn btn-sm btn-outline-secondary" t-on-click="() =&gt; this.toggleMenu('exams')"><i class="fa fa-stethoscope me-1"/>Exams<span t-if="this.state.filters.exam_ids.length" class="badge text-bg-primary ms-1" t-esc="this.state.filters.exam_ids.length"/> <i class="fa fa-caret-down ms-1"/></button>
+     <t t-if="this.state.menu === 'exams'">
+      <div class="o_rc_backdrop" t-on-click="this.closeMenu"/>
+      <div class="o_rc_menu">
+       <input type="search" class="form-control form-control-sm mb-2" placeholder="Search..." t-att-value="this.state.search" t-on-input="(ev) =&gt; this.state.search = ev.target.value"/>
+       <div class="o_rc_menu_list">
+        <label class="o_rc_menu_item" t-foreach="this.menuOptions('exams')" t-as="o" t-key="o.id">
+         <input type="checkbox" class="form-check-input" t-att-checked="this.isSelected('exam_ids', o.id)" t-on-change="() =&gt; this.toggleFilter('exam_ids', o.id, o.name)"/>
+         <span t-esc="o.name"/>
+        </label>
+        <div t-if="!this.menuOptions('exams').length" class="text-muted small p-2">No matches.</div>
+       </div>
+      </div>
+     </t>
+    </div>
+   <div class="btn-group btn-group-sm">
+    <button t-foreach="this.sourceModes" t-as="s" t-key="s.id" class="btn btn-outline-secondary" t-att-class="{'active': (this.state.filters.sources[0] || '') === s.id}" t-on-click="() =&gt; this.setSource(s.id)" t-esc="s.label"/>
+   </div>
+   <button class="btn btn-sm btn-link ms-auto" t-if="this.hasActiveFilters" t-on-click="this.clearFilters"><i class="fa fa-undo me-1"/>Reset</button>
+  </div>
+  <div class="d-flex flex-wrap gap-2 mt-2" t-if="this.chips.length">
+   <span t-foreach="this.chips" t-as="c" t-key="c.key" class="o_rc_chip"><span t-esc="c.text"/><i class="fa fa-times" t-on-click="() =&gt; this.removeFilter(c.type, c.id)"/></span>
+  </div>
+ </div>
+
+ <t t-if="this.state.error"><div class="alert alert-danger" t-esc="this.state.error"/></t>
+
+ <div class="row g-3 mb-3">
+  <div class="col-6 col-md-4 col-xl-2" t-foreach="this.kpiCards" t-as="k" t-key="k.key">
+   <div class="o_rc_card o_rc_kpi" t-att-class="k.cls">
+    <i class="fa o_rc_card_icon" t-att-class="k.icon"/>
+    <div class="o_rc_card_label" t-esc="k.label"/>
+    <div class="o_rc_card_value" t-att-class="{'is-text': k.isText}" t-att-title="k.value" t-esc="k.value"/>
+    <div class="o_rc_card_sub">
+     <span t-if="k.delta !== null" class="o_rc_delta" t-att-title="k.deltaTitle"><i class="fa" t-att-class="k.delta &gt;= 0 ? 'fa-caret-up' : 'fa-caret-down'"/> <t t-esc="k.deltaText"/></span>
+     <span t-if="k.sub" t-esc="k.sub"/>
+    </div>
+   </div>
+  </div>
+ </div>
+
+ <div class="row g-3 mb-3">
+  <div class="col-xl-8"><div class="o_rc_panel h-100">
+   <div class="o_rc_panel_head">
+    <div><h5>Trend</h5><div class="o_rc_sub">Hover for details, click a point to drill into that period</div></div>
+    <div class="d-flex flex-wrap gap-2">
+     <div class="btn-group btn-group-sm"><button t-foreach="this.metrics" t-as="m" t-key="m.id" class="btn btn-outline-secondary" t-att-class="{'active': this.state.trendMetric === m.id}" t-on-click="() =&gt; this.state.trendMetric = m.id" t-esc="m.label"/></div>
+     <div class="btn-group btn-group-sm"><button t-foreach="this.grans" t-as="g" t-key="g.id" class="btn btn-outline-secondary" t-att-class="{'active': this.state.filters.granularity === g.id}" t-on-click="() =&gt; this.setGranularity(g.id)" t-esc="g.label"/></div>
+    </div>
+   </div>
+   <t t-set="tr" t-value="this.trend"/>
+   <t t-if="tr.cols.length">
+    <svg class="o_rc_trend" viewBox="0 0 720 260" preserveAspectRatio="xMidYMid meet">
+     <defs><linearGradient id="rcAreaGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b82f6" stop-opacity="0.35"/><stop offset="1" stop-color="#3b82f6" stop-opacity="0"/></linearGradient></defs>
+     <g t-foreach="tr.ticks" t-as="tk" t-key="tk.i">
+      <line class="grid" t-att-x1="tr.L" t-att-x2="tr.gridEnd" t-att-y1="tk.y" t-att-y2="tk.y"/>
+      <text class="axis" text-anchor="end" t-att-x="tr.L - 8" t-att-y="tk.y + 4" t-esc="tk.label"/>
+     </g>
+     <path class="area" t-att-d="tr.area" fill="url(#rcAreaGrad)"/>
+     <path class="line" t-att-d="tr.line" fill="none"/>
+     <g class="o_rc_col" t-foreach="tr.cols" t-as="c" t-key="c.key" t-on-click="() =&gt; this.drillBucket(c.b)" t-on-mousemove="(ev) =&gt; this.showTip(ev, c)" t-on-mouseleave="this.hideTip">
+      <rect class="hit" t-att-x="c.x" t-att-y="tr.T" t-att-width="c.w" t-att-height="tr.ih"/>
+      <circle class="dot" t-att-cx="c.cx" t-att-cy="c.cy" r="4"/>
+      <text t-if="c.showLabel" class="axis" text-anchor="middle" t-att-x="c.cx" t-att-y="tr.labelY" t-esc="c.label"/>
+     </g>
+    </svg>
+   </t>
+   <t t-else=""><div class="o_rc_empty"><i class="fa fa-area-chart"/> No validated consumption for the current filters.</div></t>
+  </div></div>
+
+  <div class="col-xl-4"><div class="o_rc_panel h-100">
+   <div class="o_rc_panel_head"><div><h5>Cost source</h5><div class="o_rc_sub">How each cost was determined</div></div></div>
+   <t t-set="dn" t-value="this.donut"/>
+   <t t-if="dn.segs.length">
+    <svg class="o_rc_donut" viewBox="0 0 36 36">
+     <circle class="track" cx="18" cy="18" r="15.9155" fill="none" stroke-width="5"/>
+     <circle t-foreach="dn.segs" t-as="s" t-key="s.id" class="seg" t-att-class="{'is-selected': s.selected}" cx="18" cy="18" r="15.9155" fill="none" stroke-width="5" t-att-stroke="s.color" t-att-stroke-dasharray="s.dash" t-att-stroke-dashoffset="s.offset" t-on-click="() =&gt; this.setSource(s.selected ? '' : s.id)" t-on-mousemove="(ev) =&gt; this.showTip(ev, s)" t-on-mouseleave="this.hideTip"/>
+     <text x="18" y="18" text-anchor="middle" class="donut-val" t-esc="dn.center"/>
+     <text x="18" y="22.2" text-anchor="middle" class="donut-sub">total</text>
+    </svg>
+    <div class="o_rc_legend">
+     <div t-foreach="dn.segs" t-as="s" t-key="s.id" class="o_rc_legend_row" t-on-click="() =&gt; this.setSource(s.selected ? '' : s.id)">
+      <span class="o_rc_dot" t-att-style="'background:' + s.color"/><span class="flex-grow-1" t-esc="s.name"/><span class="fw-semibold" t-esc="this.pct(s.pct)"/>
+     </div>
+    </div>
+    <div class="o_rc_hint">Fallback cost uses the product's standard cost when no stock valuation layer exists.</div>
+   </t>
+   <t t-else=""><div class="o_rc_empty"><i class="fa fa-pie-chart"/> No data.</div></t>
+  </div></div>
+ </div>
+
+ <div class="row g-3 mb-3">
+  <div class="col-xl-6"><div class="o_rc_panel h-100">
+   <div class="o_rc_panel_head"><div><h5>Cost by room</h5><div class="o_rc_sub">Where consumables cost is concentrated</div></div><button class="btn btn-sm btn-outline-primary" t-on-click="() =&gt; this.open('radiology_consumables.rc_analytics_room_action')">Full analysis</button></div>
+   <t t-if="this.roomBars.length">
+    <t t-foreach="this.roomBars" t-as="r" t-key="r.key">
+     <div class="o_rc_bar_row" t-att-class="{'is-selected': r.selected}" t-on-click="() =&gt; this.toggleFilter(r.filterKey, r.id, r.name)" t-on-mousemove="(ev) =&gt; this.showTip(ev, r)" t-on-mouseleave="this.hideTip">
+      <div class="o_rc_bar_label" t-att-title="r.name" t-esc="r.name"/>
+      <div class="o_rc_bar_track"><div class="o_rc_bar_fill" t-att-style="'width:' + r.pct + '%; background:' + r.color"/></div>
+      <div class="o_rc_bar_value" t-esc="r.valueText"/>
+     </div>
+    </t>
+   </t>
+   <t t-else=""><div class="o_rc_empty"><i class="fa fa-bar-chart"/> No validated consumption for the current filters.</div></t>
+  </div></div>
+  <div class="col-xl-6"><div class="o_rc_panel h-100">
+   <div class="o_rc_panel_head"><div><h5>Cost by examination</h5><div class="o_rc_sub">Which exam types drive cost</div></div><button class="btn btn-sm btn-outline-primary" t-on-click="() =&gt; this.open('radiology_consumables.rc_analytics_cost_action')">Full analysis</button></div>
+   <t t-if="this.examBars.length">
+    <t t-foreach="this.examBars" t-as="r" t-key="r.key">
+     <div class="o_rc_bar_row" t-att-class="{'is-selected': r.selected}" t-on-click="() =&gt; this.toggleFilter(r.filterKey, r.id, r.name)" t-on-mousemove="(ev) =&gt; this.showTip(ev, r)" t-on-mouseleave="this.hideTip">
+      <div class="o_rc_bar_label" t-att-title="r.name" t-esc="r.name"/>
+      <div class="o_rc_bar_track"><div class="o_rc_bar_fill" t-att-style="'width:' + r.pct + '%; background:' + r.color"/></div>
+      <div class="o_rc_bar_value" t-esc="r.valueText"/>
+     </div>
+    </t>
+   </t>
+   <t t-else=""><div class="o_rc_empty"><i class="fa fa-bar-chart"/> No validated consumption for the current filters.</div></t>
+  </div></div>
+ </div>
+ <div class="row g-3 mb-3">
+  <div class="col-xl-6"><div class="o_rc_panel h-100">
+   <div class="o_rc_panel_head"><div><h5>Efficiency: average cost per exam</h5><div class="o_rc_sub">Rooms ranked by cost per examination</div></div></div>
+   <t t-if="this.roomAvgBars.length">
+    <t t-foreach="this.roomAvgBars" t-as="r" t-key="r.key">
+     <div class="o_rc_bar_row" t-att-class="{'is-selected': r.selected}" t-on-click="() =&gt; this.toggleFilter(r.filterKey, r.id, r.name)" t-on-mousemove="(ev) =&gt; this.showTip(ev, r)" t-on-mouseleave="this.hideTip">
+      <div class="o_rc_bar_label" t-att-title="r.name" t-esc="r.name"/>
+      <div class="o_rc_bar_track"><div class="o_rc_bar_fill" t-att-style="'width:' + r.pct + '%; background:' + r.color"/></div>
+      <div class="o_rc_bar_value" t-esc="r.valueText"/>
+     </div>
+    </t>
+   </t>
+   <t t-else=""><div class="o_rc_empty"><i class="fa fa-bar-chart"/> No validated consumption for the current filters.</div></t>
+  </div></div>
+  <div class="col-xl-6"><div class="o_rc_panel h-100">
+   <div class="o_rc_panel_head"><div><h5>Top consumed products</h5><div class="o_rc_sub">By total cost</div></div></div>
+   <t t-if="this.productBars.length">
+    <t t-foreach="this.productBars" t-as="r" t-key="r.key">
+     <div class="o_rc_bar_row" t-att-class="{'is-selected': r.selected}" t-on-click="() =&gt; this.toggleFilter(r.filterKey, r.id, r.name)" t-on-mousemove="(ev) =&gt; this.showTip(ev, r)" t-on-mouseleave="this.hideTip">
+      <div class="o_rc_bar_label" t-att-title="r.name" t-esc="r.name"/>
+      <div class="o_rc_bar_track"><div class="o_rc_bar_fill" t-att-style="'width:' + r.pct + '%; background:' + r.color"/></div>
+      <div class="o_rc_bar_value" t-esc="r.valueText"/>
+     </div>
+    </t>
+   </t>
+   <t t-else=""><div class="o_rc_empty"><i class="fa fa-bar-chart"/> No validated consumption for the current filters.</div></t>
+  </div></div>
+ </div>
+
+ <div class="o_rc_panel mb-3">
+  <div class="o_rc_panel_head"><div><h5>Room performance</h5><div class="o_rc_sub">Click a row to filter by room</div></div></div>
+  <div class="table-responsive"><table class="table table-hover align-middle mb-0 o_rc_table">
+   <thead><tr><th>Room</th><th class="text-end">Exams</th><th class="text-end">Consumed qty</th><th class="text-end">Actual cost</th><th class="text-end">Avg / exam</th><th style="min-width:140px">Share</th></tr></thead>
+   <tbody>
+    <tr t-if="!this.tableRows.length"><td colspan="6" class="text-center text-muted p-3">No validated consumption.</td></tr>
+    <tr t-foreach="this.tableRows" t-as="r" t-key="r.id || r.name" class="o_rc_dashboard_clickable" t-att-class="{'table-active': this.isSelected('room_ids', r.id)}" t-on-click="() =&gt; this.toggleFilter('room_ids', r.id, r.name)">
+     <td><span class="o_rc_dot me-2" t-att-style="'background:' + r.color"/><t t-esc="r.name"/></td>
+     <td class="text-end" t-esc="r.exams"/>
+     <td class="text-end" t-esc="this.num(r.qty)"/>
+     <td class="text-end fw-semibold" t-esc="this.money(r.cost)"/>
+     <td class="text-end" t-esc="this.money(r.average)"/>
+     <td><div class="o_rc_bar_track small"><div class="o_rc_bar_fill" t-att-style="'width:' + r.share + '%; background:' + r.color"/></div><div class="o_rc_sub text-end" t-esc="this.pct(r.share)"/></td>
+    </tr>
+   </tbody>
+  </table></div>
+ </div>
+
+ <div t-if="this.state.tip" class="o_rc_tip" t-att-style="'left:' + this.state.tip.x + 'px; top:' + this.state.tip.y + 'px'">
+  <div class="o_rc_tip_title" t-esc="this.state.tip.title"/>
+  <div t-foreach="this.state.tip.lines" t-as="ln" t-key="ln" t-esc="ln"/>
+ </div>
+</div>
+</t>
+</templates>

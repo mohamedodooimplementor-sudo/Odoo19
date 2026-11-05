@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="seq_rc_exam_consumption" model="ir.sequence">
+        <field name="name">Exam Consumption</field>
+        <field name="code">rc.exam.consumption</field>
+        <field name="prefix">RCX/%(year)s/</field>
+        <field name="padding">5</field>
+    </record>
+    <record id="seq_rc_issue" model="ir.sequence">
+        <field name="name">Issue to Room</field>
+        <field name="code">rc.issue</field>
+        <field name="prefix">RCI/%(year)s/</field>
+        <field name="padding">5</field>
+    </record>
+</odoo>

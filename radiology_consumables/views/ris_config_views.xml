@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="rc_ris_config_view_list" model="ir.ui.view">
+        <field name="name">rc.ris.config.list</field>
+        <field name="model">rc.ris.config</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="company_id"/>
+                <field name="base_url"/>
+                <field name="auth_type"/>
+                <field name="last_test_status" widget="badge"
+                       decoration-success="last_test_status == 'ok'"
+                       decoration-danger="last_test_status == 'failed'"/>
+                <field name="last_test_date"/>
+            </list>
+        </field>
+    </record>
+    <record id="rc_ris_config_view_form" model="ir.ui.view">
+        <field name="name">rc.ris.config.form</field>
+        <field name="model">rc.ris.config</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_test_connection" string="Test Connection" type="object" class="btn-primary"/>
+                    <button name="action_fetch_samples" string="Fetch Sample Data" type="object"/>
+                    <button name="action_clear_samples" string="Clear Samples" type="object"/>
+                    <field name="last_test_status" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Connection">
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="base_url" placeholder="https://ris.example.com/api"/>
+                            <field name="verify_ssl"/>
+                            <field name="timeout"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="Authentication">
+                            <field name="auth_type"/>
+                            <field name="api_key_header" invisible="auth_type != 'api_key'"/>
+                            <field name="api_token" password="True" invisible="auth_type not in ('api_key', 'bearer')"/>
+                            <field name="username" invisible="auth_type != 'basic'"/>
+                            <field name="password" password="True" invisible="auth_type != 'basic'"/>
+                        </group>
+                    </group>
+                    <group string="Endpoints (added after the Base URL)">
+                        <field name="test_endpoint" placeholder="/health"/>
+                        <field name="endpoint_sales_order"/>
+                        <field name="endpoint_invoice"/>
+                        <field name="endpoint_payment"/>
+                    </group>
+                    <group string="Last Test">
+                        <field name="last_test_date"/>
+                        <field name="last_test_message"/>
+                    </group>
+                    <notebook>
+                        <page string="Sample Responses" name="samples">
+                            <group>
+                                <field name="sample_sales_order"/>
+                                <field name="sample_invoice"/>
+                                <field name="sample_payment"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="rc_ris_config_action" model="ir.actions.act_window">
+        <field name="name">RIS Connection</field>
+        <field name="res_model">rc.ris.config</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

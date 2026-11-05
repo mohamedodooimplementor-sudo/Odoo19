@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="rc_sale_order_form" model="ir.ui.view">
+        <field name="name">sale.order.form.rc.exams</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header/field[@name='state']" position="before">
+                <field name="rc_payment_pending" invisible="1"/>
+                <button name="action_rc_register_payment" type="object" string="Register Payment"
+                        class="btn-primary" invisible="not rc_payment_pending"
+                        groups="account.group_account_invoice"/>
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_rc_consumptions" type="object" class="oe_stat_button"
+                        icon="fa-stethoscope" invisible="rc_consumption_count == 0"
+                        groups="radiology_consumables.group_rc_nurse">
+                    <field name="rc_consumption_count" widget="statinfo" string="Exams"/>
+                </button>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="rc_ris_ref" groups="radiology_consumables.group_rc_storekeeper"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

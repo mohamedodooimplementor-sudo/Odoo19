@@ -1,0 +1,65 @@
+.o_rc_dashboard {
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1 1 auto;
+    min-height: 0;
+    .o_rc_section_title { font-weight: 700; margin: .25rem 0 .75rem; }
+
+    .o_rc_card {
+        position: relative; overflow: hidden; height: 100%;
+        padding: 1rem 1.1rem; border-radius: .9rem; color: #fff;
+        cursor: pointer; user-select: none;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, .18);
+        transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+        &:hover { transform: translateY(-4px); box-shadow: 0 10px 22px rgba(0, 0, 0, .28); filter: brightness(1.08); }
+        &:active { transform: translateY(-1px); }
+        .o_rc_card_icon { position: absolute; right: .8rem; top: .7rem; font-size: 2.4rem; opacity: .28; }
+        .o_rc_card_value { font-size: 2.1rem; font-weight: 800; line-height: 1.1; }
+        .o_rc_card_label { font-size: .85rem; font-weight: 600; opacity: .95; text-transform: uppercase; letter-spacing: .03em; }
+    }
+
+    .rc-blue   { background: linear-gradient(135deg, #1d4ed8, #3b82f6); }
+    .rc-green  { background: linear-gradient(135deg, #15803d, #22c55e); }
+    .rc-cyan   { background: linear-gradient(135deg, #0e7490, #06b6d4); }
+    .rc-slate  { background: linear-gradient(135deg, #334155, #64748b); }
+    .rc-purple { background: linear-gradient(135deg, #6d28d9, #a855f7); }
+    .rc-orange { background: linear-gradient(135deg, #c2410c, #f97316); }
+    .rc-teal   { background: linear-gradient(135deg, #0f766e, #14b8a6); }
+    .rc-indigo { background: linear-gradient(135deg, #3730a3, #6366f1); }
+    .rc-pink   { background: linear-gradient(135deg, #be185d, #ec4899); }
+    .rc-red    { background: linear-gradient(135deg, #b91c1c, #ef4444); }
+
+    // Coloured page banner (shared by both dashboards)
+    .o_rc_banner {
+        position: relative; overflow: hidden; color: #fff;
+        padding: 1.25rem 1.5rem; border-radius: 1rem;
+        background: linear-gradient(120deg, #0f766e 0%, #0e7490 38%, #1d4ed8 72%, #6d28d9 100%);
+        box-shadow: 0 8px 22px rgba(29, 78, 216, .28);
+        &::before, &::after { content: ""; position: absolute; border-radius: 50%; pointer-events: none; }
+        &::before { width: 230px; height: 230px; right: -60px; top: -100px; background: rgba(255, 255, 255, .11); }
+        &::after { width: 150px; height: 150px; right: 170px; bottom: -85px; background: rgba(255, 255, 255, .08); }
+        > * { position: relative; z-index: 1; }
+        h2 { color: #fff; font-weight: 800; letter-spacing: .01em; }
+        .o_rc_banner_sub { color: rgba(255, 255, 255, .88); font-size: .95rem; }
+        .o_rc_banner_icon {
+            width: 3.2rem; height: 3.2rem; flex: 0 0 auto; border-radius: .95rem; font-size: 1.6rem;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(255, 255, 255, .2); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .28);
+        }
+        .btn-light { color: #0f4c81; }
+        &.o_rc_banner_analytics {
+            background: linear-gradient(120deg, #3730a3 0%, #6d28d9 45%, #be185d 100%);
+            box-shadow: 0 8px 22px rgba(109, 40, 217, .28);
+        }
+    }
+
+    .o_rc_table_header { color: #fff; border: 0; }
+    .o_rc_dashboard_clickable:hover { background: rgba(59, 130, 246, .12); }
+
+    .badge[class*="o_rc_badge_"] { color: #fff; }
+    .o_rc_badge_draft { background: #64748b; }
+    .o_rc_badge_in_transit { background: #f97316; }
+    .o_rc_badge_received { background: #22c55e; }
+    .o_rc_badge_cancel { background: #ef4444; }
+}

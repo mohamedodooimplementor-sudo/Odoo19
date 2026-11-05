@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="rc_room_levels_view_list" model="ir.ui.view">
+        <field name="name">stock.location.rc.levels.list</field>
+        <field name="model">stock.location</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0">
+                <field name="complete_name" string="Room / Lab"/>
+                <field name="rc_source_location_id"/>
+                <field name="rc_responsible_ids" widget="many2many_tags"/>
+            </list>
+        </field>
+    </record>
+    <record id="rc_room_levels_view_form" model="ir.ui.view">
+        <field name="name">stock.location.rc.levels.form</field>
+        <field name="model">stock.location</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0">
+                <header>
+                    <button name="%(action_report_rc_room)d" string="Print Room Stock" type="action" class="btn-secondary"/>
+                    <button name="action_rc_create_issue" string="Create Issue Request" type="object"
+                            class="btn-primary"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="complete_name"/></h1></div>
+                    <group>
+                        <field name="rc_source_location_id" options="{'no_create': True}"/>
+                    </group>
+                    <field name="rc_par_ids">
+                        <list editable="bottom" decoration-warning="qty_to_request &gt; 0">
+                            <field name="product_id" options="{'no_create': True}"/>
+                            <field name="qty_on_hand"/>
+                            <field name="qty_pending" optional="show"/>
+                            <field name="max_qty"/>
+                            <field name="qty_to_request"/>
+                            <field name="uom_id"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="rc_room_levels_action" model="ir.actions.act_window">
+        <field name="name">Room Stock Levels</field>
+        <field name="res_model">stock.location</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">['|', ('is_room', '=', True), ('is_lab', '=', True)]</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('rc_room_levels_view_list')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('rc_room_levels_view_form')})]"/>
+    </record>
+</odoo>

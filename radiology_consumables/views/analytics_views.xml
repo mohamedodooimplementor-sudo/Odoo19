@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="rc_analytics_consumption_pivot" model="ir.ui.view">
+        <field name="name">rc.exam.consumption.analytics.pivot</field>
+        <field name="model">rc.exam.consumption</field>
+        <field name="arch" type="xml">
+            <pivot string="Cost per Examination" sample="1">
+                <field name="date" type="row" interval="month"/>
+                <field name="service_product_id" type="row"/>
+                <field name="actual_consumables_cost" type="measure"/>
+                <field name="actual_consumables_qty" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+    <record id="rc_analytics_consumption_graph" model="ir.ui.view">
+        <field name="name">rc.exam.consumption.analytics.graph</field>
+        <field name="model">rc.exam.consumption</field>
+        <field name="arch" type="xml">
+            <graph string="Consumables Cost Trend" type="bar">
+                <field name="date" interval="month"/>
+                <field name="actual_consumables_cost" type="measure"/>
+            </graph>
+        </field>
+    </record>
+    <record id="rc_analytics_room_pivot" model="ir.ui.view">
+        <field name="name">rc.exam.consumption.room.performance.pivot</field>
+        <field name="model">rc.exam.consumption</field>
+        <field name="arch" type="xml">
+            <pivot string="Room Performance" sample="1">
+                <field name="room_id" type="row"/>
+                <field name="date" type="col" interval="month"/>
+                <field name="actual_consumables_cost" type="measure"/>
+                <field name="actual_consumables_qty" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+    <record id="rc_analytics_room_graph" model="ir.ui.view">
+        <field name="name">rc.exam.consumption.room.performance.graph</field>
+        <field name="model">rc.exam.consumption</field>
+        <field name="arch" type="xml">
+            <graph string="Room Cost Comparison" type="bar">
+                <field name="room_id"/>
+                <field name="actual_consumables_cost" type="measure"/>
+            </graph>
+        </field>
+    </record>
+    <record id="rc_analytics_cost_action" model="ir.actions.act_window">
+        <field name="name">Cost per Examination</field>
+        <field name="res_model">rc.exam.consumption</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="view_id" ref="rc_analytics_consumption_pivot"/>
+        <field name="domain">[('state', '!=', 'cancel'), ('actual_consumables_cost', '&gt;', 0)]</field>
+        <field name="context">{'search_default_group_room': 0}</field>
+        <field name="group_ids" eval="[(4, ref('group_rc_analytics'))]"/>
+    </record>
+    <record id="rc_analytics_room_action" model="ir.actions.act_window">
+        <field name="name">Room Performance</field>
+        <field name="res_model">rc.exam.consumption</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="view_id" ref="rc_analytics_room_pivot"/>
+        <field name="domain">[('state', '!=', 'cancel'), ('actual_consumables_cost', '&gt;', 0)]</field>
+        <field name="group_ids" eval="[(4, ref('group_rc_analytics'))]"/>
+    </record>
+</odoo>

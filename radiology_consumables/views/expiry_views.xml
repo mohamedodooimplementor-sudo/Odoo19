@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="rc_expiry_view_list" model="ir.ui.view">
+        <field name="name">stock.quant.rc.expiry.list</field>
+        <field name="model">stock.quant</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0" delete="0" default_order="rc_expiration_date asc"
+                  decoration-danger="rc_expiry_state == 'expired'"
+                  decoration-warning="rc_expiry_state == 'soon'">
+                <field name="location_id"/>
+                <field name="product_id"/>
+                <field name="lot_id"/>
+                <field name="rc_expiration_date" widget="date"/>
+                <field name="rc_days_to_expiry"/>
+                <field name="rc_expiry_state" widget="badge"
+                       decoration-danger="rc_expiry_state == 'expired'"
+                       decoration-warning="rc_expiry_state == 'soon'"/>
+                <field name="quantity" sum="Total"/>
+                <field name="rc_uom_id" optional="show"/>
+            </list>
+        </field>
+    </record>
+    <record id="rc_expiry_view_pivot" model="ir.ui.view">
+        <field name="name">stock.quant.rc.expiry.pivot</field>
+        <field name="model">stock.quant</field>
+        <field name="arch" type="xml">
+            <pivot string="Expiry">
+                <field name="location_id" type="row"/>
+                <field name="product_id" type="row"/>
+                <field name="rc_expiration_date" type="col" interval="month"/>
+                <field name="quantity" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+    <record id="rc_expiry_view_search" model="ir.ui.view">
+        <field name="name">stock.quant.rc.expiry.search</field>
+        <field name="model">stock.quant</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="product_id"/>
+                <field name="location_id"/>
+                <field name="lot_id"/>
+                <group>
+                    <filter name="group_room" string="Room / Location" context="{'group_by': 'location_id'}"/>
+                    <filter name="group_product" string="Product" context="{'group_by': 'product_id'}"/>
+                    <filter name="group_expiry_month" string="Expiry Month" context="{'group_by': 'rc_expiration_date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="rc_expiry_expired_server_action" model="ir.actions.server">
+        <field name="name">Expired Stock</field>
+        <field name="model_id" ref="stock.model_stock_quant"/>
+        <field name="state">code</field>
+        <field name="code">action = model.rc_open_expiry_report('expired')</field>
+    </record>
+    <record id="rc_expiry_soon_server_action" model="ir.actions.server">
+        <field name="name">Expiring Soon</field>
+        <field name="model_id" ref="stock.model_stock_quant"/>
+        <field name="state">code</field>
+        <field name="code">action = model.rc_open_expiry_report('soon')</field>
+    </record>
+</odoo>
