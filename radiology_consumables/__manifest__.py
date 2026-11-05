@@ -5,7 +5,7 @@
     'category': 'Healthcare',
     'author': 'Eng. M.Aboelmagde',
     'license': 'LGPL-3',
-    'price': 199.0,
+    'price': 850.0,
     'currency': 'USD',
     'images': ['static/description/banner.png'],
     'depends': ['stock', 'stock_account', 'product_expiry', 'account', 'mail', 'sale'],
